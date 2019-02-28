@@ -11,34 +11,40 @@
 </ng-template>
 
 <div class="d-flex flex-column h-100">
-	<div class="">
+	<div class="mb-3">
 		<initiative-input-name [name]="node?.name" [isEditMode]="isEditMode" (save)="saveName($event)">
 		</initiative-input-name>
 	</div>
-	<div class=" pl-3" >
+	<div class="pl-3 mb-3">
 		<initiative-list-tags [available]="dataset?.tags" [selected]="node?.tags" [isEditMode]="isEditMode"
 			(save)="saveTags($event)" (open)="openTagsPanel()"></initiative-list-tags>
 	</div>
-	<div class="pl-3">
+	<div class="pl-3 mb-3">
 		<initiative-authority-select [isEditMode]="isEditMode" [team]="team" [authority]="node?.accountable"
 			(save)="saveAccountable($event)"></initiative-authority-select>
 
 	</div>
 
-	<div class="pl-3">
+	<div class="pl-3 mb-3">
 		<initiative-description-textarea [description]="node?.description" [isEditMode]="isEditMode"
 			(save)="saveDescription($event)"></initiative-description-textarea>
 
 	</div>
 
-	<div class="pl-3">
-		<initiative-helpers-select [team]="team" [helpers]="node?.helpers"
-			[authority]="node?.accountable" (save)="addHelpers($event)"></initiative-helpers-select>
 
+	<div class="d-flex align-items-center text-black-50 mr-1 pl-3">
+		<i class="fas fa-users  mr-1"></i>
+		<span class="text-uppercase text-bold small">Who's helping?</span>
+		<div class="align-self-end flex-grow-1 ml-4">
+				<initiative-helpers-select [team]="team" [helpers]="node?.helpers" [authority]="node?.accountable"
+				(save)="addHelpers($event)"></initiative-helpers-select>
+		</div>
+	
 	</div>
 
 	<div class="pl-3">
-		<div class="my-2" *ngFor="let helper of node?.getAllParticipants(); let i=index;trackBy:trackByUserId">
+		<div class="my-2 bg-light p-2"
+			*ngFor="let helper of node?.getAllParticipants(); let i=index;trackBy:trackByUserId">
 			<initiative-helper-input [helper]="helper" [isAuthority]="isAuthority(helper)" [team]="team"
 				[summaryUrl]="getSummaryUrl(helper)" [isEditMode]="isEditMode" (remove)="removeHelper($event)"
 				(save)="saveHelpers()"></initiative-helper-input>

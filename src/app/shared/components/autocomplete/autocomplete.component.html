@@ -1,4 +1,4 @@
-<div class="d-flex align-items-baseline">
+<div class="d-flex align-items-center">
     <label *ngIf="label" for="inputAccountable" class="form-control-label col-form-label text-muted mr-1">{{label}}
     </label>
     <div class="w-100 position-relative " *ngIf="isShowAutocomplete">
@@ -18,7 +18,7 @@
 
 
     <div class="mx-1" *ngIf="removeConfirmationMessage">
-        <button class="btn btn-outline-danger remove text-danger" mwlConfirmationPopover
+        <button class="btn btn-outline-secondary remove" mwlConfirmationPopover
             [popoverMessage]="removeConfirmationMessage" placement="top" container="body" focusbutton="cancel"
             appendToBody="false" (confirm)="onRemove()" (cancel)="cancelClicked=true"></button>
     </div>

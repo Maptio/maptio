@@ -55,11 +55,11 @@
                                 <i class="fas fa-times"></i>
                             </span>
                         </button>
-                        <button class="position-absolute top-left btn btn-link ml-2" (click)="toggleEditMode()">
+                        <!-- <button class="position-absolute top-left btn btn-link ml-2" (click)="toggleEditMode()">
                             {{isEditMode ? "View" : "Edit"}}
-                        </button>
+                        </button> -->
 
-                        <div class="card-body pt-5" [class.show]="!isDetailsPanelCollapsed"
+                        <div class="card-body" [class.show]="!isDetailsPanelCollapsed"
                             [class.hide]="isDetailsPanelCollapsed">
 
                             <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [dataset]="dataset"

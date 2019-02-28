@@ -1,4 +1,8 @@
-<div class="d-flex justify-content-start align-items-center flex-wrap form-group">
+<span class="d-flex align-items-baseline text-black-50 mb-1">
+        <i class="fas fa-tags  mr-1"></i>
+        <span class="text-uppercase text-bold small">tags</span>
+    </span>
+<div class="d-flex justify-content-start align-items-center flex-wrap">
     <div *ngFor="let tag of selectedTags; let i=index">
         <a class="badge badge-pill p-2  border-thick text-white mr-1" [style.border-color]="tag.color"
             [style.background]="tag.color">
@@ -9,9 +13,9 @@
 
 
     <div class="dropdown" >
-        <button class="btn badge badge-pill btn-outline-secondary p-2 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+        <button class="btn rounded-circle btn-secondary dropdown-toggle without-caret btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
-            Select tag
+            <i class="fas fa-plus"></i>
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <button class="dropdown-item" type="button" (click)="editTags()">Edit tags</button>

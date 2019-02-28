@@ -464,6 +464,10 @@ transition: max-height .25s ease-in-out;
   overflow: auto;
 }
 
+.font-1{
+  font-size: 1rem;
+}
+
 .custom-control-input:checked~.custom-control-label::before {
   color: #fff;
   border-color: var(--maptio-accent);

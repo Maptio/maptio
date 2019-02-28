@@ -1,6 +1,4 @@
-<div class="d-flex justify-content-start form-group" (click)="isEditMode=true" (blur)="isEditMode=false">
-    <input [class.view-only]="!isEditMode" #inputName class="form-control" type="text" 
-        [value]="name" placeholder="Circle name"
-        (change)="saveName(inputName.value)"
-        (blur)="isEditMode=false" />
+<div class="d-flex justify-content-start" (click)="isEditMode=true" (blur)="isEditMode=false">
+    <input [class.view-only]="!isEditMode" #inputName class="form-control form-control-lg text-bold" type="text" [value]="name"
+        placeholder="Circle name" (change)="saveName(inputName.value)" (blur)="isEditMode=false" />
 </div>

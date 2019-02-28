@@ -1,20 +1,24 @@
 <ng-template #rt let-r="result" let-t="term">
     <img src="{{r.picture}}" width="32" height="32" class="rounded-circle user" /> {{r.name}}
 </ng-template>
-<div class="form-group d-flex justify-content-start align-items-center">
+<span class="d-flex align-items-baseline text-black-50 mb-1">
+    <i class="fas fa-user  mr-1"></i>
+    <span class="text-uppercase text-bold small">{{team?.settings.authority}}</span>
+    </span>
+<div class="d-flex justify-content-start align-items-center">
 
     <div class="d-flex justify-content-start align-items-center flex-grow-1">
         <div class="w-100">
             <common-autocomplete #autocomplete [placeholder]="placeholder"
-                label="{{team?.settings.authority | titlecase}}"
-                [removeConfirmationMessage]="'Remove this authority and associated role?'" [resultTemplate]="rt"
-                [resultFormatter]="formatter" [item]="authority" [filter]="filterMembers" (pick)="onSelect($event)">
-                <span>
-                    <img src="{{authority?.picture}}" width="32" height="32" class="rounded-circle user" />
-                    {{authority?.name}}
+                
+        [removeConfirmationMessage]="'Remove this authority and associated role?'" [resultTemplate]="rt"
+        [resultFormatter]="formatter" [item]="authority" [filter]="filterMembers" (pick)="onSelect($event)">
+        <span>
+            <img src="{{authority?.picture}}" width="32" height="32" class="rounded-circle user" />
+            {{authority?.name}}
 
-                </span>
-            </common-autocomplete>
+        </span>
+        </common-autocomplete>
         </div>
 
         <!-- <div [class.d-none]="isEditMode">
@@ -26,5 +30,5 @@
                 [src]="authority?.picture" alt="">
             <span>{{authority?.name}}</span>
         </div> -->
-    </div>
-</div>
+        </div>
+        </div>

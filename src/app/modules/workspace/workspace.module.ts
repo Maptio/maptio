@@ -47,6 +47,7 @@ import { InitiativeDescriptionTextareaComponent } from './components/data-entry/
 import { CommonAutocompleteComponent } from '../../shared/components/autocomplete/autocomplete.component';
 import { InitiativeHelpersSelectComponent } from './components/data-entry/details/parts/helpers/helpers-select.component';
 import { InitiativeHelperInputComponent } from './components/data-entry/details/parts/helpers/helper-input.component';
+import { CommonTextareaComponent } from '../../shared/components/textarea/textarea.component';
 
 
 
@@ -90,7 +91,8 @@ import { InitiativeHelperInputComponent } from './components/data-entry/details/
         TooltipComponent, ContextMenuComponent,
         ColorPickerComponent,
         EditTagsComponent,
-        CommonAutocompleteComponent
+        CommonAutocompleteComponent,
+        CommonTextareaComponent
     ],
     providers: [BillingGuard,WorkspaceGuard,UIService,ColorService,
         SlackService, DataService,MapSettingsService,

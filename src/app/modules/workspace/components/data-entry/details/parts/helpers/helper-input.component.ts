@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import { Helper } from '../../../../../../../shared/model/helper.data';
 import { Team } from '../../../../../../../shared/model/team.data';
 import { Role } from '../../../../../../../shared/model/role.data';
@@ -18,9 +18,17 @@ export class InitiativeHelperInputComponent implements OnInit {
     @Output("remove") remove: EventEmitter<Helper> = new EventEmitter<Helper>();
     @Output("save") save :EventEmitter<void> = new EventEmitter<void>();
 
+    placeholder:string;
+
     constructor(private cd: ChangeDetectorRef) { }
 
     ngOnInit(): void { }
+
+    ngOnChanges(changes:SimpleChanges){
+        if(changes.helper && changes.helper.currentValue){
+            this.placeholder = `How is ${changes.helper.currentValue.name} helping?`
+        }
+    }
 
     onRemove() {
         this.remove.emit(this.helper);
@@ -33,7 +41,7 @@ export class InitiativeHelperInputComponent implements OnInit {
     }
 
     onChangeRole(description: string) {
-        console.log(this.helper.name, description)
+        // console.log(this.helper.name, description)
         if (this.helper.roles[0]) {
             this.helper.roles[0].description = description;
         }
