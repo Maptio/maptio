@@ -207,7 +207,9 @@ export class InitiativeComponent implements OnChanges {
 
 
 
-
+    trackByUserId(index: number, helper: Helper) {
+        return helper.user_id;
+    }
 
 
     toggleRole(i: number) {

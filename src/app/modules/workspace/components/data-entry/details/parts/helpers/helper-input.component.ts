@@ -19,6 +19,7 @@ export class InitiativeHelperInputComponent implements OnInit {
     @Output("save") save :EventEmitter<void> = new EventEmitter<void>();
 
     placeholder:string;
+    cancelClicked:boolean;
 
     constructor(private cd: ChangeDetectorRef) { }
 

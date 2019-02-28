@@ -44,9 +44,7 @@ export class InitiativeHelpersSelectComponent implements OnInit {
         }
     }
 
-    trackByUserId(index: number, helper: Helper) {
-        return helper.user_id;
-    }
+   
 
     formatter = (result: Helper) => { return result ? result.name : '' };
 
