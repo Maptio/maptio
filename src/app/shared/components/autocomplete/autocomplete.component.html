@@ -17,7 +17,7 @@
     </div>
 
 
-    <div class="mx-1" *ngIf="removeConfirmationMessage">
+    <div class="mx-1" *ngIf="removeConfirmationMessage && item">
         <button class="btn btn-outline-secondary remove" mwlConfirmationPopover
             [popoverMessage]="removeConfirmationMessage" placement="top" container="body" focusbutton="cancel"
             appendToBody="false" (confirm)="onRemove()" (cancel)="cancelClicked=true"></button>

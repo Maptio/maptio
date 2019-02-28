@@ -12,10 +12,12 @@
             <common-autocomplete #autocomplete [placeholder]="placeholder"
                 [removeConfirmationMessage]="'Remove this authority and associated role?'" [resultTemplate]="rt"
                 [resultFormatter]="formatter" [item]="authority" [filter]="filterMembers" (pick)="onSelect($event)">
-                <span>
+                <span *ngIf="authority">
                     <img src="{{authority?.picture}}" width="32" height="32" class="rounded-circle user" />
                     {{authority?.name}}
-
+                </span>
+                <span *ngIf="!authority">
+                    No {{team?.settings.authority}}
                 </span>
             </common-autocomplete>
         </div>
