@@ -1,13 +1,16 @@
 <ng-template #rt let-r="result" let-t="term">
     <img src="{{r.picture}}" width="32" height="32" class="rounded-circle user" alt={{r.name}} /> {{r.name}}
 </ng-template>
-
+<!-- 
 <h6 class="card-subtitle mb-1 mt-1 text-muted">Who’s helping with this circle?
-</h6>
-
-<common-autocomplete [placeholder]="placeholder" [resultTemplate]="rt" [resultFormatter]="formatter"
-    [filter]="filterMembers" (pick)="onAddingHelper($event)">
-</common-autocomplete>
+</h6> -->
+<div class="form-group">
+        <common-autocomplete [placeholder]="placeholder" [resultTemplate]="rt" [resultFormatter]="formatter"
+        [filter]="filterMembers" (pick)="onAddingHelper($event)">
+        <span class="btn badge btn-outline-secondary badge-pill p-2">Add {{team?.settings.helper |  lowercase}}</span>
+    </common-autocomplete>
+    
+</div>
 
 
 
