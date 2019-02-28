@@ -1,15 +1,22 @@
-<div class="d-flex justify-content-start input-group description overflow">
-    <textarea *ngIf="isEditMode" #inputDescription class="form-control initiativeMarkdownDescription"
-        id="inputDescription" [value]="description" data-provide="markdown" data-iconlibrary="fa"
-        data-autofocus="true" rows="5"
-        placeholder='Describe the circle in your own words and/or add a URL to your main resource'
-         (change)="onChange($event.target.value)" (blur)="isEditMode=false">
+<div class="d-flex justify-content-start form-group description mb-0" (blur)="isEditMode=false">
+    <div class="w-100 position-relative" *ngIf="isEditMode">
+        <textarea #inputDescription class="pt-4 form-control initiativeMarkdownDescription" id="inputDescription"
+            [value]="description" data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" rows="10"
+            placeholder='Describe the circle in your own words and/or add a URL to your main resource'
+            (change)="onChange($event.target.value)" (blur)="isEditMode=false">
 
-                                        </textarea>
-    <markdown *ngIf="!isEditMode" class="bg-white border-0 w-100 h-100" [data]="description"></markdown>
+                                            </textarea>
+        <button class="position-absolute top-right btn btn-link btn-sm" (click)="isEditMode=false">Cancel</button>
+        
+    </div>
+
+    <ng-container *ngIf="!isEditMode">
+        <markdown (click)="isEditMode=true" class="cursor-text bg-white border-0 w-100 h-100" [data]="description">
+        </markdown>
+    </ng-container>
 </div>
-<small *ngIf="isEditMode" class="help-popup text-default text-muted">
-    You can use
-    <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">markdown</a> to
-    create links and add formatting
-</small>
+<small *ngIf="isEditMode" class="text-default text-muted">
+        You can use
+        <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">markdown</a> to
+        create links and add formatting.
+    </small>

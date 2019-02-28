@@ -267,6 +267,10 @@ ul.picture-list > .list-inline-item{
   cursor: pointer;
 }
 
+.cursor-text{
+  cursor: text;
+}
+
 .cursor-auto{
   cursor: auto;
 }
@@ -473,6 +477,11 @@ transition: max-height .25s ease-in-out;
 
 .top-left{
   top:0;
+  left:0;
+}
+
+.bottom-left{
+  bottom:0;
   left:0;
 }
 
