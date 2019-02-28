@@ -597,7 +597,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("display", function (d: any) {
         return d !== root ? "inline" : "none";
       })
-      .style("font-size", `1rem`)
       .html(function (d: any) {
         let radius = d.r * d.k + 1;
         return browser === Browsers.Firefox
