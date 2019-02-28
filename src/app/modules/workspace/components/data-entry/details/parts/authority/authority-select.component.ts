@@ -40,17 +40,17 @@ export class InitiativeAuthoritySelectComponent implements OnInit {
 
     }
 
-    onBlur() {
-        this.isEditMode = false;
-        this.cd.markForCheck();
-    }
+    // onBlur() {
+    //     this.isEditMode = false;
+    //     this.cd.markForCheck();
+    // }
 
-    onFocus(){
-        document.querySelector("#inputAutocomplete").dispatchEvent(new Event("click"));
-        document.querySelector("#inputAutocomplete").dispatchEvent(new Event("focus"));
-        this.isEditMode = true;
-        this.cd.markForCheck();
-    }
+    // onFocus(){
+    //     document.querySelector("#inputAutocomplete").dispatchEvent(new Event("click"));
+    //     document.querySelector("#inputAutocomplete").dispatchEvent(new FocusEvent("focus"));
+    //     this.isEditMode = true;
+    //     this.cd.markForCheck();
+    // }
 
     onRemove() {
         this.authority = null;

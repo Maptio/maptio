@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, TemplateRef, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef, SimpleChanges, HostListener } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef, SimpleChanges, HostListener, ViewEncapsulation } from '@angular/core';
 import { Observable, merge, Subject } from 'rxjs';
 import { NgbTypeaheadSelectItemEvent, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { map, filter, debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -7,7 +7,7 @@ import { map, filter, debounceTime, distinctUntilChanged } from 'rxjs/operators'
 @Component({
     selector: 'common-autocomplete',
     templateUrl: './autocomplete.component.html',
-    host: { "class": "w-100" },
+    host: { "class": "w-100" }
     // styleUrls: ['./autocomplete.component.css']
 })
 export class CommonAutocompleteComponent implements OnInit {
@@ -17,6 +17,7 @@ export class CommonAutocompleteComponent implements OnInit {
     @Input("filter") filter: (text: string) => Array<any>;
     @Input("resultFormatter") resultFormatter: (item: any) => string;
     @Input("resultTemplate") resultTemplate: TemplateRef<any>;
+    @Input("label") label:string;
 
     @Output("pick") pick: EventEmitter<any> = new EventEmitter<any>();
 
@@ -27,6 +28,7 @@ export class CommonAutocompleteComponent implements OnInit {
     searchFailed: boolean;
     click$ = new Subject<string>();
     focus$ = new Subject<string>();
+    isShowAutocomplete:boolean;
 
 
     constructor(private cd: ChangeDetectorRef) { }
@@ -55,10 +57,15 @@ export class CommonAutocompleteComponent implements OnInit {
         this.pick.emit(this.item);
         this.cd.markForCheck();
     }
-    
+
     onRemove() {
         this.item = null;
         this.pick.emit(this.item);
+        this.cd.markForCheck();
+    }
+
+    onFocusOut(){
+        this.isShowAutocomplete = false;
         this.cd.markForCheck();
     }
 }
