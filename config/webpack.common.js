@@ -6,7 +6,6 @@ const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
-const glob = require('glob-all');
 const AngularNamedLazyChunksWebpackPlugin = require('angular-named-lazy-chunks-webpack-plugin');
  
 

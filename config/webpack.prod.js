@@ -8,6 +8,7 @@ const ngToolsWebpack = require('@ngtools/webpack');
 var commonConfig = require('./webpack.common.js');
 var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const PurgecssPlugin = require('purgecss-webpack-plugin');
+const glob = require('glob-all');
 
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
