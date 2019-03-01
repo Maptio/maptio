@@ -14,7 +14,7 @@ module.exports = {
   entry: {
     'polyfills-entry': './src/polyfills.ts',
     'vendor-entry': './src/vendor.ts',
-    'app-entry': './src/bootstrap.ts'
+    'app-entry': ['webpack-hot-middleware/client','./src/bootstrap.ts']
   },
 
   resolve: {

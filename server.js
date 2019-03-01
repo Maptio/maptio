@@ -138,6 +138,7 @@ if (isDevelopment) {
   const middleware = webpackMiddleware(compiler, {
     publicPath: config.output.publicPath,
     contentBase: 'src',
+    hot:true,
     stats: {
       colors: true,
       hash: false,
