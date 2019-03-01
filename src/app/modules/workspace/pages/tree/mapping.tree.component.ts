@@ -397,14 +397,14 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       pathsToRoot.set(n.data.id, n.ancestors().map((a: any) => a.data.id));
     });
     setPathsToRoot(pathsToRoot)
-
+   
     traverse(root, (n: any) => {
-      if (settings.views.tree.expandedNodesIds.indexOf(n.data.id) > -1) {
-        expand(n)
-      }
-      if (settings.views.tree.expandedNodesIds.indexOf(n.data.id) == -1) {
-        collapse(n)
-      }
+      // if (settings.views.tree.expandedNodesIds.indexOf(n.data.id) > -1) {
+      //   expand(n)
+      // }
+      // if (settings.views.tree.expandedNodesIds.indexOf(n.data.id) == -1) {
+      //   collapse(n)
+      // }
       if (isAllExpanded) expand(n);
       if (isAllCollapsed) {
         if (n.depth >= 1) collapse(n)
@@ -419,15 +419,16 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         d._children = d.children;
         d._children.forEach(collapse);
         d.children = null;
-        updateState(d)
+        // updateState(d)
       }
     }
 
     function expand(d: any) {
+      console.log(d, d._children)
       if (d._children) {
         d.children = d._children;
         d._children = null;
-        updateState(d)
+        // updateState(d);
       }
 
     }
