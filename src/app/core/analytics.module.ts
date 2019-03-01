@@ -1,6 +1,6 @@
 
 
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { environment } from '../config/environment';
 import { Angulartics2Module } from 'angulartics2';
@@ -15,14 +15,14 @@ import * as LogRocket from "logrocket";
         CommonModule,
         Angulartics2Module.forRoot(),
         IntercomModule.forRoot({
-            appId: environment.INTERCOM_APP_ID, // from your Intercom config
+            appId: isDevMode ? '' : environment.INTERCOM_APP_ID, // from your Intercom config
             updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
         })],
     exports: [
-        Angulartics2Module, 
+        Angulartics2Module,
     ],
     providers: [
-        Intercom,  Angulartics2Mixpanel
+        Intercom, Angulartics2Mixpanel
     ],
 })
 export class AnalyticsModule {
@@ -35,7 +35,7 @@ export class AnalyticsModule {
                 }
 
             });
-            mixpanel.startTracking()
+            if (!isDevMode) mixpanel.startTracking()
         }
     }
 
