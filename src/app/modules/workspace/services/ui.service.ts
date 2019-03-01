@@ -257,7 +257,7 @@ export class UIService {
     let innerSvg = document.querySelector("svg#map > svg");
     let width = this.getCanvasWidth();
     let height = this.getCanvasHeight();
-    let outer = outerSvg.clientWidth;
+    let outer = outerSvg ? outerSvg.clientWidth : 0;
     let inner = innerSvg ? innerSvg.getBoundingClientRect().width : 0;
 
     // console.log(outerSvg, innerSvg)

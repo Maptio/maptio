@@ -227,7 +227,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       .attr("width", "100%")
       .attr("height", "100%")
       .attr("x", "200px")
-      // .attr("x", `${this.uiService.getCenteredMarginPercentage(33)}%`)
+      .attr("x", this.uiService.getCenteredMargin())
       .style("overflow", "visible");
 
       let definitions = innerSvg.append("defs");
