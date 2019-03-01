@@ -238,13 +238,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         if (!outerSvg || !innerSvg) return;
         let margin = this.uiService.getCenteredMargin();
         innerSvg.setAttribute("x", margin);
-        // if (this.isZeroPanelOpened()) {
-        //     let margin = this.uiService.getCenteredMarginPercentage(0);
-        //     innerSvg.setAttribute("x", `${margin}%`);
-        // }
-        // else {
-        //     innerSvg.setAttribute("x", "0%");
-        // }
     }
 
     private isZeroPanelOpened() {
