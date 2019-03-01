@@ -134,12 +134,12 @@
 }
 
 #hierarchy.collapsible.show{
-    width:100%;
+    width:66%;
     transition:all 1s;
 }
 
 #details.collapsible.show{
-    width:100%;
+    width:66%;
     transition:all 1s;
 }
 
