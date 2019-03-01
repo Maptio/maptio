@@ -23,7 +23,7 @@ export class InitiativeHelpersSelectComponent implements OnInit {
 
 
     onAddingHelper(newHelper: Helper) {
-        if (newHelper.user_id === this.authority.user_id || this.helpers.findIndex(user => user.user_id === newHelper.user_id) > 0) {
+        if ((this.authority && newHelper.user_id === this.authority.user_id) || this.helpers.findIndex(user => user.user_id === newHelper.user_id) > 0) {
             return
         }
 
