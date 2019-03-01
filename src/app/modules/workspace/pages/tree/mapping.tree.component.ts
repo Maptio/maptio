@@ -241,7 +241,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     try {
       // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
-      innerSvg.call(
+      svg.call(
         zooming.transform,
         d3.zoomIdentity
           .translate(this.translateX, this.translateY)

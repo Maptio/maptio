@@ -5,4 +5,10 @@ svg#map{
     -webkit-user-select: none;
     background: white;
     font-family: Lato;
+    cursor: auto;
+}
+
+svg#map > svg{
+    cursor: pointer;
+    pointer-events: all;
 }
