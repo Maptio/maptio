@@ -66,7 +66,7 @@ export class InitiativeAuthoritySelectComponent implements OnInit {
         return term.length < 1
             ? this.authority ? this.team.members.filter(m => m.user_id !== this.authority.user_id) : this.team.members
             : (this.authority ? this.team.members.filter(m => m.user_id !== this.authority.user_id) : this.team.members)
-                    .filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email)).splice(0, 10)
+                    .filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email))
     }
 
     formatter = (result: User) => { return result ? result.name : '' };

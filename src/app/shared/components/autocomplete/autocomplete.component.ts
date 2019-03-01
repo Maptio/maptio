@@ -48,7 +48,7 @@ export class CommonAutocompleteComponent implements OnInit {
         const inputFocus$ = this.focus$;
 
         return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
-            map(term => this.filter(term))
+            map(term => this.filter(term).slice(0, 5))
         );
     }
 

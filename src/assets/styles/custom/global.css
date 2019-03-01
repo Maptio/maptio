@@ -11,6 +11,7 @@
   --maptio-accent-gray: hsla(180, 19%, 75%, 1);
   --maptio-blue-gray: hsla(204, 27%, 75%, 1);
   
+  --maptio-gray-light: hsla(0, 0%, 0%, 0.33)
 }
 
 body{
@@ -68,6 +69,14 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   display: none;
 }
 
+button.remove, .btn.remove{
+  border:0;
+}
+button.remove:hover, .btn.remove:hover{
+  background:initial;
+  color: var(--danger);
+}
+
 .breadcrumb {
   padding: 0 !important;
   list-style: none;
@@ -104,6 +113,10 @@ body {
 .text-blue{
   color: var(--maptio-blue) !important;
 
+}
+
+.text-gray-light{
+  color:var(--maptio-gray-light) !important;
 }
 
 ul.picture-list > .list-inline-item{

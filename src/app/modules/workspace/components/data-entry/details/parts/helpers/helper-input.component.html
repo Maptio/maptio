@@ -1,7 +1,7 @@
 <div class="d-flex align-items-center w-100">
 
     <div class="d-flex align-items-center w-100">
-        <img src="{{helper.picture}}" width="32" height="32" class="rounded-circle user mr-1">
+        <img src="{{helper.picture}}"  class="participant-picture rounded-circle mr-1">
         <a routerLink="summaryUrl">{{helper.name}}</a>
         <span class="text-muted mx-1" *ngIf="isAuthority">({{team?.settings.authority | titlecase }})</span>
     </div>

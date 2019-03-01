@@ -1,7 +1,7 @@
 <ng-template #rt let-r="result" let-t="term">
-    <img src="{{r.picture}}" width="32" height="32" class="rounded-circle user" /> {{r.name}}
+    <img src="{{r.picture}}" class="rounded-circle participant-picture" /> {{r.name}}
 </ng-template>
-<span class="d-flex align-items-baseline text-black-50 mb-1">
+<span class="d-flex align-items-baseline text-gray-light mb-1">
     <i class="fas fa-user  mr-1"></i>
     <span class="text-uppercase text-bold small">{{team?.settings.authority}}</span>
 </span>
@@ -13,7 +13,7 @@
                 [removeConfirmationMessage]="'Remove this authority and associated role?'" [resultTemplate]="rt"
                 [resultFormatter]="formatter" [item]="authority" [filter]="filterMembers" (pick)="onSelect($event)">
                 <span *ngIf="authority">
-                    <img src="{{authority?.picture}}" width="32" height="32" class="rounded-circle user" />
+                    <img src="{{authority?.picture}}"  class="rounded-circle participant-picture" />
                     {{authority?.name}}
                 </span>
                 <span *ngIf="!authority">
