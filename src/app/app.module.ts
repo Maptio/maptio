@@ -74,8 +74,8 @@ export class AppModule {
 
 }
 
-if (module.hot) {
-    module.hot.accept();
+if ((module as any).hot) {
+    (module as any).hot.accept();
     console.log('[HMR] Accepting module hot update.');
     const applicationTagName = 'app';
     tryRemoveApplicationNode(applicationTagName);

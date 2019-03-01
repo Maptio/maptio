@@ -258,7 +258,7 @@ export class UIService {
     let width = this.getCanvasWidth();
     let height = this.getCanvasHeight();
     let outer = outerSvg.clientWidth;
-    let inner = innerSvg.getBoundingClientRect().width;
+    let inner = innerSvg ? innerSvg.getBoundingClientRect().width : 0;
 
     // console.log(outerSvg, innerSvg)
     // if (!outerSvg || !innerSvg) {
