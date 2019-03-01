@@ -12,7 +12,7 @@
             [class.overflow-hidden]="team?.isExample && isBuildingVisible" [class.box-shadow]="true">
 
             <div id="toggle" [class.invisible]="!isBuildingVisible" [class.d-flex]="true"
-                class="h-100 rounded-left flex-shrink-0  bg-accent open-nav flex-column justify-content-start align-items-center cursor-pointer collapsible "
+                class="h-100 rounded-left py-3 flex-shrink-0  bg-accent open-nav flex-column justify-content-start align-items-center cursor-pointer collapsible "
                 [class.hide]="!isBuildingPanelCollapsed" [class.show]="isBuildingPanelCollapsed"
                  (click)="openBuildingPanel()">
                 <span class="h2" *ngIf="isBuildingPanelCollapsed">

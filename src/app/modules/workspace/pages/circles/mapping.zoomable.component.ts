@@ -225,7 +225,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       innerSvg = svg.append("svg")
         .attr("width", "100%")
         .attr("height", "100%")
-        .attr("x", `${this.uiService.getCenteredMarginPercentage(5)}%`)
+        .attr("x", this.uiService.getCenteredMargin())
         .style("overflow", "visible"),
       diameter = this.height,
       g = innerSvg
@@ -287,7 +287,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
-      innerSvg.attr("x", `${this.uiService.getCenteredMarginPercentage(5)}%`)
+      innerSvg.attr("x", this.uiService.getCenteredMargin(true))
       innerSvg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
         this.zooming.transform,
         d3.zoomIdentity.translate(
@@ -696,7 +696,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`);
 
       textAround
-      .call(passingThrough, "click")
         .call(passingThrough, "mouseover")
         .call(passingThrough, "mouseout")
         .call(passingThrough, "contextmenu");

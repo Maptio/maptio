@@ -84,8 +84,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             .do((data) => {
                 let newDatasetId = data.data.dataset.datasetId;
                 if (newDatasetId !== this.datasetId) {
-                    this.closeDetailsPanel();
-                    this.closeBuildingPanel();
+                    this.isBuildingPanelCollapsed=true;
+                    this.isDetailsPanelCollapsed = true;
+                    // this.closeDetailsPanel();
+                    // this.closeBuildingPanel();
                     this.cd.markForCheck()
                 }
             })
@@ -195,22 +197,26 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     openDetailsPanel() {
+        console.log("openDetailsPanel")
         this.isDetailsPanelCollapsed = false;
         this.resizeMap();
 
     }
 
     closeDetailsPanel() {
+        console.log("closeDetailsPanel")
         this.isDetailsPanelCollapsed = true;
         this.resizeMap();
     }
 
     closeBuildingPanel() {
+        console.log("closeBuildingPanel")
         this.isBuildingPanelCollapsed = true;
         this.resizeMap();
     }
 
     openBuildingPanel() {
+        console.log("openBuildingPanel")
         this.isBuildingPanelCollapsed = false;
         this.resizeMap();
     }
@@ -230,14 +236,15 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         let outerSvg = document.querySelector("svg#map");
         let innerSvg = document.querySelector("svg#map > svg");
         if (!outerSvg || !innerSvg) return;
-
-        if (this.isZeroPanelOpened()) {
-            let margin = this.uiService.getCenteredMarginPercentage(0);
-            innerSvg.setAttribute("x", `${margin}%`);
-        }
-        else {
-            innerSvg.setAttribute("x", "0%");
-        }
+        let margin = this.uiService.getCenteredMargin();
+        innerSvg.setAttribute("x", margin);
+        // if (this.isZeroPanelOpened()) {
+        //     let margin = this.uiService.getCenteredMarginPercentage(0);
+        //     innerSvg.setAttribute("x", `${margin}%`);
+        // }
+        // else {
+        //     innerSvg.setAttribute("x", "0%");
+        // }
     }
 
     private isZeroPanelOpened() {
