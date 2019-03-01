@@ -7,16 +7,17 @@
         <button *ngIf="isEditMode" class="btn btn-link btn-sm" (click)="isEditMode=false">Cancel</button>
         <button *ngIf="!isEditMode" class="btn btn-link btn-sm" (click)="isEditMode=true">Edit</button>
 
-        <small *ngIf="isEditMode" class="text-default text-muted ml-auto">
-                Use
-                <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">markdown</a> to
-                create links and add formatting.
-            </small>
+    
     </div>
 
 
     <div class="w-100 position-relative" *ngIf="isEditMode">
-        <textarea #inputDescription class="form-control" id="inputDescription" [value]="text" data-provide="markdown"
+            <small class="my-1 position-absolute bottom-left text-default text-muted ml-auto">
+                    Use
+                    <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">markdown</a> to
+                    create links and add formatting.
+                </small>
+        <textarea #inputDescription class="form-control mb-4" id="inputDescription" [value]="text || ''" data-provide="markdown"
             data-iconlibrary="fa" data-autofocus="true" [attr.rows]="rows" [attr.placeholder]="placeholder"
             (change)="onChange($event.target.value)" (blur)="isEditMode=false">
 
@@ -24,9 +25,9 @@
 
     </div>
 
-    <div class="position-relative w-100 bg-light p-2 rounded" *ngIf="!isEditMode">
+    <div (click)="isEditMode=true" class="position-relative w-100 bg-light p-2 rounded" *ngIf="!isEditMode">
 
-        <markdown *ngIf="text" (click)="isEditMode=true" class="cursor-text  border-0 w-100 h-100" [data]="text">
+        <markdown *ngIf="text"  class="cursor-text  border-0 w-100 h-100" [data]="text">
         </markdown>
         <span *ngIf="!text" class="text-muted small text-gray-light">{{placeholder}}</span>
     </div>
