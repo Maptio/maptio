@@ -67,7 +67,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
   public height: number;
 
-  public margin: number;
+  public margin: number = 100;
   public translateX: number;
   public translateY: number;
   public scale: number;
@@ -186,6 +186,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     // declares a tree layout and assigns the size
     // CAREFUL : width and height are reversed in this function
     d3.tree().size([this.width / 2, this.height]);
+    let margin = 100;
 
     function zoomed() {
       g.attr("transform", d3.getEvent().transform);
@@ -225,7 +226,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let innerSvg = svg.append("svg")
       .attr("width", "100%")
       .attr("height", "100%")
-      .attr("x", `${this.uiService.getCenteredMarginPercentage(33)}%`)
+      .attr("x", "200px")
+      // .attr("x", `${this.uiService.getCenteredMarginPercentage(33)}%`)
       .style("overflow", "visible");
 
       let definitions = innerSvg.append("defs");
@@ -332,6 +334,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       this.init();
     }
 
+    let margin = this.margin;
     let colorService = this.colorService;
     let uiService = this.uiService;
     let mapSettingsService = this.mapSettingsService;
@@ -462,7 +465,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let t = d3.zoomTransform(svg.node());
         let x = -source.y0;
         let y = -source.x0;
-        x = x * t.k //+ viewerWidth / 2;
+        x = x * t.k +margin //+ viewerWidth / 2;
         y = y * t.k + viewerHeight / 2;
         svg.transition().call(zoomListener.transform, d3.zoomIdentity.translate(x, y).scale(t.k));
       }

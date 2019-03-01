@@ -271,7 +271,7 @@ export class UIService {
       return defaultMargin
     } else {
 
-      return inner == 0 ? 33 : ((outer - inner) / outer * 100 / 2)
+      return inner == 0 ? 0 : ((outer - inner) / outer * 100 / 2)
     }
   }
 

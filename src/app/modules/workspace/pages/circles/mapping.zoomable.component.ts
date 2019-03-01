@@ -749,7 +749,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 ? color(d.depth)
                 : !d.children && d.parent === root ? color(d.depth) : null;
             })
-            .style("stroke-width", "0")
+            .style("stroke-width", "initial")
             .style("stroke-opacity", 0.1)
         })
         .on("contextmenu", function (d: any) {

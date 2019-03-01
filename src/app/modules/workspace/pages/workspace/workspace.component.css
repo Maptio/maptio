@@ -65,31 +65,8 @@
     margin-left: 50px;
 }
 
-/* .card-body.show{
-    visibility: visible;
-    opacity: 1;
-    transition: 0.5s;
-}
-
-.card-body.hide{
-    visibility: hidden;
-    opacity: 0;
-    transition: 0.5s;
-} */
-
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
     transition: margin-left .5s;
-    /* margin-left:4.5vw;
-    margin-right:2vw; */
-    /* margin-top:1w; */
-    /* position: fixed; */
-    /* z-index: 1; */
-    /* margin-top: 4px; */
-    /*  */
-    /* 
-    
-    margin-right:2vw; */
 }
 
 #main.half-push{
@@ -105,33 +82,20 @@
     margin-left:86vw;
 }
 
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-/* @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
-} */
 
 .open-nav{
-    /* margin-top: 61px; */
     z-index: 1;
     top: 0;
     left: 0;
     border-left:0;
     overflow-x: hidden;
     transition: 0.5s;
-    /* width: 3vw; */
-    /* margin-right :1vw; */
     background: var(--white);
     margin-left:0;
 }
 
 .open-nav.closed{
 
-}
-
-.open-nav.opened, .open-nav.opened:hover{
-    /* width: 0vw; */
-    /* transition: 0.25s; */
 }
 
 .open-nav:hover{
@@ -151,22 +115,36 @@
 }
 
 .collapsible{
-    /* flex-grow: 1; */
     opacity: 1;
     transition: opacity 1000ms ease;
 }
 
-/* .collapsible.col-xl-5{
-    width: 41.666667%;
+.collapsible.hide{
+    width:0;
+    transition:all 1s;
 }
-.collapsible.col-6{
-    width: 50%;
-} */
+
+#toggle.collapsible.show{
+    width:4rem;
+    transition:all 1s;
+}
+
+#toggle.hide{
+    pointer-events:none;
+}
+
+#hierarchy.collapsible.show{
+    width:100%;
+    transition:all 1s;
+}
+
+#details.collapsible.show{
+    width:100%;
+    transition:all 1s;
+}
 
   
   .col-0.collapsible {
-    /* width: 0; 
-    flex-shrink: 1; */
     opacity: 0;
     transition: opacity 1000ms ease;
   }

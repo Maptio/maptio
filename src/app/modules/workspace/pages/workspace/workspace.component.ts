@@ -226,28 +226,17 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.cd.markForCheck();
     }
 
-    // getCenteredMargin() {
-    //     let outer = document.querySelector('svg#map').clientWidth;
-    //     let inner = document.querySelector('svg#map > svg').getBoundingClientRect().width;
-    //     if (inner > outer) {
-    //         return "5%"
-    //     } else {
-
-    //         return inner == 0 ? "33%" : `${((outer - inner) / outer * 100 / 2)}%`
-    //     }
-    // }
-
     private resizeMap() {
         let outerSvg = document.querySelector("svg#map");
         let innerSvg = document.querySelector("svg#map > svg");
         if (!outerSvg || !innerSvg) return;
 
         if (this.isZeroPanelOpened()) {
-            let margin = this.uiService.getCenteredMarginPercentage(33);
+            let margin = this.uiService.getCenteredMarginPercentage(0);
             innerSvg.setAttribute("x", `${margin}%`);
         }
         else {
-            innerSvg.setAttribute("x", "33%");
+            innerSvg.setAttribute("x", "0%");
         }
     }
 
