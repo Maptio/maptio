@@ -8,11 +8,11 @@
 
     <div class="col-12 position-relative h-100">
 
-        <div class=" position-relative d-flex justify-content-start h-99 rounded-right"
+        <div class=" position-relative d-flex justify-content-start h-99 rounded"
             [class.overflow-hidden]="team?.isExample && isBuildingVisible" [class.box-shadow]="true">
 
             <div [class.invisible]="!isBuildingVisible" [class.d-flex]="true"
-                class="h-100 collapsible  bg-accent open-nav flex-column justify-content-start align-items-center cursor-pointer collapsible "
+                class="h-100 rounded-left  bg-accent open-nav flex-column justify-content-start align-items-center cursor-pointer collapsible "
                 [class.col-0]="!isBuildingPanelCollapsed" [class.col-auto]="isBuildingPanelCollapsed"
                  (click)="openBuildingPanel()">
                 <span class="h2" *ngIf="isBuildingPanelCollapsed">
@@ -23,7 +23,7 @@
             <div [class.d-none]="!isBuildingVisible" [class.col-0]="isBuildingPanelCollapsed"
                 [class.col-6]="!isBuildingPanelCollapsed" [class.col-xl-5]="!isBuildingPanelCollapsed"
                 [class.px-0]="!isBuildingPanelCollapsed" class="collapsible sidenav h-100 justify-content-start">
-                <div id="sidenav-hierarchy" class="hierarchy w-100 h-100 card border-light bg-white rounded"
+                <div id="sidenav-hierarchy" class="hierarchy w-100 h-100 card border-light border-right bg-white"
                     [class.d-none]="isBuildingPanelCollapsed" [class.d-block]="!isBuildingPanelCollapsed">
                     <div class="card border-0 bg-transparent">
                         <button class="position-absolute top-right btn bg-transparent"
@@ -44,9 +44,9 @@
             </div>
             <div [class.d-none]="!isBuildingVisible" [class.col-0]="isDetailsPanelCollapsed"
                 [class.col-6]="!isDetailsPanelCollapsed" [class.px-0]="!isDetailsPanelCollapsed"
-                [class.col-xl-5]="!isDetailsPanelCollapsed"
-                class="collapsible bg-white border details h-100 justify-content-start rounded-right overflow-y">
-                <div id="sidenav-details" class="h-100 w-100 rounded-right" [class.d-none]="isDetailsPanelCollapsed"
+                [class.col-xl-5]="!isDetailsPanelCollapsed" [class.border-right]="!isDetailsPanelCollapsed"
+                class="collapsible bg-white  details h-100 justify-content-start overflow-y">
+                <div id="sidenav-details" class="h-100 w-100" [class.d-none]="isDetailsPanelCollapsed"
                     [class.d-block]="!isDetailsPanelCollapsed">
                     <div class="card border-0 bg-transparent">
                         <button class="position-absolute top-right btn bg-transparent"
