@@ -520,6 +520,7 @@ transition: max-height .25s ease-in-out;
 .participant-picture{
   width:2rem;
   height: 2rem;
+  box-shadow : inset 0 0 0 1px hsla(0, 0%, 0%, 0.1);
 }
 
 .top-right{

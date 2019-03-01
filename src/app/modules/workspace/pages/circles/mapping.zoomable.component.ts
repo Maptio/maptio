@@ -287,7 +287,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
-      // innerSvg.attr("x", this.getCenteredMargin())
+      innerSvg.attr("x", `${this.uiService.getCenteredMarginPercentage(5)}%`)
       innerSvg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
         this.zooming.transform,
         d3.zoomIdentity.translate(
@@ -749,7 +749,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 ? color(d.depth)
                 : !d.children && d.parent === root ? color(d.depth) : null;
             })
-            .style("stroke-width", "initial")
+            .style("stroke-width", "0")
             .style("stroke-opacity", 0.1)
         })
         .on("contextmenu", function (d: any) {
