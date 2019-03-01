@@ -21,9 +21,16 @@ export function markedOptionsFactory(): MarkedOptions {
         return `<p class="markdown">${text}</p>`;
     }
 
+    renderer.listitem = (text: string) => {
+        return text.includes("type=\"checkbox\"")
+            ? `<li class="task-list-item">${text}</li>`
+            : `<li>${text}</li>`
+    }
+
     return {
         renderer: renderer,
-        breaks: true
+        breaks: true,
+        smartLists: true
     };
 }
 
