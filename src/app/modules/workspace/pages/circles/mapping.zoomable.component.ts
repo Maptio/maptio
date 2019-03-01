@@ -144,7 +144,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
   ngOnInit() {
-    console.log(this.height)
     this.loaderService.show();
     this.init();
     this.dataSubscription = this.dataService
@@ -213,7 +212,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
   getCenteredMargin() {
     let outer = document.querySelector('svg#map').clientWidth;
     let inner = document.querySelector('svg#map > svg').getBoundingClientRect().width;
-    console.log("outer", outer, "inner", inner)
     if (inner > outer) {
       return "5%"
     } else {
@@ -650,7 +648,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .on("click", (): void => {
         zoom(root);
         showToolipOf$.next({ initiatives: null, isNameOnly: false });
-
+        d3.getEvent().stopPropagation();
       })
 
     initMapElementsAtPosition([root.x, root.y]);
@@ -689,7 +687,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       const newScale: number = focus === root || focus.parent === root ? 1 : getViewScaleForRadius(focus.r);
       const coordinates: Array<number> = getClickedElementCoordinates(clickedElement, newScale);
-
       svg.transition().duration(TRANSITION_DURATION).call(
         zooming.transform,
         d3.zoomIdentity.translate(
@@ -709,6 +706,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`);
 
       textAround
+      .call(passingThrough, "click")
         .call(passingThrough, "mouseover")
         .call(passingThrough, "mouseout")
         .call(passingThrough, "contextmenu");
@@ -843,14 +841,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .classed("with-border", (d: any): boolean => !d.children && d.parent === root)
         .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
           showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
-          console.log(d, d.children)
-          // if (getLastZoomedCircle().data.id === d.parent.data.id && !d.children) {
-
-          //   d3.getEvent().stopPropagation();
-          //   return;
-          // }
-          // else {
-          console.log("zomming")
+  
           if (getLastZoomedCircle().data.id === d.data.id) {
             setLastZoomedCircle(root);
             zoom(root);

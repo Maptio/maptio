@@ -37,7 +37,7 @@ export class CommonAutocompleteComponent implements OnInit {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.item && !changes.item.currentValue) {
-            this.inputAutocomplete.writeValue("");
+            if(this.inputAutocomplete) this.inputAutocomplete.writeValue("");
         }
     }
 
