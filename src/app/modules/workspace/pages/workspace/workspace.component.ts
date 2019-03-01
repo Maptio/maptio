@@ -37,7 +37,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public isBuildingVisible: boolean = true;
     public isEmptyMap: Boolean;
     public isSaving: Boolean;
-    public isEditMode:boolean;
+    public isEditMode: boolean;
     // public isSettingsPanelCollapsed: boolean = true;
     public datasetId: string;
     private routeSubscription: Subscription;
@@ -56,7 +56,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public openedNode: Initiative;
     public openedNodeParent: Initiative;
     public openedNodeTeamId: string;
-    public openEditTag$ : Subject<void> = new Subject<void>();
+    public openEditTag$: Subject<void> = new Subject<void>();
 
     public mapped: Initiative;
     teamName: string;
@@ -73,7 +73,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
-        private dataService: DataService, private cd: ChangeDetectorRef,  private intercom: Intercom) {
+        private dataService: DataService, private cd: ChangeDetectorRef, private uiService: UIService, private intercom: Intercom) {
 
     }
 
@@ -84,7 +84,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             .do((data) => {
                 let newDatasetId = data.data.dataset.datasetId;
                 if (newDatasetId !== this.datasetId) {
-                    this.closeEditingPanel();
+                    this.closeDetailsPanel();
+                    this.closeBuildingPanel();
                     this.cd.markForCheck()
                 }
             })
@@ -158,50 +159,25 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             });
     }
 
-    toggleBuildingPanel() {
-        this.isBuildingPanelCollapsed = !this.isBuildingPanelCollapsed;
-    }
 
-    toggleDetailsPanel() {
-        this.isDetailsPanelCollapsed = !this.isDetailsPanelCollapsed;
-    }
 
-    isZeroPanelOpened() {
-        return this.isBuildingPanelCollapsed && this.isDetailsPanelCollapsed;
-    }
 
-    isOnePanelOpened() {
-        return this.isBuildingPanelCollapsed !== this.isDetailsPanelCollapsed;
-    }
-
-    isTwoPanelsOpened() {
-        return !this.isDetailsPanelCollapsed && !this.isBuildingPanelCollapsed;
-    }
-
-    // openDetails(node: Initiative, willCloseBuildingPanel: boolean = false) {
-    //     this.openedNode = node;
-    //     this.isBuildingPanelCollapsed = willCloseBuildingPanel;
-    //     this.isDetailsPanelCollapsed = false;
-    //     this.isEditMode = true;
-    //     this.cd.markForCheck();
-    // }
-
-    toggleEditMode(){
+    toggleEditMode() {
         this.isEditMode = !this.isEditMode;
         this.cd.markForCheck();
     }
 
-    onOpenDetailsToView(node: Initiative){
+    onOpenDetailsToView(node: Initiative) {
         this.openedNode = node;
-        this.isDetailsPanelCollapsed = false;
+        this.openDetailsPanel();
         this.isEditMode = false;
         this.cd.markForCheck();
     }
 
 
-    onOpenDetailsToEdit(node: Initiative){
+    onOpenDetailsToEdit(node: Initiative) {
         this.openedNode = node;
-        this.isDetailsPanelCollapsed = false;
+        this.openDetailsPanel();
         this.isEditMode = true;
         this.cd.markForCheck();
     }
@@ -218,9 +194,25 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.buildingComponent.moveNode(node, from, to);
     }
 
-    closeEditingPanel() {
+    openDetailsPanel() {
+        this.isDetailsPanelCollapsed = false;
+        this.resizeMap();
+
+    }
+
+    closeDetailsPanel() {
         this.isDetailsPanelCollapsed = true;
+        this.resizeMap();
+    }
+
+    closeBuildingPanel() {
         this.isBuildingPanelCollapsed = true;
+        this.resizeMap();
+    }
+
+    openBuildingPanel() {
+        this.isBuildingPanelCollapsed = false;
+        this.resizeMap();
     }
 
     toggleEditingPanelsVisibility(isVisible: boolean) {
@@ -228,12 +220,46 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.cd.markForCheck();
     }
 
-    onEditTags(){
+    onEditTags() {
         this.isBuildingPanelCollapsed = false;
         this.buildingComponent.tabs.select("tags-tab");
         this.cd.markForCheck();
     }
 
+    // getCenteredMargin() {
+    //     let outer = document.querySelector('svg#map').clientWidth;
+    //     let inner = document.querySelector('svg#map > svg').getBoundingClientRect().width;
+    //     if (inner > outer) {
+    //         return "5%"
+    //     } else {
 
+    //         return inner == 0 ? "33%" : `${((outer - inner) / outer * 100 / 2)}%`
+    //     }
+    // }
 
+    private resizeMap() {
+        let outerSvg = document.querySelector("svg#map");
+        let innerSvg = document.querySelector("svg#map > svg");
+        if (!outerSvg || !innerSvg) return;
+
+        if (this.isZeroPanelOpened()) {
+            let margin = this.uiService.getCenteredMarginPercentage(33);
+            innerSvg.setAttribute("x", `${margin}%`);
+        }
+        else {
+            innerSvg.setAttribute("x", "33%");
+        }
+    }
+
+    private isZeroPanelOpened() {
+        return this.isBuildingPanelCollapsed && this.isDetailsPanelCollapsed;
+    }
+
+    private isOnePanelOpened() {
+        return this.isBuildingPanelCollapsed !== this.isDetailsPanelCollapsed;
+    }
+
+    private isTwoPanelsOpened() {
+        return !this.isDetailsPanelCollapsed && !this.isBuildingPanelCollapsed;
+    }
 }

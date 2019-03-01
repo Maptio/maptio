@@ -209,17 +209,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
   }
 
-  getCenteredMargin() {
-    let outer = document.querySelector('svg#map').clientWidth;
-    let inner = document.querySelector('svg#map > svg').getBoundingClientRect().width;
-    if (inner > outer) {
-      return "5%"
-    } else {
-
-      return inner == 0 ? "33%" : `${((outer - inner) / outer * 100 / 2)}%`
-    }
-  }
-
   init() {
     this.uiService.clean();
     const margin = { top: 20, right: 20, bottom: 20, left: 0 };
@@ -236,7 +225,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       innerSvg = svg.append("svg")
         .attr("width", "100%")
         .attr("height", "100%")
-        .attr("x", this.getCenteredMargin())
+        .attr("x", `${this.uiService.getCenteredMarginPercentage(5)}%`)
         .style("overflow", "visible"),
       diameter = this.height,
       g = innerSvg
@@ -246,6 +235,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           `translate(${diameter / 2}, ${diameter / 2}) scale(${this.scale})`
         ),
       definitions = innerSvg.append("svg:defs");
+
 
     const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 2.5;
 
@@ -297,7 +287,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
-      innerSvg.attr("x", this.getCenteredMargin())
+      // innerSvg.attr("x", this.getCenteredMargin())
       innerSvg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
         this.zooming.transform,
         d3.zoomIdentity.translate(
@@ -482,7 +472,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let TRANSITION_DURATION = this.TRANSITION_DURATION;
     let showToolipOf$ = this.showToolipOf$;
     let showContextMenuOf$ = this.showContextMenuOf$;
-    let getCenteredMargin = this.getCenteredMargin.bind(this);
+    // let getCenteredMargin = this.getCenteredMargin.bind(this);
     let browser = this.browser;
     let getLastZoomedCircle = this.getLastZoomedCircle.bind(this);
     let setLastZoomedCircle = this.setLastZoomedCircle.bind(this);
@@ -845,13 +835,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
           if (getLastZoomedCircle().data.id === d.data.id) {
             setLastZoomedCircle(root);
             zoom(root);
-            svg.attr("x", getCenteredMargin);
           
           } else {
             setLastZoomedCircle(d);
             zoom(d, this.parentElement);
-            svg.attr("x", "5%");
-          
           }
           // window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
 

@@ -14,7 +14,7 @@
             <div [class.invisible]="!isBuildingVisible" [class.d-flex]="true"
                 class="h-100 collapsible  bg-accent open-nav flex-column justify-content-start align-items-center cursor-pointer collapsible "
                 [class.col-0]="!isBuildingPanelCollapsed" [class.col-auto]="isBuildingPanelCollapsed"
-                 (click)="isBuildingPanelCollapsed=false">
+                 (click)="openBuildingPanel()">
                 <span class="h2" *ngIf="isBuildingPanelCollapsed">
                     <i class="fa fa-angle-right text-white" aria-hidden="true"></i>
 
@@ -27,7 +27,7 @@
                     [class.d-none]="isBuildingPanelCollapsed" [class.d-block]="!isBuildingPanelCollapsed">
                     <div class="card border-0 bg-transparent">
                         <button class="position-absolute top-right btn bg-transparent"
-                            [class.invisible]="isBuildingPanelCollapsed" (click)="isBuildingPanelCollapsed=true">
+                            [class.invisible]="isBuildingPanelCollapsed" (click)="closeBuildingPanel()">
                             <span aria-hidden="true" class="text-muted">
                                 <i class="fas fa-times"></i>
                             </span>
@@ -50,7 +50,7 @@
                     [class.d-block]="!isDetailsPanelCollapsed">
                     <div class="card border-0 bg-transparent">
                         <button class="position-absolute top-right btn bg-transparent"
-                            [class.invisible]="isDetailsPanelCollapsed" (click)="isDetailsPanelCollapsed=true">
+                            [class.invisible]="isDetailsPanelCollapsed" (click)="closeDetailsPanel()">
                             <span aria-hidden="true" class="text-muted">
                                 <i class="fas fa-times"></i>
                             </span>
@@ -91,7 +91,7 @@
                         <mapping [tags]="selectableTags" [isEmptyMap]="isEmptyMap"
                             (viewDetails)="onOpenDetailsToView($event)" (editDetails)="onOpenDetailsToEdit($event)"
                             (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
-                            (openTreePanel)="isBuildingPanelCollapsed=false"
+                            (openTreePanel)="openBuildingPanel()"
                             (expandTree)="buildingComponent.toggleAll(true)"
                             (toggleEditingPanelsVisibility)="toggleEditingPanelsVisibility($event)">
                         </mapping>

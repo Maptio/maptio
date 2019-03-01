@@ -4,7 +4,7 @@ import "rxjs/add/operator/toPromise";
 import { isEmpty, intersection } from "lodash-es"
 import { DeviceDetectorService } from 'ngx-device-detector';
 import * as screenfull from 'screenfull';
-import {select, selectAll} from "d3-selection"
+import { select, selectAll } from "d3-selection"
 
 export enum Browsers {
   Firefox,
@@ -250,6 +250,31 @@ export class UIService {
           ? false
           : true;
   }
+
+  private _defaultMargin: number;
+
+  getDefaultMargin() {
+    return this._defaultMargin;
+  }
+
+  getCenteredMarginPercentage(defaultMargin: number) {
+    this._defaultMargin = defaultMargin;
+
+    let outerSvg = document.querySelector("svg#map");
+    let innerSvg = document.querySelector("svg#map > svg");
+    if (!outerSvg || !innerSvg) return;
+
+    let outer = outerSvg.clientWidth;
+    let inner = innerSvg.getBoundingClientRect().width;
+
+    if (inner > outer) {
+      return defaultMargin
+    } else {
+
+      return inner == 0 ? 33 : ((outer - inner) / outer * 100 / 2)
+    }
+  }
+
 
 
 

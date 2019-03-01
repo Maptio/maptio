@@ -178,23 +178,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
   }
 
-  // resetExpandState() {
-  //   this.isAllExpanded$.next(false);
-  //   this.ngOnInit();
-  // }
-
-  getCenteredMargin() {
-    let outer = document.querySelector('svg#map').clientWidth;
-    let inner = document.querySelector('svg#map > svg').getBoundingClientRect().width;
-    console.log("outer", outer, "inner", inner)
-    if (inner > outer) {
-      return "5%"
-    } else {
-
-      return inner == 0 ? "33%" : `${((outer - inner) / outer * 100 / 2)}%`
-    }
-  }
-
   init() {
     this.uiService.clean();
 
@@ -242,7 +225,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let innerSvg = svg.append("svg")
       .attr("width", "100%")
       .attr("height", "100%")
-      .attr("x", this.getCenteredMargin())
+      .attr("x", `${this.uiService.getCenteredMarginPercentage(33)}%`)
       .style("overflow", "visible");
 
       let definitions = innerSvg.append("defs");

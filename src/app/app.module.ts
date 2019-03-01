@@ -20,7 +20,6 @@ export function markedOptionsFactory(): MarkedOptions {
     renderer.paragraph = (text: string) => {
         return `<p class="markdown">${text}</p>`;
     }
-    console.log(renderer)
 
     return {
         renderer: renderer,
