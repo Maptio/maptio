@@ -25,7 +25,7 @@
 </div>
 
 <div class="mt-3">
-    <common-textarea rows="3" label="Role" placeholder="placeholder" [text]="helper.roles ? helper.roles[0]?.description : ''"
+    <common-textarea rows="3" label="Role" [placeholder]="placeholder" [text]="helper.roles ? helper.roles[0]?.description : ''"
         (save)="onChangeRole($event)"></common-textarea>
 </div>
 

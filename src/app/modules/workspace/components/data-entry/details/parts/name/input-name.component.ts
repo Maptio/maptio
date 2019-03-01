@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input , EventEmitter, ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit, Output, Input , EventEmitter, ChangeDetectorRef, ViewChild, ElementRef} from '@angular/core';
 
 @Component({
     selector: 'initiative-input-name',
@@ -11,7 +11,11 @@ export class InitiativeInputNameComponent implements OnInit {
 
     @Output("save") save : EventEmitter<string> = new EventEmitter<string>();
  
+    @ViewChild("inputName") inputName:ElementRef;
+
     constructor(private cd:ChangeDetectorRef) { }
+
+
 
     ngOnInit(): void { }
 
@@ -19,5 +23,10 @@ export class InitiativeInputNameComponent implements OnInit {
         this.save.emit(newName);
         this.name = newName;
         this.cd.markForCheck();
+    }
+
+    onClick(){
+        this.isEditMode = true;
+        this.inputName.nativeElement.focus();
     }
 }
