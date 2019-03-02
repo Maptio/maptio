@@ -557,9 +557,9 @@ a.nav-link:hover{
 }
 
 
-a.nav-link.active{
-background-color: transparent !important;
-color: var(--maptio-accent) !important;
+a.nav-link.active {
+  background-color: var(--maptio-accent) !important;
+  color: var(--maptio-white) !important;
 }
 
 .nav.nav-tabs:not(.flex-column) > .nav-item >  a.nav-link.active{

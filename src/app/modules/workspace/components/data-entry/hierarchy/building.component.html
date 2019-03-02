@@ -1,10 +1,10 @@
 <div class="h-100 overflow-y">
-	<ngb-tabset (tabChange)="beforeChange($event)" #tabs="ngbTabset" [justify]="'fill'">
+	<ngb-tabset (tabChange)="beforeChange($event)" #tabs="ngbTabset" type="pills" [justify]="'fill'">
 		<ngb-tab id="circles-tab">
 			<ng-template ngbTabTitle>
 				<div class="d-flex flex-column">
 						<span>Circles</span>
-						<span class="small text-muted">{{depth}} circles</span>
+						<!-- <span class="small text-muted">{{depth}} circles</span> -->
 					
 				</div>
 			</ng-template>
@@ -41,7 +41,7 @@
 			<ng-template ngbTabTitle>
 				<div class="d-flex flex-column">
 						<span>Tags</span>
-						<span class="small text-muted">{{tags?.length}} tags</span>
+						<!-- <span class="small text-muted">{{tags?.length}} tags</span> -->
 				
 				</div>
 			</ng-template>
