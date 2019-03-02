@@ -726,7 +726,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             ? 0.1
             : !d.children && d.parent === root ? 0.1 : 1;
         })
-        .style("stroke-opacity", 0.1)
+        .style("stroke-opacity", 0)
         // .each((d: any) => (d.k = k))
         .on("mouseover", function (d: any) {
           let initiative = d.data;
@@ -750,7 +750,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 : !d.children && d.parent === root ? color(d.depth) : null;
             })
             .style("stroke-width", "initial")
-            .style("stroke-opacity", 0.1)
+            .style("stroke-opacity", 0)
         })
         .on("contextmenu", function (d: any) {
           d3.getEvent().preventDefault();
