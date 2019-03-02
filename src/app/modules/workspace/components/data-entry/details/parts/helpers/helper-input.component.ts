@@ -19,6 +19,8 @@ export class InitiativeHelperInputComponent implements OnInit {
 
     placeholder:string;
     cancelClicked:boolean;
+    hasRole:boolean;
+    isEditRoleToggled:boolean;
 
     constructor(private cd: ChangeDetectorRef) { }
 
@@ -27,6 +29,10 @@ export class InitiativeHelperInputComponent implements OnInit {
     ngOnChanges(changes:SimpleChanges){
         if(changes.helper && changes.helper.currentValue){
             this.placeholder = `How is ${changes.helper.currentValue.name} helping?`
+            this.hasRole = (changes.helper.currentValue as Helper).roles 
+            && (changes.helper.currentValue as Helper).roles[0] 
+            && !!(changes.helper.currentValue as Helper).roles[0].description;
+            this.isEditRoleToggled = this.hasRole;
         }
     }
 
