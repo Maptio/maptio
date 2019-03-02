@@ -3,6 +3,10 @@ p.markdown {
     /* padding-left: 0.25rem; */
 }
 
+p.markdown:last-child, p.markdown:only-child {
+    margin-bottom: 0;
+}
+
 markdown.no-margin > p.markdown{
     margin-bottom: 0!important;
 }
