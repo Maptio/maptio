@@ -15,7 +15,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 
 
 @Component({
-  selector: "my-app",
+  selector: "maptio-app",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush
