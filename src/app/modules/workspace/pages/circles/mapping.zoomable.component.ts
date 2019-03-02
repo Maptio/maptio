@@ -389,7 +389,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       // .style("opacity", 0)
       .on("end", function (d: any): void {
         select(this)
-          .style("font-size", `${outerFontSize * 1.2}px`)
+          .style("font-size", `${outerFontSize * 1}px`)
           .transition()
         // .style("opacity", 1);
       });
@@ -582,6 +582,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .attr("id", function (d: any) {
         return `${d.data.id}`;
       })
+      // .style("font-size", "1rem")
       .style("display", function (d: any) {
         return d !== root ? "inline" : "none";
       })

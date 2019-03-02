@@ -2,7 +2,7 @@
   <div class="form-group form-inline mb-0">
     <label for="example-time-input" class="col-form-label col-auto">{{label}}</label>
     <color-hue-picker [color]="color" [width]="255" (onChangeComplete)="pickColor($event)"></color-hue-picker>
-    <button class="btn btn-outline-secondary ml-4 col-auto" (click)="reset()">Reset</button>
+    <button class="btn btn-outline-secondary ml-2 col-auto" (click)="reset()">Reset</button>
   </div>
 </ng-container>
 <ng-container *ngIf="isMinimal">

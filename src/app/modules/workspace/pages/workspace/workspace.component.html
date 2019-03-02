@@ -24,14 +24,14 @@
                 [class.show]="!isBuildingPanelCollapsed" class="collapsible sidenav h-100 justify-content-start">
                 <div id="sidenav-hierarchy" class="hierarchy w-100 h-100 card border-light border-right bg-white"
                     [class.d-none]="isBuildingPanelCollapsed" [class.d-block]="!isBuildingPanelCollapsed">
-                    <div class="card border-0 bg-transparent">
+                    <div class="card border-0 bg-transparent h-100">
                         <button class="position-absolute top-right btn bg-transparent"
                             [class.invisible]="isBuildingPanelCollapsed" (click)="closeBuildingPanel()">
                             <span aria-hidden="true" class="text-muted">
                                 <i class="fas fa-times"></i>
                             </span>
                         </button>
-                        <div class="card-body" [class.show]="!isBuildingPanelCollapsed"
+                        <div class="card-body h-100" [class.show]="!isBuildingPanelCollapsed"
                             [class.hide]="isBuildingPanelCollapsed">
                             <building #building [user]="user" [isEmptyMap]="isEmptyMap" (save)="saveChanges($event)"
                                 (openDetails)="onOpenDetailsToEdit($event)"></building>
@@ -57,7 +57,7 @@
                             {{isEditMode ? "View" : "Edit"}}
                         </button> -->
 
-                        <div class="card-body" [class.show]="!isDetailsPanelCollapsed"
+                        <div class="card-body p-3" [class.show]="!isDetailsPanelCollapsed"
                             [class.hide]="isDetailsPanelCollapsed">
 
                             <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [dataset]="dataset"

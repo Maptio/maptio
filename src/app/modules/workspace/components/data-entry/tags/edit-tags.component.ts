@@ -16,7 +16,7 @@ export class EditTagsComponent implements OnInit {
     @Output("edit") edit: EventEmitter<SelectableTag[]> = new EventEmitter<SelectableTag[]>()
 
     public newTagForm: FormGroup;
-    public newTagColor = "#fff";
+    public newTagColor = "#aaa";
     public isEditTags: boolean;
     
 
