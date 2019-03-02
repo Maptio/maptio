@@ -25,11 +25,11 @@
 
     </div>
 
-    <div (click)="isEditMode=true" class="position-relative w-100 bg-light p-2 rounded" *ngIf="!isEditMode">
+    <div *ngIf="!isEditMode && !isTextEmpty" (click)="isEditMode=true " class="position-relative w-100 bg-light p-2 rounded" >
 
-        <markdown *ngIf="text"  class="cursor-text  border-0 w-100 h-100" [data]="text">
+        <markdown  class="cursor-text  border-0 w-100 h-100" [data]="text">
         </markdown>
-        <span *ngIf="!text" class="text-muted small text-gray-light">{{placeholder}}</span>
+        <!-- <span *ngIf="!text" class="text-muted small text-gray-light">{{placeholder}}</span> -->
     </div>
    
 </div>

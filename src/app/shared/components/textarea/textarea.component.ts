@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 
 @Component({
     selector: 'common-textarea',
@@ -15,12 +15,22 @@ export class CommonTextareaComponent implements OnInit {
     @Output("save") save: EventEmitter<string> = new EventEmitter<string>();
 
     isEditMode: boolean;
+    isTextEmpty:boolean =true;
 
-    constructor() { }
+    constructor(private cd:ChangeDetectorRef) { }
 
     ngOnInit(): void { }
 
+    ngOnChanges(changes: SimpleChanges): void {
+        if(changes.text){
+            this.isTextEmpty = !changes.text.currentValue || changes.text.currentValue.trim() === ''; 
+            console.log("changes", changes, this.isTextEmpty )
+        }
+    }
+
     onChange(text: string) {
+        this.text = text;
         this.save.emit(text);
+        this.cd.markForCheck();
     }
 }
