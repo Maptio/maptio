@@ -51,7 +51,7 @@
 	</ul> -->
 
 	<div class="pl-3">
-		<div class="my-2 bg-light p-2"
+		<div class="my-2 bg-light p-2 rounded"
 			*ngFor="let helper of node?.getAllParticipants(); let i=index;trackBy:trackByUserId">
 			<initiative-helper-input [helper]="helper" [isAuthority]="isAuthority(helper)" [team]="team"
 				[summaryUrl]="getSummaryUrl(helper)" (remove)="removeHelper($event)" (save)="saveHelpers()">

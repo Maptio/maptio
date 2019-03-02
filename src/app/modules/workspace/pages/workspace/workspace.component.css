@@ -1,108 +1,3 @@
- .sidenav{
-    /* height: 100%;  */
-    /* position: absolute; */
-    /* z-index: 1; */
-    /* top: 0; /* Stay at the top */
-    /* left: 0; */ 
-    /* margin-top: 61px; */
-    /* transition: width 0.5s;  */
-
-    /* border:solid 1px red; */
-    /* box-shadow: 0 6px 50px #999; */
- }
-
- .sidenav > .opened{
-    /* width: 42vw; */
-    /* z-index: 1; */
- }
-
- .sidenav > .closed{
-    /* width:0; */
-    /* z-index: 0; */
-}
- 
-
- #sidenav-hierarchy, #sidenav-details{
-    /* transition: width 0.5s; */
- }
-
-
-/* The side navigation menu */
-.sidenav >  .hierarchy {
-    background-color: transparent; 
-}
-
-.sidenav >  .details {
-    margin-left: 1vw;
-}
-
-.sidenav >  .details.offset {
-    margin-left: 4vw;
-}
-
-
-/* The navigation menu links */
-.sidenav a {
-    /* padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.5s; */
-}
-
-/* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
-    /* color: #f1f1f1; */
-}
-
-/* Position and style the close button (top right corner) */
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
-#main {
-    transition: margin-left .5s;
-}
-
-#main.half-push{
-    margin-left:43vw;
-}
-
-#main.half-push.offset{
-    margin-left:47vw;
-}
-
-
-#main.full-push{
-    margin-left:86vw;
-}
-
-
-.open-nav{
-    z-index: 1;
-    top: 0;
-    left: 0;
-    border-left:0;
-    overflow-x: hidden;
-    transition: 0.5s;
-    background: var(--white);
-    margin-left:0;
-}
-
-.open-nav.closed{
-
-}
-
-.open-nav:hover{
-    padding-left:2vw;
-    transition: 0.25s;
-}
-
 .saving{
 	opacity: 0.75;	
     transition-delay:0s;
@@ -124,6 +19,12 @@
     transition:all 1s;
 }
 
+#toggle.collapsible.show:hover{
+    transition:all 250ms;
+    padding-left:2rem;
+    width:6rem;
+}
+
 #toggle.collapsible.show{
     width:4rem;
     transition:all 1s;
@@ -142,9 +43,3 @@
     width:66%;
     transition:all 1s;
 }
-
-  
-  .col-0.collapsible {
-    opacity: 0;
-    transition: opacity 1000ms ease;
-  }
