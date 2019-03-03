@@ -33,7 +33,7 @@ import { FocusIfDirective } from './directives/focusif.directive';
     declarations: [
         DebounceDirective,
         ClosableDirective,
-        FocusDirective
+        FocusIfDirective
     ],
     exports: [
         DebounceDirective,
