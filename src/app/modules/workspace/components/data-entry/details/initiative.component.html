@@ -31,7 +31,7 @@
 		</initiative-list-tags>
 	</div>
 	<div class="mb-4">
-		<initiative-authority-select [isEditMode]="isEditMode" [team]="team" [authority]="node?.accountable"
+		<initiative-authority-select [isUnauthorized]="!canEditAuthority()" [isEditMode]="isEditMode" [team]="team" [authority]="node?.accountable"
 			(save)="saveAccountable($event)">
 			<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
 		</initiative-authority-select>

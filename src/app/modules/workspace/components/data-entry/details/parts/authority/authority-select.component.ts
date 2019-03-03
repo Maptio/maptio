@@ -17,6 +17,7 @@ export class InitiativeAuthoritySelectComponent implements OnInit {
     @Input("team") team: Team;
     @Input("authority") authority: Helper;
     @Input("isEditMode") isEditMode: boolean;
+    @Input("isUnauthorized") isUnauthorized:boolean;
     @Output("save") save: EventEmitter<Helper> = new EventEmitter<Helper>();
 
     placeholder: string;

@@ -17,7 +17,8 @@ export class CommonAutocompleteComponent implements OnInit {
     @Input("filter") filter: (text: string) => Array<any>;
     @Input("resultFormatter") resultFormatter: (item: any) => string;
     @Input("resultTemplate") resultTemplate: TemplateRef<any>;
-    @Input("label") label:string;
+    @Input("label") label: string;
+    @Input("isUnauthorized") isUnauthorized: boolean;
 
     @Output("pick") pick: EventEmitter<any> = new EventEmitter<any>();
 
@@ -28,7 +29,7 @@ export class CommonAutocompleteComponent implements OnInit {
     searchFailed: boolean;
     click$ = new Subject<string>();
     focus$ = new Subject<string>();
-    isShowAutocomplete:boolean;
+    isShowAutocomplete: boolean;
 
 
     constructor(private cd: ChangeDetectorRef) { }
@@ -37,7 +38,7 @@ export class CommonAutocompleteComponent implements OnInit {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.item && !changes.item.currentValue) {
-            if(this.inputAutocomplete) this.inputAutocomplete.writeValue("");
+            if (this.inputAutocomplete) this.inputAutocomplete.writeValue("");
         }
     }
 
@@ -52,9 +53,24 @@ export class CommonAutocompleteComponent implements OnInit {
         );
     }
 
+    onClick(text: string) {
+        if(this.isUnauthorized) return;
+        this.click$.next(text);
+        this.isShowAutocomplete = true
+        this.cd.markForCheck();
+    }
+
+    onFocus(text: string) {
+        if(this.isUnauthorized) return;
+        this.focus$.next(text);
+        this.isShowAutocomplete = true
+        this.cd.markForCheck();
+    }
+
     onSelect(selected: NgbTypeaheadSelectItemEvent) {
         this.item = selected.item;
         this.pick.emit(this.item);
+        this.isShowAutocomplete = false;
         this.cd.markForCheck();
     }
 
@@ -64,7 +80,7 @@ export class CommonAutocompleteComponent implements OnInit {
         this.cd.markForCheck();
     }
 
-    onFocusOut(){
+    onFocusOut() {
         this.isShowAutocomplete = false;
         this.cd.markForCheck();
     }
