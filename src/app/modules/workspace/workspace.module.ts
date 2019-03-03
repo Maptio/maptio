@@ -5,7 +5,6 @@ import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { MarkdownModule, } from "ngx-markdown";
 import { FilterTagsComponent } from "./components/filtering/tags.component";
 import { SearchComponent } from "./components/searching/search.component";
-import { FocusIfDirective } from "../../shared/directives/focusif.directive";
 import { TreeModule } from "angular-tree-component";
 import { WorkspaceGuard } from "../../core/guards/workspace.guard";
 import { WorkspaceComponent } from "./pages/workspace/workspace.component";
@@ -74,8 +73,6 @@ import { CommonTextareaComponent } from '../../shared/components/textarea/textar
         PermissionsModule
     ],
     declarations: [
-        FocusIfDirective,
-
         WorkspaceComponent,
         BuildingComponent, InitiativeNodeComponent, 
         InitiativeComponent, 

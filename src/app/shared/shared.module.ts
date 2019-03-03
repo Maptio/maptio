@@ -19,6 +19,7 @@ import { URIService } from './services/uri/uri.service';
 import { UserService } from './services/user/user.service';
 import { BillingService } from './services/billing/billing.service';
 import { TeamService } from './services/team/team.service';
+import { FocusIfDirective } from './directives/focusif.directive';
 
 
 @NgModule({
@@ -31,11 +32,13 @@ import { TeamService } from './services/team/team.service';
     ],
     declarations: [
         DebounceDirective,
-        ClosableDirective
+        ClosableDirective,
+        FocusDirective
     ],
     exports: [
         DebounceDirective,
         ClosableDirective,
+        FocusIfDirective
 
     ]
 })
