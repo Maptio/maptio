@@ -1,3 +1,7 @@
-<common-textarea rows="8" label="Circle description" placeholder="Describe the circle and/or add links to you main ressources." [text]="description"
-(save)="onChange($event)"></common-textarea>
+<common-textarea rows="8" label="Circle description" placeholder="Describe the circle and/or add links to you main ressources." 
+[isUnauthorized]="isUnauthorized"
+[text]="description"
+(save)="onChange($event)">
+<ng-content></ng-content>
+</common-textarea>
 

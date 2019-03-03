@@ -1,6 +1,6 @@
 <ng-template #editTipContent>
-		You don't have permission to edit this.
-		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+	You don't have permission to edit this.
+	<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
 </ng-template>
 
 <ng-template #deleteTipContent>
@@ -32,13 +32,17 @@
 	</div>
 	<div class="mb-4">
 		<initiative-authority-select [isEditMode]="isEditMode" [team]="team" [authority]="node?.accountable"
-			(save)="saveAccountable($event)"></initiative-authority-select>
+			(save)="saveAccountable($event)">
+			<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
+		</initiative-authority-select>
 
 	</div>
 
 	<div class="mb-4">
-		<initiative-description-textarea [description]="node?.description" [isEditMode]="isEditMode"
-			(save)="saveDescription($event)"></initiative-description-textarea>
+		<initiative-description-textarea [isUnauthorized]="!canEditDescription()" [description]="node?.description"
+			[isEditMode]="isEditMode" (save)="saveDescription($event)">
+			<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
+		</initiative-description-textarea>
 
 	</div>
 

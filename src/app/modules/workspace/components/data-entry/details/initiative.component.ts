@@ -121,8 +121,11 @@ export class InitiativeComponent implements OnChanges {
     }
 
     canEditName(){
-        console.log(this.node.name, this.permissionsService.canEditInitiativeName(this.node))
         return this.permissionsService.canEditInitiativeName(this.node);
+    }
+
+    canEditDescription(){
+        return this.permissionsService.canEditInitiativeDescription(this.node);
     }
 
     canEditTags(){

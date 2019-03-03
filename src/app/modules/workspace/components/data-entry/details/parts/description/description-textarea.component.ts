@@ -8,6 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } fro
 export class InitiativeDescriptionTextareaComponent implements OnInit {
     @Input("description") description: string;
     @Input("isEditMode") isEditMode: boolean;
+    @Input("isUnauthorized") isUnauthorized:boolean;
 
     @Output("save") save: EventEmitter<string> = new EventEmitter<string>();
 
