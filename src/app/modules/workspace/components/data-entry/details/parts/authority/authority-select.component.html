@@ -19,7 +19,7 @@
         <div class="w-100">
             <common-autocomplete #autocomplete [placeholder]="placeholder"
                 [removeConfirmationMessage]="'Remove this authority and associated role?'" [resultTemplate]="rt"
-                [resultFormatter]="formatter" [isUnauthorized]="isUnauthorized" [item]="authority" [filter]="filterMembers" (pick)="onSelect($event)">
+                [showSelectedResult]="true" [resultFormatter]="formatter" [isUnauthorized]="isUnauthorized" [item]="authority" [filter]="filterMembers" (pick)="onSelect($event)">
                 <span *ngIf="authority">
                     <img src="{{authority?.picture}}"  class="rounded-circle participant-picture" />
                     {{authority?.name}}

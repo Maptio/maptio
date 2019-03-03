@@ -2,7 +2,7 @@
     <label *ngIf="label" for="inputAccountable" class="form-control-label col-form-label text-muted mr-1">{{label}}
     </label>
 
-    <div class="w-100 position-relative " *ngIf="isShowAutocomplete">
+    <div class="w-100 position-relative " *ngIf="isShowAutocomplete || !showSelectedResult">
         <input id="inputAutocomplete" #inputAutocomplete="ngbTypeahead" required="required"
             [resultTemplate]="resultTemplate" type="text" [placeholder]="placeholder"
             class="position-relative form-control background" [placement]="'bottom-left'" [(ngModel)]="item"
@@ -14,7 +14,7 @@
     </div>
 
 
-    <div class="d-flex w-100 align-items-center" *ngIf="!isShowAutocomplete">
+    <div class="d-flex w-100 align-items-center" *ngIf="!isShowAutocomplete && showSelectedResult">
         <div class="flex-grow-1 cursor-text"  (click)="onClick('')">
             <ng-content></ng-content>
         </div>

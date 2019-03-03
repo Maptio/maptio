@@ -19,6 +19,7 @@ export class CommonAutocompleteComponent implements OnInit {
     @Input("resultTemplate") resultTemplate: TemplateRef<any>;
     @Input("label") label: string;
     @Input("isUnauthorized") isUnauthorized: boolean;
+    @Input("showSelectedResult") showSelectedResult:boolean;
 
     @Output("pick") pick: EventEmitter<any> = new EventEmitter<any>();
 

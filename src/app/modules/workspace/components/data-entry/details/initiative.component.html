@@ -51,10 +51,12 @@
 		<i class="fas fa-users  mr-1"></i>
 		<span class="text-uppercase text-bold small">Who's helping?</span>
 
+
 	</div>
-	<div class="d-flex w-100">
-		<initiative-helpers-select class="w-100" [isUnauthorized]="!canAddHelper()" [team]="team" [helpers]="node?.helpers"  [user]="user" [authority]="node?.accountable"
-			(save)="addHelpers($event)"></initiative-helpers-select>
+	<div class="d-flex w-100 justify-content-end">
+		<initiative-helpers-select class="w-100" [isUnauthorized]="!canAddHelper()" [team]="team" [helpers]="node?.helpers"
+			[user]="user" [authority]="node?.accountable" (save)="addHelpers($event)"></initiative-helpers-select>
+
 	</div>
 	<!-- <ul class="list-inline d-flex flex-row-reverse picture-list my-1 flex-wrap justify-content-end">
 		<li class="list-inline-item rounded-circle border-thick border-white my-1"

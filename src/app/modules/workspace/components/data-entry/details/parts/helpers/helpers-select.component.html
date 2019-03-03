@@ -5,18 +5,17 @@
     <ng-content></ng-content>
 </ng-template>
 
-<div class="bg-light p-2">
-    <common-autocomplete *ngIf="!isUnauthorized" [isUnauthorized]="isUnauthorized" [placeholder]="placeholder"
-        [resultTemplate]="rt"  [resultFormatter]="formatter" [filter]="filterMembers" (pick)="onAddingHelper($event)">
-       <!-- <input type="text"> -->
-        <span class="btn badge btn-outline-secondary badge-pill p-2">Add {{team?.settings.helper |  lowercase}}</span>
+<div  *ngIf="!isUnauthorized">
+    <common-autocomplete [isUnauthorized]="isUnauthorized" [placeholder]="placeholder" [resultTemplate]="rt"
+    [showSelectedResult]="false" [resultFormatter]="formatter" [filter]="filterMembers" (pick)="onAddingHelper($event)">
+        <button class="btn btn-outline-success">Add {{team?.settings.helper |  lowercase}} </button>
     </common-autocomplete>
- 
+
 </div>
 
-<button *ngIf="isUnauthorized && !isCurrentUserAlredyAdded()" class="btn btn-success btn-sm badge badge-pill p-2"
-(click)="onAddingCurrentUser()">
-I am helping
+<button *ngIf="isUnauthorized && !isCurrentUserAlredyAdded()" class="btn btn-outline-success btn-block"
+    (click)="onAddingCurrentUser()">
+    Add myself as a {{team?.settings.helper |  lowercase}}
 </button>
 
 
