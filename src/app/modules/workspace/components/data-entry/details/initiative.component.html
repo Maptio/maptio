@@ -40,12 +40,7 @@
 	</div>
 
 
-	<div class="d-flex align-items-center text-gray-light mb-2 ">
-		<i class="fas fa-users  mr-1"></i>
-		<span class="text-uppercase text-bold small">Who's helping?</span>
-
-
-	</div>
+	
 	<div class="d-flex w-100 justify-content-end">
 		<initiative-helpers-select class="w-100" [isUnauthorized]="!canAddHelper()" [team]="team"
 			[helpers]="node?.helpers" [user]="user" [authority]="node?.accountable" (save)="addHelpers($event)">

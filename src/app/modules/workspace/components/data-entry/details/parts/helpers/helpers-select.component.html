@@ -4,19 +4,29 @@
 <ng-template #editTipContent>
     <ng-content></ng-content>
 </ng-template>
+<div class="d-flex justify-content-between align-items-center text-gray-light mb-2 ">
+    <span>
+        <i class="fas fa-users  mr-1"></i>
+        <span class="text-uppercase text-bold small">Who's helping?</span>
+    </span>
+    <button *ngIf="!isCurrentUserAlredyAdded()" class="align-self-end btn btn-sm btn-link"
+        (click)="onAddingCurrentUser()">
+        Add yourself as a {{team?.settings.helper |  lowercase}}
+    </button>
+</div>
+<div class="d-flex flex-column align-items-end">
+    <div class="w-100" *ngIf="!isUnauthorized">
+        <common-autocomplete [isUnauthorized]="isUnauthorized" [placeholder]="placeholder" [resultTemplate]="rt"
+            [showSelectedResult]="false" [resultFormatter]="formatter" [filter]="filterMembers"
+            (pick)="onAddingHelper($event)">
+            <button class="btn btn-outline-success">Add {{team?.settings.helper |  lowercase}} </button>
+        </common-autocomplete>
 
-<div  *ngIf="!isUnauthorized">
-    <common-autocomplete [isUnauthorized]="isUnauthorized" [placeholder]="placeholder" [resultTemplate]="rt"
-    [showSelectedResult]="false" [resultFormatter]="formatter" [filter]="filterMembers" (pick)="onAddingHelper($event)">
-        <button class="btn btn-outline-success">Add {{team?.settings.helper |  lowercase}} </button>
-    </common-autocomplete>
+    </div>
+
 
 </div>
 
-<button *ngIf="isUnauthorized && !isCurrentUserAlredyAdded()" class="btn btn-outline-success btn-block"
-    (click)="onAddingCurrentUser()">
-    Add myself as a {{team?.settings.helper |  lowercase}}
-</button>
 
 
 
