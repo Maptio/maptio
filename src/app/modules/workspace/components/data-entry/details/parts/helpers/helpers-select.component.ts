@@ -2,6 +2,9 @@ import { Component, OnInit, Input, Output, ChangeDetectorRef, SimpleChanges, Eve
 import { Team } from '../../../../../../../shared/model/team.data';
 import { Helper } from '../../../../../../../shared/model/helper.data';
 import { of } from 'rxjs/observable/of';
+import { Auth } from '../../../../../../../core/authentication/auth.service';
+import { User } from '../../../../../../../shared/model/user.data';
+import { Subscription, Subject } from 'rxjs';
 
 @Component({
     selector: 'initiative-helpers-select',
@@ -12,19 +15,44 @@ export class InitiativeHelpersSelectComponent implements OnInit {
 
     @Input("team") team: Team;
     @Input("helpers") helpers: Helper[];
+    @Input("user") user: User;
     @Input("authority") authority: Helper;
     @Input("isEditMode") isEditMode: boolean;
+    @Input("isUnauthorized") isUnauthorized: boolean;
 
     @Output("save") save: EventEmitter<Array<Helper>> = new EventEmitter<Array<Helper>>();
 
     placeholder: string;
+    subscription: Subscription;
+    isLoaded: boolean;
+    
+    constructor(private auth: Auth, private cd: ChangeDetectorRef) { }
 
-    constructor(private cd: ChangeDetectorRef) { }
+    ngOnInit() {
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.team && changes.team.currentValue) {
+            this.placeholder = `Enter the name of a ${(changes.team.currentValue as Team).settings.helper.toLowerCase()}`
+        }
+        this.cd.markForCheck();
+    }
+
+
+    isCurrentUserAlredyAdded() {
+        if (this.helpers && this.user) {
+            return this.helpers.concat([this.authority]).findIndex(h => h.user_id === this.user.user_id) > -1;
+        }
+        this.cd.markForCheck();
+    }
 
 
     onAddingHelper(newHelper: Helper) {
         if ((this.authority && newHelper.user_id === this.authority.user_id) || this.helpers.findIndex(user => user.user_id === newHelper.user_id) > 0) {
             return
+        }
+        if(this.helpers.findIndex(h => h.user_id === newHelper.user_id) > -1){
+            return;
         }
 
         newHelper.roles = [];
@@ -34,17 +62,10 @@ export class InitiativeHelpersSelectComponent implements OnInit {
         this.cd.markForCheck();
     }
 
-    ngOnInit() {
-
+    onAddingCurrentUser() {
+        this.onAddingHelper(this.user as Helper)
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.team && changes.team.currentValue) {
-            this.placeholder = `Enter the name of a ${(changes.team.currentValue as Team).settings.helper.toLowerCase()}`
-        }
-    }
-
-   
 
     formatter = (result: Helper) => { return result ? result.name : '' };
 

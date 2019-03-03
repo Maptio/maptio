@@ -10,7 +10,7 @@ import { DataSet } from "../../../../../shared/model/dataset.data";
 import { User } from "../../../../../shared/model/user.data";
 import { Tag } from "../../../../../shared/model/tag.data";
 import { Initiative } from "../../../../../shared/model/initiative.data";
-import { Subject } from "rxjs/Rx";
+import { Subject, Subscription } from "rxjs/Rx";
 import { Component, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef, ChangeDetectorRef, ChangeDetectionStrategy, TemplateRef, Renderer2 } from "@angular/core";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/merge";
@@ -39,6 +39,7 @@ export class InitiativeComponent implements OnChanges {
     @Input() dataset: DataSet;
     @Input() team: Team;
     @Input() isEditMode: boolean;
+    @Input() user: User;
 
     @Output() edited: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output("editTags") editTags: EventEmitter<any> = new EventEmitter<any>();
@@ -48,7 +49,6 @@ export class InitiativeComponent implements OnChanges {
     public team$: Promise<Team>;
     public authority: string;
     public helper: string;
-    public user: User;
 
     isRestrictedAddHelper: boolean;
     hideme: Array<boolean> = [];
@@ -106,9 +106,6 @@ export class InitiativeComponent implements OnChanges {
 
     }
 
-    ngOnInit() {
-        this.auth.getUser().subscribe(user => this.user = user)
-    }
 
     toggleEditMode() {
         this.isEditMode = !this.isEditMode;
@@ -136,6 +133,9 @@ export class InitiativeComponent implements OnChanges {
         return this.permissionsService.canEditInitiativeTags(this.node);
     }
 
+    canAddHelper(){
+        return this.permissionsService.canAddHelper(this.node);
+    }
 
     saveName(newName: string) {
         this.node.name = newName;
@@ -198,6 +198,7 @@ export class InitiativeComponent implements OnChanges {
         this.node.helpers.splice(index, 1);
         this.onBlur();
         this.analytics.eventTrack("Initiative", { action: "remove helper", team: this.teamName, teamId: this.teamId });
+        this.cd.markForCheck();
     }
 
     saveHelpers() {

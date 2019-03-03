@@ -61,7 +61,7 @@
                             [class.hide]="isDetailsPanelCollapsed">
 
                             <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [dataset]="dataset"
-                                [node]="openedNode" [team]="team" (edited)="saveDetailChanges()"
+                                [node]="openedNode" [user]="user" [team]="team" (edited)="saveDetailChanges()"
                                 [isEditMode]="isEditMode" (editTags)="onEditTags()"></initiative>
                         </div>
                     </div>

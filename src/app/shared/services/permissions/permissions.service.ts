@@ -24,7 +24,6 @@ export class PermissionsService {
     }
 
     public canEditInitiativeName( initiative:Initiative): boolean {
-        console.log(initiative)
         return this.userPermissions.includes(Permissions.canEditInitiativeName)
             ||
             !initiative.accountable

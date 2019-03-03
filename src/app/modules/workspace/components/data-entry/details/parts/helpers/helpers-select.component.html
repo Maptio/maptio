@@ -1,16 +1,23 @@
 <ng-template #rt let-r="result" let-t="term">
-    <img src="{{r.picture}}"  class="rounded-circle participant-picture" alt={{r.name}} /> {{r.name}}
+    <img src="{{r.picture}}" class="rounded-circle participant-picture" alt={{r.name}} /> {{r.name}}
 </ng-template>
-<!-- 
-<h6 class="card-subtitle mb-1 mt-1 text-muted">Who’s helping with this circle?
-</h6> -->
-<div class="">
-        <common-autocomplete [placeholder]="placeholder" [resultTemplate]="rt" [resultFormatter]="formatter"
-        [filter]="filterMembers" (pick)="onAddingHelper($event)">
+<ng-template #editTipContent>
+    <ng-content></ng-content>
+</ng-template>
+
+<div class="bg-light p-2">
+    <common-autocomplete *ngIf="!isUnauthorized" [isUnauthorized]="isUnauthorized" [placeholder]="placeholder"
+        [resultTemplate]="rt"  [resultFormatter]="formatter" [filter]="filterMembers" (pick)="onAddingHelper($event)">
+       <!-- <input type="text"> -->
         <span class="btn badge btn-outline-secondary badge-pill p-2">Add {{team?.settings.helper |  lowercase}}</span>
     </common-autocomplete>
-    
+ 
 </div>
+
+<button *ngIf="isUnauthorized && !isCurrentUserAlredyAdded()" class="btn btn-success btn-sm badge badge-pill p-2"
+(click)="onAddingCurrentUser()">
+I am helping
+</button>
 
 
 
