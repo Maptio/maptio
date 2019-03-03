@@ -11,11 +11,14 @@ export class CommonTextareaComponent implements OnInit {
     @Input("text") text: string;
     @Input("rows") rows: number;
     @Input("label") label: string = "Edit";
+    @Input("isUnauthorized") isUnauthorized:boolean;
+    @Input("isHeader") isHeader:boolean; 
 
     @Output("save") save: EventEmitter<string> = new EventEmitter<string>();
 
     isEditMode: boolean;
     isTextEmpty:boolean =true;
+    showUnauthorized:boolean;
 
     constructor(private cd:ChangeDetectorRef) { }
 
@@ -24,7 +27,6 @@ export class CommonTextareaComponent implements OnInit {
     ngOnChanges(changes: SimpleChanges): void {
         if(changes.text){
             this.isTextEmpty = !changes.text.currentValue || changes.text.currentValue.trim() === ''; 
-            console.log("changes", changes, this.isTextEmpty )
         }
     }
 

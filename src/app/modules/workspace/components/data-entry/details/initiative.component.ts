@@ -23,6 +23,7 @@ import { _do } from "rxjs/operator/do";
 import { compact, sortBy, remove } from "lodash-es";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { UserService } from "../../../../../shared/services/user/user.service";
+import { PermissionsService } from "../../../../../shared/services/permissions/permissions.service";
 
 @Component({
     selector: "initiative",
@@ -49,13 +50,8 @@ export class InitiativeComponent implements OnChanges {
     public helper: string;
     public user: User;
 
-    isTeamMemberFound: boolean = true;
-    isTeamMemberAdded: boolean = false;
     isRestrictedAddHelper: boolean;
-    currentTeamName: string;
     hideme: Array<boolean> = [];
-    authorityHideMe: boolean;
-    descriptionHideMe: boolean;
     cancelClicked: boolean;
     teamName: string;
     teamId: string;
@@ -72,22 +68,24 @@ export class InitiativeComponent implements OnChanges {
     MESSAGE_PERMISSIONS_DENIED_EDIT = environment.MESSAGE_PERMISSIONS_DENIED_EDIT;
 
     constructor(private auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
-        private userService: UserService,
-        private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel,
-        private cd: ChangeDetectorRef, private renderer: Renderer2) {
+        private userService: UserService, private permissionsService:PermissionsService,
+         private analytics: Angulartics2Mixpanel,
+        private cd: ChangeDetectorRef) {
     }
 
-    public disableFieldset = (templateRef: TemplateRef<any>) => {
-        this.renderer.setAttribute(templateRef.elementRef.nativeElement.nextSibling, "disabled", "");
-    }
-    public enableFieldset = (templateRef: TemplateRef<any>) => {
-        // this.renderer.removeAttribute(templateRef.elementRef.nativeElement.nextSibling, "disabled");
+    unauthorizedTargets: string[] ;
+
+
+    isFieldUnauthorized(field:string){
+        return this.unauthorizedTargets.includes(field);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.node && changes.node.currentValue) {
-            this.descriptionHideMe = changes.node.currentValue.description ? (changes.node.currentValue.description.trim() !== "") : false;
+            // this.descriptionHideMe = changes.node.currentValue.description ? (changes.node.currentValue.description.trim() !== "") : false;
             this.isRestrictedAddHelper = false;
+            this.unauthorizedTargets = [];
+            console.log("ngOnChanges")
             if (changes.node.isFirstChange() || !(changes.node.previousValue) || changes.node.currentValue.team_id !== changes.node.previousValue.team_id) {
 
                 this.team$ = this.teamFactory.get(<string>changes.node.currentValue.team_id)
@@ -121,6 +119,16 @@ export class InitiativeComponent implements OnChanges {
 
         this.edited.emit(true);
     }
+
+    canEditName(){
+        console.log(this.node.name, this.permissionsService.canEditInitiativeName(this.node))
+        return this.permissionsService.canEditInitiativeName(this.node);
+    }
+
+    canEditTags(){
+        return this.permissionsService.canEditInitiativeTags(this.node);
+    }
+
 
     saveName(newName: string) {
         this.node.name = newName;
@@ -160,7 +168,7 @@ export class InitiativeComponent implements OnChanges {
                 this.node.accountable = helper;
             }
         }
-        
+
         this.onBlur();
         this.cd.markForCheck();
         this.analytics.eventTrack("Initiative", { action: "add authority", team: this.teamName, teamId: this.teamId });

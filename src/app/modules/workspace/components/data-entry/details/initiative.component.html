@@ -1,39 +1,49 @@
 <ng-template #editTipContent>
-	<div class="text-orange">
 		You don't have permission to edit this.
 		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
-	</div>
 </ng-template>
+
 <ng-template #deleteTipContent>
 	<span class="text-orange">You don't have permission to delete this.
 		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
 	</span>
 </ng-template>
 
+<div *ngIf="showUnauthorized" class="alert alert-warning alert-dismissible fade show" role="alert">
+	You don't have permission to edit this. {{unauthorizedTargets}}
+	<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+	<button (click)="showUnauthorized=false" type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+
 <div class="d-flex flex-column h-100">
 	<div class="mb-4">
-		 
-		<initiative-input-name [name]="node?.name" (save)="saveName($event)">
+		<initiative-input-name [isUnauthorized]="!canEditName()" (unauthorized)="onUnauthorized($event)"
+			[name]="node?.name" (save)="saveName($event)">
+			<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
 		</initiative-input-name>
 	</div>
-	<div class="pl-3 mb-4">
-		<initiative-list-tags [available]="dataset?.tags" [selected]="node?.tags" [isEditMode]="isEditMode"
-			(save)="saveTags($event)" (open)="openTagsPanel()"></initiative-list-tags>
+	<div class="mb-4">
+		<initiative-list-tags [isUnauthorized]="!canEditTags()" [available]="dataset?.tags" [selected]="node?.tags"
+			[isEditMode]="isEditMode" (save)="saveTags($event)" (open)="openTagsPanel()">
+			<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
+		</initiative-list-tags>
 	</div>
-	<div class="pl-3 mb-4">
+	<div class="mb-4">
 		<initiative-authority-select [isEditMode]="isEditMode" [team]="team" [authority]="node?.accountable"
 			(save)="saveAccountable($event)"></initiative-authority-select>
 
 	</div>
 
-	<div class="pl-3 mb-4">
+	<div class="mb-4">
 		<initiative-description-textarea [description]="node?.description" [isEditMode]="isEditMode"
 			(save)="saveDescription($event)"></initiative-description-textarea>
 
 	</div>
 
 
-	<div class="d-flex align-items-center text-gray-light mr-1 pl-3">
+	<div class="d-flex align-items-center text-gray-light mr-1 ">
 		<i class="fas fa-users  mr-1"></i>
 		<span class="text-uppercase text-bold small">Who's helping?</span>
 		<div class="align-self-end flex-grow-1 ml-4">
@@ -50,7 +60,7 @@
 		</li>
 	</ul> -->
 
-	<div class="pl-3">
+	<div class="">
 		<div class="my-2 bg-light p-2 rounded"
 			*ngFor="let helper of node?.getAllParticipants(); let i=index;trackBy:trackByUserId">
 			<initiative-helper-input [helper]="helper" [isAuthority]="isAuthority(helper)" [team]="team"

@@ -4,7 +4,7 @@ import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
 import { IntercomModule } from "ng-intercom";
 import { TeamComponentResolver } from "./team.resolver";
 import { Auth } from "../../../../core/authentication/auth.service";
-import { PermissionService } from "../../../../shared/model/permission.data";
+import { UserRoleService } from "../../../../shared/model/permission.data";
 import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
 import { UserFactory } from "../../../../core/http/user/user.factory";
@@ -35,7 +35,7 @@ describe("team.resolver.ts", () => {
             providers: [
                 TeamComponentResolver,
                 Auth,
-                PermissionService,
+                UserRoleService,
                 TeamFactory,
                 DatasetFactory,
                 UserFactory,

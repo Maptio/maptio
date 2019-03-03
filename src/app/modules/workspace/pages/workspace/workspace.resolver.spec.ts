@@ -4,7 +4,7 @@ import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
 import { WorkspaceComponentResolver } from "./workspace.resolver";
 import { Auth } from "../../../../core/authentication/auth.service";
-import { PermissionService } from "../../../../shared/model/permission.data";
+import { UserRoleService } from "../../../../shared/model/permission.data";
 import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
 import { UserService } from "../../../../shared/services/user/user.service";
@@ -32,7 +32,7 @@ describe("workspace.resolver.ts", () => {
             providers: [
                 WorkspaceComponentResolver,
                 Auth,
-                PermissionService,
+                UserRoleService,
                 TeamFactory,
                 DatasetFactory,
                 UserService,

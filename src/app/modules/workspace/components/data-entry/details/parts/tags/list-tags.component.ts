@@ -11,6 +11,7 @@ export class InitiativeListTagsComponent implements OnInit {
     @Input("available") availableTags : Array<Tag>;
     @Input("selected") selectedTags : Array<Tag>;
     @Input("isEditMode") isEditMode:boolean;
+    @Input("isUnauthorized") isUnauthorized:boolean;
 
     @Output("save") save:EventEmitter<Array<Tag>> = new EventEmitter<Array<Tag>>()
     @Output("open") open:EventEmitter<void> = new EventEmitter<void>()

@@ -5,7 +5,7 @@ import { Auth } from "./auth.service";
 import { UserFactory } from "../http/user/user.factory";
 import { DatasetFactory } from "../http/map/dataset.factory";
 import { NgProgress, NgProgressModule } from "@ngx-progressbar/core";
-import { PermissionService } from "../../shared/model/permission.data";
+import { UserRoleService } from "../../shared/model/permission.data";
 import { Router, NavigationStart } from "@angular/router";
 import { Observable } from "rxjs";
 import { Http, Response, BaseRequestOptions, RequestMethod, ResponseOptions } from "@angular/http";
@@ -214,7 +214,7 @@ describe("auth.service.ts", () => {
     });
 
     describe("getUser", () => {
-        it("should make calls to build user when profile is in localStorage and return user", async(inject([Auth, Http, AuthConfiguration, MockBackend, UserFactory, DatasetFactory, PermissionService], (target: Auth, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend, userFactory: UserFactory, datasetFactory: DatasetFactory, permissionsService: PermissionService) => {
+        it("should make calls to build user when profile is in localStorage and return user", async(inject([Auth, Http, AuthConfiguration, MockBackend, UserFactory, DatasetFactory, UserRoleService], (target: Auth, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend, userFactory: UserFactory, datasetFactory: DatasetFactory, permissionsService: UserRoleService) => {
             spyOn(localStorage, "getItem").and.returnValue(`{ "user_id": "ID" }`);
             let spyGetUserInfo = spyOn(target, "getUserInfo").and.returnValue(Promise.resolve(new User({ user_id: "ID", name: "Jane Doe" })))
             let spyGetUserDb = spyOn(userFactory, "get").and.returnValue(Promise.resolve(new User({ user_id: "ID", name: "Jane Doe", teams: ["t1", "t2", "t3"], shortid: "short" })))

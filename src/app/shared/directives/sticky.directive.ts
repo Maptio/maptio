@@ -64,7 +64,7 @@ export class StickyPopoverDirective extends NgbPopover {
         });
 
         this._render.listen(this._elRef.nativeElement, "mouseleave", (event: Event) => {
-            setTimeout(() => { if (this.canClosePopover) this.close() }, 100)
+            setTimeout(() => { if (this.canClosePopover) this.close() }, 200)
 
         })
 
@@ -79,7 +79,7 @@ export class StickyPopoverDirective extends NgbPopover {
 
     open() {
         super.open();
-        let popover = window.document.querySelector(".popover");
+        let popover = document.querySelector(".popover");
         (popover  as HTMLElement).classList.add("permissions")
         this._render.listen(popover, "mouseover", () => {
             this.canClosePopover = false;

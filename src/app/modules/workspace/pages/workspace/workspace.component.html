@@ -57,7 +57,7 @@
                             {{isEditMode ? "View" : "Edit"}}
                         </button> -->
 
-                        <div class="card-body p-3" [class.show]="!isDetailsPanelCollapsed"
+                        <div class="card-body p-3 pt-4" [class.show]="!isDetailsPanelCollapsed"
                             [class.hide]="isDetailsPanelCollapsed">
 
                             <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [dataset]="dataset"

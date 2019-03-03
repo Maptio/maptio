@@ -8,7 +8,7 @@ import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { Auth } from "../../../../core/authentication/auth.service";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
 import { UserFactory } from "../../../../core/http/user/user.factory";
-import { PermissionService } from "../../../../shared/model/permission.data";
+import { UserRoleService } from "../../../../shared/model/permission.data";
 import { AuthHttp } from "angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { Http, BaseRequestOptions } from "@angular/http";
@@ -38,7 +38,7 @@ describe("signup.component.ts", () => {
         }).overrideComponent(SignupComponent, {
             set: {
                 providers: [
-                    Auth, DatasetFactory, UserFactory,PermissionService,
+                    Auth, DatasetFactory, UserFactory,UserRoleService,
                     {
                         provide: AuthHttp,
                         useFactory: authHttpServiceFactoryTesting,

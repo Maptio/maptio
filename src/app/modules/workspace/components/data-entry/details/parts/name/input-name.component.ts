@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, Input , EventEmitter, ChangeDetectorRef, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { Permissions } from '../../../../../../../shared/model/permission.data';
 
 @Component({
     selector: 'initiative-input-name',
@@ -6,27 +7,37 @@ import { Component, OnInit, Output, Input , EventEmitter, ChangeDetectorRef, Vie
     // styleUrls: ['./input-name.component.css']
 })
 export class InitiativeInputNameComponent implements OnInit {
-    @Input("name") name:string;
-    @Input("isEditMode") isEditMode:boolean;
+    @Input("name") name: string;
+    @Input("isEditMode") isEditMode: boolean;
+    @Input("isUnauthorized") isUnauthorized: boolean;
 
-    @Output("save") save : EventEmitter<string> = new EventEmitter<string>();
- 
-    @ViewChild("inputName") inputName:ElementRef;
+    @Output("save") save: EventEmitter<string> = new EventEmitter<string>();
+    // @Output("unauthorized") unauthorized: EventEmitter<void> = new EventEmitter<void>();
 
-    constructor(private cd:ChangeDetectorRef) { }
+    @ViewChild("inputName") inputName: ElementRef;
 
+    // showUnauthorized : boolean;
 
+    constructor(private cd: ChangeDetectorRef) { }
 
     ngOnInit(): void { }
 
-    saveName(newName:string){
+    saveName(newName: string) {
         this.save.emit(newName);
         this.name = newName;
         this.cd.markForCheck();
     }
 
-    onClick(){
-        this.isEditMode = true;
-        this.inputName.nativeElement.focus();
+    onClick() {
+        // if (this.isUnauthorized) {
+        //     this.showUnauthorized = true;
+        //     // this.unauthorized.emit();
+        // }
+        // else {
+            this.isEditMode = true;
+        // }
+        this.cd.markForCheck();
+        // this.inputName.nativeElement.focus();
     }
+
 }

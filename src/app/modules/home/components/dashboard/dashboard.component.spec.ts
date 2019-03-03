@@ -8,7 +8,7 @@ import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
 import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { ExportService } from "../../../../shared/services/export/export.service";
 import { ActivatedRoute } from "@angular/router";
-import { PermissionService } from "../../../../shared/model/permission.data";
+import { UserRoleService } from "../../../../shared/model/permission.data";
 import { Auth } from "../../../../core/authentication/auth.service";
 import { AuthHttp } from "angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";

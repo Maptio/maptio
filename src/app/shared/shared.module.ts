@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ClosableDirective } from './directives/closable.directive';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { MapSettingsService } from '../modules/workspace/services/map-settings.service';
-import { PermissionService } from './model/permission.data';
+import { UserRoleService } from './model/permission.data';
 import { MapService } from './services/map/map.service';
 import { IntercomService } from './services/team/intercom.service';
 import { JwtEncoder } from './services/encoding/jwt.service';
@@ -47,7 +47,7 @@ export class SharedModule {
         return {
             ngModule: SharedModule,
             providers: [
-                PermissionService,
+                UserRoleService,
                 JwtEncoder,
                 ErrorService,
                 ExportService,

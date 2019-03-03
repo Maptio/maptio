@@ -1,4 +1,4 @@
-import { PermissionService, Permissions } from "../../shared/model/permission.data";
+import { UserRoleService, Permissions } from "../../shared/model/permission.data";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { environment } from "../../config/environment";
 import { LoaderService } from "../../shared/components/loading/loader.service";
@@ -40,7 +40,7 @@ export class Auth {
     private userFactory: UserFactory,
     private router: Router,
     private loader: LoaderService,
-    private permissionService: PermissionService,
+    private userRoleService: UserRoleService,
     private analytics: Angulartics2Mixpanel,
     private intercom: Intercom
   ) { }
@@ -178,7 +178,7 @@ export class Auth {
           return user;
         })
         .then((user: User) => {
-          this.permissions = this.permissionService.get(user.userRole);
+          this.permissions = this.userRoleService.get(user.userRole);
           return user;
         })
         .then((user: User) => {
