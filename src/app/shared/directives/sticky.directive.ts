@@ -22,7 +22,7 @@ export class StickyPopoverDirective extends NgbPopover {
 
     placement: "auto" | "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left-top" | "left-bottom" | "right-top" | "right-bottom" | ("auto" | "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left-top" | "left-bottom" | "right-top" | "right-bottom")[];
 
-    
+
 
     triggers: string;
 
@@ -47,17 +47,17 @@ export class StickyPopoverDirective extends NgbPopover {
 
     constructor(private _elRef: ElementRef, private _render: Renderer2, injector: Injector,
         componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef, config: NgbPopoverConfig,
-        ngZone: NgZone, @Inject(DOCUMENT) _document: any, cd:ChangeDetectorRef) {
-        super(_elRef, _render, injector, componentFactoryResolver, viewContainerRef, config, ngZone,_document, cd);
+        ngZone: NgZone, @Inject(DOCUMENT) _document: any, cd: ChangeDetectorRef) {
+        super(_elRef, _render, injector, componentFactoryResolver, viewContainerRef, config, ngZone, _document, cd);
         this.triggers = "manual"
         this.popoverTitle = "Permissions";
         this.container = "body";
-             
+
     }
     ngOnInit(): void {
         super.ngOnInit();
         this.ngbPopover = this.stickyPopover;
-            
+
         this._render.listen(this._elRef.nativeElement, "mouseenter", () => {
             this.canClosePopover = true;
             this.open()
@@ -78,17 +78,30 @@ export class StickyPopoverDirective extends NgbPopover {
     }
 
     open() {
-        super.open();
-        let popover = document.querySelector(".popover");
-        (popover  as HTMLElement).classList.add("permissions")
-        this._render.listen(popover, "mouseover", () => {
-            this.canClosePopover = false;
-        });
 
-        this._render.listen(popover, "mouseout", () => {
-            this.canClosePopover = true;
-            setTimeout(() => { if (this.canClosePopover) this.close() }, 0)
-        });
+        super.open();
+        setTimeout(() => {
+            const popover = window.document.querySelector('.popover');
+            this._render.listen(popover, 'mouseover', () => {
+                this.canClosePopover = false;
+            });
+
+            this._render.listen(popover, 'mouseout', () => {
+                this.canClosePopover = true;
+                setTimeout(() => { if (this.canClosePopover) { this.close(); } }, 0);
+            });
+        }, 0);
+        // super.open();
+        // let popover = document.querySelector(".popover");
+        // (popover  as HTMLElement).classList.add("permissions")
+        // this._render.listen(popover, "mouseover", () => {
+        //     this.canClosePopover = false;
+        // });
+
+        // this._render.listen(popover, "mouseout", () => {
+        //     this.canClosePopover = true;
+        //     setTimeout(() => { if (this.canClosePopover) this.close() }, 0)
+        // });
     }
 
     close() {
