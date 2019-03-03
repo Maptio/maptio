@@ -76,6 +76,7 @@ export class AppModule {
 
 if ((module as any).hot) {
     (module as any).hot.accept();
+    console.clear();
     console.log('[HMR] Accepting module hot update.');
     const applicationTagName = 'maptio-app';
     tryRemoveApplicationNode(applicationTagName);
