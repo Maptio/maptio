@@ -12,11 +12,9 @@ export class InitiativeInputNameComponent implements OnInit {
     @Input("isUnauthorized") isUnauthorized: boolean;
 
     @Output("save") save: EventEmitter<string> = new EventEmitter<string>();
-    // @Output("unauthorized") unauthorized: EventEmitter<void> = new EventEmitter<void>();
 
     @ViewChild("inputName") inputName: ElementRef;
 
-    // showUnauthorized : boolean;
 
     constructor(private cd: ChangeDetectorRef) { }
 
@@ -29,15 +27,8 @@ export class InitiativeInputNameComponent implements OnInit {
     }
 
     onClick() {
-        // if (this.isUnauthorized) {
-        //     this.showUnauthorized = true;
-        //     // this.unauthorized.emit();
-        // }
-        // else {
-            this.isEditMode = true;
-        // }
+        this.isEditMode = true;
         this.cd.markForCheck();
-        // this.inputName.nativeElement.focus();
     }
 
 }

@@ -9,17 +9,10 @@
 	</span>
 </ng-template>
 
-<div *ngIf="showUnauthorized" class="alert alert-warning alert-dismissible fade show" role="alert">
-	You don't have permission to edit this. {{unauthorizedTargets}}
-	<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
-	<button (click)="showUnauthorized=false" type="button" class="close" data-dismiss="alert" aria-label="Close">
-		<span aria-hidden="true">&times;</span>
-	</button>
-</div>
 
 <div class="d-flex flex-column h-100">
 	<div class="mb-4">
-		<initiative-input-name [isUnauthorized]="!canEditName()" (unauthorized)="onUnauthorized($event)"
+		<initiative-input-name [isUnauthorized]="!canEditName()" 
 			[name]="node?.name" (save)="saveName($event)">
 			<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
 		</initiative-input-name>
