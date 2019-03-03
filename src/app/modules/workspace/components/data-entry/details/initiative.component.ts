@@ -73,19 +73,9 @@ export class InitiativeComponent implements OnChanges {
         private cd: ChangeDetectorRef) {
     }
 
-    unauthorizedTargets: string[] ;
-
-
-    isFieldUnauthorized(field:string){
-        return this.unauthorizedTargets.includes(field);
-    }
-
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.node && changes.node.currentValue) {
-            // this.descriptionHideMe = changes.node.currentValue.description ? (changes.node.currentValue.description.trim() !== "") : false;
             this.isRestrictedAddHelper = false;
-            this.unauthorizedTargets = [];
-            console.log("ngOnChanges")
             if (changes.node.isFirstChange() || !(changes.node.previousValue) || changes.node.currentValue.team_id !== changes.node.previousValue.team_id) {
 
                 this.team$ = this.teamFactory.get(<string>changes.node.currentValue.team_id)
@@ -210,7 +200,6 @@ export class InitiativeComponent implements OnChanges {
     }
 
     saveHelpers() {
-        console.log("saveHelpers", this.node.helpers)
         this.onBlur();
     }
 

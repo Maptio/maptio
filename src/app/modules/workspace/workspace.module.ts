@@ -47,6 +47,7 @@ import { CommonAutocompleteComponent } from '../../shared/components/autocomplet
 import { InitiativeHelpersSelectComponent } from './components/data-entry/details/parts/helpers/helpers-select.component';
 import { InitiativeHelperInputComponent } from './components/data-entry/details/parts/helpers/helper-input.component';
 import { CommonTextareaComponent } from '../../shared/components/textarea/textarea.component';
+import { InitiativeHelperPrivilegeComponent } from './components/data-entry/details/parts/helpers/helper-toggle-privilege.component';
 
 
 
@@ -81,6 +82,7 @@ import { CommonTextareaComponent } from '../../shared/components/textarea/textar
         InitiativeDescriptionTextareaComponent,
         InitiativeHelpersSelectComponent,
         InitiativeHelperInputComponent,
+        InitiativeHelperPrivilegeComponent,
         MappingComponent, MappingZoomableComponent, MappingTreeComponent, MappingNetworkComponent,
         MappingSummaryComponent, PersonalSummaryComponent, PersonalCardComponent,
 
