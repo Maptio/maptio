@@ -137,6 +137,14 @@ export class InitiativeComponent implements OnChanges {
         return this.permissionsService.canAddHelper(this.node);
     }
 
+    canEditHelper(helper:Helper){
+        return this.permissionsService.canEditHelper(this.node, helper);
+    }
+    
+    canEditPrivilege(){
+        return this.permissionsService.canGiveHelperPrivilege(this.node);
+    }
+
     saveName(newName: string) {
         this.node.name = newName;
         this.analytics.eventTrack("Initiative", { action: "change name", team: this.teamName, teamId: this.teamId });

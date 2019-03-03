@@ -1,32 +1,28 @@
-<div class="d-flex align-items-center w-100">
+<ng-template #editTipContent>
+    <ng-content></ng-content>
+</ng-template>
 
+<div class="d-flex align-items-center w-100">
     <div class="d-flex align-items-center w-100">
-        <img src="{{helper.picture}}"  class="participant-picture rounded-circle mr-1">
+        <img src="{{helper.picture}}" class="participant-picture rounded-circle mr-1">
         <a routerLink="summaryUrl">{{helper.name}}</a>
         <span class="text-muted mx-1" *ngIf="isAuthority">({{team?.settings.authority | titlecase }})</span>
     </div>
 
-    <div class="custom-control custom-switch col-auto h-100" placement="top" container="body"
-    ngbTooltip="Allow this contributor to edit the details of this circle">
-        <input type="checkbox" class="custom-control-input" id="customCheck-{{helper.shortid}}"
-            (ngModelChange)="onChangePrivilege(helper,$event)" [ngModel]="helper.hasAuthorityPrivileges"
-            [ngModelOptions]="{standalone: true}">
-        <label class="custom-control-label" for="customCheck-{{helper.shortid}}">
-            Can edit circle
-        </label>
-    </div>
 
-    <button class="btn btn-outline-secondary remove" mwlConfirmationPopover
+
+    <button *ngIf="!isUnauthorized" class="btn btn-outline-secondary remove" mwlConfirmationPopover
         [popoverMessage]="'Remove this helper and associated role?'" placement="top" container="body"
         focusbutton="cancel" appendToBody="false" (confirm)="onRemove()" (cancel)="cancelClicked=true"></button>
 
 
 
 </div>
-
-<div class="mt-2">
-    <common-textarea rows="3" label="Role" [placeholder]="placeholder" [text]="helper.roles ? helper.roles[0]?.description : ''"
-        (save)="onChangeRole($event)"></common-textarea>
+<div class="mt-2" *ngIf="!(isUnauthorized && isEmptyRole)">
+    <common-textarea rows="3" label="Role" [isUnauthorized]="isUnauthorized" [placeholder]="placeholder"
+        [text]="helper.roles ? helper.roles[0]?.description : ''" (save)="onChangeRole($event)">
+        <ng-content></ng-content>
+    </common-textarea>
 </div>
 
 

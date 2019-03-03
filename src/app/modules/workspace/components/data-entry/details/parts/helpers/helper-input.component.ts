@@ -13,6 +13,7 @@ export class InitiativeHelperInputComponent implements OnInit {
     @Input("team") team: Team;
     @Input("summaryUrl") summaryUrl: string;
     @Input("isAuthority") isAuthority: boolean;
+    @Input("isUnauthorized") isUnauthorized:boolean;
 
     @Output("remove") remove: EventEmitter<Helper> = new EventEmitter<Helper>();
     @Output("save") save :EventEmitter<void> = new EventEmitter<void>();
@@ -21,6 +22,7 @@ export class InitiativeHelperInputComponent implements OnInit {
     cancelClicked:boolean;
     hasRole:boolean;
     isEditRoleToggled:boolean;
+    isEmptyRole:boolean;
 
     constructor(private cd: ChangeDetectorRef) { }
 
@@ -33,6 +35,8 @@ export class InitiativeHelperInputComponent implements OnInit {
             && (changes.helper.currentValue as Helper).roles[0] 
             && !!(changes.helper.currentValue as Helper).roles[0].description;
             this.isEditRoleToggled = this.hasRole;
+            if(this.isAuthority) this.helper.hasAuthorityPrivileges = true;
+            this.isEmptyRole = !(this.helper.roles && this.helper.roles[0] && this.helper.roles[0].description.length >0); 
         }
     }
 
