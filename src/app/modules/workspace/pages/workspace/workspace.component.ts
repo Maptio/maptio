@@ -200,6 +200,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         console.log("openDetailsPanel")
         this.isDetailsPanelCollapsed = false;
         this.resizeMap();
+        this.cd.markForCheck();
 
     }
 
@@ -207,18 +208,21 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         console.log("closeDetailsPanel")
         this.isDetailsPanelCollapsed = true;
         this.resizeMap();
+        this.cd.markForCheck();
     }
 
     closeBuildingPanel() {
         console.log("closeBuildingPanel")
         this.isBuildingPanelCollapsed = true;
         this.resizeMap();
+        this.cd.markForCheck();
     }
 
     openBuildingPanel() {
         console.log("openBuildingPanel")
         this.isBuildingPanelCollapsed = false;
         this.resizeMap();
+        this.cd.markForCheck();
     }
 
     toggleEditingPanelsVisibility(isVisible: boolean) {
