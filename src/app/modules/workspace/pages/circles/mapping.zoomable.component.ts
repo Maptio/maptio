@@ -159,7 +159,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.slug = data.getSlug();
         this.loaderService.show();
         this.update(data, complexData[1], this.counter === 0)
-      
+
 
         this.counter += 1;
         this.loaderService.hide();
@@ -270,6 +270,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       const initX: number = this.translateX || diameter / 2;
       const initY: number = this.translateY || diameter / 2;
       const initK: number = this.scale || 1;
+
       innerSvg.call(
         this.zooming.transform,
         d3.zoomIdentity
@@ -355,6 +356,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       if (!this.outerFontScale || !this.innerFontScale) return;
     }
 
+    const focus = this.getLastZoomedCircle();
     const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
     const scaleExtent: Array<number> = this.zooming.scaleExtent() ? this.zooming.scaleExtent() : [0.5, 5];
     this.outerFontScale.domain(scaleExtent);
@@ -376,7 +378,20 @@ export class MappingZoomableComponent implements IDataVisualizer {
           .style("opacity", 0.7)
           .on("end", function (): void {
             select(this)
-              .style("font-size", `${myInnerFontScale(zoomFactor)}px`)
+              .style("font-size", () => {
+                if (focus && focus.parent 
+                    && ( d.parent && focus.parent.data.id === d.parent.data.id
+                    || focus.data.id === d.parent.data.id)
+                    
+                    ) {
+                  return `${Math.max(d.r/10, 1)}px`
+                } else {
+                  return `${myInnerFontScale(zoomFactor) }px`
+                }
+
+                // `${focus.data.id === d.data.id ? 1 : myInnerFontScale(zoomFactor) * 0.66}px`
+
+              })
               .style("line-height", 1.3)
               .transition()
               .style("opacity", 1);
@@ -388,23 +403,27 @@ export class MappingZoomableComponent implements IDataVisualizer {
       // .style("opacity", 0)
       .on("end", function (d: any): void {
         select(this)
-          .style("font-size", `${outerFontSize * 1}px`)
+          .style("font-size", `${outerFontSize * 0.75}px`)
           .transition()
         // .style("opacity", 1);
       });
 
     const DEFAULT_PICTURE_ANGLE: number = this.DEFAULT_PICTURE_ANGLE;
     const CIRCLE_RADIUS: number = this.CIRCLE_RADIUS;
+    const ANGLE = Math.PI - Math.PI * 36 / 180;
     const accountableZoomFactor = zoomFactor > 1.7 ? 1.7 : zoomFactor;
+    const getAccountableRadius = (d: any) => d.children ? outerFontSize * 0.75 : myInnerFontScale(zoomFactor) * 1.5;
 
     definitions.selectAll("pattern > image")
       .transition()
       .on("end", function (d: any): void {
         select(this)
           .transition()
-          .attr("width", CIRCLE_RADIUS * 2 / accountableZoomFactor)
-          .attr("height", CIRCLE_RADIUS * 2 / accountableZoomFactor)
+          .attr("width", getAccountableRadius(d) * 2)
+          .attr("height", getAccountableRadius(d) * 2)
       })
+
+    console.log("accountableZoomFactor", accountableZoomFactor)
 
 
     g.selectAll("circle.accountable")
@@ -414,16 +433,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
         select(this)
           .style("opacity", 0.5)
           .attr("r", (d: any): number => {
-            return CIRCLE_RADIUS / accountableZoomFactor;
+            return getAccountableRadius(d)  // CIRCLE_RADIUS / accountableZoomFactor;
           })
           .attr("cx", (d: any): number => {
             return d.children
-              ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * accountableZoomFactor) - 12
+              ? Math.cos(ANGLE) * ((d.r+1) * accountableZoomFactor) -6
               : 0;
           })
           .attr("cy", function (d: any): number {
             return d.children
-              ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * accountableZoomFactor) + 12
+              ? -Math.sin(ANGLE) * ((d.r+1) * accountableZoomFactor) +6
               : -d.r * accountableZoomFactor * 0.9;
           })
           .attr("transform", `scale(${1 / accountableZoomFactor})`)
@@ -522,7 +541,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.zooming.scaleExtent([0.5, getViewScaleForRadius(minRadius)]);
 
     function getViewScaleForRadius(radius: number): number {
-      return (height) / (radius * 2 + 50);
+      return (height) / (radius * 2 + 25);
     }
 
     function toREM(pixels: number) {
@@ -615,7 +634,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("pointer-events", "none")
       .html((d: any): string => {
         let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
-        return `<div style="font-size: ${fs}; padding-top: 5%; background: none; display: block; pointer-events: none; overflow: hidden; height:100%; line-height: 100%;">${d.data.name || '(Empty)'}</div>`;
+        return `<div style="font-size: ${fs}; padding-top: 5%; background: none; display: block; pointer-events: none; overflow: hidden; height:100%; line-height: 100%; text-overflow:ellipsis;">${d.data.name || '(Empty)'}</div>`;
       })
 
 
@@ -664,7 +683,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     return Promise.resolve(nodes);
 
-    function getClickedElementCoordinates(clickedElement: any, newScale: number, translateX:number, translateY:number): Array<number> {
+    function getClickedElementCoordinates(clickedElement: any, newScale: number, translateX: number, translateY: number): Array<number> {
       let clickedX = 0;
       let clickedY = 0;
       if (
@@ -677,7 +696,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         clickedX -= margin;
         clickedY -= margin;
       }
-      else{
+      else {
         // in case we are zooming prgramatically and the svg doesnt have the reference to transform
 
         clickedX = translateX * newScale;
@@ -719,9 +738,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .call(passingThrough, "contextmenu");
 
 
-      definitions.selectAll("pattern > image")
-        .attr("width", CIRCLE_RADIUS * 2)
-        .attr("height", CIRCLE_RADIUS * 2)
+      // definitions.selectAll("pattern > image")
+      //   .attr("width", function(d:any){return d.r * 2} )
+      //   .attr("height", function(d:any){return d.r * 2} )
+      // .attr("height", CIRCLE_RADIUS * 2)
 
 
       circle
@@ -820,19 +840,19 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .call(passingThrough, "mouseover")
         .call(passingThrough, "mouseout")
         .call(passingThrough, "contextmenu")
-        .attr("r", function (d: any) {
-          return d.r > CIRCLE_RADIUS ? `${CIRCLE_RADIUS}px` : `${d.r * 0.3}px`;
-        })
-        .attr("cx", function (d: any) {
-          return d.children
-            ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r) - 12
-            : 0;
-        })
-        .attr("cy", function (d: any) {
-          return d.children
-            ? -Math.sin(DEFAULT_PICTURE_ANGLE) * d.r + 12
-            : -d.r * 0.9;
-        })
+      // .attr("r", function (d: any) {
+      //   return d.r > CIRCLE_RADIUS ? `${CIRCLE_RADIUS}px` : `${d.r * 0.3}px`;
+      // })
+      // .attr("cx", function (d: any) {
+      //   return d.children
+      //     ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r) - 12
+      //     : 0;
+      // })
+      // .attr("cy", function (d: any) {
+      //   return d.children
+      //     ? -Math.sin(DEFAULT_PICTURE_ANGLE) * d.r + 12
+      //     : -d.r * 0.9;
+      // })
     }
 
     function addCircle(groups: any): void {

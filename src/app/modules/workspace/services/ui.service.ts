@@ -157,8 +157,7 @@ export class UIService {
   }
 
   getCenteredMargin(isReset?: boolean): string {
-
-    console.log("getCenteredMargin")
+    // console.log("getCenteredMargin")
     let outerSvg = document.querySelector("svg#map");
     let innerSvg = document.querySelector("svg#map > svg");
     let width = this.getCanvasWidth();
