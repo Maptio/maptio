@@ -63,7 +63,6 @@ export class InitiativeAuthoritySelectComponent implements OnInit {
      * See : https://stackoverflow.com/a/54169646/7092722
      */
     filterMembers = (term: string) => {
-        console.log("filterMembers", term)
         return term.length < 1
             ? this.authority ? this.team.members.filter(m => m.user_id !== this.authority.user_id) : this.team.members
             : (this.authority ? this.team.members.filter(m => m.user_id !== this.authority.user_id) : this.team.members)

@@ -50,7 +50,6 @@ export class TeamComponent implements OnInit {
     }
 
     onActivate(component: any) {
-        console.log(component);
 
         switch (component.constructor) {
             case TeamMembersComponent:

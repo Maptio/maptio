@@ -41,8 +41,6 @@ export class InitiativeHelpersSelectComponent implements OnInit {
 
     isCurrentUserAlredyAdded() {
         if (this.helpers && this.user) {
-            console.log(this.helpers, this.authority, this.helpers.concat([this.authority]).filter(h => !!h))
-            // return true;
             return this.helpers.concat([this.authority]).filter(h => !!h).findIndex(h => h.user_id === this.user.user_id) > -1;
         }
         this.cd.markForCheck();

@@ -192,8 +192,7 @@ export class InitiativeComponent implements OnChanges {
 
     removeHelper(helper: Helper) {
         let index = this.node.helpers.findIndex(user => user.user_id === helper.user_id);
-        console.log("removeHelper", helper, index)
-        this.node.helpers.splice(index, 1);
+    this.node.helpers.splice(index, 1);
         this.onBlur();
         this.analytics.eventTrack("Initiative", { action: "remove helper", team: this.teamName, teamId: this.teamId });
         this.cd.markForCheck();
@@ -207,12 +206,6 @@ export class InitiativeComponent implements OnChanges {
     getSummaryUrl(user: User) {
         return `/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}/summary?member=${user.shortid}`
     }
-
-    saveHelper() {
-        console.log(this.node.helpers);
-    }
-
-
 
     openTagsPanel() {
         this.editTags.emit();

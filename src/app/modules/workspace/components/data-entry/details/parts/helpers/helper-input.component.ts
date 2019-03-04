@@ -51,7 +51,6 @@ export class InitiativeHelperInputComponent implements OnInit {
     }
 
     onChangeRole(description: string) {
-        // console.log(this.helper.name, description)
         if (this.helper.roles[0]) {
             this.helper.roles[0].description = description;
         }
