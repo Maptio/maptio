@@ -544,7 +544,7 @@ animation: pulse 3s infinite linear;
 }
 
 .nav-tabs {
-  border-bottom: 1px solid var(--maptio-accent) !important;
+  border-bottom: 2px solid var(--maptio-accent) !important;
 }
 
 .nav-tabs .nav-link {
