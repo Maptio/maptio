@@ -375,7 +375,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         myInnerFontScale.range([d.r * Math.PI / MAX_NUMBER_LETTERS_PER_CIRCLE, 3]);
         select(this).select("foreignObject div")
           .transition()
-          .style("opacity", 0.7)
+          // .style("opacity", 0.7)
           // .style("font-weight", (d:any)=>{return focus.data.id === d.data.id ? "bold" : "initial"})
           // .style("color", (d:any)=>{return focus.data.id === d.data.id ? color(d.depth) : "initial"})
           .on("end", function (): void {
@@ -396,7 +396,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
               })
               .style("line-height", 1.3)
               .transition()
-              .style("opacity", 1);
+              // .style("opacity", 1);
           });
       });
 
