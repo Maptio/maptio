@@ -376,17 +376,19 @@ export class MappingZoomableComponent implements IDataVisualizer {
         select(this).select("foreignObject div")
           .transition()
           .style("opacity", 0.7)
+          // .style("font-weight", (d:any)=>{return focus.data.id === d.data.id ? "bold" : "initial"})
+          // .style("color", (d:any)=>{return focus.data.id === d.data.id ? color(d.depth) : "initial"})
           .on("end", function (): void {
             select(this)
               .style("font-size", () => {
-                if (focus && focus.parent 
-                    && ( d.parent && focus.parent.data.id === d.parent.data.id
+                if (focus && focus.parent
+                  && (d.parent && focus.parent.data.id === d.parent.data.id
                     || focus.data.id === d.parent.data.id)
-                    
-                    ) {
-                  return `${Math.max(d.r/10, 1)}px`
+
+                ) {
+                  return `${Math.max(d.r / 10, 1)}px`
                 } else {
-                  return `${myInnerFontScale(zoomFactor) }px`
+                  return `${myInnerFontScale(zoomFactor)}px`
                 }
 
                 // `${focus.data.id === d.data.id ? 1 : myInnerFontScale(zoomFactor) * 0.66}px`
@@ -404,6 +406,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .on("end", function (d: any): void {
         select(this)
           .style("font-size", `${outerFontSize * 0.75}px`)
+          // .style("font-weight", (d:any)=>{return focus.data.id === d.data.id ? "bold" : "initial"})
+          // .style("fill", (d:any)=>{return focus.data.id === d.data.id ? "var(--maptio-accent)" : "initial"})
           .transition()
         // .style("opacity", 1);
       });
@@ -437,12 +441,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
           })
           .attr("cx", (d: any): number => {
             return d.children
-              ? Math.cos(ANGLE) * ((d.r+1) * accountableZoomFactor) -6
+              ? Math.cos(ANGLE) * ((d.r + 1) * accountableZoomFactor) - 6
               : 0;
           })
           .attr("cy", function (d: any): number {
             return d.children
-              ? -Math.sin(ANGLE) * ((d.r+1) * accountableZoomFactor) +6
+              ? -Math.sin(ANGLE) * ((d.r + 1) * accountableZoomFactor) + 6
               : -d.r * accountableZoomFactor * 0.9;
           })
           .attr("transform", `scale(${1 / accountableZoomFactor})`)
@@ -595,14 +599,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
     addCircle(initiativeWithChildren)
     addCircle(initiativeNoChildren)
 
-    let circle = g.selectAll("circle.node")
+    let circle = g.selectAll("circle.node");
 
     let textAround = initiativeWithChildren.select("text.name.with-children")
       .attr("id", function (d: any) {
         return `${d.data.id}`;
       })
-      // .style("font-size", "1rem")
-      .style("display", function (d: any) {
+     .style("display", function (d: any) {
         return d !== root ? "inline" : "none";
       })
       .html(function (d: any) {
@@ -713,6 +716,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       const newScale: number = focus === root || focus.parent === root ? 1 : getViewScaleForRadius(focus.r);
       const coordinates: Array<number> = getClickedElementCoordinates(clickedElement, newScale, focus.translateX, focus.translateY);
 
+
       svg.transition().duration(TRANSITION_DURATION).call(
         zooming.transform,
         d3.zoomIdentity.translate(
@@ -774,7 +778,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           d3.select(this)
             .style("stroke", d3.color(seedColor).darker(1).toString())
             .style("stroke-opacity", 1)
-            .style("stroke-width", `${Math.max(4 / d.zf, 2)}px`);
+            .style("stroke-width", `${Math.max(4 / d.zf, 1)}px`);
 
         })
         .on("mouseout", function (d: any) {
