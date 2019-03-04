@@ -25,7 +25,7 @@
 	</div>
 	<div class="mb-4">
 		<initiative-authority-select [isUnauthorized]="!canEditAuthority()" [isEditMode]="isEditMode" [team]="team"
-			[authority]="node?.accountable" (save)="saveAccountable($event)">
+			[authority]="node?.accountable" [summaryUrlRoot]="getSummaryUrlRoot()" (save)="saveAccountable($event)">
 			<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
 		</initiative-authority-select>
 

@@ -17,6 +17,7 @@ export class InitiativeAuthoritySelectComponent implements OnInit {
     @Input("team") team: Team;
     @Input("authority") authority: Helper;
     @Input("isEditMode") isEditMode: boolean;
+    @Input("summaryUrlRoot") summaryUrlRoot: string;
     @Input("isUnauthorized") isUnauthorized:boolean;
     @Output("save") save: EventEmitter<Helper> = new EventEmitter<Helper>();
 
@@ -40,18 +41,6 @@ export class InitiativeAuthoritySelectComponent implements OnInit {
         this.save.emit(this.authority);
 
     }
-
-    // onBlur() {
-    //     this.isEditMode = false;
-    //     this.cd.markForCheck();
-    // }
-
-    // onFocus(){
-    //     document.querySelector("#inputAutocomplete").dispatchEvent(new Event("click"));
-    //     document.querySelector("#inputAutocomplete").dispatchEvent(new FocusEvent("focus"));
-    //     this.isEditMode = true;
-    //     this.cd.markForCheck();
-    // }
 
     onRemove() {
         this.authority = null;

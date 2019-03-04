@@ -20,10 +20,10 @@
             <common-autocomplete #autocomplete [placeholder]="placeholder"
                 [removeConfirmationMessage]="'Remove this authority and associated role?'" [resultTemplate]="rt"
                 [showSelectedResult]="true" [resultFormatter]="formatter" [isUnauthorized]="isUnauthorized" [item]="authority" [filter]="filterMembers" (pick)="onSelect($event)">
-                <span *ngIf="authority">
+                <a *ngIf="authority" [routerLink]="summaryUrlRoot" [queryParams]="{member: authority?.shortid}">
                     <img src="{{authority?.picture}}"  class="rounded-circle participant-picture" />
                     {{authority?.name}}
-                </span>
+                </a>
                 <span *ngIf="!authority">
                     No {{team?.settings.authority}}
                 </span>
