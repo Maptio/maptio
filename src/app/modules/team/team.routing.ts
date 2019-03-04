@@ -34,8 +34,8 @@ const routes: Routes = [
                 data: { breadcrumbs: "{{assets.team.name}}" },
                 canActivate: [AuthGuard, AccessGuard],
                 children: [
-                    { path: "", redirectTo: "members", pathMatch: "full" },
-                    { path: "members", component: TeamMembersComponent, data: { breadcrumbs: true, text: "Members" } },
+                    { path: "", redirectTo: "people", pathMatch: "full" },
+                    { path: "people", component: TeamMembersComponent, data: { breadcrumbs: true, text: "Members" } },
                     {
                         path: "import",
                         component: TeamImportComponent,

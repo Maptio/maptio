@@ -4,6 +4,7 @@ import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot } from "@angular/router";
 import { CanActivate, CanActivateChild, RouterStateSnapshot, Router } from "@angular/router";
 import { Auth } from "../authentication/auth.service";
+import { of } from 'rxjs';
 
 @Injectable()
 export class PermissionGuard implements CanActivate, CanActivateChild {
@@ -20,7 +21,7 @@ export class PermissionGuard implements CanActivate, CanActivateChild {
             }
         });
 
-        return Observable.of(true);
+        return of(true);
     }
 
     canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
