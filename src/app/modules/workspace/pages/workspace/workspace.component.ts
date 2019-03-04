@@ -133,16 +133,16 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isEmptyMap = !change.initiative.children || change.initiative.children.length === 0;
         this.isSaving = true;
         this.cd.markForCheck();
-
+        
         this.dataset.initiative = change.initiative;
         this.dataset.tags = change.tags;
         this.tags = change.tags
-
+        
         let depth = 0
         change.initiative.traverse((n) => { depth++ });
-
+        
         this.datasetFactory.upsert(this.dataset, this.datasetId)
-            .then((hasSaved: boolean) => {
+        .then((hasSaved: boolean) => {
                 this.dataService.set({ initiative: change.initiative, dataset: this.dataset, team: this.team, members: this.members });
                 return hasSaved;
             }, (reason) => { console.error(reason) })
@@ -169,18 +169,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.cd.markForCheck();
     }
 
-    onOpenDetailsToView(node: Initiative) {
+    onOpenDetails(node: Initiative) {
         this.openedNode = node;
-        this.openDetailsPanel();
-        this.isEditMode = false;
-        this.cd.markForCheck();
-    }
-
-
-    onOpenDetailsToEdit(node: Initiative) {
-        this.openedNode = node;
-        this.openDetailsPanel();
-        this.isEditMode = true;
+        if(this.isDetailsPanelCollapsed) this.openDetailsPanel();
         this.cd.markForCheck();
     }
 

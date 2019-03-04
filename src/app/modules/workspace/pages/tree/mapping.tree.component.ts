@@ -205,14 +205,14 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           .filter(t => t.isSelected)
           .map(t => t.shortid)
           .join(",");
-        location.hash = this.uriService.buildFragment(
-          new Map([
-            ["x", transform.x],
-            ["y", transform.y],
-            ["scale", transform.k],
-            ["tags", tagFragment]
-          ])
-        );
+        // location.hash = this.uriService.buildFragment(
+        //   new Map([
+        //     ["x", transform.x],
+        //     ["y", transform.y],
+        //     ["scale", transform.k],
+        //     ["tags", tagFragment]
+        //   ])
+        // );
       });
 
     let svg: any = d3
@@ -424,7 +424,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     }
 
     function expand(d: any) {
-      console.log(d, d._children)
       if (d._children) {
         d.children = d._children;
         d._children = null;

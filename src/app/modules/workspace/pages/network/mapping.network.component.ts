@@ -227,14 +227,14 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           .filter(t => t.isSelected)
           .map(t => t.shortid)
           .join(",");
-        location.hash = this.uriService.buildFragment(
-          new Map([
-            ["x", transform.x],
-            ["y", transform.y],
-            ["scale", transform.k],
-            ["tags", tagFragment]
-          ])
-        );
+        // location.hash = this.uriService.buildFragment(
+        //   new Map([
+        //     ["x", transform.x],
+        //     ["y", transform.y],
+        //     ["scale", transform.k],
+        //     ["tags", tagFragment]
+        //   ])
+        // );
       });
 
     function zoomed() {

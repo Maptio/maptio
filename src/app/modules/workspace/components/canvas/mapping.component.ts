@@ -106,8 +106,7 @@ export class MappingComponent {
   @Input("tags") selectableTags: Array<SelectableTag>;
   @Input("isEmptyMap") isEmptyMap: Boolean;
 
-  @Output("viewDetails") viewDetails = new EventEmitter<Initiative>();
-  @Output("editDetails") editDetails = new EventEmitter<Initiative>();
+  @Output("openDetails") openDetails = new EventEmitter<Initiative>();
 
   @Output("addInitiative") addInitiative = new EventEmitter<{ node: Initiative, subNode: Initiative }>();
   @Output("removeInitiative") removeInitiative = new EventEmitter<Initiative>();
@@ -175,11 +174,11 @@ export class MappingComponent {
     this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
 
     component.showToolipOf$.asObservable().subscribe((tooltip: { initiatives: Initiative[], isNameOnly: boolean }) => {
-      if(tooltip.initiatives) this.viewDetails.emit(tooltip.initiatives[0]);
+      if(tooltip.initiatives) this.openDetails.emit(tooltip.initiatives[0]);
     })
 
     component.showDetailsOf$.asObservable().subscribe(node => {
-      this.editDetails.emit(node)
+      this.openDetails.emit(node)
     })
 
     component.showContextMenuOf$.asObservable().subscribe(node => {
@@ -437,7 +436,7 @@ export class MappingComponent {
   }
 
   emitOpenInitiative(node: Initiative) {
-    this.editDetails.emit(node)
+    this.openDetails.emit(node)
   }
 
   emitRemoveInitiative(node: Initiative) {

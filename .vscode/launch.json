@@ -14,25 +14,18 @@
             "internalConsoleOptions": "neverOpen"
         },
         {
-            "name": "Attach",
-            "type": "node",
+            "name": "Launch Chrome",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:3000/#",
+            "webRoot": "${workspaceFolder}"
+          },
+          {
+            "name": "Attach Chrome",
+            "type": "chrome",
             "request": "attach",
-            "port": 5858,
-            "address": "localhost",
-            "restart": false,
-            "sourceMaps": false,
-            "outDir": null,
-            "localRoot": "${workspaceRoot}",
-            "remoteRoot": null
-        },
-        {
-            "name": "Attach to Process",
-            "type": "node",
-            "request": "attach",
-            "processId": "${command.PickProcess}",
-            "port": 5858,
-            "sourceMaps": false,
-            "outDir": null
-        }
+            "url": "http://localhost:3000/#",
+            "webRoot": "${workspaceFolder}"
+          }
     ]
 }

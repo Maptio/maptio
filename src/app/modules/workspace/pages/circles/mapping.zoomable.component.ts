@@ -133,8 +133,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     public colorService: ColorService,
     public uiService: UIService,
     public router: Router,
-    private route: ActivatedRoute,
-    private userFactory: UserFactory,
     private cd: ChangeDetectorRef,
     private dataService: DataService,
     private uriService: URIService,
@@ -252,14 +250,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
           .map(t => t.shortid)
           .join(",");
         this.loaderService.hide();
-        location.hash = this.uriService.buildFragment(
-          new Map([
-            ["x", transform.x],
-            ["y", transform.y],
-            ["scale", transform.k],
-            ["tags", tagFragment]
-          ])
-        );
+        // location.hash = this.uriService.buildFragment(
+        //   new Map([
+        //     ["x", transform.x],
+        //     ["y", transform.y],
+        //     ["scale", transform.k],
+        //     ["tags", tagFragment]
+        //   ])
+        // );
         this.translateX = transform.x;
         this.translateY = transform.y;
         this.scale = transform.k;
