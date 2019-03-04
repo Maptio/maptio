@@ -178,7 +178,7 @@ export class MappingComponent {
     })
 
     component.showDetailsOf$.asObservable().subscribe(node => {
-      this.openDetails.emit(node)
+      this.openDetails.emit(node);
     })
 
     component.showContextMenuOf$.asObservable().subscribe(node => {

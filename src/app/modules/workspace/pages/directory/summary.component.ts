@@ -24,7 +24,7 @@ import { UserService } from "../../../../shared/services/user/user.service";
     selector: "summary",
     templateUrl: "./summary.component.html",
     styleUrls: ["./summary.component.css"],
-    host : {"class": "w-100"},
+    host: { "class": "w-100" },
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -41,7 +41,7 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     public fontColor$: Observable<string>;
     public mapColor$: Observable<string>;
 
-    public zoomInitiative$: Observable<Initiative>;
+    public zoomInitiative$: Subject<Initiative>;
     public selectableTags$: Observable<Array<SelectableTag>>;
     public isReset$: Observable<boolean>;
 
@@ -151,9 +151,10 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     }
 
     onSelectInitiative(initiative: Initiative) {
-        this.router.navigateByUrl(`/map/${this.dataset.datasetId}/${this.initiative.getSlug()}/circles?id=${initiative.id}`)     
+        localStorage.setItem("node_id", initiative.id.toString());
+                
+        this.router.navigateByUrl(`/map/${this.dataset.datasetId}/${this.initiative.getSlug()}/circles`)
             .then(() => {
-                this.showDetailsOf$.next(initiative);
             })
     }
 

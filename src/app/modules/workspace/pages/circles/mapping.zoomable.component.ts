@@ -158,7 +158,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         this.slug = data.getSlug();
         this.loaderService.show();
-        this.update(data, complexData[1], this.counter === 0);
+        this.update(data, complexData[1], this.counter === 0)
+      
 
         this.counter += 1;
         this.loaderService.hide();
@@ -445,7 +446,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this._lastZoomedCircle = circle;
   }
 
-  update(data: Initiative, seedColor: string, isFirstLoad: boolean): HierarchyCircularNode<{}>[] {
+  update(data: Initiative, seedColor: string, isFirstLoad: boolean): Promise<HierarchyCircularNode<{}>[]> {
     if (d3.selectAll("g").empty()) {
       this.init();
     }
@@ -654,17 +655,32 @@ export class MappingZoomableComponent implements IDataVisualizer {
       svg.call(this.zooming);
     } catch (error) { console.error(error); }
 
-    return nodes;
+    if (localStorage.getItem("node_id")) {
+      let id = localStorage.getItem("node_id");
+      this.svg.attr("x", this.uiService.getCenteredMargin());
+      this.svg.select(`circle.node.initiative-map[id="${id}"]`).dispatch("click");
+    }
 
-    function getClickedElementCoordinates(clickedElement: any, newScale: number): Array<number> {
+    return Promise.resolve(nodes);
+
+    function getClickedElementCoordinates(clickedElement: any, newScale: number, translateX:number, translateY:number): Array<number> {
       let clickedX = 0;
       let clickedY = 0;
       if (
         clickedElement
         && clickedElement.transform
-        && (clickedElement.transform.baseVal.length > 0 || clickedElement.transform.baseVal.numberOfItems > 0)) {
+        && (clickedElement.transform.baseVal.length > 0 || clickedElement.transform.baseVal.numberOfItems > 0)
+      ) {
         clickedX = clickedElement.transform.baseVal.getItem(0).matrix.e * newScale;
         clickedY = clickedElement.transform.baseVal.getItem(0).matrix.f * newScale;
+        clickedX -= margin;
+        clickedY -= margin;
+      }
+      else{
+        // in case we are zooming prgramatically and the svg doesnt have the reference to transform
+
+        clickedX = translateX * newScale;
+        clickedY = translateY * newScale;
         clickedX -= margin;
         clickedY -= margin;
       }
@@ -675,7 +691,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
       setLastZoomedCircle(focus);
 
       const newScale: number = focus === root || focus.parent === root ? 1 : getViewScaleForRadius(focus.r);
-      const coordinates: Array<number> = getClickedElementCoordinates(clickedElement, newScale);
+      const coordinates: Array<number> = getClickedElementCoordinates(clickedElement, newScale, focus.translateX, focus.translateY);
+
       svg.transition().duration(TRANSITION_DURATION).call(
         zooming.transform,
         d3.zoomIdentity.translate(
@@ -688,11 +705,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     function initMapElementsAtPosition(v: any) {
       view = v;
-
       node
         .transition()
         .duration((d: any): number => d.children ? TRANSITION_DURATION / 5 : TRANSITION_DURATION / 5)
-        .attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`);
+        .attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`)
+        .each((d: any) => (d.translateX = d.x - v[0]))
+        .each((d: any) => (d.translateY = d.y - v[1]))
 
       textAround
         .call(passingThrough, "mouseover")
@@ -829,23 +847,18 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .classed("with-border", (d: any): boolean => !d.children && d.parent === root)
         .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
           showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
-  
+
           if (getLastZoomedCircle().data.id === d.data.id) {
             setLastZoomedCircle(root);
             zoom(root);
-          
+
           } else {
             setLastZoomedCircle(d);
+
             zoom(d, this.parentElement);
           }
-          // window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
 
           d3.getEvent().stopPropagation();
-          // }
-
-
-          // remove the location.search without reload
-
         })
     }
 
