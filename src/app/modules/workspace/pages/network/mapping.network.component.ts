@@ -792,7 +792,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         hideOptions$.next(false);
 
         router.navigateByUrl(
-          `/map/${datasetId}/${slug}/summary?member=${d.shortid}`
+          `/map/${datasetId}/${slug}/directory?member=${d.shortid}`
         );
       })
       ;

@@ -26,7 +26,7 @@ const routes: Routes = [{
         { path: "tree", component: MappingTreeComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Tree" } },
         { path: "network", component: MappingNetworkComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Network" } },
         {
-            path: "summary", component: MappingSummaryComponent, canActivate: [WorkspaceGuard], data: {
+            path: "directory", component: MappingSummaryComponent, canActivate: [WorkspaceGuard], data: {
                 breadcrumbs: MappingSummaryBreadcrumbs
             }
         }

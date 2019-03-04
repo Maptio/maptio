@@ -38,7 +38,7 @@
                             <div *ngIf="dataset?.initiative.children[0]?.accountable" class="text-muted d-flex align-items-center">
                                 <span class="">Led by</span>    
                                 <img class="rounded-circle mx-1 participant-picture"  src="{{dataset?.initiative.children[0]?.accountable?.picture}}" alt="{{dataset?.initiative.children[0]?.accountable?.name}}">
-                                <a class="text-muted" routerLink="/map/{{dataset?.datasetId}}/{{dataset?.initiative.getSlug()}}/summary" [queryParams]="{member: dataset?.initiative.children[0]?.accountable?.shortid}">
+                                <a class="text-muted" routerLink="/map/{{dataset?.datasetId}}/{{dataset?.initiative.getSlug()}}/directory" [queryParams]="{member: dataset?.initiative.children[0]?.accountable?.shortid}">
                                     <span> {{dataset?.initiative.children[0]?.accountable?.name}}</span>
                                 </a>
 

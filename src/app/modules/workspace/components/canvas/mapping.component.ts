@@ -466,7 +466,7 @@ export class MappingComponent {
     this.isSearchDisabled = true;
     this.showTooltip(null, null);
     this.cd.markForCheck();
-    this.router.navigateByUrl(`/map/${this.datasetId}/${this.slug}/summary?member=${selected.shortid}`);
+    this.router.navigateByUrl(`/map/${this.datasetId}/${this.slug}/directory?member=${selected.shortid}`);
 
   }
 
