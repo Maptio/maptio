@@ -52,7 +52,7 @@
 		<div class="my-2 bg-light p-2 rounded"
 			*ngFor="let helper of node?.getAllParticipants(); let i=index;trackBy:trackByUserId">
 			<initiative-helper-input [helper]="helper" [isUnauthorized]="!canEditHelper(helper)" [isAuthority]="isAuthority(helper)" [team]="team"
-				[summaryUrl]="getSummaryUrl(helper)" (remove)="removeHelper($event)" (save)="saveHelpers()">
+				[summaryUrlRoot]="getSummaryUrlRoot()" (remove)="removeHelper($event)" (save)="saveHelpers()">
 				<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
 			</initiative-helper-input>
 			<initiative-helper-privilege class="my-1" [isUnauthorized]="!canEditPrivilege()" [isAuthority]="isAuthority(helper)" [helper]="helper" (save)="saveHelpers()"></initiative-helper-privilege>

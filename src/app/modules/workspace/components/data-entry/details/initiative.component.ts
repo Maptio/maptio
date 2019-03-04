@@ -203,8 +203,8 @@ export class InitiativeComponent implements OnChanges {
     }
 
 
-    getSummaryUrl(user: User) {
-        return `/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}/directory?member=${user.shortid}`
+    getSummaryUrlRoot() {
+        return `/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}/directory`
     }
 
     openTagsPanel() {

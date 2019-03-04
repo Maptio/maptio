@@ -11,7 +11,7 @@ import { Role } from '../../../../../../../shared/model/role.data';
 export class InitiativeHelperInputComponent implements OnInit {
     @Input("helper") helper: Helper;
     @Input("team") team: Team;
-    @Input("summaryUrl") summaryUrl: string;
+    @Input("summaryUrlRoot") summaryUrlRoot: string;
     @Input("isAuthority") isAuthority: boolean;
     @Input("isUnauthorized") isUnauthorized:boolean;
 
