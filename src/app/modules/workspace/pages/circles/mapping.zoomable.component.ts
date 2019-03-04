@@ -545,7 +545,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.zooming.scaleExtent([0.5, getViewScaleForRadius(minRadius)]);
 
     function getViewScaleForRadius(radius: number): number {
-      return (height) / (radius * 2 + 25);
+      return (height) / (radius * 2 + 20);
     }
 
     function toREM(pixels: number) {
