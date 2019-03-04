@@ -3,7 +3,7 @@ node_modules/
 dist/
 coverage/**/*.*
 tslint.json
-.vscode/
+.vscode/*.*
 TODO.md
 npm-debug.log
 newrelic_agent.log
