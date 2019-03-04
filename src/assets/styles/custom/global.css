@@ -175,6 +175,10 @@ ul.picture-list > .list-inline-item{
   background: var(--maptio-accent) !important;
 }
 
+.bg-accent-gray{
+  background: var(--maptio-accent-gray) !important;
+}
+
 .bg-green{
   background: var(--maptio-green) !important;
 }
