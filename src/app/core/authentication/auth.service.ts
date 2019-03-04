@@ -300,10 +300,10 @@ export class Auth {
                                 name: user.name,
                                 email: user.email,
                               });
-                            //   this.fullstory.identify(user.user_id, {
-                            //     displayName: user.name,
-                            //     email: user.email
-                            // });
+                              this.fullstory.identify(user.user_id, {
+                                displayName: user.name,
+                                email: user.email
+                            });
                               this.intercom.update({
                                 app_id: environment.INTERCOM_APP_ID,
                                 email: user.email,
