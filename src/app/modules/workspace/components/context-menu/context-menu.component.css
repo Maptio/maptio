@@ -2,3 +2,7 @@
     max-height: 50vh;
     overflow-y: auto;
   }
+
+  #maptio-context-menu{
+    width:25vw;
+  }
