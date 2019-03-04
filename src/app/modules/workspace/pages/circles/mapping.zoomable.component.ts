@@ -444,6 +444,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   setLastZoomedCircle(circle: any) {
     this._lastZoomedCircle = circle;
+    localStorage.setItem("node_id", circle.data.id);
   }
 
   update(data: Initiative, seedColor: string, isFirstLoad: boolean): Promise<HierarchyCircularNode<{}>[]> {
