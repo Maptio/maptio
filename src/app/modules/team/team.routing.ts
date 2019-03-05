@@ -35,7 +35,7 @@ const routes: Routes = [
                 canActivate: [AuthGuard, AccessGuard],
                 children: [
                     { path: "", redirectTo: "people", pathMatch: "full" },
-                    { path: "people", component: TeamMembersComponent, data: { breadcrumbs: true, text: "Members" } },
+                    { path: "people", component: TeamMembersComponent, data: { breadcrumbs: true, text: "People" } },
                     {
                         path: "import",
                         component: TeamImportComponent,
