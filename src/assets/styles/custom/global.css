@@ -184,15 +184,15 @@ ul.picture-list > .list-inline-item{
 }
 
 .bg-gradient{
-  background-image: linear-gradient(to bottom right,  var(--maptio-blue), var(--maptio-accent));
+  background-image: linear-gradient(to left,  var(--maptio-blue), var(--maptio-accent));
 }
 
 .bg-gradient-gray{
-  background-image: linear-gradient(to bottom right,  var(--maptio-blue-gray), var(--maptio-accent-gray));
+  background-image: linear-gradient(to left,  var(--maptio-blue-gray), var(--maptio-accent-gray));
 }
 
 .bg-gradient-inverse{
-  background-image: linear-gradient(to bottom right,  var(--maptio-accent), var(--maptio-blue));
+  background-image: linear-gradient(to left,  var(--maptio-accent), var(--maptio-blue));
 }
 
 .icon-ending{
