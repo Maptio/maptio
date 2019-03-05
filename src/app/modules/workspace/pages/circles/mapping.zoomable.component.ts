@@ -396,7 +396,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
               })
               .style("line-height", 1.3)
               .transition()
-              // .style("opacity", 1);
+            // .style("opacity", 1);
           });
       });
 
@@ -426,8 +426,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
           .attr("width", getAccountableRadius(d) * 2)
           .attr("height", getAccountableRadius(d) * 2)
       })
-
-    console.log("accountableZoomFactor", accountableZoomFactor)
 
 
     g.selectAll("circle.accountable")
@@ -605,7 +603,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .attr("id", function (d: any) {
         return `${d.data.id}`;
       })
-     .style("display", function (d: any) {
+      .style("display", function (d: any) {
         return d !== root ? "inline" : "none";
       })
       .html(function (d: any) {
@@ -668,7 +666,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     try {
       // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
-      // svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
+
       svg.call(
         this.zooming.transform,
         d3.zoomIdentity
@@ -680,6 +678,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     if (localStorage.getItem("node_id")) {
       let id = localStorage.getItem("node_id");
+      if (getLastZoomedCircle().data.id.toString() === id.toString()) return;
       this.svg.attr("x", this.uiService.getCenteredMargin());
       this.svg.select(`circle.node.initiative-map[id="${id}"]`).dispatch("click");
     }
