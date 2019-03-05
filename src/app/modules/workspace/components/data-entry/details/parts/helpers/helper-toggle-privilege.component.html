@@ -1,4 +1,4 @@
-<div class="custom-control custom-switch" placement="top" container="body"
+<div class="custom-control custom-switch" placement="bottom" container="body"
     ngbTooltip="Allow this contributor to edit the details of this circle">
     <input type="checkbox" [disabled]="isAuthority || isUnauthorized" class="custom-control-input" id="customCheck-{{helper.shortid}}"
         (ngModelChange)="onChange($event)" [ngModel]="helper?.hasAuthorityPrivileges"
