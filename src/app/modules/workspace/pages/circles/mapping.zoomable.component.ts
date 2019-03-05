@@ -445,7 +445,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           .attr("cy", function (d: any): number {
             return d.children
               ? -Math.sin(ANGLE) * ((d.r + 1) * accountableZoomFactor) + 6
-              : -d.r * accountableZoomFactor * 0.9;
+              : -d.r * accountableZoomFactor * 0.75;
           })
           .attr("transform", `scale(${1 / accountableZoomFactor})`)
           .transition()
@@ -740,6 +740,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .call(passingThrough, "mouseout")
         .call(passingThrough, "contextmenu");
 
+      g.selectAll("circle.accountable")
+        .call(passingThrough, "click")
+        .call(passingThrough, "mouseover")
+        .call(passingThrough, "mouseout")
+        .call(passingThrough, "contextmenu")
 
       // definitions.selectAll("pattern > image")
       //   .attr("width", function(d:any){return d.r * 2} )
