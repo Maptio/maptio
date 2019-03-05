@@ -54,7 +54,7 @@ const d3 = Object.assign(
   templateUrl: "./mapping.zoomable.component.html",
   styleUrls: ["./mapping.zoomable.component.css"],
 
-  host: { 'class': 'w-100' },
+  host: { 'class': 'padding-100 w-100 h-auto d-block position-relative' },
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -217,9 +217,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .select("svg#map")
       .attr("width", "100%")
       .attr("height", "100%")
+      .attr("preserveAspectRatio", "none")
       .attr("xmlns", "http://www.w3.org/2000/svg")
       .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
       .attr("version", "1.1"),
+
 
       innerSvg = svg.append("svg")
         .attr("width", "100%")
@@ -566,7 +568,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return `${d.data.id}`;
       });
 
-
     exitWithAnimations(initiativeNoChildren);
     exitWithAnimations(initiativeWithChildren);
 
@@ -637,8 +638,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
         return `<div style="font-size: ${fs}; padding-top: 5%; background: none; display: block; pointer-events: none; overflow: hidden; height:100%; line-height: 100%; text-overflow:ellipsis;">${d.data.name || '(Empty)'}</div>`;
       })
-
-
 
     let accountablePictureWithChildren = initiativeWithChildren.select("circle.accountable.with-children")
       .attr("fill", function (d: any) {
@@ -772,7 +771,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
             : !d.children && d.parent === root ? 0.1 : 1;
         })
         .style("stroke-opacity", 0)
-        // .each((d: any) => (d.k = k))
         .on("mouseover", function (d: any) {
           let initiative = d.data;
           d3.getEvent().stopPropagation();
@@ -951,6 +949,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     function buildPatterns() {
+      console.log("buildPattern")
       let patterns = definitions.selectAll("pattern").data(
         nodes.filter(function (d: any) {
           return d.data.accountable;
@@ -1002,6 +1001,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     function passingThrough(el: any, eventName: string) {
+      console.log("passingThrough", el, eventName)
       if (eventName == "contextmenu") {
         el.on("contextmenu", function (d: any): void {
           d3.getEvent().preventDefault();

@@ -538,6 +538,11 @@ transition: max-height .25s ease-in-out;
   perspective: 1000px;
 }
 
+.sized{
+  width:900px;
+  height: 500px;
+}
+
 .pulse {
 -webkit-animation: pulse 3s infinite linear;
 animation: pulse 3s infinite linear;
