@@ -432,10 +432,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     g.selectAll("circle.accountable")
       .transition()
-      .style("opacity", 0.5)
+      // .style("opacity", 0.5)
       .on("end", function (): void {
         select(this)
-          .style("opacity", 0.5)
+          // .style("opacity", 0.5)
           .attr("r", (d: any): number => {
             return getAccountableRadius(d)  // CIRCLE_RADIUS / accountableZoomFactor;
           })
@@ -451,7 +451,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           })
           .attr("transform", `scale(${1 / accountableZoomFactor})`)
           .transition()
-          .style("opacity", 1);
+          // .style("opacity", 1);
       });
   }
 
