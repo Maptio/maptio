@@ -68,9 +68,9 @@ export class StickyPopoverDirective extends NgbPopover {
 
         })
 
-        // this._render.listen(this._elRef.nativeElement, "click", () => {
-        //     this.close();
-        // })
+        this._render.listen(this._elRef.nativeElement, "click", () => {
+            this.close();
+        })
     }
 
     ngOnDestroy(): void {
@@ -86,10 +86,10 @@ export class StickyPopoverDirective extends NgbPopover {
                 this.canClosePopover = false;
             });
 
-            // this._render.listen(popover, 'mouseout', () => {
-            //     this.canClosePopover = true;
-            //     setTimeout(() => { if (this.canClosePopover) { this.close(); } }, 0);
-            // });
+            this._render.listen(popover, 'mouseout', () => {
+                this.canClosePopover = true;
+                setTimeout(() => { if (this.canClosePopover) { this.close(); } }, 0);
+            });
         }, 0);
     }
 
