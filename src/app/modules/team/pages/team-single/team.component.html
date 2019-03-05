@@ -31,20 +31,17 @@
                         Maps</a>
                 </li>
             </ng-container>
-            <ng-container *permissionsOnly="Permissions.canEditTeam">
-                <li class="nav-item">
-                    <a class="nav-link py-4 rounded-left" data-toggle="tab" routerLink="./settings"
-                        queryParamsHandling="merge" #rlaTerminology="routerLinkActive" routerLinkActive="active"
-                        role="tab">
-                        Name &amp; Terminology</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link py-4 rounded-left" data-toggle="tab" routerLink="./integrations"
-                        queryParamsHandling="merge" routerLinkActive="active" #rlaIntegrations="routerLinkActive"
-                        role="tab">
-                        Integrations</a>
-                </li>
-            </ng-container>
+            <li class="nav-item">
+                <a class="nav-link py-4 rounded-left" data-toggle="tab" routerLink="./settings"
+                    queryParamsHandling="merge" #rlaTerminology="routerLinkActive" routerLinkActive="active" role="tab">
+                    Name &amp; Terminology</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link py-4 rounded-left" data-toggle="tab" routerLink="./integrations"
+                    queryParamsHandling="merge" routerLinkActive="active" #rlaIntegrations="routerLinkActive"
+                    role="tab">
+                    Integrations</a>
+            </li>
 
             <li class="nav-item" *ngIf="!team.isExample">
                 <a class="nav-link py-4 rounded-left" data-toggle="tab" routerLink="./billing" routerLinkActive="active"

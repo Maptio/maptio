@@ -50,8 +50,8 @@ export class StickyPopoverDirective extends NgbPopover {
         ngZone: NgZone, @Inject(DOCUMENT) _document: any, cd: ChangeDetectorRef) {
         super(_elRef, _render, injector, componentFactoryResolver, viewContainerRef, config, ngZone, _document, cd);
         this.triggers = "manual"
-        this.popoverTitle = "Permissions";
         this.container = "body";
+        this.popoverClass = "permissions"
 
     }
     ngOnInit(): void {
@@ -68,9 +68,9 @@ export class StickyPopoverDirective extends NgbPopover {
 
         })
 
-        this._render.listen(this._elRef.nativeElement, "click", () => {
-            this.close();
-        })
+        // this._render.listen(this._elRef.nativeElement, "click", () => {
+        //     this.close();
+        // })
     }
 
     ngOnDestroy(): void {
@@ -86,22 +86,11 @@ export class StickyPopoverDirective extends NgbPopover {
                 this.canClosePopover = false;
             });
 
-            this._render.listen(popover, 'mouseout', () => {
-                this.canClosePopover = true;
-                setTimeout(() => { if (this.canClosePopover) { this.close(); } }, 0);
-            });
+            // this._render.listen(popover, 'mouseout', () => {
+            //     this.canClosePopover = true;
+            //     setTimeout(() => { if (this.canClosePopover) { this.close(); } }, 0);
+            // });
         }, 0);
-        // super.open();
-        // let popover = document.querySelector(".popover");
-        // (popover  as HTMLElement).classList.add("permissions")
-        // this._render.listen(popover, "mouseover", () => {
-        //     this.canClosePopover = false;
-        // });
-
-        // this._render.listen(popover, "mouseout", () => {
-        //     this.canClosePopover = true;
-        //     setTimeout(() => { if (this.canClosePopover) this.close() }, 0)
-        // });
     }
 
     close() {
