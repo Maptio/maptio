@@ -843,24 +843,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
             })
         });
 
-      g.selectAll("circle.accountable")
-        .call(passingThrough, "click")
-        .call(passingThrough, "mouseover")
-        .call(passingThrough, "mouseout")
-        .call(passingThrough, "contextmenu")
-      // .attr("r", function (d: any) {
-      //   return d.r > CIRCLE_RADIUS ? `${CIRCLE_RADIUS}px` : `${d.r * 0.3}px`;
-      // })
-      // .attr("cx", function (d: any) {
-      //   return d.children
-      //     ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r) - 12
-      //     : 0;
-      // })
-      // .attr("cy", function (d: any) {
-      //   return d.children
-      //     ? -Math.sin(DEFAULT_PICTURE_ANGLE) * d.r + 12
-      //     : -d.r * 0.9;
-      // })
     }
 
     function addCircle(groups: any): void {
