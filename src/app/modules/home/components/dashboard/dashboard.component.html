@@ -154,7 +154,7 @@
                 </div>
 
             </div>
-            <div class="card bg-gradient text-white border-0" *ngIf="isOutOfSampleMode && !isZeroMaps()">
+            <div class="card bg-light border-0" *ngIf="isOutOfSampleMode && !isZeroMaps()">
                 <div class="card-body">
                     <common-create-map [teams]="teams" [isRedirect]="true" (created)="onNewMap($event)"></common-create-map>
                 </div>
