@@ -1,8 +1,5 @@
 <div class="row my-3 d-flex flex-column justify-content-between">
-    <h3 class="col-auto">{{team.name}}</h3>
-    <h6 class="col-auto text-muted">{{team.members.length}}
-        {{team.members.length ===1 ? "person" : "people"}}</h6>
-
+   
 </div>
 
 <div class="row">
@@ -10,6 +7,17 @@
     <div class="col-3 rounded pr-0 border-right ">
 
         <ul class="nav flex-column nav-pills">
+            <li class="nav-item">
+                <span class="nav-link disabled pb-4 p-0 text-center">
+                        <span class="h4 text-muted">{{team.name}}</span>
+                        <h6 class="text-muted small">{{team.members.length}}
+                            {{team.members.length ===1 ? "person" : "people"}}</h6>
+                    
+                </span>
+                    
+            </li>
+
+
             <ng-container>
                 <li class="nav-item">
                     <a class="nav-link py-4 rounded-left" data-toggle="tab" routerLink="./people"
