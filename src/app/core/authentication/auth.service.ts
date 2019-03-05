@@ -46,11 +46,11 @@ export class Auth {
   ) { }
 
   public logout(): void {
+    localStorage.clear();
+    this.user$.unsubscribe();
+    this.router.navigateByUrl("/logout");
     this.analytics.eventTrack("Logout", {});
     this.fullstory.shutdown();
-    this.router.navigateByUrl("/logout");
-    this.user$.unsubscribe();
-    localStorage.clear();
   }
 
   public clear() {
