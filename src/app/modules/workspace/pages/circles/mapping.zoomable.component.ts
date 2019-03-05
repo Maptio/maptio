@@ -233,7 +233,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .append("g")
         .attr(
           "transform",
-          `translate(${diameter / 2}, ${diameter / 2}) scale(${this.scale})`
+          `translate(${diameter / 2}, ${diameter / 2}) scale(1)`
         ),
       definitions = innerSvg.append("svg:defs");
 
@@ -393,12 +393,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
                   return `${myInnerFontScale(zoomFactor)}px`
                 }
 
-                // `${focus.data.id === d.data.id ? 1 : myInnerFontScale(zoomFactor) * 0.66}px`
-
               })
               .style("line-height", 1.3)
               .transition()
-            // .style("opacity", 1);
           });
       });
 
@@ -949,7 +946,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     function buildPatterns() {
-      console.log("buildPattern")
       let patterns = definitions.selectAll("pattern").data(
         nodes.filter(function (d: any) {
           return d.data.accountable;
@@ -1001,7 +997,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     function passingThrough(el: any, eventName: string) {
-      console.log("passingThrough", el, eventName)
       if (eventName == "contextmenu") {
         el.on("contextmenu", function (d: any): void {
           d3.getEvent().preventDefault();

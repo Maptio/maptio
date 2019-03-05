@@ -184,7 +184,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .attr("height", this.height)
       .attr(
         "transform",
-        `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`
+        `translate(${0}, ${-this.height/4}) scale(${this.scale})`
       );
     g.append("g").attr("class", "links");
     // g.append("g").attr("class", "labels");
@@ -247,8 +247,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       svg.call(
         zooming.transform,
         d3.zoomIdentity
-          .translate(this.translateX, this.translateY)
-          .scale(this.scale)
+          .translate(0, -this.height/4)
+          .scale(1)
       );
       svg.call(zooming);
     } catch (error) { }
@@ -261,7 +261,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         } else {
           svg.transition().duration(this.TRANSITION_DURATION).call(
             zooming.transform,
-            d3.zoomIdentity.translate(this.translateX, this.translateY)
+            d3.zoomIdentity.translate(0, -this.height/4)
           );
         }
       } catch (error) { }

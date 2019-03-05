@@ -33,15 +33,15 @@
 
             <div class=" btn-group-vertical my-3">
               <button class="btn btn-light toolbar select-view circles text-dark p-1 d-flex flex-column justify-content-end align-items-center" #rlaCircles="routerLinkActive"
-                [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/circles" fragment="{{getLatestFragment('circles')}}">
+                [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/circles">
                 <span class="icon-text-label">Circles </span>
               </button>
               <button class="btn btn-light toolbar select-view tree text-dark p-1 d-flex flex-column justify-content-end align-items-center" routerLink="/map/{{datasetId}}/{{slug}}/tree"
-              [routerLinkActive]="['active']" fragment="{{getLatestFragment('tree')}}">
+              [routerLinkActive]="['active']">
                 <span class="icon-text-label">Tree</span>
               </button>
               <button class="btn btn-light toolbar select-view network text-dark p-1 d-flex flex-column justify-content-end align-items-center" #rlaNetwork="routerLinkActive"
-                [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/network" fragment="{{getLatestFragment('network')}}">
+                [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/network">
                 <span class="icon-text-label">Network</span>
               </button>
               <button class="btn btn-light toolbar select-view summary-list text-dark p-1 btn-control d-flex flex-column justify-content-end align-items-center" #rlaSummary="routerLinkActive"

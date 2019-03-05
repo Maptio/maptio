@@ -185,7 +185,7 @@ export class MappingComponent {
       this.showContextMenu(node);
     })
 
-    let f = this.route.snapshot.fragment || this.getFragment(component);
+    let f = this.route.snapshot.fragment ; //|| this.getFragment(component);
     this.x = Number.parseFloat(this.uriService.parseFragment(f).get("x"));
     this.y = Number.parseFloat(this.uriService.parseFragment(f).get("y"));
     this.scale = Number.parseFloat(
@@ -233,28 +233,28 @@ export class MappingComponent {
   }
 
   onDeactivate(component: any) {
-    this.settings = this.mapSettingsService.get(this.datasetId);
+    // this.settings = this.mapSettingsService.get(this.datasetId);
 
-    let position = this.uriService.parseFragment(this.route.snapshot.fragment);
-    position.delete("tags");
-    let lastPosition = this.uriService.buildFragment(position);
+    // let position = this.uriService.parseFragment(this.route.snapshot.fragment);
+    // position.delete("tags");
+    // let lastPosition = this.uriService.buildFragment(position);
 
-    switch (component.constructor) {
-      case MappingZoomableComponent:
-        this.settings.lastPosition.circles = lastPosition;
-        break;
-      case MappingTreeComponent:
-        this.settings.lastPosition.tree = lastPosition;
-        break;
-      case MappingNetworkComponent:
-        this.settings.lastPosition.network = lastPosition;
-        break;
-      default:
-        break;
-    }
-    this.mapSettingsService.set(this.datasetId, this.settings);
+    // switch (component.constructor) {
+    //   case MappingZoomableComponent:
+    //     this.settings.lastPosition.circles = lastPosition;
+    //     break;
+    //   case MappingTreeComponent:
+    //     this.settings.lastPosition.tree = lastPosition;
+    //     break;
+    //   case MappingNetworkComponent:
+    //     this.settings.lastPosition.network = lastPosition;
+    //     break;
+    //   default:
+    //     break;
+    // }
+    // this.mapSettingsService.set(this.datasetId, this.settings);
 
-    this.cd.markForCheck();
+    // this.cd.markForCheck();
   }
 
   ngOnInit() {
@@ -334,33 +334,33 @@ export class MappingComponent {
     if (this.subscription) this.subscription.unsubscribe();
   }
 
-  getLatestFragment(view: string) {
-    switch (view) {
-      case "circles":
-        return `${this.settings.lastPosition.circles}&tags=${this.tagsFragment || ""}`
-      case "tree":
-        return `${this.settings.lastPosition.tree}&tags=${this.tagsFragment || ""}`
-      case "network":
-        return `${this.settings.lastPosition.network}&tags=${this.tagsFragment || ""}`
-      default:
-        return ""
-    }
-  }
+  // getLatestFragment(view: string) {
+  //   switch (view) {
+  //     case "circles":
+  //       return `${this.settings.lastPosition.circles}&tags=${this.tagsFragment || ""}`
+  //     case "tree":
+  //       return `${this.settings.lastPosition.tree}&tags=${this.tagsFragment || ""}`
+  //     case "network":
+  //       return `${this.settings.lastPosition.network}&tags=${this.tagsFragment || ""}`
+  //     default:
+  //       return ""
+  //   }
+  // }
 
-  getFragment(component: IDataVisualizer) {
-    switch (component.constructor) {
-      case MappingZoomableComponent:
-        return this.settings.lastPosition.circles || "";
-      case MappingTreeComponent:
-        return this.settings.lastPosition.tree || "";
-      case MappingNetworkComponent:
-        return this.settings.lastPosition.network || "";
-      case MappingSummaryComponent:
-        return `x=0&y=0&scale=1`;
-      default:
-        return ""
-    }
-  }
+  // getFragment(component: IDataVisualizer) {
+  //   switch (component.constructor) {
+  //     case MappingZoomableComponent:
+  //       return this.settings.lastPosition.circles || "";
+  //     case MappingTreeComponent:
+  //       return this.settings.lastPosition.tree || "";
+  //     case MappingNetworkComponent:
+  //       return this.settings.lastPosition.network || "";
+  //     case MappingSummaryComponent:
+  //       return `x=0&y=0&scale=1`;
+  //     default:
+  //       return ""
+  //   }
+  // }
 
   showContextMenu(context: { initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }) {
     this.isReadOnlyContextMenu = context.isReadOnlyContextMenu;

@@ -236,7 +236,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       .append("g")
       .attr(
         "transform",
-        `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`
+        `translate(${0}, ${this.height/2}) scale(${1})`
       );
 
     try {
@@ -244,8 +244,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       svg.call(
         zooming.transform,
         d3.zoomIdentity
-          .translate(this.translateX, this.translateY)
-          .scale(this.scale)
+          .translate(0, this.height/2)
+          .scale(1)
       );
       innerSvg.call(zooming);
     } catch (error) { }
@@ -265,7 +265,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         } else {
           innerSvg.transition().duration(this.TRANSITION_DURATION).call(
             zooming.transform,
-            d3.zoomIdentity.translate(this.translateX, this.translateY)
+            d3.zoomIdentity.translate(0, this.height/2)
           );
         }
       } catch (error) { }
@@ -399,12 +399,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     setPathsToRoot(pathsToRoot)
    
     traverse(root, (n: any) => {
-      // if (settings.views.tree.expandedNodesIds.indexOf(n.data.id) > -1) {
-      //   expand(n)
-      // }
-      // if (settings.views.tree.expandedNodesIds.indexOf(n.data.id) == -1) {
-      //   collapse(n)
-      // }
+      if (settings.views.tree.expandedNodesIds.indexOf(n.data.id) > -1) {
+        expand(n)
+      }
+      if (settings.views.tree.expandedNodesIds.indexOf(n.data.id) == -1) {
+        collapse(n)
+      }
       if (isAllExpanded) expand(n);
       if (isAllCollapsed) {
         if (n.depth >= 1) collapse(n)
