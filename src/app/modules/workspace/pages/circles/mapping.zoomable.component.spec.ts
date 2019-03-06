@@ -109,8 +109,8 @@ describe("mapping.zoomable.component.ts", () => {
     it("should draw SVG with correct size when data is valid", () => {
         let svgs = document.querySelectorAll("svg#map")
         expect(svgs.length).toBe(1);
-        expect(svgs.item(0).getAttribute("width")).toBe(`${component.width}`);
-        expect(svgs.item(0).getAttribute("height")).toBe(`${component.height}`);
+        expect(svgs.item(0).getAttribute("width")).toBe(`100%`);
+        expect(svgs.item(0).getAttribute("height")).toBe(`100%`);
     });
 
     xit("should draw SVG centered when data is valid", () => {

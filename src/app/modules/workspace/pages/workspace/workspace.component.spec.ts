@@ -112,29 +112,29 @@ describe("workspace.component.ts", () => {
 
     describe("Controller", () => {
  
-        describe("toggleBuildingPanel", () => {
-            it("should change value of isBuildingPanelCollapsed when calling toggleBuildingPanel", () => {
-                expect(component.isBuildingPanelCollapsed).toBeTruthy();
-                component.toggleBuildingPanel();
-                expect(component.isBuildingPanelCollapsed).toBeFalsy();
-                component.toggleBuildingPanel();
-                expect(component.isBuildingPanelCollapsed).toBeTruthy();
-            });
-        });
+        // describe("toggleBuildingPanel", () => {
+        //     it("should change value of isBuildingPanelCollapsed when calling toggleBuildingPanel", () => {
+        //         expect(component.isBuildingPanelCollapsed).toBeTruthy();
+        //         component.toggleBuildingPanel();
+        //         expect(component.isBuildingPanelCollapsed).toBeFalsy();
+        //         component.toggleBuildingPanel();
+        //         expect(component.isBuildingPanelCollapsed).toBeTruthy();
+        //     });
+        // });
 
-        describe("toggleDetailsPanel", () => {
-             xit("should toggle", () => {
-                expect(component.isDetailsPanelCollapsed).toBeTruthy();
-                component.toggleDetailsPanel();
-                expect(component.isDetailsPanelCollapsed).toBeFalsy();
-                component.toggleDetailsPanel();
-                expect(component.isDetailsPanelCollapsed).toBeTruthy();
-            });
-        });
+        // describe("toggleDetailsPanel", () => {
+        //      xit("should toggle", () => {
+        //         expect(component.isDetailsPanelCollapsed).toBeTruthy();
+        //         component.toggleDetailsPanel();
+        //         expect(component.isDetailsPanelCollapsed).toBeFalsy();
+        //         component.toggleDetailsPanel();
+        //         expect(component.isDetailsPanelCollapsed).toBeTruthy();
+        //     });
+        // });
 
         describe("closeEditingPanel", () => {
             xit("should call correct dependencies", () => {
-                component.closeEditingPanel();
+                component.closeDetailsPanel();
                 expect(component.isDetailsPanelCollapsed).toBe(true);
                 expect(component.isBuildingPanelCollapsed).toBe(true);
             });
@@ -153,7 +153,7 @@ describe("workspace.component.ts", () => {
                 component.dataset = new DataSet({ initiative: new Initiative({ id: 1, name: "Name", children: [new Initiative({ id: 2, name: "opening" })] }) });
                 component.team = new Team({ team_id: "1", name: "Team" });
 
-                component.openDetails(new Initiative({ name: "opening", id: 2 }))
+                component.onOpenDetails(new Initiative({ name: "opening", id: 2 }))
 
                 expect(component.openedNode.name).toBe("opening");
                 expect(component.isDetailsPanelCollapsed).toBe(false);
@@ -165,7 +165,7 @@ describe("workspace.component.ts", () => {
                 component.dataset = new DataSet({ initiative: new Initiative({ id: 1, name: "Name", children: [new Initiative({ id: 2, name: "opening" })] }) });
                 component.team = new Team({ team_id: "1", name: "Team" });
 
-                component.openDetails(new Initiative({ name: "opening", id: 2 }), true)
+                component.onOpenDetails(new Initiative({ name: "opening", id: 2 }))
 
                 expect(component.openedNode.name).toBe("opening");
                 expect(component.isDetailsPanelCollapsed).toBe(false);

@@ -102,7 +102,8 @@ describe("mapping.tree.component.ts", () => {
     it("should draw SVG with correct size when data is valid", () => {
         let svg = document.querySelectorAll("svg#map")
         expect(svg.length).toBe(1); // these are harcoded for now
-        expect(svg.item(0).getAttribute("width")).toBe(window.screen.availWidth.toString());
+        expect(svg.item(0).getAttribute("width")).toBe("100%");
+        expect(svg.item(0).getAttribute("height")).toBe("100%");
     });
 
     it("should draw SVG with correct transform when data is valid", () => {
@@ -111,7 +112,7 @@ describe("mapping.tree.component.ts", () => {
         let svg = svgs.item(0);
 
         expect(svg.querySelector("g")).toBeDefined();
-        expect(svg.querySelector("g").getAttribute("transform")).toBe(`translate(100, 100) scale(1)`)
+        expect(svg.querySelector("g").getAttribute("transform")).toBe(`translate(0, 0) scale(1)`)
     });
 
     xit("should draw SVG with correct number of links when data is valid", () => {

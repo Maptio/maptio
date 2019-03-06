@@ -20,6 +20,7 @@ import { Observable } from "rxjs/Observable";
 import { IntercomModule } from "ng-intercom";
 import { AnalyticsModule } from "../../../../core/analytics.module";
 import { PermissionsModule } from "../../../../shared/permissions.module";
+import { CoreModule } from "../../../../core/core.module";
 
 class MockActivatedRoute implements ActivatedRoute {
     paramMap: Observable<ParamMap>;
@@ -66,18 +67,10 @@ describe("integrations.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [TeamIntegrationsComponent],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, SharedModule.forRoot(), AnalyticsModule, PermissionsModule]
+            imports: [RouterTestingModule, CoreModule, SharedModule.forRoot(), AnalyticsModule, PermissionsModule]
         }).overrideComponent(TeamIntegrationsComponent, {
             set: {
                 providers: [
-                    {
-                        provide: Auth,
-                        useClass: class {
-                            getPermissions(): Permissions[] {
-                                return []
-                            }
-                        }
-                    },
                     TeamFactory,
                     {
                         provide: AuthHttp,

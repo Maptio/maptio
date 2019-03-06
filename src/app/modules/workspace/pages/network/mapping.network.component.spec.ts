@@ -100,7 +100,7 @@ describe("mapping.network.component.ts", () => {
         let svg = svgs.item(0);
 
         expect(svg.querySelector("g")).toBeDefined();
-        expect(svg.querySelector("g").getAttribute("transform")).toBe(`translate(100, 100) scale(1)`);
+        expect(svg.querySelector("g").getAttribute("transform")).toBe(`translate(0, 0) scale(1)`);
     });
 
     xit("should draw SVG with correct number of node when data is valid", () => {

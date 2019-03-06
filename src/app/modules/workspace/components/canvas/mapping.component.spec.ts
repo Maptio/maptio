@@ -100,27 +100,27 @@ describe("mapping.component.ts", () => {
             }));
         });
 
-        describe("getFragment", () => {
-            it("should return correct fragment  when layout is initiatives", () => {
-                let actual = component.getFragment(new MappingZoomableComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
-                expect(actual).toBe(`x=${(component.VIEWPORT_WIDTH - 20) / 2}&y=${(component.VIEWPORT_WIDTH - 20) / 2}&scale=1`)
-            });
+        // describe("getFragment", () => {
+        //     it("should return correct fragment  when layout is initiatives", () => {
+        //         let actual = component.getFragment(new MappingZoomableComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
+        //         expect(actual).toBe(`x=${(component.VIEWPORT_WIDTH - 20) / 2}&y=${(component.VIEWPORT_WIDTH - 20) / 2}&scale=1`)
+        //     });
 
-            it("should return correct fragment when layout is people", () => {
-                let actual = component.getFragment(new MappingTreeComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
-                expect(actual).toBe(`x=${component.VIEWPORT_WIDTH / 10}&y=${component.VIEWPORT_HEIGHT / 2}&scale=1`)
-            });
+        //     it("should return correct fragment when layout is people", () => {
+        //         let actual = component.getFragment(new MappingTreeComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
+        //         expect(actual).toBe(`x=${component.VIEWPORT_WIDTH / 10}&y=${component.VIEWPORT_HEIGHT / 2}&scale=1`)
+        //     });
 
-            it("should return correct fragment when layout is network", () => {
-                let actual = component.getFragment(new MappingNetworkComponent(undefined, undefined, undefined, undefined, undefined, undefined));
-                expect(actual).toBe(`x=0&y=${-component.VIEWPORT_HEIGHT / 4}&scale=1`)
-            });
+        //     it("should return correct fragment when layout is network", () => {
+        //         let actual = component.getFragment(new MappingNetworkComponent(undefined, undefined, undefined, undefined, undefined, undefined));
+        //         expect(actual).toBe(`x=0&y=${-component.VIEWPORT_HEIGHT / 4}&scale=1`)
+        //     });
 
-            it("should return correct fragment  when layout is list", () => {
-                let actual = component.getFragment(new MappingSummaryComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
-                expect(actual).toBe("x=0&y=0&scale=1")
-            });
-        });
+        //     it("should return correct fragment  when layout is list", () => {
+        //         let actual = component.getFragment(new MappingSummaryComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
+        //         expect(actual).toBe("x=0&y=0&scale=1")
+        //     });
+        // });
 
         describe("resetZoom", () => {
             it("should reset zoom", () => {
@@ -173,15 +173,15 @@ describe("mapping.component.ts", () => {
 
         it("onActivate", () => {
             let activated = <IDataVisualizer>new MappingNetworkComponent(undefined, undefined, undefined, undefined, undefined, undefined)
-            spyOn(component, "getFragment").and.returnValue("x=10&y=100&scale=1.3")
+            // spyOn(component, "getFragment").and.returnValue("x=10&y=100&scale=1.3")
 
             component.onActivate(activated);
             expect(activated.width).toBe(1000);
             expect(activated.height).toBe(1000);
-            expect(component.getFragment).toHaveBeenCalledTimes(1);
-            expect(activated.translateX).toBe(10);
-            expect(activated.translateY).toBe(100);
-            expect(activated.scale).toBe(1.3);
+            // expect(component.getFragment).toHaveBeenCalledTimes(1);
+            // expect(activated.translateX).toBe(10);
+            // expect(activated.translateY).toBe(100);
+            // expect(activated.scale).toBe(1.3);
         })
 
     });
