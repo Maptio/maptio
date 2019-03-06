@@ -6,7 +6,7 @@
     /* padding-left: 3vw; */
   }
   
-  ::ng-deep .dropdown-menu {
+  ::ng-deep ngb-typeahead-window.dropdown-menu {
     position:absolute;
     width:calc(100% - 3vw);
     max-height: 33vh;
