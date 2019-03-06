@@ -17,6 +17,10 @@ module.exports = webpackMerge(commonConfig, {
 
   devtool: 'source-map',
 
+  externals: {
+    "@angular/compiler": JSON.stringify("@angular/compiler")
+  },
+
   output: {
     path: helpers.root('dist'),
     publicPath: '/',
