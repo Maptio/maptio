@@ -446,15 +446,15 @@ export class MappingComponent {
   broadcastTagsSelection(tags: SelectableTag[]) {
     this.selectableTags$.next(tags);
 
-    let tagsHash = tags
-      .filter(t => t.isSelected === true)
-      .map(t => t.shortid)
-      .join(",");
-    this.tagsFragment = `tags=${tagsHash}`;
+    // let tagsHash = tags
+    //   .filter(t => t.isSelected === true)
+    //   .map(t => t.shortid)
+    //   .join(",");
+    // this.tagsFragment = `tags=${tagsHash}`;
 
-    let ancient = this.uriService.parseFragment(this.route.snapshot.fragment);
-    ancient.set("tags", tagsHash);
-    location.hash = this.uriService.buildFragment(ancient);
+    // let ancient = this.uriService.parseFragment(this.route.snapshot.fragment);
+    // ancient.set("tags", tagsHash);
+    // location.hash = this.uriService.buildFragment(ancient);
   }
 
   zoomToInitiative(selected: Initiative) {

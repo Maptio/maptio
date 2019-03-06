@@ -146,16 +146,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.init();
     this.dataSubscription = this.dataService
       .get()
-      .combineLatest(this.mapColor$)
-      .do((complexData: [any, string]) => {
+      .combineLatest(this.mapColor$, this.selectableTags$)
+      .do((complexData: [any, string, SelectableTag[]]) => {
         if (complexData[0].dataset.datasetId !== this.datasetId) {
           this.counter = 0;
         }
       })
-      .subscribe((complexData: [any, string]) => {
+      .subscribe((complexData: [any, string, SelectableTag[]]) => {
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].dataset.datasetId;
-
+        this.tagsState = complexData[2];
         this.slug = data.getSlug();
         this.loaderService.show();
         this.update(data, complexData[1], this.counter === 0)
@@ -180,7 +180,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       )
       ;
-    this.selectableTags$.subscribe(tags => this.tagsState = tags)
+    // this.selectableTags$.subscribe(tags => this.tagsState = tags)
   }
 
 
@@ -322,7 +322,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
       innerSvg.select(`circle.node.initiative-map[id="${node.id}"]`).dispatch("click");
     });
 
+    /*
     this.selectableTagsSubscription = this.selectableTags$.subscribe(tags => {
+      console.log(tags)
       this.tagsState = tags;
       let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
       let uiService = this.uiService
@@ -333,10 +335,21 @@ export class MappingZoomableComponent implements IDataVisualizer {
           ? 1
           : FADED_OPACITY
       }
-      g.selectAll("g.node.initiative-map").style("opacity", function (d: any) {
-        return filterByTags(d)
+
+      // function colorByTag(d:any):string{
+      //   if (selectedTags.length === 0) return "initial";
+
+      // }
+
+      g.selectAll("g.node.initiative-map").style("fill", function (d: any) {
+        if (selectedTags.length === 0) return "var(--maptio-black)";
+        return uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid))
+          ? "red"
+          : "var(--maptio-black)"
+        // return filterByTags(d)
       });
     });
+    */
 
     const outerFontSizeRange = [14, 5];
     const innerFontSizeRange = [10, 3];
@@ -368,7 +381,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const select: Function = d3.select;
     const MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
     const definitions = this.definitions;
-
+   
     g.selectAll("circle.node")
       .each((d: any) => (d.zf = zoomFactor))
 
@@ -452,10 +465,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
   }
 
-  getTags() {
-    return this.tagsState;
-  }
-
   private _lastZoomedCircle: any;
 
   getLastZoomedCircle() {
@@ -488,6 +497,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let definitions = this.definitions;
     let uiService = this.uiService;
     let zooming = this.zooming;
+    let tags = this.tagsState
     let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
     let TRANSITION_DURATION = this.TRANSITION_DURATION;
     let showToolipOf$ = this.showToolipOf$;
@@ -533,6 +543,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     });
 
     const color = this.colorService.getColorRange(depth, seedColor);
+    const [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
 
     const focus = root,
       nodes: Array<any> = pack(root).descendants();
@@ -728,6 +739,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .transition()
         .duration((d: any): number => d.children ? TRANSITION_DURATION / 5 : TRANSITION_DURATION / 5)
         .attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`)
+        .style("opacity", function(d:any){
+          if (selectedTags.length === 0) return 1;
+          return uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid))
+            ? 1
+            : 0.1
+        })
         .each((d: any) => (d.translateX = d.x - v[0]))
         .each((d: any) => (d.translateY = d.y - v[1]))
 
@@ -840,7 +857,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     }
 
+    
+
+   
+
     function addCircle(groups: any): void {
+      console.log("addCircle")
       groups.select("circle")
         .attr("class", (d: any): string => {
           return d.parent
