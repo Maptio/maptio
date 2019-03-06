@@ -223,11 +223,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .attr("version", "1.1"),
 
 
-      innerSvg = svg.append("svg")
+      innerSvg = svg/*.append("svg")
         .attr("width", "100%")
         .attr("height", "100%")
         .attr("x", this.uiService.getCenteredMargin())
-        .style("overflow", "visible"),
+        .style("overflow", "visible")*/,
       diameter = this.height,
       g = innerSvg
         .append("g")
@@ -289,11 +289,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
-      innerSvg.attr("x", this.uiService.getCenteredMargin(true))
+      // innerSvg.attr("x", this.uiService.getCenteredMargin(true))
       innerSvg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
         this.zooming.transform,
         d3.zoomIdentity.translate(
-          diameter / 2,
+          
+document.querySelector("svg#map").clientWidth / 2,
           diameter / 2
         )
       );
@@ -686,7 +687,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     if (localStorage.getItem("node_id")) {
       let id = localStorage.getItem("node_id");
       if (getLastZoomedCircle().data.id.toString() === id.toString()) return;
-      this.svg.attr("x", this.uiService.getCenteredMargin());
+      // this.svg.attr("x", this.uiService.getCenteredMargin());
       this.svg.select(`circle.node.initiative-map[id="${id}"]`).dispatch("click");
     }
 

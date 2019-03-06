@@ -223,16 +223,16 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       .attr('xmlns:xlink', "http://www.w3.org/1999/xlink")
       .attr("class", "overlay");
 
-    let innerSvg = svg.append("svg")
-      .attr("width", "100%")
-      .attr("height", "100%")
-      .attr("x", "200px")
-      .attr("x", this.uiService.getCenteredMargin())
-      .style("overflow", "visible");
+    // let innerSvg = svg.append("svg")
+    //   .attr("width", "100%")
+    //   .attr("height", "100%")
+    //   .attr("x", "200px")
+    //   .attr("x", this.uiService.getCenteredMargin())
+    //   .style("overflow", "visible");
 
-      let definitions = innerSvg.append("defs");
+      let definitions = svg.append("defs");
 
-    let g = innerSvg
+    let g = svg
       .append("g")
       .attr(
         "transform",
@@ -247,13 +247,13 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           .translate(0, this.height/2)
           .scale(1)
       );
-      innerSvg.call(zooming);
+      svg.call(zooming);
     } catch (error) { }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
-      innerSvg.transition().duration(this.TRANSITION_DURATION).call(
+      svg.transition().duration(this.TRANSITION_DURATION).call(
         zooming.transform,
-        d3.zoomIdentity.translate(0 , this.height/2)
+        d3.zoomIdentity.translate(document.querySelector("svg#map").clientWidth / 4 , this.height/2)
       );
     });
 
@@ -261,9 +261,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       try {
         // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
         if (zf) {
-          zooming.scaleBy(innerSvg.transition().duration(this.TRANSITION_DURATION), zf);
+          zooming.scaleBy(svg.transition().duration(this.TRANSITION_DURATION), zf);
         } else {
-          innerSvg.transition().duration(this.TRANSITION_DURATION).call(
+          svg.transition().duration(this.TRANSITION_DURATION).call(
             zooming.transform,
             d3.zoomIdentity.translate(0, this.height/2)
           );
@@ -295,7 +295,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     })
 
 
-    this.svg = innerSvg;
+    this.svg = svg;
     this.g = g;
     this.definitions = definitions;
     this.zoomListener = zooming;

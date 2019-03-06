@@ -156,15 +156,15 @@ export class UIService {
           : true;
   }
 
-  getCenteredMargin(isReset?: boolean): string {
-    // console.log("getCenteredMargin")
-    let outerSvg = document.querySelector("svg#map");
-    let innerSvg = document.querySelector("svg#map > svg");
-    let width = this.getCanvasWidth();
-    let height = this.getCanvasHeight();
-    let outer = outerSvg ? outerSvg.clientWidth : 0;
-    let inner = innerSvg ? innerSvg.getBoundingClientRect().width : 0;
+  // getCenteredMargin(isReset?: boolean): string {
+  //   // console.log("getCenteredMargin")
+  //   let outerSvg = document.querySelector("svg#map");
+  //   let innerSvg = document.querySelector("svg#map > svg");
+  //   let width = this.getCanvasWidth();
+  //   let height = this.getCanvasHeight();
+  //   let outer = outerSvg ? outerSvg.clientWidth : 0;
+  //   let inner = innerSvg ? innerSvg.getBoundingClientRect().width : 0;
 
-    return outer > inner && inner>0 ? `calc(50% - ${inner / 2}px)` : `${((width - height) / width * 100 / 2)}%`
-  }
+  //   return outer > inner && inner>0 ? `calc(50% - ${inner / 2}px)` : `${((width - height) / width * 100 / 2)}%`
+  // }
 }
