@@ -180,7 +180,7 @@ tree-root .angular-tree-component-rtl .tree-children {
   /* margin-right: 0.5vw; */
 }
 
-@media only screen and (max-height: 800px) {
+/* @media only screen and (max-height: 800px) {
   .angular-tree-component {
     width: 100%;
     max-height: 50vh;
@@ -196,7 +196,7 @@ tree-root .angular-tree-component-rtl .tree-children {
     overflow-y: auto;
     padding-right:1.2rem;
   }
-}
+} */
 
 .node-root > tree-node-wrapper > .node-wrapper{
   background: red;
