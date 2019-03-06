@@ -1,7 +1,7 @@
 import { Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+// import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { AppComponent } from "./app.component";
 import { CoreModule } from "./core/core.module";
@@ -42,7 +42,7 @@ export function markedOptionsFactory(): MarkedOptions {
     imports: [
         // angular
         BrowserModule,
-        BrowserAnimationsModule,
+        // BrowserAnimationsModule,
         // routing
         AppRoutingModule,
         // analytics
@@ -61,7 +61,7 @@ export function markedOptionsFactory(): MarkedOptions {
     ],
     exports: [RouterModule],
     providers: [
-        BrowserAnimationsModule,
+        // BrowserAnimationsModule,
         Location,
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         { provide: APP_BASE_HREF, useValue: '/' }
