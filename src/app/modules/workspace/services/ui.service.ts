@@ -165,6 +165,6 @@ export class UIService {
     let outer = outerSvg ? outerSvg.clientWidth : 0;
     let inner = innerSvg ? innerSvg.getBoundingClientRect().width : 0;
 
-    return outer > inner ? `calc(50% - ${inner / 2}px)` : `${((width - height) / width * 100 / 2)}%`
+    return outer > inner && inner>0 ? `calc(50% - ${inner / 2}px)` : `${((width - height) / width * 100 / 2)}%`
   }
 }
