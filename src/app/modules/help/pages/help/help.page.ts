@@ -4,6 +4,7 @@ import { InstructionsService } from '../../../../shared/components/instructions/
 import { User } from '../../../../shared/model/user.data';
 import { Auth } from '../../../../core/authentication/auth.service';
 import { Subscription } from 'rxjs/Subscription';
+import { Intercom } from 'ng-intercom';
 
 @Component({
     selector: "help",
@@ -15,7 +16,7 @@ export class HelpComponent implements OnInit {
     user:User;
     subscription:Subscription;
     
-    constructor(private auth:Auth , private instructions:InstructionsService) { }
+    constructor(private auth:Auth , private instructions:InstructionsService, private intercom:Intercom) { }
 
     ngOnInit() {
         this.subscription = this.auth.getUser().subscribe(user =>{
@@ -29,6 +30,10 @@ export class HelpComponent implements OnInit {
     
     openTutorial(){
         this.instructions.openTutorial(this.user);
+    }
+
+    openIntercom(){
+        this.intercom.show();
     }
 
 }
