@@ -17,6 +17,7 @@ import './assets/styles/custom/popover.css'
 import './assets/styles/custom/color-picker.css'
 import './assets/styles/custom/maps.css'
 import './assets/styles/custom/breadcrumb.css'
+import './assets/styles/custom/typeahead.css'
 
 
 if (process.env.NODE_ENV === "production") {

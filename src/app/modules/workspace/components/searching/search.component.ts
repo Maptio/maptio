@@ -8,12 +8,13 @@ import { flatten, uniqBy } from "lodash-es"
 
 export enum SearchResultType {
     Initiative,
-    User
+    User,
 }
 
 class SearchResult {
     type: SearchResultType
     result: User | Initiative
+    header?: string
 }
 
 @Component({
@@ -64,6 +65,10 @@ export class SearchComponent implements OnInit {
             .map(i => <SearchResult>{ type: SearchResultType.User, result: i });
     }
 
+    addHeader(results: SearchResult[], header: SearchResult) {
+        return results.length > 0 ? [header].concat(results) : [];
+    }
+
     // searchInitiatives = (text$: Observable<string>) =>
     //     text$
     //         .debounceTime(200)
@@ -92,9 +97,14 @@ export class SearchComponent implements OnInit {
                 this.cd.markForCheck();
             })
             .map(search => {
+                let usersHeader = <SearchResult>{ type: SearchResultType.User, result: null, header: 'People' };
+                let circlesHeader = <SearchResult>{ type: SearchResultType.Initiative, result: null, header: 'Circles' };
+
+
                 return search === ""
-                    ? this.list
-                    : this.findUsers(search).concat(this.findInitiatives(search)).slice(0, 10)
+                    ? []
+                    : this.addHeader(this.findUsers(search), usersHeader)
+                        .concat(this.addHeader(this.findInitiatives(search), circlesHeader)).slice(0, 10)
             })
             .do(list => {
                 this.searchResultsCount = list.length;

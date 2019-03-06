@@ -6,21 +6,9 @@
     /* padding-left: 3vw; */
   }
   
-  :host /deep/  .dropdown-item.active, .dropdown-item:active {
-    /* color: #fff; */
-    text-decoration: none;
-    /* font-style: italic; */
-    background-color: #2f81b78c !important;
-  }
-
-  :host /deep/ button.dropdown-item:nth-child(even) {
-    background: #f8f9fa;
-  }
-  
-  :host /deep/ .dropdown-menu {
-    max-height: 65vh;
+  ::ng-deep .dropdown-menu {
+    position:absolute;
+    width:calc(100% - 3vw);
+    max-height: 33vh;
     overflow-y: auto;
-    min-width: 100%;
-    max-width: 100%;
-    margin-left: 3vw;
   }
