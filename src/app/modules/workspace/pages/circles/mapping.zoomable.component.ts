@@ -233,7 +233,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .append("g")
         .attr(
           "transform",
-          `translate(${diameter / 2}, ${diameter / 2}) scale(1)`
+          `translate(${diameter/2}, ${diameter / 2}) scale(1)`
         ),
       definitions = innerSvg.append("svg:defs");
 
@@ -269,7 +269,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     try {
       // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
       // svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
-      const initX: number = this.translateX || diameter / 2;
+      const initX: number = this.translateX || width / 2;
       const initY: number = this.translateY || diameter / 2;
       const initK: number = this.scale || 1;
 
@@ -675,6 +675,7 @@ document.querySelector("svg#map").clientWidth / 2,
     try {
       // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
 
+      console.log(this.translateX, this.translateY)
       svg.call(
         this.zooming.transform,
         d3.zoomIdentity
@@ -687,7 +688,6 @@ document.querySelector("svg#map").clientWidth / 2,
     if (localStorage.getItem("node_id")) {
       let id = localStorage.getItem("node_id");
       if (getLastZoomedCircle().data.id.toString() === id.toString()) return;
-      // this.svg.attr("x", this.uiService.getCenteredMargin());
       this.svg.select(`circle.node.initiative-map[id="${id}"]`).dispatch("click");
     }
 
