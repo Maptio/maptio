@@ -613,7 +613,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .attr("dy", "5")
         .attr("x", CIRCLE_RADIUS * 2 + CIRCLE_MARGIN)
         .html(function (d: any) {
-          return `<tspan>${d.data.accountable ? d.data.accountable.name : "Unknown"}</tspan>`;
+          return `<tspan>${d.data.accountable ? d.data.accountable.name : "No lead"}</tspan>`;
         });
 
       // UPDATE
