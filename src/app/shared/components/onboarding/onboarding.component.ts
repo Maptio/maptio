@@ -94,6 +94,7 @@ export class OnboardingComponent implements OnInit {
                         this.isCreatingTeam = false;
                         this.team = team;
                         this.teamCreationErrorMessage = null;
+                        this.mapName = `${team.name} map`
                         this.goToNextStep();
                         this.cd.markForCheck();
                     })
