@@ -22,7 +22,7 @@
 
 #toggle.collapsible.show:hover{
     transition:all 250ms;
-    padding-left:2rem;
+    /* padding-left:2rem; */
     width:6rem;
 }
 

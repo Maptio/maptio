@@ -16,10 +16,10 @@
                 [class.hide]="!isBuildingPanelCollapsed" [class.show]="isBuildingPanelCollapsed"
                 [ngClass]="{'bg-accent-gray pointer-none':!isBuildingVisible}"  [class.bg-accent]="isBuildingVisible"
                 (click)="openBuildingPanel()">
-                <span class="h2" *ngIf="isBuildingPanelCollapsed">
-                    <i class="fa fa-angle-right text-white" aria-hidden="true"></i>
-
-                </span>
+                <div class="flex flex-column text-white" *ngIf="isBuildingPanelCollapsed">
+                    <i class="h2 fa fa-angle-right w-100 text-center " aria-hidden="true"></i>
+                    <div class="w-100 text-center small">Edit map</div>
+                </div>
             </div>
             <div id="hierarchy" [class.d-none]="!isBuildingVisible" [class.hide]="isBuildingPanelCollapsed"
                 [class.show]="!isBuildingPanelCollapsed" class="collapsible sidenav h-100 justify-content-start">
