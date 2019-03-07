@@ -84,7 +84,7 @@ describe("mapping.tree.component.ts", () => {
         
         let data = new Initiative().deserialize(fixtures);
         let mockDataService = target.debugElement.injector.get(DataService);
-        spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, team: new Team({}), dataset: new DataSet({}), members: [] }));
+        spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, team: new Team({settings : {authority: "Lead", helper:"Contributor"}}), dataset: new DataSet({}), members: [] }));
 
         let mockSettingsService =target.debugElement.injector.get(MapSettingsService);
         spyOn(mockSettingsService, "get").and.returnValue({

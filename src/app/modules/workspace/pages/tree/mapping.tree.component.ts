@@ -402,12 +402,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     setPathsToRoot(pathsToRoot)
    
     traverse(root, (n: any) => {
-      if (settings.views.tree.expandedNodesIds.indexOf(n.data.id) > -1) {
-        expand(n)
-      }
-      if (settings.views.tree.expandedNodesIds.indexOf(n.data.id) == -1) {
-        collapse(n)
-      }
+      // if (settings.views.tree.expandedNodesIds.indexOf(n.data.id) > -1) {
+      //   expand(n)
+      // }
+      // if (settings.views.tree.expandedNodesIds.indexOf(n.data.id) == -1) {
+      //   collapse(n)
+      // }
       if (isAllExpanded) expand(n);
       if (isAllCollapsed) {
         if (n.depth >= 1) collapse(n)
