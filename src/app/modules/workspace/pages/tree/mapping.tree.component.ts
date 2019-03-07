@@ -63,6 +63,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public datasetId: string;
   public teamId: string;
   public teamName: string;
+  public authorityLabel:string;
   public settings: MapSettings;
 
   public height: number;
@@ -136,6 +137,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         this.datasetId = complexData[0].dataset.datasetId;
         this.settings = this.mapSettingsService.get(this.datasetId);
         this.teamName = complexData[0].team.name;
+        this.authorityLabel = complexData[0].team.settings.authority;
         this.slug = data.getSlug();
         this.tagsState = complexData[1];
         this.setSeedColor(complexData[2]);
@@ -345,6 +347,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let viewerWidth = this.width;
     let viewerHeight = this.height;
     let datasetId = this.datasetId;
+    let authorityLabel = this.authorityLabel;
     let router = this.router;
     let userFactory = this.userFactory;
     let showDetailsOf$ = this.showDetailsOf$;
@@ -613,7 +616,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .attr("dy", "5")
         .attr("x", CIRCLE_RADIUS * 2 + CIRCLE_MARGIN)
         .html(function (d: any) {
-          return `<tspan>${d.data.accountable ? d.data.accountable.name : "No lead"}</tspan>`;
+          return `<tspan>${d.data.accountable ? d.data.accountable.name : `No ${authorityLabel}`}</tspan>`;
         });
 
       // UPDATE
@@ -662,7 +665,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       nodeUpdate.select("text.accountable.tree-map").html(function (d: any) {
         return `
                         <tspan>${
-          d.data.accountable ? d.data.accountable.name : "Unknown"
+          d.data.accountable ? d.data.accountable.name : `No ${authorityLabel}`
           }</tspan>`;
       });
 
