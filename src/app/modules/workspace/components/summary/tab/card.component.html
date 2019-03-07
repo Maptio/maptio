@@ -38,7 +38,7 @@
                                     <img [hidden]="h.user_id === member?.user_id " class="rounded-circle  participant-picture" src="{{h.picture}}" alt="{{h.name}}"
                                         title="{{h.name}}" placement="top" container="body" ngbTooltip="{{h.name}}">
                                 </button>
-                                <markdown class="small mx-1 no-margin d-flex flex-column align-items-center" *ngIf="h.roles[0]?.description" [data]="h.roles[0]?.description"></markdown>
+                                <markdown class="small mx-1 no-margin d-flex flex-column align-items-start" *ngIf="h.roles[0]?.description" [data]="h.roles[0]?.description"></markdown>
 
                             </div>
                         </div>
