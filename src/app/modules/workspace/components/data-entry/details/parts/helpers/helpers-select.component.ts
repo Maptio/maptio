@@ -33,7 +33,7 @@ export class InitiativeHelpersSelectComponent implements OnInit {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.team && changes.team.currentValue) {
-            this.placeholder = `Enter the name of a ${(changes.team.currentValue as Team).settings.helper.toLowerCase()}`
+            this.placeholder = `Start typing the name of a ${(changes.team.currentValue as Team).settings.helper.toLowerCase()}`
         }
         this.cd.markForCheck();
     }
