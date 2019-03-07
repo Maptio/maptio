@@ -219,8 +219,6 @@ export class OnboardingComponent implements OnInit {
         switch (this.currentStep) {
             case "AddMember":
                 return true;
-            case "Terminology":
-                return true;
             default:
                 return false;
         }
