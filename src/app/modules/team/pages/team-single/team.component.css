@@ -1,0 +1,7 @@
+nav.header {
+min-height: 56px;
+}
+
+.nav-pills .nav-link {
+    border-radius: unset;
+}

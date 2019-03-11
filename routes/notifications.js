@@ -43,7 +43,6 @@ router.post('/send', function (req, res, next) {
         body: payload,
         json: true
     }, function (error, response, body) {
-        // console.log(error, response.statusCode)
         if (error) {
             res.send(error);
         }

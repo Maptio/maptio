@@ -1,5 +1,5 @@
-import { AuthConfiguration } from "./../auth/auth.config";
-import { environment } from "./../../../../environment/environment";
+import { AuthConfiguration } from "../../../core/authentication/auth.config";
+import { environment } from "../../../config/environment";
 import { MailingService } from "./../mailing/mailing.service";
 import { JwtEncoder } from "./../encoding/jwt.service";
 import { AuthHttp } from "angular2-jwt";
@@ -7,9 +7,9 @@ import { UserService } from "./user.service";
 import { TestBed, inject, fakeAsync } from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
-import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../../../core/mocks/authhttp.helper.shared";
 import { User } from "../../model/user.data";
-import { UserFactory } from "../user.factory";
+import { UserFactory } from "../../../core/http/user/user.factory";
 
 describe("user.service.ts", () => {
 
@@ -126,7 +126,9 @@ describe("user.service.ts", () => {
 
     describe("changePassword", () => {
         it("should call right dependencies", fakeAsync(inject([UserService, Http, AuthConfiguration, MockBackend], (target: UserService, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend) => {
-            let webAuth = jasmine.createSpyObj("webAuth", ["changePassword"])
+            let webAuth = {
+                changePassword : jest.fn()
+            } 
             spyOn(configuration, "getWebAuth").and.returnValue(webAuth);
             target.changePassword("someone@company.com")
             expect(webAuth.changePassword).toHaveBeenCalledWith({ connection: environment.CONNECTION_NAME, email: "someone@company.com" }, jasmine.any(Function));

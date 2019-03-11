@@ -9,7 +9,7 @@ jobs:
       CC_TEST_REPORTER_ID: 0d513f44c10e35dacbc815a38ded75a76f286f29a40f0b5597b4cd62a1bf8a10
     docker:
       # specify the version you desire here
-      - image: circleci/node:7.10
+      - image: circleci/node:8.11.3
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -46,6 +46,6 @@ jobs:
           name: Run tests
           command: |
               ./cc-test-reporter before-build
-              npm test
-              ./cc-test-reporter format-coverage -t lcov ./coverage/lcov/lcov.info
+              npm run test:coverage -- --runInBand
+              ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info
               ./cc-test-reporter upload-coverage

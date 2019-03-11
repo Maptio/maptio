@@ -1,0 +1,31 @@
+<div class="w-100">
+    <ul class="list-inline row d-flex align-items-stretch">
+        <li class="col-6 my-2" *ngIf="teams && !isCreateMapForbidden">
+            <div class="card bg-gradient text-white border-0 h-100">
+                <div class="card-body">
+                    <common-create-map [teams]="teams" [isRedirect]="true" (created)="onNewMap($event)"></common-create-map>
+                </div>
+            </div>
+        </li>
+
+
+
+        <ng-container *permissionsOnly="Permissions.canEditMapName; then canEditMapThen; else canEditMapElse"></ng-container>
+
+        <ng-template #canEditMapThen>
+            <li class="col-6 my-2" *ngFor="let dataset of datasets">
+                <common-card-map [dataset]="dataset" [isExportAvailable]="true" [isTeamDisplayed]="false" [isEdit]="true" (archived)="onArchive($event)"
+                    (restored)="onRestore($event)"></common-card-map>
+            </li>
+        </ng-template>
+
+        <ng-template #canEditMapElse>
+            <li class="col-6 my-2" *ngFor="let dataset of datasets">
+                <ng-container *ngIf="!dataset.isArchived">
+                    <common-card-map [dataset]="dataset" [isExportAvailable]="true" [isTeamDisplayed]="false" [isEdit]="false"></common-card-map>
+
+                </ng-container>
+            </li>
+        </ng-template>
+    </ul>
+</div>

@@ -3,7 +3,7 @@ var router = express.Router();
 var aws = require("aws-sdk");
 var fs = require("fs");
 var path = require('path');
-var _ = require("lodash");
+const templating = require("lodash/template");
 require('dotenv').config()
 const isDevelopment = process.env.NODE_ENV !== "production"
 
@@ -23,7 +23,7 @@ router.post('/', function (req, res, next) {
     let subject = req.body.subject;
     let url = req.body.url;
 
-    let template = _.template(fs.readFileSync(path.join(__dirname, "..", "public/templates/email-confirmation.html")))
+    let template = templating(fs.readFileSync(path.join(__dirname, "..", "src/assets/templates/email-confirmation.html")))
     let htmlBody = template({ url: url });
 
     ses.sendEmail({

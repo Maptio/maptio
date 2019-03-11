@@ -1,0 +1,78 @@
+<div id="maptio-context-menu" class="position-absolute d-block  context-menu p-3 font-map" [class.invisible]="!initiatives || isClosed"
+    [style.top.px]="y" [style.left.px]="x">
+    <div>
+        <div class="list-group">
+            <ng-container *ngFor="let initiative of initiatives">
+                <button class="d-flex flex-column cursor-pointer list-group-item list-group-item-action" (click)="openNode(initiative)">
+                    <span>
+                        <i class="fas fa-pen mr-1" aria-hidden="true"></i> Edit circle details
+                    </span>
+                </button>
+                <button *ngIf="initiative.accountable" class="d-flex flex-column cursor-pointer list-group-item list-group-item-action" (click)="openUser(initiative)">
+                    <span class="d-flex align-items-center justify-content-start nowrap">
+                        <i class="far fa-id-card mr-1"></i> {{initiative.accountable.name}}'s summary
+                        <img [src]="initiative.accountable.picture" [alt]="initiative.accountable.name" class="rounded-circle participant-picture mx-1">
+                    </span>
+                </button>
+            </ng-container>
+
+            <div class="cursor-pointer list-group-item list-group-item-action" (click)="isAddingNode=!isAddingNode" *ngIf="!isReadOnly">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <span>
+                        <i class="fas fa-plus mr-1" aria-hidden="true"></i> Create sub-circle
+                    </span>
+                    <i class="fa " [class.fa-caret-down]="!isAddingNode" [class.fa-caret-up]="isAddingNode" aria-hidden="true"></i>
+                </div>
+                <div *ngIf="isAddingNode" class="my-1">
+                    <div class="form-group w-100">
+                        <input #inputNewInitiative class="form-control form-control-sm" (click)="$event.stopPropagation()" type="text" name="" id="">
+                    </div>
+                    <div class="form-group d-flex justify-content-between w-100">
+                        <button class="btn btn-outline-success btn-sm" (click)="addNode(initiatives[0],inputNewInitiative.value, true)">Add circle and edit details</button>
+                        <button class="btn btn-success btn-sm" (click)="addNode(initiatives[0],inputNewInitiative.value, false)">Add circle</button>
+                    </div>
+                </div>
+
+            </div>
+            <ng-container *ngFor="let initiative of initiatives | slice:0:1">
+                <ng-container *permissionsOnly="Permissions.canDeleteInitiative; initiative initiative; then thenDeleteBlock; else elseDeleteBlock">
+
+                </ng-container>
+                <ng-template #thenDeleteBlock>
+                    <div *ngIf="!isReadOnly" (click)="isRemovingNode=!isRemovingNode" class="cursor-pointer list-group-item list-group-item-action ">
+
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>
+                                    <i class="fas fa-trash mr-1" aria-hidden="true"></i> Delete circle
+                                </span>
+                                <i class="fa " [class.fa-caret-down]="!isRemovingNode" [class.fa-caret-up]="isRemovingNode" aria-hidden="true"></i>
+
+                            </div>
+                            <div *ngIf="isRemovingNode" class="d-flex justify-content-start my-2 mx-0">
+                                <button class="btn btn-link btn-sm" (click)="isRemovingNode=false">Cancel</button>
+                                <button class="btn btn-danger btn-sm mx-1" (click)="removeNode(initiative)">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+
+                <ng-template #elseDeleteBlock>
+                    <div *ngIf="!isReadOnly" (click)="isRemovingNode=!isRemovingNode" class="cursor-pointer list-group-item list-group-item-action disabled">
+
+                        <div class="d-flex flex-column justify-content-start align-items-start">
+                            <div>
+                                <i class="fa fa-trash mx-1" aria-hidden="true"></i>
+                                <small class="text-muted">You don't have permission to delete this.
+                                    <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ng-container>
+
+        </div>
+    </div>
+</div>

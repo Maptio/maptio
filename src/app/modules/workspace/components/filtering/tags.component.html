@@ -1,0 +1,25 @@
+<div class="card bg-transparent border-0">
+  <div class="card-body">
+    
+    <div class="d-flex flex-wrap">
+      <span *ngFor="let tag of tags; let i=index" class="mr-1 my-1">
+        <span *ngIf="!tag.isSelected" class="cursor-pointer badge badge-pill p-2  border-thick" [style.color]="tag.color" [style.border-color]="tag.color" (click)="toggleTag(tag)">
+          <i class="fa fa-tag" aria-hidden="true"></i> {{tag.name}}
+          <!-- <i class="fa fa-check" aria-hidden="true" [style.color]="'white'"></i> -->
+        </span>
+        <span *ngIf="tag.isSelected" class="cursor-pointer badge badge-pill p-2  border-thick text-white" [style.border-color]="tag.color" [style.background]="tag.color" (click)="toggleTag(tag)">
+          <i class="fa fa-tag" aria-hidden="true"></i> {{tag.name}}
+          <!-- <i *ngIf="tag.isSelected" class="fa fa-check" aria-hidden="true" [style.color]="white"> </i> -->
+        </span>
+      </span>
+
+    </div>
+    
+  </div>
+
+  <div class="card-footer border-0 bg-transparent">
+    <button class="btn btn-outline-secondary btn-sm mr-1 " (click)="selectAllTags()">Select all</button>
+    <button class="btn btn-outline-secondary btn-sm " (click)="unselectAllTags()">Unselect all</button>
+  </div>
+
+</div>

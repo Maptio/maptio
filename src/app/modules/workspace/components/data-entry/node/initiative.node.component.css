@@ -1,0 +1,141 @@
+
+
+
+
+/*.close-node{
+    background-image: url("/assets/images/minus.png");
+}*/
+
+.tree-node-expanded {
+    background-image: none;
+}
+
+.tree-node-collapsed {
+    background-image: none;
+    /*url("/assets/images/plus.png");*/
+    background-size: 1rem;
+    background-repeat: no-repeat;
+}
+
+
+/* .toggle-children-wrapper{
+display: flex;
+    align-items: center;
+    margin: 3px;
+      padding: 0 !important;
+} */
+
+.tree-node {
+    flex-wrap: wrap;
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.form-group {
+    margin-bottom: 0;
+}
+
+.inputNodeName {
+    cursor: text;
+}
+
+.knurled {
+    /* border: none; */
+    background-color: transparent;
+    /* cursor: move; */
+}
+
+.slim{
+    width:4px;
+}
+
+.add:before {
+    content: "\f067";
+    font-family: "Font Awesome 5 Free";
+    font-weight: bold;
+}
+
+.remove:before {
+    content: "\f1f8";
+    font-family: "Font Awesome 5 Free";
+    font-weight: bold;
+}
+
+.edit:before {    
+    content: "\f304";
+    font-family: "Font Awesome 5 Free";
+    font-weight: bold;
+}
+
+.move-up:before{
+    content: "\f176";
+    font-family: "Font Awesome 5 Free";
+    
+}
+
+.move-down:before{
+    content: "\f175";
+    font-family: "Font Awesome 5 Free";
+   
+}
+
+.move-left:before{
+    content: "\f148";
+    font-family: "Font Awesome 5 Free";
+    
+}
+
+.move-right:before{
+    content: "\f149";
+    font-family: "Font Awesome 5 Free";
+    
+}
+
+.open-menu:before{
+    content: "\f141";
+    font-family: "Font Awesome 5 Free";
+    
+}
+
+.zoom:before {
+    content: "\f002";
+    font-family: "Font Awesome 5 Free";
+}
+
+.control {
+    opacity: 0.8;
+}
+
+.control > a {
+    color: gray;
+    border: 1px solid lightgray;
+    background-color: #FCFCFC;
+    clear: both;
+    height: 100%;
+}
+
+.control > a:hover {
+    color: black;
+}
+
+.form-group{
+    padding-left:5px;
+}
+
+.dropdown-menu.overflow{
+    max-height: 20vh;
+    overflow-y: auto;
+}
+
+
+.disabled{
+   pointer-events: auto !important;
+}
+
+
+.not-allowed{
+    cursor: not-allowed;
+}

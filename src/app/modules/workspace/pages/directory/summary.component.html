@@ -1,0 +1,58 @@
+<div class="row h-100 overflow-y overflow-y pt-4 cursor-auto overflow-x-hidden justify-content-center" id="summary-canvas" >
+
+    <div class="d-flex col-11 px-5">
+
+        <div class="col mr-3 d-flex justify-content-between align-items-start" *ngIf="selectedMember">
+            <div class="w-100 d-flex flex-column align-items-end mt-3">
+                <button class="btn btn-link btn-sm" type="button" (click)="isOthersPeopleVisible=!isOthersPeopleVisible" data-toggle="collapse" data-target="#collapseOtherMembers" aria-expanded="false"
+                    aria-controls="collapseOtherMembers">{{ isOthersPeopleVisible ? 'Hide' : 'Show'}}  other people</button>
+                <div class="w-100">
+                    <summary-personal [dataset]="dataset" [member]="selectedMember" [team]="team" [initiative]="initiative" (selectMember)="onSelectMember($event)" (selectInitiative)="onSelectInitiative($event)"></summary-personal>
+               </div>
+
+
+            </div>
+
+        </div>
+
+        <div id="collapseOtherMembers" [class.col-3]="selectedMember" [class.collapse]="selectedMember" [class.w-100]="!selectedMember"
+            class=" border-0 " [class.mt-3]="selectedMember">
+            <div class="card border-0 bg-transparent">
+                <div *ngIf="!selectedMember && !!initiative">
+                    <h1>Directory</h1>
+                    <h6 class="text-muted">
+
+                        This is a directory of organisation
+                        <a routerLink="/teams/{{team.team_id}}/{{team.getSlug()}}">{{team.name}}</a>. Select a person to see their circles in map
+                        <a routerLink="../circles">{{initiative?.name}}</a>: </h6>
+                </div>
+
+            </div>
+
+            <div>
+                <!-- <h6 *ngIf="selectedMember"> Other people</h6> -->
+                <div class=" form-group form-inline d-flex flex-column align-items-start" [class.w-25]="!selectedMember" [class.my-3]="!selectedMember"
+                    *ngIf="initiative">
+                    <input id="inputQuickFilter" #inputQuickFilter placeholder="Find a person" type="text" class="form-control w-100" (keyup)="onKeyDown(inputQuickFilter.value)">
+                    <div [class.invisible]="!inputQuickFilter.value" class="d-flex justify-content-between align-items-center w-100">
+                        <span class="text-muted small">{{filteredMembers.length}}/{{members?.length}} people</span>
+
+                        <button class="btn btn-link btn-sm px-0" (click)="onKeyDown('');inputQuickFilter.value=''">
+                            Show all
+                        </button>
+                    </div>
+                </div>
+
+                <ul class="card-columns p-0" [class.five-columns]="!selectedMember" [class.one-column]="selectedMember">
+                    <a class="card border cursor-pointer" *ngFor="let member of filteredMembers" (click)="onSelectMember(member)">
+                        <div class="card-body">
+                            <img *ngIf="member.picture" [src]="member.picture"  class="rounded-circle participant-picture mr-1">{{member.name}}
+                        </div>
+                    </a>
+                </ul>
+            </div>
+
+
+        </div>
+    </div>
+</div>

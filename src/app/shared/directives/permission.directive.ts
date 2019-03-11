@@ -1,7 +1,7 @@
 import { Helper } from "./../model/helper.data";
 import { Initiative } from "./../model/initiative.data";
 import { Permissions } from "./../model/permission.data";
-import { Auth } from "./../services/auth/auth.service";
+import { Auth } from "../../core/authentication/auth.service";
 import {
     Directive,
     EventEmitter,
@@ -16,7 +16,8 @@ import {
 import { Subscription } from "rxjs/Subscription";
 import "rxjs/add/operator/merge";
 import "rxjs/add/operator/skip";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs/Rx";
+import { PermissionsService } from "../services/permissions/permissions.service";
 
 export type StrategyFunction = (templateRef?: TemplateRef<any>) => void;
 
@@ -54,8 +55,10 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     @Input() permissionsOnlyUnauthorisedStrategy: StrategyFunction;
     @Input() permissionsOnlyAuthorisedStrategy: StrategyFunction;
 
-    @Output() permissionsAuthorized = new EventEmitter();
-    @Output() permissionsUnauthorized = new EventEmitter();
+    @Input() permissionOnlyTarget: string;
+
+    @Output() authorized = new EventEmitter();
+    @Output() unauthorized = new EventEmitter();
 
     private initPermissionSubscription: Subscription;
     private currentAuthorizedState: boolean;
@@ -66,7 +69,8 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     constructor(
         private viewContainer: ViewContainerRef,
         private templateRef: TemplateRef<any>,
-        private auth: Auth
+        private auth: Auth,
+        private permissionService: PermissionsService
     ) {
         this.userPermissions = auth.getPermissions();
         if (localStorage.getItem("profile")) {
@@ -142,10 +146,9 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     }
 
     private handleUnauthorisedPermission(template: TemplateRef<any>): void {
-
         if (!this.isBoolean(this.currentAuthorizedState) || this.currentAuthorizedState) {
             this.currentAuthorizedState = false;
-            this.permissionsUnauthorized.emit();
+            this.unauthorized.emit();
 
             if (this.unauthorisedStrategyDefined()) {
                 if (this.isFunction(this.unauthorisedStrategyDefined())) {
@@ -161,7 +164,7 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     private handleAuthorisedPermission(template: TemplateRef<any>): void {
         if (!this.isBoolean(this.currentAuthorizedState) || !this.currentAuthorizedState) {
             this.currentAuthorizedState = true;
-            this.permissionsAuthorized.emit();
+            this.authorized.emit();
 
             if (this.onlyAuthorisedStrategyDefined()) {
                 if (this.isFunction(this.onlyAuthorisedStrategyDefined())) {
@@ -194,7 +197,7 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     }
 
     private noThenBlockDefined() {
-        return  !this.permissionsThen;
+        return !this.permissionsThen;
     }
 
     private onlyAuthorisedStrategyDefined() {
@@ -222,131 +225,29 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     private checkPermission() {
         switch (this.permission) {
             case Permissions.canMoveInitiative:
-                return this.canMoveInitiative();
+                return this.permissionService.canMoveInitiative();
             case Permissions.canDeleteInitiative:
-                return this.canDeleteInitiative();
+                return this.permissionService.canDeleteInitiative(this.initiative);
             case Permissions.canEditInitiativeName:
-                return this.canEditInitiativeName();
+                return this.permissionService.canEditInitiativeName(this.initiative);
             case Permissions.canEditInitiativeDescription:
-                return this.canEditInitiativeDescription();
+                return this.permissionService.canEditInitiativeDescription(this.initiative);
             case Permissions.canEditInitiativeTags:
-                return this.canEditInitiativeTags();
+                return this.permissionService.canEditInitiativeTags(this.initiative);
             case Permissions.canEditInitiativeAuthority:
-                return this.canEditInitiativeAuthority();
+                return this.permissionService.canEditInitiativeAuthority(this.initiative);
             case Permissions.canAddHelper:
-                return this.canAddHelper();
+                return this.permissionService.canAddHelper(this.initiative);
             case Permissions.canDeleteHelper:
-                return this.canDeleteHelper();
+                return this.permissionService.canDeleteHelper(this.initiative, this.helper);
             case Permissions.canEditHelper:
-                return this.canEditHelper();
+                return this.permissionService.canEditHelper(this.initiative, this.helper);
             case Permissions.canGiveHelperPrivileges:
-                return this.canGiveHelperPrivilege()
+                return this.permissionService.canGiveHelperPrivilege(this.initiative)
             default:
                 return this.userPermissions.includes(this.permission);
         }
     }
 
-    private canMoveInitiative(): boolean {
-        return this.userPermissions.includes(Permissions.canMoveInitiative)
-    }
 
-    private canEditInitiativeName(): boolean {
-        return this.userPermissions.includes(Permissions.canEditInitiativeName)
-            ||
-            !this.initiative.accountable
-            ||
-            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
-            ||
-            (this.initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
-
-    }
-
-    private canEditInitiativeDescription(): boolean {
-        return this.userPermissions.includes(Permissions.canEditInitiativeDescription)
-            ||
-            !this.initiative.accountable
-            ||
-            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
-            ||
-            (this.initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
-
-    }
-
-    private canEditInitiativeTags(): boolean {
-        return this.userPermissions.includes(Permissions.canEditInitiativeTags)
-            ||
-            !this.initiative.accountable
-            ||
-            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
-            ||
-            (this.initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
-
-    }
-
-    private canEditInitiativeAuthority(): boolean {
-        return this.userPermissions.includes(Permissions.canEditInitiativeAuthority)
-            ||
-            !this.initiative.accountable
-            ||
-            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
-    }
-
-    private canAddHelper(): boolean {
-        return this.userPermissions.includes(Permissions.canAddHelper)
-            ||
-            !this.initiative.accountable
-            ||
-            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
-            ||
-            (this.initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
-            ||
-            (this.initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
-
-    }
-
-    private canDeleteHelper(): boolean {
-        return this.userPermissions.includes(Permissions.canDeleteHelper)
-            ||
-            !this.initiative.accountable
-            ||
-            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
-            ||
-            (this.helper.user_id === this.userId)
-            ||
-            (this.initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
-
-    }
-
-    private canEditHelper(): boolean {
-        return this.userPermissions.includes(Permissions.canEditHelper)
-            ||
-            !this.initiative.accountable
-            ||
-            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
-            ||
-            (this.helper.user_id === this.userId)
-            ||
-            (this.initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
-
-    }
-
-    private canGiveHelperPrivilege(): boolean {
-        return this.userPermissions.includes(Permissions.canEditHelper)
-            ||
-            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
-            ||
-            (this.initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
-
-    }
-
-    private canDeleteInitiative(): boolean {
-        return this.userPermissions.includes(Permissions.canDeleteInitiative)
-            ||
-            !this.initiative.accountable
-            ||
-            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
-            ||
-            (this.initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
-
-    }
 }

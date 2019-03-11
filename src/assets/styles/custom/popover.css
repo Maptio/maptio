@@ -1,0 +1,32 @@
+
+
+.permissions.popover {
+  border: 1px solid var(--maptio-orange);
+  }
+
+  .permissions.popover.bs-popover-right > .arrow::before{
+    border-right-color: var(--maptio-orange);
+    
+  }
+
+  .permissions.popover.bs-popover-left > .arrow::before{
+    border-left-color: var(--maptio-orange);
+    
+  }
+
+
+  .permissions.popover.bs-popover-top > .arrow::before{
+    border-top-color: var(--maptio-orange);
+    
+  }
+
+
+
+
+  .permissions.popover > .popover-header{
+    display: none !important;
+  }
+
+  .permissions.popover > .popover-body{
+    color: var(--maptio-orange);
+  }

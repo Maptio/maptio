@@ -1,0 +1,37 @@
+<ng-template #editTipContent>
+    <ng-content></ng-content>
+</ng-template>
+
+<div class="d-flex align-items-baseline text-gray-light mb-2">
+    <i class="fas fa-tags  mr-1"></i>
+    <span class="text-uppercase text-bold small mr-1">tags</span>
+    <span *ngIf=" isUnauthorized" class="text-gray-light small" [stickyPopover]="editTipContent" placement='right'>
+        <i class="fas fa-lock"></i>
+    </span>
+   
+</div>
+<div class="d-flex justify-content-start align-items-center flex-wrap">
+    <div *ngFor="let tag of selectedTags; let i=index">
+        <a class="badge badge-pill p-2  border-thick text-white mr-1" [style.border-color]="tag.color"
+            [style.background]="tag.color">
+            <i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag.name}}
+            <span class="remove transparent ml-2" *ngIf="!isUnauthorized" (click)="removeTag(tag)"></span>
+        </a>
+    </div>
+    <div class="dropdown" *ngIf="!isUnauthorized">
+        <button class="btn badge badge-pill p-2 dropdown-toggle  btn-sm btn-outline-secondary" type="button"
+            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Select tag
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <button class="dropdown-item" type="button" (click)="editTags()">Edit tags</button>
+            <div class="dropdown-divider"></div>
+            <button (click)="addTag(tag)" *ngFor="let tag of availableTags; let i=index" class="dropdown-item"
+                type="button" [style.color]="tag.color">
+                <i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag.name}}
+            </button>
+        </div>
+    </div>
+
+
+</div>

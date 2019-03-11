@@ -1,0 +1,40 @@
+.custom-switch {
+    padding-left: 0!important;
+}
+
+.custom-control {
+    position: relative;
+    display: inline-block;
+    min-height: 1.5rem;
+    padding-left: 0 !important;
+}
+
+.custom-switch .custom-control-label{
+    line-height: 1.5rem;
+}
+
+.custom-switch .custom-control-label::before {
+    right: -2.25rem;
+    left: auto;
+    width: 1.75rem;
+    pointer-events: all;
+    border-radius: .5rem;
+}
+
+.custom-switch .custom-control-label::after {
+    top: calc(.25rem + 2px);
+    right: calc(-1.25rem + -2px);
+    left: auto;
+    width: calc(1rem - 4px);
+    height: calc(1rem - 4px);
+    /* background-color: #adb5bd; */
+    border-radius: .5rem;
+    transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-transform .15s ease-in-out;
+    transition: transform .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: transform .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-transform .15s ease-in-out;
+}
+
+.custom-switch .custom-control-input:disabled:checked~.custom-control-label::before {
+    background-color: var(--maptio-accent-gray);
+    border-color: var(--maptio-accent-gray);
+}

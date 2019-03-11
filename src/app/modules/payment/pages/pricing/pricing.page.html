@@ -1,0 +1,129 @@
+<ng-template #features>
+    <div>
+        <b>Features</b>
+    </div>
+    <ul class="d-flex flex-column align-items-start p-3">
+        <li>
+            1 organisation
+        </li>
+        <li>
+            Unlimited maps
+        </li>
+        <li>
+            Circles, tree and network views
+        </li>
+        <li>
+            Tagging
+        </li>
+        <li>
+            Slack integration
+        </li>
+    </ul>
+</ng-template>
+
+
+
+<div class="d-flex justify-content-center align-items-center flex-column ">
+    <div class="d-flex flex-column justify-content-center align-items-center col-12">
+        <div class="d-flex flex-column justify-content-center align-items-center col-12 ">
+            <h1 class="col-12 col-xl-9 text-center text-blue">Maptio helps you organise without traditional management hierarchy</h1>
+
+            <button *ngIf="!auth.allAuthenticated()" class="btn btn-success btn-lg my-4" routerLink="/signup">Get started - Free for 14 days</button>
+            <h4 *ngIf="auth.allAuthenticated()" class="my-4 text-muted">Choose a plan</h4>
+
+
+            <div class="d-flex flex-row justify-content-center align-items-stretch">
+                <div class="col-4 accent-blue rounded-bottom box-shadow mx-2 my-3">
+                    <div class="card border-0">
+                        <div class="card-body border-0 bg-white text-center">
+                            <div class="card-title border-bottom h4 py-4">
+                                Small
+                            </div>
+                            <div class="card-text ">
+                                <span class="display-4">$50 </span>
+                                <sup class="text-top">per month</sup>
+                            </div>
+                            <div class="card-text text-muted">
+                                0 - 35 people per organisation
+                            </div>
+                            <div class="card-text">
+                                <div class="card-text" *ngIf="!auth.allAuthenticated()">
+                                    <button class="btn btn-success btn-lg my-3" routerLink="/signup">Sign up</button>
+                                </div>
+                                <div class="card-text" *ngIf="auth.allAuthenticated()">
+                                    <a class="btn btn-success text-white btn-lg my-3" href="{{BILLING_SMALL_PLAN}}">Subscribe</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="card-footer border-0 bg-light text-muted">
+                            <ng-container *ngTemplateOutlet="features"></ng-container>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-4 accent-blue rounded-bottom box-shadow mx-2 my-3">
+                    <div class="card border-0">
+                        <div class="card-body border-0 bg-white text-center">
+                            <div class="card-title border-bottom h4 py-4">
+                                Medium
+                            </div>
+                            <div class="card-text">
+                                <span class="display-4">$99 </span>
+                                <sup class="text-top">per month</sup>
+                            </div>
+                            <div class="card-text text-muted">
+                                35 - 200 people per organisation
+                            </div>
+                            <div class="card-text">
+                                <div class="card-text" *ngIf="!auth.allAuthenticated()">
+                                    <button class="btn btn-success btn-lg my-3" routerLink="/signup">Sign up</button>
+                                </div>
+                                <div class="card-text" *ngIf="auth.allAuthenticated()">
+                                    <a class="btn btn-success text-white btn-lg my-3" href="{{BILLING_MEDIUM_PLAN}}">Subscribe</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="card-footer border-0 bg-light text-muted">
+                            <ng-container *ngTemplateOutlet="features"></ng-container>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-4 accent-blue rounded-bottom box-shadow  mx-2 my-3">
+                    <div class="card border-0">
+                        <div class="card-body border-0 bg-white text-center">
+                            <div class="card-title border-bottom h4 py-4">
+                                Large
+                            </div>
+                            <div class="card-text display-4 invisible">
+
+                                <a class="btn btn-success text-white" href="mailto:support@maptio.com?subject=Bespoke pricing request">Contact us</a>
+                            </div>
+                            <!-- <div class="card-text text-muted invisible">
+                                per month
+                            </div> -->
+                            <div class="card-text text-muted">
+                                200+ people per organisation
+                            </div>
+                            <div class="card-text ">
+                                <a class="btn btn-success btn-lg text-white my-3" href="mailto:support@maptio.com?subject=Bespoke pricing request">Contact us</a>
+                            </div>
+                        </div>
+                        <!-- <div class="card-footer border-0 bg-light text-muted">
+                            <ng-container *ngTemplateOutlet="features"></ng-container>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="card-footer border-0 bg-light text-muted">
+                            <ng-container *ngTemplateOutlet="features"></ng-container>
+                        </div> -->
+
+            <div class="d-flex justify-content-center align-items-stretch text-muted my-5">
+
+                <a href="mailto:support@maptio.com?subject=Deal request">I want to use Maptio but cannot afford this.</a>
+
+            </div>
+
+        </div>
+    </div>
+</div>

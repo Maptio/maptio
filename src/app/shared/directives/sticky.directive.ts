@@ -6,10 +6,10 @@ import {
     Injector,
     ComponentFactoryResolver,
     ViewContainerRef,
-    NgZone
+    NgZone, Inject, ChangeDetectorRef
 } from "@angular/core";
 import { NgbPopover, NgbPopoverConfig } from "@ng-bootstrap/ng-bootstrap";
-import { ContentRef } from "@ng-bootstrap/ng-bootstrap/util/popup";
+import { DOCUMENT } from '@angular/common';
 
 @Directive({
     selector: "[stickyPopover]",
@@ -21,6 +21,8 @@ export class StickyPopoverDirective extends NgbPopover {
     popoverTitle: string;
 
     placement: "auto" | "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left-top" | "left-bottom" | "right-top" | "right-bottom" | ("auto" | "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left-top" | "left-bottom" | "right-top" | "right-bottom")[];
+
+
 
     triggers: string;
 
@@ -42,13 +44,15 @@ export class StickyPopoverDirective extends NgbPopover {
 
     canClosePopover: boolean;
 
+
     constructor(private _elRef: ElementRef, private _render: Renderer2, injector: Injector,
         componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef, config: NgbPopoverConfig,
-        ngZone: NgZone) {
-        super(_elRef, _render, injector, componentFactoryResolver, viewContainerRef, config, ngZone);
+        ngZone: NgZone, @Inject(DOCUMENT) _document: any, cd: ChangeDetectorRef) {
+        super(_elRef, _render, injector, componentFactoryResolver, viewContainerRef, config, ngZone, _document, cd);
         this.triggers = "manual"
-        this.popoverTitle = "Permissions";
-        this.container = "body"
+        this.container = "body";
+        this.popoverClass = "permissions"
+
     }
     ngOnInit(): void {
         super.ngOnInit();
@@ -60,7 +64,7 @@ export class StickyPopoverDirective extends NgbPopover {
         });
 
         this._render.listen(this._elRef.nativeElement, "mouseleave", (event: Event) => {
-            setTimeout(() => { if (this.canClosePopover) this.close() }, 100)
+            setTimeout(() => { if (this.canClosePopover) this.close() }, 200)
 
         })
 
@@ -74,16 +78,19 @@ export class StickyPopoverDirective extends NgbPopover {
     }
 
     open() {
-        super.open();
-        let popover = window.document.querySelector(".popover")
-        this._render.listen(popover, "mouseover", () => {
-            this.canClosePopover = false;
-        });
 
-        this._render.listen(popover, "mouseout", () => {
-            this.canClosePopover = true;
-            setTimeout(() => { if (this.canClosePopover) this.close() }, 0)
-        });
+        super.open();
+        setTimeout(() => {
+            const popover = window.document.querySelector('.popover');
+            this._render.listen(popover, 'mouseover', () => {
+                this.canClosePopover = false;
+            });
+
+            this._render.listen(popover, 'mouseout', () => {
+                this.canClosePopover = true;
+                setTimeout(() => { if (this.canClosePopover) { this.close(); } }, 0);
+            });
+        }, 0);
     }
 
     close() {

@@ -4,7 +4,7 @@ import { Serializable } from "../interfaces/serializable.interface";
 import * as slug from "slug";
 import { Helper } from "./helper.data";
 import { Role } from "./role.data";
-import { compact, remove, flatten } from "lodash";
+import { compact, remove, flatten } from "lodash-es";
 import { Tag } from "./tag.data";
 
 @Injectable()
@@ -210,7 +210,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
 
     getSlug() {
         // HACK : quick fix for non latin characters
-        return slug(this.name || this.id.toString(), { lower: true }) || "initiative";
+        return slug(this.name || (this.id ?  this.id.toString() : "initiative"), { lower: true }) || "initiative";
     }
 
     getRoles(userId: string): Role[] {

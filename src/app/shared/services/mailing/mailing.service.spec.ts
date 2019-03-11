@@ -3,7 +3,7 @@ import { MailingService } from "./mailing.service";
 import { TestBed, inject } from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
-import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../../../core/mocks/authhttp.helper.shared";
 
 describe("mailing.service.ts", () => {
 
@@ -47,7 +47,7 @@ describe("mailing.service.ts", () => {
                 && connection.request.json().to === to
                 && connection.request.json().url === url
                 && connection.request.json().team === teamName
-                && connection.request.json().subject === `${invitedBy} invited you to join organization "${teamName}" on Maptio`
+                && connection.request.json().subject === `${invitedBy} invited you to join organisation "${teamName}" on Maptio`
             ) {
                 connection.mockRespond(new Response(new ResponseOptions({
                     body: JSON.stringify(mockResponse)

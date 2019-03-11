@@ -1,0 +1,46 @@
+.saving{
+	opacity: 0.75;	
+    transition-delay:0s;
+}
+
+.saving.hide{
+	opacity: 0;	
+    transition: opacity 2s ease;
+    transition-delay:2s;
+}
+
+.collapsible{
+    opacity: 1;
+    transition: opacity 1000ms ease;
+}
+
+.collapsible.hide{
+    width:0;
+    opacity:0;
+    transition:all 1s;
+}
+
+#toggle.collapsible.show:hover{
+    transition:all 250ms;
+    /* padding-left:2rem; */
+    width:6rem;
+}
+
+#toggle.collapsible.show{
+    width:4rem;
+    transition:all 250ms;
+}
+
+#toggle.hide{
+    pointer-events:none;
+}
+
+#hierarchy.collapsible.show{
+    width:66%;
+    transition:all 1s;
+}
+
+#details.collapsible.show{
+    width:66%;
+    transition:all 1s;
+}

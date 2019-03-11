@@ -1,9 +1,15 @@
-import { Component, OnInit, Input, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { DataSet } from '../../model/dataset.data';
 import { Team } from '../../model/team.data';
 import { isEmpty } from 'lodash';
-import { environment } from '../../../../environment/environment';
+import { environment } from '../../../config/environment';
 import { User } from '../../model/user.data';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TeamService } from '../../services/team/team.service';
+import { Router } from '@angular/router';
+import { MapService } from '../../services/map/map.service';
+
+
 
 @Component({
     selector: 'common-onboarding',
@@ -11,93 +17,234 @@ import { User } from '../../model/user.data';
     styleUrls: ['./onboarding.component.css']
 })
 export class OnboardingComponent implements OnInit {
-    @Input("datasets") datasets: DataSet[];
-    @Input("teams") teams: Team[];
+
+
     @Input("user") user: User;
+    @Input("steps") steps: string[];
 
-    // REFACTOR : Urgh, use false as default you idiot!
-    isZeroMaps: Boolean = true;
-    isZeroTeam: Boolean = true;
-    isZeroTeammates: Boolean = true;
-    isZeroTerminology: Boolean = true;
-    isZeroIntegration:Boolean=true;
+    currentStep: string;
+    currentIndex: number = 0;
+    nextActionName: string = "Start";
+    previousActionName: string = null;
+    progress: string;
+    progressLabel: string;
+    isClosable: boolean = true;
+    isSkippable: boolean;
 
-    isMultipleTeams: Boolean;
-    isMultipleMaps: Boolean;
+    teamCreationErrorMessage: string;
+    mapCreationErrorMessage: string;
+    isTerminologySaved: boolean;
+    MAX_MEMBERS: number = 4;
+    COLORS: any[] = [
+        { name: "#aaa", isSelected: false },
+        { name: "blue", isSelected: false },
+        { name: "purple", isSelected: false },
+        { name: "brown", isSelected: false },
+        { name: "red", isSelected: false },
+        { name: "orange", isSelected: false }
+    ]
+    selectedColor: string = this.COLORS[0].name;
+    mapName: string;
+    isCreatingEmptyMap: boolean =true;
+    isCreatingTeam: boolean;
 
+    members: User[];
+    team: Team;
+    dataset: DataSet;
 
-    teamId: String;
-    teamName: String;
-    membersCount: Number;
-    teamsCount: Number;
-    mapsCount: Number;
-    datasetId: String;
-    mapName: String;
-    firstCircleName: String;
-    authorityName: String;
-    helperName: String;
-
-    currentStep: String;
-    stepsList: String[];
-
-    SURVEY_URL:string = environment.SURVEY_URL;
-
-
-    constructor(private cd: ChangeDetectorRef) { }
+    constructor(public activeModal: NgbActiveModal, private cd: ChangeDetectorRef,
+        private teamService: TeamService, private mapService: MapService, private router: Router) { }
 
     ngOnInit(): void {
+        this.currentStep = this.steps[this.currentIndex];
+        this.members = [this.user];
+        this.progress = this.getProgress()
+        this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
+
+        this.teamService.get(this.user)
+            .then((teams: Team[]) => {
+                let nonExampleTeams = teams.filter(t => !t.isExample);
+                if (nonExampleTeams.length === 1) {
+                    this.team = nonExampleTeams[0];
+                } else {
+                    this.team = new Team({ name: '' });
+                }
+            })
+    }
+
+    close() {
+        this.activeModal.dismiss();
+    }
+
+    nextStep() {
+
+        if (this.currentStep === "CreateTeam") {
+            this.isCreatingTeam = false;
+            this.cd.markForCheck();
+            if (isEmpty(this.team.name)) {
+                this.teamCreationErrorMessage = "We need a name to continue."
+                this.cd.markForCheck();
+                return;
+            }
+            else {
+                this.isCreatingTeam = true;
+                this.cd.markForCheck();
+                this.saveTeam(this.team)
+                    .then(team => {
+                        this.isCreatingTeam = false;
+                        this.team = team;
+                        this.teamCreationErrorMessage = null;
+                        this.mapName = `${team.name} map`
+                        this.goToNextStep();
+                        this.cd.markForCheck();
+                    })
+            }
+        }
+        else if (this.currentStep === "CreateMap") {
+            if (isEmpty(this.mapName)) {
+                this.mapCreationErrorMessage = "We need a map name to continue.";
+                this.cd.markForCheck();
+                return;
+            }
+            else {
+                this.saveMap()
+                    .then(dataset => {
+                        this.dataset = dataset;
+                        this.mapCreationErrorMessage = null;
+                        this.goToNextStep();
+                        this.cd.markForCheck();
+                    })
+            }
+        }
+        else if (this.currentStep === "Ending") {
+            return this.router.navigateByUrl(`/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}`)
+                .then(() => {
+                    this.cd.markForCheck();
+                    this.activeModal.close();
+                })
+
+        }
+        else {
+            this.goToNextStep();
+        }
+
 
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.datasets && changes.datasets.currentValue) {
-            this.datasets = changes.datasets.currentValue;
-            this.isZeroMaps = isEmpty(this.datasets);
-            if (!this.isZeroMaps) {
-                this.datasetId = this.datasets[0].datasetId;
-                this.mapName = this.datasets[0].initiative.name;
-
-                // this.isZeroInitiative = !this.datasets[0].initiative.children || this.datasets[0].initiative.children.length === 0;
-
-                // if (!this.isZeroInitiative) {
-                //     this.firstCircleName = this.datasets[0].initiative.children[0].name;
-                // }
-
-                this.isMultipleMaps = this.datasets.length > 1;
-                this.mapsCount = this.datasets.length;
-            }
-        }
-
-        if (changes.teams && changes.teams.currentValue) {
-            this.isZeroTeam = isEmpty(changes.teams.currentValue)
-            if (!this.isZeroTeam) {
-                this.teamId = changes.teams.currentValue[0].team_id;
-                this.teamName = changes.teams.currentValue[0].name;
-                this.isZeroTeammates = (<Team>changes.teams.currentValue[0]).members.length === 1;
-                this.membersCount = (<Team>changes.teams.currentValue[0]).members.length;
-
-                this.isZeroTerminology =
-                    (<Team>changes.teams.currentValue[0]).settings.authority === environment.DEFAULT_AUTHORITY_TERMINOLOGY
-                    && (<Team>changes.teams.currentValue[0]).settings.helper === environment.DEFAULT_HELPER_TERMINOLOGY;
-
-                if (!this.isZeroTerminology) {
-                    this.authorityName = (<Team>changes.teams.currentValue[0]).settings.authority;
-                    this.helperName = (<Team>changes.teams.currentValue[0]).settings.helper;
-                }
-
-                this.isMultipleTeams = changes.teams.currentValue.length > 1;
-                if (this.isMultipleTeams) {
-                    this.teamsCount = changes.teams.currentValue.length
-                }
-
-                this.isZeroIntegration = !(<Team>changes.teams.currentValue[0]).slack.access_token
-
-            }
-        }
+    private goToNextStep() {
+        this.currentIndex += 1;
+        this.currentStep = this.steps[this.currentIndex]
+        this.nextActionName = this.getNextActionName();
+        this.previousActionName = this.getPreviousActionName();
+        this.isClosable = this.getIsClosable();
+        this.isSkippable = this.getIsSkippable();
+        this.progress = this.getProgress()
+        this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
         this.cd.markForCheck();
     }
 
-    isOnboardingCompleted() {
-        return !this.isZeroMaps && !this.isZeroTeam ; //&& !this.isZeroInitiative
+    previousStep() {
+        this.currentIndex -= 1;
+        this.currentStep = this.steps[this.currentIndex]
+        this.nextActionName = this.getNextActionName();
+        this.previousActionName = this.getPreviousActionName();
+        this.isClosable = this.getIsClosable();
+        this.isSkippable = this.getIsSkippable();
+        this.progress = this.getProgress()
+        this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
+
+        this.cd.markForCheck();
+    }
+
+    saveTeam(team: Team): Promise<Team> {
+        return this.teamService.exist(team)
+            .then((exist: boolean) => {
+                if (exist) {
+                    return this.teamService.save(team)
+                } else {
+                    return this.teamService.create(team.name, this.user, [this.user], false, false)
+                }
+            })
+    }
+
+    saveMap() {
+        return this.mapService.get(this.user.datasets[0])
+            .then(dataset => {
+                return this.mapService.archive(dataset)
+            })
+            .then(() => {
+                return this.createMap(this.mapName, this.isCreatingEmptyMap)
+            })
+    }
+
+    private createMap(name: string, isCreatingEmptyMap: boolean): Promise<DataSet> {
+        if (isCreatingEmptyMap) {
+            return this.mapService.createEmpty(name, this.team.team_id)
+        }
+        else {
+            return this.mapService.createTemplate(name, this.team.team_id)
+        }
+    }
+
+    getProgress() {
+        let progress = Number(Math.ceil((this.currentIndex + 1) / this.steps.length * 100))
+        return progress == 100 ? null : progress.toFixed(0)
+    }
+
+    getAbsoluteProgress() {
+        let stepsLeft = this.steps.length - (this.currentIndex + 1)
+        return stepsLeft == 0 ? "You're done!" : `${stepsLeft} steps left`;
+    }
+
+    getNextActionName() {
+        switch (this.currentStep) {
+            case "Welcome":
+                return "Start";
+            case "Ending":
+                return "Start mapping";
+            default:
+                return "Next";
+        }
+    }
+
+    getPreviousActionName() {
+        return this.currentStep === "Welcome" ? null : "Back";
+    }
+
+    getIsClosable() {
+        return this.currentStep === "Welcome";
+    }
+
+    getIsSkippable() {
+        switch (this.currentStep) {
+            case "AddMember":
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    onMemberAdded(event: { team: Team, user: User }) {
+        this.nextActionName = "Next";
+        this.isSkippable = false;
+        this.members.push(event.user);
+        this.cd.markForCheck();
+    }
+
+    onTerminologySaved(team:Team){
+        this.nextActionName = "Next";
+        this.isSkippable = false;
+        this.cd.markForCheck();
+    }
+
+    getMemberIndexes() {
+        return Array.from({ length: this.MAX_MEMBERS - this.members.length }, (x, i) => i + 1);
+    }
+
+    selectColor(color: { name: string, isSelected: boolean }) {
+        this.COLORS.forEach(c => c.isSelected = false);
+        color.isSelected = true;
+        this.selectedColor = color.name;
+        this.cd.markForCheck();
     }
 }

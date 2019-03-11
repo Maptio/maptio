@@ -1,0 +1,48 @@
+<div class="h-100 overflow-y">
+
+    <div class="text-muted my-4">Use tags to map strategic themes, progress and other information which might be relevant to multiple circles across the
+        map.
+    </div>
+
+    <div class="w-100">
+            <div class=" d-flex flex-column bg-light rounded p-3 ">
+                    <h6>Create a new tag</h6>
+            
+                    <form class="form-group form-inline d-flex" [formGroup]="newTagForm" (submit)="addTag()">
+                        <input type="text" id="inputname" formControlName="name" [class.is-invalid]="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)"
+                            class="form-control form-control-warning flex-grow-1" required>
+                        <div class="mx-1">
+                            <common-color-picker [color]="newTagColor" [isMinimal]="true" (change)="saveTagColor($event)"></common-color-picker>
+                        </div>
+                        <button type="submit" class="btn btn-outline-success col-auto">
+                            <i class="fas fa-plus"></i>
+                        </button>
+            
+                    </form>
+                    <small class="invalid-feedback" *ngIf="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)">
+                        Required
+                    </small>
+                </div>
+            
+                <hr>
+                <div class="p-3">
+            
+                    <div class="form-group form-inline d-flex" *ngFor="let tag of tags; let i=index">
+                        <input type="text" class="flex-grow-1 form-control" name="inputTagName" [ngModelOptions]="{standalone: true}" [ngModel]="tag.name"
+                            (ngModelChange)="saveTagName(tag, $event)" (blur)="saveTagChanges()" />
+                        <div class="mx-1">
+                            <common-color-picker [color]="tag.color" [isMinimal]="true" (change)="saveColor(tag, $event)"></common-color-picker>
+                        </div>
+                        <button placement="top" container="body" mwlConfirmationPopover popoverMessage="This cannot be undone! This tag will be removed from all circles."
+                            focusbutton="cancel" appendToBody="false" (confirm)="removeTag(tag)" (cancel)="cancelClicked = true" class="btn btn-outline-secondary remove col-auto">
+                            <!-- <i class="fas fa-trash"></i> -->
+                        </button>
+            
+                    </div>
+                </div>
+    </div>
+
+    
+
+
+</div>

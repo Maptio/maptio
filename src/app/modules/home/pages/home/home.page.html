@@ -1,0 +1,28 @@
+<div class="d-flex flex-column flex-xl-row justify-content-between align-items-stretch row">
+    <div class="d-flex flex-column justify-content-center align-items-center" [class.col-12]="!auth.allAuthenticated()" [class.col-xl-6]="!auth.allAuthenticated()"
+        [class.w-100]="auth.allAuthenticated()">
+        <div *ngIf="!auth.allAuthenticated()" class="text-blue text-center">
+            <h1>Maptio helps you organise without traditional management hierarchy</h1>
+            <h4>Visualise your organisation in nested circles</h4>
+            <h4>Keep track of everyone’s roles</h4>
+
+            <button class="btn btn-success btn-lg my-3" routerLink="/signup">Get started - Free for 14 days</button>
+
+            <div class="text-muted">Already use Maptio?
+                <a routerLink="/login">Log in</a>
+            </div>
+        </div>
+        <div *ngIf="auth.allAuthenticated()" class="h-100 w-100">
+            <ng-container *ngIf="!isOnboarding">
+                <dashboard *ngIf="!isLoading" [datasets]="datasets" [teams]="teams" [user]="user"></dashboard>
+            </ng-container>
+        </div>
+    </div>
+    <div class="col-12 col-xl-6" *ngIf="!auth.allAuthenticated()">
+        <picture>
+            <source [srcset]="SCREENSHOT_URL | safe" type="image/webp">
+            <source [srcset]="SCREENSHOT_URL_FALLBACK | safe" type="image/jpeg">
+                <img class="w-100" [src]="SCREENSHOT_URL_FALLBACK | safe" alt="">
+        </picture>
+    </div>
+</div>

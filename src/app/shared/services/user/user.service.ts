@@ -1,16 +1,16 @@
 import { UserRole } from './../../model/permission.data';
 import { User } from "./../../model/user.data";
-import { environment } from "./../../../../environment/environment";
+import { environment } from "../../../config/environment";
 import { Http, Headers } from "@angular/http";
 import { Injectable } from "@angular/core";
-import { AuthConfiguration } from "../auth/auth.config";
+import { AuthConfiguration } from "../../../core/authentication/auth.config";
 import { JwtEncoder } from "../encoding/jwt.service";
 import { MailingService } from "../mailing/mailing.service";
 import { UUID } from "angular2-uuid/index";
-import { EmitterService } from "../emitter.service";
+import { EmitterService } from "../../../core/services/emitter.service";
 import { Observable } from "rxjs/Rx";
-import { flatten } from "lodash"
-import { UserFactory } from '../user.factory';
+import { flatten } from "lodash-es"
+import { UserFactory } from '../../../core/http/user/user.factory';
 
 @Injectable()
 export class UserService {
@@ -121,9 +121,10 @@ export class UserService {
 
 
     private getHslFromName(name: string) : { h: number, s: number, l: number } {
+        let cleaned = name.toLowerCase().replace(/[^a-zA-Z0-9]+/g, "-");
         let hash = 0;
-        for (var i = 0; i < name.length; i++) {
-            hash = name.charCodeAt(i) + ((hash << 5) - hash);
+        for (var i = 0; i < cleaned.length; i++) {
+            hash = cleaned.charCodeAt(i) + ((hash << 5) - hash);
         }
 
         return { h: hash % 360, s: 99, l: 35 };
@@ -155,7 +156,7 @@ export class UserService {
           var hex = Math.round(x * 255).toString(16);
           return hex.length === 1 ? '0' + hex : hex;
         };
-        return `${toHex(r)}${toHex(g)}${toHex(b)}`;
+        return `${toHex(r)}${toHex(g)}${toHex(b)}`.replace('-','').substr(0,6);
     }
 
     public createUser(email: string, firstname: string, lastname: string, isSignUp?: boolean, isAdmin?: boolean): Promise<User> {
@@ -176,7 +177,7 @@ export class UserService {
             },
             "user_metadata":
             {
-                "picture": `https://ui-avatars.com/api/?rounded=true&background=${color}&name=${firstname}+${lastname}&font-size=0.35&color=ffffff&size=128`,
+                "picture": `https://ui-avatars.com/api/?rounded=true&background=${color}&name=${firstname}+${lastname}&font-size=0.35&color=ffffff&size=500`,
  
                 "given_name": firstname,
                 "family_name": lastname

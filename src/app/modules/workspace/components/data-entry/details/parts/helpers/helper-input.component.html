@@ -1,0 +1,26 @@
+<ng-template #editTipContent>
+    <ng-content></ng-content>
+</ng-template>
+
+<div class="d-flex align-items-center w-100">
+    <div class="d-flex align-items-center w-100">
+        <img src="{{helper.picture}}" class="participant-picture rounded-circle mr-1">
+        <a [routerLink]="summaryUrlRoot" [queryParams]="{member: helper.shortid}">{{helper.name}}</a>
+        <span class="text-muted mx-1" *ngIf="isAuthority">({{team?.settings.authority | titlecase }})</span>
+    </div>
+
+
+
+    <button *ngIf="!isUnauthorized" class="btn btn-outline-secondary remove" mwlConfirmationPopover
+        [popoverMessage]="'Remove this helper and associated role?'" placement="top" container="body"
+        focusbutton="cancel" appendToBody="false" (confirm)="onRemove()" (cancel)="cancelClicked=true"></button>
+
+
+
+</div>
+<div class="mt-2" *ngIf="!(isUnauthorized && isEmptyRole)">
+    <common-textarea rows="3" label="Role" [isUnauthorized]="isUnauthorized" [placeholder]="placeholder"
+        [text]="helper.roles ? helper.roles[0]?.description : ''" (save)="onChangeRole($event)">
+        <ng-content></ng-content>
+    </common-textarea>
+</div>

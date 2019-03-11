@@ -19,6 +19,8 @@ export class DataSet implements Serializable<DataSet> {
 
   tags: Array<Tag>;
 
+  isArchived:boolean;
+
   public constructor(init?: Partial<DataSet>) {
     Object.assign(this, init);
   }
@@ -33,6 +35,7 @@ export class DataSet implements Serializable<DataSet> {
     deserialized.shortid = input.shortid;
     deserialized.datasetId = input._id;
     deserialized.initiative = Initiative.create().deserialize(input.initiative || input);
+    deserialized.isArchived = input.isArchived;
     let tags = new Array<Tag>();
     if (input.tags && input.tags instanceof Array && input.tags.length > 0) {
       input.tags.forEach(function (inputTag: any) {
@@ -61,5 +64,9 @@ export class DataSet implements Serializable<DataSet> {
     catch (Exception) {
       return [false, undefined]
     }
+  }
+
+  getName(){
+    return this.initiative && this.initiative.children && this.initiative.children[0] ? this.initiative.children[0].name : "";
   }
 }

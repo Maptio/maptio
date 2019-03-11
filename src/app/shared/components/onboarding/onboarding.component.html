@@ -1,237 +1,186 @@
-<div>
-    <h2 class="text-center">Welcome to Maptio! </h2>
-    <h6 class="text-muted text-center ">Maptio helps you organise without traditional management hierarchy.</h6>
-    <hr>
-    
-    <h3 class="text-dark text-center my-4" *ngIf="!isOnboardingCompleted()">
-        Let's get you started:
-    </h3>
-    <div *ngIf="isOnboardingCompleted()">
-        <hr>
+<common-modal [nextActionName]="nextActionName" [previousActionName]="previousActionName" [isSkippable]="isSkippable" [isReady]="true"
+    [isWithProgress]="true" [isWithProgress]="false" [progress]="progress" [progressLabel]="progressLabel" (next)="nextStep()"
+    (previous)="previousStep()">
 
-        <div *ngIf="isOnboardingCompleted()">
-            <h6 class="mx-2">
-                <b>Succeed with Maptio:</b>
-            </h6>
+    <ng-container *ngIf="currentStep === 'Welcome'">
+        <ng-container *ngTemplateOutlet="welcome"></ng-container>
+    </ng-container>
 
-            <div class="d-flex align-items-start my-3">
-                <span class="mx-2">
-                    <i class="fa fa-rss" aria-hidden="true"></i>
-                </span>
-                <span>
-                    Read our
-                    <a target="blank" href="https://medium.com/maptio/create-organisational-clarity-using-initiative-mapping-967069247380">free guide</a> to mapping your organization
+    <ng-container *ngIf="currentStep === 'CreateTeam'">
+        <ng-container *ngTemplateOutlet="createteam"></ng-container>
+    </ng-container>
 
-                </span>
-            </div>
+    <ng-container *ngIf="currentStep === 'AddMember'">
+        <ng-container *ngTemplateOutlet="addmember"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="currentStep === 'Terminology'">
+        <ng-container *ngTemplateOutlet="terminology"></ng-container>
 
-            <div class="d-flex align-items-start my-3">
-                <span class="mx-2">
-                    <i class="fa fa-phone" aria-hidden="true"></i>
-                </span>
-                <span>
-                    <a target="blank" href="https://calendly.com/tomnixon/30min">Book a free mastery call</a> with Maptio founder Tom Nixon
-                </span>
-            </div>
+    </ng-container>
+    <ng-container *ngIf="currentStep === 'PickColor'">
+        <ng-container *ngTemplateOutlet="pickcolor"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="currentStep === 'CreateMap'">
+        <ng-container *ngTemplateOutlet="createmap"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="currentStep === 'Ending'">
+        <ng-container *ngTemplateOutlet="ending"></ng-container>
+    </ng-container>
+</common-modal>
 
+<ng-template #welcome>
 
-            <div class="d-flex align-items-start my-3">
-                <span class="mx-2">
-                    <i class="far fa-comments" aria-hidden="true"></i>
-                </span>
-                <span>
-                    Help us make Maptio better !
-                    <a target="blank" href="{{SURVEY_URL}}">Take the survey</a>
-                </span>
-            </div>
+    <span class="display-4">
+        <span class="text-accent">👋 {{user?.firstname}}</span>, your first map is just a few clicks away!</span>
+    <h4 class="my-4 text-muted">
+        We'll guide you through creating your first map, it should only take a few minutes.
+    </h4>
 
+</ng-template>
 
+<ng-template #createteam>
+    <h1 class="text-center">What should we call your organisation?</h1>
+    <div class="my-5">
+        <div class="form-row w-100 d-flex justify-content-center align-items-center flex-column">
+            <input [(ngModel)]="team.name" type="text" class="form-control col-6">
+            <small *ngIf="teamCreationErrorMessage" class="form-text text-danger">{{teamCreationErrorMessage}}</small>
+            <small *ngIf="isCreatingTeam" class="text-green">
+                <i class="fas fa-circle-notch fa-spin"></i> Setting up your organisation</small>
         </div>
-
-        <hr>
     </div>
 
+</ng-template>
 
 
+<ng-template #addmember>
+    <h1 class="text-center">Who is in
+        <b>{{team.name}}</b>?</h1>
+    <h4 class="text-muted">
+        Add members to your organisation.
+    </h4>
 
-
-    <div class="d-flex justify-content-start text-muted">
-        <div class="d-flex flex-column  align-items-start" [class.h4]="!isOnboardingCompleted()">
-            <div class="d-flex align-items-start" [class.my-3]="!isOnboardingCompleted()" [class.my-2]="isOnboardingCompleted()">
-                <span class="mx-2">
-                    <i class="fa fa-check text-success" aria-hidden="true"></i>
-                </span>
-                <span>
-                    Set up your
-                    <a routerLink="/{{user.shortid}}/{{user.getSlug()}}">user profile</a>
-                </span>
+    <div class="mt-5 ">
+        <div class="my-1 d-flex justify-content-start align-items-center " *ngFor="let member of members; let i=index">
+            <onboarding-add-member [member]="member"></onboarding-add-member>
+        </div>
+        <div class="my-3 " *ngFor="let i of getMemberIndexes()">
+            <div class="d-flex justify-content-start align-items-center">
+                <onboarding-add-member [team]="team" (added)="onMemberAdded($event)"></onboarding-add-member>
             </div>
+        </div>
+    </div>
 
-            <div class="d-flex align-items-start" [class.my-3]="!isOnboardingCompleted()" [class.my-2]="isOnboardingCompleted()">
-                <span class="mx-2">
-                    <i *ngIf="isZeroTeam" class="far fa-square" aria-hidden="true"></i>
-                    <i *ngIf="!isZeroTeam" class="fa fa-check text-success" aria-hidden="true"></i>
-                </span>
-                <a *ngIf="isZeroTeam" [routerLink]="['/teams']" [queryParams]="{onboarding: 'team'}">
-                    Set up an organization
-                </a>
-                <span *ngIf="!isZeroTeam" class="text-muted">
-                    <ng-container *ngIf="!isMultipleTeams">Organization
-                        <a routerLink="/teams/{{teamId}}/team">{{teamName}}</a> set up
-                    </ng-container>
-                    <ng-container *ngIf="isMultipleTeams">
-                        <a routerLink="/teams">{{teamsCount}} organizations</a> set up
-                    </ng-container>
+    <p class="text-muted mt-5">
+        <span>
+            <i class="fas fa-info-circle"></i>
+            A great place to start is adding the 3 people who have the most responsibility in the organisation.You can invite them to
+            view and edit the maps later.
+        </span>
+    </p>
 
-                </span>
+</ng-template>
+<ng-template #terminology>
+    <h1 class="text-center">What should we call them?</h1>
+
+    <h4 class="text-muted">What language do you use to refer to people at
+        <b>{{team.name}}</b>?</h4>
+
+    <div class="my-5">
+        <onboarding-add-terminology [team]="team" (saved)="onTerminologySaved($event)"></onboarding-add-terminology>
+
+    </div>
+
+</ng-template>
+
+<ng-template #createmap>
+    <h1 class="text-center">Your map is almost ready!</h1>
+
+    <h4 class="text-muted">Just give a us a name, we'll create a brand new map for you.</h4>
+
+    <div class="mt-5">
+        <div class="form-inline w-100 d-flex justify-content-start align-items-center">
+            <label for="inputMapName" class="h5 mr-1">Map name </label>
+
+            <input [(ngModel)]="mapName" type="text" id="inputMapName" class="form-control col-6">
+        </div>
+        <!-- <small class="form-text">Most people find it helpful to ....</small> -->
+ <small *ngIf="mapCreationErrorMessage" class="form-text text-danger">{{mapCreationErrorMessage}}</small>
+        <div class="my-5 py-4 w-100 d-flex justify-content-between align-items-stretch">
+            <div class="custom-control custom-radio custom-control-inline col-6">
+                <input type="radio" id="emptyMapRadio" name="mapOptionsRadio" [value]="isCreatingEmptyMap" (change)="isCreatingEmptyMap=true"
+                    class="custom-control-input" checked>
+                <label class="custom-control-label" for="emptyMapRadio">
+                    <div class="card cursor-pointer h-100">
+                        <div class="card-header">
+                            Give me a blank canvas
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                We'll create an empty map for you to start adding circles to.
+                            </p>
+                            <p class="card-text small">
+                                Better if you've already familiarized yourself with Maptio.</p>
+                        </div>
+                    </div>
+
+                </label>
             </div>
+            <div class="custom-control custom-radio custom-control-inline col-6">
+                <input type="radio" id="instructionsMapRadio" name="mapOptionsRadio" [value]="!isCreatingEmptyMap" (change)="isCreatingEmptyMap=false"
+                    class="custom-control-input">
+                <label class="custom-control-label" for="instructionsMapRadio">
+                    <div class="card cursor-pointer h-100">
+                        <div class="card-header">
+                            Create a few circles for me
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                We'll give you some circles containing tips to get you going.
+                            </p>
+                            <p class="card-text small">
+                                Better if you'd like some extra help starting.
+                            </p>
+                        </div>
+                    </div>
 
-            <div class="d-flex align-items-start" [class.my-3]="!isOnboardingCompleted()" [class.my-2]="isOnboardingCompleted()" *ngIf="!isMultipleTeams">
-                <span class="mx-2">
-                    <i *ngIf="isZeroTeammates" class="far fa-square" aria-hidden="true"></i>
-                    <i *ngIf="!isZeroTeammates" class="fa fa-check text-success" aria-hidden="true"></i>
-                </span>
-                <div *ngIf="isZeroTeammates">
-                    <ng-container *ngIf="isZeroTeam">
-                        <span>Add a few people or import a .csv</span>
-                    </ng-container>
-                    <ng-container *ngIf="!isZeroTeam">
-                        <a [routerLink]="['/teams', teamId, 'team','members']" [queryParams]="{onboarding: 'members'}">
-                            Add a few people
-                        </a>
-                        or
-                        <a routerLink="/teams/{{teamId}}/team/import"> import a .csv </a> file
-                    </ng-container>
-
-                </div>
-                <span *ngIf="!isZeroTeammates" class="text-muted">
-                    <ng-container *ngIf="!isMultipleTeams">
-                        Organization
-                        <a [routerLink]="['/teams', teamId, 'team','members']" [queryParams]="{onboarding:  isOnboardingCompleted() ? 'none' : 'members'}">{{teamName}}</a> now has {{membersCount}} {{membersCount===1 ? "person" :"people"}}.
-                    </ng-container>
-                    <ng-container *ngIf="isMultipleTeams">
-                        <a routerLink="/teams">Organizations and people setup </a>
-                    </ng-container>
-                </span>
+                </label>
             </div>
-
-            <div class="d-flex align-items-start" [class.my-3]="!isOnboardingCompleted()" [class.my-2]="isOnboardingCompleted()" *ngIf="!isMultipleTeams">
-                <span class="mx-2">
-                    <i *ngIf="isZeroTerminology" class="far fa-square" aria-hidden="true"></i>
-                    <i *ngIf="!isZeroTerminology" class="fa fa-check text-success" aria-hidden="true"></i>
-                </span>
-                <div *ngIf="isZeroTerminology">
-                    <ng-container *ngIf="isZeroTeam">
-                        <span>Customize your organization terminology</span>
-                    </ng-container>
-                    <ng-container *ngIf="!isZeroTeam">
-                        <a [routerLink]="['/teams', teamId, 'team','settings']" [queryParams]="{onboarding: isOnboardingCompleted() ? 'none' : 'settings'}">
-                            Customize your organization terminology
-                        </a>
-                    </ng-container>
-
-                </div>
-                <span *ngIf="!isZeroTerminology" class="text-muted">
-                    <ng-container *ngIf="!isMultipleTeams">
-                        Terminology:
-                        <a [routerLink]="['/teams', teamId, 'team','settings']" [queryParams]="{onboarding: isOnboardingCompleted() ? 'none' : 'settings'}">{{authorityName}}</a>
-                        and
-                        <a [routerLink]="['/teams', teamId, 'team','settings']" [queryParams]="{onboarding: isOnboardingCompleted() ? 'none' : 'settings'}">{{helperName}}</a>
-                    </ng-container>
-                    <ng-container *ngIf="isMultipleTeams">
-                        Terminology set up
-                    </ng-container>
-                </span>
-            </div>
-
-            <div class="d-flex align-items-start" [class.my-3]="!isOnboardingCompleted()" [class.my-2]="isOnboardingCompleted()" *ngIf="isOnboardingCompleted() && !isMultipleTeams">
-                <span class="mx-2">
-                    <i *ngIf="isZeroIntegration" class="far fa-square" aria-hidden="true"></i>
-                    <i *ngIf="!isZeroIntegration" class="fa fa-check text-success" aria-hidden="true"></i>
-                </span>
-                <div *ngIf="isZeroIntegration">
-                    <ng-container *ngIf="isZeroTeam">
-                        <span class="slack">Set up Slack integration (optional)</span>
-                    </ng-container>
-                    <ng-container *ngIf="!isZeroTeam">
-                        <a class="slack" [routerLink]="['/teams', teamId, 'team','integrations']" [queryParams]="{onboarding: 'integrations'}">
-                            Set up Slack integration (optional)
-                        </a>
-                    </ng-container>
-
-                </div>
-                <span *ngIf="!isZeroIntegration" class="text-muted">
-                    <ng-container *ngIf="!isMultipleTeams">
-                        <a class="slack" routerLink="/teams/{{teamId}}/team/integrations">Slack integration</a> active
-                    </ng-container>
-                    <ng-container *ngIf="isMultipleTeams">
-                        <a class="slack" routerLink="/teams/{{teamId}}/team/integrations">Slack integrations</a> active
-                    </ng-container>
-                </span>
-            </div>
-
-            <div class="d-flex align-items-start" [class.my-3]="!isOnboardingCompleted()" [class.my-2]="isOnboardingCompleted()">
-                <span class="mx-2">
-                    <i *ngIf="isZeroMaps" class="far fa-square" aria-hidden="true"></i>
-                    <i *ngIf="!isZeroMaps" class="fa fa-check text-success" aria-hidden="true"></i>
-                </span>
-                <div *ngIf="isZeroMaps">
-                    <ng-container *ngIf="isZeroTeam">
-                        <span>Create a map</span>
-                    </ng-container>
-                    <ng-container *ngIf="!isZeroTeam">
-                        <a [routerLink]="['/teams', teamId, 'team','maps']" [queryParams]="{onboarding: 'map'}">
-                            Create a map
-                        </a>
-                    </ng-container>
-
-                </div>
-                <div *ngIf="!isZeroMaps">
-                    <ng-container *ngIf="!isMultipleMaps">
-                        <span>
-                            Map
-                            <a routerLink="/map/{{datasetId}}/map/circles">
-                                {{mapName}}
-                            </a> is now active
-                        </span>
-                    </ng-container>
-                    <ng-container *ngIf="isMultipleMaps">
-                        {{mapsCount}} active maps
-                    </ng-container>
-
-                </div>
-            </div>
-
-            <!-- <div class="d-flex align-items-start my-3" *ngIf="!isMultipleMaps">
-                <span class="mx-2">
-                    <i *ngIf="isZeroInitiative" class="far fa-square" aria-hidden="true"></i>
-                    <i *ngIf="!isZeroInitiative" class="fa fa-check text-success" aria-hidden="true"></i>
-                </span>
-                <div *ngIf="isZeroInitiative">
-                    <ng-container *ngIf="isZeroMaps">
-                        <span>Add some circles</span>
-                    </ng-container>
-                    <ng-container *ngIf="!isZeroMaps">
-                        <a routerLink="/map/{{datasetId}}/map/circles">
-                            Add some circles
-                        </a>
-                    </ng-container>
-
-                </div>
-                <div *ngIf="!isZeroInitiative">
-                    <span>
-                        <span class="text-success"></span> Well done !
-                        <span>Your first circle is
-                            <b>{{firstCircleName}}</b>.
-                            <a routerLink="/map/{{datasetId}}/map/circles">Continue editing</a>
-                        </span>
-                    </span>
-                </div>
-            </div> -->
-
-
         </div>
     </div>
 
 
-</div>
+
+</ng-template>
+
+<ng-template #ending>
+
+    <div class="d-flex justify-content-center align-items-center flex-column text-gradient-gold">
+        <i class="fas fa-trophy  icon-ending"></i>
+        <h1>Nice one!</h1>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center flex-column my-3">
+
+        <h4 class="text-muted">Your map is ready. Go and create some circles, we'll be here if you need us.</h4>
+    </div>
+
+
+
+    <!-- <h4 class="my-5">
+        You can start mapping right away. Any questions?
+        <ul class="ml-2 my-3">
+            <li class="h6 py-2"> Start a chat with us or email us at support@maptio.com</li>
+            <li class="h6 py-2"> Read our
+                <a target="blank" href="https://medium.com/maptio/create-organisational-clarity-using-initiative-mapping-967069247380">free guide</a> to mapping your organisation
+            </li>
+            <li class="h6 py-2">
+                <a target="blank" href="https://calendly.com/tomnixon/30min">Book a free mastery call</a> with Maptio founder Tom Nixon
+
+            </li>
+
+        </ul>
+    </h4> -->
+    <!-- <h4>Look forward to talking to you!</h4> -->
+
+
+</ng-template>

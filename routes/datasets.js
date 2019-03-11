@@ -1,8 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
+var fs = require("fs");
+var path = require('path');
+const templating = require("lodash/template");
 require('dotenv').config()
-var db = mongojs(process.env.ENV==="production" ? process.env.MONGODB_URI : process.env.MONGODB_URI_LOCAL, ['datasets']);
+var db = mongojs(process.env.MONGODB_URI, ['datasets']);
 
 /* GET All datasets */
 // router.get('/all', function (req, res, next) {
@@ -42,11 +45,21 @@ router.get('/in/:query', function (req, res, next) {
         });
 })
 
+router.get('/template/:name', function (req, res, next) {
+    let name = req.params.name;
+    let teamId = req.query.teamId;
+    console.log(path.join(__dirname, "..", `src/assets/templates/maps/${name}.json`));
+    let template = templating(fs.readFileSync(path.join(__dirname, "..", `src/assets/templates/maps/${name}.json`)));
+    let templated = JSON.parse(template({ teamId: teamId }));
+    res.json(templated);
+
+})
+
 router.get('/in/:query/minimal', function (req, res, next) {
     let datasets_id = req.params.query.split(',').map(d => mongojs.ObjectId(d));
     db.datasets.find(
         { _id: { $in: datasets_id } },
-        {_id: 1, 'initiative.name': 1, "initiative.team_id": 1 },
+        { _id: 1, 'initiative.name': 1, "initiative.team_id": 1, "isArchived": 1 },
         function (err, datasets) {
             if (err) {
                 res.send(err);

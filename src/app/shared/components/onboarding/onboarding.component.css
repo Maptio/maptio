@@ -1,0 +1,14 @@
+.select-color{
+    opacity: 0.7;
+}
+
+.select-color:hover{
+    opacity: 1;
+}
+
+
+
+h4{
+    color: var(--dark);
+}
+

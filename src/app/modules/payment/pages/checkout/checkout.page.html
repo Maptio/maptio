@@ -1,0 +1,45 @@
+<div *ngIf="datasets" class="d-flex justify-content-center align-items-center flex-column row ">
+    <div class="d-flex flex-column justify-content-center align-items-center col-12">
+        <div class="d-flex flex-column justify-content-center align-items-center w-50">
+            <div class="my-3 card bg-white border-0 ">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center align-items-center flex-column text-gradient">
+                        <i class="fas fa-glass-cheers icon-ending"></i>
+                        <h1 class="my-3">Thank you!</h1>
+                    </div>
+
+                    <h4 class="text-muted my-3 ">
+                        A confirmation email was sent to
+                        <b>{{customerEmail}}</b>
+
+                    </h4>
+
+                    <div class="d-flex align-items-center flex-column">
+                        <div>
+                            Organisation
+                            <a routerLink="/team/{{team?.team_id}}/billing">{{team?.name}}</a>'s subscription is active and the next renewal will be on {{renewalDate}}.
+                            You will be charged ${{planPrice}} every month.
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="card-footer d-flex justify-content-between bg-white border-0">
+
+
+                    <a class="btn btn-lg btn-link" routerLink="/home">Continue mapping</a>
+
+                    <a class="btn btn-lg btn-success text-white" target="blank" href="{{SURVEY_URL}}">Vote for the next feature</a>
+
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+</div>

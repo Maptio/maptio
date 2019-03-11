@@ -6,18 +6,18 @@ import { BaseRequestOptions, Response } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
 import { Http, RequestMethod, Headers, Request } from "@angular/http";
 import { inject, TestBed, async } from "@angular/core/testing";
-import { D3Service } from "d3-ng2-service";
 import { DataSet } from "../../model/dataset.data";
 import { Team } from "../../model/team.data";
 import { ExportService } from "./export.service";
-import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../../../core/mocks/authhttp.helper.shared";
+const fixtures = require("./fixtures/data.json");
 
 describe("export.service.ts", () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                ExportService, D3Service,
+                ExportService, 
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,
@@ -39,18 +39,17 @@ describe("export.service.ts", () => {
         });
     })
 
-    beforeAll(() => {
-        fixture.setBase("src/app/shared/services/export/fixtures");
-    });
+    // beforeAll(() => {
+    //     fixture.setBase("src/app/shared/services/export/fixtures");
+    // });
 
-    afterEach(() => {
-        fixture.cleanup();
-    });
+    // afterEach(() => {
+    //     fixture.cleanup();
+    // });
 
     describe("getReport", () => {
-        it("exports", inject([ExportService, D3Service], (target: ExportService, d3Service: D3Service) => {
-            let d3 = d3Service.getD3();
-            let data = new Initiative().deserialize(fixture.load("data.json"));
+        it("exports", inject([ExportService], (target: ExportService) => {
+            let data = new Initiative().deserialize(fixtures);
             let team = new Team({ settings: { authority: "dRiveR", helper: "backSeaT" } })
             let dataset = new DataSet({ datasetId: "ID", initiative: data, team: team });
             target.getReport(dataset).subscribe(exported => {
@@ -72,7 +71,7 @@ describe("export.service.ts", () => {
 
     describe("getSnapshot", () => {
         it("should upload the svgString and get a image url in return ",
-            async(inject([ExportService, D3Service, AuthHttp], (target: ExportService, d3Service: D3Service, http: AuthHttp) => {
+            async(inject([ExportService,AuthHttp], (target: ExportService,  http: AuthHttp) => {
                 let svg = "<svg></svg>"
                 let spy = spyOn(http, "request").and.returnValue(Observable.of(new Response({
                     status: 200,

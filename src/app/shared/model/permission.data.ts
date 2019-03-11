@@ -39,7 +39,7 @@ export enum Permissions {
 }
 
 
-export class PermissionService {
+export class UserRoleService {
     get(status: UserRole) {
         switch (status) {
             case UserRole.Standard:
