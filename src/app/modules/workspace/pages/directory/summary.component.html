@@ -40,10 +40,16 @@
                         <button class="btn btn-link btn-sm px-0" (click)="onKeyDown('');inputQuickFilter.value=''">
                             Show all
                         </button>
+                       
                     </div>
                 </div>
 
                 <ul class="card-columns p-0" [class.five-columns]="!selectedMember" [class.one-column]="selectedMember">
+                    <button class="card bg-secondary border cursor-pointer text-white" (click)="onAddingNewMember()">
+                        <div class="card-body">
+                            Add new person
+                        </div>
+                    </button>
                     <a class="card border cursor-pointer" *ngFor="let member of filteredMembers" (click)="onSelectMember(member)">
                         <div class="card-body">
                             <img *ngIf="member.picture" [src]="member.picture"  class="rounded-circle participant-picture mr-1">{{member.name}}

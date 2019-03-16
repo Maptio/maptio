@@ -143,6 +143,10 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
         this.filterMembers$.next(search);
     }
 
+    onAddingNewMember(){
+        this.router.navigateByUrl(`/teams/${this.team.team_id}/people`)
+    }
+
     onSelectMember(user: User) {
         this.selectedMember = user;
         this.cd.markForCheck();

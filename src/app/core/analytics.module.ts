@@ -13,7 +13,9 @@ import * as LogRocket from "logrocket";
     ],
     imports: [
         CommonModule,
-        Angulartics2Module.forRoot(),
+        Angulartics2Module.forRoot({
+            developerMode: isDevMode()
+        }),
         IntercomModule.forRoot({
             appId: isDevMode ? '' : environment.INTERCOM_APP_ID, // from your Intercom config
             updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
@@ -28,15 +30,15 @@ import * as LogRocket from "logrocket";
 export class AnalyticsModule {
     constructor(mixpanel: Angulartics2Mixpanel) {
 
-        if (process.env.NODE_ENV === "production") {
+        if (!isDevMode()) {
             LogRocket.init(environment.LOGROCKET_APP_ID, {
                 network: {
                     isEnabled: true
                 }
 
             });
-            if (!isDevMode) mixpanel.startTracking()
         }
+        mixpanel.startTracking()
     }
 
 }
