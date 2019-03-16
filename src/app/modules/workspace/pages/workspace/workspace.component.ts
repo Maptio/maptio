@@ -16,8 +16,8 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { User } from "../../../../shared/model/user.data";
 import { Tag } from "../../../../shared/model/tag.data";
-import { UIService } from "../../services/ui.service";
 import { Intercom } from "ng-intercom";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 
 @Component({
     selector: "workspace",
@@ -73,7 +73,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
-        private dataService: DataService, private cd: ChangeDetectorRef, private uiService: UIService, private intercom: Intercom) {
+        private dataService: DataService, private cd: ChangeDetectorRef, private mixpanel: Angulartics2Mixpanel, private intercom: Intercom) {
 
     }
 
@@ -153,6 +153,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.buildingComponent.depth = depth;
                 this.cd.markForCheck();
                 this.intercom.trackEvent("Editing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: change.initiative.name, circles: depth });
+                this.mixpanel.eventTrack("Editing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: change.initiative.name, circles: depth });
                 return;
             })
             .then(() => {

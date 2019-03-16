@@ -8,6 +8,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TeamService } from '../../services/team/team.service';
 import { Router } from '@angular/router';
 import { MapService } from '../../services/map/map.service';
+import { Intercom } from 'ng-intercom';
+import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 
 
@@ -52,7 +54,7 @@ export class OnboardingComponent implements OnInit {
     team: Team;
     dataset: DataSet;
 
-    constructor(public activeModal: NgbActiveModal, private cd: ChangeDetectorRef,
+    constructor(public activeModal: NgbActiveModal, private cd: ChangeDetectorRef, private mixpanel:Angulartics2Mixpanel,
         private teamService: TeamService, private mapService: MapService, private router: Router) { }
 
     ngOnInit(): void {
@@ -140,6 +142,15 @@ export class OnboardingComponent implements OnInit {
         this.isSkippable = this.getIsSkippable();
         this.progress = this.getProgress()
         this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
+        
+        this.mixpanel.eventTrack("Onboarding", {
+            step: this.steps[this.currentIndex-1],
+            members : this.members.length,
+            authority : this.team.settings.authority,
+            helper:this.team.settings.helper,
+            mapName: this.mapName,
+            isCreateEmptyMap:this.isCreatingEmptyMap
+        });
         this.cd.markForCheck();
     }
 
