@@ -15,7 +15,7 @@ import * as LogRocket from "logrocket";
         CommonModule,
         Angulartics2Module.forRoot(),
         IntercomModule.forRoot({
-            appId: isDevMode ? '' : environment.INTERCOM_APP_ID, // from your Intercom config
+            appId: environment.INTERCOM_APP_ID, // from your Intercom config
             updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
         })],
     exports: [

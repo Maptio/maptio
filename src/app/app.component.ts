@@ -3,7 +3,8 @@ import { Router} from "@angular/router";
 import {
   Component,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  isDevMode
 } from "@angular/core";
 import "rxjs/add/operator/map"
 import { Auth } from "./core/authentication/auth.service";
@@ -46,7 +47,7 @@ export class AppComponent {
         this.router.navigateByUrl("/logout")
       });
 
-    this.intercom.boot({ app_id: environment.INTERCOM_APP_ID });
+    if(!isDevMode())this.intercom.boot({ app_id: environment.INTERCOM_APP_ID });
 
     window.onresize = (e: UIEvent) => {
       this.isMobile();
