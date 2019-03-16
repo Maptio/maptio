@@ -13,9 +13,7 @@ import * as LogRocket from "logrocket";
     ],
     imports: [
         CommonModule,
-        Angulartics2Module.forRoot({
-            developerMode: isDevMode()
-        }),
+        Angulartics2Module.forRoot(),
         IntercomModule.forRoot({
             appId: isDevMode ? '' : environment.INTERCOM_APP_ID, // from your Intercom config
             updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
@@ -37,8 +35,9 @@ export class AnalyticsModule {
                 }
 
             });
+            mixpanel.startTracking()
         }
-        mixpanel.startTracking()
+        
     }
 
 }
