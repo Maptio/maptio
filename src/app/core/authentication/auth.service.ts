@@ -6,7 +6,7 @@ import { Observable } from "rxjs/Rx";
 import { Router } from "@angular/router";
 import { Http, Headers } from "@angular/http";
 import { Subject } from "rxjs/Rx";
-import { Injectable } from "@angular/core";
+import { Injectable, isDevMode } from "@angular/core";
 import { AuthConfiguration } from "./auth.config";
 import { DatasetFactory } from "../http/map/dataset.factory";
 import { UserFactory } from "../http/user/user.factory";
@@ -280,7 +280,13 @@ export class Auth {
                           })
                           .then(
                             (user: User) => {
+
+
                               this.loader.show();
+
+
+                              if(isDevMode()) return user;
+
                               let isMaptioTeam = this.MAPTIO_INTERNAL_EMAILS.includes(
                                 user.email
                               );
