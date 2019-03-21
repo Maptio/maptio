@@ -20,8 +20,7 @@ export class SlackService {
         let svgNode = this.downloadSvg(svg, "image.png", w, h) as SVGElement;
         svgNode.setAttribute("width", `${w+20}px`);
         svgNode.setAttribute("height", `${h+20}px`);
-        svgNode.setAttribute("x", `-${50}%`);
-        
+        (svgNode.childNodes[0] as SVGElement).setAttribute("transform", `translate(${w/2},${h/2}) scale(0.95)`)
         return this.exportService.sendSlackNotification((<any>svgNode).outerHTML, dataset.datasetId, dataset.initiative, team.slack, message)
 
     }
