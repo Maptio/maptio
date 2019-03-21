@@ -11,13 +11,17 @@ export class SlackService {
 
     }
 
-    sendNotification(message: string, svg: HTMLElement, dataset:DataSet, team:Team): Observable<any> {
-        // let svg = document.getElementById("map");
-        let w = Number.parseFloat(svg.getAttribute("width"));
-        let h = Number.parseFloat(svg.getAttribute("height"));
+    sendNotification(message: string, svg: HTMLElement, dataset: DataSet, team: Team): Observable<any> {
+        let g = svg.childNodes[0] as SVGElement;
+        let w = g.getBoundingClientRect().width;
+        let h = g.getBoundingClientRect().height;
         svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
         svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
-        let svgNode = this.downloadSvg(svg, "image.png", w, h);
+        let svgNode = this.downloadSvg(svg, "image.png", w, h) as SVGElement;
+        svgNode.setAttribute("width", `${w+20}px`);
+        svgNode.setAttribute("height", `${h+20}px`);
+        svgNode.setAttribute("x", `-${50}%`);
+        
         return this.exportService.sendSlackNotification((<any>svgNode).outerHTML, dataset.datasetId, dataset.initiative, team.slack, message)
 
     }
