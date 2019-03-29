@@ -37,16 +37,34 @@ export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, t
                             })
                 }),
                 flatMap(dt => {
+
                     return Promise.all([this.userService.getUsersInfo(dt.team.members), this.userFactory.getUsers(dt.team.members.map(m => m.user_id))])
                         .then(([auth0Users, databaseUsers]: [User[], User[]]) => {
                             return databaseUsers.map(u => {
                                 u.picture = auth0Users.find(du => du.user_id === u.user_id) ? auth0Users.find(du => du.user_id === u.user_id).picture : u.picture;
+                                u.name = auth0Users.find(du => du.user_id === u.user_id) ? auth0Users.find(du => du.user_id === u.user_id).name : u.name;
+                                
                                 return u;
                             })
                         })
                         .then(members => compact(members))
-                        .then(members => sortBy(members, m => m.name))
-                        .then(members => { return { dataset: dt.dataset, team: dt.team, members: members } })
+                        .then(members => [dt.team, sortBy(members, m => m.name)])
+
+                        .then(([team, members]: [Team, User[]]) => {
+                            team.members = members;
+                            return { dataset: dt.dataset, team: team, members: members };
+                        })
+
+                    // return Promise.all([this.userService.getUsersInfo(dt.team.members), this.userFactory.getUsers(dt.team.members.map(m => m.user_id))])
+                    //     .then(([auth0Users, databaseUsers]: [User[], User[]]) => {
+                    //         return databaseUsers.map(u => {
+                    //             u.picture = auth0Users.find(du => du.user_id === u.user_id) ? auth0Users.find(du => du.user_id === u.user_id).picture : u.picture;
+                    //             return u;
+                    //         })
+                    //     })
+                    //     .then(members => compact(members))
+                    //     .then(members => sortBy(members, m => m.name))
+                    //     .then(members => { return { dataset: dt.dataset, team: dt.team, members: members } })
 
 
                 }),

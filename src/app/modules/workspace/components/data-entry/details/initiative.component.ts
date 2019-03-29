@@ -68,8 +68,8 @@ export class InitiativeComponent implements OnChanges {
     MESSAGE_PERMISSIONS_DENIED_EDIT = environment.MESSAGE_PERMISSIONS_DENIED_EDIT;
 
     constructor(private auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
-        private userService: UserService, private permissionsService:PermissionsService,
-         private analytics: Angulartics2Mixpanel,
+        private userService: UserService, private permissionsService: PermissionsService,
+        private analytics: Angulartics2Mixpanel,
         private cd: ChangeDetectorRef) {
     }
 
@@ -79,15 +79,21 @@ export class InitiativeComponent implements OnChanges {
             if (changes.node.isFirstChange() || !(changes.node.previousValue) || changes.node.currentValue.team_id !== changes.node.previousValue.team_id) {
 
                 this.team$ = this.teamFactory.get(<string>changes.node.currentValue.team_id)
-                    .then(t => { this.teamName = t.name; this.teamId = t.team_id; return t },
+                    .then(t => {
+                        this.teamName = t.name;
+                        this.teamId = t.team_id;
+                        return t
+                    },
                         () => { return Promise.reject("No organisation available") })
+                    
 
-                this.members$ = this.team$
-                    .then((team: Team) => {
-                        return this.userService.getUsersInfo(team.members)
-                            .then(members => compact(members))
-                            .then(members => sortBy(members, m => m.name))
-                    })
+
+                // this.members$ = this.team$
+                //     .then((team: Team) => {
+                //         return this.userService.getUsersInfo(team.members)
+                //             .then(members => compact(members))
+                //             .then(members => sortBy(members, m => m.name))
+                //     })
             }
 
         }
@@ -107,31 +113,31 @@ export class InitiativeComponent implements OnChanges {
         this.edited.emit(true);
     }
 
-    canEditName(){
+    canEditName() {
         return this.permissionsService.canEditInitiativeName(this.node);
     }
 
-    canEditAuthority(){
+    canEditAuthority() {
         return this.permissionsService.canEditInitiativeAuthority(this.node);
     }
 
-    canEditDescription(){
+    canEditDescription() {
         return this.permissionsService.canEditInitiativeDescription(this.node);
     }
 
-    canEditTags(){
+    canEditTags() {
         return this.permissionsService.canEditInitiativeTags(this.node);
     }
 
-    canAddHelper(){
+    canAddHelper() {
         return this.permissionsService.canAddHelper(this.node);
     }
 
-    canEditHelper(helper:Helper){
+    canEditHelper(helper: Helper) {
         return this.permissionsService.canEditHelper(this.node, helper);
     }
-    
-    canEditPrivilege(){
+
+    canEditPrivilege() {
         return this.permissionsService.canGiveHelperPrivilege(this.node);
     }
 
@@ -192,7 +198,7 @@ export class InitiativeComponent implements OnChanges {
 
     removeHelper(helper: Helper) {
         let index = this.node.helpers.findIndex(user => user.user_id === helper.user_id);
-    this.node.helpers.splice(index, 1);
+        this.node.helpers.splice(index, 1);
         this.onBlur();
         this.analytics.eventTrack("Initiative", { action: "remove helper", team: this.teamName, teamId: this.teamId });
         this.cd.markForCheck();
