@@ -1,68 +1,67 @@
 <div class="h-100">
-	<div class="container-fuild d-flex flex-column align-items-center">
-		<h1 class="display-4  text-center text-blue">Need a hand?</h1>
-		<!-- <h3 class="display-4 d-flex justify-content-around  mb-5">
-			<i class="fas fa-medkit text-danger" aria-hidden="true"></i>
-		</h3> -->
-
-		<h3>
-			Ask us anything, we're here to help!
-		</h3>
-		<div class="mt-4">
-			<div class="d-flex flex-column align-items-center">
-				<button class="btn btn-success btn-lg" (click)="openIntercom()">
+	<div class="container-fuild d-flex flex-column align-items-start align-items-md-center row">
+		<div class="col-12">
+				<h1 class="d-none d-md-block text-left text-md-center ">Need a hand?</h1>
+				<h3 class="d-block d-md-none text-left text-md-center ">Need a hand?</h3>
+		
+				<h3 class="d-none d-md-block text-left text-muted text-md-center mb-5 mb-md-0">Ask us anything, we're here to help!</h3>
+				<h5 class="d-block d-md-none text-left text-muted text-md-center mb-5 mb-md-0">Ask us anything, we're here to help!</h5>
+		
+		
+		</div>
+		<div class="mt-md-5 col-12">
+			<div class="d-flex flex-row justify-content-md-center align-items-center">
+				<button class="btn btn-success btn-md-lg" (click)="openIntercom()">
 					Start a chat
 				</button>
-				<span>or</span>
-				<a class="btn btn-link btn-lg" href="mailto:support@maptio.com?subject=Support request">Email us</a>
+				<span class="ml-2">or</span>
+				<a class="btn btn-link btn-md-lg" href="mailto:support@maptio.com?subject=Support request">Email us</a>
 
 			</div>
 		</div>
 
-		<div class="col-10 my-4">
-			<div class="d-flex justify-content-start my-4">
-				<div class="card bg-white col-4  rounded border-0 box-shadow">
+		<div class="col-12 col-md-10 my-4">
+			<div class="d-flex flex-column flex-md-row justify-content-start my-4">
+				<div class="card bg-white col-12 col-md-4  rounded border-0 box-shadow">
 					<div class="card-body d-flex flex-column justify-content-start align-items-center">
 
 						<span class="h2  fa-stack  my-3">
 							<i class="fas fa-circle text-gray-light fa-stack-2x"></i>
 							<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
 						</span>
-						<h5>
+						<div>
 							Read our
 							<a target="blank"
 								href="https://medium.com/maptio/create-organisational-clarity-using-initiative-mapping-967069247380">free
 								guide</a> to mapping your organisation
 
-						</h5>
+						</div>
 					</div>
 				</div>
 
-
-				<div class="card mx-3 bg-white col-4 border-0 box-shadow">
+				<div class="card mx-md-3 my-3 my-md-0 bg-white col-12 col-md-4  border-0 box-shadow">
 					<div class="card-body d-flex flex-column justify-content-start align-items-center">
 						<span class="h2  fa-stack  my-3">
 							<i class="fas fa-circle text-gray-light fa-stack-2x"></i>
 							<i class="fa fa-phone fa-stack-1x fa-inverse"></i>
 						</span>
-						<h5>
+						<div>
 							<a target="blank" href="https://calendly.com/tomnixon/30min">Book a free mastery call</a>
 							with Maptio founder Tom Nixon
-
-						</h5>
+						</div>
 					</div>
 				</div>
-				<div class="card bg-white col-4 border-0 box-shadow">
+				<div class="card bg-white col-12 col-md-4  border-0 box-shadow">
 
 					<div class="card-body d-flex flex-column justify-content-start align-items-center">
 						<span class="h2  fa-stack  my-3">
 							<i class="fas fa-circle text-gray-light fa-stack-2x"></i>
 							<i class="fa fa-medkit fa-stack-1x fa-inverse"></i>
 						</span>
-						<h5 class="card-title">
+						<div class="card-title">
 							Look for tips and advice in the
 							<a target="blank" href="{{KB_URL_HOME}}">knowledge base</a>
-						</h5>
+						</div>
 					</div>
 				</div>
 			</div>
