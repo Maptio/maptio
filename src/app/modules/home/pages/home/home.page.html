@@ -18,7 +18,7 @@
             </ng-container>
         </div>
     </div>
-    <div class="col-12 col-xl-6" *ngIf="!auth.allAuthenticated()">
+    <div class="col-12 d-none d-md-block col-xl-6" *ngIf="!auth.allAuthenticated()">
         <picture>
             <source [srcset]="SCREENSHOT_URL | safe" type="image/webp">
             <source [srcset]="SCREENSHOT_URL_FALLBACK | safe" type="image/jpeg">

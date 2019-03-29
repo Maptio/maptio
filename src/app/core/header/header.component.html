@@ -17,8 +17,8 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse d-flex align-items-baseline" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+    <div class="collapse  d-flex align-items-baseline" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto" *ngIf="auth.allAuthenticated()">
             <li class="nav-item col-auto d-flex flex-row flex-xl-column justify-content-end px-0">
                 <lib-breadcrumbs></lib-breadcrumbs>
             </li>
