@@ -73,7 +73,7 @@
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdownLink">
-                    <a class="dropdown-item" routerLink="{{user?.shortid}}/{{user?.getSlug() || 'profile'}}">Profile</a>
+                    <a class="dropdown-item" routerLink="profile/{{user?.shortid}}/{{user?.getSlug() || 'profile'}}">Profile</a>
                     <div class="dropdown-divider" *ngIf="teams?.length > 0"></div>
                     <h6 class="dropdown-header" *ngIf="teams?.length > 0">Organisations</h6>
                     <ng-container *ngIf="teams?.length > 1">

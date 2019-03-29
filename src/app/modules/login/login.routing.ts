@@ -22,7 +22,7 @@ const routes: Routes = [
             { path: "logout", component: LogoutComponent },
             { path: "forgot", component: ChangePasswordComponent },
             {
-                path: ":shortid/:slug",
+                path: "profile/:shortid/:slug",
                 component: ProfilePage,
                 canActivate: [AuthGuard],
                 data: { breadcrumbs: "Profile" }
