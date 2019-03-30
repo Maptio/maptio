@@ -14,11 +14,7 @@
     #rlaNetwork="routerLinkActive" [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/network">
     <span class="d-none d-md-block icon-text-label">Network</span>
   </button>
-  <button
-    class="d-none d-md-flex btn btn-light toolbar select-view summary-list text-dark p-1 btn-control flex-column justify-content-end align-items-center"
-    #rlaSummary="routerLinkActive" [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/directory">
-    <span class="d-none d-md-block icon-text-label">Directory</span>
-  </button>
+
 
 </ng-template>
 
@@ -68,7 +64,12 @@
 
             <div class="d-none d-md-block btn-group-vertical my-3">
               <ng-container *ngTemplateOutlet="viewsButtonGroup"></ng-container>
-
+              <button
+                class="d-flex btn btn-light toolbar select-view summary-list text-dark p-1 btn-control flex-column justify-content-end align-items-center"
+                #rlaSummary="routerLinkActive" [routerLinkActive]="['active']"
+                routerLink="/map/{{datasetId}}/{{slug}}/directory">
+                <span class="d-none d-md-block icon-text-label">Directory</span>
+              </button>
             </div>
             <div class="d-md-none btn-group col-9 my-2">
               <ng-container *ngTemplateOutlet="viewsButtonGroup"></ng-container>
