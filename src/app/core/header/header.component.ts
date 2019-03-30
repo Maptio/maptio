@@ -16,7 +16,7 @@ import { BillingService } from "../../shared/services/billing/billing.service";
 import { LoaderService } from "../../shared/components/loading/loader.service";
 import { OnboardingService } from "../../shared/components/onboarding/onboarding.service";
 import { Subscription } from "rxjs/Subscription";
-import { from , forkJoin} from "rxjs";
+import { from, forkJoin } from "rxjs";
 import { partition, mergeMap, map } from "rxjs/operators";
 
 
@@ -36,9 +36,7 @@ export class HeaderComponent implements OnInit {
     public team: Team;
     public selectedDataset: DataSet;
     public areMapsAvailable: Promise<boolean>
-    public isCreateMode: boolean = false;
-    public isHeaderCollapsed: boolean;
-    public isMenuOpened:boolean;
+    public isMenuOpened: boolean=false;
 
     public emitterSubscription: Subscription;
     public userSubscription: Subscription;
@@ -71,17 +69,22 @@ export class HeaderComponent implements OnInit {
                 this.team = value;
                 this.cd.markForCheck();
             });
-            
+
     }
 
     ngAfterViewInit() {
         this.cd.markForCheck();
+        document.querySelectorAll(".nav-item.d-none.d-md-block")
     }
 
     ngOnDestroy() {
         if (this.userSubscription) {
             this.userSubscription.unsubscribe();
         }
+    }
+
+    onMenuClick(){
+        (document.querySelector(".navbar-toggler") as HTMLButtonElement).click();
     }
 
 
@@ -111,29 +114,6 @@ export class HeaderComponent implements OnInit {
             })
         )
 
-
-            // .mergeMap((user: User) => {
-            //     return Observable.forkJoin(
-            //         isEmpty(user.datasets) ? Promise.resolve([]) : this.datasetFactory.get(user.datasets, true),
-            //         isEmpty(user.teams) ? Promise.resolve([]) : this.teamFactory.get(user.teams),
-            //         Promise.resolve(user)
-            //     )
-            // })
-            // .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
-            //     return [datasets.filter(d => !d.isArchived).map(d => {
-            //         d.team = teams.find(t => d.initiative.team_id === t.team_id);
-            //         return d
-            //     }), 
-            //     teams, 
-            //     user]
-            // })
-            // .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
-            //     return {
-            //         datasets: sortBy(datasets, d => d.initiative.name),
-            //         teams: sortBy(teams, t => t.name),
-            //         user: user
-            //     }
-            // })
             .subscribe((data: { datasets: DataSet[], teams: Team[], user: User }) => {
                 this.user = data.user;
                 this.datasets = data.datasets;
@@ -146,12 +126,6 @@ export class HeaderComponent implements OnInit {
                 (error: any) => { console.error(error) });
     }
 
-    onNewMap(dataset: DataSet) {
-        this.isCreateMode = false;
-        this.selectedDataset = dataset;
-        this.analytics.eventTrack("Create a map", { email: this.user.email, name: dataset.initiative.name, team: dataset.initiative.team_id })
-
-    }
 
     isSignUp() {
         return this.router.url.startsWith("/login") || this.router.url.startsWith("/signup") || this.router.url.startsWith("/forgot")
@@ -174,10 +148,6 @@ export class HeaderComponent implements OnInit {
     isPricing() {
         return this.router.url.startsWith("/pricing")
 
-    }
-
-    toggleCreateMode() {
-        this.isCreateMode = !this.isCreateMode;
     }
 
     openOnboarding() {

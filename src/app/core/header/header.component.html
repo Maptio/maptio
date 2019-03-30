@@ -30,8 +30,8 @@
         <i class="fas" [class.fa-bars]="!isMenuOpened" [class.fa-times]="isMenuOpened"></i>
     </button>
 
-    <div class="collapse navbar-collapse " [ngClass]="{' p-2 vh-100 vw-100': isMenuOpened}" id="navbarSupportedContent">
-        <ul class="navbar-nav d-flex justify-content-end w-100">
+    <div class=" navbar-collapse collapse" [ngClass]="{' p-2 vh-100 vw-100': isMenuOpened}" id="navbarSupportedContent">
+        <ul class="navbar-nav d-flex justify-content-end w-100" (click)="onMenuClick()">
 
             <li class="navbar-text d-none d-md-flex align-items-center position-relative ml-auto mr-auto"
                 *ngIf="team && isMap()">
@@ -102,9 +102,13 @@
             <li class="nav-item d-flex align-items-center" *ngIf="!auth.allAuthenticated() && !isSignUp()">
                 <a class="btn btn-link px-0" routerLink="/login">Log in</a>
             </li>
+
+
+
             <li class="nav-item d-md-none">
                 <ng-container *ngTemplateOutlet="profile"></ng-container>
             </li>
+            
             <ng-container *ngIf="datasets?.length > 0">
                 <li class="d-md-none dropdown-divider"></li>
                 <li class="d-md-none dropdown-header px-0  text-uppercase">Maps</li>
@@ -146,8 +150,8 @@
             <li class="nav-item d-md-none">
                 <a class="btn btn-link px-0" href="{{BLOG_URL}}">Blog</a>
             </li>
-            <li class="nav-item d-md-none">
-                <a class="btn btn-link px-0" routerLink="/help">Help</a>
+            <li class="nav-item d-md-none" >
+                <a class="btn btn-link px-0"  routerLink="/help">Help</a>
             </li>
             <li class="nav-item d-md-none">
                 <a class="btn btn-link px-0 " routerLink="/pricing">Pricing</a>
