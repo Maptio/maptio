@@ -7,7 +7,7 @@
 </ng-template>
 
 
-<div class="row h-100 overflow-y overflow-y pt-4 cursor-auto overflow-x-hidden justify-content-center" id="summary-canvas" >
+<div class="mt-5 mt-md-0 row h-100 overflow-y overflow-y pt-2 pt-md-4 cursor-auto overflow-x-hidden justify-content-center" id="summary-canvas" >
 
     <div class="d-flex col-11 px-5">
 
@@ -25,7 +25,7 @@
         </div>
 
         <div id="collapseOtherMembers" [class.col-3]="selectedMember" [class.collapse]="selectedMember" [class.w-100]="!selectedMember"
-            class="  border-0 mt-5 mt-md-0" [class.mt-3]="selectedMember">
+            class="  border-0 " [class.mt-3]="selectedMember">
             <div class="d-none d-md-block card border-0 bg-transparent">
                 <div *ngIf="!selectedMember && !!initiative">
                     <h1 class="">Directory</h1>
