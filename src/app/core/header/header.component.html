@@ -24,23 +24,25 @@
     <div *ngIf="auth.allAuthenticated()" class="d-none d-md-flex nav-item col-auto flex-row justify-content-end">
         <lib-breadcrumbs></lib-breadcrumbs>
     </div>
-    <button  class="navbar-toggler d-block d-md-none btn border-0 px-0" type="button" data-toggle="collapse"
+    <button class="navbar-toggler d-block d-md-none btn border-0 px-0" type="button" data-toggle="collapse"
         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
         aria-label="Toggle navigation" (click)="isMenuOpened=!isMenuOpened">
-        <i class="fas" [class.fa-bars]="!isMenuOpened" [class.fa-times]="isMenuOpened"></i> 
+        <i class="fas" [class.fa-bars]="!isMenuOpened" [class.fa-times]="isMenuOpened"></i>
     </button>
 
-    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+    <div class="collapse navbar-collapse " [ngClass]="{' p-2 vh-100 vw-100': isMenuOpened}" id="navbarSupportedContent">
         <ul class="navbar-nav d-flex justify-content-end w-100">
 
-            <li class="navbar-text d-none d-md-flex align-items-center position-relative ml-auto mr-auto" *ngIf="team && isMap()">
+            <li class="navbar-text d-none d-md-flex align-items-center position-relative ml-auto mr-auto"
+                *ngIf="team && isMap()">
                 <span *ngIf="team?.name " class="text-muted mr-1">Organisation
                     <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}">
                         {{team?.name}}
                     </a>
                 </span>
                 <span *ngIf="!team?.isPaying && !team.isExample" style="bottom:-5px"
-                    class="x-small text-green position-absolute">{{team?.getRemainingTrialDays()}} days left on your free trial.
+                    class="x-small text-green position-absolute">{{team?.getRemainingTrialDays()}} days left on your
+                    free trial.
                     <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/billing">Subscribe now</a>
                 </span>
             </li>
@@ -103,16 +105,37 @@
             <li class="nav-item d-md-none">
                 <ng-container *ngTemplateOutlet="profile"></ng-container>
             </li>
-            <li class="nav-item d-md-none">
-                <a class="btn btn-link px-0" routerLink="/home">Maps</a>
-            </li>
-            <li class="nav-item d-md-none" *ngIf="teams?.length > 0">
+            <ng-container *ngIf="datasets?.length > 0">
+                <li class="d-md-none dropdown-divider"></li>
+                <li class="d-md-none dropdown-header px-0  text-uppercase">Maps</li>
+                <li class="nav-item d-md-none" *ngFor="let dataset of datasets | slice:0:2">
+                    <a class="btn btn-link px-0"
+                        routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles">
+                        {{dataset?.initiative.name}}
+                    </a>
+                </li>
+                <li class="nav-item d-md-none" *ngIf="datasets?.length > 3">
+                    <a class="btn btn-link px-0" routerLink="/home">All maps ...</a>
+                </li>
+            </ng-container>
 
-                <a class="btn btn-link px-0" *ngIf="teams?.length === 1"
-                    routerLink="/teams/{{teams[0]?.team_id}}/{{teams[0]?.getSlug()}}">{{teams[0]?.name}}</a>
+            <ng-container *ngIf="teams?.length > 0">
 
-                <a *ngIf="teams?.length > 1" class="btn btn-link px-0" routerLink="/teams">Organizations</a>
-            </li>
+                <li class="d-md-none dropdown-divider"></li>
+                <li class="d-md-none dropdown-header px-0  text-uppercase">Organizations</li>
+                <li class="nav-item d-md-none" *ngFor="let team of teams  | slice:0:2">
+                    <a class="btn btn-link px-0"
+                        routerLink="/teams/{{team.team_id}}/{{team.getSlug()}}">{{team.name}}</a>
+
+                </li>
+                <li class="nav-item d-md-none " *ngIf="teams?.length > 3">
+                    <a *ngIf="teams?.length > 1" class="btn btn-link px-0" routerLink="/teams">All organizations...</a>
+
+                </li>
+
+            </ng-container>
+
+
             <li class="d-md-none dropdown-divider"></li>
             <li class="nav-item d-md-none">
                 <a class="btn btn-link px-0" routerLink="/legal/terms">Terms</a>
