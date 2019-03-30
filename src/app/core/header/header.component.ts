@@ -84,7 +84,9 @@ export class HeaderComponent implements OnInit {
     }
 
     onMenuClick(){
-        (document.querySelector(".navbar-toggler") as HTMLButtonElement).click();
+        let toggler = document.querySelector(".navbar-toggler") as HTMLButtonElement;
+        if(window.getComputedStyle(toggler).display === 'none') return;
+        toggler.click();
     }
 
 
