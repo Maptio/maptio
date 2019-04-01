@@ -7,10 +7,7 @@ import { SanitizerModule } from '../../shared/sanitizer.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PermissionsModule } from '../../shared/permissions.module';
 import { CreateMapModule } from "../../shared/create-map.module";
-import { OnboardingModule } from "../../shared/onboarding.module";
 import { HomeRoutingModule } from "./home.routing";
-import { InstructionsComponent } from '../../shared/components/instructions/instructions.component';
-import { OnboardingComponent } from '../../shared/components/onboarding/onboarding.component';
 
 @NgModule({
     declarations: [
@@ -22,11 +19,9 @@ import { OnboardingComponent } from '../../shared/components/onboarding/onboardi
         PermissionsModule,
          CreateMapModule,
         SanitizerModule,
-        OnboardingModule,
         HomeRoutingModule
     ],
     exports: [],
-    providers: [],
-    entryComponents : [InstructionsComponent, OnboardingComponent]
+    providers: []
 })
 export class HomeModule { }

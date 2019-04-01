@@ -32,7 +32,6 @@ import { NgbTooltipModule, NgbTypeaheadModule, NgbPopoverModule, NgbTabsetModule
 import { ColorPickerComponent } from "../../shared/components/color-picker/color-picker.component";
 import { PermissionsModule } from "../../shared/permissions.module";
 import { DataService } from "./services/data.service";
-import { OnboardingModule } from "../../shared/onboarding.module";
 import { MapSettingsService } from "./services/map-settings.service";
 import { EditTagsComponent } from "./components/data-entry/tags/edit-tags.component";
 import { UIService } from "./services/ui.service";
@@ -59,8 +58,7 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
         WorkspaceRoutingModule,
         TreeModule,
         AnalyticsModule,
-        OnboardingModule,
-       MarkdownModule.forChild(),
+        MarkdownModule.forChild(),
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: "danger",
             cancelButtonType: "link"
@@ -75,9 +73,9 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
     ],
     declarations: [
         WorkspaceComponent,
-        BuildingComponent, InitiativeNodeComponent, 
-        InitiativeComponent, 
-        InitiativeInputNameComponent,InitiativeListTagsComponent,
+        BuildingComponent, InitiativeNodeComponent,
+        InitiativeComponent,
+        InitiativeInputNameComponent, InitiativeListTagsComponent,
         InitiativeAuthoritySelectComponent,
         InitiativeDescriptionTextareaComponent,
         InitiativeHelpersSelectComponent,
@@ -93,8 +91,8 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
         CommonAutocompleteComponent,
         CommonTextareaComponent
     ],
-    providers: [BillingGuard,WorkspaceGuard,UIService,ColorService,
-        SlackService, DataService,MapSettingsService,
+    providers: [BillingGuard, WorkspaceGuard, UIService, ColorService,
+        SlackService, DataService, MapSettingsService,
         WorkspaceComponentResolver
     ],
     entryComponents: [OnboardingComponent, InstructionsComponent]

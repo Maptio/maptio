@@ -12,6 +12,7 @@ import { LoaderService } from "../../../../shared/components/loading/loader.serv
 import { EmitterService } from "../../../../core/services/emitter.service";
 import { InstructionsService } from "../../../../shared/components/instructions/instructions.service";
 import { environment } from "../../../../config/environment";
+import { map, mergeMap, distinct, tap, distinctUntilKeyChanged } from "rxjs/operators";
 
 @Component({
     selector: "home",
@@ -30,7 +31,8 @@ export class HomeComponent {
 
     constructor(public auth: Auth, private route: ActivatedRoute, private cd: ChangeDetectorRef,
         public datasetFactory: DatasetFactory, public teamFactory: TeamFactory, public loaderService: LoaderService,
-        private instructions:InstructionsService) { }
+        private instructions: InstructionsService) { 
+        }
 
     ngOnInit(): void {
         if (!this.auth.allAuthenticated()) return;
@@ -38,15 +40,15 @@ export class HomeComponent {
         this.isLoading = true;
         this.isOnboarding = true;
         this.cd.markForCheck();
-        this.routeSubscription = this.auth.getUser()
-            .mergeMap((user: User) => {
+        this.routeSubscription = this.auth.getUser().pipe(
+            mergeMap((user: User) => {
                 return Observable.forkJoin(
                     isEmpty(user.datasets) ? Promise.resolve([]) : this.datasetFactory.get(user.datasets, false),
                     isEmpty(user.teams) ? Promise.resolve([]) : this.teamFactory.get(user.teams),
                     Promise.resolve(user)
                 )
-            })
-            .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
+            }),
+            map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
                 return [
                     datasets.filter(d => !d.isArchived).map(d => {
                         let i = 0
@@ -57,16 +59,18 @@ export class HomeComponent {
                     teams,
                     user
                 ]
-            })
-            .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
+            }),
+            map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
                 return [datasets.map(d => {
                     d.team = teams.find(t => d.initiative.team_id === t.team_id);
                     return d
                 }), teams, user]
-            })
-            .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
+            }),
+            map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
                 return { datasets: sortBy(datasets, d => d.initiative.name), teams: teams, user: user }
             })
+
+        )
             .subscribe((data: { datasets: DataSet[], teams: Team[], user: User }) => {
                 this.teams = data.teams;
                 this.datasets = data.datasets
