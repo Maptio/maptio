@@ -69,18 +69,6 @@ export class CheckoutComponent implements OnInit {
                         this.datasetFactory.get(new Team({ team_id: data[1].teams[0] })),
                         this.teamFactory.get(<string>data[1].teams[0] )
                     )
-                }),
-                map(([datasets, team]: [DataSet[], Team]) => {
-                    return [
-                        datasets.map(d => {
-                            let i = 0
-                            d.initiative.traverse((n) => { i++ })
-                            d.depth = i;
-                            return d;
-                        }),
-                        team
-                    ];
-    
                 })
             )
             .subscribe(([datasets, team]: [DataSet[], Team]) => {

@@ -21,17 +21,6 @@
 //             .mergeMap((user: User) => {
 //                 return Observable.forkJoin(this.datasetFactory.get(user.datasets), this.teamFactory.get(user.teams));
 //             })
-//             .map(([datasets, teams]: [DataSet[], Team[]]) => {
-//                 return [
-//                     datasets.map(d => {
-//                         let i = 0
-//                         d.initiative.traverse((n) => { i++ })
-//                         d.depth = i;
-//                         return d;
-//                     }),
-//                     teams
-//                 ]
-//             })
 //             .do(([datasets, teams]: [DataSaet[], Team[]]) => {
 //                 const promises = datasets
 //                     .map(d => {

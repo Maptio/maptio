@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
-require('dotenv').config()
+require('dotenv').config();
+const getDepth = require("./traverse");
 var db = mongojs(process.env.MONGODB_URI, ['teams']);
 
 /**
@@ -71,6 +72,10 @@ router.get('/:teamid/datasets', function (req, res, next) {
             if (err) {
                 res.send(err);
             } else {
+                datasets.forEach(d => {
+                    d.depth = getDepth(d)
+                });
+
                 res.json(datasets);
             }
         });

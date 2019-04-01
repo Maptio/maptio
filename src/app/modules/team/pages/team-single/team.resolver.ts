@@ -22,14 +22,8 @@ export class TeamComponentResolver implements Resolve<{ team: Team, datasets: Da
         return Observable.fromPromise(
             Promise.all([this.teamFactory.get(teamId), this.datasetFactory.get(team)])
                 .then(result => {
-                    let datasets = result[1]
-                    datasets.map(d => {
-                        let i = 0
-                        d.initiative.traverse((n) => { i++ })
-                        d.depth = i;
-                        return d;
-                    })
-                    return { team: result[0], datasets: sortBy(datasets, d => d.initiative.name) }
+                  
+                    return { team: result[0], datasets: sortBy(result[1], d => d.initiative.name) }
                 })
         )
     }

@@ -4,19 +4,11 @@ var mongojs = require('mongojs');
 var fs = require("fs");
 var path = require('path');
 const templating = require("lodash/template");
+const getDepth = require("./traverse");
 require('dotenv').config()
 var db = mongojs(process.env.MONGODB_URI, ['datasets']);
 
-/* GET All datasets */
-// router.get('/all', function (req, res, next) {
-//     db.datasets.find(function (err, datasets) {
-//         if (err) {
-//             res.send(err);
-//         } else {
-//             res.json(datasets);
-//         }
-//     });
-// });
+
 
 
 /* GET One dataset with the provided ID */
@@ -27,6 +19,8 @@ router.get('/:id', function (req, res, next) {
             if (err) {
                 res.send(err);
             } else {
+                console.log(datasets)
+                datasets.depth = getDepth(datasets)
                 res.json(datasets);
             }
         });
@@ -40,6 +34,10 @@ router.get('/in/:query', function (req, res, next) {
             if (err) {
                 res.send(err);
             } else {
+                datasets.forEach(d => {
+                    d.depth = getDepth(d)
+                });
+                
                 res.json(datasets);
             }
         });

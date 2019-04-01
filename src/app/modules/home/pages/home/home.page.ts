@@ -49,19 +49,7 @@ export class HomeComponent {
                 )
             }),
             map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
-                return [
-                    datasets.filter(d => !d.isArchived).map(d => {
-                        let i = 0
-                        d.initiative.traverse((n) => { i++ })
-                        d.depth = i;
-                        return d;
-                    }),
-                    teams,
-                    user
-                ]
-            }),
-            map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
-                return [datasets.map(d => {
+                return [datasets.filter(d => !d.isArchived).map(d => {
                     d.team = teams.find(t => d.initiative.team_id === t.team_id);
                     return d
                 }), teams, user]

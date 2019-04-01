@@ -101,7 +101,6 @@ export class BuildingComponent {
 
     team: Team;
     tags: Tag[];
-    depth: number = 0;
     isFirstEdit: Boolean;
     isExpanding: boolean;
     isCollapsing: boolean;
@@ -273,7 +272,7 @@ export class BuildingComponent {
                 let defaultTeamId = this.nodes[0].team_id;
                 this.nodes[0].traverse(function (node: Initiative) {
                     node.team_id = defaultTeamId; // For now, the sub initiative are all owned by the same team
-                    this.depth++;
+                    // this.depth++;
                 }.bind(this));
 
                 return Promise.all([this.userService.getUsersInfo(team.members), this.userFactory.getUsers(team.members.map(m => m.user_id))])
