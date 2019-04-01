@@ -211,7 +211,7 @@ fdescribe("header.component.ts", () => {
                 target.detectChanges();
 
                 let button = target.debugElement.queryAll(By.css("a#logoutButton"));
-                expect(button.length).toBe(1);
+                expect(button.length).toBe(2);
                 expect(spyAuthService).toHaveBeenCalled();
             });
         });
