@@ -1,12 +1,3 @@
-<ng-container *ngIf="auth.allAuthenticated() && (isMap() || isHome() || isTeam())">
-    <nav class="d-flex justify-content-center bg-gradient rounded-bottom text-white mx-3" *ngIf="isSandbox">
-        <div class="my-3 h5 collapse show" id="collapseStartTrial">This is a demo organisation... Ready to create your
-            own?
-            <button class="btn btn-success " (click)="openOnboarding()">Start a 14 days free trial</button>
-        </div>
-    </nav>
-</ng-container>
-
 <ng-template #logout>
     <a class="btn btn-link px-0" routerLink="/logout" id="logoutButton"> Log out
     </a>
@@ -14,7 +5,31 @@
 <ng-template #profile>
     <a class="btn btn-link px-0" routerLink="profile/{{user?.shortid}}/{{user?.getSlug() || 'profile'}}">Profile</a>
 </ng-template>
+<ng-template #freetrial>This is a demo organisation... Ready to create your
+    own?
+</ng-template>
 
+
+
+<ng-container *ngIf="auth.allAuthenticated() && (isMap() || isHome() || isTeam())">
+    <nav class="d-flex flex-column py-3 flex-md-row justify-content-center align-items-center align-items-md-baseline bg-gradient-inverse rounded-bottom text-white mx-3"
+        *ngIf="isSandbox">
+
+        <div class="h5 d-none d-md-block">
+            <ng-container *ngTemplateOutlet="freetrial"></ng-container>
+        </div>
+        <small class="text-center d-md-none">
+            <ng-container *ngTemplateOutlet="freetrial"></ng-container>
+        </small>
+
+        <button class="d-none d-md-block btn btn-success mx-1 " (click)="openOnboarding()">Start a 14 days free
+            trial</button>
+
+
+        <button class="d-md-none btn-sm btn btn-success my-1" (click)="openOnboarding()">Start a 14 days free trial</button>
+
+    </nav>
+</ng-container>
 
 <nav class="d-flex header navbar navbar-expand-md navbar-light bg-transparent justify-content-between align-items-baseline pr-3"
     [class.grayscale]="loaderService.isLoading">
@@ -108,7 +123,7 @@
             <li class="nav-item d-md-none">
                 <ng-container *ngTemplateOutlet="profile"></ng-container>
             </li>
-            
+
             <ng-container *ngIf="datasets?.length > 0">
                 <li class="d-md-none dropdown-divider"></li>
                 <li class="d-md-none dropdown-header px-0  text-uppercase">Maps</li>
@@ -150,8 +165,8 @@
             <li class="nav-item d-md-none">
                 <a class="btn btn-link px-0" href="{{BLOG_URL}}">Blog</a>
             </li>
-            <li class="nav-item d-md-none" >
-                <a class="btn btn-link px-0"  routerLink="/help">Help</a>
+            <li class="nav-item d-md-none">
+                <a class="btn btn-link px-0" routerLink="/help">Help</a>
             </li>
             <li class="nav-item d-md-none">
                 <a class="btn btn-link px-0 " routerLink="/pricing">Pricing</a>
