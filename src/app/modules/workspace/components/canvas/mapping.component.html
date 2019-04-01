@@ -152,9 +152,13 @@
     </div>
   </div>
 </div>
-<div *ngIf="isEmptyMap" class="instructions h2">
+<div *ngIf="isEmptyMap" class="instructions h2 d-none d-md-block">
   Click
   <button type="button" class="btn  btn-success" (click)="addFirstNode()">
     <i class="fa fa-plus"></i>
   </button> to create your first circle
 </div>
+<div *ngIf="isEmptyMap" class="px-4 d-flex flex-column position-absolute center-center d-md-none w-100 text-center">
+    <b>Map editing is disable on mobile.</b> 
+    <span class="text-muted">Open Maptio on a desktop to start adding circles</span>
+  </div>

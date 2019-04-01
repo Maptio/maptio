@@ -1,6 +1,6 @@
-<common-modal [nextActionName]="nextActionName" [previousActionName]="previousActionName" [isSkippable]="isSkippable" [isReady]="true"
-    [isWithProgress]="true" [isWithProgress]="false" [progress]="progress" [progressLabel]="progressLabel" (next)="nextStep()"
-    (previous)="previousStep()">
+<common-modal [nextActionName]="nextActionName" [previousActionName]="previousActionName" [isSkippable]="isSkippable"
+    [isReady]="true" [isWithProgress]="true" [isWithProgress]="false" [progress]="progress"
+    [progressLabel]="progressLabel" (next)="nextStep()" (previous)="previousStep()">
 
     <ng-container *ngIf="currentStep === 'Welcome'">
         <ng-container *ngTemplateOutlet="welcome"></ng-container>
@@ -29,20 +29,48 @@
 </common-modal>
 
 <ng-template #welcome>
-
-    <span class="display-4">
-        <span class="text-accent">👋 {{user?.firstname}}</span>, your first map is just a few clicks away!</span>
-    <h4 class="my-4 text-muted">
+    <ng-template #yourfirstmap>
+        <span class="text-accent">👋 {{user?.firstname}}</span>, your first map is just a few clicks away!
+    </ng-template>
+    <ng-template #guide>
         We'll guide you through creating your first map, it should only take a few minutes.
+    </ng-template>
+
+
+    <div class="display-3 d-none d-md-block">
+        <ng-container *ngTemplateOutlet="yourfirstmap"></ng-container>
+    </div>
+    <div class="h1 d-md-none">
+        <ng-container *ngTemplateOutlet="yourfirstmap"></ng-container>
+    </div>
+
+    <h4 class="my-4 text-muted d-none d-md-block">
+        <ng-container *ngTemplateOutlet="guide"></ng-container>
+
     </h4>
+
+    <h6 class="my-4 text-muted d-md-none">
+        <ng-container *ngTemplateOutlet="guide"></ng-container>
+
+    </h6>
 
 </ng-template>
 
 <ng-template #createteam>
-    <h1 class="text-center">What should we call your organisation?</h1>
-    <div class="my-5">
+    <ng-template #createteamtitle>
+        What should we call your organisation?
+    </ng-template>
+
+
+    <h1 class="text-center d-none d-md-block">
+        <ng-container *ngTemplateOutlet="createteamtitle"></ng-container>
+    </h1>
+    <h3 class="text-center d-md-none">
+        <ng-container *ngTemplateOutlet="createteamtitle"></ng-container>
+    </h3>
+    <div class="my-3 my-md-5">
         <div class="form-row w-100 d-flex justify-content-center align-items-center flex-column">
-            <input [(ngModel)]="team.name" type="text" class="form-control col-6">
+            <input [(ngModel)]="team.name" type="text" class="form-control col-12 col-md-6">
             <small *ngIf="teamCreationErrorMessage" class="form-text text-danger">{{teamCreationErrorMessage}}</small>
             <small *ngIf="isCreatingTeam" class="text-green">
                 <i class="fas fa-circle-notch fa-spin"></i> Setting up your organisation</small>
@@ -53,39 +81,86 @@
 
 
 <ng-template #addmember>
-    <h1 class="text-center">Who is in
-        <b>{{team.name}}</b>?</h1>
-    <h4 class="text-muted">
-        Add members to your organisation.
-    </h4>
+    <ng-template #addmembertitle>Who is in
+        <b>{{team.name}}</b>?</ng-template>
 
-    <div class="mt-5 ">
-        <div class="my-1 d-flex justify-content-start align-items-center " *ngFor="let member of members; let i=index">
-            <onboarding-add-member [member]="member"></onboarding-add-member>
-        </div>
-        <div class="my-3 " *ngFor="let i of getMemberIndexes()">
-            <div class="d-flex justify-content-start align-items-center">
-                <onboarding-add-member [team]="team" (added)="onMemberAdded($event)"></onboarding-add-member>
+    <ng-template #addmembersubtitle>
+        <span class="text-muted">Add members to your organisation.</span> </ng-template>
+
+
+    <h1 class="text-center d-none d-md-block">
+        <ng-container *ngTemplateOutlet="addmembertitle"></ng-container>
+    </h1>
+    <h3 class="text-center d-md-none">
+        <ng-container *ngTemplateOutlet="addmembertitle"></ng-container>
+    </h3>
+
+
+    <h4 class="text-center d-none d-md-block">
+        <ng-container *ngTemplateOutlet="addmembersubtitle"></ng-container>
+    </h4>
+    <h6 class="text-center d-md-none">
+        <ng-container *ngTemplateOutlet="addmembersubtitle"></ng-container>
+    </h6>
+    <div class="d-flex flex-column h-100">
+
+        <div class="mt-3 mt-md-5 ">
+            <div class="my-1 d-flex justify-content-start align-items-center "
+                *ngFor="let member of members; let i=index">
+                <onboarding-add-member [member]="member"></onboarding-add-member>
+            </div>
+            <div class="my-3 " *ngFor="let i of getMemberIndexes()">
+                <div class="d-flex justify-content-start align-items-center">
+                    <onboarding-add-member [team]="team" (added)="onMemberAdded($event)"></onboarding-add-member>
+                </div>
             </div>
         </div>
-    </div>
 
-    <p class="text-muted mt-5">
-        <span>
-            <i class="fas fa-info-circle"></i>
-            A great place to start is adding the 3 people who have the most responsibility in the organisation.You can invite them to
-            view and edit the maps later.
-        </span>
-    </p>
+        <p class="text-muted mt-md-5 mt-3">
+            <span class="d-none d-md-block">
+                <i class="fas fa-info-circle"></i>
+                A great place to start is adding the 3 people who have the most responsibility in the organisation.You
+                can
+                invite them to
+                view and edit the maps later.
+            </span>
+            <span class="d-md-none small">
+                <i class="fas fa-info-circle"></i>
+                A great place to start is adding the 3 people who have the most responsibility in the organisation.You
+                can
+                invite them to
+                view and edit the maps later.
+            </span>
+        </p>
+    </div>
 
 </ng-template>
 <ng-template #terminology>
-    <h1 class="text-center">What should we call them?</h1>
+    <ng-template #terminologytitle>What should we call them?</ng-template>
 
-    <h4 class="text-muted">What language do you use to refer to people at
-        <b>{{team.name}}</b>?</h4>
+    <ng-template #terminologysubtitle>
+        <span class="text-muted">What language do you use to refer to people at
+            <b>{{team.name}}</b>?</span>
+    </ng-template>
 
-    <div class="my-5">
+
+    <h1 class="text-center d-none d-md-block">
+        <ng-container *ngTemplateOutlet="terminologytitle"></ng-container>
+    </h1>
+    <h3 class="text-center d-md-none">
+        <ng-container *ngTemplateOutlet="terminologytitle"></ng-container>
+    </h3>
+
+
+    <h4 class="text-center d-none d-md-block">
+        <ng-container *ngTemplateOutlet="terminologysubtitle"></ng-container>
+    </h4>
+    <h6 class="text-center d-md-none">
+        <ng-container *ngTemplateOutlet="terminologysubtitle"></ng-container>
+    </h6>
+
+
+    <div class="my-5 ">
         <onboarding-add-terminology [team]="team" (saved)="onTerminologySaved($event)"></onboarding-add-terminology>
 
     </div>
@@ -93,22 +168,40 @@
 </ng-template>
 
 <ng-template #createmap>
-    <h1 class="text-center">Your map is almost ready!</h1>
+    <ng-template #createmaptitle>Your map is almost ready!</ng-template>
 
-    <h4 class="text-muted">Just give a us a name, we'll create a brand new map for you.</h4>
+    <ng-template #createmapsubtitle>
+        <span class="text-muted">Just give a us a name, we'll create a brand new map for you.</span>
+    </ng-template>
 
-    <div class="mt-5">
-        <div class="form-inline w-100 d-flex justify-content-start align-items-center">
-            <label for="inputMapName" class="h5 mr-1">Map name </label>
 
-            <input [(ngModel)]="mapName" type="text" id="inputMapName" class="form-control col-6">
+    <h1 class="text-center d-none d-md-block">
+        <ng-container *ngTemplateOutlet="createmaptitle"></ng-container>
+    </h1>
+    <h3 class="text-center d-md-none">
+        <ng-container *ngTemplateOutlet="createmaptitle"></ng-container>
+    </h3>
+
+
+    <h4 class="text-center d-none d-md-block">
+        <ng-container *ngTemplateOutlet="createmapsubtitle"></ng-container>
+    </h4>
+    <h6 class="text-center d-md-none">
+        <ng-container *ngTemplateOutlet="createmapsubtitle"></ng-container>
+    </h6>
+
+
+    <div class="mt-md-5 mt-3">
+        <div class="form-inline w-100 d-flex justify-content-start align-items-baseline">
+            <label for="inputMapName" class="mr-1">Map name </label>
+
+            <input [(ngModel)]="mapName" type="text" id="inputMapName" class="form-control col-md-6 col">
         </div>
-        <!-- <small class="form-text">Most people find it helpful to ....</small> -->
- <small *ngIf="mapCreationErrorMessage" class="form-text text-danger">{{mapCreationErrorMessage}}</small>
-        <div class="my-5 py-4 w-100 d-flex justify-content-between align-items-stretch">
-            <div class="custom-control custom-radio custom-control-inline col-6">
-                <input type="radio" id="emptyMapRadio" name="mapOptionsRadio" [value]="isCreatingEmptyMap" (change)="isCreatingEmptyMap=true"
-                    class="custom-control-input" checked>
+        <small *ngIf="mapCreationErrorMessage" class="form-text text-danger">{{mapCreationErrorMessage}}</small>
+        <div class="my-md-5 my-3 py-4 w-100 d-flex flex-column flex-md-row justify-content-between align-items-stretch">
+            <div class="custom-control custom-radio custom-control-inline col-md-6 col-12">
+                <input type="radio" id="emptyMapRadio" name="mapOptionsRadio" [value]="isCreatingEmptyMap"
+                    (change)="isCreatingEmptyMap=true" class="custom-control-input" checked>
                 <label class="custom-control-label" for="emptyMapRadio">
                     <div class="card cursor-pointer h-100">
                         <div class="card-header">
@@ -125,9 +218,9 @@
 
                 </label>
             </div>
-            <div class="custom-control custom-radio custom-control-inline col-6">
-                <input type="radio" id="instructionsMapRadio" name="mapOptionsRadio" [value]="!isCreatingEmptyMap" (change)="isCreatingEmptyMap=false"
-                    class="custom-control-input">
+            <div class="custom-control custom-radio custom-control-inline col-md-6 col-12 mt-3 mt-md-0">
+                <input type="radio" id="instructionsMapRadio" name="mapOptionsRadio" [value]="!isCreatingEmptyMap"
+                    (change)="isCreatingEmptyMap=false" class="custom-control-input">
                 <label class="custom-control-label" for="instructionsMapRadio">
                     <div class="card cursor-pointer h-100">
                         <div class="card-header">
@@ -155,7 +248,8 @@
 <ng-template #ending>
 
     <div class="d-flex justify-content-center align-items-center flex-column text-gradient-gold">
-        <i class="fas fa-trophy  icon-ending"></i>
+        <i class="d-none d-md-block fas fa-trophy  icon-ending"></i>
+        <i class="d-md-none fas fa-trophy  icon-ending-xs"></i>
         <h1>Nice one!</h1>
     </div>
 
