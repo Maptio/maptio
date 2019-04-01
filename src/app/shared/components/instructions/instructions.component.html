@@ -1,6 +1,6 @@
-<common-modal [nextActionName]="nextActionName" [previousActionName]="previousActionName" [isSkippable]="false" [isReady]="true"
-    [isWithProgress]="true" [progress]="progress" [progressLabel]="progressLabel" (next)="nextStep()" (previous)="previousStep()"
-    (close)="close()">
+<common-modal [nextActionName]="nextActionName" [previousActionName]="previousActionName" [isSkippable]="false"
+    [isReady]="true" [isWithProgress]="true" [progress]="progress" [progressLabel]="progressLabel" (next)="nextStep()"
+    (previous)="previousStep()" (close)="close()">
 
     <ng-container *ngIf="currentStep === 'Welcome'">
         <ng-container *ngTemplateOutlet="welcome"></ng-container>
@@ -31,162 +31,240 @@
 
 <ng-template #welcome>
 
-    <span class="display-3">
-        <span class="text-accent">👋 {{user?.firstname}}</span>, welcome to Maptio!</span>
-    <h4 class="my-4 text-muted">
+    <ng-template #welcomeuser>
+        <span class="text-accent">👋 {{user?.firstname}}</span>, welcome to Maptio!
+    </ng-template>
+    <ng-template #thanks>
         Thanks for signing up and giving Maptio a try. We're really excited to have you onboard.
+
+    </ng-template>
+
+    <span class="d-none d-md-block display-3">
+        <ng-container *ngTemplateOutlet="welcomeuser"></ng-container>
+    </span>
+    <span class="d-md-none h1">
+        <ng-container *ngTemplateOutlet="welcomeuser"></ng-container>
+    </span>
+
+    <h4 class="d-none d-md-block my-4 text-muted">
+        <ng-container *ngTemplateOutlet="thanks"></ng-container>
     </h4>
+    <h6 class="d-md-none my-4 text-muted">
+        <ng-container *ngTemplateOutlet="thanks"></ng-container>
+    </h6>
 
 </ng-template>
 
-
-
-
 <ng-template #treepanel>
-    <h1>Bring sanity to self-management</h1>
-    <div class="mt-5">
-        <div class="d-flex justify-content-center align-items-center w-100">
-            <div class="col-6 d-flex flex-column">
-                <div class="d-flex align-items-baseline h5 py-2">
-                    <i class="far fa-check-circle mr-1"></i>
-                    <div>
-                        Communicate your org structure
-                        <span class="text-accent">simply and visually</span>
 
-                    </div>
-                </div>
+    <ng-template #bringsanity>
+        Bring sanity to self-management
+    </ng-template>
+    <ng-template #bringsanityinfo>
+        <div class="d-flex align-items-baseline py-2">
+            <i class="far fa-check-circle mr-1"></i>
+            <div>
+                Communicate your org structure
+                <span class="text-accent">simply and visually</span>
 
-                <div class="d-flex align-items-baseline h5 py-2">
-                    <i class="far fa-check-circle mr-1"></i>
-                    <div>
-                        <span class="text-accent">Onboard new people</span> to your organisation quickly
-                    </div>
-                </div>
-                <div class="d-flex align-items-baseline h5 py-2">
-                    <i class="far fa-check-circle mr-1"></i>
-                    <div>
-                        Build
-                        <span class="text-accent">greater transparency and accountability</span> over everyone’s roles
-                    </div>
-                </div>
             </div>
-            <div class="col">
-                <img width="100%" height="auto" src="/assets/images/onboarding/full_map.png" alt="">
+        </div>
+
+        <div class="d-flex align-items-baseline py-2">
+            <i class="far fa-check-circle mr-1"></i>
+            <div>
+                <span class="text-accent">Onboard new people</span> to your organisation quickly
+            </div>
+        </div>
+        <div class="d-flex align-items-baseline py-2">
+            <i class="far fa-check-circle mr-1"></i>
+            <div>
+                Build
+                <span class="text-accent">greater transparency and accountability</span> over everyone’s roles
+            </div>
+        </div>
+    </ng-template>
+
+
+    <div class="d-flex flex-column h-100">
+        <h1 class="d-none d-md-block">
+            <ng-container *ngTemplateOutlet="bringsanity"></ng-container>
+        </h1>
+        <h2 class="d-md-none">
+            <ng-container *ngTemplateOutlet="bringsanity"></ng-container>
+        </h2>
+
+        <div class="mt-2 mt-md-5 flex-grow-1">
+            <div
+                class="h-100 row d-flex flex-column-reverse flex-md-row justify-content-md-center align-items-md-stretch ">
+                <div class="d-none d-md-flex  col-md-6  flex-column h5">
+                    <ng-container *ngTemplateOutlet="bringsanityinfo"></ng-container>
+                </div>
+                <div class="d-md-none col  d-flex flex-column small">
+                    <ng-container *ngTemplateOutlet="bringsanityinfo"></ng-container>
+                </div>
+                <div class="col my-2  background-contain background-center"
+                    [ngStyle]="{'background': 'url(/assets/images/onboarding/full_map.png) no-repeat'}">
+                    <!-- <img width="100%" height="auto" src="/assets/images/onboarding/full_map.png" alt=""> -->
+                </div>
             </div>
         </div>
     </div>
+
 </ng-template>
 
 <ng-template #editpanel>
-    <h1>One map for the whole organisation</h1>
-    <div class="mt-5">
-        <div class="d-flex justify-content-center align-items-center w-100">
-            <div class="col-6 d-flex flex-column">
-                <span class="h5 py-2">
-                    <i class="far fa-check-circle mr-1"></i>Link to the tools and documents used by teams
-                </span>
-                <span class="h5 py-2">
-                    <i class="far fa-check-circle mr-1"></i>Create
-                    <span class="text-accent">tailored roles</span> for each person or assign pre-made roles
-                    <span class="badge badge-pill badge-success">Coming soon</span>
-                </span>
-            </div>
-            <div class="col">
-                <img class="rounded" width="100%" height="auto" src="/assets/images/onboarding/one_circle_details.png" alt="">
+    <ng-template #onemap>
+        One map for the whole organisation
+    </ng-template>
 
-            </div>
-
+    <ng-template #onemapinfo>
+        <div class=" py-2">
+            <i class="far fa-check-circle mr-1"></i>Link to the tools and documents used by teams
         </div>
-    </div>
-</ng-template>
-
-<ng-template #directory>
-    <h1>Run your organisation your way</h1>
-    <div class="mt-5">
-        <div class="d-flex justify-content-center align-items-center w-100">
-            <div class="col-6 d-flex flex-column">
-                <span class="h5 py-2">
-                    <i class="far fa-check-circle mr-1"></i>Edit maps quickly and easily
-                </span>
-                <span class="h5 py-2 text-accent">
-                    <i class="far fa-check-circle mr-1"></i>No enforced governance rules
-                </span>
-                <span class="h5 py-2">
-                    <i class="far fa-check-circle mr-1"></i>Always know if a role is not filled
-                    <span class="badge badge-pill badge-success">Coming soon</span>
-                </span>
-            </div>
-            <div class="col">
-                <img class="rounded" width="100%" height="auto" src="/assets/images/onboarding/one_circle.png" alt="">
-
-            </div>
-
-        </div>
-    </div>
-</ng-template>
-
-<ng-template #rightclick>
-    <h1>Updating your maps is fast and easy</h1>
-    <h4 class="my-1 text-muted">
-        No more initiative lists or complicated documents, update the map with a click
-    </h4>
-    <div class="d-flex mt-5 align-items-stretch">
-        <div class="d-flex justify-content-center align-items-center w-100 flex-column">
-            <span class="lead text-bold text-accent">
-                <i class="fas fa-info-circle mr-1"></i>Bring up the map menu with Right-click on
-                <i class="fab fa-windows"></i> or Control click on
-                <i class="fab fa-apple"></i>
-            </span>
-            <img class="img-thumbnail" width="auto" height="75%" src="/assets/images/onboarding/right_click.gif" alt="">
-        </div>
-    </div>
-
-</ng-template>
-
-
-<ng-template #ending>
-    <h1>
-        <span class="text-white ">{{user?.firstname}}</span>, before you start ...
-    </h1>
-
-    <h4 class="my-1 text-white">
-        We have a demo organisation map for you to play with. Two things you can try:
-    </h4>
-
-    <div class="mt-5 d-flex flex-column justify-content-start">
-        <div class="d-flex align-items-center my-2">
-            <div class="mr-3 explainer square">
-                <img class="rounded-circle border border-thick" width="100%" height="100%" src="/assets/images/onboarding/left_panel.png"
-                    alt="">
-            </div>
-            <div>
-                <span class="h5 my-4">
-                    1. Open the tree editor to add, change or re-order circles
-                </span>
-            </div>
+        <div class=" py-2">
+            <i class="far fa-check-circle mr-1"></i>Create
+            <span class="text-accent">tailored roles</span> for each person or assign pre-made roles
+            <span class="badge badge-pill badge-success">Coming soon</span>
         </div>
 
-        <div class="d-flex justify-content-end align-items-center my-2">
+    </ng-template>
 
-            <div>
-                <div class="h5 my-4">
-                    2. Right-click on a circle to view, edit, and more
-                    <div class="text-white">On
-                        <i class="fab fa-apple"></i>, ctrl + click
-                    </div>
+    <div class="d-flex flex-column h-100">
+        <h1 class="d-none d-md-block">
+            <ng-container *ngTemplateOutlet="onemap"></ng-container>
+        </h1>
+        <h2 class="d-md-none">
+            <ng-container *ngTemplateOutlet="onemap"></ng-container>
+        </h2>
+
+        <div class="mt-2 mt-md-5 flex-grow-1">
+            <div
+                class="h-100 row d-flex flex-column-reverse flex-md-row justify-content-md-center align-items-md-stretch ">
+                <div class="d-none d-md-flex  col-md-6  flex-column h5">
+                    <ng-container *ngTemplateOutlet="onemapinfo"></ng-container>
+                </div>
+                <div class="d-md-none col  d-flex flex-column small">
+                    <ng-container *ngTemplateOutlet="onemapinfo"></ng-container>
+                </div>
+                <div class="col my-2 background-contain background-center"
+                    [ngStyle]="{'background': 'url(/assets/images/onboarding/one_circle_details.png) no-repeat'}">
                 </div>
 
             </div>
-            <div class="col-auto explainer">
-                <img class="border border-thick" width="auto" height="100%" src="/assets/images/right_click.gif" alt="">
-            </div>
         </div>
-
-        <!-- <div class="d-flex align-items-center mt-5">
-            <h5 class="text-bold">
-                Once you're ready, create your organisation and start your 14 days free trial
-            </h5>
-        </div> -->
     </div>
 
+</ng-template>
+
+<ng-template #directory>
+
+    <ng-template #runyourorg>
+        Run your organisation your way
+    </ng-template>
+    <ng-template #runyourorginfo>
+        <div class=" py-2">
+            <i class="far fa-check-circle mr-1"></i>Edit maps quickly and easily
+        </div>
+        <div class="py-2 text-accent">
+            <i class="far fa-check-circle mr-1"></i>No enforced governance rules
+        </div>
+        <div class="py-2">
+            <i class="far fa-check-circle mr-1"></i>Always know if a role is not filled
+            <span class="badge badge-pill badge-success">Coming soon</span>
+        </div>
+    </ng-template>
+
+    <div class="d-flex flex-column h-100">
+        <h1 class="d-none d-md-block">
+            <ng-container *ngTemplateOutlet="runyourorg"></ng-container>
+        </h1>
+        <h2 class="d-md-none">
+            <ng-container *ngTemplateOutlet="runyourorg"></ng-container>
+        </h2>
+
+        <div class="mt-2 mt-md-5 flex-grow-1">
+            <div
+                class="h-100 row d-flex flex-column-reverse flex-md-row justify-content-md-center align-items-md-stretch ">
+                <div class="d-none d-md-flex  col-md-6  flex-column h5">
+                    <ng-container *ngTemplateOutlet="runyourorginfo"></ng-container>
+                </div>
+                <div class="d-md-none col  d-flex flex-column small">
+                    <ng-container *ngTemplateOutlet="runyourorginfo"></ng-container>
+                </div>
+                <div class="col my-2  background-contain background-center"
+                    [ngStyle]="{'background': 'url(/assets/images/onboarding/one_circle.png) no-repeat'}">
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #ending>
+    <ng-template #beforeyoustart>
+        <span class="text-white ">{{user?.firstname}}</span>, before you start ...
+    </ng-template>
+    <ng-template #wehavedemo>
+        <span class="my-1 text-white"> We have a demo organisation map for you to play with. Two things you can
+            try:
+        </span>
+    </ng-template>
+
+    <div class="d-flex flex-column h-100">
+        <h1 class="d-none d-md-block">
+            <ng-container *ngTemplateOutlet="beforeyoustart"></ng-container>
+        </h1>
+        <h2 class="d-md-none">
+            <ng-container *ngTemplateOutlet="beforeyoustart"></ng-container>
+        </h2>
+
+        <h4 class="d-none d-md-block">
+            <ng-container *ngTemplateOutlet="wehavedemo"></ng-container>
+        </h4>
+        <h6 class="d-md-none">
+            <ng-container *ngTemplateOutlet="wehavedemo"></ng-container>
+        </h6>
+
+
+
+
+        <div class="mt-2 mt-md-5 d-flex flex-column justify-content-start h-100 ">
+            <div class="d-flex align-items-center my-2  h-100">
+                <div class="mr-3 h-100 col-3 bg-white rounded-circle background-contain background-center  border border-thick  "
+                [ngStyle]="{'background': 'url(/assets/images/onboarding/left_panel.png) no-repeat'}">
+                    <!-- <img class="rounded-circle border border-thick" width="100%" height="100%"
+                        src="/assets/images/onboarding/left_panel.png" alt=""> -->
+                </div>
+                <div class="col-6">
+                    <span class="my-4">
+                        <h5 class="d-none d-md-block">1. Open the tree editor to add, change or re-order circles</h5>
+                        <small class="d-md-none">1. Open the tree editor to add, change or re-order circles</small>
+                    </span>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end align-items-center my-2 h-100">
+
+                <div class="col-6">
+                    <span class="my-4">
+                        <h5 class="d-none d-md-block"> 2. Right-click on a circle to view, edit, and more
+                            <div class="text-white">On
+                                <i class="fab fa-apple"></i>, ctrl + click
+                            </div>
+                        </h5>
+                        <small class="d-md-none"> 2. Right-click on a circle to view, edit, and more
+                            <div class="text-white">On
+                                <i class="fab fa-apple"></i>, ctrl + click
+                            </div></small>
+                    </span>
+
+                </div>
+                <div class="col explainer background-contain background-center"
+                [ngStyle]="{'background': 'url(/assets/images/onboarding/right_click.gif) no-repeat'}">
+                    <!-- <img class="border border-thick" width="auto" height="100%" src="/assets/images/right_click.gif"
+                        alt=""> -->
+                </div>
+            </div>
+        </div>
+    </div>
 </ng-template>

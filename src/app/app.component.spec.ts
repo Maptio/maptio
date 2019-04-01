@@ -9,6 +9,8 @@ import { Router, NavigationEnd } from "@angular/router";
 import { Observable } from "rxjs";
 import { AnalyticsModule } from "./core/analytics.module";
 import { CoreModule } from "./core/core.module";
+import { ErrorService } from "./shared/services/error/error.service";
+import { BillingService } from "./shared/services/billing/billing.service";
 
 describe("app.component.ts", () => {
 
@@ -35,7 +37,7 @@ describe("app.component.ts", () => {
                         },
                         deps: [NgProgress]
                     },
-                    NgProgress,
+                    NgProgress,ErrorService,BillingService,
                     {
                         provide: Auth, useClass: class {
                             allAuthenticated() { return; }

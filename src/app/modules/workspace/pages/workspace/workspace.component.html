@@ -1,8 +1,12 @@
-<div [class.invisible]="!isBuildingVisible || isLoading" class="text-muted my-1 saving text-center  small w-100">
+
+<div [class.invisible]="!isBuildingVisible || isLoading" class="d-none d-md-block text-muted my-1 saving text-center  small w-100">
     <i class="fas fa-save mr-1" aria-hidden="true"></i>
     <span *ngIf="isSaving">Saving...</span>
     <span *ngIf="!isSaving">All changes saved</span>
 </div>
+<div class="d-md-none small w-100 text-center  text-muted" >
+    Map editing is disabled on mobile.
+  </div>
 
 <div class="row" style="height: calc(100% - 1.75rem) ">
 
@@ -12,7 +16,7 @@
             [class.overflow-hidden]="team?.isExample && isBuildingVisible">
 
             <div id="toggle" 
-                class="d-flex h-100 rounded-left py-3 flex-shrink-0   flex-column justify-content-start align-items-center cursor-pointer collapsible "
+                class="d-none d-md-flex h-100 rounded-left py-3 flex-shrink-0   flex-column justify-content-start align-items-center cursor-pointer collapsible "
                 [class.hide]="!isBuildingPanelCollapsed" [class.show]="isBuildingPanelCollapsed"
                 [ngClass]="{'bg-accent-gray pointer-none':!isBuildingVisible}"  [class.bg-accent]="isBuildingVisible"
                 (click)="openBuildingPanel()">
@@ -21,8 +25,9 @@
                     <div class="w-100 text-center small">Edit map</div>
                 </div>
             </div>
-            <div id="hierarchy" [class.d-none]="!isBuildingVisible" [class.hide]="isBuildingPanelCollapsed"
-                [class.show]="!isBuildingPanelCollapsed" class="collapsible sidenav h-100 justify-content-start">
+            <div id="hierarchy" [class.hide]="isBuildingPanelCollapsed || !isBuildingVisible"
+                [class.show]="!isBuildingPanelCollapsed" 
+                class="d-none d-md-block collapsible sidenav h-100 justify-content-start">
                 <div id="sidenav-hierarchy" class="hierarchy w-100 h-100 card border-light border-right bg-white">
                     <div class="card border-0 bg-transparent h-100">
                         <button class="position-absolute top-right btn bg-transparent"
@@ -40,9 +45,9 @@
 
                 </div>
             </div>
-            <div id="details" [class.d-none]="!isBuildingVisible" [class.hide]="isDetailsPanelCollapsed"
+            <div id="details" [class.hide]="isDetailsPanelCollapsed || !isBuildingVisible"
                 [ngClass]="{'show border-right': !isDetailsPanelCollapsed}"
-                class="collapsible bg-white  details h-100 justify-content-start overflow-y">
+                class="d-none d-md-block collapsible bg-white  details h-100 justify-content-start overflow-y">
                 <div id="sidenav-details" class="h-100 w-100">
                     <div class="card border-0 bg-transparent">
                         <button class="position-absolute top-right btn bg-transparent"

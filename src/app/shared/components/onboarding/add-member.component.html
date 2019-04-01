@@ -1,17 +1,17 @@
-<form [formGroup]="form" (submit)="add()" class="form-row" *ngIf="!member">
-    <div class="col">
+<form [formGroup]="form" (submit)="add()" class="d-flex row" *ngIf="!member">
+    <div class="col-md col-6">
         <input placeholder="First name" formControlName="firstname" required class="form-control" type="text" name="" id="" [class.is-invalid]="isInvalid('firstname')">
         <small class="invalid-feedback">
             First name is required
         </small>
     </div>
-    <div class="col">
+    <div class="col-md col-6">
         <input placeholder="Last name" formControlName="lastname" required class="form-control" type="text" name="" id="" [class.is-invalid]="isInvalid('lastname')">
         <small class="invalid-feedback">
             Last name is required
         </small>
     </div>
-    <div class="col-5">
+    <div class="col-md-5 col-12 mt-2 mt-md-2">
         <input placeholder="Email" class="form-control" required formControlName="email" type="email" name="" id="" [class.is-invalid]="isInvalid('email')">
         <small class="invalid-feedback">
             Email is required
@@ -20,7 +20,7 @@
             {{errorMessage}}
         </small>
     </div>
-    <div class="col-auto">
+    <div class="col-md-auto col-auto mt-2 mt-md-2">
         <span *ngIf="isAdding">
             <i class="fas fa-circle-notch fa-spin"></i>
         </span>
@@ -28,20 +28,20 @@
     </div>
 </form>
 
-<div *ngIf="member" class="form-row">
-    <div class="col">
+<div *ngIf="member" class="row">
+    <div class="col-md col-6">
         <input class="form-control border-0 box-shadow-0" type="text" value="{{member.firstname}}">
 
     </div>
-    <div class="col">
+    <div class="col-md col-6">
         <input class="form-control border-0 box-shadow-0" type="text" value="{{member.lastname}}">
 
     </div>
-    <div class="col-5">
+    <div class="col-md-5 col-12">
         <input class="form-control border-0 box-shadow-0" type="text" value="{{member.email}}">
 
     </div>
-    <div class="col-auto">     
+    <div class="col-md-auto col-auto" >     
         <span class="badge badge-success py-2 px-3">Added</span>
    
     </div>

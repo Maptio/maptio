@@ -147,11 +147,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 return hasSaved;
             }, (reason) => { console.error(reason) })
             .then(() => {
-
-                let depth = 0
-                change.initiative.traverse((n) => { depth++ });
-                this.buildingComponent.depth = depth;
-                this.cd.markForCheck();
                 this.intercom.trackEvent("Editing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: change.initiative.name, circles: depth });
                 this.mixpanel.eventTrack("Editing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: change.initiative.name, circles: depth });
                 return;

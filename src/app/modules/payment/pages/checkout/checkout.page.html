@@ -1,10 +1,11 @@
-<div *ngIf="datasets" class="d-flex justify-content-center align-items-center flex-column row ">
-    <div class="d-flex flex-column justify-content-center align-items-center col-12">
-        <div class="d-flex flex-column justify-content-center align-items-center w-50">
-            <div class="my-3 card bg-white border-0 ">
+<div *ngIf="true" class="d-flex justify-content-center align-items-center flex-column row ">
+    <!-- <div class="d-flex flex-column justify-content-center align-items-center col-12"> -->
+        <div class="d-flex flex-column justify-content-center align-items-center col-12 col-md-6 card bg-white border-0">
+            <!-- <div class="my-3 card bg-white border-0 "> -->
                 <div class="card-body">
                     <div class="d-flex justify-content-center align-items-center flex-column text-gradient">
-                        <i class="fas fa-glass-cheers icon-ending"></i>
+                        <i class="fas fa-glass-cheers d-none d-md-block icon-ending"></i>
+                        <i class="fas fa-glass-cheers d-md-none icon-ending-xs"></i>
                         <h1 class="my-3">Thank you!</h1>
                     </div>
 
@@ -23,13 +24,13 @@
                     </div>
                     
                 </div>
-                <div class="card-footer d-flex justify-content-between bg-white border-0">
+                <div class="card-footer d-flex flex-wrap flex-column flex-md-row justify-content-center align-items-center bg-white border-0 mt-3">
 
-
+                        <a class="btn btn-lg btn-success text-white" target="blank" href="{{SURVEY_URL}}">Vote for the next feature</a>
+<span class="m-2">or</span>
                     <a class="btn btn-lg btn-link" routerLink="/home">Continue mapping</a>
 
-                    <a class="btn btn-lg btn-success text-white" target="blank" href="{{SURVEY_URL}}">Vote for the next feature</a>
-
+                    
                 </div>
             </div>
 
@@ -40,6 +41,6 @@
 
 
 
-        </div>
-    </div>
+        <!-- </div> -->
+    <!-- </div> -->
 </div>

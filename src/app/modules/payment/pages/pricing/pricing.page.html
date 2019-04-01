@@ -23,17 +23,22 @@
 
 
 
-<div class="d-flex justify-content-center align-items-center flex-column ">
+<div class="d-flex justify-content-center align-items-center flex-column row">
     <div class="d-flex flex-column justify-content-center align-items-center col-12">
-        <div class="d-flex flex-column justify-content-center align-items-center col-12 ">
-            <h1 class="col-12 col-xl-9 text-center text-blue">Maptio helps you organise without traditional management hierarchy</h1>
+        <h1 class="w-100 d-none d-md-block  text-left text-md-center mb-md-0">Choose your plan</h1>
+        <h3 class="w-100 d-block d-md-none text-left text-md-center mb-md-0">Choose your plan</h3>
 
-            <button *ngIf="!auth.allAuthenticated()" class="btn btn-success btn-lg my-4" routerLink="/signup">Get started - Free for 14 days</button>
-            <h4 *ngIf="auth.allAuthenticated()" class="my-4 text-muted">Choose a plan</h4>
+        <div class="col-12 px-0 col-md-auto">
+                <button *ngIf="!auth.allAuthenticated()" class="btn-block w-100 btn btn-success btn-md-lg my-4"
+                routerLink="/signup">Get
+                started - Free for 14 days</button>
+        </div>
+       
+
+        <div class="d-flex flex-column flex-md-row justify-content-center align-items-center">
 
 
-            <div class="d-flex flex-row justify-content-center align-items-stretch">
-                <div class="col-4 accent-blue rounded-bottom box-shadow mx-2 my-3">
+                <div class="col-12 col-md-4 accent-blue rounded-bottom box-shadow mx-2 my-3">
                     <div class="card border-0">
                         <div class="card-body border-0 bg-white text-center">
                             <div class="card-title border-bottom h4 py-4">
@@ -51,7 +56,8 @@
                                     <button class="btn btn-success btn-lg my-3" routerLink="/signup">Sign up</button>
                                 </div>
                                 <div class="card-text" *ngIf="auth.allAuthenticated()">
-                                    <a class="btn btn-success text-white btn-lg my-3" href="{{BILLING_SMALL_PLAN}}">Subscribe</a>
+                                    <a class="btn btn-success text-white btn-lg my-3"
+                                        href="{{BILLING_SMALL_PLAN}}">Subscribe</a>
                                 </div>
                             </div>
                         </div>
@@ -60,7 +66,7 @@
                         </div> -->
                     </div>
                 </div>
-                <div class="col-4 accent-blue rounded-bottom box-shadow mx-2 my-3">
+                <div class="col-12 col-md-4 accent-blue rounded-bottom box-shadow mx-2 my-3">
                     <div class="card border-0">
                         <div class="card-body border-0 bg-white text-center">
                             <div class="card-title border-bottom h4 py-4">
@@ -78,7 +84,8 @@
                                     <button class="btn btn-success btn-lg my-3" routerLink="/signup">Sign up</button>
                                 </div>
                                 <div class="card-text" *ngIf="auth.allAuthenticated()">
-                                    <a class="btn btn-success text-white btn-lg my-3" href="{{BILLING_MEDIUM_PLAN}}">Subscribe</a>
+                                    <a class="btn btn-success text-white btn-lg my-3"
+                                        href="{{BILLING_MEDIUM_PLAN}}">Subscribe</a>
                                 </div>
                             </div>
                         </div>
@@ -87,7 +94,7 @@
                         </div> -->
                     </div>
                 </div>
-                <div class="col-4 accent-blue rounded-bottom box-shadow  mx-2 my-3">
+                <div class="col-12 col-md-4 accent-blue rounded-bottom box-shadow  mx-2 my-3">
                     <div class="card border-0">
                         <div class="card-body border-0 bg-white text-center">
                             <div class="card-title border-bottom h4 py-4">
@@ -95,7 +102,8 @@
                             </div>
                             <div class="card-text display-4 invisible">
 
-                                <a class="btn btn-success text-white" href="mailto:support@maptio.com?subject=Bespoke pricing request">Contact us</a>
+                                <a class="btn btn-success text-white"
+                                    href="mailto:support@maptio.com?subject=Bespoke pricing request">Contact us</a>
                             </div>
                             <!-- <div class="card-text text-muted invisible">
                                 per month
@@ -104,7 +112,8 @@
                                 200+ people per organisation
                             </div>
                             <div class="card-text ">
-                                <a class="btn btn-success btn-lg text-white my-3" href="mailto:support@maptio.com?subject=Bespoke pricing request">Contact us</a>
+                                <a class="btn btn-success btn-lg text-white my-3"
+                                    href="mailto:support@maptio.com?subject=Bespoke pricing request">Contact us</a>
                             </div>
                         </div>
                         <!-- <div class="card-footer border-0 bg-light text-muted">
@@ -112,18 +121,19 @@
                         </div> -->
                     </div>
                 </div>
-            </div>
 
             <!-- <div class="card-footer border-0 bg-light text-muted">
                             <ng-container *ngTemplateOutlet="features"></ng-container>
                         </div> -->
 
-            <div class="d-flex justify-content-center align-items-stretch text-muted my-5">
-
-                <a href="mailto:support@maptio.com?subject=Deal request">I want to use Maptio but cannot afford this.</a>
-
-            </div>
+            
 
         </div>
+        <div class="d-flex justify-content-center align-items-stretch text-muted my-5">
+
+                <a href="mailto:support@maptio.com?subject=Deal request">I want to use Maptio but cannot afford
+                    this.</a>
+
+            </div>
     </div>
 </div>

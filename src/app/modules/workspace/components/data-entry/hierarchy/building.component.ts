@@ -101,7 +101,6 @@ export class BuildingComponent {
 
     team: Team;
     tags: Tag[];
-    depth: number = 0;
     isFirstEdit: Boolean;
     isExpanding: boolean;
     isCollapsing: boolean;
@@ -270,11 +269,6 @@ export class BuildingComponent {
             .then(dataset => {
                 this.nodes = [];
                 this.nodes.push(dataset.initiative);
-                let defaultTeamId = this.nodes[0].team_id;
-                this.nodes[0].traverse(function (node: Initiative) {
-                    node.team_id = defaultTeamId; // For now, the sub initiative are all owned by the same team
-                    this.depth++;
-                }.bind(this));
 
                 return Promise.all([this.userService.getUsersInfo(team.members), this.userFactory.getUsers(team.members.map(m => m.user_id))])
                     .then(([auth0Users, databaseUsers]: [User[], User[]]) => {

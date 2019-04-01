@@ -1,5 +1,5 @@
 <ng-template #links>
-    <span class="navbar-text">
+    <span class="navbar-text d-none d-md-flex">
         <div>
             <a class="small mr-1" routerLink="/legal/terms">
                 <span >Terms</span>
@@ -25,7 +25,7 @@
 </ng-template>
 
 <nav [class.flex-column]="isMobile" [class.flex-row]="!isMobile" 
-[class.text-white]="isMobile"  [class.text-muted]="!isMobile" class="footer navbar bg-transparent d-flex justify-content-between col-11 ">
+[class.text-white]="isMobile"  [class.text-muted]="!isMobile" class="footer navbar bg-transparent d-flex justify-content-center justify-content-md-between col-11 ">
       <ng-container *ngTemplateOutlet="links"></ng-container>
 </nav>
 <!-- <nav *ngIf="!isMobile" class="footer navbar bg-transparent d-flex flex-row justify-content-between col-11 text-muted">

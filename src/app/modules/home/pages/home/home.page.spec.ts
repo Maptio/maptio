@@ -6,7 +6,6 @@ import { SanitizerModule } from "../../../../shared/sanitizer.module";
 import { ReactiveFormsModule } from "@angular/forms";
 import { PermissionsModule } from "../../../../shared/permissions.module";
 import { CreateMapModule } from "../../../../shared/create-map.module";
-import { OnboardingModule } from "../../../../shared/onboarding.module";
 import { CoreModule } from "../../../../core/core.module";
 import { AnalyticsModule } from "../../../../core/analytics.module";
 import { HomeModule } from "../../home.module";

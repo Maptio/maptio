@@ -7,7 +7,7 @@
     </h5>
 </div>
 
-<div class="control card bg-light top-left position-absolute col-4 p-0 ml-5  border border-light rounded-bottom" *ngIf="!(hideOptions$ | async)">
+<div class="d-none d-md-block control card bg-light top-left position-absolute col-4 p-0 ml-5  border border-light rounded-bottom" *ngIf="!(hideOptions$ | async)">
     <h6 class="card-header bg-transparent border-0 d-flex justify-content-between align-items-baseline">Network map options
         <button class="btn btn-link btn-sm pl-0 ml-auto" (click)="isOptionsVisible=!isOptionsVisible">
             <span class="">

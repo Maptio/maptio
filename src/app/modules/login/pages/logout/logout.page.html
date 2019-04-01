@@ -12,8 +12,8 @@
 
             <button class="btn btn-success btn-lg my-3" routerLink="/login">Log back in</button>
 
-            <div class="d-flex  justify-content-center align-items-stretch">
-                <div class="col-6">
+            <div class="d-flex row justify-content-center align-items-stretch">
+                <div class="col-12 col-md-6">
                     <a class="card border-white box-shadow text-blue no-underline" href="{{SURVEY_URL}}" target="blank">
                         <div class="card-body">
                             <h5 class="card-title d-flex justify-content-center">
@@ -27,7 +27,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-6">
+                <div class="col-12 col-md-6 mt-3 mt-md-0">
                     <div class="card border-white box-shadow">
                         <div class="card-body">
                             <h5 class="card-title d-flex justify-content-center text-blue ">
@@ -53,11 +53,11 @@
 
         </div>
     </div>
-    <div class="col-12 col-xl-6">
+    <div class="col-12 d-none d-md-block col-xl-6">
         <picture>
             <source [srcset]="SCREENSHOT_URL | safe" type="image/webp">
             <source [srcset]="SCREENSHOT_URL_FALLBACK | safe" type="image/jpeg">
-            <img class="w-100" [src]="SCREENSHOT_URL_FALLBACK | safe" alt="">
+            <img class="w-99" [src]="SCREENSHOT_URL_FALLBACK | safe" alt="">
         </picture>
     </div>
 </div>

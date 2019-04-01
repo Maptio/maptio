@@ -33,6 +33,7 @@ export class DataSet implements Serializable<DataSet> {
     if (!input || !input._id) return
     let deserialized = new DataSet();
     deserialized.shortid = input.shortid;
+    deserialized.depth = input.depth;
     deserialized.datasetId = input._id;
     deserialized.initiative = Initiative.create().deserialize(input.initiative || input);
     deserialized.isArchived = input.isArchived;

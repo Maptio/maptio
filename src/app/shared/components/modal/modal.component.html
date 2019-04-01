@@ -5,15 +5,15 @@
     </button>
 </div>
 <div class="modal-body fixed-height">
-    <div class="card border-0 bg-transparent">
-        <div class="card-body">
+    <div class="card h-100 border-0 bg-transparent">
+        <div class="card-body h-100 overflow-auto">
             <ng-content> </ng-content>
         </div>
 
     </div>
 </div>
-<div class="modal-footer d-flex justify-content-between align-items-stretch" [class.border-top-0]="!nextActionName">
-    <div class="d-flex justify-content-start col-6 h-100" *ngIf="isWithProgress && progress">
+<div class="modal-footer d-flex flex-column flex-md-row justify-content-md-between align-items-md-stretch" [class.border-top-0]="!nextActionName">
+    <div class="d-flex justify-content-start col-12 col-md-6 h-100" *ngIf="isWithProgress && progress">
         <div class="d-flex flex-column justify-content-end align-items-center w-100" *ngIf="progress!=='100'">
             <div class="progress w-100" [style.height.px]="20">
                 <div class="progress-bar bg-gray" role="progressbar" [style.width.%]="progress"></div>
@@ -21,7 +21,7 @@
             <small>{{progressLabel}}</small>
         </div>
     </div>
-    <div class="d-flex justify-content-end w-100">
+    <div class="d-flex justify-content-end col-12 col-md mt-3 mt-md-0">
         <button type="button" class="btn btn-outline-secondary mx-1" [class.invisible]="!previousActionName" (click)="previousStep()">{{previousActionName}}</button>
         <button type="button" *ngIf="isSkippable" class="btn btn-link mx-1" (click)="nextStep()">I'll do this later</button>
         <button type="button" *ngIf="!isSkippable" class="btn btn-success" [class.invisible]="!nextActionName" (click)="nextStep()">{{nextActionName}}</button>
