@@ -94,7 +94,6 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
     providers: [BillingGuard, WorkspaceGuard, UIService, ColorService,
         SlackService, DataService, MapSettingsService,
         WorkspaceComponentResolver
-    ],
-    entryComponents: [OnboardingComponent, InstructionsComponent]
+    ]
 })
 export class WorkspaceModule { }

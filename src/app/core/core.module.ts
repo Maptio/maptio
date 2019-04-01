@@ -35,7 +35,8 @@ import { OnboardingComponent } from '../shared/components/onboarding/onboarding.
         NotFoundComponent,
         HeaderComponent,
         FooterComponent,
-        LoaderComponent
+        LoaderComponent,
+
     ],
     imports: [
         CommonModule,
@@ -52,7 +53,8 @@ import { OnboardingComponent } from '../shared/components/onboarding/onboarding.
         HeaderComponent,
         FooterComponent,
         LoaderComponent,
-        DeviceDetectorModule
+        DeviceDetectorModule,
+        OnboardingComponent
     ],
     providers: [
         Auth, AuthConfiguration,
