@@ -18,6 +18,7 @@ export class InstructionsService {
     }
 
     private open(user: User, isDismissable: boolean, isWelcomeSequence: boolean) {
+        console.log("open")
         let modalInstructionsRef = this.modalService.open(InstructionsComponent,
             {
                 size: 'lg',

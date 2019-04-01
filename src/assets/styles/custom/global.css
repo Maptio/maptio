@@ -54,6 +54,13 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   width: 99% !important;
 }
 
+.background-contain{
+  background-size: contain!important;
+}
+
+.background-center{
+  background-position: center center!important;
+}
 
 .w-33{
   width: 33.333333% !important;
