@@ -19,7 +19,6 @@ router.get('/:id', function (req, res, next) {
             if (err) {
                 res.send(err);
             } else {
-                console.log(datasets)
                 datasets.depth = getDepth(datasets)
                 res.json(datasets);
             }
@@ -46,7 +45,6 @@ router.get('/in/:query', function (req, res, next) {
 router.get('/template/:name', function (req, res, next) {
     let name = req.params.name;
     let teamId = req.query.teamId;
-    console.log(path.join(__dirname, "..", `src/assets/templates/maps/${name}.json`));
     let template = templating(fs.readFileSync(path.join(__dirname, "..", `src/assets/templates/maps/${name}.json`)));
     let templated = JSON.parse(template({ teamId: teamId }));
     res.json(templated);
