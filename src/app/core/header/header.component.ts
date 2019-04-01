@@ -18,6 +18,7 @@ import { OnboardingService } from "../../shared/components/onboarding/onboarding
 import { Subscription } from "rxjs/Subscription";
 import { from, forkJoin } from "rxjs";
 import { partition, mergeMap, map } from "rxjs/operators";
+import { environment } from "../../config/environment";
 
 
 @Component({
@@ -31,12 +32,13 @@ export class HeaderComponent implements OnInit {
     public user: User;
 
     public datasets: Array<any>;
-    private teams: Array<Team>;
+    public teams: Array<Team>;
     public sampleTeams: Team[];
     public team: Team;
     public selectedDataset: DataSet;
     public areMapsAvailable: Promise<boolean>
     public isMenuOpened: boolean=false;
+    public BLOG_URL:string = environment.BLOG_URL;
 
     public emitterSubscription: Subscription;
     public userSubscription: Subscription;
