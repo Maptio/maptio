@@ -241,29 +241,6 @@ export class InitiativeComponent implements OnChanges {
         return this.node.accountable && this.node.accountable.user_id === helper.user_id
     }
 
-
-
-    // saveHelper(newHelper: NgbTypeaheadSelectItemEvent) {
-    //     if (this.node.helpers.findIndex(user => user.user_id === newHelper.item.user_id) < 0) {
-    //         let helper = newHelper.item;
-    //         helper.roles = [];
-    //         this.node.helpers.unshift(helper);
-    //     }
-    //     this.onBlur();
-    //     this.analytics.eventTrack("Initiative", { action: "add helper", team: this.teamName, teamId: this.teamId });
-    // }
-
-    // saveHelperRestricted(newHelper: NgbTypeaheadSelectItemEvent) {
-    //     if (newHelper.item.user_id === this.user.user_id) {
-    //         this.saveHelper({ item: this.user, preventDefault: null })
-    //     } else {
-    //         this.isRestrictedAddHelper = true;
-    //     }
-    //  }
-
-
-
-
 }
 
 
