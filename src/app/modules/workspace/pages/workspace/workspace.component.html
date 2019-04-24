@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div id="hierarchy" [class.hide]="isBuildingPanelCollapsed || !isBuildingVisible"
-                [class.show]="!isBuildingPanelCollapsed" 
+                [class.show]="!isBuildingPanelCollapsed && isBuildingVisible" 
                 class="d-none d-md-block collapsible sidenav h-100 justify-content-start">
                 <div id="sidenav-hierarchy" class="hierarchy w-100 h-100 card border-light border-right bg-white">
                     <div class="card border-0 bg-transparent h-100">
@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div id="details" [class.hide]="isDetailsPanelCollapsed || !isBuildingVisible"
-                [ngClass]="{'show border-right': !isDetailsPanelCollapsed}"
+                [ngClass]="{'show border-right': !isDetailsPanelCollapsed && isBuildingVisible}"
                 class="d-none d-md-block collapsible bg-white  details h-100 justify-content-start overflow-y">
                 <div id="sidenav-details" class="h-100 w-100">
                     <div class="card border-0 bg-transparent">
