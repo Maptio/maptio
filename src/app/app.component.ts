@@ -47,9 +47,8 @@ export class AppComponent {
         this.router.navigateByUrl("/logout")
       });
 
-    if(!isDevMode()){
       this.intercom.boot({ app_id: environment.INTERCOM_APP_ID });
-    }
+
 
     window.onresize = (e: UIEvent) => {
       this.isMobile();
