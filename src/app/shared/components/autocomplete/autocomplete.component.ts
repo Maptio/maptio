@@ -68,11 +68,12 @@ export class CommonAutocompleteComponent implements OnInit {
         this.cd.markForCheck();
     }
 
-    onSelect(selected: NgbTypeaheadSelectItemEvent) {
-        this.item = selected.item;
-        this.pick.emit(this.item);
+    onSelect(event: NgbTypeaheadSelectItemEvent) {
+        event.preventDefault()
+        this.pick.emit(event.item);
         this.isShowAutocomplete = false;
         this.cd.markForCheck();
+        this.inputAutocomplete.writeValue("");
     }
 
     onRemove() {
