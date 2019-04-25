@@ -10,8 +10,6 @@ import { map } from "rxjs/operators";
 @Injectable()
 export class AuthConfiguration {
 
-    public AUTH0_MANAGEMENTAPI_KEY = environment.AUTH0_MANAGEMENTAPI_KEY;
-    public AUTH0_MANAGEMENTAPI_SECRET = environment.AUTH0_MANAGEMENTAPI_SECRET;
     public AUTH0_APP_KEY = environment.AUTH0_APP_KEY;
     public AUTH0_DOMAIN = environment.AUTH0_DOMAIN;
 
