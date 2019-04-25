@@ -325,7 +325,6 @@ document.querySelector("svg#map").clientWidth / 2,
 
     /*
     this.selectableTagsSubscription = this.selectableTags$.subscribe(tags => {
-      console.log(tags)
       this.tagsState = tags;
       let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
       let uiService = this.uiService
@@ -675,7 +674,6 @@ document.querySelector("svg#map").clientWidth / 2,
     try {
       // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
 
-      console.log(this.translateX, this.translateY)
       svg.call(
         this.zooming.transform,
         d3.zoomIdentity
@@ -863,7 +861,6 @@ document.querySelector("svg#map").clientWidth / 2,
    
 
     function addCircle(groups: any): void {
-      console.log("addCircle")
       groups.select("circle")
         .attr("class", (d: any): string => {
           return d.parent
