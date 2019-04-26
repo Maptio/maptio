@@ -28,12 +28,13 @@ import { transition } from "d3-transition";
 import { select, selectAll, event, mouse } from "d3-selection";
 import { zoom, zoomIdentity } from "d3-zoom";
 import { scaleLog, ScaleLogarithmic } from "d3-scale";
-import { HierarchyCircularNode, pack, hierarchy } from "d3-hierarchy";
+import { HierarchyCircularNode, pack, hierarchy, HierarchyNode } from "d3-hierarchy";
 import { min } from "d3-array";
 import { color } from "d3-color";
 import { AuthHttp } from "angular2-jwt";
 import { map, tap } from "rxjs/operators";
 import { DataSet } from "../../../../shared/model/dataset.data";
+import { of } from "rxjs";
 
 const d3 = Object.assign(
   {},
@@ -114,6 +115,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public hoveredNode: Initiative;
 
   public slug: string;
+  public initiative: Initiative;
 
   CIRCLE_RADIUS: number = 16;
   MAX_TEXT_LENGTH = 35;
@@ -149,13 +151,23 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   ngOnInit() {
     this.loaderService.show();
+
+    const pack = d3
+      .pack()
+      .size([this.height - this.margin, this.height - this.margin])
+      .padding(20);
     // this.draw();
     // this.init();
     this.dataSubscription = this.dataService
       .get()
+      .map(data => {
+        this.initiative = data.initiative;
+        return data.dataset;
+      })
       .combineLatest(this.mapColor$)
       .flatMap((data: [DataSet, string]) => {
-        this.uiService.clean(); return this.draw(data[0].initiative, data[1],this.height, this.width)
+        this.uiService.clean();
+        return this.draw(data[0].initiative, data[1], this.height, this.width)
       })
       // .do((complexData: string) => {
       //   if (complexData[0].dataset.datasetId !== this.datasetId) {
@@ -165,7 +177,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .subscribe((complexData: string) => {
         // document.querySelector(".draw").innerHTML = complexData;
         (this.element.nativeElement as HTMLElement).innerHTML = complexData;
-        this.hydrate()
+        let root = d3.hierarchy(this.initiative)
+          .sum(function (d) {
+            return (d.accountable ? 1 : 0) + (d.helpers ? d.helpers.length : 0) + 1;
+          })
+          .sort(function (a, b) {
+            return b.value - a.value;
+          })
+        let nodes = pack(root).descendants();
+        // debugger
+        this.hydrate(root, nodes)
         // let data = <any>complexData[0].initiative;
         // this.datasetId = complexData[0].dataset.datasetId;
         // this.tagsState = complexData[2];
@@ -197,42 +218,154 @@ export class MappingZoomableComponent implements IDataVisualizer {
     // this.selectableTags$.subscribe(tags => this.tagsState = tags)
   }
 
-  draw(data: Initiative, color: string, diameter:number, width:number) {
+  draw(data: Initiative, color: string, diameter: number, width: number) {
     console.log("draw")
 
     return this.http.post("/api/v1/charts/make", {
       initiative: data,
       color: color,
-      width:width,
-      diameter:diameter
+      width: width,
+      diameter: diameter
     }).pipe(
       map(responseData => { return responseData.text() })
     )
   }
 
 
-  hydrate() {
-    let g = d3.select("svg > g");
-    let svg = d3.select("svg");
+  hydrate(root: any, nodes: any) {
+    const svg = d3.select("svg");
+    const g = d3.select("svg > g");
+    const margin = 20;
+    const height= this.height;
+    const TRANSITION_DURATION = 500;
+    let view: any;
+    let getLastZoomedCircle = this.getLastZoomedCircle.bind(this);
+    let setLastZoomedCircle = this.setLastZoomedCircle.bind(this);
+    const node = g.selectAll("g.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });
+    const circle = g.selectAll("circle.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
 
-    const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 2.5;
-
-    function zoomed() {
-      g.attr("transform", d3.getEvent().transform);
-    }
-
+    const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 3.5;
     const zooming = d3
       .zoom()
       .wheelDelta(wheelDelta)
       .on("zoom", zoomed)
 
-      svg.call(
-        zooming.transform,
-        d3.zoomIdentity
-          .translate(this.width/2, this.height/2)
-          .scale(1)
+    function zoomed() {
+      g.attr("transform", d3.getEvent().transform);
+    }
+
+
+    function getViewScaleForRadius(radius: number): number {
+      return (height) / (radius * 2 + 20);
+    }
+
+    function getClickedElementCoordinates(clickedElement: any, newScale: number, translateX: number, translateY: number): Array<number> {
+      let clickedX = 0;
+      let clickedY = 0;
+      if (
+        clickedElement
+        && clickedElement.transform
+        && (clickedElement.transform.baseVal.length > 0 || clickedElement.transform.baseVal.numberOfItems > 0)
+      ) {
+        clickedX = clickedElement.transform.baseVal.getItem(0).matrix.e * newScale;
+        clickedY = clickedElement.transform.baseVal.getItem(0).matrix.f * newScale;
+        clickedX -= margin;
+        clickedY -= margin;
+      }
+      else {
+        // in case we are zooming prgramatically and the svg doesnt have the reference to transform
+
+        clickedX = translateX * newScale;
+        clickedY = translateY * newScale;
+        clickedX -= margin;
+        clickedY -= margin;
+      }
+      return [clickedX, clickedY];
+    }
+
+    function initMapElementsAtPosition(v: any) {
+      view = v;
+      node
+        .transition()
+        .duration(TRANSITION_DURATION)
+        .attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`)
+        // .style("opacity", function (d: any) {
+        //   if (selectedTags.length === 0) return 1;
+        //   return uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid))
+        //     ? 1
+        //     : 0.1
+        // })
+        .each((d: any) => (d.translateX = d.x - v[0]))
+        .each((d: any) => (d.translateY = d.y - v[1]))
+
+      // textAround
+      //   .call(passingThrough, "mouseover")
+      //   .call(passingThrough, "mouseout")
+      //   .call(passingThrough, "contextmenu");
+
+      // g.selectAll("circle.accountable")
+      //   .call(passingThrough, "click")
+      //   .call(passingThrough, "mouseover")
+      //   .call(passingThrough, "mouseout")
+      //   .call(passingThrough, "contextmenu")
+
+      // definitions.selectAll("pattern > image")
+      //   .attr("width", function(d:any){return d.r * 2} )
+      //   .attr("height", function(d:any){return d.r * 2} )
+      // .attr("height", CIRCLE_RADIUS * 2)
+
+
+      circle
+        .attr("r", function (d: any) {
+          return d.r;
+        })
+
+    }
+
+    function zoom(focus: any, clickedElement?: any): void {
+      setLastZoomedCircle(focus);
+
+      const newScale: number = focus === root || focus.parent === root ? 1 : getViewScaleForRadius(focus.r);
+      const coordinates: Array<number> = getClickedElementCoordinates(clickedElement, newScale, focus.translateX, focus.translateY);
+
+
+      svg.transition().duration(TRANSITION_DURATION).call(
+        <any>zooming.transform,
+        d3.zoomIdentity.translate(
+          view[0] - coordinates[0],
+          view[1] - coordinates[1]
+        )
+          .scale(newScale)
       );
+    }
+
+    circle
+      .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
+        // showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
+        // debugger
+        if (getLastZoomedCircle().data.id === d.data.id) {
+          setLastZoomedCircle(root);
+          zoom(root);
+          localStorage.setItem("node_id", null)
+
+        } else {
+          setLastZoomedCircle(d);
+          localStorage.setItem("node_id", d.data.id)
+          zoom(d, (<any>this).parentElement);
+        }
+
+        d3.getEvent().stopPropagation();
+      })
+
+    svg.call(
+      zooming.transform,
+      d3.zoomIdentity
+        .translate(this.width / 2, this.height / 2)
+        .scale(1)
+    );
     svg.call(zooming);
+    initMapElementsAtPosition([root.x, root.y])
+    setLastZoomedCircle(root);
 
   }
 
@@ -297,6 +430,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .wheelDelta(wheelDelta)
       .on("zoom", zoomed)
       .on("end", (): void => {
+        console.log("end")
         this.adjustViewToZoomEvent(g, d3.getEvent());
         const transform = d3.getEvent().transform;
         innerSvg.attr("scale", transform.k);
@@ -574,7 +708,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .pack()
       .size([diameter - margin, diameter - margin])
       .padding(function (d: any) {
-        return PADDING_CIRCLE;
+        return 20;
       });
 
     const root: any = d3
@@ -607,6 +741,30 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     function getViewScaleForRadius(radius: number): number {
       return (height) / (radius * 2 + 20);
+    }
+
+    function getClickedElementCoordinates(clickedElement: any, newScale: number, translateX: number, translateY: number): Array<number> {
+      let clickedX = 0;
+      let clickedY = 0;
+      if (
+        clickedElement
+        && clickedElement.transform
+        && (clickedElement.transform.baseVal.length > 0 || clickedElement.transform.baseVal.numberOfItems > 0)
+      ) {
+        clickedX = clickedElement.transform.baseVal.getItem(0).matrix.e * newScale;
+        clickedY = clickedElement.transform.baseVal.getItem(0).matrix.f * newScale;
+        clickedX -= margin;
+        clickedY -= margin;
+      }
+      else {
+        // in case we are zooming prgramatically and the svg doesnt have the reference to transform
+
+        clickedX = translateX * newScale;
+        clickedY = translateY * newScale;
+        clickedX -= margin;
+        clickedY -= margin;
+      }
+      return [clickedX, clickedY];
     }
 
     function toREM(pixels: number) {
@@ -745,29 +903,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     return Promise.resolve(nodes);
 
-    function getClickedElementCoordinates(clickedElement: any, newScale: number, translateX: number, translateY: number): Array<number> {
-      let clickedX = 0;
-      let clickedY = 0;
-      if (
-        clickedElement
-        && clickedElement.transform
-        && (clickedElement.transform.baseVal.length > 0 || clickedElement.transform.baseVal.numberOfItems > 0)
-      ) {
-        clickedX = clickedElement.transform.baseVal.getItem(0).matrix.e * newScale;
-        clickedY = clickedElement.transform.baseVal.getItem(0).matrix.f * newScale;
-        clickedX -= margin;
-        clickedY -= margin;
-      }
-      else {
-        // in case we are zooming prgramatically and the svg doesnt have the reference to transform
 
-        clickedX = translateX * newScale;
-        clickedY = translateY * newScale;
-        clickedX -= margin;
-        clickedY -= margin;
-      }
-      return [clickedX, clickedY];
-    }
 
     function zoom(focus: any, clickedElement?: any): void {
       setLastZoomedCircle(focus);
