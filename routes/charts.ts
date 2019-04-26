@@ -7,22 +7,29 @@ import * as chartsGeneration  from "./generate-charts";
 var db = mongojs(process.env.MONGODB_URI, ['users']);
 
 
-router.get('/make', function (req:any, res:any, next:any) {
+// router.get('/make', function (req:any, res:any, next:any) {
+// console.log("make chart")
+//     let svg = chartsGeneration.makeChart({});
+//     res.send(svg);
+//     // let pattern = req.params.pattern;
 
-    let svg = chartsGeneration.makeChart();
-    res.send(svg);
-    // let pattern = req.params.pattern;
+//     // db.users.find(
+//     //     { $or: [{ name: { $regex: pattern, $options: 'i' } }, { email: { $regex: pattern, $options: 'i' } }] }
 
-    // db.users.find(
-    //     { $or: [{ name: { $regex: pattern, $options: 'i' } }, { email: { $regex: pattern, $options: 'i' } }] }
+//     //     , function (err, users) {
+//     //         if (err) {
+//     //             res.send(err);
+//     //         } else {
+//     //             res.json(users);
+//     //         }
+//     //     });
+// });
 
-    //     , function (err, users) {
-    //         if (err) {
-    //             res.send(err);
-    //         } else {
-    //             res.json(users);
-    //         }
-    //     });
-});
+router.post('/make', function (req:any, res:any, next:any) {
+    let data = req.body;
+    // console.log("make chart")
+        let svg = chartsGeneration.makeChart(data);
+        res.send(svg);
+    });
 
 export default router;

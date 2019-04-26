@@ -32,8 +32,7 @@ import * as jsdom from 'jsdom';
 
 const start = Date.now();
 
-const document = new jsdom.JSDOM().window.document;
-const data = JSON.parse(fs.readFileSync(path.resolve("src", "assets", "templates", "maps", "demo.json"), "utf-8"));
+// const data = JSON.parse(fs.readFileSync(path.resolve("src", "assets", "templates", "maps", "demo.json"), "utf-8"));
 const css = fs.readFileSync(path.resolve("routes/circles.css"), "utf-8")
 const POSITION_INITIATIVE_NAME = { x: 0.9, y: 0.1, fontRatio: 1 };
 const MAX_NUMBER_LETTERS_PER_CIRCLE = 15;
@@ -49,8 +48,9 @@ let outerFontScale = d3.scaleLog().domain(defaultScaleExtent).range(outerFontSiz
 let innerFontScale = d3.scaleLog().domain(defaultScaleExtent).range(innerFontSizeRange);
 
 
-export function makeChart() {
+export function makeChart(data:any) {
 
+    const document = new jsdom.JSDOM().window.document;
 
 
     var svg = d3.select(document.body) //make a container div to ease the saving process
@@ -203,7 +203,6 @@ export function makeChart() {
     initMapElementsAtPosition([root.x, root.y]);
     adjustViewToZoomEvent(g, d3.getEvent());
 
-    console.log(Date.now() - start)
     return document.body.innerHTML;
 
     function adjustViewToZoomEvent(g: any, event: any, force?: boolean): void {

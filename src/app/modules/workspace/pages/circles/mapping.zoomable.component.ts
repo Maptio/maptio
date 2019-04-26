@@ -16,7 +16,8 @@ import {
   ViewEncapsulation,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
-  isDevMode
+  isDevMode,
+  ElementRef
 } from "@angular/core";
 import { partition } from "lodash-es";
 import { LoaderService } from "../../../../shared/components/loading/loader.service";
@@ -30,6 +31,8 @@ import { scaleLog, ScaleLogarithmic } from "d3-scale";
 import { HierarchyCircularNode, pack, hierarchy } from "d3-hierarchy";
 import { min } from "d3-array";
 import { color } from "d3-color";
+import { AuthHttp } from "angular2-jwt";
+import { map, tap } from "rxjs/operators";
 
 const d3 = Object.assign(
   {},
@@ -136,39 +139,46 @@ export class MappingZoomableComponent implements IDataVisualizer {
     private cd: ChangeDetectorRef,
     private dataService: DataService,
     private uriService: URIService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private http: AuthHttp,
+    private element:ElementRef
   ) {
     this.T = d3.transition(null).duration(this.TRANSITION_DURATION);
   }
 
   ngOnInit() {
     this.loaderService.show();
-    this.init();
+    // this.draw();
+    // this.init();
     this.dataSubscription = this.dataService
       .get()
-      .combineLatest(this.mapColor$, this.selectableTags$)
-      .do((complexData: [any, string, SelectableTag[]]) => {
-        if (complexData[0].dataset.datasetId !== this.datasetId) {
-          this.counter = 0;
-        }
-      })
-      .subscribe((complexData: [any, string, SelectableTag[]]) => {
-        let data = <any>complexData[0].initiative;
-        this.datasetId = complexData[0].dataset.datasetId;
-        this.tagsState = complexData[2];
-        this.slug = data.getSlug();
+      .flatMap((data:any) => {
+        this.uiService.clean(); return this.draw(data.initiative)})
+      // .do((complexData: string) => {
+      //   if (complexData[0].dataset.datasetId !== this.datasetId) {
+      //     this.counter = 0;
+      //   }
+      // })
+      .subscribe((complexData: string) => {
+        // document.querySelector(".draw").innerHTML = complexData;
+        (this.element.nativeElement as HTMLElement).innerHTML = complexData;
+        // let data = <any>complexData[0].initiative;
+        // this.datasetId = complexData[0].dataset.datasetId;
+        // this.tagsState = complexData[2];
+        // this.slug = data.getSlug();
         this.loaderService.show();
-        this.update(data, complexData[1], this.counter === 0)
+        // this.draw();
+        // this.update(data, complexData[1], this.counter === 0)
 
 
         this.counter += 1;
         this.loaderService.hide();
-        this.analytics.eventTrack("Map", {
-          action: "viewing",
-          view: "initiatives",
-          team: (<Team>complexData[0].team).name,
-          teamId: (<Team>complexData[0].team).team_id
-        });
+        // this.analytics.eventTrack("Map", {
+        //   action: "viewing",
+        //   view: "initiatives",
+        //   team: (<Team>complexData[0].team).name,
+        //   teamId: (<Team>complexData[0].team).team_id
+        // });
         this.isLoading = false;
         this.cd.markForCheck();
       },
@@ -181,6 +191,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
       )
       ;
     // this.selectableTags$.subscribe(tags => this.tagsState = tags)
+  }
+
+  draw(data:Initiative) {
+    console.log("draw")
+   
+    return this.http.post("/api/v1/charts/make", data).pipe(
+      map(responseData => {  return responseData.text() })
+    )
   }
 
 
@@ -233,7 +251,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .append("g")
         .attr(
           "transform",
-          `translate(${diameter/2}, ${diameter / 2}) scale(1)`
+          `translate(${diameter / 2}, ${diameter / 2}) scale(1)`
         ),
       definitions = innerSvg.append("svg:defs");
 
@@ -293,8 +311,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
       innerSvg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
         this.zooming.transform,
         d3.zoomIdentity.translate(
-          
-document.querySelector("svg#map").clientWidth / 2,
+
+          document.querySelector("svg#map").clientWidth / 2,
           diameter / 2
         )
       );
@@ -382,7 +400,7 @@ document.querySelector("svg#map").clientWidth / 2,
     const select: Function = d3.select;
     const MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
     const definitions = this.definitions;
-   
+
     g.selectAll("circle.node")
       .each((d: any) => (d.zf = zoomFactor))
 
@@ -462,7 +480,7 @@ document.querySelector("svg#map").clientWidth / 2,
           })
           .attr("transform", `scale(${1 / accountableZoomFactor})`)
           .transition()
-          // .style("opacity", 1);
+        // .style("opacity", 1);
       });
   }
 
@@ -740,7 +758,7 @@ document.querySelector("svg#map").clientWidth / 2,
         .transition()
         .duration((d: any): number => d.children ? TRANSITION_DURATION / 5 : TRANSITION_DURATION / 5)
         .attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`)
-        .style("opacity", function(d:any){
+        .style("opacity", function (d: any) {
           if (selectedTags.length === 0) return 1;
           return uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid))
             ? 1
@@ -858,9 +876,9 @@ document.querySelector("svg#map").clientWidth / 2,
 
     }
 
-    
 
-   
+
+
 
     function addCircle(groups: any): void {
       console.log("addCircle")
