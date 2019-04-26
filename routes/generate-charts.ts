@@ -33,14 +33,14 @@ import * as jsdom from 'jsdom';
 const start = Date.now();
 
 // const data = JSON.parse(fs.readFileSync(path.resolve("src", "assets", "templates", "maps", "demo.json"), "utf-8"));
-const css = fs.readFileSync(path.resolve("routes/circles.css"), "utf-8")
+// const css = fs.readFileSync(path.resolve("routes/circles.css"), "utf-8")
 const POSITION_INITIATIVE_NAME = { x: 0.9, y: 0.1, fontRatio: 1 };
 const MAX_NUMBER_LETTERS_PER_CIRCLE = 15;
 const DEFAULT_PICTURE_ANGLE = Math.PI - Math.PI * 36 / 180;
 const CIRCLE_RADIUS = 16;
 
-var diameter = 900, width = 1440, margin = 20;
-const seedColor = "red";
+var margin = 20;
+// const seedColor = "red";
 const outerFontSizeRange = [14, 5];
 const innerFontSizeRange = [10, 3];
 const defaultScaleExtent = [0.5, 5];
@@ -48,7 +48,7 @@ let outerFontScale = d3.scaleLog().domain(defaultScaleExtent).range(outerFontSiz
 let innerFontScale = d3.scaleLog().domain(defaultScaleExtent).range(innerFontSizeRange);
 
 
-export function makeChart(data:any) {
+export function makeChart(data:any, seedColor:string, diameter:number, width:number) {
 
     const document = new jsdom.JSDOM().window.document;
 
@@ -65,11 +65,11 @@ export function makeChart(data:any) {
             .append("g")
             .attr(
                 "transform",
-                `translate(${diameter / 2}, ${diameter / 2}) scale(1)`
+                `translate(${width / 2}, ${diameter / 2}) scale(1)`
             ),
         definitions = svg.append("svg:defs");
 
-    definitions.append("style").attr("type", "text/css").html(css);
+    // definitions.append("style").attr("type", "text/css").html(css);
 
     function zoomed() {
         g.attr("transform", d3.getEvent().transform);
@@ -176,8 +176,8 @@ export function makeChart(data:any) {
         })
         .attr("width", function (d: any) { return d.r * 2 * 0.95 })
         .attr("height", function (d: any) { return d.r * 2 * 0.5 })
-        .style("display", "inline")
-        .style("pointer-events", "none")
+        // .style("display", "inline")
+        // .style("pointer-events", "none")
         .html((d: any): string => {
             let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
             return `<div style="font-size: ${fs}; padding-top: 5%; background: none; display: block; pointer-events: none; overflow: hidden; height:100%; line-height: 100%; text-overflow:ellipsis;">${d.data.name || '(Empty)'}</div>`;
@@ -187,9 +187,9 @@ export function makeChart(data:any) {
         .attr("fill", function (d: any) {
             return d.data.accountable ? "url('#image" + d.data.id + "')" : "transparent";
         })
-        .style("display", function (d: any) {
-            return d !== root ? "inline" : "none";
-        });
+        // .style("display", function (d: any) {
+        //     return d !== root ? "inline" : "none";
+        // });
 
     let accountablePictureWithoutChildren = initiativeNoChildren.select("circle.accountable.no-children")
         .attr("fill", function (d: any) {
@@ -215,6 +215,7 @@ export function makeChart(data:any) {
         const outerFontSize: number = outerFontScale(zoomFactor);
 
         g.selectAll("circle.node")
+            .attr("zf", zoomFactor)
             .each((d: any) => (d.zf = zoomFactor))
 
         g.selectAll(".node.no-children")
@@ -279,22 +280,22 @@ export function makeChart(data:any) {
             .attr("r", function (d: any) {
                 return d.r;
             })
-            .style("stroke", function (d: any) {
-                return d.children
-                    ? colorRange(d.depth)
-                    : !d.children && d.parent === root ? d3.color(colorRange(d.depth)).darker(1).toString() : null;
-            })
+            // .style("stroke", function (d: any) {
+            //     return d.children
+            //         ? colorRange(d.depth)
+            //         : !d.children && d.parent === root ? d3.color(colorRange(d.depth)).darker(1).toString() : null;
+            // })
             .style("fill", function (d: any) {
                 return d.children
                     ? colorRange(d.depth)
                     : !d.children && d.parent === root ? colorRange(d.depth) : null;
             })
-            .style("fill-opacity", function (d: any) {
-                return d.children
-                    ? 0.1
-                    : !d.children && d.parent === root ? 0.1 : 1;
-            })
-            .style("stroke-opacity", 0)
+            // .style("fill-opacity", function (d: any) {
+            //     return d.children
+            //         ? 0.1
+            //         : !d.children && d.parent === root ? 0.1 : 1;
+            // })
+            // .style("stroke-opacity", 0)
 
     }
 

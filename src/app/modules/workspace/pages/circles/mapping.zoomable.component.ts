@@ -33,6 +33,7 @@ import { min } from "d3-array";
 import { color } from "d3-color";
 import { AuthHttp } from "angular2-jwt";
 import { map, tap } from "rxjs/operators";
+import { DataSet } from "../../../../shared/model/dataset.data";
 
 const d3 = Object.assign(
   {},
@@ -141,7 +142,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     private uriService: URIService,
     private loaderService: LoaderService,
     private http: AuthHttp,
-    private element:ElementRef
+    private element: ElementRef
   ) {
     this.T = d3.transition(null).duration(this.TRANSITION_DURATION);
   }
@@ -152,8 +153,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
     // this.init();
     this.dataSubscription = this.dataService
       .get()
-      .flatMap((data:any) => {
-        this.uiService.clean(); return this.draw(data.initiative)})
+      .combineLatest(this.mapColor$)
+      .flatMap((data: [DataSet, string]) => {
+        this.uiService.clean(); return this.draw(data[0].initiative, data[1],this.height, this.width)
+      })
       // .do((complexData: string) => {
       //   if (complexData[0].dataset.datasetId !== this.datasetId) {
       //     this.counter = 0;
@@ -162,6 +165,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .subscribe((complexData: string) => {
         // document.querySelector(".draw").innerHTML = complexData;
         (this.element.nativeElement as HTMLElement).innerHTML = complexData;
+        this.hydrate()
         // let data = <any>complexData[0].initiative;
         // this.datasetId = complexData[0].dataset.datasetId;
         // this.tagsState = complexData[2];
@@ -193,14 +197,44 @@ export class MappingZoomableComponent implements IDataVisualizer {
     // this.selectableTags$.subscribe(tags => this.tagsState = tags)
   }
 
-  draw(data:Initiative) {
+  draw(data: Initiative, color: string, diameter:number, width:number) {
     console.log("draw")
-   
-    return this.http.post("/api/v1/charts/make", data).pipe(
-      map(responseData => {  return responseData.text() })
+
+    return this.http.post("/api/v1/charts/make", {
+      initiative: data,
+      color: color,
+      width:width,
+      diameter:diameter
+    }).pipe(
+      map(responseData => { return responseData.text() })
     )
   }
 
+
+  hydrate() {
+    let g = d3.select("svg > g");
+    let svg = d3.select("svg");
+
+    const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 2.5;
+
+    function zoomed() {
+      g.attr("transform", d3.getEvent().transform);
+    }
+
+    const zooming = d3
+      .zoom()
+      .wheelDelta(wheelDelta)
+      .on("zoom", zoomed)
+
+      svg.call(
+        zooming.transform,
+        d3.zoomIdentity
+          .translate(this.width/2, this.height/2)
+          .scale(1)
+      );
+    svg.call(zooming);
+
+  }
 
   ngOnDestroy() {
     if (this.zoomSubscription) {

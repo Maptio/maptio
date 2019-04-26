@@ -1,19 +1,10 @@
-::ng-deep svg {
+/* ::ng-deep svg {
     background: transparent;
 }
 
 ::ng-deep .initiative-map.node {
     cursor: pointer;
 }
-
-::ng-deep .initiative-map.node:hover {
-    /* stroke: initial; */
-    /* stroke-width: initial; */
-}
-
-/* ::ng-deep circle.node.initiative-map{
-  box-shadow : inset 0 0 0 1px hsla(0, 0%, 0%, 0.1);
-} */
 
 ::ng-deep .initiative-map.node--leaf {
     fill: white;
@@ -32,50 +23,9 @@
     fill: var(--maptio-green) !important;
 }
 
-
-::ng-deep circle.deleting{
-    fill: var(--maptio-red) !important;
-    stroke: var(--maptio-red) !important;
-    stroke-width: 3px !important;
-    stroke-opacity: 1!important;
-}
-
-
-::ng-deep circle.adding{
-    fill: var(--maptio-blue) !important;
-    stroke: var(--maptio-blue) !important;
-    stroke-width: 3px !important;
-    stroke-opacity: 1!important;
-}
-
-::ng-deep circle.updated{
-    fill: var(--maptio-green) ;
-    stroke-width: 3px ;
-    stroke-opacity: 1;
-}
-
-::ng-deep circle.adding.updated{
-    fill: var(--maptio-green) ;
-    stroke: var(--maptio-green) ;
-    stroke-width: 3px ;
-    stroke-opacity: 1;
-}
-
-
-
 ::ng-deep .initiative-map.node--root {
     display: none;
 }
-
-/* ::ng-deep svg circle.initiative-map:hover{
-    stroke: var(--maptio-blue) !important;
-    stroke-width: 3px;
-    fill: var(--maptio-blue) !important;
-} */
-
-/* ::ng-deep svg circle.initiative-map.hovered {
-    stroke: #000;
-} */
 
 ::ng-deep svg text.initiative-map.accountable {
     fill: #555;
@@ -93,4 +43,45 @@
     font: "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-anchor: start;
 }
+ */
 
+ ::ng-deep circle.node{
+    stroke-opacity: 0;
+    fill-opacity: 0.1;
+    pointer-events: visible;
+    cursor: pointer;
+}
+
+::ng-deep circle.node:hover{
+    stroke-width: 2px;
+    stroke-opacity: 1;
+    stroke: black;
+ }
+
+
+::ng-deep circle.node.node--leaf{
+    fill-opacity: 1;
+    fill:white ;
+}
+
+
+ 
+
+
+ ::ng-deep foreignObject.name.no-children{
+     display: inline;
+     pointer-events: none;
+ }
+
+::ng-deep circle.accountable{
+    cursor: pointer;
+    pointer-events: all;
+}
+
+ ::ng-deep circle.accountable.with-children{
+     display: none;
+ }
+
+ ::ng-deep circle.accountable.with-children:not(node--root){
+    display: inline;
+}
