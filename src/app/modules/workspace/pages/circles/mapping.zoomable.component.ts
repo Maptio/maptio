@@ -290,7 +290,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       definitions = innerSvg.append("svg:defs");
 
 
-    const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 2.5;
+    const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 3.5;
 
     this.zooming = d3
       .zoom()
