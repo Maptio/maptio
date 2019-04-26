@@ -1,0 +1,96 @@
+ svg {
+    background: transparent;
+}
+
+ .initiative-map.node {
+    cursor: pointer;
+}
+
+ .initiative-map.node:hover {
+    /* stroke: initial; */
+    /* stroke-width: initial; */
+}
+
+/*  circle.node.initiative-map{
+  box-shadow : inset 0 0 0 1px hsla(0, 0%, 0%, 0.1);
+} */
+
+ .initiative-map.node--leaf {
+    fill: white;
+    pointer-events: visible;
+}
+
+ .initiative-map.node--leaf text {
+    fill: #000;
+}
+
+ .initiative-map.deleting>circle:not(.accountable),.initiative-map.deleting>text{
+    fill: var(--maptio-red) !important;
+}
+
+ .initiative-map.adding>circle:not(.accountable),.initiative-map.adding>text{
+    fill: var(--maptio-green) !important;
+}
+
+
+ circle.deleting{
+    fill: var(--maptio-red) !important;
+    stroke: var(--maptio-red) !important;
+    stroke-width: 3px !important;
+    stroke-opacity: 1!important;
+}
+
+
+ circle.adding{
+    fill: var(--maptio-blue) !important;
+    stroke: var(--maptio-blue) !important;
+    stroke-width: 3px !important;
+    stroke-opacity: 1!important;
+}
+
+ circle.updated{
+    fill: var(--maptio-green) ;
+    stroke-width: 3px ;
+    stroke-opacity: 1;
+}
+
+ circle.adding.updated{
+    fill: var(--maptio-green) ;
+    stroke: var(--maptio-green) ;
+    stroke-width: 3px ;
+    stroke-opacity: 1;
+}
+
+
+
+ .initiative-map.node--root {
+    display: none;
+}
+
+/*  svg circle.initiative-map:hover{
+    stroke: var(--maptio-blue) !important;
+    stroke-width: 3px;
+    fill: var(--maptio-blue) !important;
+} */
+
+/*  svg circle.initiative-map.hovered {
+    stroke: #000;
+} */
+
+ svg text.initiative-map.accountable {
+    fill: #555;
+}
+
+ .accountable.initiative-map {
+    font-weight: 500;
+}
+
+ .name.initiative-map {
+    font-weight: 500;
+}
+
+ .label.initiative-map {
+    font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-anchor: start;
+}
+

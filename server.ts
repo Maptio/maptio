@@ -1,7 +1,7 @@
 require('dotenv').config()
 const bodyParser = require('body-parser');
 const path = require('path');
-const express = require('express');
+import * as express from 'express';
 const webpack = require('webpack');
 const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -29,8 +29,8 @@ var jwtCheck = jwt({
 });
 
 
-function check_scopes(scopes) {
-  return function (req, res, next) {
+function check_scopes(scopes:any) {
+  return function (req:any, res:express.Response, next:any) {
     var token = req.token;
     var userScopes = token.scope.split(' ');
     for (var i = 0; i < userScopes.length; i++) {
@@ -54,16 +54,16 @@ if (!isDevelopment) {
   app.use(helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", 'maxcdn.bootstrapcdn.com', 
-      'cdnjs.cloudflare.com', 'api.mixpanel.com','fonts.googleapis.com'],
+      styleSrc: ["'self'", "'unsafe-inline'", 'maxcdn.bootstrapcdn.com',
+        'cdnjs.cloudflare.com', 'api.mixpanel.com', 'fonts.googleapis.com'],
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'",
         'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'cdn.auth0.com', 'api.mixpanel.com',
         'cdn.mxpnl.com', 'cdn4.mxpnl.com',
         'https://*.logrocket.io',
         'www.google-analytics.com', 'mixpanel.com', 'widget.intercom.io', 'https://app.intercom.io',
-        'https://js.intercomcdn.com', 'https://fullstory.com','https://static.hotjar.com', 'code.jquery.com'],
-      fontSrc: ["'self'", 'maxcdn.bootstrapcdn.com', 'cdn.mixpnl.com', 'https://js.intercomcdn.com','fonts.gstatic.com'],
-      connectSrc: ["'self'", 'api.mixpanel.com', 'api.cloudinary.com', 'circlemapping.auth0.com', 'login.maptio.com','www.google-analytics.com', 'mixpanel.com', 'https://api.intercom.io', 'https://api-iam.intercom.io',
+        'https://js.intercomcdn.com', 'https://fullstory.com', 'https://static.hotjar.com', 'code.jquery.com'],
+      fontSrc: ["'self'", 'maxcdn.bootstrapcdn.com', 'cdn.mixpnl.com', 'https://js.intercomcdn.com', 'fonts.gstatic.com'],
+      connectSrc: ["'self'", 'api.mixpanel.com', 'api.cloudinary.com', 'circlemapping.auth0.com', 'login.maptio.com', 'www.google-analytics.com', 'mixpanel.com', 'https://api.intercom.io', 'https://api-iam.intercom.io',
         'https://api-ping.intercom.io',
         'https://nexus-websocket-a.intercom.io',
         'https://nexus-websocket-b.intercom.io',
@@ -79,19 +79,19 @@ if (!isDevelopment) {
         'https://slack.com/api/'
       ],
       childSrc: [
-        "'self'",'blob:',
+        "'self'", 'blob:',
         'https://share.intercom.io',
         'https://www.youtube.com',
         'https://player.vimeo.com',
         'https://fast.wistia.net',
         'https://drive.google.com',
         'https://termsfeed.com/',
-        'https://circlemapping.auth0.com/','login.maptio.com',
+        'https://circlemapping.auth0.com/', 'login.maptio.com',
         'https://maptio.chargebee.com',
         'https://intercom-sheets.com'
       ],
-      workerSrc : [
-        "'self'",'blob:'
+      workerSrc: [
+        "'self'", 'blob:'
       ],
       imgSrc: ['data:', "'self'", '*']
     }
@@ -117,9 +117,11 @@ var images = require('./routes/images');
 var notifications = require('./routes/notifications');
 var oauth = require('./routes/oauth');
 var intercom = require("./routes/intercom");
+import charts  from "./routes/charts";
 
 app.use('/api/v1/jwt/', encoding);
 app.use('/api/v1/mail/confirm', confirming);
+app.use("/api/v1/charts", charts);
 
 app.use('/api/v1/images/', jwtCheck, check_scopes(["api"]), images)
 app.use('/api/v1/notifications/', jwtCheck, check_scopes(["api"]), notifications)
@@ -138,7 +140,7 @@ if (isDevelopment) {
   const middleware = webpackMiddleware(compiler, {
     publicPath: config.output.publicPath,
     contentBase: 'src',
-    hot:true,
+    hot: true,
     stats: {
       colors: true,
       hash: false,
@@ -171,7 +173,7 @@ if (isDevelopment) {
   )
 }
 
-app.listen(app.get("port"), '0.0.0.0', function onStart(err) {
+app.listen(app.get("port"), '0.0.0.0', function onStart(err:any) {
   if (err) {
     console.error(err);
   }
