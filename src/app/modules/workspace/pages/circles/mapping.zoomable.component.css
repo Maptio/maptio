@@ -47,7 +47,7 @@
 
  ::ng-deep circle.node{
     stroke-opacity: 0;
-    fill-opacity: 0.1;
+    fill-opacity: 0.5;
     pointer-events: visible;
     cursor: pointer;
 }
@@ -65,10 +65,13 @@
 }
 
 
+::ng-deep .node--root foreignObject.name{
+    display: none;
+}
  
 
 
- ::ng-deep foreignObject.name.no-children{
+ ::ng-deep foreignObject.name{
      display: inline;
      pointer-events: none;
  }

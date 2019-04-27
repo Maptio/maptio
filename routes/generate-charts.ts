@@ -34,7 +34,7 @@ const start = Date.now();
 
 // const data = JSON.parse(fs.readFileSync(path.resolve("src", "assets", "templates", "maps", "demo.json"), "utf-8"));
 // const css = fs.readFileSync(path.resolve("routes/circles.css"), "utf-8")
-const POSITION_INITIATIVE_NAME = { x: 0.9, y: 0.1, fontRatio: 1 };
+const POSITION_INITIATIVE_NAME = { x: 0.75, y: 0.5, fontRatio: 1 };
 const MAX_NUMBER_LETTERS_PER_CIRCLE = 15;
 const DEFAULT_PICTURE_ANGLE = Math.PI - Math.PI * 36 / 180;
 const CIRCLE_RADIUS = 16;
@@ -48,7 +48,7 @@ let outerFontScale = d3.scaleLog().domain(defaultScaleExtent).range(outerFontSiz
 let innerFontScale = d3.scaleLog().domain(defaultScaleExtent).range(innerFontSizeRange);
 
 
-export function makeChart(data:any, seedColor:string, diameter:number, width:number) {
+export function makeChart(data: any, seedColor: string, diameter: number, width: number) {
 
     const document = new jsdom.JSDOM().window.document;
 
@@ -57,6 +57,7 @@ export function makeChart(data:any, seedColor:string, diameter:number, width:num
         .append('svg')
         .attr("width", "100%")
         .attr("height", "100%")
+        .style("overflow", "visible")
         .attr("preserveAspectRatio", "none")
         .attr("xmlns", "http://www.w3.org/2000/svg")
         .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
@@ -98,7 +99,7 @@ export function makeChart(data:any, seedColor:string, diameter:number, width:num
     const focus = root, nodes: Array<any> = packing(root).descendants();
 
     buildPatterns();
-    buildPaths()
+    // buildPaths()
 
     let initiativeWithChildren: any = g
         .selectAll("g.node.initiative-map.with-children")
@@ -122,11 +123,12 @@ export function makeChart(data:any, seedColor:string, diameter:number, width:num
     enterWithAnimations(initiativeWithChildrenEnter, "with-children");
     enterWithAnimations(initiativeNoChildrenEnter, "no-children");
 
-    initiativeWithChildrenEnter.append("text").attr("class", "name with-children").classed("initiative-map", true);
+    // initiativeWithChildrenEnter.append("text").attr("class", "name with-children").classed("initiative-map", true);
     initiativeNoChildrenEnter.append("foreignObject").attr("class", "name no-children").classed("initiative-map", true);
+    initiativeWithChildrenEnter.append("foreignObject").attr("class", "name with-children").classed("initiative-map", true);
 
-    initiativeWithChildrenEnter.append("circle").attr("class", "accountable with-children").classed("initiative-map", true);
-    initiativeNoChildrenEnter.append("circle").attr("class", "accountable no-children").classed("initiative-map", true);
+    // initiativeWithChildrenEnter.append("circle").attr("class", "accountable with-children").classed("initiative-map", true);
+    // initiativeNoChildrenEnter.append("circle").attr("class", "accountable no-children").classed("initiative-map", true);
 
     initiativeWithChildren = initiativeWithChildrenEnter.merge(initiativeWithChildren);
     initiativeNoChildren = initiativeNoChildrenEnter.merge(initiativeNoChildren);
@@ -141,27 +143,45 @@ export function makeChart(data:any, seedColor:string, diameter:number, width:num
     let node = g.selectAll("g.node");
     let circle = g.selectAll("circle.node");
 
-    let textAround = initiativeWithChildren.select("text.name.with-children")
+    //     let textAround = initiativeWithChildren.select("text.name.with-children")
+    //         .attr("id", function (d: any) {
+    //             return `${d.data.id}`;
+    //         })
+    //         .style("display", function (d: any) {
+    //             return d !== root ? "inline" : "none";
+    //         })
+    //         .html(function (d: any) {
+    //             let radius = d.r * d.k + 1;
+    //             return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
+    //   <tspan>${d.data.name || ""}</tspan>
+    //   </textPath>`;
+    //             //   return browser === Browsers.Firefox
+    //             //     ? `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
+    //             //             <tspan>${d.data.name || ""}</tspan>
+    //             //             </textPath>`
+    //             //     : `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
+    //             //             <tspan>${d.data.name || ""}</tspan>
+    //             //             </textPath>`;
+    //         });
+
+
+
+    initiativeWithChildren.select("foreignObject.name.with-children")
         .attr("id", function (d: any) {
             return `${d.data.id}`;
         })
-        .style("display", function (d: any) {
-            return d !== root ? "inline" : "none";
+        .classed("initiative-map", true)
+        .attr("x", function (d: any) {
+            return -d.r * POSITION_INITIATIVE_NAME.x;
         })
-        .html(function (d: any) {
-            let radius = d.r * d.k + 1;
-            return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
-  <tspan>${d.data.name || ""}</tspan>
-  </textPath>`;
-            //   return browser === Browsers.Firefox
-            //     ? `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
-            //             <tspan>${d.data.name || ""}</tspan>
-            //             </textPath>`
-            //     : `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
-            //             <tspan>${d.data.name || ""}</tspan>
-            //             </textPath>`;
-        });
-
+        .attr("y", function (d: any) {
+            return -d.r * POSITION_INITIATIVE_NAME.y;
+        })
+        .attr("width", function (d: any) { return d.r * 2 * 0.8 })
+        .attr("height", function (d: any) { return d.r * 2 * 0.95 })
+        // .style("display", "inline")
+        // .style("pointer-events", "none")
+        .html(getForeignObjectHTML)
 
     initiativeNoChildren.select("foreignObject.name.no-children")
         .attr("id", function (d: any) {
@@ -174,24 +194,27 @@ export function makeChart(data:any, seedColor:string, diameter:number, width:num
         .attr("y", function (d: any) {
             return -d.r * POSITION_INITIATIVE_NAME.y;
         })
-        .attr("width", function (d: any) { return d.r * 2 * 0.95 })
+        .attr("width", function (d: any) { return d.r * 2 * 0.8 })
         .attr("height", function (d: any) { return d.r * 2 * 0.5 })
         // .style("display", "inline")
         // .style("pointer-events", "none")
-        .html((d: any): string => {
-            let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
-            return `<div style="font-size: ${fs}; padding-top: 5%; background: none; display: block; pointer-events: none; overflow: hidden; height:100%; line-height: 100%; text-overflow:ellipsis;">${d.data.name || '(Empty)'}</div>`;
-        })
+        .html(getForeignObjectHTML)
 
     let accountablePictureWithChildren = initiativeWithChildren.select("circle.accountable.with-children")
+        .attr("id", function (d: any) {
+            return `${d.data.id}`;
+        })
         .attr("fill", function (d: any) {
             return d.data.accountable ? "url('#image" + d.data.id + "')" : "transparent";
         })
-        // .style("display", function (d: any) {
-        //     return d !== root ? "inline" : "none";
-        // });
+    // .style("display", function (d: any) {
+    //     return d !== root ? "inline" : "none";
+    // });
 
     let accountablePictureWithoutChildren = initiativeNoChildren.select("circle.accountable.no-children")
+        .attr("id", function (d: any) {
+            return `${d.data.id}`;
+        })
         .attr("fill", function (d: any) {
             return d.data.accountable ? "url('#image" + d.data.id + "')" : "transparent";
         })
@@ -204,6 +227,20 @@ export function makeChart(data:any, seedColor:string, diameter:number, width:num
     adjustViewToZoomEvent(g, d3.getEvent());
 
     return document.body.innerHTML;
+
+    function getForeignObjectHTML(d: any) {
+        let fsREM = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
+        let fsPixel = `${d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE}px`;
+        let imgSource = d.data.accountable ? d.data.accountable.picture : '';
+        let fontSize = Math.max(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE, 1);
+
+        return `
+            <div class="d-flex flex-column align-items-start" style="padding-top:5%;font-size: ${fontSize}px;line-height:1.25">
+                <img class="rounded-circle" src="${imgSource}" style="margin-bottom:2px;float:left;height:${imgSource ? fontSize * 2 : 0}px;width:${imgSource ? fontSize * 2 : 0}px" />
+                <div>${d.data.name || '(Empty)'}</div>
+            </div>
+            `;
+    }
 
     function adjustViewToZoomEvent(g: any, event: any, force?: boolean): void {
 
@@ -218,7 +255,7 @@ export function makeChart(data:any, seedColor:string, diameter:number, width:num
             .attr("zf", zoomFactor)
             .each((d: any) => (d.zf = zoomFactor))
 
-        g.selectAll(".node.no-children")
+        g.selectAll(".node.no-children, .node.with-children")
             .each(function (d: any): void {
                 myInnerFontScale.range([d.r * Math.PI / MAX_NUMBER_LETTERS_PER_CIRCLE, 3]);
                 d3.select(this).select("foreignObject div")
@@ -226,12 +263,22 @@ export function makeChart(data:any, seedColor:string, diameter:number, width:num
                     .style("font-size", () => {
                         return `${myInnerFontScale(zoomFactor)}px`
 
+                    });
+
+                d3.select(this).select("foreignObject div img")
+                    .style("height", () => {
+                        return `${myInnerFontScale(zoomFactor)}px`
+
                     })
-                    .style("line-height", 1.3)
+                    .style("width", () => {
+                        return `${myInnerFontScale(zoomFactor)}px`
+
+                    });
+                // .style("line-height", 1.3)
             });
 
-        g.selectAll("text.name.with-children")
-            .style("font-size", `${outerFontSize * 0.75}px`)
+        // g.selectAll("text.name.with-children")
+        //     .style("font-size", `${outerFontSize * 0.75}px`)
 
 
         // const DEFAULT_PICTURE_ANGLE: number = DEFAULT_PICTURE_ANGLE;
@@ -250,14 +297,16 @@ export function makeChart(data:any, seedColor:string, diameter:number, width:num
                 return getAccountableRadius(d)  // CIRCLE_RADIUS / accountableZoomFactor;
             })
             .attr("cx", (d: any): number => {
-                return d.children
-                    ? Math.cos(ANGLE) * ((d.r + 1) * accountableZoomFactor) - 6
-                    : 0;
+                return 0
+                // return d.children
+                //     ? Math.cos(ANGLE) * ((d.r + 1) * accountableZoomFactor) - 6
+                //     : 0;
             })
             .attr("cy", function (d: any): number {
-                return d.children
-                    ? -Math.sin(ANGLE) * ((d.r + 1) * accountableZoomFactor) + 6
-                    : -d.r * accountableZoomFactor * 0.75;
+                return -d.r * accountableZoomFactor * 0.75
+                // return d.children
+                //     ? -Math.sin(ANGLE) * ((d.r + 1) * accountableZoomFactor) + 6
+                //     : -d.r * accountableZoomFactor * 0.75;
             })
             .attr("transform", `scale(${1 / accountableZoomFactor})`)
     }
@@ -290,12 +339,12 @@ export function makeChart(data:any, seedColor:string, diameter:number, width:num
                     ? colorRange(d.depth)
                     : !d.children && d.parent === root ? colorRange(d.depth) : null;
             })
-            // .style("fill-opacity", function (d: any) {
-            //     return d.children
-            //         ? 0.1
-            //         : !d.children && d.parent === root ? 0.1 : 1;
-            // })
-            // .style("stroke-opacity", 0)
+        // .style("fill-opacity", function (d: any) {
+        //     return d.children
+        //         ? 0.1
+        //         : !d.children && d.parent === root ? 0.1 : 1;
+        // })
+        // .style("stroke-opacity", 0)
 
     }
 
