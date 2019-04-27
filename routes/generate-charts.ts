@@ -179,8 +179,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
         })
         .attr("width", function (d: any) { return d.r * 2 * 0.8 })
         .attr("height", function (d: any) { return d.r * 2 * 0.95 })
-        // .style("display", "inline")
-        // .style("pointer-events", "none")
+        .style("overflow", "visible")
         .html(getForeignObjectHTML)
 
     initiativeNoChildren.select("foreignObject.name.no-children")
@@ -196,8 +195,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
         })
         .attr("width", function (d: any) { return d.r * 2 * 0.8 })
         .attr("height", function (d: any) { return d.r * 2 * 0.5 })
-        // .style("display", "inline")
-        // .style("pointer-events", "none")
+        .style("overflow", "visible")
         .html(getForeignObjectHTML)
 
     let accountablePictureWithChildren = initiativeWithChildren.select("circle.accountable.with-children")
@@ -229,14 +227,15 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
     return document.body.innerHTML;
 
     function getForeignObjectHTML(d: any) {
-        let fsREM = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
-        let fsPixel = `${d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE}px`;
-        let imgSource = d.data.accountable ? d.data.accountable.picture : '';
-        let fontSize = Math.max(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE, 1);
-
+        // let fsREM = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
+        // let fsPixel = `${d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE}px`;
+        let imgSource = d.data.accountable ? d.data.accountable.picture : null;
+        let fontSize = (d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE < 2) ? 1 : (d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE);
+        let verySmallCircle = fontSize <= 2;
+       
         return `
-            <div class="d-flex flex-column align-items-start" style="padding-top:5%;font-size: ${fontSize}px;line-height:1.25">
-                <img class="rounded-circle" src="${imgSource}" style="margin-bottom:2px;float:left;height:${imgSource ? fontSize * 2 : 0}px;width:${imgSource ? fontSize * 2 : 0}px" />
+            <div class="d-flex flex-column align-items-start" style="font-size: ${fontSize}px;line-height:1.25;">
+                <img class="rounded-circle" src="${imgSource}" style="margin-bottom:${verySmallCircle ? 0 : 2}px;float:left;height:${imgSource ? fontSize * 2 : 0}px;width:${imgSource ? fontSize * 2 : 0}px" />
                 <div>${d.data.name || '(Empty)'}</div>
             </div>
             `;
@@ -258,20 +257,25 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
         g.selectAll(".node.no-children, .node.with-children")
             .each(function (d: any): void {
                 myInnerFontScale.range([d.r * Math.PI / MAX_NUMBER_LETTERS_PER_CIRCLE, 3]);
+                let isVerySmallCircle = myInnerFontScale(zoomFactor) < 2;
+
+
+                d3.select(this).select("foreignObject")
+                    .style("padding", `${isVerySmallCircle ? 0 : 1}px`)
                 d3.select(this).select("foreignObject div")
                     .attr("xmlns", "http://www.w3.org/1999/xhtml")
                     .style("font-size", () => {
-                        return `${myInnerFontScale(zoomFactor)}px`
+                        return `${isVerySmallCircle ? 1 : myInnerFontScale(zoomFactor)}px`
 
                     });
 
                 d3.select(this).select("foreignObject div img")
                     .style("height", () => {
-                        return `${myInnerFontScale(zoomFactor)}px`
+                        return `${isVerySmallCircle ? 1 : myInnerFontScale(zoomFactor)}px`
 
                     })
                     .style("width", () => {
-                        return `${myInnerFontScale(zoomFactor)}px`
+                        return `${isVerySmallCircle ? 1 : myInnerFontScale(zoomFactor)}px`
 
                     });
                 // .style("line-height", 1.3)
@@ -337,7 +341,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
             .style("fill", function (d: any) {
                 return d.children
                     ? colorRange(d.depth)
-                    : !d.children && d.parent === root ? colorRange(d.depth) : null;
+                    : null;
             })
         // .style("fill-opacity", function (d: any) {
         //     return d.children

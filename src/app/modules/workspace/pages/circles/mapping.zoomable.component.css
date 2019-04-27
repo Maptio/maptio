@@ -47,7 +47,7 @@
 
  ::ng-deep circle.node{
     stroke-opacity: 0;
-    fill-opacity: 0.5;
+    fill-opacity: 0.1;
     pointer-events: visible;
     cursor: pointer;
 }

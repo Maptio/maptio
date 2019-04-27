@@ -368,6 +368,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           return d===focus && d.children ? 0.01 : 1;
         })
 
+
     }
 
     circle
