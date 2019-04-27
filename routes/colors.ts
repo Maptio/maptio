@@ -11,7 +11,7 @@ export default function getColorRange(
     return scaleLinear<HSLColor, HSLColor>()
         .domain([-1, depth])
         .interpolate(interpolateHsl)
-        .range([this.BACK_COLOR, seed]);
+        .range([seed, hsl(0, 0, 0.2)]);
 
 
 }

@@ -355,7 +355,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           if(d===focus || d.parent === focus) return 1;
           return d.r > 100
             ? 1
-            : 0.25
+            : 0.1
         })
 
       text
@@ -365,7 +365,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             : "none"
         })
         .style("opacity", function(d:any){
-          return d===focus && d.children ? 0.01 : 1;
+          return d===focus && d.children ? 0 : 1;
         })
 
 
