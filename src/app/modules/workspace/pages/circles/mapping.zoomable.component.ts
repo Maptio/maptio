@@ -256,13 +256,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     console.log(node)
 
-    const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 3.5;
+    const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 10.5;
     const zooming = d3
       .zoom()
-      // .wheelDelta(wheelDelta)
+      .scaleExtent([1, 10])
+      .wheelDelta(wheelDelta)
       .on("zoom", zoomed)
 
     function zoomed() {
+      console.log(d3.getEvent())
       g.attr("transform", d3.getEvent().transform);
     }
 
