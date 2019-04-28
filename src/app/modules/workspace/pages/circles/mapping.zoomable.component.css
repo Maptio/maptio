@@ -64,10 +64,12 @@
     display:flex!important;
     opacity:1;
     margin-top:1px;
+    transition:all 250ms;
 }
 
 ::ng-deep g.node:hover foreignObject.name div.details > div.primary{
-    font-size: 50%;
+    font-size: 75%;
+    transition:all 250ms;
     /* opacity:0;
     display:none!important; */
 }
@@ -75,11 +77,13 @@
 ::ng-deep g.node foreignObject.name div.details > div.secondary{
     opacity:0;
     display:none!important;
+    transition:all 250ms;
 }
 
 ::ng-deep g.node:hover foreignObject.name div.details > div.secondary{
     opacity:1;
     display:flex!important;
+    transition:all 250ms;
 }
 
 

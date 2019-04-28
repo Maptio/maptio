@@ -55,6 +55,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
 
     var svg = d3.select(document.body) //make a container div to ease the saving process
         .append('svg')
+        .attr("id", "map")
         .attr("width", "100%")
         .attr("height", "100%")
         .style("overflow", "visible")
