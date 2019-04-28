@@ -4,7 +4,7 @@ var mongojs = require('mongojs');
 var fs = require("fs");
 var path = require('path');
 const templating = require("lodash/template");
-const getDepth = require("./traverse");
+const { getDepth, linkUsers } = require("./traverse");
 require('dotenv').config()
 var db = mongojs(process.env.MONGODB_URI, ['datasets']);
 
@@ -25,6 +25,22 @@ router.get('/:id', function (req, res, next) {
         });
 });
 
+router.post('/:id', function (req, res, next) {
+    const users = req.body;
+    db.datasets.findOne(
+        { _id: mongojs.ObjectId(req.params.id) },
+        function (err, dataset) {
+            if (err) {
+                res.send(err);
+            } else {
+                dataset.depth = getDepth(dataset);
+                dataset = linkUsers(dataset, users);
+                res.json(dataset);
+            }
+        });
+});
+
+
 router.get('/in/:query', function (req, res, next) {
     let datasets_id = req.params.query.split(',').map(d => mongojs.ObjectId(d));
     db.datasets.find(
@@ -36,7 +52,7 @@ router.get('/in/:query', function (req, res, next) {
                 datasets.forEach(d => {
                     d.depth = getDepth(d)
                 });
-                
+
                 res.json(datasets);
             }
         });

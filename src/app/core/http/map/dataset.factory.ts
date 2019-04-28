@@ -69,7 +69,7 @@ export class DatasetFactory {
             })
             .flatMap((initiative: Initiative) => {
                 return this.create(new DataSet({
-                    initiative : initiative
+                    initiative: initiative
                 }))
             })
     }
@@ -169,6 +169,16 @@ export class DatasetFactory {
 
     private getWithId(id: string): Promise<DataSet> {
         return this._http.get("/api/v1/dataset/" + id)
+            .map((response: Response) => {
+                let d = DataSet.create().deserialize(response.json());
+                d.datasetId = id; // reassign id
+                return d;
+            })
+            .toPromise()
+    }
+
+    public getWithUsers(id: string, users: User[]): Promise<DataSet> {
+        return this._http.post("/api/v1/dataset/" + id, users)
             .map((response: Response) => {
                 let d = DataSet.create().deserialize(response.json());
                 d.datasetId = id; // reassign id
