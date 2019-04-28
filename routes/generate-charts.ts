@@ -198,24 +198,24 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
         .style("overflow", "visible")
         .html(getForeignObjectHTML)
 
-    let accountablePictureWithChildren = initiativeWithChildren.select("circle.accountable.with-children")
-        .attr("id", function (d: any) {
-            return `${d.data.id}`;
-        })
-        .attr("fill", function (d: any) {
-            return d.data.accountable ? "url('#image" + d.data.id + "')" : "transparent";
-        })
+    // let accountablePictureWithChildren = initiativeWithChildren.select("circle.accountable.with-children")
+    //     .attr("id", function (d: any) {
+    //         return `${d.data.id}`;
+    //     })
+    //     .attr("fill", function (d: any) {
+    //         return d.data.accountable ? "url('#image" + d.data.id + "')" : "transparent";
+    //     })
     // .style("display", function (d: any) {
     //     return d !== root ? "inline" : "none";
     // });
 
-    let accountablePictureWithoutChildren = initiativeNoChildren.select("circle.accountable.no-children")
-        .attr("id", function (d: any) {
-            return `${d.data.id}`;
-        })
-        .attr("fill", function (d: any) {
-            return d.data.accountable ? "url('#image" + d.data.id + "')" : "transparent";
-        })
+    // let accountablePictureWithoutChildren = initiativeNoChildren.select("circle.accountable.no-children")
+    //     .attr("id", function (d: any) {
+    //         return `${d.data.id}`;
+    //     })
+    //     .attr("fill", function (d: any) {
+    //         return d.data.accountable ? "url('#image" + d.data.id + "')" : "transparent";
+    //     })
 
 
     // let outerFontScale: ScaleLogarithmic<number, number>;
@@ -232,10 +232,14 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
         let imgSource = d.data.accountable ? d.data.accountable.picture : null;
         let fontSize = (d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE < 2) ? 1 : (d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE);
         let verySmallCircle = fontSize <= 2;
-       
+        let imageTag = imgSource ? 
+        `<img class="rounded-circle" src="${imgSource}" style="margin-bottom:${verySmallCircle ? 0 : 2}px;float:left;height:${!!imgSource ? fontSize * 2 : 0}px;width:${!!imgSource ? fontSize * 2 : 0}px" />`
+        : "";
+
+
         return `
             <div class="d-flex flex-column align-items-start" style="font-size: ${fontSize}px;line-height:1.25;">
-                <img class="rounded-circle" src="${imgSource}" style="margin-bottom:${verySmallCircle ? 0 : 2}px;float:left;height:${imgSource ? fontSize * 2 : 0}px;width:${imgSource ? fontSize * 2 : 0}px" />
+                ${imageTag}
                 <div>${d.data.name || '(Empty)'}</div>
             </div>
             `;

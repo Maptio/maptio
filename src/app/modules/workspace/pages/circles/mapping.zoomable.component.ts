@@ -240,6 +240,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const width = this.width;
     const TRANSITION_DURATION = 500;
     const showToolipOf$ = this.showToolipOf$;
+    const showContextMenuOf$ = this.showContextMenuOf$;
+    const uiService = this.uiService;
     let view: any;
     let getLastZoomedCircle = this.getLastZoomedCircle.bind(this);
     let setLastZoomedCircle = this.setLastZoomedCircle.bind(this);
@@ -394,6 +396,52 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         d3.getEvent().stopPropagation();
       })
+      .on("contextmenu", function (d: any) {
+        d3.getEvent().preventDefault();
+        const that = <any>this;
+        let mousePosition;
+
+        if (Number.isNaN(d3.mouse(that)[0]) || Number.isNaN(d3.mouse[1])) {
+          mousePosition = d3.getEvent().detail.position
+        }
+        else {
+          mousePosition = d3.mouse(that);
+        }
+        let matrix = that.getCTM().translate(
+          +that.getAttribute("cx"),
+          +that.getAttribute("cy")
+        );
+
+        let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 }
+        let initiative = d.data;
+        let circle = d3.select(that);
+        showContextMenuOf$.next({
+          initiatives: [initiative],
+          x: uiService.getContextMenuCoordinates(mouse, matrix).x,
+          y: uiService.getContextMenuCoordinates(mouse, matrix).y,
+          isReadOnlyContextMenu: false
+        });
+
+        d3.select(".context-menu")
+          .on("mouseenter", function (d: any) {
+            showContextMenuOf$.next({
+              initiatives: [initiative],
+              x: uiService.getContextMenuCoordinates(mouse, matrix).x,
+              y: uiService.getContextMenuCoordinates(mouse, matrix).y,
+              isReadOnlyContextMenu: false
+            });
+            circle.dispatch("mouseover");
+          })
+          .on("mouseleave", function (d: any) {
+            showContextMenuOf$.next({
+              initiatives: null,
+              x: 0,
+              y: 0,
+              isReadOnlyContextMenu: false
+            });
+            circle.dispatch("mouseout");
+          })
+      });
 
     setLastZoomedCircle(root);
     svg
