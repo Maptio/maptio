@@ -53,22 +53,23 @@
  ::ng-deep g.node:hover circle{
     stroke-width: 2px;
     stroke-opacity: 1;
-    stroke: black;
+    stroke: white;
  }
 
- ::ng-deep g.node:hover foreignObject.name{
-    color:black;
-}
+ /* ::ng-deep g.node:hover foreignObject.name{
+    color:white;
+} */
 
 ::ng-deep g.node foreignObject.name div.details > div.primary{
     display:flex!important;
     opacity:1;
-    margin-bottom:1px;
+    margin-top:1px;
 }
 
 ::ng-deep g.node:hover foreignObject.name div.details > div.primary{
-    opacity:0;
-    display:none!important;
+    font-size: 50%;
+    /* opacity:0;
+    display:none!important; */
 }
 
 ::ng-deep g.node foreignObject.name div.details > div.secondary{
