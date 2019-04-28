@@ -250,6 +250,12 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
 
         const outerFontSize: number = outerFontScale(zoomFactor);
 
+        // g.selectAll("g.node")
+        // .attr("h", (d:any) => d.height )
+        // .attr("d", (d:any) => d.depth )
+        // .attr("p", (d:any) => d.parent ? d.parent.data.id : "" )
+        // .attr("c", (d:any) => d.children ? d.children.length : 0 )
+
         g.selectAll("circle.node")
             .attr("zf", zoomFactor)
             .each((d: any) => (d.zf = zoomFactor))

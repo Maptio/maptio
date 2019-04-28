@@ -246,8 +246,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const circle = g.selectAll("circle.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
     const text = g.selectAll("foreignObject.name").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
 
-    svg.style("padding-left",`calc(50% - ${this.height/2}px)`);
-        
+    svg.style("padding-left", `calc(50% - ${this.height / 2}px)`);
+
     console.log(node)
 
     const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 3.5;
@@ -290,7 +290,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     function initMapElementsAtPosition(v: any) {
-      console.log(v)
+      // debugger
+      // console.log(v)
       view = v;
       node
         .transition()
@@ -351,11 +352,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       circle
         .style("opacity", function (d: any) {
-          console.log(d.data.name, d.r)
-          if(d===focus || d.parent === focus) return 1;
-          return d.r > 100
-            ? 1
-            : 0.1
+          if (d === focus || d.parent === focus) return 1;
+          return 0.1;
+          // return d.r > 100
+          //   ? 1
+          //   : 0.1
         })
 
       text
@@ -364,8 +365,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
           return d.parent === focus || d === focus || focus.parent === d.parent ? "inline"
             : "none"
         })
-        .style("opacity", function(d:any){
-          return d===focus && d.children ? 0 : 1;
+        .style("opacity", function (d: any) {
+          return d === focus && d.children ? 0 : 1;
         })
 
 
@@ -414,7 +415,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       if (getLastZoomedCircle().data.id.toString() === id.toString()) return;
       svg.select(`circle.node.initiative-map[id="${id}"]`).dispatch("click");
     } else {
-      zoom(root)
+      svg.dispatch("click")
     }
 
     // // setLastZoomedCircle(root);
