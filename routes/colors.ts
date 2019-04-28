@@ -1,6 +1,6 @@
 import { hsl, HSLColor } from "d3-color";
 import { scaleLinear, ScaleLinear } from "d3-scale";
-import { interpolateRgb, interpolateHsl, interpolateNumber } from "d3-interpolate";
+import { interpolateRgb, interpolateHsl,interpolateHcl,  interpolateNumber } from "d3-interpolate";
 
 
 export default function getColorRange(
@@ -11,7 +11,5 @@ export default function getColorRange(
     return scaleLinear<HSLColor, HSLColor>()
         .domain([-1, depth])
         .interpolate(interpolateHsl)
-        .range([seed, hsl(0, .9, .5, 1) ]);
-
-
+        .range([seed, hsl(0, .9, .6, 1) ]);
 }

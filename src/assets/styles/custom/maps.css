@@ -10,16 +10,4 @@ svg{
     position: absolute;
     top:0;
     left:0;
-    /* width: 100%;
-    height: 100%; */
 }
-
-/* svg#map > svg{
-    cursor: pointer;
-    pointer-events: all;
-    position: absolute;
-    top:0;
-    left:0; 
-    width: 100%;
-    height: 100%;
-} */

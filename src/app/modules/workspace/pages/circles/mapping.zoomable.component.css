@@ -68,7 +68,7 @@
 }
 
 ::ng-deep g.node:hover foreignObject.name div.details > div.primary{
-    font-size: 80%;
+    font-size: 90%;
     transition:all 250ms;
     /* opacity:0;
     display:none!important; */
