@@ -227,20 +227,27 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
     return document.body.innerHTML;
 
     function getForeignObjectHTML(d: any) {
-        // let fsREM = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
-        // let fsPixel = `${d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE}px`;
-        let imgSource = d.data.accountable ? d.data.accountable.picture : null;
         let fontSize = (d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE < 2) ? 1 : (d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE);
         let verySmallCircle = fontSize <= 2;
-        let imageTag = imgSource ? 
-        `<img class="rounded-circle" src="${imgSource}" style="margin-bottom:${verySmallCircle ? 0 : 2}px;float:left;height:${!!imgSource ? fontSize * 2 : 0}px;width:${!!imgSource ? fontSize * 2 : 0}px" />`
-        : "";
 
+        const getImageTag = (picture: any) => {
+            return picture ?
+                `<img class="rounded-circle" src="${picture}" style="float:left;height:${!!picture ? fontSize * 2 : 0}px;width:${!!picture ? fontSize * 2 : 0}px" />`
+                : "";
+        }
+
+        let accountablePicture = getImageTag(d.data.accountable ? d.data.accountable.picture : null)
+        let helpersPictures = d.data.helpers.map((h: any) => getImageTag(h.picture)).join('');
 
         return `
-            <div class="d-flex flex-column align-items-start" style="font-size: ${fontSize}px;line-height:1.25;">
-                ${imageTag}
-                <div>${d.data.name || '(Empty)'}</div>
+            <div class="details d-flex flex-column align-items-start " style="font-size: ${fontSize}px;line-height:1.25;">
+            ${accountablePicture}    
+                <div class="primary ">
+                    <div>${d.data.name || '(Empty)'}</div>
+                </div>
+                <div class="secondary d-flex flex-wrap">
+                    ${helpersPictures}
+                </div>
             </div>
             `;
     }
@@ -279,7 +286,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
 
                     });
 
-                d3.select(this).select("foreignObject div img")
+                d3.select(this).selectAll("foreignObject > div.details > img, foreignObject > div.details > div.secondary > img")
                     .style("height", () => {
                         return `${isVerySmallCircle ? 1 : myInnerFontScale(zoomFactor)}px`
 
