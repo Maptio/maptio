@@ -1,6 +1,5 @@
 import { User } from "../../../../../shared/model/user.data";
 import { Team } from "../../../../../shared/model/team.data";
-import { UserFactory } from "../../../../../core/http/user/user.factory";
 import { DatasetFactory } from "../../../../../core/http/map/dataset.factory";
 import { DataService } from "../../../services/data.service";
 import { Initiative } from "../../../../../shared/model/initiative.data";
@@ -113,8 +112,7 @@ export class BuildingComponent {
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
 
     constructor(private dataService: DataService, private datasetFactory: DatasetFactory,
-        private modalService: NgbModal, private analytics: Angulartics2Mixpanel,
-        private userFactory: UserFactory, private userService: UserService, private cd: ChangeDetectorRef, private loaderService: LoaderService) {
+        private modalService: NgbModal, private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private loaderService: LoaderService) {
         // this.nodes = [];
     }
 

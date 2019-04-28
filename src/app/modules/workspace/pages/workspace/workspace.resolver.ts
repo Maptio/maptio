@@ -17,7 +17,7 @@ import { map, flatMap } from "rxjs/operators"
 @Injectable()
 export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, team: Team, members: User[], user: User }> {
 
-    constructor(private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userService: UserService, private userFactory: UserFactory, private auth: Auth) {
+    constructor(private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userService: UserService, private auth: Auth) {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ dataset: DataSet, team: Team, members: User[], user: User }> {
