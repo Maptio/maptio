@@ -151,16 +151,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   ngOnInit() {
     this.loaderService.show();
-
-    const pack = d3
-      .pack()
-      .size([this.height - this.margin, this.height - this.margin])
-      .padding(20);
+    let start = Date.now();
+   
     // this.draw();
     // this.init();
     this.dataSubscription = this.dataService
       .get()
       .map(data => {
+        console.log("got data", Date.now() - start);
         this.initiative = data.initiative.children[0];
         return data.dataset;
       })
@@ -174,28 +172,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
       //     this.counter = 0;
       //   }
       // })
-      .subscribe((complexData: string) => {
-        // document.querySelector(".draw").innerHTML = complexData;
-        (this.element.nativeElement as HTMLElement).innerHTML = complexData;
-        let root = d3.hierarchy(this.initiative)
-          .sum(function (d) {
-            return (d.accountable ? 1 : 0) + (d.helpers ? d.helpers.length : 0) + 1;
-          })
-          .sort(function (a, b) {
-            return b.value - a.value;
-          })
-        let nodes = pack(root).descendants();
-        // debugger
-        this.hydrate(root, nodes)
-        // let data = <any>complexData[0].initiative;
-        // this.datasetId = complexData[0].dataset.datasetId;
-        // this.tagsState = complexData[2];
-        // this.slug = data.getSlug();
+      .subscribe((result: {svg:string, root:any, nodes:any}) => {
+        console.log("got svg", Date.now() - start);
+
+        (this.element.nativeElement as HTMLElement).innerHTML = result.svg;
+        this.hydrate(result.root, result.nodes);
+
         this.loaderService.show();
-        // this.draw();
-        // this.update(data, complexData[1], this.counter === 0)
-
-
         this.counter += 1;
         this.loaderService.hide();
         // this.analytics.eventTrack("Map", {
@@ -219,7 +202,21 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
   draw(data: Initiative, color: string, diameter: number, width: number) {
-    console.log("draw")
+    console.log("draw");
+     const pack = d3
+      .pack()
+      .size([this.height - this.margin, this.height - this.margin])
+      .padding(20);
+
+    let root = d3.hierarchy(this.initiative)
+      .sum(function (d) {
+        return (d.accountable ? 1 : 0) + (d.helpers ? d.helpers.length : 0) + 1;
+      })
+      .sort(function (a, b) {
+        return b.value - a.value;
+      })
+    let nodes = pack(root).descendants();
+
 
     return this.http.post("/api/v1/charts/make", {
       initiative: data,
@@ -227,7 +224,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
       width: width,
       diameter: diameter
     }).pipe(
-      map(responseData => { return responseData.text() })
+      map(responseData => {
+        return {
+          svg: responseData.text(),
+          root: root,
+          nodes: nodes
+        }
+      })
     )
   }
 
@@ -319,12 +322,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .each((d: any) => (d.translateY = d.y - v[1]))
 
       text
-        .on("click", function(d:any){
+        .on("click", function (d: any) {
           d3.select(`circle.node[id="${d.data.id}"]`).dispatch("click")
           d3.getEvent().stopPropagation();
         })
         .call(passingThrough, "contextmenu");
-       
+
       circle
         .attr("r", function (d: any) {
           return d.r;
@@ -349,16 +352,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
       );
 
       node
-      .style("pointer-events", function (d: any) {
-        if(d === root) return "visible";
-        if (d === focus || d.parent === focus || focus.parent === d.parent || focus.parent === d) return "all";
-        return "none";
-      })
+        .style("pointer-events", function (d: any) {
+          if (d === root) return "visible";
+          if (d === focus || d.parent === focus || focus.parent === d.parent || focus.parent === d) return "all";
+          return "none";
+        })
 
       circle
         .style("opacity", function (d: any) {
           if (d === focus || d.parent === focus) return 1;
-          return 0.1;
+          return 0.075;
         })
 
       text
