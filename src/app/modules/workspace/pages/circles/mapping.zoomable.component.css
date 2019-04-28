@@ -69,6 +69,7 @@
     display: none;
 }
  
+
 ::ng-deep .node foreignObject.name{
     color:white;
 }
@@ -79,10 +80,7 @@
 
 
 
- ::ng-deep foreignObject.name{
-     display: inline;
-     pointer-events: none;
- }
+ 
 
 ::ng-deep circle.accountable{
     cursor: pointer;

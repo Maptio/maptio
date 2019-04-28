@@ -333,12 +333,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     function zoom(focus: any, clickedElement?: any): void {
-      console.log("zoom")
+      console.log(focus)
       setLastZoomedCircle(focus);
 
       const newScale: number = focus === root /*|| focus.parent === root*/ ? 1 : getViewScaleForRadius(focus.r);
       const coordinates: Array<number> = getClickedElementCoordinates(clickedElement, newScale, focus.translateX, focus.translateY);
-      // debugger
       svg.transition().duration(TRANSITION_DURATION).call(
         <any>zooming.transform,
         d3.zoomIdentity.translate(
@@ -348,15 +347,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
           .scale(newScale)
       );
 
-      // console.log(focus)
-
       circle
         .style("opacity", function (d: any) {
           if (d === focus || d.parent === focus) return 1;
           return 0.1;
-          // return d.r > 100
-          //   ? 1
-          //   : 0.1
         })
 
       text
@@ -375,11 +369,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
     circle
       .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
         // showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
-        // debugger
+        
         if (getLastZoomedCircle().data.id === d.data.id) { //zoom out
           setLastZoomedCircle(root);
           zoom(root);
-          localStorage.setItem("node_id", null)
+          localStorage.removeItem("node_id")
 
         } else { //zoom in
           setLastZoomedCircle(d);
@@ -393,6 +387,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     setLastZoomedCircle(root);
     svg
       .on("click", (): void => {
+        localStorage.removeItem("node_id");
         zoom(root);
         d3.getEvent().stopPropagation();
       })
@@ -410,6 +405,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       svg.call(zooming);
     } catch (error) { console.error(error); }
 
+    
     if (localStorage.getItem("node_id")) {
       let id = localStorage.getItem("node_id");
       if (getLastZoomedCircle().data.id.toString() === id.toString()) return;
