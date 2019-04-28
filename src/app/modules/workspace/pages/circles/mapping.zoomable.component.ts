@@ -264,7 +264,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .on("zoom", zoomed)
 
     function zoomed() {
-      console.log(d3.getEvent())
       g.attr("transform", d3.getEvent().transform);
     }
 

@@ -270,49 +270,49 @@ export class BuildingComponent {
                 this.nodes = [];
                 this.nodes.push(dataset.initiative);
 
-                return Promise.all([this.userService.getUsersInfo(team.members), this.userFactory.getUsers(team.members.map(m => m.user_id))])
-                    .then(([auth0Users, databaseUsers]: [User[], User[]]) => {
-                        return databaseUsers.map(u => {
-                            u.name = auth0Users.find(du => du.user_id === u.user_id) 
-                                ? `${auth0Users.find(du => du.user_id === u.user_id).firstname} ${auth0Users.find(du => du.user_id === u.user_id).lastname}` 
-                                : u.name;
+                // return Promise.all([this.userService.getUsersInfo(team.members), this.userFactory.getUsers(team.members.map(m => m.user_id))])
+                //     .then(([auth0Users, databaseUsers]: [User[], User[]]) => {
+                //         return databaseUsers.map(u => {
+                //             u.name = auth0Users.find(du => du.user_id === u.user_id) 
+                //                 ? `${auth0Users.find(du => du.user_id === u.user_id).firstname} ${auth0Users.find(du => du.user_id === u.user_id).lastname}` 
+                //                 : u.name;
                             
-                            u.picture = auth0Users.find(du => du.user_id === u.user_id) ? auth0Users.find(du => du.user_id === u.user_id).picture : u.picture;
-                            return u;
-                        })
-                    })
+                //             u.picture = auth0Users.find(du => du.user_id === u.user_id) ? auth0Users.find(du => du.user_id === u.user_id).picture : u.picture;
+                //             return u;
+                //         })
+                //     })
 
             })
-            .then((users: User[]) => {
-                let queue = this.nodes[0].traversePromise(function (node: Initiative) {
-                    let q: any = [];
-                    if (node.accountable) {
-                        q += new Promise(() => {
-                            let a = users.find(u => u.user_id === node.accountable.user_id);
-                            if (a) {
-                                node.accountable.picture = a.picture;
-                                node.accountable.name = a.name
-                                node.accountable.shortid = a.shortid;
-                            }
+            // .then((users: User[]) => {
+            //     let queue = this.nodes[0].traversePromise(function (node: Initiative) {
+            //         let q: any = [];
+            //         if (node.accountable) {
+            //             q += new Promise(() => {
+            //                 let a = users.find(u => u.user_id === node.accountable.user_id);
+            //                 if (a) {
+            //                     node.accountable.picture = a.picture;
+            //                     node.accountable.name = a.name
+            //                     node.accountable.shortid = a.shortid;
+            //                 }
 
-                        })
-                    }
-                    if (node.helpers) {
-                        node.helpers.forEach(helper => {
-                            q += new Promise(() => {
-                                let h = users.find(u => u.user_id === helper.user_id);
-                                if (h) {
-                                    helper.picture = h.picture;
-                                    helper.name = h.name;
-                                    helper.shortid = h.shortid;
-                                }
-                            })
-                        })
-                    }
-                }.bind(this));
+            //             })
+            //         }
+            //         if (node.helpers) {
+            //             node.helpers.forEach(helper => {
+            //                 q += new Promise(() => {
+            //                     let h = users.find(u => u.user_id === helper.user_id);
+            //                     if (h) {
+            //                         helper.picture = h.picture;
+            //                         helper.name = h.name;
+            //                         helper.shortid = h.shortid;
+            //                     }
+            //                 })
+            //             })
+            //         }
+            //     }.bind(this));
 
-                return Promise.all(queue).then(t => t).catch(() => { });
-            })
+            //     return Promise.all(queue).then(t => t).catch(() => { });
+            // })
             .then(() => {
                 this.dataService.set({
                     initiative: this.nodes[0],
