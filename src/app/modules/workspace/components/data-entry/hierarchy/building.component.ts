@@ -283,36 +283,36 @@ export class BuildingComponent {
                 //     })
 
             })
-            // .then((users: User[]) => {
-            //     let queue = this.nodes[0].traversePromise(function (node: Initiative) {
-            //         let q: any = [];
-            //         if (node.accountable) {
-            //             q += new Promise(() => {
-            //                 let a = users.find(u => u.user_id === node.accountable.user_id);
-            //                 if (a) {
-            //                     node.accountable.picture = a.picture;
-            //                     node.accountable.name = a.name
-            //                     node.accountable.shortid = a.shortid;
-            //                 }
+            .then(() => {
+                let queue = this.nodes[0].traversePromise(function (node: Initiative) {
+                    let q: any = [];
+                    if (node.accountable) {
+                        q += new Promise(() => {
+                            let a = members.find(u => u.user_id === node.accountable.user_id);
+                            if (a) {
+                                node.accountable.picture = a.picture;
+                                node.accountable.name = a.name
+                                node.accountable.shortid = a.shortid;
+                            }
 
-            //             })
-            //         }
-            //         if (node.helpers) {
-            //             node.helpers.forEach(helper => {
-            //                 q += new Promise(() => {
-            //                     let h = users.find(u => u.user_id === helper.user_id);
-            //                     if (h) {
-            //                         helper.picture = h.picture;
-            //                         helper.name = h.name;
-            //                         helper.shortid = h.shortid;
-            //                     }
-            //                 })
-            //             })
-            //         }
-            //     }.bind(this));
+                        })
+                    }
+                    if (node.helpers) {
+                        node.helpers.forEach(helper => {
+                            q += new Promise(() => {
+                                let h = members.find(u => u.user_id === helper.user_id);
+                                if (h) {
+                                    helper.picture = h.picture;
+                                    helper.name = h.name;
+                                    helper.shortid = h.shortid;
+                                }
+                            })
+                        })
+                    }
+                }.bind(this));
 
-            //     return Promise.all(queue).then(t => t).catch(() => { });
-            // })
+                return Promise.all(queue).then(t => t).catch(() => { });
+            })
             .then(() => {
                 this.dataService.set({
                     initiative: this.nodes[0],
