@@ -45,6 +45,22 @@
 }
  */
 
+ ::ng-deep g.node{
+     pointer-events: all;
+     cursor: pointer;
+ }
+
+ ::ng-deep g.node:hover circle{
+    stroke-width: 2px;
+    stroke-opacity: 1;
+    stroke: black;
+ }
+
+ ::ng-deep g.node:hover foreignObject.name{
+    color:black;
+}
+
+
  ::ng-deep circle.node{
     stroke-opacity: 0;
     fill-opacity: 0.9;
@@ -52,11 +68,11 @@
     cursor: pointer;
 }
 
-::ng-deep circle.node:hover{
+/* ::ng-deep circle.node:hover{
     stroke-width: 2px;
     stroke-opacity: 1;
     stroke: black;
- }
+ } */
 
 
 ::ng-deep circle.node.node--leaf{
@@ -73,6 +89,7 @@
 ::ng-deep .node foreignObject.name{
     color:white;
 }
+
 
 ::ng-deep .node.node--leaf foreignObject.name{
     color:black;

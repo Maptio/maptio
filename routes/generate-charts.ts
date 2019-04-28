@@ -178,7 +178,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
             return -d.r * POSITION_INITIATIVE_NAME.y;
         })
         .attr("width", function (d: any) { return d.r * 2 * 0.8 })
-        .attr("height", function (d: any) { return d.r * 2 * 0.95 })
+        .attr("height", function (d: any) { return d.r * 2 * 0.5 })
         .style("overflow", "visible")
         .html(getForeignObjectHTML)
 
