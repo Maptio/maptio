@@ -64,8 +64,8 @@
  ::ng-deep circle.node{
     stroke-opacity: 0;
     fill-opacity: 0.9;
-    pointer-events: visible;
-    cursor: pointer;
+    pointer-events: inherit;
+    /* cursor: pointer; */
 }
 
 /* ::ng-deep circle.node:hover{

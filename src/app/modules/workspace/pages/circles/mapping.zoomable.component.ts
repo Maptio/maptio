@@ -239,6 +239,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const height = this.height;
     const width = this.width;
     const TRANSITION_DURATION = 500;
+    const showToolipOf$ = this.showToolipOf$;
     let view: any;
     let getLastZoomedCircle = this.getLastZoomedCircle.bind(this);
     let setLastZoomedCircle = this.setLastZoomedCircle.bind(this);
@@ -332,7 +333,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     function zoom(focus: any, clickedElement?: any): void {
-      console.log(focus)
       setLastZoomedCircle(focus);
 
       const newScale: number = focus === root /*|| focus.parent === root*/ ? 1 : getViewScaleForRadius(focus.r);
@@ -346,14 +346,17 @@ export class MappingZoomableComponent implements IDataVisualizer {
           .scale(newScale)
       );
 
+      node
+      .style("pointer-events", function (d: any) {
+        if(d === root) return "visible";
+        if (d === focus || d.parent === focus || focus.parent === d.parent || focus.parent === d) return "all";
+        return "none";
+      })
+
       circle
         .style("opacity", function (d: any) {
           if (d === focus || d.parent === focus) return 1;
           return 0.1;
-        })
-        .style("pointer-events", function (d: any) {
-          if (d === focus || d.parent === focus) return "all";
-          return "none";
         })
 
       text
@@ -376,8 +379,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     circle
       .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
-        console.log("click")
-        // showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
+        showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
 
         if (getLastZoomedCircle().data.id === d.data.id) { //zoom out
           setLastZoomedCircle(root);
