@@ -53,8 +53,6 @@ export class InitiativeComponent implements OnChanges {
     isRestrictedAddHelper: boolean;
     hideme: Array<boolean> = [];
     cancelClicked: boolean;
-    teamName: string;
-    teamId: string;
     Permissions = Permissions;
 
     @ViewChild("inputDescription") public inputDescriptionElement: ElementRef;
@@ -76,25 +74,25 @@ export class InitiativeComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.node && changes.node.currentValue) {
             this.isRestrictedAddHelper = false;
-            if (changes.node.isFirstChange() || !(changes.node.previousValue) || changes.node.currentValue.team_id !== changes.node.previousValue.team_id) {
+            // if (changes.node.isFirstChange() || !(changes.node.previousValue) || changes.node.currentValue.team_id !== changes.node.previousValue.team_id) {
 
-                this.team$ = this.teamFactory.get(<string>changes.node.currentValue.team_id)
-                    .then(t => {
-                        this.teamName = t.name;
-                        this.teamId = t.team_id;
-                        return t
-                    },
-                        () => { return Promise.reject("No organisation available") })
+            //     this.team$ = this.teamFactory.get(<string>changes.node.currentValue.team_id)
+            //         .then(t => {
+            //             this.teamName = t.name;
+            //             this.teamId = t.team_id;
+            //             return t
+            //         },
+            //             () => { return Promise.reject("No organisation available") })
                     
 
 
-                // this.members$ = this.team$
-                //     .then((team: Team) => {
-                //         return this.userService.getUsersInfo(team.members)
-                //             .then(members => compact(members))
-                //             .then(members => sortBy(members, m => m.name))
-                //     })
-            }
+            //     // this.members$ = this.team$
+            //     //     .then((team: Team) => {
+            //     //         return this.userService.getUsersInfo(team.members)
+            //     //             .then(members => compact(members))
+            //     //             .then(members => sortBy(members, m => m.name))
+            //     //     })
+            // }
 
         }
 
@@ -143,14 +141,14 @@ export class InitiativeComponent implements OnChanges {
 
     saveName(newName: string) {
         this.node.name = newName;
-        this.analytics.eventTrack("Initiative", { action: "change name", team: this.teamName, teamId: this.teamId });
+        this.analytics.eventTrack("Initiative", { action: "change name", team: this.team.name, teamId: this.team.team_id });
         this.onBlur();
         this.cd.markForCheck();
     }
 
     saveTags(newTags: Array<Tag>) {
         this.node.tags = newTags;
-        this.analytics.eventTrack("Initiative", { action: "edit tags", team: this.teamName, teamId: this.teamId });
+        this.analytics.eventTrack("Initiative", { action: "edit tags", team: this.team.name, teamId: this.team.team_id });
         this.onBlur();
         this.cd.markForCheck();
     }
@@ -182,7 +180,7 @@ export class InitiativeComponent implements OnChanges {
 
         this.onBlur();
         this.cd.markForCheck();
-        this.analytics.eventTrack("Initiative", { action: "add authority", team: this.teamName, teamId: this.teamId });
+        this.analytics.eventTrack("Initiative", { action: "add authority", team: this.team.name, teamId: this.team.team_id });
     }
 
     saveDescription(newDesc: string) {
@@ -200,7 +198,7 @@ export class InitiativeComponent implements OnChanges {
         let index = this.node.helpers.findIndex(user => user.user_id === helper.user_id);
         this.node.helpers.splice(index, 1);
         this.onBlur();
-        this.analytics.eventTrack("Initiative", { action: "remove helper", team: this.teamName, teamId: this.teamId });
+        this.analytics.eventTrack("Initiative", { action: "remove helper", team: this.team.name, teamId: this.team.team_id });
         this.cd.markForCheck();
     }
 

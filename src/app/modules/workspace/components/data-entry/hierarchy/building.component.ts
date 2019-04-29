@@ -268,29 +268,6 @@ export class BuildingComponent {
                 this.nodes = [];
                 this.nodes.push(dataset.initiative);
             })
-            // .then(() => {
-            //     this.nodes[0].traverse(function (node: Initiative) {
-            //         if (node.accountable) {
-            //                 let a = members.find(u => u.user_id === node.accountable.user_id);
-            //                 if (a) {
-            //                     node.accountable.picture = a.picture;
-            //                     node.accountable.name = a.name
-            //                     node.accountable.shortid = a.shortid;
-            //                 }
-            //         }
-            //         if (node.helpers) {
-            //             node.helpers.forEach(helper => {
-            //                     let h = members.find(u => u.user_id === helper.user_id);
-            //                     if (h) {
-            //                         helper.picture = h.picture;
-            //                         helper.name = h.name;
-            //                         helper.shortid = h.shortid;
-            //                     }
-            //             })
-            //         }
-            //     }.bind(this));
-            //     return;
-            // })
             .then(() => {
                 this.dataService.set({
                     initiative: this.nodes[0],

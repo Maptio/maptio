@@ -30,11 +30,11 @@ export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, t
                 }),
                 flatMap((team: Team) =>
                     this.userService.getUsersInfo(team.members)
-                        .then(members => { console.log("members", members); team.members = members; return { team: team, members: members } })
+                        .then(members => { team.members = members; return { team: team, members: members } })
                 ),
                 flatMap(tm =>
                     this.datasetFactory.getWithUsers(datasetId, tm.members)
-                        .then(dataset => { console.log("dataset", dataset); return { team: tm.team, members: tm.members, dataset: dataset } })
+                        .then(dataset => { return { team: tm.team, members: tm.members, dataset: dataset } })
                 ),
                 flatMap(dt => {
                     return this.auth.getUser().first().toPromise().then(u => { return { user: u, data: dt } })
