@@ -244,18 +244,18 @@ If upon examining all branches the map of child nodes is empty, return null
     const selectedTags = tags.filter(t => !!t.isSelected);
     if (selectedTags.length === 0) return initiative;
     let clone = cloneDeep(initiative);
-    const isMatchingTags = (node: Initiative) => {
+    const isMatchingTags = (node: Initiative):boolean => {
       if (isEmpty(node.tags)) {
         return false;
       } else {
-        return intersectionBy(selectedTags, node.tags, t => t.shortid).length === 0;
+        return intersectionBy(selectedTags, node.tags, t => t.shortid).length > 0;
       }
     }
 
     function isAliveBranch(node: Initiative): Initiative {
       if (isEmpty(compact(node.children))) {
         // node is a leaf
-        if (isMatchingTags(node)) {
+        if (!isMatchingTags(node)) {
           // node to be removed
           return null;
         } else {
@@ -265,7 +265,7 @@ If upon examining all branches the map of child nodes is empty, return null
       else {
         // node is a branch
         let childrenNodes = cloneDeep(node.children);
-        childrenNodes.forEach((child, index) => {
+        node.children.forEach((child, index) => {
           let result = isAliveBranch(child);
           if (!result) {
             // node.children.splice(index, 1);
