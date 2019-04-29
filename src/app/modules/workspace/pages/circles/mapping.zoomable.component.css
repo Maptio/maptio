@@ -30,7 +30,9 @@
     opacity:1;
     display:flex!important;
     transition:all 250ms;
+    margin-top: 10%;
 }
+
 
 
  ::ng-deep circle.node{
