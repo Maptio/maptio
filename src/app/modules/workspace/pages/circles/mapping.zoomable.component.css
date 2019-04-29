@@ -48,13 +48,6 @@
     pointer-events: inherit;
 }
 
-/* ::ng-deep .highlighted{
-    stroke: var(--maptio-accent);
-    stroke-width: 2px;
-    stroke-opacity: 1;
-    color:var(--maptio-accent);
-} */
-
 
 ::ng-deep circle.node.node--leaf{
     fill-opacity: 1;
