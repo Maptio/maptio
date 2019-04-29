@@ -150,7 +150,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   ngOnInit() {
     this.loaderService.show();
-  
+
     this.dataSubscription = this.dataService
       .get()
       .map(data => {
@@ -294,7 +294,7 @@ If upon examining all branches the map of child nodes is empty, return null
   }
 
 
-  hydrate(root: any, nodes: any) {
+  hydrate(root: any, nodes: any[]) {
     const svg = d3.select("svg");
     const g = d3.select("svg > g");
     const margin = 20;
@@ -310,8 +310,6 @@ If upon examining all branches the map of child nodes is empty, return null
     const node = g.selectAll("g.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });
     const circle = g.selectAll("circle.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
     const text = g.selectAll("foreignObject.name").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
-    // let revealCandidates: any[] = [];
-
 
     svg.style("padding-left", `calc(50% - ${this.height / 2}px)`);
 
@@ -427,14 +425,14 @@ If upon examining all branches the map of child nodes is empty, return null
         })
 
       circle
-        .transition().duration(TRANSITION_DURATION/2)
+        .transition().duration(TRANSITION_DURATION / 2)
         .style("opacity", function (d: any) {
           if (d === focus || d.parent === focus) return 1;
           return 0.075;
         })
 
       text
-        .transition().duration(TRANSITION_DURATION/2)
+        .transition().duration(TRANSITION_DURATION / 2)
         .style("display", function (d: any) {
           if (d === root) return "none";
           return d.parent === focus || d === focus || focus.parent === d.parent ? "inline"
@@ -449,6 +447,7 @@ If upon examining all branches the map of child nodes is empty, return null
       .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
         showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
 
+        circle.classed("highlighted", false);
         if (getLastZoomedCircle().data.id === d.data.id) { //zoom out
           setLastZoomedCircle(root);
           zoom(root);
@@ -534,10 +533,27 @@ If upon examining all branches the map of child nodes is empty, return null
     if (localStorage.getItem("node_id")) {
       let id = localStorage.getItem("node_id");
       if (getLastZoomedCircle().data.id.toString() === id.toString()) return;
-      svg.select(`circle.node.initiative-map[id="${id}"]`).dispatch("click");
+      svg.select(`circle.node[id="${id}"]`).dispatch("click");
     } else {
       svg.dispatch("click")
     }
+
+    this.zoomInitiative$.subscribe(node => {
+      circle.classed("highlighted", false);
+      if (!node) {
+        svg.dispatch("click");
+        return;
+      }
+      let zoomedId = node.id;
+      let parent = nodes.find(n => n.data.id === zoomedId).parent;
+      localStorage.setItem("node_id", zoomedId.toString());
+      if (getLastZoomedCircle().data.id !== parent.data.id) {
+        svg.select(`circle.node[id="${parent.data.id}"]`).dispatch("click");
+      }
+      showToolipOf$.next({ initiatives: [node], isNameOnly: false });
+
+      svg.select(`circle.node[id="${zoomedId}"]`).classed("highlighted", true);
+    })
 
     // // setLastZoomedCircle(root);
     // svg.call(

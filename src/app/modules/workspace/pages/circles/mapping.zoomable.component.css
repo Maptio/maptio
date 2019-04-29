@@ -4,6 +4,8 @@
      cursor: pointer;
  }
 
+ 
+
  ::ng-deep g.node:hover circle{
     stroke-width: 2px;
     stroke-opacity: 1;
@@ -15,7 +17,7 @@
     transition:all 250ms;
 }
 
-::ng-deep g.node:hover foreignObject.name {
+::ng-deep g.node:hover foreignObject.name{
     transform: scale(.8);
     transition:all 250ms;
 }
@@ -39,6 +41,12 @@
     stroke-opacity: 0;
     fill-opacity: 0.9;
     pointer-events: inherit;
+}
+
+::ng-deep circle.node.highlighted{
+    stroke: var(--maptio-accent);
+    stroke-width: 2px;
+    stroke-opacity: 1;
 }
 
 
