@@ -261,13 +261,10 @@ If upon examining all branches the map of child nodes is empty, return null
       }
       else {
         // node is a branch
-        let childrenNodes = cloneDeep(node.children);
         node.children.forEach((child, index) => {
           let result = isAliveBranch(child);
           if (!result) {
-            // node.children.splice(index, 1);
             delete node.children[index];
-
           }
           else {
             node.children.splice(index, 1, result);
@@ -296,34 +293,6 @@ If upon examining all branches the map of child nodes is empty, return null
 
   }
 
-  // filterByTags(initiative: Initiative, tags: SelectableTag[]): Initiative {
-  //   let clone = cloneDeep(initiative);
-  //   let selectedTags = tags.filter(t => !!t.isSelected);
-  //   if (selectedTags.length === 0) return initiative;
-
-
-  //   function removeChild(parent: Initiative, child: Initiative, index:number) {
-  //     if (intersectionBy(selectedTags, child.tags, t => t.shortid).length === 0) {
-  //       console.log("remove", child.name);
-  //       parent.children.splice(index, 1);
-  //     }
-  //   }
-
-  //   console.log("tags", selectedTags.map(t => t.name))
-  //   clone.traverse(node => {
-  //     console.log(node.name, node.tags.map(t => t.name))
-  //     if (node.children) {
-  //       node.children.forEach((c, i) => {
-  //         removeChild(node, c, i);
-  //       })
-  //     }
-  //     // if(node.children.length===0) node =null;
-
-  //   });
-  //   console.log(clone);
-  //   return clone;
-  // }
-
 
   hydrate(root: any, nodes: any) {
     const svg = d3.select("svg");
@@ -346,7 +315,7 @@ If upon examining all branches the map of child nodes is empty, return null
 
     svg.style("padding-left", `calc(50% - ${this.height / 2}px)`);
 
-    console.log(node)
+    console.log(circle)
 
     const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 10.5;
     const zooming = d3
@@ -354,17 +323,6 @@ If upon examining all branches the map of child nodes is empty, return null
       .scaleExtent([1, 10])
       .wheelDelta(wheelDelta)
       .on("zoom", zoomed)
-    // .on("end", () => {
-    //   let scale = d3.getEvent().transform.k;
-    //   console.log(scale);
-    //   circle
-    //     .style("opacity", function (d: any) {
-    //       console.log(d.data.name, d.r, d.r*scale, d.r * scale > 120)
-    //       if (d.r * scale > 120 ) return 1;
-    //       return 0.075;
-    //       // 8.3 * 1.76 > 2.32
-    //     })
-    // })
 
     function zoomed() {
       g.attr("transform", d3.getEvent().transform);
@@ -485,14 +443,7 @@ If upon examining all branches the map of child nodes is empty, return null
         })
         .style("opacity", function (d: any) {
           return d === focus && d.children ? 0 : 1;
-        })
-      // .style("pointer-events", function(d:any){
-      //   if (d === root) return "none";
-      //   return d.parent === focus || d === focus || focus.parent === d.parent ? "all"
-      //     : "none"
-      // })
-
-
+        });
     }
 
     circle
