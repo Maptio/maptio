@@ -18,7 +18,7 @@ import {
   isDevMode,
   ElementRef
 } from "@angular/core";
-import { partition } from "lodash-es";
+import { partition, cloneDeep, intersectionBy, isEmpty, compact } from "lodash-es";
 import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { Team } from "../../../../shared/model/team.data";
 import * as screenfull from 'screenfull';
@@ -161,16 +161,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.initiative = data.initiative.children[0];
         return data.dataset;
       })
-      .combineLatest(this.mapColor$)
-      .flatMap((data: [DataSet, string]) => {
+      .combineLatest(this.mapColor$, this.selectableTags$)
+      .flatMap((data: [DataSet, string, SelectableTag[]]) => {
         this.uiService.clean();
-        return this.draw(data[0].initiative.children[0], data[1], this.height, this.width)
+        let filtered = this.filterByTags(data[0].initiative.children[0], data[2]);
+        return this.draw(filtered, data[1], this.height, this.width)
       })
-      // .do((complexData: string) => {
-      //   if (complexData[0].dataset.datasetId !== this.datasetId) {
-      //     this.counter = 0;
-      //   }
-      // })
       .subscribe((result: { svg: string, root: any, nodes: any }) => {
         console.log("got svg", Date.now() - start);
 
@@ -215,7 +211,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return b.value - a.value;
       })
     let nodes = pack(root).descendants();
-
+    console.log(nodes);
 
     return this.http.post("/api/v1/charts/make", {
       initiative: data,
@@ -232,6 +228,100 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
     )
   }
+
+  filterByTags(initiative: Initiative, tags: SelectableTag[]): Initiative {
+    /*
+    Observe that the task has a recursive structure: applying it to any branch of a tree does to the branch the same thing that you want to do to the entire tree
+A branch could be either pruned, or removed entirely
+Your recursive implementation would return a pruned branch; it would signal branch removal by returning null
+The recursive function would check the incoming Node
+If the node represents a leaf, its content would be checked against the list of items that we wish to keep
+If a leaf is not on the "keep list", return null; otherwise return the leaf
+For non-leaf branches call the recursive method, and examine its result
+If the result is null, remove the corresponding branch from the map; otherwise, replace the branch with the pruned branch returned from the call
+If upon examining all branches the map of child nodes is empty, return null
+*/
+    const selectedTags = tags.filter(t => !!t.isSelected);
+    if (selectedTags.length === 0) return initiative;
+    let clone = cloneDeep(initiative);
+
+    function isAliveBranch(node: Initiative): Initiative {
+      console.log(node.name, node.children)
+      if (isEmpty(compact(node.children))) {
+        console.log(node.name, " is leaf")
+        // node is a leaf
+        if (isEmpty(node.tags) || intersectionBy(selectedTags, node.tags, t => t.shortid).length === 0) {
+          console.log(node.name, " is leaf to remove")
+          // node to be removed
+          return null;
+        } else {
+          console.log(node.name, " is leaf to keep")
+          return node;
+        }
+      }
+      else {
+        console.log(node.name, " is branch with children", node.children.map(n => n.name).join(' '))
+        // node is a branch
+        let childrenNodes = cloneDeep(node.children);
+        childrenNodes.forEach((child, index) => {
+          let result = isAliveBranch(child);
+          console.log(index, "children of", node.name, "are", node.children.map(n => n.name).join(' '))
+          console.log("is", child.name, "alive?", !!result)
+          if(!result){
+            // node.children.splice(index, 1);
+            delete node.children[index];
+            console.log(child.name, " is leaf removed", "children are", node.children.map(n => n.name).join(' '))
+          
+          }
+          else{
+            node.children.splice(index, 1, result);
+            console.log(child.name, " is replaced by", result.name, "children are", node.children.map(n => n.name).join(' '))
+          }
+        });
+        
+        if(isEmpty(compact(node.children))){
+          return null;
+        }
+        node.children = compact(node.children);
+        return node;
+      }
+      // if(!node.children) return null;
+      // return node;
+    }
+
+    let result = isAliveBranch(clone);
+
+    return result;
+
+  }
+
+  // filterByTags(initiative: Initiative, tags: SelectableTag[]): Initiative {
+  //   let clone = cloneDeep(initiative);
+  //   let selectedTags = tags.filter(t => !!t.isSelected);
+  //   if (selectedTags.length === 0) return initiative;
+
+
+  //   function removeChild(parent: Initiative, child: Initiative, index:number) {
+  //     if (intersectionBy(selectedTags, child.tags, t => t.shortid).length === 0) {
+  //       console.log("remove", child.name);
+  //       parent.children.splice(index, 1);
+  //     }
+  //   }
+
+  //   console.log("tags", selectedTags.map(t => t.name))
+  //   clone.traverse(node => {
+  //     console.log(node.name, node.tags.map(t => t.name))
+  //     if (node.children) {
+  //       node.children.forEach((c, i) => {
+  //         removeChild(node, c, i);
+  //       })
+  //     }
+  //     // if(node.children.length===0) node =null;
+
+  //   });
+  //   console.log(clone);
+  //   return clone;
+  // }
 
 
   hydrate(root: any, nodes: any) {
