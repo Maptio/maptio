@@ -244,13 +244,20 @@ If upon examining all branches the map of child nodes is empty, return null
     const selectedTags = tags.filter(t => !!t.isSelected);
     if (selectedTags.length === 0) return initiative;
     let clone = cloneDeep(initiative);
+    const isMatchingTags = (node: Initiative) =>  {
+      if(isEmpty(node.tags)){
+        return false;
+      }else{
+        return intersectionBy(selectedTags, node.tags, t => t.shortid).length === 0;
+      }
+    }
 
     function isAliveBranch(node: Initiative): Initiative {
       console.log(node.name, node.children)
       if (isEmpty(compact(node.children))) {
         console.log(node.name, " is leaf")
         // node is a leaf
-        if (isEmpty(node.tags) || intersectionBy(selectedTags, node.tags, t => t.shortid).length === 0) {
+        if (isMatchingTags(node)) {
           console.log(node.name, " is leaf to remove")
           // node to be removed
           return null;
@@ -260,6 +267,7 @@ If upon examining all branches the map of child nodes is empty, return null
         }
       }
       else {
+
         console.log(node.name, " is branch with children", node.children.map(n => n.name).join(' '))
         // node is a branch
         let childrenNodes = cloneDeep(node.children);
@@ -267,20 +275,28 @@ If upon examining all branches the map of child nodes is empty, return null
           let result = isAliveBranch(child);
           console.log(index, "children of", node.name, "are", node.children.map(n => n.name).join(' '))
           console.log("is", child.name, "alive?", !!result)
-          if(!result){
+          if (!result) {
             // node.children.splice(index, 1);
             delete node.children[index];
             console.log(child.name, " is leaf removed", "children are", node.children.map(n => n.name).join(' '))
-          
+
           }
-          else{
+          else {
             node.children.splice(index, 1, result);
             console.log(child.name, " is replaced by", result.name, "children are", node.children.map(n => n.name).join(' '))
           }
         });
-        
-        if(isEmpty(compact(node.children))){
-          return null;
+        if (isEmpty(compact(node.children))) {
+
+          if (isMatchingTags(node)) {
+            node.children = [];
+            return node;
+
+          } else {
+
+            return null;
+          }
+
         }
         node.children = compact(node.children);
         return node;
