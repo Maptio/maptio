@@ -74,7 +74,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
         private dataService: DataService, private cd: ChangeDetectorRef, private mixpanel: Angulartics2Mixpanel, private intercom: Intercom) {
-
     }
 
     ngOnInit() {
@@ -84,7 +83,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             .do((data) => {
                 let newDatasetId = data.data.dataset.datasetId;
                 if (newDatasetId !== this.datasetId) {
-                    this.isBuildingPanelCollapsed=true;
+                    this.isBuildingPanelCollapsed = true;
                     this.isDetailsPanelCollapsed = true;
                     // this.closeDetailsPanel();
                     // this.closeBuildingPanel();
@@ -110,6 +109,12 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.datasetId = this.dataset.datasetId;
                 this.teamName = this.team.name;
                 this.teamId = this.team.team_id;
+                this.dataService.set({
+                    initiative: this.dataset.initiative,
+                    dataset: this.dataset,
+                    team: this.team,
+                    members: this.members
+                });
                 EmitterService.get("currentTeam").emit(this.team);
                 this.isEmptyMap = !this.dataset.initiative.children || this.dataset.initiative.children.length === 0;
                 this.cd.markForCheck();
@@ -133,16 +138,16 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isEmptyMap = !change.initiative.children || change.initiative.children.length === 0;
         this.isSaving = true;
         this.cd.markForCheck();
-        
+
         this.dataset.initiative = change.initiative;
         this.dataset.tags = change.tags;
         this.tags = change.tags
-        
+
         let depth = 0
         change.initiative.traverse((n) => { depth++ });
-        
+
         this.datasetFactory.upsert(this.dataset, this.datasetId)
-        .then((hasSaved: boolean) => {
+            .then((hasSaved: boolean) => {
                 this.dataService.set({ initiative: change.initiative, dataset: this.dataset, team: this.team, members: this.members });
                 return hasSaved;
             }, (reason) => { console.error(reason) })
@@ -167,7 +172,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     onOpenDetails(node: Initiative) {
         this.openedNode = node;
-        if(this.isDetailsPanelCollapsed) this.openDetailsPanel();
+        if (this.isDetailsPanelCollapsed) this.openDetailsPanel();
         this.cd.markForCheck();
     }
 
