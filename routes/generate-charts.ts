@@ -225,6 +225,10 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
     initMapElementsAtPosition([root.x, root.y]);
     adjustViewToZoomEvent(g, d3.getEvent());
 
+    node
+        .attr("parent-id", (d:any)=> d.parent ? d.parent.data.id : "")
+        .attr("children-id", (d:any)=> d.children ? d.children.map((c:any) => c.data.id).join(' ') : "")
+
     return document.body.innerHTML;
 
     function getForeignObjectHTML(d: any) {

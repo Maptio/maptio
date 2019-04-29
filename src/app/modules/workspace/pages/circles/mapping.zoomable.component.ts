@@ -151,7 +151,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   ngOnInit() {
     this.loaderService.show();
     let start = Date.now();
-   
+
     // this.draw();
     // this.init();
     this.dataSubscription = this.dataService
@@ -171,7 +171,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       //     this.counter = 0;
       //   }
       // })
-      .subscribe((result: {svg:string, root:any, nodes:any}) => {
+      .subscribe((result: { svg: string, root: any, nodes: any }) => {
         console.log("got svg", Date.now() - start);
 
         (this.element.nativeElement as HTMLElement).innerHTML = result.svg;
@@ -202,7 +202,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   draw(data: Initiative, color: string, diameter: number, width: number) {
     console.log("draw");
-     const pack = d3
+    const pack = d3
       .pack()
       .size([this.height - this.margin, this.height - this.margin])
       .padding(20);
@@ -250,6 +250,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const node = g.selectAll("g.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });
     const circle = g.selectAll("circle.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
     const text = g.selectAll("foreignObject.name").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
+    // let revealCandidates: any[] = [];
+
 
     svg.style("padding-left", `calc(50% - ${this.height / 2}px)`);
 
@@ -261,6 +263,17 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .scaleExtent([1, 10])
       .wheelDelta(wheelDelta)
       .on("zoom", zoomed)
+      // .on("end", () => {
+      //   let scale = d3.getEvent().transform.k;
+      //   console.log(scale);
+      //   circle
+      //     .style("opacity", function (d: any) {
+      //       console.log(d.data.name, d.r, d.r*scale, d.r * scale > 120)
+      //       if (d.r * scale > 120 ) return 1;
+      //       return 0.075;
+      //       // 8.3 * 1.76 > 2.32
+      //     })
+      // })
 
     function zoomed() {
       g.attr("transform", d3.getEvent().transform);
@@ -315,11 +328,18 @@ export class MappingZoomableComponent implements IDataVisualizer {
       // console.log(v)
       view = v;
       node
+
         .transition()
         .duration(TRANSITION_DURATION)
         .attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`)
+
         .each((d: any) => (d.translateX = d.x - v[0]))
         .each((d: any) => (d.translateY = d.y - v[1]))
+
+      // node.on("mouseover", (d: any) => {
+      //   revealCandidates = d.children;
+      //   d3.getEvent().stopPropagation();
+      // })
 
       text
         .on("click", function (d: any) {
