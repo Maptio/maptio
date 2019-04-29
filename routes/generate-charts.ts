@@ -51,6 +51,19 @@ let innerFontScale = d3.scaleLog().domain(defaultScaleExtent).range(innerFontSiz
 export function makeChart(data: any, seedColor: string, diameter: number, width: number) {
 
     const document = new jsdom.JSDOM().window.document;
+    const packing = d3
+        .pack()
+        .size([diameter - margin, diameter - margin])
+        .padding(20);
+
+    const root: any = d3
+        .hierarchy(data)
+        .sum(function (d: any) {
+            return (d.accountable ? 1 : 0) + (d.helpers ? d.helpers.length : 0) + 1;
+        })
+        .sort(function (a, b) {
+            return b.value - a.value;
+        });
 
     var svg = d3.select(document.body) //make a container div to ease the saving process
         .append('svg')
@@ -70,25 +83,8 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
             ),
         definitions = svg.append("svg:defs");
 
-    // definitions.append("style").attr("type", "text/css").html(css);
 
-    function zoomed() {
-        g.attr("transform", d3.getEvent().transform);
-    }
 
-    const packing = d3
-        .pack()
-        .size([diameter - margin, diameter - margin])
-        .padding(20);
-
-    const root: any = d3
-        .hierarchy(data)
-        .sum(function (d: any) {
-            return (d.accountable ? 1 : 0) + (d.helpers ? d.helpers.length : 0) + 1;
-        })
-        .sort(function (a, b) {
-            return b.value - a.value;
-        });
 
     let depth = 0;
     root.eachAfter((n: any): void => {
@@ -96,10 +92,8 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
     });
     const colorRange = getColorRange(depth, seedColor);
 
-    const focus = root, nodes: Array<any> = packing(root).descendants();
+    const nodes: Array<any> = packing(root).descendants();
 
-    buildPatterns();
-    // buildPaths()
 
     let initiativeWithChildren: any = g
         .selectAll("g.node.initiative-map.with-children")
@@ -123,12 +117,9 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
     enterWithAnimations(initiativeWithChildrenEnter, "with-children");
     enterWithAnimations(initiativeNoChildrenEnter, "no-children");
 
-    // initiativeWithChildrenEnter.append("text").attr("class", "name with-children").classed("initiative-map", true);
     initiativeNoChildrenEnter.append("foreignObject").attr("class", "name no-children").classed("initiative-map", true);
     initiativeWithChildrenEnter.append("foreignObject").attr("class", "name with-children").classed("initiative-map", true);
 
-    // initiativeWithChildrenEnter.append("circle").attr("class", "accountable with-children").classed("initiative-map", true);
-    // initiativeNoChildrenEnter.append("circle").attr("class", "accountable no-children").classed("initiative-map", true);
 
     initiativeWithChildren = initiativeWithChildrenEnter.merge(initiativeWithChildren);
     initiativeNoChildren = initiativeNoChildrenEnter.merge(initiativeNoChildren);
@@ -142,29 +133,6 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
 
     let node = g.selectAll("g.node");
     let circle = g.selectAll("circle.node");
-
-    //     let textAround = initiativeWithChildren.select("text.name.with-children")
-    //         .attr("id", function (d: any) {
-    //             return `${d.data.id}`;
-    //         })
-    //         .style("display", function (d: any) {
-    //             return d !== root ? "inline" : "none";
-    //         })
-    //         .html(function (d: any) {
-    //             let radius = d.r * d.k + 1;
-    //             return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
-    //   <tspan>${d.data.name || ""}</tspan>
-    //   </textPath>`;
-    //             //   return browser === Browsers.Firefox
-    //             //     ? `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
-    //             //             <tspan>${d.data.name || ""}</tspan>
-    //             //             </textPath>`
-    //             //     : `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
-    //             //             <tspan>${d.data.name || ""}</tspan>
-    //             //             </textPath>`;
-    //         });
-
-
 
     initiativeWithChildren.select("foreignObject.name.with-children")
         .attr("id", function (d: any) {
@@ -198,35 +166,11 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
         .style("overflow", "visible")
         .html(getForeignObjectHTML)
 
-    // let accountablePictureWithChildren = initiativeWithChildren.select("circle.accountable.with-children")
-    //     .attr("id", function (d: any) {
-    //         return `${d.data.id}`;
-    //     })
-    //     .attr("fill", function (d: any) {
-    //         return d.data.accountable ? "url('#image" + d.data.id + "')" : "transparent";
-    //     })
-    // .style("display", function (d: any) {
-    //     return d !== root ? "inline" : "none";
-    // });
 
-    // let accountablePictureWithoutChildren = initiativeNoChildren.select("circle.accountable.no-children")
-    //     .attr("id", function (d: any) {
-    //         return `${d.data.id}`;
-    //     })
-    //     .attr("fill", function (d: any) {
-    //         return d.data.accountable ? "url('#image" + d.data.id + "')" : "transparent";
-    //     })
-
-
-    // let outerFontScale: ScaleLogarithmic<number, number>;
-    // let innerFontScale: ScaleLogarithmic<number, number>;
 
     initMapElementsAtPosition([root.x, root.y]);
     adjustViewToZoomEvent(g, d3.getEvent());
 
-    // node
-    //     .attr("parent-id", (d:any)=> d.parent ? d.parent.data.id : "")
-    //     .attr("children-id", (d:any)=> d.children ? d.children.map((c:any) => c.data.id).join(' ') : "")
 
     return document.body.innerHTML;
 
@@ -427,28 +371,6 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
         if (groups.empty() && callback) callback();
     }
 
-    function buildPaths() {
-        let path: any = svg.select("defs")
-            .selectAll("path")
-            .data(nodes, function (d: any) {
-                return d.data.id;
-            });
-
-        path.exit().remove();
-        path = path.enter()
-            .append("path")
-            .merge(path)
-            .attr("id", function (d: any) {
-                return `path${d.data.id}`;
-            })
-            .attr("d", function (d: any, i: number) {
-                let radius = d.r + 1;
-                return getCircularPath(radius, -radius, 0);
-            });
-
-        return path;
-    }
-
     function addCircle(groups: any): void {
         groups.select("circle")
             .attr("class", (d: any): string => {
@@ -461,65 +383,5 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
             .attr("id", (d: any): string => `${d.data.id}`)
             .classed("with-border", (d: any): boolean => !d.children && d.parent === root)
     }
-
-    function toREM(pixels: number) {
-        return pixels / 16;
-    }
-
-    function buildPatterns() {
-        let patterns = definitions.selectAll("pattern").data(
-            nodes.filter(function (d: any) {
-                return d.data.accountable;
-            }),
-            function (d: any) {
-                return d.data.id;
-            }
-        );
-
-        let enterPatterns = patterns
-            .enter()
-            .filter(function (d: any) {
-                return d.data.accountable;
-            })
-            .append("pattern");
-
-        enterPatterns
-            .attr("id", function (d: any) {
-                return "image" + d.data.id;
-            })
-            .attr("width", "100%")
-            .attr("height", "100%")
-            .filter(function (d: any) {
-                return d.data.accountable;
-            })
-            .append("image")
-            .attr("width", CIRCLE_RADIUS * 2)
-            .attr("height", CIRCLE_RADIUS * 2)
-            .attr("xlink:href", function (d: any) {
-                return d.data.accountable.picture;
-            });
-
-        patterns
-            .attr("id", function (d: any) {
-                return "image" + d.data.id;
-            })
-            .attr("width", "100%")
-            .attr("height", "100%")
-            .filter(function (d: any) {
-                return d.data.accountable;
-            })
-            .select("image")
-            .attr("width", CIRCLE_RADIUS * 2)
-            .attr("height", CIRCLE_RADIUS * 2)
-            .attr("xlink:href", function (d: any) {
-                return d.data.accountable.picture;
-            });
-        patterns.exit().remove();
-    }
 }
-
-
-
-// makeChart()
-// fs.writeFileSync("file.svg", document.body.innerHTML) //using sync to keep the code simple
 
