@@ -200,7 +200,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .size([this.height - this.margin, this.height - this.margin])
       .padding(20);
 
-    let root = d3.hierarchy(this.initiative)
+    let root = d3.hierarchy(data)
       .sum(function (d) {
         return (d.accountable ? 1 : 0) + (d.helpers ? d.helpers.length : 0) + 1;
       })
@@ -377,7 +377,6 @@ If upon examining all branches the map of child nodes is empty, return null
       // console.log(v)
       view = v;
       node
-
         .transition()
         .duration(TRANSITION_DURATION)
         .attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`)
@@ -428,14 +427,14 @@ If upon examining all branches the map of child nodes is empty, return null
         })
 
       circle
-        .transition().duration(TRANSITION_DURATION)
+        .transition().duration(TRANSITION_DURATION/2)
         .style("opacity", function (d: any) {
           if (d === focus || d.parent === focus) return 1;
           return 0.075;
         })
 
       text
-        .transition().duration(TRANSITION_DURATION)
+        .transition().duration(TRANSITION_DURATION/2)
         .style("display", function (d: any) {
           if (d === root) return "none";
           return d.parent === focus || d === focus || focus.parent === d.parent ? "inline"
