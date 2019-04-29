@@ -263,17 +263,17 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .scaleExtent([1, 10])
       .wheelDelta(wheelDelta)
       .on("zoom", zoomed)
-      // .on("end", () => {
-      //   let scale = d3.getEvent().transform.k;
-      //   console.log(scale);
-      //   circle
-      //     .style("opacity", function (d: any) {
-      //       console.log(d.data.name, d.r, d.r*scale, d.r * scale > 120)
-      //       if (d.r * scale > 120 ) return 1;
-      //       return 0.075;
-      //       // 8.3 * 1.76 > 2.32
-      //     })
-      // })
+    // .on("end", () => {
+    //   let scale = d3.getEvent().transform.k;
+    //   console.log(scale);
+    //   circle
+    //     .style("opacity", function (d: any) {
+    //       console.log(d.data.name, d.r, d.r*scale, d.r * scale > 120)
+    //       if (d.r * scale > 120 ) return 1;
+    //       return 0.075;
+    //       // 8.3 * 1.76 > 2.32
+    //     })
+    // })
 
     function zoomed() {
       g.attr("transform", d3.getEvent().transform);
@@ -379,12 +379,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
 
       circle
+        .transition().duration(TRANSITION_DURATION)
         .style("opacity", function (d: any) {
           if (d === focus || d.parent === focus) return 1;
           return 0.075;
         })
 
       text
+        .transition().duration(TRANSITION_DURATION)
         .style("display", function (d: any) {
           if (d === root) return "none";
           return d.parent === focus || d === focus || focus.parent === d.parent ? "inline"
