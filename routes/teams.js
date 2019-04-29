@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
 require('dotenv').config();
-const getDepth = require("./traverse");
+const {getDepth} = require("./traverse");
 var db = mongojs(process.env.MONGODB_URI, ['teams']);
 
 /**

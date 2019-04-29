@@ -108,7 +108,7 @@ export class User implements Serializable<User> {
             return undefined;
         }
         let deserialized = new User();
-        deserialized.shortid =  input.user_metadata ? input.user_metadata.shortid : ""
+        deserialized.shortid =  input.user_metadata ? input.user_metadata.shortid : input.shortid
         deserialized.firstname = input.user_metadata ? input.user_metadata.given_name : "";
         deserialized.lastname = input.user_metadata ? input.user_metadata.family_name : "";
         deserialized.name = input.user_metadata ? `${deserialized.firstname} ${deserialized.lastname}` : input.name;
