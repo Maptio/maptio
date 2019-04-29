@@ -447,7 +447,7 @@ If upon examining all branches the map of child nodes is empty, return null
       .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
         showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
 
-        circle.classed("highlighted", false);
+        node.classed("highlighted", false);
         if (getLastZoomedCircle().data.id === d.data.id) { //zoom out
           setLastZoomedCircle(root);
           zoom(root);
@@ -538,32 +538,31 @@ If upon examining all branches the map of child nodes is empty, return null
       svg.dispatch("click")
     }
 
-    this.zoomInitiative$.subscribe(node => {
-      circle.classed("highlighted", false);
+    this.zoomInitiative$.subscribe(zoomedNode => {
       if (!node) {
         svg.dispatch("click");
         return;
       }
-      let zoomedId = node.id;
+      
+      let zoomedId = zoomedNode.id;
       let parent = nodes.find(n => n.data.id === zoomedId).parent;
       localStorage.setItem("node_id", zoomedId.toString());
-      if (getLastZoomedCircle().data.id !== parent.data.id) {
-        svg.select(`circle.node[id="${parent.data.id}"]`).dispatch("click");
+      
+      if(parent.data.id === root.data.id && isEmpty(zoomedNode.children)){
+        svg.select(`circle.node[id="${zoomedId.toString()}"]`).dispatch("click");
       }
-      showToolipOf$.next({ initiatives: [node], isNameOnly: false });
+      else{
+        if (getLastZoomedCircle().data.id !== parent.data.id) {
+          svg.select(`circle.node[id="${parent.data.id}"]`).dispatch("click");
+        }
+      }
+      
+      node.classed("highlighted", false);
+      svg.select(`g.node[id="${zoomedId}"]`).classed("highlighted", true);
+      showToolipOf$.next({ initiatives: [zoomedNode], isNameOnly: false });
+      
 
-      svg.select(`circle.node[id="${zoomedId}"]`).classed("highlighted", true);
     })
-
-    // // setLastZoomedCircle(root);
-    // svg.call(
-    //   zooming.transform,
-    //   d3.zoomIdentity
-    //     .translate(this.width / 2, this.height / 2)
-    //     .scale(1)
-    // );
-    // svg.call(zooming);
-
   }
 
   ngOnDestroy() {
