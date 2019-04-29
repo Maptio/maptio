@@ -150,14 +150,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   ngOnInit() {
     this.loaderService.show();
-    let start = Date.now();
-
-    // this.draw();
-    // this.init();
+  
     this.dataSubscription = this.dataService
       .get()
       .map(data => {
-        console.log("got data", Date.now() - start);
         this.initiative = data.initiative.children[0];
         return data.dataset;
       })
@@ -165,10 +161,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .flatMap((data: [DataSet, string, SelectableTag[]]) => {
         this.uiService.clean();
         let filtered = this.filterByTags(data[0].initiative.children[0], data[2]);
-        return this.draw(filtered, data[1], this.height, this.width)
+        if (!filtered) {
+          return this.draw(data[0].initiative.children[0], data[1], this.height, this.width)
+        } else {
+          return this.draw(filtered, data[1], this.height, this.width)
+        }
       })
       .subscribe((result: { svg: string, root: any, nodes: any }) => {
-        console.log("got svg", Date.now() - start);
 
         (this.element.nativeElement as HTMLElement).innerHTML = result.svg;
         this.hydrate(result.root, result.nodes);
@@ -193,11 +192,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       )
       ;
-    // this.selectableTags$.subscribe(tags => this.tagsState = tags)
   }
 
   draw(data: Initiative, color: string, diameter: number, width: number) {
-    console.log("draw");
     const pack = d3
       .pack()
       .size([this.height - this.margin, this.height - this.margin])
@@ -244,7 +241,7 @@ If upon examining all branches the map of child nodes is empty, return null
     const selectedTags = tags.filter(t => !!t.isSelected);
     if (selectedTags.length === 0) return initiative;
     let clone = cloneDeep(initiative);
-    const isMatchingTags = (node: Initiative):boolean => {
+    const isMatchingTags = (node: Initiative): boolean => {
       if (isEmpty(node.tags)) {
         return false;
       } else {
