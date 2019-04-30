@@ -106,7 +106,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
 
   private _lastZoomedCircle: any;
-  private isShowMission: boolean;
+  public isShowMission: boolean;
 
   TRANSITION_DURATION = 500;
 
