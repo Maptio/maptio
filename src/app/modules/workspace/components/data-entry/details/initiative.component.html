@@ -23,13 +23,10 @@
 		<initiative-single-tag *ngFor="let tag of node?.tags; let i=index" class="mr-1" [tag]="tag">
 		</initiative-single-tag>
 	</div>
+	<div class="my-3">
 
-	<!-- <div class="my-2">
-		<initiative-member-label *ngIf="node?.accountable" [member]="node?.accountable"
-			[summaryUrl]="getSummaryUrlRoot()"></initiative-member-label>
-		<button class="btn btn-link" *ngIf="!node?.accountable">Add {{team?.settings.authority}}</button>
-	</div> -->
-
+		<markdown [data]="node?.description"></markdown>
+	</div>
 	<div class="d-flex flex-column my-3">
 		<div *ngFor="let helper of node?.getAllParticipants(); let i=index" class="d-flex flex-column mb-2">
 			<div class="d-flex align-items-center">
@@ -46,10 +43,7 @@
 
 
 	</div>
-	<div class="my-3">
 
-		<markdown [data]="node?.description"></markdown>
-	</div>
 
 </div>
 
