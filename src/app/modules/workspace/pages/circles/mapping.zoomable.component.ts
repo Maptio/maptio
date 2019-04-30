@@ -173,7 +173,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         (this.element.nativeElement as HTMLElement).innerHTML = result.svg;
         this.hydrate(result.root, result.nodes);
 
-        document.querySelector("svg").classList.remove("loading");
+        document.querySelector("svg") && document.querySelector("svg").classList.remove("loading");
         // this.loaderService.show();
         // this.counter += 1;
         this.loaderService.hide();
