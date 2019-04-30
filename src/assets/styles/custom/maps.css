@@ -15,7 +15,7 @@ svg{
 }
 
 svg.loading{
-    filter: blur(3px) opacity(0.1);
+    filter: blur(3px) opacity(0);
 
     transition: all 500ms;
     pointer-events: none;
