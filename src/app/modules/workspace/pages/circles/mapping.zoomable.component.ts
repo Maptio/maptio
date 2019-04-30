@@ -193,7 +193,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return b.value - a.value;
       })
     let nodes = pack(root).descendants();
-    console.log(nodes);
 
     return this.http.post("/api/v1/charts/make", {
       initiative: data,
@@ -301,8 +300,6 @@ If upon examining all branches the map of child nodes is empty, return null
     const text = g.selectAll("foreignObject.name").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
 
     svg.style("padding-left", `calc(50% - ${this.height / 2}px)`);
-
-    console.log(circle)
 
     const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 10.5;
     const zooming = d3
