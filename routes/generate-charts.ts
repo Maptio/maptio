@@ -178,14 +178,20 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
         let fontSize = (d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE < 2) ? 1 : (d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE);
         let verySmallCircle = fontSize <= 2;
 
-        const getImageTag = (picture: any) => {
+        const getImageTag = (name:string, picture: any, shortid:any) => {
             return picture ?
-                `<img class="rounded-circle" src="${picture}" style="float:left;height:${!!picture ? fontSize * 2 : 0}px;width:${!!picture ? fontSize * 2 : 0}px" />`
+                `<span  class="member-picture" data-member-name="${name}" data-member-shortid="${shortid}">
+                    <img class="rounded-circle"  src="${picture}" style="float:left;height:${!!picture ? fontSize * 2 : 0}px;width:${!!picture ? fontSize * 2 : 0}px" />
+                </span>
+                    `
                 : "";
         }
 
-        let accountablePicture = getImageTag(d.data.accountable ? d.data.accountable.picture : null)
-        let helpersPictures = d.data.helpers.map((h: any) => getImageTag(h.picture)).join('');
+        let accountablePicture = getImageTag(
+            d.data.accountable ? d.data.accountable.name : null, 
+            d.data.accountable ? d.data.accountable.picture : null,
+            d.data.accountable ? d.data.accountable.shortid : null)
+        let helpersPictures = d.data.helpers.map((h: any) => getImageTag(h.name, h.picture, h.shortid)).join('');
 
         return `
             <div class="details d-flex flex-column align-items-start " style="font-size: ${fontSize}px;line-height:1.25;">
@@ -234,7 +240,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
 
                     });
 
-                d3.select(this).selectAll("foreignObject > div.details > img, foreignObject > div.details > div.secondary > img")
+                d3.select(this).selectAll("foreignObject > div.details > img, foreignObject > div.details > div.secondary > span.member-picture > img")
                     .style("height", () => {
                         return `${isVerySmallCircle ? 1 : myInnerFontScale(zoomFactor)}px`
 

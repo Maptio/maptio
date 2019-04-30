@@ -28,7 +28,7 @@ import { select, selectAll, event, mouse } from "d3-selection";
 import { zoom, zoomIdentity } from "d3-zoom";
 import { scaleLog, ScaleLogarithmic } from "d3-scale";
 import { HierarchyCircularNode, pack, hierarchy, HierarchyNode } from "d3-hierarchy";
-import { min } from "d3-array";
+import { min, thresholdFreedmanDiaconis } from "d3-array";
 import { color } from "d3-color";
 import { AuthHttp } from "angular2-jwt";
 import { map, tap } from "rxjs/operators";
@@ -113,6 +113,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   constructor(
     public uiService: UIService,
     public router: Router,
+    private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
     private dataService: DataService,
     private loaderService: LoaderService,
@@ -319,12 +320,36 @@ If upon examining all branches the map of child nodes is empty, return null
     const showToolipOf$ = this.showToolipOf$;
     const showContextMenuOf$ = this.showContextMenuOf$;
     const uiService = this.uiService;
+    const router: Router = this.router;
+    const route: ActivatedRoute = this.route;
     let view: any;
     let lastZoomCircle = this.lastZoomCircle;
     let setIsShowMission = this.setIsShowMission.bind(this);
     const node = g.selectAll("g.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });
     const circle = g.selectAll("circle.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
     const text = g.selectAll("foreignObject.name").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
+
+    d3.select("body").select("div.member-tooltip").remove();
+    let tooltip = d3.select("body").append("div");
+    tooltip.attr("class", "member-tooltip").style("opacity", 0);
+
+    text.selectAll("span.member-picture")
+      .on("click", (d: any, index: number, elements: Array<HTMLElement>) => {
+        let shortId = elements[index].getAttribute("data-member-shortid");
+        router.navigate(["../directory"], { relativeTo: route, queryParams: { member: shortId } });
+        d3.getEvent().stopPropagation();
+      })
+      .on("mouseover", (d: any, index: number, elements: Array<HTMLElement>) => {
+        let name = elements[index].getAttribute("data-member-name");
+        tooltip.text(name);
+        tooltip.style("opacity", 1).style("left", (d3.getEvent().pageX) + "px")
+          .style("top", (d3.getEvent().pageY - 28) + "px");;
+      })
+      .on("mouseout", (d: any, index: number, elements: Array<HTMLElement>) => {
+        let name = elements[index].getAttribute("data-member-name");
+        tooltip.text(name);
+        tooltip.style("opacity", 0);
+      })
 
     svg.style("padding-left", `calc(50% - ${this.height / 2}px)`);
 
@@ -412,6 +437,9 @@ If upon examining all branches the map of child nodes is empty, return null
         })
         .call(passingThrough, "contextmenu");
 
+
+
+
       circle
         .attr("r", function (d: any) {
           return d.r;
@@ -464,7 +492,7 @@ If upon examining all branches the map of child nodes is empty, return null
     circle
       .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
         showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
-        
+
         node.classed("highlighted", false);
         if (lastZoomCircle.data.id === d.data.id) { //zoom out
           lastZoomCircle = root;

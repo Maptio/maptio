@@ -89,3 +89,12 @@
  ::ng-deep circle.accountable.with-children:not(node--root){
     display: inline;
 }
+
+::ng-deep div.member-tooltip{
+    position: absolute;
+    background: var(--maptio-white);
+    font-size: small;
+    color:var(--maptio-black);
+    padding:2px;
+    border-radius:2px;
+}
