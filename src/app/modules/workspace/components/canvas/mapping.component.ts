@@ -28,7 +28,7 @@ import { MappingTreeComponent } from "../../pages/tree/mapping.tree.component";
 import { MappingZoomableComponent } from "../../pages/circles/mapping.zoomable.component";
 import { ExportService } from "../../../../shared/services/export/export.service";
 import { Intercom } from "ng-intercom";
-import { User } from "../../../../shared/model/user.data";
+import { User, SelectableUser } from "../../../../shared/model/user.data";
 import { MappingSummaryComponent } from "../../pages/directory/summary.component";
 import { SearchComponent } from "../searching/search.component";
 import { environment } from "../../../../config/environment";
@@ -77,7 +77,8 @@ export class MappingComponent {
 
   public zoom$: Subject<number>;
   public isReset$: Subject<boolean>;
-  public selectableTags$: Subject<Array<SelectableTag>>;
+  public selectableTags$: Subject<Array<Tag>>;
+  public selectableUsers$: Subject<Array<User>>;
 
   public VIEWPORT_WIDTH: number;
   public VIEWPORT_HEIGHT: number;
@@ -87,6 +88,7 @@ export class MappingComponent {
   public flattenInitiative: Initiative[] = [];
   public team: Team;
   public dataset: DataSet;
+  public members :User[];
   public slug: string;
   public tags: Array<SelectableTag>;
   public tagsFragment: string;
@@ -136,6 +138,7 @@ export class MappingComponent {
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
     this.selectableTags$ = new ReplaySubject<Array<SelectableTag>>();
+    this.selectableUsers$ = new ReplaySubject<Array<SelectableUser>>();
     this.mapColor$ = new BehaviorSubject<string>("");
     this.zoomToInitiative$ = new Subject();
   }
@@ -210,13 +213,14 @@ export class MappingComponent {
     component.margin = 50;
     component.zoom$ = this.zoom$.asObservable();
     component.selectableTags$ = this.selectableTags$.asObservable();
+    component.selectableUsers$ = this.selectableUsers$.asObservable();
     component.mapColor$ = this.mapColor$.asObservable();
     component.zoomInitiative$ = this.zoomToInitiative$.asObservable();
     component.translateX = this.x;
     component.translateY = this.y;
     component.scale = this.scale;
-    component.tagsState = tagsState;
-    this.selectableTags$.next(tagsState);
+    this.selectableTags$.next([]);
+    this.selectableUsers$.next([]);
 
     component.analytics = this.analytics;
     component.isReset$ = this.isReset$.asObservable();
@@ -293,35 +297,36 @@ export class MappingComponent {
           this.zoomToInitiative(new Initiative({ id: <number>queryParams.id }));
         }
 
-        let fragmentTags =
-          this.uriService.parseFragment(fragment).has("tags") &&
-            this.uriService.parseFragment(fragment).get("tags")
-            ? this.uriService
-              .parseFragment(fragment)
-              .get("tags")
-              .split(",")
-              .map(
-                (s: string) =>
-                  new SelectableTag({ shortid: s, isSelected: true })
-              )
-            : <SelectableTag[]>[];
+        // let fragmentTags =
+        //   this.uriService.parseFragment(fragment).has("tags") &&
+        //     this.uriService.parseFragment(fragment).get("tags")
+        //     ? this.uriService
+        //       .parseFragment(fragment)
+        //       .get("tags")
+        //       .split(",")
+        //       .map(
+        //         (s: string) =>
+        //           new SelectableTag({ shortid: s, isSelected: true })
+        //       )
+        //     : <SelectableTag[]>[];
 
         this.tags = compact<SelectableTag>(
           data.dataset.tags.map((dataTag: SelectableTag) => {
-            let searchTag = fragmentTags.find(
-              t => t.shortid === dataTag.shortid
-            );
+            // let searchTag = fragmentTags.find(
+            //   t => t.shortid === dataTag.shortid
+            // );
             return new SelectableTag({
               shortid: dataTag.shortid,
               name: dataTag.name,
               color: dataTag.color,
-              isSelected: searchTag !== undefined
+              isSelected: false
             });
           })
         );
 
         this.dataset = data.dataset;
         this.initiative = data.initiative;
+        this.members = data.members;
         this.team = data.team;
         this.flattenInitiative = data.initiative.flatten();
         this.cd.markForCheck();
@@ -443,7 +448,7 @@ export class MappingComponent {
     this.removeInitiative.emit(node)
   }
 
-  broadcastTagsSelection(tags: SelectableTag[]) {
+  broadcastTagsSelection(tags: Tag[]) {
     this.selectableTags$.next(tags);
 
     // let tagsHash = tags
@@ -455,6 +460,14 @@ export class MappingComponent {
     // let ancient = this.uriService.parseFragment(this.route.snapshot.fragment);
     // ancient.set("tags", tagsHash);
     // location.hash = this.uriService.buildFragment(ancient);
+  }
+
+  broadcastUsersSelection(user:User){
+
+    this.selectableUsers$.next([user])
+  }
+  resetBroadcastUsersSelection(){
+    this.selectableUsers$.next(this.members)
   }
 
   zoomToInitiative(selected: Initiative) {

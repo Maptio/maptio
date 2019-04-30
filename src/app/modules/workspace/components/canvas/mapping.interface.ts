@@ -1,8 +1,9 @@
-import { SelectableTag } from "../../../../shared/model/tag.data";
+import { SelectableTag, Tag } from "../../../../shared/model/tag.data";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { Subject } from "rxjs";
 import { Observable } from "rxjs/Observable";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
+import { SelectableUser, User } from "../../../../shared/model/user.data";
 
 export interface IDataVisualizer {
     datasetId: string;
@@ -18,13 +19,13 @@ export interface IDataVisualizer {
     mapColor$: Observable<string>;
 
     zoomInitiative$: Observable<Initiative>;
-    selectableTags$: Observable<Array<SelectableTag>>;
+    selectableTags$: Observable<Array<Tag>>;
+    selectableUsers$ : Observable<Array<User>>;
     isReset$: Observable<boolean>;
 
     translateX: number;
     translateY: number;
     scale: number;
-    tagsState: Array<SelectableTag>;
 
     showDetailsOf$: Subject<Initiative>;
     showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }>;

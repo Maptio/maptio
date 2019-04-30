@@ -4,7 +4,7 @@ import { Browsers, UIService } from "../../services/ui.service";
 import { ColorService } from "../../services/color.service";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { Initiative } from "../../../../shared/model/initiative.data";
-import { SelectableUser } from "../../../../shared/model/user.data";
+import { SelectableUser, User } from "../../../../shared/model/user.data";
 import { SelectableTag, Tag } from "../../../../shared/model/tag.data";
 import { IDataVisualizer } from "../../components/canvas/mapping.interface";
 import { Observable, Subject, BehaviorSubject } from "rxjs/Rx";
@@ -69,11 +69,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public translateX: number;
   public translateY: number;
   public scale: number;
-  public tagsState: Array<SelectableTag>;
 
   public margin: number;
   public zoom$: Observable<number>;
-  public selectableTags$: Observable<Array<SelectableTag>>;
+  public selectableTags$: Observable<Array<Tag>>;
+  public selectableUsers$: Observable<Array<User>>;
   public isReset$: Observable<boolean>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
@@ -106,7 +106,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   private _lastZoomedCircle: any;
 
- 
+
   TRANSITION_DURATION = 500;
 
   constructor(
@@ -120,13 +120,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
   ) {
   }
 
-  
-  public get lastZoomedCircle() : string {
+
+  public get lastZoomedCircle(): string {
     return this._lastZoomedCircle;
   }
 
-  
-  public set lastZoomCircle(v : any) {
+
+  public set lastZoomCircle(v: any) {
     this._lastZoomedCircle = v;
   }
 
@@ -146,11 +146,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.initiative = data.initiative.children[0];
         return data.dataset;
       })
-      .combineLatest(this.mapColor$, this.selectableTags$)
-      .flatMap((data: [DataSet, string, SelectableTag[]]) => {
+      .combineLatest(this.mapColor$, this.selectableTags$, this.selectableUsers$)
+      .flatMap((data: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
         document.querySelector("svg") && document.querySelector("svg").classList.add("loading");
 
-        let filtered = this.filterByTags(data[0].initiative.children[0], data[2]);
+        let filtered = this.filterByTags(data[0].initiative.children[0], data[2], data[3]);
         if (!filtered) {
           return this.draw(data[0].initiative.children[0], data[1], this.height, this.width)
         } else {
@@ -210,7 +210,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     )
   }
 
-  filterByTags(initiative: Initiative, tags: SelectableTag[]): Initiative {
+  filterByTags(initiative: Initiative, tags: Tag[], users: User[]): Initiative {
+    
     /*
     Observe that the task has a recursive structure: applying it to any branch of a tree does to the branch the same thing that you want to do to the entire tree
 A branch could be either pruned, or removed entirely
@@ -222,15 +223,25 @@ For non-leaf branches call the recursive method, and examine its result
 If the result is null, remove the corresponding branch from the map; otherwise, replace the branch with the pruned branch returned from the call
 If upon examining all branches the map of child nodes is empty, return null
 */
-    const selectedTags = tags.filter(t => !!t.isSelected);
-    if (selectedTags.length === 0) return initiative;
+    // const selectedTags = tags.filter(t => !!t.isSelected);
+    // const selectedUsers = users.filter(u => !!u.isSelected);
+    if (isEmpty(tags.length) && isEmpty(users)) return initiative;
+
     let clone = cloneDeep(initiative);
     const isMatchingTags = (node: Initiative): boolean => {
-      if (isEmpty(node.tags)) {
-        return false;
-      } else {
-        return intersectionBy(selectedTags, node.tags, t => t.shortid).length > 0;
-      }
+      // if (isEmpty(node.tags)) {
+      //   return false;
+      // } else {
+      //   return intersectionBy(selectedTags, node.tags, t => t.shortid).length > 0;
+      // }
+
+      let isMatchTags = (isEmpty(node.tags))
+        ? false
+        : intersectionBy(tags, node.tags, t => t.shortid).length > 0;
+
+      let isMatchUser = intersectionBy(users, node.getAllParticipants(), u => u.shortid).length > 0;
+
+      return isMatchTags || isMatchUser;
     }
 
     function isAliveBranch(node: Initiative): Initiative {
@@ -277,7 +288,7 @@ If upon examining all branches the map of child nodes is empty, return null
 
   }
 
-  init(){
+  init() {
 
   }
 
@@ -440,7 +451,7 @@ If upon examining all branches the map of child nodes is empty, return null
 
         node.classed("highlighted", false);
         if (lastZoomCircle.data.id === d.data.id) { //zoom out
-          lastZoomCircle =root;
+          lastZoomCircle = root;
           zoom(root);
           localStorage.removeItem("node_id")
 
@@ -499,7 +510,7 @@ If upon examining all branches the map of child nodes is empty, return null
           })
       });
 
-      lastZoomCircle = root;
+    lastZoomCircle = root;
     svg
       .on("click", (): void => {
         localStorage.removeItem("node_id");

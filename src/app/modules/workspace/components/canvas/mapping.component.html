@@ -133,6 +133,9 @@
         (selectUser)="goToUserSummary($event)"></search>
     </div>
     <div closable id="collapseFilter" class="collapse rounded mb-3 col-12 bg-light p-3">
+      <button *ngFor="let member of members" (click)="broadcastUsersSelection(member)">{{member.name}}</button>
+     
+      <button (click)="resetBroadcastUsersSelection()">Reset users search</button>
       <filter-tags [team]="team" [tags]="tags" (changeTagsSelection)="broadcastTagsSelection($event)"></filter-tags>
     </div>
     <div closable id="collapseSlack" class="collapse rounded mb-3 col-12 bg-light p-3">
