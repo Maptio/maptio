@@ -101,12 +101,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public hoveredNode: Initiative;
 
   public initiative: Initiative;
-  public isNoMatchingCircles:boolean;
-
+  public isNoMatchingCircles: boolean;
+  public mission: string;
 
 
   private _lastZoomedCircle: any;
-
+  private isShowMission: boolean;
 
   TRANSITION_DURATION = 500;
 
@@ -130,6 +130,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public set lastZoomCircle(v: any) {
     this._lastZoomedCircle = v;
   }
+
+
+
+
+  public setIsShowMission(v: boolean) {
+    this.isShowMission = v;
+    this.cd.markForCheck();
+  }
+
+
 
   ngOnInit() {
     this.loaderService.show();
@@ -155,7 +165,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let filtered = this.filterByTags(data[0].initiative.children[0], data[2], data[3]);
         if (!filtered) {
 
-          document.querySelector(".map-container").innerHTML ="";
+          document.querySelector(".map-container").innerHTML = "";
           this.isNoMatchingCircles = true;
           this.cd.markForCheck();
           // return this.draw(data[0].initiative.children[0], data[1], this.height, this.width)
@@ -167,6 +177,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         document.querySelector(".map-container").innerHTML = result.svg;
         this.hydrate(result.root, result.nodes);
+        this.mission = result.root.data.name;
 
         document.querySelector("svg") && document.querySelector("svg").classList.remove("loading");
 
@@ -217,7 +228,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
   filterByTags(initiative: Initiative, tags: Tag[], users: User[]): Initiative {
-    
+
     /*
     Observe that the task has a recursive structure: applying it to any branch of a tree does to the branch the same thing that you want to do to the entire tree
 A branch could be either pruned, or removed entirely
@@ -310,8 +321,7 @@ If upon examining all branches the map of child nodes is empty, return null
     const uiService = this.uiService;
     let view: any;
     let lastZoomCircle = this.lastZoomCircle;
-    // let setLastZoomedCircle = this.setLastZoomedCircle.bind(this);
-    // let getLastZoomedCircle = this.getLastZoomedCircle.bind(this);
+    let setIsShowMission = this.setIsShowMission.bind(this);
     const node = g.selectAll("g.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });
     const circle = g.selectAll("circle.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
     const text = g.selectAll("foreignObject.name").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
@@ -323,7 +333,7 @@ If upon examining all branches the map of child nodes is empty, return null
       .zoom()
       .scaleExtent([1, 10])
       .wheelDelta(wheelDelta)
-      .on("zoom", zoomed)
+      .on("zoom", zoomed);
 
     function zoomed() {
       g.attr("transform", d3.getEvent().transform);
@@ -454,17 +464,20 @@ If upon examining all branches the map of child nodes is empty, return null
     circle
       .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
         showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
-
+        
         node.classed("highlighted", false);
         if (lastZoomCircle.data.id === d.data.id) { //zoom out
           lastZoomCircle = root;
           zoom(root);
-          localStorage.removeItem("node_id")
+          localStorage.removeItem("node_id");
+          setIsShowMission(true);
 
         } else { //zoom in
           lastZoomCircle = d;
           localStorage.setItem("node_id", d.data.id)
           zoom(d, (<any>this).parentElement);
+          setIsShowMission(false);
+
         }
 
         d3.getEvent().stopPropagation();
@@ -523,6 +536,7 @@ If upon examining all branches the map of child nodes is empty, return null
         showToolipOf$.next({ initiatives: [root.data], isNameOnly: false });
 
         zoom(root);
+        setIsShowMission(true);
         d3.getEvent().stopPropagation();
       })
     initMapElementsAtPosition([root.x, root.y])

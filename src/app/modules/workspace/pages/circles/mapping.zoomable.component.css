@@ -1,4 +1,10 @@
 
+ .mission{
+     left: 5%;
+     z-index:1;
+     font-size: larger;
+ }
+ 
  ::ng-deep g.node{
      pointer-events: all;
      cursor: pointer;

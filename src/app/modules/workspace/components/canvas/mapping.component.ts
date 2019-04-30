@@ -210,7 +210,7 @@ export class MappingComponent {
     component.width = this.VIEWPORT_WIDTH;
     component.height = this.VIEWPORT_HEIGHT;
 
-    component.margin = 50;
+    component.margin = 20;
     component.zoom$ = this.zoom$.asObservable();
     component.selectableTags$ = this.selectableTags$.asObservable();
     component.selectableUsers$ = this.selectableUsers$.asObservable();

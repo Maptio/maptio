@@ -1,7 +1,10 @@
 <!-- <svg id="map"></svg> -->
-<div class="w-100 d-flex justify-content-center">
+<div class="w-100 d-flex justify-content-center row">
 
     <span *ngIf="isNoMatchingCircles">No macthing circles</span>
+    <div [style.top.px]="margin" *ngIf="isShowMission" class="mission position-absolute col-3 text-bold">
+        {{mission}}
+    </div>
 </div>
 <div class="map-container">
 
