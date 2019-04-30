@@ -2,8 +2,9 @@
 <div class="w-100 d-flex justify-content-center row">
 
     <span *ngIf="isNoMatchingCircles">No macthing circles</span>
-    <div [style.top.px]="margin" *ngIf="isShowMission" class="mission position-absolute col-3 text-bold">
-        {{mission}}
+    <div [style.top.px]="margin" *ngIf="isShowMission" class="d-flex flex-column mission position-absolute col-3 text-bold">
+        <span style="font-size:small" class="text-uppercase text-gray">{{team.name}}</span>
+        <span>{{mission}}</span>
     </div>
 </div>
 <div class="map-container">

@@ -101,6 +101,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public hoveredNode: Initiative;
 
   public initiative: Initiative;
+  public team:Team;
   public isNoMatchingCircles: boolean;
   public mission: string;
 
@@ -157,6 +158,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .map(data => {
         this.initiative = data.initiative.children[0];
+        this.team = data.team;
         return data.dataset;
       })
       .combineLatest(this.mapColor$, this.selectableTags$, this.selectableUsers$)
