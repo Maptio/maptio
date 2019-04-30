@@ -159,7 +159,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .combineLatest(this.mapColor$, this.selectableTags$)
       .flatMap((data: [DataSet, string, SelectableTag[]]) => {
         // this.uiService.clean();
-        document.querySelector(".map-container") && document.querySelector(".map-container").classList.add("grayscale");
+        document.querySelector("svg") && document.querySelector("svg").classList.add("loading");
    
         let filtered = this.filterByTags(data[0].initiative.children[0], data[2]);
         if (!filtered) {
