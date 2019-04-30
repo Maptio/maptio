@@ -101,6 +101,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public hoveredNode: Initiative;
 
   public initiative: Initiative;
+  public isNoMatchingCircles:boolean;
 
 
 
@@ -135,6 +136,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.dataSubscription = this.dataService
       .get()
       .do((data) => {
+        this.isNoMatchingCircles = false;
         this.analytics.eventTrack("Map", {
           action: "viewing",
           view: "initiatives",
@@ -152,14 +154,18 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         let filtered = this.filterByTags(data[0].initiative.children[0], data[2], data[3]);
         if (!filtered) {
-          return this.draw(data[0].initiative.children[0], data[1], this.height, this.width)
+
+          document.querySelector(".map-container").innerHTML ="";
+          this.isNoMatchingCircles = true;
+          this.cd.markForCheck();
+          // return this.draw(data[0].initiative.children[0], data[1], this.height, this.width)
         } else {
           return this.draw(filtered, data[1], this.height, this.width)
         }
       })
       .subscribe((result: { svg: string, root: any, nodes: any }) => {
 
-        (this.element.nativeElement as HTMLElement).innerHTML = result.svg;
+        document.querySelector(".map-container").innerHTML = result.svg;
         this.hydrate(result.root, result.nodes);
 
         document.querySelector("svg") && document.querySelector("svg").classList.remove("loading");
