@@ -79,7 +79,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
             .append("g")
             .attr(
                 "transform",
-                `translate(${width / 2}, ${diameter / 2}) scale(1)`
+                `translate(${diameter / 2}, ${diameter / 2}) scale(1)`
             ),
         definitions = svg.append("svg:defs");
 

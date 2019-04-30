@@ -343,10 +343,11 @@ If upon examining all branches the map of child nodes is empty, return null
 
 
     function getViewScaleForRadius(radius: number): number {
-      return (height) / (radius * 2 + 20);
+      return (height) / (radius * 2 + margin);
     }
 
     function getClickedElementCoordinates(clickedElement: any, newScale: number, translateX: number, translateY: number): Array<number> {
+      
       let clickedX = 0;
       let clickedY = 0;
       if (
@@ -375,10 +376,14 @@ If upon examining all branches the map of child nodes is empty, return null
       // console.log(v)
       view = v;
       node
+        .style("opacity", 0)
         .transition()
         .duration(TRANSITION_DURATION)
         .attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`)
-
+        .style("opacity", 0)
+        .transition()
+        .duration(TRANSITION_DURATION*2)
+        .style("opacity", 1)
         .each((d: any) => (d.translateX = d.x - v[0]))
         .each((d: any) => (d.translateY = d.y - v[1]))
 
@@ -523,7 +528,7 @@ If upon examining all branches the map of child nodes is empty, return null
       svg.call(
         zooming.transform,
         d3.zoomIdentity
-          .translate(width / 2, height / 2)
+          // .translate(width / 2, height / 2 )
           .scale(1)
       );
       svg.call(zooming);
@@ -543,24 +548,24 @@ If upon examining all branches the map of child nodes is empty, return null
         svg.dispatch("click");
         return;
       }
-      
+
       let zoomedId = zoomedNode.id;
       let parent = nodes.find(n => n.data.id === zoomedId).parent;
       localStorage.setItem("node_id", zoomedId.toString());
-      
-      if(parent.data.id === root.data.id && isEmpty(zoomedNode.children)){
+
+      if (parent.data.id === root.data.id && isEmpty(zoomedNode.children)) {
         svg.select(`circle.node[id="${zoomedId.toString()}"]`).dispatch("click");
       }
-      else{
+      else {
         if (getLastZoomedCircle().data.id !== parent.data.id) {
           svg.select(`circle.node[id="${parent.data.id}"]`).dispatch("click");
         }
       }
-      
+
       node.classed("highlighted", false);
       svg.select(`g.node[id="${zoomedId}"]`).classed("highlighted", true);
       showToolipOf$.next({ initiatives: [zoomedNode], isNameOnly: false });
-      
+
 
     })
   }
