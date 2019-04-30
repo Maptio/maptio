@@ -102,6 +102,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   public initiative: Initiative;
 
+
+
+  private _lastZoomedCircle: any;
+
+ 
   TRANSITION_DURATION = 500;
 
   constructor(
@@ -113,6 +118,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
     private http: AuthHttp,
     private element: ElementRef
   ) {
+  }
+
+  
+  public get lastZoomedCircle() : string {
+    return this._lastZoomedCircle;
+  }
+
+  
+  public set lastZoomCircle(v : any) {
+    this._lastZoomedCircle = v;
   }
 
   ngOnInit() {
@@ -278,8 +293,9 @@ If upon examining all branches the map of child nodes is empty, return null
     const showContextMenuOf$ = this.showContextMenuOf$;
     const uiService = this.uiService;
     let view: any;
-    let getLastZoomedCircle = this.getLastZoomedCircle.bind(this);
-    let setLastZoomedCircle = this.setLastZoomedCircle.bind(this);
+    let lastZoomCircle = this.lastZoomCircle;
+    // let setLastZoomedCircle = this.setLastZoomedCircle.bind(this);
+    // let getLastZoomedCircle = this.getLastZoomedCircle.bind(this);
     const node = g.selectAll("g.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });
     const circle = g.selectAll("circle.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
     const text = g.selectAll("foreignObject.name").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
@@ -382,7 +398,7 @@ If upon examining all branches the map of child nodes is empty, return null
     }
 
     function zoom(focus: any, clickedElement?: any): void {
-      setLastZoomedCircle(focus);
+      lastZoomCircle = focus;
 
       const newScale: number = focus === root /*|| focus.parent === root*/ ? 1 : getViewScaleForRadius(focus.r);
       const coordinates: Array<number> = getClickedElementCoordinates(clickedElement, newScale, focus.translateX, focus.translateY);
@@ -426,13 +442,13 @@ If upon examining all branches the map of child nodes is empty, return null
         showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
 
         node.classed("highlighted", false);
-        if (getLastZoomedCircle().data.id === d.data.id) { //zoom out
-          setLastZoomedCircle(root);
+        if (lastZoomCircle.data.id === d.data.id) { //zoom out
+          lastZoomCircle =root;
           zoom(root);
           localStorage.removeItem("node_id")
 
         } else { //zoom in
-          setLastZoomedCircle(d);
+          lastZoomCircle = d;
           localStorage.setItem("node_id", d.data.id)
           zoom(d, (<any>this).parentElement);
         }
@@ -486,7 +502,7 @@ If upon examining all branches the map of child nodes is empty, return null
           })
       });
 
-    setLastZoomedCircle(root);
+      lastZoomCircle = root;
     svg
       .on("click", (): void => {
         localStorage.removeItem("node_id");
@@ -510,7 +526,7 @@ If upon examining all branches the map of child nodes is empty, return null
 
     if (localStorage.getItem("node_id")) {
       let id = localStorage.getItem("node_id");
-      if (getLastZoomedCircle().data.id.toString() === id.toString()) return;
+      if (lastZoomCircle.data.id.toString() === id.toString()) return;
       svg.select(`circle.node[id="${id}"]`).dispatch("click");
     } else {
       svg.dispatch("click")
@@ -530,7 +546,7 @@ If upon examining all branches the map of child nodes is empty, return null
         svg.select(`circle.node[id="${zoomedId.toString()}"]`).dispatch("click");
       }
       else {
-        if (getLastZoomedCircle().data.id !== parent.data.id) {
+        if (lastZoomCircle.data.id !== parent.data.id) {
           svg.select(`circle.node[id="${parent.data.id}"]`).dispatch("click");
         }
       }
@@ -555,15 +571,5 @@ If upon examining all branches the map of child nodes is empty, return null
     }
   }
 
-
-  private _lastZoomedCircle: any;
-
-  getLastZoomedCircle() {
-    return this._lastZoomedCircle;
-  }
-
-  setLastZoomedCircle(circle: any) {
-    this._lastZoomedCircle = circle;
-  }
 
 }
