@@ -10,4 +10,12 @@ svg{
     position: absolute;
     top:0;
     left:0;
+    pointer-events: all;
+    transition: all 250ms;
+}
+
+svg.loading{
+    filter: grayscale(0.5) blur(3px);
+    transition: all 250ms;
+    pointer-events: none;
 }

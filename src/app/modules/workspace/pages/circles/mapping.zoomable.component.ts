@@ -150,7 +150,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   ngOnInit() {
     this.loaderService.show();
-
     this.dataSubscription = this.dataService
       .get()
       .map(data => {
@@ -159,7 +158,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .combineLatest(this.mapColor$, this.selectableTags$)
       .flatMap((data: [DataSet, string, SelectableTag[]]) => {
-        this.uiService.clean();
+        // this.uiService.clean();
+        document.querySelector(".map-container") && document.querySelector(".map-container").classList.add("grayscale");
+   
         let filtered = this.filterByTags(data[0].initiative.children[0], data[2]);
         if (!filtered) {
           return this.draw(data[0].initiative.children[0], data[1], this.height, this.width)
@@ -168,12 +169,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
         }
       })
       .subscribe((result: { svg: string, root: any, nodes: any }) => {
-
+        
         (this.element.nativeElement as HTMLElement).innerHTML = result.svg;
         this.hydrate(result.root, result.nodes);
 
-        this.loaderService.show();
-        this.counter += 1;
+        document.querySelector("svg").classList.remove("loading");
+        // this.loaderService.show();
+        // this.counter += 1;
         this.loaderService.hide();
         // this.analytics.eventTrack("Map", {
         //   action: "viewing",
@@ -347,7 +349,7 @@ If upon examining all branches the map of child nodes is empty, return null
     }
 
     function getClickedElementCoordinates(clickedElement: any, newScale: number, translateX: number, translateY: number): Array<number> {
-      
+
       let clickedX = 0;
       let clickedY = 0;
       if (
@@ -382,7 +384,7 @@ If upon examining all branches the map of child nodes is empty, return null
         .attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`)
         .style("opacity", 0)
         .transition()
-        .duration(TRANSITION_DURATION*2)
+        .duration(TRANSITION_DURATION * 2)
         .style("opacity", 1)
         .each((d: any) => (d.translateX = d.x - v[0]))
         .each((d: any) => (d.translateY = d.y - v[1]))
