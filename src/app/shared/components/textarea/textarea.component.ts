@@ -13,10 +13,11 @@ export class CommonTextareaComponent implements OnInit {
     @Input("label") label: string = "Edit";
     @Input("isUnauthorized") isUnauthorized:boolean;
     @Input("isHeader") isHeader:boolean; 
+    @Input("isEditMode") isEditMode:boolean;
 
     @Output("save") save: EventEmitter<string> = new EventEmitter<string>();
 
-    isEditMode: boolean;
+    // isEditMode: boolean;
     isTextEmpty:boolean =true;
     showUnauthorized:boolean;
 

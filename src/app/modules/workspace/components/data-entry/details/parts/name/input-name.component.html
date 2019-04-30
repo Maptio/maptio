@@ -4,8 +4,8 @@
     <span *ngIf="!isEditMode" [class.text-muted]="isUnauthorized"  class="pl-3 text-bold lead">{{name}}</span>
 </div> -->
 
-<common-textarea rows="1" label="Circle name" placeholder="" [text]="name"
-(save)="saveName($event)" [isUnauthorized]="isUnauthorized" [isHeader]="true">
+<common-textarea rows="2" label="Circle name" placeholder="" [text]="name"
+(save)="saveName($event)" [isEditMode]="isEditMode" [isUnauthorized]="isUnauthorized" [isHeader]="true">
 <ng-content></ng-content>
 </common-textarea>
 

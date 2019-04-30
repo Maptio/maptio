@@ -9,7 +9,11 @@
 	</span>
 </ng-template>
 
-<button (click)="isEditMode=!isEditMode">Edit</button>
+<div class="custom-control custom-switch">
+	<input type="checkbox" (change)="isEditMode=!isEditMode" [value]="isEditMode" class="custom-control-input" id="customSwitch1">
+	<label class="custom-control-label" for="customSwitch1">Edit circle</label>
+</div>
+<hr>
 
 <div class="d-flex flex-column h-100" *ngIf="!isEditMode">
 
@@ -52,7 +56,7 @@
 
 <div class="d-flex flex-column h-100" *ngIf="isEditMode">
 	<div class="mb-4">
-		<initiative-input-name [isUnauthorized]="!canEditName()" [name]="node?.name" (save)="saveName($event)">
+		<initiative-input-name [isUnauthorized]="!canEditName()" [isEditMode]="isEditMode" [name]="node?.name" (save)="saveName($event)">
 			<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
 		</initiative-input-name>
 	</div>
