@@ -60,7 +60,7 @@ describe("workspace.resolver.ts", () => {
         });
     });
 
-    it("resolves when all datasets and teams load", fakeAsync(inject([WorkspaceComponentResolver, DatasetFactory, TeamFactory, UserFactory], (target: WorkspaceComponentResolver, datasetFactory: DatasetFactory, teamFactory: TeamFactory, userFactory: UserFactory) => {
+    xit("resolves when all datasets and teams load", fakeAsync(inject([WorkspaceComponentResolver, DatasetFactory, TeamFactory, UserFactory], (target: WorkspaceComponentResolver, datasetFactory: DatasetFactory, teamFactory: TeamFactory, userFactory: UserFactory) => {
         let spyGetDataSet = spyOn(datasetFactory, "get").and.callFake((id: string) => {
             return Promise.resolve(new DataSet({ datasetId: id, tags: [], initiative: new Initiative({ name: `Name ${id}`, team_id: `team_${id}` }) }))
         })

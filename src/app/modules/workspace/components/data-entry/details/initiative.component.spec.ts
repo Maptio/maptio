@@ -23,6 +23,7 @@ import { SharedModule } from "../../../../../shared/shared.module";
 import { CoreModule } from "../../../../../core/core.module";
 import { DataSet } from "../../../../../shared/model/dataset.data";
 import { MarkdownService, MarkedOptions } from "ngx-markdown";
+import { Team } from "../../../../../shared/model/team.data";
 
 describe("initiative.component.ts", () => {
 
@@ -32,7 +33,7 @@ describe("initiative.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [RouterTestingModule, AnalyticsModule, SharedModule.forRoot(), WorkspaceModule, CoreModule ],
+            imports: [RouterTestingModule, AnalyticsModule, SharedModule.forRoot(), WorkspaceModule, CoreModule],
             declarations: [],
             providers: [TeamFactory, UserFactory, DatasetFactory,
                 {
@@ -77,9 +78,9 @@ describe("initiative.component.ts", () => {
         //     getAllParticipants: undefined
         // };
 
-        component.node = new Initiative({name : "ORIGINAL", description:"ORIGINAL"});
-        component.dataset = new DataSet({datasetId:"123", initiative : new Initiative({name:"initiative"})})
-
+        component.node = new Initiative({ name: "ORIGINAL", description: "ORIGINAL" });
+        component.dataset = new DataSet({ datasetId: "123", initiative: new Initiative({ name: "initiative" }) })
+        component.team = new Team({ name: "TEAM", team_id: "123" });
         target.detectChanges(); // trigger initial data binding
     });
 
