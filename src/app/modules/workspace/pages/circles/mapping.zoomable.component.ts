@@ -520,6 +520,8 @@ If upon examining all branches the map of child nodes is empty, return null
     svg
       .on("click", (): void => {
         localStorage.removeItem("node_id");
+        showToolipOf$.next({ initiatives: [root.data], isNameOnly: false });
+
         zoom(root);
         d3.getEvent().stopPropagation();
       })
