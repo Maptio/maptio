@@ -47,6 +47,8 @@ import { InitiativeHelpersSelectComponent } from './components/data-entry/detail
 import { InitiativeHelperInputComponent } from './components/data-entry/details/parts/helpers/helper-input.component';
 import { CommonTextareaComponent } from '../../shared/components/textarea/textarea.component';
 import { InitiativeHelperPrivilegeComponent } from './components/data-entry/details/parts/helpers/helper-toggle-privilege.component';
+import { InitiativeSingleTagComponent } from './components/data-entry/details/parts/tags/single-tag.component';
+import { InitiativeParticipantLabelComponent } from './components/data-entry/details/parts/common/participant-label.component';
 
 
 
@@ -74,8 +76,10 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
     declarations: [
         WorkspaceComponent,
         BuildingComponent, InitiativeNodeComponent,
+        InitiativeParticipantLabelComponent,
         InitiativeComponent,
-        InitiativeInputNameComponent, InitiativeListTagsComponent,
+        InitiativeInputNameComponent, 
+        InitiativeListTagsComponent,InitiativeSingleTagComponent,
         InitiativeAuthoritySelectComponent,
         InitiativeDescriptionTextareaComponent,
         InitiativeHelpersSelectComponent,

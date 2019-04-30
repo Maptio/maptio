@@ -41,6 +41,6 @@
 }
 
 #details.collapsible.show{
-    width:66%;
+    width:50%;
     transition:all 1s;
 }

@@ -9,11 +9,50 @@
 	</span>
 </ng-template>
 
+<button (click)="isEditMode=!isEditMode">Edit</button>
 
-<div class="d-flex flex-column h-100">
+<div class="d-flex flex-column h-100" *ngIf="!isEditMode">
+
+	<span class="font-weight-bold h5">{{node?.name}}</span>
+
+	<div class="d-flex mb-2">
+		<initiative-single-tag *ngFor="let tag of node?.tags; let i=index" class="mr-1" [tag]="tag">
+		</initiative-single-tag>
+	</div>
+
+	<!-- <div class="my-2">
+		<initiative-member-label *ngIf="node?.accountable" [member]="node?.accountable"
+			[summaryUrl]="getSummaryUrlRoot()"></initiative-member-label>
+		<button class="btn btn-link" *ngIf="!node?.accountable">Add {{team?.settings.authority}}</button>
+	</div> -->
+
+	<div class="d-flex flex-column my-3">
+		<div *ngFor="let helper of node?.getAllParticipants(); let i=index" class="d-flex flex-column mb-2">
+			<div class="d-flex align-items-center">
+				<initiative-member-label [member]="helper" [summaryUrl]="getSummaryUrlRoot()"></initiative-member-label>
+				<span *ngIf="isAuthority(helper)">({{team?.settings.authority}})</span>
+			</div>
+
+			<div class="d-flex align-items-baseline my-1">
+				<markdown class="small w-100" [class.prefixed]="helper.roles.length > 0 && !!helper.roles[0] "
+					[data]="helper.roles ? helper.roles[0]?.description : ''"></markdown>
+
+			</div>
+		</div>
+
+
+	</div>
+	<div class="my-3">
+
+		<markdown [data]="node?.description"></markdown>
+	</div>
+
+</div>
+
+
+<div class="d-flex flex-column h-100" *ngIf="isEditMode">
 	<div class="mb-4">
-		<initiative-input-name [isUnauthorized]="!canEditName()" 
-			[name]="node?.name" (save)="saveName($event)">
+		<initiative-input-name [isUnauthorized]="!canEditName()" [name]="node?.name" (save)="saveName($event)">
 			<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
 		</initiative-input-name>
 	</div>
@@ -40,7 +79,7 @@
 	</div>
 
 
-	
+
 	<div class="d-flex w-100 justify-content-end">
 		<initiative-helpers-select class="w-100" [isUnauthorized]="!canAddHelper()" [team]="team"
 			[helpers]="node?.helpers" [user]="user" [authority]="node?.accountable" (save)="addHelpers($event)">
@@ -51,11 +90,14 @@
 	<div class="">
 		<div class="my-2 bg-light p-2 rounded"
 			*ngFor="let helper of node?.getAllParticipants(); let i=index;trackBy:trackByUserId">
-			<initiative-helper-input [helper]="helper" [isUnauthorized]="!canEditHelper(helper)" [isAuthority]="isAuthority(helper)" [team]="team"
-				[summaryUrlRoot]="getSummaryUrlRoot()" (remove)="removeHelper($event)" (save)="saveHelpers()">
+			<initiative-helper-input [helper]="helper" [isUnauthorized]="!canEditHelper(helper)"
+				[isAuthority]="isAuthority(helper)" [team]="team" [summaryUrlRoot]="getSummaryUrlRoot()"
+				(remove)="removeHelper($event)" (save)="saveHelpers()">
 				<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
 			</initiative-helper-input>
-			<initiative-helper-privilege class="my-1" [isUnauthorized]="!canEditPrivilege()" [isAuthority]="isAuthority(helper)" [helper]="helper" (save)="saveHelpers()"></initiative-helper-privilege>
+			<initiative-helper-privilege class="my-1" [isUnauthorized]="!canEditPrivilege()"
+				[isAuthority]="isAuthority(helper)" [helper]="helper" (save)="saveHelpers()">
+			</initiative-helper-privilege>
 		</div>
 	</div>
 

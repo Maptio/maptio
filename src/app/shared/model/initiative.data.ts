@@ -4,7 +4,7 @@ import { Serializable } from "../interfaces/serializable.interface";
 import * as slug from "slug";
 import { Helper } from "./helper.data";
 import { Role } from "./role.data";
-import { compact, remove, flatten } from "lodash-es";
+import { compact, remove, flatten, sortBy } from "lodash-es";
 import { Tag } from "./tag.data";
 
 @Injectable()
@@ -219,7 +219,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     }
 
     getAllParticipants() {
-        return remove(flatten([...[this.accountable], this.helpers]));
+        return remove(flatten([...[this.accountable], sortBy(this.helpers, h=> h.name)]));
     }
 
 }
