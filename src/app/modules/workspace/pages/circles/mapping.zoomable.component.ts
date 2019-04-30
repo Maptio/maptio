@@ -446,7 +446,7 @@ If upon examining all branches the map of child nodes is empty, return null
         .transition().duration(TRANSITION_DURATION / 2)
         .style("opacity", function (d: any) {
           if (d === focus || d.parent === focus) return 1;
-          return 0.075;
+          return 0.15;
         })
 
       text
