@@ -7,19 +7,19 @@
 
             <ng-container>
                 <ng-container *ngIf="r.type===SearchResultType.Initiative">
-                    <div class="d-flex flex-column align-items-start w-100">
+                    <div class="d-flex flex-column align-items-start w-100 small">
                         <div class="w-100 text-truncate">
-                            <span >{{r.result.name}}</span>
+                            <span>{{r.result.name}}</span>
 
                         </div>
                         <div>
-                                <small class="flex-shrink-0" *ngIf="r.result.accountable">
-                                        <span *ngIf="r.result.accountable" class="mx-1">led by</span>
-                                        <img [src]="r.result.accountable.picture" [alt]="r.result.accountable.name"
-                                            class="rounded-circle participant-picture mr-1">{{r.result.accountable.name}}
-                                    </small>
+                            <small class="flex-shrink-0" *ngIf="r.result.accountable">
+                                <span *ngIf="r.result.accountable" class="mx-1">led by</span>
+                                <img [src]="r.result.accountable.picture" [alt]="r.result.accountable.name"
+                                    class="rounded-circle participant-picture mr-1">{{r.result.accountable.name}}
+                            </small>
                         </div>
-                        
+
                         <!-- <small class="d-flex w-100 flex-wrap" *ngIf="r.result.helpers.length>0">
                         <span *ngIf="r.result.helpers.length>0" class="">with the help of</span>
 
@@ -31,31 +31,35 @@
                     </div>
 
                 </ng-container>
-                <ng-container *ngIf="r.type===SearchResultType.User">
+                <!-- <ng-container *ngIf="r.type===SearchResultType.User">
                     <span>
                         <img [src]="r.result.picture" [alt]="r.result.name" width="30" height="30"
                             class="rounded-circle user mr-1">{{r.result.name}}
                     </span>
-                </ng-container>
+                </ng-container> -->
             </ng-container>
         </div>
     </div>
 </ng-template>
 
-<div class="card bg-transparent border-0">
+<!-- <div class="card bg-transparent border-0">
     <div class="card-body d-flex justify-content-start">
 
-        <div class="w-100 d-flex justify-content-start">
-            <input #initiativeSearch highlightClass="highlight-typeahead" [resultTemplate]="rt" type="text"
-                id="initiativeSearch" class="form-control" (selectItem)="select($event)" [ngbTypeahead]="search"
-                [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" autofocus="autofocus"
-                placement="bottom-left" placeholder="Search circles, people and description" />
-            <div class="">
-                <button class="btn btn-outline-secondary mx-1" (click)="initiativeSearch.value='';clearSearch()">Reset
-                </button>
+        <div class="w-100 d-flex justify-content-start"> -->
+            <div class="d-flex input-group input-group-sm">
+                    <input #initiativeSearch highlightClass="highlight-typeahead" [resultTemplate]="rt" type="text" id="initiativeSearch"
+                    class="form-control form-control-sm" (selectItem)="select($event)" [ngbTypeahead]="search"
+                    [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" autofocus="autofocus"
+                    placement="bottom-left" placeholder="Search circles" />
+                <div class="input-group-append">
+                    <button class="btn btn-sm btn-secondary" (click)="initiativeSearch.value='';clearSearch()">
+                        <i class="fa fa-times text-white"></i>   
+                    </button>
+                </div>
             </div>
-        </div>
+
+<!-- </div>
 
 
     </div>
-</div>
+</div> -->

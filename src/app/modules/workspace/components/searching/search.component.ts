@@ -103,8 +103,9 @@ export class SearchComponent implements OnInit {
 
                 return search === ""
                     ? []
-                    : this.addHeader(this.findUsers(search), usersHeader)
-                        .concat(this.addHeader(this.findInitiatives(search), circlesHeader)).slice(0, 10)
+                    : this.findInitiatives(search).slice(0,5)
+                    // this.addHeader(this.findUsers(search), usersHeader)
+                    //     .concat(this.addHeader(this.findInitiatives(search), circlesHeader)).slice(0, 10)
             })
             .do(list => {
                 this.searchResultsCount = list.length;

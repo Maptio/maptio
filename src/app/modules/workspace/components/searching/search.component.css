@@ -8,7 +8,8 @@
   
   ::ng-deep ngb-typeahead-window.dropdown-menu {
     position:absolute;
-    width:calc(100% - 3vw);
+    width: 100%;
+    /* width:calc(100% - 3vw); */
     max-height: 33vh;
     overflow-y: auto;
   }

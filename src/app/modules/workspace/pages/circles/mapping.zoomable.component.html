@@ -4,8 +4,22 @@
             <span>{{mission}}</span>
         </div>
         <div class="my-3">
-            <div data-toggle="collapse" class=" text-uppercase small text-muted" href="#filterByTags" role="button"
-                aria-expanded="true" aria-controls="filterByTags">
+            <div data-toggle="collapse" class="cursor-pointer text-uppercase small text-muted" href="#searchBox"
+                role="button" aria-expanded="true" aria-controls="searchBox">
+
+                <span class="toggle-collapse mr-1">
+                    <i class="fa fa-caret-right"></i>
+                </span>
+                Search
+            </div>
+            <div class="collapse show" id="searchBox">
+                <search #search [list]="flattenNodes" (selectInitiative)="onSelectCircle($event)"></search>
+            </div>
+
+        </div>
+        <div class="my-3">
+            <div data-toggle="collapse" class="cursor-pointer text-uppercase small text-muted" href="#filterByTags"
+                role="button" aria-expanded="true" aria-controls="filterByTags">
 
                 <span class="toggle-collapse mr-1">
                     <i class="fa fa-caret-right"></i>
@@ -26,8 +40,8 @@
 
         </div>
         <div class="search-terms my-3">
-            <div data-toggle="collapse" class=" text-uppercase small text-muted" href="#filterByUser" role="button"
-                aria-expanded="true" aria-controls="filterByUser">
+            <div data-toggle="collapse" class="cursor-pointer text-uppercase small text-muted" href="#filterByUser"
+                role="button" aria-expanded="true" aria-controls="filterByUser">
                 <span class="toggle-collapse mr-1">
                     <i class="fa fa-caret-right"></i>
                 </span>

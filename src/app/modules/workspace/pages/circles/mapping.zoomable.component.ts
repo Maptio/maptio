@@ -76,7 +76,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public selectableUsers$: Subject<Array<User>>;
   public isReset$: Observable<boolean>;
   public mapColor$: Observable<string>;
-  public zoomInitiative$: Observable<Initiative>;
+  public zoomInitiative$: Subject<Initiative>;
 
   public showToolipOf$: Subject<{ initiatives: Initiative[], user: User }> = new Subject<{ initiatives: Initiative[], user: User }>();
   public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }>();
@@ -102,6 +102,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public initiative: Initiative;
   public team: Team;
   public user: User;
+  public flattenNodes:Initiative[];
   public members:User[];
   public tags: SelectableTag[];
   public isNoMatchingCircles: boolean;
@@ -207,6 +208,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         document.querySelector(".map-container").innerHTML = result.svg;
         this.hydrate(result.root, result.nodes);
         this.mission = result.root.data.name;
+        this.flattenNodes = result.nodes.map((d:any) => d.data);
 
         // document.querySelector("svg") && document.querySelector("svg").classList.remove("loading");
 
@@ -254,6 +256,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
         }
       })
     )
+  }
+
+  onSelectCircle(node:Initiative){
+    this.zoomInitiative$.next(node);
   }
 
   onClearUserFilter() {
@@ -658,7 +664,7 @@ If upon examining all branches the map of child nodes is empty, return null
       svg.dispatch("click");
     }
 
-    this.zoomInitiative$.subscribe(zoomedNode => {
+    this.zoomInitiative$.asObservable().subscribe(zoomedNode => {
       if (!node) {
         svg.dispatch("click");
         return;

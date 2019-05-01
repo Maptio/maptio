@@ -198,8 +198,8 @@ export class MappingComponent {
     component.zoom$ = this.zoom$.asObservable();
     component.selectableTags$ = this.selectableTags$;
     component.selectableUsers$ = this.selectableUsers$;
+    component.zoomInitiative$ = this.zoomToInitiative$;
     component.mapColor$ = this.mapColor$.asObservable();
-    component.zoomInitiative$ = this.zoomToInitiative$.asObservable();
     component.translateX = this.x;
     component.translateY = this.y;
     component.scale = this.scale;
