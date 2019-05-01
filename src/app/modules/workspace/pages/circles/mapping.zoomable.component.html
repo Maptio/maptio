@@ -50,10 +50,16 @@
 
 
 
-            <span *ngIf="isNoMatchingCircles">No macthing circles</span>
+
         </div>
     </div>
 </div>
-<div class="map-container">
+<div *ngIf="isNoMatchingCircles" class="position-absolute center-center w-100 d-flex justify-content-center">
+    <span class=" h4 text-muted  text-center">
+        No
+        circles</span>
+
+</div>
+<div *ngIf="!isNoMatchingCircles" class="map-container">
 
 </div>

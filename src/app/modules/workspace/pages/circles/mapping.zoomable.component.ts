@@ -270,6 +270,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   onSelectingUser(user: User) {
     this.selectableUsers$.next([user]);
+    this.showToolipOf$.next({ initiatives: null, user: user });
   }
 
   onSelectTag(tags: SelectableTag[]) {
