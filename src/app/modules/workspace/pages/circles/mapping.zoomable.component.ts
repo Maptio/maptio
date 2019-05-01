@@ -18,7 +18,7 @@ import {
   isDevMode,
   ElementRef
 } from "@angular/core";
-import { partition, cloneDeep, intersectionBy, isEmpty, compact } from "lodash-es";
+import { partition, cloneDeep, intersectionBy, isEmpty, compact, orderBy } from "lodash-es";
 import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { Team } from "../../../../shared/model/team.data";
 import * as screenfull from 'screenfull';
@@ -72,7 +72,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   public margin: number;
   public zoom$: Observable<number>;
-  public selectableTags$: Observable<Array<Tag>>;
+  public selectableTags$: Subject<Array<Tag>>;
   public selectableUsers$: Subject<Array<User>>;
   public isReset$: Observable<boolean>;
   public mapColor$: Observable<string>;
@@ -101,12 +101,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   public initiative: Initiative;
   public team: Team;
+  public user: User;
+  public members:User[];
+  public tags: SelectableTag[];
   public isNoMatchingCircles: boolean;
   public mission: string;
 
 
   private _lastZoomedCircle: any;
-  private _filteringUser:User;
+  private _filteringUser: User;
   public isShowMission: boolean;
 
   TRANSITION_DURATION = 500;
@@ -140,19 +143,19 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.isShowMission = v;
     this.cd.markForCheck();
   }
-  
-  
-  public get filteringUser() : User {
+
+
+  public get filteringUser(): User {
     return this._filteringUser;
   }
 
-  
-  public set filteringUser(v : User) {
+
+  public set filteringUser(v: User) {
     this._filteringUser = v;
   }
-  
 
-  
+
+
 
 
 
@@ -172,9 +175,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .map(data => {
         this.initiative = data.initiative.children[0];
         this.team = data.team;
+        this.members =  orderBy(data.members, m=> m.name, "asc");
+        this.tags = orderBy(
+          data.dataset.tags.map((t: Tag) => { (<SelectableTag>t).isSelected = false; return t }),
+          t => t.name.length,
+          "desc");
+        this.user = data.user;
         return data.dataset;
       })
-      .combineLatest(this.mapColor$, this.selectableTags$, this.selectableUsers$.asObservable())
+      .combineLatest(this.mapColor$, this.selectableTags$.asObservable(), this.selectableUsers$.asObservable())
       .flatMap((data: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
         // document.querySelector("svg") && document.querySelector("svg").classList.add("loading");
         this.filteringUser = data[3][0];
@@ -190,8 +199,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
         } else {
           return this.draw(filtered, data[1], this.height, this.width)
         }
-   
-        
+
+
       })
       .subscribe((result: { svg: string, root: any, nodes: any }) => {
 
@@ -247,13 +256,31 @@ export class MappingZoomableComponent implements IDataVisualizer {
     )
   }
 
-  clearUserFilter(){
+  onClearUserFilter() {
     this.selectableUsers$.next([]);
   }
 
+  filterMembers = (term: string) => {
+    return term.length < 1
+      ? this.members
+      : this.members
+        .filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email))
+  }
+
+
+  onSelectingUser(user: User) {
+    this.selectableUsers$.next([user]);
+  }
+
+  onSelectTag(tags: SelectableTag[]) {
+    console.log(tags, tags.filter(t => t.isSelected))
+    this.selectableTags$.next(tags.filter(t => t.isSelected))
+  }
+
   filterByTags(initiative: Initiative, tags: Tag[], users: User[]): Initiative {
+
     console.log("filter", tags, users)
-  
+
     /*
     Observe that the task has a recursive structure: applying it to any branch of a tree does to the branch the same thing that you want to do to the entire tree
 A branch could be either pruned, or removed entirely
@@ -267,7 +294,7 @@ If upon examining all branches the map of child nodes is empty, return null
 */
     // const selectedTags = tags.filter(t => !!t.isSelected);
     // const selectedUsers = users.filter(u => !!u.isSelected);
-    if (isEmpty(tags.length) && isEmpty(users)) return initiative;
+    if (isEmpty(tags) && isEmpty(users)) return initiative;
 
     let clone = cloneDeep(initiative);
     const isMatchingTags = (node: Initiative): boolean => {
@@ -386,7 +413,7 @@ If upon examining all branches the map of child nodes is empty, return null
     })
 
 
-    svg.style("padding-left", `calc(50% - ${this.height / 2}px)`);
+    svg.style("padding-left", `calc(55% - ${this.height / 2}px)`);
 
     const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 10.5;
     const zooming = d3
@@ -445,7 +472,6 @@ If upon examining all branches the map of child nodes is empty, return null
     }
 
     function initMapElementsAtPosition(v: any) {
-      // debugger
       // console.log(v)
       view = v;
       node

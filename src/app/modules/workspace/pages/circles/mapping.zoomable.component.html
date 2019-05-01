@@ -1,20 +1,59 @@
 <div class="top-left-corner d-flex flex-column position-absolute col-3">
-        <div class="position-relative" [style.top.px]="margin">
-            <div *ngIf="isShowMission" class="d-flex flex-column mission text-bold">
-                <span style="font-size:small" class="text-uppercase text-gray">{{team.name}}</span>
-                <span>{{mission}}</span>
-            </div>
-            <div *ngIf="filteringUser" class="search-terms">
-                <div>
-                        {{filteringUser?.name}}
-<button class="btn btn-secondary btn-small" (click)="clearUserFilter()">x</button>
-                </div>
-               
+    <div class="position-relative" [style.top.px]="margin">
+        <div *ngIf="isShowMission" class="d-flex flex-column mission text-bold">
+            <!-- <span style="font-size:small" class="text-uppercase text-gray">{{team.name}}</span> -->
+            <span>{{mission}}</span>
+        </div>
+        <div class="my-3">
+            <span class="text-uppercase small text-muted">Filter by tags</span>
+            <div *ngFor="let tag of tags" class="my-1">
 
-                <span *ngIf="isNoMatchingCircles">No macthing circles</span>
+                <input class="mr-1" type="checkbox" name="" id="" [value]="tag.isSelected" [checked]="tag.isSelected"
+                    (change)="$event.target.checked ? tag.isSelected = true : tag.isSelected = false; onSelectTag(tags)">
+
+                <initiative-single-tag [tag]="tag">
+                </initiative-single-tag>
             </div>
         </div>
+        <div class="search-terms my-3">
+            <span class="text-uppercase small text-muted">Filter by user</span>
+            <div class="my-1">
+                <div *ngIf="filteringUser" class="d-flex align-items-center">
+                    <initiative-member-label [member]="filteringUser">
+                    </initiative-member-label>
+                    <button class="btn btn-sm" (click)="onClearUserFilter()">
+                        <i class="fa fa-times text-muted"></i>
+                    </button>
+                </div>
+                <div *ngIf="!filteringUser">
+                    <div class="dropdown">
+                        <button class="pl-0 btn btn-sm btn-link  dropdown-toggle" id="usersListDropdown"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Select a person
+                        </button>
+                        <div class="dropdown-menu overflow-y" style="max-height:12rem"
+                            aria-labelledby="usersListDropdown">
+                            <h6 class="dropdown-header">My circles</h6>
+                            <initiative-member-label class="dropdown-item" (click)="onSelectingUser(user)"
+                                [member]="user"></initiative-member-label>
+                            <h6 class="dropdown-header">Other people</h6>
+                            <ng-container *ngFor="let member of members">
+                                <initiative-member-label class="dropdown-item" (click)="onSelectingUser(member)"
+                                    [member]="member"></initiative-member-label>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <span *ngIf="isNoMatchingCircles">No macthing circles</span>
+        </div>
     </div>
+</div>
 <div class="map-container">
 
 </div>

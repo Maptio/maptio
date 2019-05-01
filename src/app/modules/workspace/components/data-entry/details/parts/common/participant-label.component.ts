@@ -9,7 +9,7 @@ import { User } from '../../../../../../../shared/model/user.data';
 export class InitiativeParticipantLabelComponent implements OnInit {
 
     @Input("member") member: User;
-    @Input("summaryUrl") summaryUrl: string;
+    @Input("summaryUrl") summaryUrl?: string;
 
     constructor() { }
 

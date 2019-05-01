@@ -81,7 +81,7 @@
                         </div>
                     </ng-container>
                     <ng-container *ngIf="!isLoading">
-                        <mapping [tags]="selectableTags" [isEmptyMap]="isEmptyMap" (openDetails)="onOpenDetails($event)"
+                        <mapping  [isEmptyMap]="isEmptyMap" (openDetails)="onOpenDetails($event)"
                             (openUserSummary)="onOpenUserSummary($event)" (addInitiative)="addInitiative($event)"
                             (removeInitiative)="removeInitiative($event)" (openTreePanel)="openBuildingPanel()"
                             (expandTree)="buildingComponent.toggleAll(true)"

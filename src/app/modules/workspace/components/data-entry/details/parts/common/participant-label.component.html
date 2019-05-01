@@ -1,4 +1,16 @@
-<a class="d-flex align-items-center" [routerLink]="summaryUrl" [queryParams]="{member: member.shortid}">
-    <img src="{{member.picture}}" class="rounded-circle participant-picture" />
-    <span class="mx-1">{{member.name}}</span>
+<ng-template #memberLabel>
+        <img src="{{member?.picture}}" class="rounded-circle participant-picture" />
+        <span class="mx-1">{{member.name}}</span>
+</ng-template>
+
+
+
+<a *ngIf="summaryUrl" class="d-flex align-items-center" [routerLink]="summaryUrl"
+    [queryParams]="{member: member.shortid}">
+    <ng-container *ngTemplateOutlet="memberLabel"></ng-container>
+   
 </a>
+<span *ngIf="!summaryUrl" class="d-flex align-items-center" >
+        <ng-container *ngTemplateOutlet="memberLabel"></ng-container>
+   
+</span>

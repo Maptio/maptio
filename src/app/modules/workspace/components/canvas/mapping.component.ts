@@ -104,8 +104,6 @@ export class MappingComponent {
   isFiltersToggled: boolean = false;
   isSearchDisabled: boolean = false;
 
-
-  @Input("tags") selectableTags: Array<SelectableTag>;
   @Input("isEmptyMap") isEmptyMap: Boolean;
 
   @Output("openDetails") openDetails = new EventEmitter<Initiative>();
@@ -198,7 +196,7 @@ export class MappingComponent {
 
     component.margin = 20;
     component.zoom$ = this.zoom$.asObservable();
-    component.selectableTags$ = this.selectableTags$.asObservable();
+    component.selectableTags$ = this.selectableTags$;
     component.selectableUsers$ = this.selectableUsers$;
     component.mapColor$ = this.mapColor$.asObservable();
     component.zoomInitiative$ = this.zoomToInitiative$.asObservable();
