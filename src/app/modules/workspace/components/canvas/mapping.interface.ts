@@ -27,8 +27,7 @@ export interface IDataVisualizer {
     translateY: number;
     scale: number;
 
-    showDetailsOf$: Subject<Initiative>;
-    showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }>;
+    showToolipOf$: Subject<{ initiatives: Initiative[], user: User }>;
     showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }>;
 
     analytics: Angulartics2Mixpanel;

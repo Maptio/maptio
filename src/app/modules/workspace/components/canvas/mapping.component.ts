@@ -109,6 +109,7 @@ export class MappingComponent {
   @Input("isEmptyMap") isEmptyMap: Boolean;
 
   @Output("openDetails") openDetails = new EventEmitter<Initiative>();
+  @Output("openUserSummary") openUserSummary = new EventEmitter<User>();
 
   @Output("addInitiative") addInitiative = new EventEmitter<{ node: Initiative, subNode: Initiative }>();
   @Output("removeInitiative") removeInitiative = new EventEmitter<Initiative>();
@@ -176,12 +177,9 @@ export class MappingComponent {
     this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
     this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
 
-    component.showToolipOf$.asObservable().subscribe((tooltip: { initiatives: Initiative[], isNameOnly: boolean }) => {
+    component.showToolipOf$.asObservable().subscribe((tooltip: { initiatives: Initiative[], user:User}) => {
       if(tooltip.initiatives) this.openDetails.emit(tooltip.initiatives[0]);
-    })
-
-    component.showDetailsOf$.asObservable().subscribe(node => {
-      this.openDetails.emit(node);
+      if(tooltip.user) this.openUserSummary.emit(tooltip.user);
     })
 
     component.showContextMenuOf$.asObservable().subscribe(node => {
@@ -195,25 +193,13 @@ export class MappingComponent {
       this.uriService.parseFragment(f).get("scale")
     );
 
-    let tagsState =
-      this.uriService.parseFragment(f).has("tags") &&
-        this.uriService.parseFragment(f).get("tags")
-        ? this.uriService
-          .parseFragment(f)
-          .get("tags")
-          .split(",")
-          .map(
-            (s: string) => new SelectableTag({ shortid: s, isSelected: true })
-          )
-        : [];
-
     component.width = this.VIEWPORT_WIDTH;
     component.height = this.VIEWPORT_HEIGHT;
 
     component.margin = 20;
     component.zoom$ = this.zoom$.asObservable();
     component.selectableTags$ = this.selectableTags$.asObservable();
-    component.selectableUsers$ = this.selectableUsers$.asObservable();
+    component.selectableUsers$ = this.selectableUsers$;
     component.mapColor$ = this.mapColor$.asObservable();
     component.zoomInitiative$ = this.zoomToInitiative$.asObservable();
     component.translateX = this.x;
@@ -269,7 +255,7 @@ export class MappingComponent {
     this.subscription = this.route.params
       .do((params: Params) => {
         if (this.datasetId !== params["mapid"]) {
-          this.showTooltip(null, null);
+          this.showTooltip(null);
           this.showContextMenu({ initiatives: null, x: 0, y: 0, isReadOnlyContextMenu: null })
 
         }
@@ -375,7 +361,7 @@ export class MappingComponent {
     this.cd.markForCheck();
   }
 
-  showTooltip(nodes: Initiative[], isNameOnly: boolean) {
+  showTooltip(nodes: Initiative[]) {
     if (nodes) this.emitOpenInitiative(nodes[0]);
     // this.hoveredInitiatives = nodes;
     // this.isNameOnly = isNameOnly;
@@ -477,7 +463,7 @@ export class MappingComponent {
   goToUserSummary(selected: User) {
     this.isSearchToggled = true;
     this.isSearchDisabled = true;
-    this.showTooltip(null, null);
+    this.showTooltip(null);
     this.cd.markForCheck();
     this.router.navigateByUrl(`/map/${this.datasetId}/${this.slug}/directory?member=${selected.shortid}`);
 

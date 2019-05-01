@@ -54,6 +54,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public canvasHeight: number
 
     public openedNode: Initiative;
+    public openedUser: User;
     public openedNodeParent: Initiative;
     public openedNodeTeamId: string;
     public openEditTag$: Subject<void> = new Subject<void>();
@@ -172,6 +173,14 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     onOpenDetails(node: Initiative) {
         this.openedNode = node;
+        this.openedUser = null;
+        if (this.isDetailsPanelCollapsed) this.openDetailsPanel();
+        this.cd.markForCheck();
+    }
+
+    onOpenUserSummary(user: User) {
+        this.openedUser = user;
+        this.openedNode = null;
         if (this.isDetailsPanelCollapsed) this.openDetailsPanel();
         this.cd.markForCheck();
     }

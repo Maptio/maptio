@@ -180,7 +180,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
 
         const getImageTag = (name:string, picture: any, shortid:any) => {
             return picture ?
-                `<span  class="member-picture" data-member-name="${name}" data-member-shortid="${shortid}">
+                `<span id="${d.data.id}"  class="member-picture" data-member-name="${name}" data-member-shortid="${shortid}">
                     <img class="rounded-circle"  src="${picture}" style="float:left;height:${!!picture ? fontSize * 2 : 0}px;width:${!!picture ? fontSize * 2 : 0}px" />
                 </span>
                     `

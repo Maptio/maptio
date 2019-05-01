@@ -48,6 +48,7 @@ export class InitiativeComponent implements OnChanges {
     public dataset$: Promise<DataSet>
     public authority: string;
     public helper: string;
+    public isSaving:boolean;
 
     isRestrictedAddHelper: boolean;
     hideme: Array<boolean> = [];
@@ -88,8 +89,12 @@ export class InitiativeComponent implements OnChanges {
     }
 
     onBlur() {
-
+        this.isSaving = true;
+        this.cd.markForCheck();
         this.edited.emit(true);
+        this.isSaving = false;
+        this.cd.markForCheck();
+
     }
 
     canEditName() {

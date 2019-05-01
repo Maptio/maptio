@@ -109,9 +109,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     isReadOnlyContextMenu: boolean
   }>();
 
-  public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
-  public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
+  public showToolipOf$: Subject<{ initiatives: Initiative[], user: User }> = new Subject<{ initiatives: Initiative[], user: User }>();
 
   public _isDisplayOptions: Boolean = false;
 
@@ -351,7 +350,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let authorityLabel = this.authorityLabel;
     let router = this.router;
     let userFactory = this.userFactory;
-    let showDetailsOf$ = this.showDetailsOf$;
     let showContextMenuOf$ = this.showContextMenuOf$;
     let showToolipOf$ = this.showToolipOf$;
     let g = this.g;
@@ -484,7 +482,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         }
         updateGraph(d, TRANSITION_DURATION);
         centerNode(d);
-        if(d !== root) showToolipOf$.next({ initiatives: [d.data], isNameOnly: false })
+        if(d !== root) showToolipOf$.next({ initiatives: [d.data], user: null })
       }
 
 

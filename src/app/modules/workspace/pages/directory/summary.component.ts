@@ -91,7 +91,6 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
                     return this.userFactory.get(data[1].member)
                         .then(user => this.userService.getUsersInfo([user]))
                         .then((users: User[]) => {
-                            console.log(users)
                             this.selectedMember = users[0];
                             this.cd.markForCheck();
                             return data[0];

@@ -99,8 +99,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public hideOptions$: Subject<boolean> = new Subject<boolean>();
   public isOptionsVisible: boolean;
 
-  public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
-  public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
+  public showToolipOf$: Subject<{ initiatives: Initiative[], user: User }> = new Subject<{ initiatives: Initiative[], user:User }>();
   public analytics: Angulartics2Mixpanel;
 
   private zoomSubscription: Subscription;
@@ -544,7 +543,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let height = this.height;
     let bilinks: Array<any> = [];
     let uiService = this.uiService;
-    let showDetailsOf$ = this.showDetailsOf$;
     let showToolipOf$ = this.showToolipOf$;
     let showContextMenuOf$ = this.showContextMenuOf$;
     let datasetSlug = this.slug;

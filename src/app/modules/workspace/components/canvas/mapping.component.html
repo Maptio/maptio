@@ -88,12 +88,12 @@
                 <i class="fa fa-plus py-1"></i>
                 <span class="icon-text-label">Zoom in</span>
               </button>
-              <button
+              <!-- <button
                 class="btn btn-light toolbar text-dark p-1 d-flex flex-column justify-content-between  align-items-center"
                 [class.disabled]="isMapSettingsDisabled" (click)="resetZoom()">
                 <i class="fa fa-expand-arrows-alt py-1"></i>
                 <span class="icon-text-label">Zoom fit</span>
-              </button>
+              </button> -->
               <button *ngIf="false"
                 class="btn btn-light toolbar text-dark p-1 d-flex flex-column justify-content-between align-items-center"
                 (click)="fullScreen()">
@@ -133,9 +133,9 @@
         (selectUser)="goToUserSummary($event)"></search>
     </div>
     <div closable id="collapseFilter" class="collapse rounded mb-3 col-12 bg-light p-3">
-      <button *ngFor="let member of members" (click)="broadcastUsersSelection(member)">{{member.name}}</button>
-     
-      <button (click)="resetBroadcastUsersSelection()">Reset users search</button>
+      <!-- <button *ngFor="let member of members" (click)="broadcastUsersSelection(member)">{{member.name}}</button>
+     -->
+      <!-- <button (click)="resetBroadcastUsersSelection()">Reset users search</button>  -->
       <filter-tags [team]="team" [tags]="tags" (changeTagsSelection)="broadcastTagsSelection($event)"></filter-tags>
     </div>
     <div closable id="collapseSlack" class="collapse rounded mb-3 col-12 bg-light p-3">

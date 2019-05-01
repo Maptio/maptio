@@ -73,13 +73,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public margin: number;
   public zoom$: Observable<number>;
   public selectableTags$: Observable<Array<Tag>>;
-  public selectableUsers$: Observable<Array<User>>;
+  public selectableUsers$: Subject<Array<User>>;
   public isReset$: Observable<boolean>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
 
-  public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
-  public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
+  public showToolipOf$: Subject<{ initiatives: Initiative[], user: User }> = new Subject<{ initiatives: Initiative[], user: User }>();
   public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }>();
 
   private zoomSubscription: Subscription;
@@ -101,12 +100,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public hoveredNode: Initiative;
 
   public initiative: Initiative;
-  public team:Team;
+  public team: Team;
   public isNoMatchingCircles: boolean;
   public mission: string;
 
 
   private _lastZoomedCircle: any;
+  private _filteringUser:User;
   public isShowMission: boolean;
 
   TRANSITION_DURATION = 500;
@@ -140,6 +140,19 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.isShowMission = v;
     this.cd.markForCheck();
   }
+  
+  
+  public get filteringUser() : User {
+    return this._filteringUser;
+  }
+
+  
+  public set filteringUser(v : User) {
+    this._filteringUser = v;
+  }
+  
+
+  
 
 
 
@@ -161,20 +174,24 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.team = data.team;
         return data.dataset;
       })
-      .combineLatest(this.mapColor$, this.selectableTags$, this.selectableUsers$)
+      .combineLatest(this.mapColor$, this.selectableTags$, this.selectableUsers$.asObservable())
       .flatMap((data: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
-        document.querySelector("svg") && document.querySelector("svg").classList.add("loading");
+        // document.querySelector("svg") && document.querySelector("svg").classList.add("loading");
+        this.filteringUser = data[3][0];
+        this.cd.markForCheck();
 
         let filtered = this.filterByTags(data[0].initiative.children[0], data[2], data[3]);
         if (!filtered) {
 
-          document.querySelector(".map-container").innerHTML = "";
+          // document.querySelector(".map-container").innerHTML = "";
           this.isNoMatchingCircles = true;
           this.cd.markForCheck();
           // return this.draw(data[0].initiative.children[0], data[1], this.height, this.width)
         } else {
           return this.draw(filtered, data[1], this.height, this.width)
         }
+   
+        
       })
       .subscribe((result: { svg: string, root: any, nodes: any }) => {
 
@@ -182,7 +199,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.hydrate(result.root, result.nodes);
         this.mission = result.root.data.name;
 
-        document.querySelector("svg") && document.querySelector("svg").classList.remove("loading");
+        // document.querySelector("svg") && document.querySelector("svg").classList.remove("loading");
 
         this.loaderService.hide();
 
@@ -230,8 +247,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
     )
   }
 
-  filterByTags(initiative: Initiative, tags: Tag[], users: User[]): Initiative {
+  clearUserFilter(){
+    this.selectableUsers$.next([]);
+  }
 
+  filterByTags(initiative: Initiative, tags: Tag[], users: User[]): Initiative {
+    console.log("filter", tags, users)
+  
     /*
     Observe that the task has a recursive structure: applying it to any branch of a tree does to the branch the same thing that you want to do to the entire tree
 A branch could be either pruned, or removed entirely
@@ -321,6 +343,7 @@ If upon examining all branches the map of child nodes is empty, return null
     const TRANSITION_DURATION = this.TRANSITION_DURATION;
     const showToolipOf$ = this.showToolipOf$;
     const showContextMenuOf$ = this.showContextMenuOf$;
+    const selectableUsers$ = this.selectableUsers$;
     const uiService = this.uiService;
     const router: Router = this.router;
     const route: ActivatedRoute = this.route;
@@ -330,28 +353,38 @@ If upon examining all branches the map of child nodes is empty, return null
     const node = g.selectAll("g.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });
     const circle = g.selectAll("circle.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
     const text = g.selectAll("foreignObject.name").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
+    // const memberImages = g.selectAll("foreignObject.name span.member-picture").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
 
     d3.select("body").select("div.member-tooltip").remove();
     let tooltip = d3.select("body").append("div");
     tooltip.attr("class", "member-tooltip").style("opacity", 0);
 
-    text.selectAll("span.member-picture")
-      .on("click", (d: any, index: number, elements: Array<HTMLElement>) => {
-        let shortId = elements[index].getAttribute("data-member-shortid");
-        router.navigate(["../directory"], { relativeTo: route, queryParams: { member: shortId } });
-        d3.getEvent().stopPropagation();
-      })
-      .on("mouseover", (d: any, index: number, elements: Array<HTMLElement>) => {
-        let name = elements[index].getAttribute("data-member-name");
-        tooltip.text(name);
-        tooltip.style("opacity", 1).style("left", (d3.getEvent().pageX) + "px")
-          .style("top", (d3.getEvent().pageY - 28) + "px");;
-      })
-      .on("mouseout", (d: any, index: number, elements: Array<HTMLElement>) => {
-        let name = elements[index].getAttribute("data-member-name");
-        tooltip.text(name);
-        tooltip.style("opacity", 0);
-      })
+    text.each(function (dtext: any) {
+      d3.select(this).selectAll("span.member-picture")
+        .on("click", (d: any, index: number, elements: Array<HTMLElement>) => {
+          let shortId = elements[index].getAttribute("data-member-shortid");
+          let user = (<Initiative>dtext.data).getAllParticipants().filter(u => u.shortid === shortId)[0];
+          selectableUsers$.next([user]);
+          showToolipOf$.next({ initiatives: null, user: user });
+          localStorage.removeItem("node_id");
+          localStorage.setItem("user_id", user.shortid);
+
+          // router.navigate(["../directory"], { relativeTo: route, queryParams: { member: shortId } });
+          d3.getEvent().stopPropagation();
+        })
+        .on("mouseover", (d: any, index: number, elements: Array<HTMLElement>) => {
+          let name = elements[index].getAttribute("data-member-name");
+          tooltip.text(name);
+          tooltip.style("opacity", 1).style("left", (d3.getEvent().pageX) + "px")
+            .style("top", (d3.getEvent().pageY - 28) + "px");;
+        })
+        .on("mouseout", (d: any, index: number, elements: Array<HTMLElement>) => {
+          let name = elements[index].getAttribute("data-member-name");
+          tooltip.text(name);
+          tooltip.style("opacity", 0);
+        })
+    })
+
 
     svg.style("padding-left", `calc(50% - ${this.height / 2}px)`);
 
@@ -493,7 +526,8 @@ If upon examining all branches the map of child nodes is empty, return null
 
     circle
       .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
-        showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
+        showToolipOf$.next({ initiatives: [d.data], user: null });
+        localStorage.removeItem("user_id");
 
         node.classed("highlighted", false);
         if (lastZoomCircle.data.id === d.data.id) { //zoom out
@@ -563,9 +597,12 @@ If upon examining all branches the map of child nodes is empty, return null
     svg
       .on("click", (): void => {
         localStorage.removeItem("node_id");
-        showToolipOf$.next({ initiatives: [root.data], isNameOnly: false });
 
+        if (!localStorage.getItem("user_id")) {
+          showToolipOf$.next({ initiatives: [root.data], user: null });
+        }
         zoom(root);
+
         setIsShowMission(true);
         d3.getEvent().stopPropagation();
       })
@@ -589,7 +626,9 @@ If upon examining all branches the map of child nodes is empty, return null
       if (lastZoomCircle.data.id.toString() === id.toString()) return;
       svg.select(`circle.node[id="${id}"]`).dispatch("click");
     } else {
-      svg.dispatch("click")
+
+
+      svg.dispatch("click");
     }
 
     this.zoomInitiative$.subscribe(zoomedNode => {
@@ -613,7 +652,7 @@ If upon examining all branches the map of child nodes is empty, return null
 
       node.classed("highlighted", false);
       svg.select(`g.node[id="${zoomedId}"]`).classed("highlighted", true);
-      showToolipOf$.next({ initiatives: [zoomedNode], isNameOnly: false });
+      showToolipOf$.next({ initiatives: [zoomedNode], user: null });
 
 
     })

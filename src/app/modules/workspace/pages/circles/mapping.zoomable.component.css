@@ -1,8 +1,7 @@
 
- .mission{
+ .top-left-corner{
      left: 5%;
      z-index:1;
-     font-size: larger;
  }
  
  ::ng-deep g.node{
@@ -29,7 +28,7 @@
 }
 
 ::ng-deep g.node:hover foreignObject.name, ::ng-deep g.node.highlighted foreignObject.name{
-    transform: scale(.8);
+    transform: scale(.95);
     transition:all 250ms;
 }
 
@@ -43,7 +42,8 @@
     opacity:1;
     display:flex!important;
     transition:all 250ms;
-    margin-top: 10%;
+    padding-top: 10%;
+    pointer-events: visible;
 }
 
 

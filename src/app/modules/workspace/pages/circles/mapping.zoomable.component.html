@@ -1,12 +1,20 @@
-<!-- <svg id="map"></svg> -->
-<div class="w-100 d-flex justify-content-center row">
+<div class="top-left-corner d-flex flex-column position-absolute col-3">
+        <div class="position-relative" [style.top.px]="margin">
+            <div *ngIf="isShowMission" class="d-flex flex-column mission text-bold">
+                <span style="font-size:small" class="text-uppercase text-gray">{{team.name}}</span>
+                <span>{{mission}}</span>
+            </div>
+            <div *ngIf="filteringUser" class="search-terms">
+                <div>
+                        {{filteringUser?.name}}
+<button class="btn btn-secondary btn-small" (click)="clearUserFilter()">x</button>
+                </div>
+               
 
-    <span *ngIf="isNoMatchingCircles">No macthing circles</span>
-    <div [style.top.px]="margin" *ngIf="isShowMission" class="d-flex flex-column mission position-absolute col-3 text-bold">
-        <span style="font-size:small" class="text-uppercase text-gray">{{team.name}}</span>
-        <span>{{mission}}</span>
+                <span *ngIf="isNoMatchingCircles">No macthing circles</span>
+            </div>
+        </div>
     </div>
-</div>
 <div class="map-container">
 
 </div>
