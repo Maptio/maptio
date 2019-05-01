@@ -206,6 +206,12 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     }
 
+    closeAllPanels(){
+        this.isDetailsPanelCollapsed = true;
+        this.isBuildingPanelCollapsed = true;
+        this.cd.markForCheck();
+    }
+
     closeDetailsPanel() {
         this.isDetailsPanelCollapsed = true;
         // this.resizeMap();

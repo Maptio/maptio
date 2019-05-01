@@ -84,7 +84,7 @@
                         <mapping  [isEmptyMap]="isEmptyMap" (openDetails)="onOpenDetails($event)"
                             (openUserSummary)="onOpenUserSummary($event)" (addInitiative)="addInitiative($event)"
                             (removeInitiative)="removeInitiative($event)" (openTreePanel)="openBuildingPanel()"
-                            (expandTree)="buildingComponent.toggleAll(true)"
+                            (expandTree)="buildingComponent.toggleAll(true)" (hideAllPanels)="closeAllPanels()"
                             (toggleEditingPanelsVisibility)="toggleEditingPanelsVisibility($event)">
                         </mapping>
                     </ng-container>

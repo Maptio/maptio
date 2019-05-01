@@ -117,9 +117,8 @@ export class MappingComponent {
 
   @Output("openTreePanel") openTreePanel = new EventEmitter<boolean>();
   @Output("expandTree") expandTree = new EventEmitter<boolean>();
-  @Output("toggleSettingsPanel") toggleSettingsPanel = new EventEmitter<boolean>();
   @Output("toggleEditingPanelsVisibility") toggleEditingPanelsVisibility = new EventEmitter<Boolean>();
-
+  @Output("hideAllPanels") hideAllPanels = new EventEmitter<void>();
 
   constructor(
     private dataService: DataService,
@@ -182,6 +181,10 @@ export class MappingComponent {
 
     component.showContextMenuOf$.asObservable().subscribe(node => {
       this.showContextMenu(node);
+    })
+
+    component.toggleDetailsPanel$.filter(o => !o).subscribe(()=>{
+      this.hideAllPanels.emit();
     })
 
     let f = this.route.snapshot.fragment ; //|| this.getFragment(component);

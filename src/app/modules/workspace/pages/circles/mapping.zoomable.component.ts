@@ -80,6 +80,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   public showToolipOf$: Subject<{ initiatives: Initiative[], user: User }> = new Subject<{ initiatives: Initiative[], user: User }>();
   public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }>();
+  public toggleDetailsPanel$:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   private zoomSubscription: Subscription;
   private dataSubscription: Subscription;
@@ -379,6 +380,7 @@ If upon examining all branches the map of child nodes is empty, return null
     const TRANSITION_DURATION = this.TRANSITION_DURATION;
     const showToolipOf$ = this.showToolipOf$;
     const showContextMenuOf$ = this.showContextMenuOf$;
+    const toggleDetailsPanel$ = this.toggleDetailsPanel$;
     const selectableUsers$ = this.selectableUsers$;
     const uiService = this.uiService;
     const router: Router = this.router;
@@ -633,10 +635,10 @@ If upon examining all branches the map of child nodes is empty, return null
     svg
       .on("click", (): void => {
         localStorage.removeItem("node_id");
-
-        if (!localStorage.getItem("user_id")) {
-          showToolipOf$.next({ initiatives: [root.data], user: null });
-        }
+        toggleDetailsPanel$.next(false);
+        // if (!localStorage.getItem("user_id")) {
+        //   showToolipOf$.next({ initiatives: [root.data], user: null });
+        // }
         zoom(root);
 
         setIsShowMission(true);
