@@ -402,6 +402,7 @@ If upon examining all branches the map of child nodes is empty, return null
           let user = (<Initiative>dtext.data).getAllParticipants().filter(u => u.shortid === shortId)[0];
           selectableUsers$.next([user]);
           showToolipOf$.next({ initiatives: null, user: user });
+          document.querySelector("#controls-box").classList.add("show");
           localStorage.removeItem("node_id");
           localStorage.setItem("user_id", user.shortid);
 

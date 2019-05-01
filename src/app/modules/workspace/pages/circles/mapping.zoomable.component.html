@@ -8,8 +8,8 @@
 
         </div>
         <div class="my-1">
-            <div data-toggle="collapse" class="cursor-pointer  small text-muted" href="#controlsBox"
-                role="button" aria-expanded="false" aria-controls="controlsBox">
+            <div data-toggle="collapse" class="cursor-pointer  small text-muted" href="#controls-box"
+                role="button" aria-expanded="false" aria-controls="controls-box">
                 
                 <span class="toggle-collapse mr-1">
                     <i class="fa fa-caret-right"></i>
@@ -18,30 +18,7 @@
             </div>
 
 
-            <div class="collapse" id="controlsBox">
-
-                <div class="my-3">
-                    <div data-toggle="collapse" class="cursor-pointer text-uppercase small text-muted"
-                        href="#filterByTags" role="button" aria-expanded="true" aria-controls="filterByTags">
-
-                        <!-- <span class="toggle-collapse mr-1">
-                            <i class="fa fa-caret-right"></i>
-                        </span> -->
-                        Filter by tags
-                    </div>
-                    <div class="" id="filterByTags">
-                        <div *ngFor="let tag of tags" class="my-1 ">
-
-                            <input class="mr-1" type="checkbox" name="" id="" [value]="tag.isSelected"
-                                [checked]="tag.isSelected"
-                                (change)="$event.target.checked ? tag.isSelected = true : tag.isSelected = false; onSelectTag(tags)">
-
-                            <initiative-single-tag [tag]="tag">
-                            </initiative-single-tag>
-                        </div>
-                    </div>
-
-                </div>
+            <div class="collapse" id="controls-box">
                 <div class="search-terms my-3">
                     <div data-toggle="collapse" class="cursor-pointer text-uppercase small text-muted"
                         href="#filterByUser" role="button" aria-expanded="true" aria-controls="filterByUser">
@@ -86,6 +63,29 @@
 
 
                 </div>
+                <div class="my-3">
+                    <div data-toggle="collapse" class="cursor-pointer text-uppercase small text-muted"
+                        href="#filterByTags" role="button" aria-expanded="true" aria-controls="filterByTags">
+
+                        <!-- <span class="toggle-collapse mr-1">
+                            <i class="fa fa-caret-right"></i>
+                        </span> -->
+                        Filter by tags
+                    </div>
+                    <div class="" id="filterByTags">
+                        <div *ngFor="let tag of tags" class="my-1 ">
+
+                            <input class="mr-1" type="checkbox" name="" id="" [value]="tag.isSelected"
+                                [checked]="tag.isSelected"
+                                (change)="$event.target.checked ? tag.isSelected = true : tag.isSelected = false; onSelectTag(tags)">
+
+                            <initiative-single-tag [tag]="tag">
+                            </initiative-single-tag>
+                        </div>
+                    </div>
+
+                </div>
+            
             </div>
         </div>
 
