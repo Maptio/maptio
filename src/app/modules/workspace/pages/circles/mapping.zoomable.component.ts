@@ -578,7 +578,7 @@ If upon examining all branches the map of child nodes is empty, return null
           lastZoomCircle = d;
           localStorage.setItem("node_id", d.data.id)
           zoom(d, (<any>this).parentElement);
-          setIsShowMission(false);
+          // setIsShowMission(false);
 
         }
 

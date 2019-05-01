@@ -15,7 +15,8 @@
 }
 
 .collapsible.hide{
-    width:0;
+    width:0!important;
+    height: 0;
     opacity:0;
     transition:all 1s;
 }
@@ -23,11 +24,11 @@
 #toggle.collapsible.show:hover{
     transition:all 250ms;
     /* padding-left:2rem; */
-    width:6rem;
+    width:0rem;
 }
 
 #toggle.collapsible.show{
-    width:4rem;
+    width:0rem;
     transition:all 250ms;
 }
 
@@ -36,11 +37,34 @@
 }
 
 #hierarchy.collapsible.show{
-    width:66%;
+    /* width:66%; */
     transition:all 1s;
 }
 
 #details.collapsible.show{
-    width:45%;
+    /* width:45%; */
     transition:all 1s;
+}
+
+#side-navigation{
+    width:40%;
+    transition:all 1s;
+}
+
+
+.slideable{
+
+}
+
+.slideable.show{
+    transition:all 250ms;
+    opacity:1;
+    display: initial;
+}
+
+.slideable.hide{
+    opacity:0;
+    display:none;
+    width:0;
+    transition:all 250ms;
 }

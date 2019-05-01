@@ -18,6 +18,7 @@ import { User } from "../../../../shared/model/user.data";
 import { Tag } from "../../../../shared/model/tag.data";
 import { Intercom } from "ng-intercom";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
+import { intersectionBy } from "lodash";
 
 @Component({
     selector: "workspace",
@@ -34,6 +35,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     public isBuildingPanelCollapsed: boolean = true;
     public isDetailsPanelCollapsed: boolean = true;
+    public isTagsPanelCollapsed:boolean= true;
     public isBuildingVisible: boolean = true;
     public isEmptyMap: Boolean;
     public isSaving: Boolean;
@@ -86,6 +88,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 if (newDatasetId !== this.datasetId) {
                     this.isBuildingPanelCollapsed = true;
                     this.isDetailsPanelCollapsed = true;
+                    this.isTagsPanelCollapsed = true;
                     // this.closeDetailsPanel();
                     // this.closeBuildingPanel();
                     this.cd.markForCheck()
@@ -147,7 +150,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.tags = change.tags
 
         let depth = 0
-        change.initiative.traverse((n) => { depth++ });
+        change.initiative.traverse((node) => { 
+            depth++;
+            node.tags = intersectionBy(change.tags, node.tags, (t: Tag) => t.shortid)
+         });
 
         this.datasetFactory.upsert(this.dataset, this.datasetId)
             .then((hasSaved: boolean) => {
@@ -171,6 +177,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     toggleEditMode() {
         this.isEditMode = !this.isEditMode;
         this.cd.markForCheck();
+    }
+
+    onEditingTags(tags:Tag[]){
+        this.saveChanges({initiative: this.dataset.initiative, tags:tags})
     }
 
     onOpenDetails(node: Initiative) {
@@ -201,6 +211,17 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     openDetailsPanel() {
         this.isDetailsPanelCollapsed = false;
+        this.isBuildingPanelCollapsed = true;
+        this.isTagsPanelCollapsed = true;
+        // this.resizeMap();
+        this.cd.markForCheck();
+
+    }
+
+    openTagsPanel() {
+        this.isTagsPanelCollapsed = false;
+        this.isDetailsPanelCollapsed = true;
+        this.isBuildingPanelCollapsed = true;
         // this.resizeMap();
         this.cd.markForCheck();
 
@@ -209,6 +230,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     closeAllPanels(){
         this.isDetailsPanelCollapsed = true;
         this.isBuildingPanelCollapsed = true;
+        this.isTagsPanelCollapsed = true;
         this.cd.markForCheck();
     }
 
@@ -226,6 +248,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     openBuildingPanel() {
         this.isBuildingPanelCollapsed = false;
+        this.isDetailsPanelCollapsed = true;
+        this.isTagsPanelCollapsed = true;
         // this.resizeMap();
         this.cd.markForCheck();
     }

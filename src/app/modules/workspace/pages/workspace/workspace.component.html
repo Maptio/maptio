@@ -12,10 +12,10 @@
 
     <div class="col-12 position-relative h-100">
 
-        <div class=" position-relative d-flex justify-content-start h-99 rounded border border-light"
+        <div class=" position-relative d-flex justify-content-start h-100 rounded border"
             [class.overflow-hidden]="team?.isExample && isBuildingVisible">
 
-            <div id="toggle"
+            <!-- <div id="toggle"
                 class="d-none d-md-flex h-100 rounded-left py-3 flex-shrink-0   flex-column justify-content-start align-items-center cursor-pointer collapsible "
                 [class.hide]="!isBuildingPanelCollapsed" [class.show]="isBuildingPanelCollapsed"
                 [ngClass]="{'bg-accent-gray pointer-none':!isBuildingVisible}" [class.bg-accent]="isBuildingVisible"
@@ -24,11 +24,12 @@
                     <i class="h2 fa fa-angle-right w-100 text-center " aria-hidden="true"></i>
                     <div class="w-100 text-center small">Edit map</div>
                 </div>
-            </div>
-            <div id="hierarchy" [class.hide]="isBuildingPanelCollapsed || !isBuildingVisible"
+            </div> -->
+
+            <!-- <div id="hierarchy" *ngIf="false" [class.hide]="isBuildingPanelCollapsed || !isBuildingVisible"
                 [class.show]="!isBuildingPanelCollapsed && isBuildingVisible"
                 class="d-none d-md-block collapsible sidenav h-100 justify-content-start">
-                <div id="sidenav-hierarchy" class="hierarchy w-100 h-100 card border-light border-right bg-white">
+                <div id="sidenav-hierarchy" class="hierarchy w-100 h-100 card  border-right bg-white">
                     <div class="card border-0 bg-transparent h-100">
                         <button class="position-absolute top-right btn bg-transparent"
                             [class.invisible]="isBuildingPanelCollapsed" (click)="closeBuildingPanel()">
@@ -44,9 +45,9 @@
                     </div>
 
                 </div>
-            </div>
-            <div id="details" [class.hide]="isDetailsPanelCollapsed || !isBuildingVisible"
-                [ngClass]="{'show border-right border-light': !isDetailsPanelCollapsed && isBuildingVisible}"
+            </div> -->
+            <div *ngIf="false" id="details" [class.hide]="isDetailsPanelCollapsed || !isBuildingVisible"
+                [ngClass]="{'show box-shadow-right z-index-1': !isDetailsPanelCollapsed && isBuildingVisible}"
                 class="d-none d-md-block collapsible bg-white  details h-100 justify-content-start overflow-y">
                 <div id="sidenav-details" class="h-100 w-100">
                     <div class="card border-0 bg-transparent">
@@ -67,11 +68,55 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div id="side-navigation"
+                [class.hide]="isDetailsPanelCollapsed && isBuildingPanelCollapsed && isTagsPanelCollapsed"
+                [class.show]="!isDetailsPanelCollapsed || !isBuildingPanelCollapsed || !isTagsPanelCollapsed"
+                class="collapsible d-none overflow-y-hidden overflow-x-hidden z-index-1 card border-0 border-right box-shadow-right rounded-0 rounded-left d-md-flex flex-md-column  h-100 justify-content-start">
+                <div class="card-header bg-light border-0">
+                    <button class="btn btn-link" (click)="openBuildingPanel()">View/Edit map</button>
+                    <button class="btn btn-link" (click)="openTagsPanel()">View/Edit tags</button>
+                    <!-- <button class="btn btn-link" (click)="openDetailsPanel()">Back to current circle</button> -->
+                    <button class="btn bg-transparent" (click)="closeAllPanels()">
+                        <span aria-hidden="true" class="text-muted">
+                            <i class="fas fa-times"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="d-flex mh-100 card-body  overflow-y overflow-x-hidden">
+                    <div class="w-100 h-100 position-relative">
+                        <div class="slideable " [class.hide]="isBuildingPanelCollapsed"
+                            [ngClass]="{'show ':!isBuildingPanelCollapsed}">
+                            <building class="w-100" #building [user]="user" [isEmptyMap]="isEmptyMap"
+                                (save)="saveChanges($event)" (openDetails)="onOpenDetails($event)">
+                            </building>
+                        </div>
+
+                        <div class="slideable  " [class.hide]="isDetailsPanelCollapsed"
+                            [ngClass]="{'show ':!isDetailsPanelCollapsed}">
+                            <div class="w-100">
+
+                                <initiative *ngIf="openedNode" #initiative [dataset]="dataset" [node]="openedNode"
+                                    [user]="user" [team]="team" (edited)="saveDetailChanges()" [isEditMode]="isEditMode"
+                                    (editTags)="onEditTags()"></initiative>
+                                <summary-personal *ngIf="openedUser" [member]="openedUser"
+                                    [initiative]="dataset.initiative" [team]="team" [dataset]="dataset">
+                                </summary-personal>
+                            </div>
+
+                        </div>
+                        <div class="slideable" [class.hide]="isTagsPanelCollapsed"
+                            [ngClass]="{'show ':!isTagsPanelCollapsed}">
+                            <edit-tags [tags]="tags" [team]="team" (edit)="onEditingTags($event)"></edit-tags>
+
+                        </div>
+                    </div>
+
+                </div>
 
 
             </div>
-
-
             <div class="h-100 flex-shrink-1 w-100" id="main">
                 <div class="h-100 ">
                     <ng-container *ngIf="isLoading">
@@ -81,7 +126,7 @@
                         </div>
                     </ng-container>
                     <ng-container *ngIf="!isLoading">
-                        <mapping  [isEmptyMap]="isEmptyMap" (openDetails)="onOpenDetails($event)"
+                        <mapping [isEmptyMap]="isEmptyMap" (openDetails)="onOpenDetails($event)"
                             (openUserSummary)="onOpenUserSummary($event)" (addInitiative)="addInitiative($event)"
                             (removeInitiative)="removeInitiative($event)" (openTreePanel)="openBuildingPanel()"
                             (expandTree)="buildingComponent.toggleAll(true)" (hideAllPanels)="closeAllPanels()"
@@ -90,7 +135,10 @@
                     </ng-container>
                 </div>
             </div>
-
         </div>
+
+
+
+
     </div>
 </div>
