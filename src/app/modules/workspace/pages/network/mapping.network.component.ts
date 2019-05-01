@@ -75,7 +75,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   // public fontColor$: Observable<string>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Subject<Initiative>;
-  public toggleDetailsPanel$:Subject<boolean>;
+  public toggleDetailsPanel$:Subject<boolean> = new Subject<boolean>();
   // public isLocked$: Observable<boolean>;
   public isReset$: Observable<boolean>;
 
