@@ -3,7 +3,7 @@
         <div *ngIf="isShowMission" class="d-flex flex-column mission text-bold">
             <span>{{mission}}</span>
         </div>
-        <div class="mt-3">
+        <div class="mt-3" *ngIf="!isLoading">
             <search #search [list]="flattenNodes" (selectInitiative)="onSelectCircle($event)"></search>
 
         </div>
@@ -92,9 +92,7 @@
 
     </div>
 </div>
-<div *ngIf="isNoMatchingCircles" class="position-absolute center-center w-100 d-flex justify-content-center">
-    <span class=" h4 text-muted  text-center">No circles</span>
-</div>
+
 <div *ngIf="!isNoMatchingCircles" class="map-container">
 
 </div>

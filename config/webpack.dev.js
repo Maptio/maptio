@@ -56,7 +56,7 @@ module.exports = webpackMerge(commonConfig, {
       chunkFilename: "[name].chunk.css"
     }),
 
-    new BundleAnalyzerPlugin({ defaultSizes: 'gzip' }),
+    new BundleAnalyzerPlugin({ defaultSizes: 'gzip', openAnalyzer:false }),
     new webpack.HotModuleReplacementPlugin()
   ],
 

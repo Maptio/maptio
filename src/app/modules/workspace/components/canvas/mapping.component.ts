@@ -205,6 +205,7 @@ export class MappingComponent {
     component.scale = this.scale;
     this.selectableTags$.next([]);
     this.selectableUsers$.next([]);
+    this.zoomToInitiative$.next(null);
 
     component.analytics = this.analytics;
     component.isReset$ = this.isReset$.asObservable();

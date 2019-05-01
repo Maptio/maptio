@@ -102,8 +102,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public initiative: Initiative;
   public team: Team;
   public user: User;
-  public flattenNodes:Initiative[];
-  public members:User[];
+  public flattenNodes: Initiative[];
+  public members: User[];
   public tags: SelectableTag[];
   public isNoMatchingCircles: boolean;
   public mission: string;
@@ -165,6 +165,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.dataSubscription = this.dataService
       .get()
       .do((data) => {
+        
+    this.isLoading = false;
         this.isNoMatchingCircles = false;
         this.analytics.eventTrack("Map", {
           action: "viewing",
@@ -172,43 +174,43 @@ export class MappingZoomableComponent implements IDataVisualizer {
           team: (<Team>data.team).name,
           teamId: (<Team>data.team).team_id
         });
+        this.cd.markForCheck();
       })
       .map(data => {
+        
         this.initiative = data.initiative.children[0];
+        this.mission = this.initiative.name;
+        
         this.team = data.team;
-        this.members =  orderBy(data.members, m=> m.name, "asc");
+        this.members = orderBy(data.members, m => m.name, "asc");
         this.tags = orderBy(
           data.dataset.tags.map((t: Tag) => { (<SelectableTag>t).isSelected = false; return t }),
           t => t.name.length,
           "desc");
         this.user = data.user;
+        this.cd.markForCheck();
         return data.dataset;
       })
       .combineLatest(this.mapColor$, this.selectableTags$.asObservable(), this.selectableUsers$.asObservable())
       .flatMap((data: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
-        // document.querySelector("svg") && document.querySelector("svg").classList.add("loading");
         this.filteringUser = data[3][0];
         this.cd.markForCheck();
-
+        
         let filtered = this.filterByTags(data[0].initiative.children[0], data[2], data[3]);
         if (!filtered) {
-
-          // document.querySelector(".map-container").innerHTML = "";
           this.isNoMatchingCircles = true;
           this.cd.markForCheck();
-          // return this.draw(data[0].initiative.children[0], data[1], this.height, this.width)
         } else {
+          if (document.querySelector(".map-container")) document.querySelector(".map-container").innerHTML = "";
           return this.draw(filtered, data[1], this.height, this.width)
         }
-
 
       })
       .subscribe((result: { svg: string, root: any, nodes: any }) => {
 
         document.querySelector(".map-container").innerHTML = result.svg;
         this.hydrate(result.root, result.nodes);
-        this.mission = result.root.data.name;
-        this.flattenNodes = result.nodes.map((d:any) => d.data);
+       this.flattenNodes = result.nodes.map((d: any) => d.data);
 
         // document.querySelector("svg") && document.querySelector("svg").classList.remove("loading");
 
@@ -258,7 +260,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     )
   }
 
-  onSelectCircle(node:Initiative){
+  onSelectCircle(node: Initiative) {
     this.zoomInitiative$.next(node);
   }
 
@@ -665,7 +667,7 @@ If upon examining all branches the map of child nodes is empty, return null
     }
 
     this.zoomInitiative$.asObservable().subscribe(zoomedNode => {
-      if (!node) {
+      if (!zoomedNode) {
         svg.dispatch("click");
         return;
       }
