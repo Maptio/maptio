@@ -3,6 +3,10 @@
      left: 2.5%;
      z-index:1;
  }
+
+ .controls-panel{
+     background: hsla(255, 100%, 100%, .5);
+ }
  
  ::ng-deep g.node{
      pointer-events: all;
