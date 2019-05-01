@@ -1,23 +1,40 @@
 <div class="top-left-corner d-flex flex-column position-absolute col-3">
     <div class="position-relative" [style.top.px]="margin">
         <div *ngIf="isShowMission" class="d-flex flex-column mission text-bold">
-            <!-- <span style="font-size:small" class="text-uppercase text-gray">{{team.name}}</span> -->
             <span>{{mission}}</span>
         </div>
         <div class="my-3">
-            <span class="text-uppercase small text-muted">Filter by tags</span>
-            <div *ngFor="let tag of tags" class="my-1">
+            <div data-toggle="collapse" class=" text-uppercase small text-muted" href="#filterByTags" role="button"
+                aria-expanded="true" aria-controls="filterByTags">
 
-                <input class="mr-1" type="checkbox" name="" id="" [value]="tag.isSelected" [checked]="tag.isSelected"
-                    (change)="$event.target.checked ? tag.isSelected = true : tag.isSelected = false; onSelectTag(tags)">
-
-                <initiative-single-tag [tag]="tag">
-                </initiative-single-tag>
+                <span class="toggle-collapse mr-1">
+                    <i class="fa fa-caret-right"></i>
+                </span>
+                Filter by tags
             </div>
+            <div class="collapse show" id="filterByTags">
+                <div *ngFor="let tag of tags" class="my-1 ">
+
+                    <input class="mr-1" type="checkbox" name="" id="" [value]="tag.isSelected"
+                        [checked]="tag.isSelected"
+                        (change)="$event.target.checked ? tag.isSelected = true : tag.isSelected = false; onSelectTag(tags)">
+
+                    <initiative-single-tag [tag]="tag">
+                    </initiative-single-tag>
+                </div>
+            </div>
+
         </div>
         <div class="search-terms my-3">
-            <span class="text-uppercase small text-muted">Filter by user</span>
-            <div class="my-1">
+            <div data-toggle="collapse" class=" text-uppercase small text-muted" href="#filterByUser" role="button"
+                aria-expanded="true" aria-controls="filterByUser">
+                <span class="toggle-collapse mr-1">
+                    <i class="fa fa-caret-right"></i>
+                </span>
+                Filter by users
+            </div>
+            <!-- <span class="text-uppercase small text-muted">Filter by user</span> -->
+            <div class="my-1 collapse show" id="filterByUser">
                 <div *ngIf="filteringUser" class="d-flex align-items-center">
                     <initiative-member-label [member]="filteringUser">
                     </initiative-member-label>
@@ -55,10 +72,7 @@
     </div>
 </div>
 <div *ngIf="isNoMatchingCircles" class="position-absolute center-center w-100 d-flex justify-content-center">
-    <span class=" h4 text-muted  text-center">
-        No
-        circles</span>
-
+    <span class=" h4 text-muted  text-center">No circles</span>
 </div>
 <div *ngIf="!isNoMatchingCircles" class="map-container">
 

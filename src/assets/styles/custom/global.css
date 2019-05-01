@@ -513,6 +513,16 @@ transition: max-height .25s ease-in-out;
 }
 
 
+[aria-expanded="false"] > .toggle-collapse > i  {
+  transform: rotate(0deg);
+  transition:all 400ms
+}
+[aria-expanded="true"] > .toggle-collapse > i{
+  transform: rotate(90deg);
+  transition:all 400ms
+}
+
+
 .top-left{
   top:0;
   left:0;
