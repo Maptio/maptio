@@ -111,7 +111,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
 
   private _lastZoomedCircle: any;
-  private _filteringUser: User;
+  // private _filteringUser: User;
   public isShowMission: boolean;
 
   TRANSITION_DURATION = 500;
@@ -147,19 +147,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
 
-  public get filteringUser(): User {
-    return this._filteringUser;
-  }
+  // public get filteringUser(): User {
+  //   return this._filteringUser;
+  // }
 
 
-  public set filteringUser(v: User) {
-    this._filteringUser = v;
-  }
-
-
-
-
-
+  // public set filteringUser(v: User) {
+  //   this._filteringUser = v;
+  // }
 
   ngOnInit() {
     this.loaderService.show();
@@ -194,7 +189,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .combineLatest(this.mapColor$, this.selectableTags$.asObservable(), this.selectableUsers$.asObservable())
       .flatMap((data: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
-        this.filteringUser = data[3][0];
+        // this.filteringUser = data[3][0];
         this.cd.markForCheck();
         
         let filtered = this.filterByTags(data[0].initiative.children[0], data[2], data[3]);
@@ -202,6 +197,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
           this.isNoMatchingCircles = true;
           this.cd.markForCheck();
         } else {
+          this.isNoMatchingCircles = false;
+          this.cd.markForCheck();
           if (document.querySelector(".map-container")) document.querySelector(".map-container").innerHTML = "";
           return this.draw(filtered, data[1], this.height, this.width)
         }
@@ -261,31 +258,31 @@ export class MappingZoomableComponent implements IDataVisualizer {
     )
   }
 
-  onSelectCircle(node: Initiative) {
-    this.zoomInitiative$.next(node);
-  }
+  // onSelectCircle(node: Initiative) {
+  //   this.zoomInitiative$.next(node);
+  // }
 
-  onClearUserFilter() {
-    this.selectableUsers$.next([]);
-  }
+  // onClearUserFilter() {
+  //   this.selectableUsers$.next([]);
+  // }
 
-  filterMembers = (term: string) => {
-    return term.length < 1
-      ? this.members
-      : this.members
-        .filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email))
-  }
+  // filterMembers = (term: string) => {
+  //   return term.length < 1
+  //     ? this.members
+  //     : this.members
+  //       .filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email))
+  // }
 
 
-  onSelectingUser(user: User) {
-    this.selectableUsers$.next([user]);
-    this.showToolipOf$.next({ initiatives: null, user: user });
-  }
+  // onSelectingUser(user: User) {
+  //   this.selectableUsers$.next([user]);
+  //   this.showToolipOf$.next({ initiatives: null, user: user });
+  // }
 
-  onSelectTag(tags: SelectableTag[]) {
-    console.log(tags, tags.filter(t => t.isSelected))
-    this.selectableTags$.next(tags.filter(t => t.isSelected))
-  }
+  // onSelectTag(tags: SelectableTag[]) {
+  //   console.log(tags, tags.filter(t => t.isSelected))
+  //   this.selectableTags$.next(tags.filter(t => t.isSelected))
+  // }
 
   filterByTags(initiative: Initiative, tags: Tag[], users: User[]): Initiative {
 
@@ -670,6 +667,7 @@ If upon examining all branches the map of child nodes is empty, return null
     }
 
     this.zoomInitiative$.asObservable().subscribe(zoomedNode => {
+      
       if (!zoomedNode) {
         svg.dispatch("click");
         return;

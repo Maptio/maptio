@@ -77,8 +77,6 @@ export class MappingComponent {
 
   public zoom$: Subject<number>;
   public isReset$: Subject<boolean>;
-  public selectableTags$: Subject<Array<Tag>>;
-  public selectableUsers$: Subject<Array<User>>;
 
   public VIEWPORT_WIDTH: number;
   public VIEWPORT_HEIGHT: number;
@@ -95,7 +93,6 @@ export class MappingComponent {
 
   public fontSize$: BehaviorSubject<number>;
   public mapColor$: BehaviorSubject<string>;
-  public zoomToInitiative$: Subject<Initiative>;
 
   public subscription: Subscription;
   public instance: IDataVisualizer;
@@ -105,6 +102,9 @@ export class MappingComponent {
   isSearchDisabled: boolean = false;
 
   @Input("isEmptyMap") isEmptyMap: Boolean;
+  @Input("zoomInitiative$") zoomInitiative$: Subject<Initiative>;
+  @Input("selectableTags$") selectableTags$: Subject<Array<Tag>>;
+  @Input("selectableUsers$") selectableUsers$: Subject<Array<User>>;
 
   @Output("openDetails") openDetails = new EventEmitter<Initiative>();
   @Output("openUserSummary") openUserSummary = new EventEmitter<User>();
@@ -135,10 +135,10 @@ export class MappingComponent {
   ) {
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
-    this.selectableTags$ = new ReplaySubject<Array<SelectableTag>>();
-    this.selectableUsers$ = new ReplaySubject<Array<SelectableUser>>();
+    // this.selectableTags$ = new ReplaySubject<Array<SelectableTag>>();
+    // this.selectableUsers$ = new ReplaySubject<Array<SelectableUser>>();
     this.mapColor$ = new BehaviorSubject<string>("");
-    this.zoomToInitiative$ = new Subject();
+    // this.zoomToInitiative$ = new Subject();
   }
 
   ngAfterViewInit() {
@@ -201,17 +201,19 @@ export class MappingComponent {
     component.zoom$ = this.zoom$.asObservable();
     component.selectableTags$ = this.selectableTags$;
     component.selectableUsers$ = this.selectableUsers$;
-    component.zoomInitiative$ = this.zoomToInitiative$;
+    component.zoomInitiative$ = this.zoomInitiative$;
     component.mapColor$ = this.mapColor$.asObservable();
     component.translateX = this.x;
     component.translateY = this.y;
     component.scale = this.scale;
-    this.selectableTags$.next([]);
-    this.selectableUsers$.next([]);
-    this.zoomToInitiative$.next(null);
 
     component.analytics = this.analytics;
     component.isReset$ = this.isReset$.asObservable();
+
+
+    this.selectableTags$.next([]);
+    this.selectableUsers$.next([]);
+    this.zoomInitiative$.next(null);
 
     if (component.constructor === MappingSummaryComponent) {
       this.isMapSettingsDisabled = true;
@@ -459,7 +461,7 @@ export class MappingComponent {
   }
 
   zoomToInitiative(selected: Initiative) {
-    this.zoomToInitiative$.next(selected);
+    this.zoomInitiative$.next(selected);
   }
 
   goToUserSummary(selected: User) {

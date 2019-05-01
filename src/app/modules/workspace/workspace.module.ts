@@ -49,6 +49,7 @@ import { CommonTextareaComponent } from '../../shared/components/textarea/textar
 import { InitiativeHelperPrivilegeComponent } from './components/data-entry/details/parts/helpers/helper-toggle-privilege.component';
 import { InitiativeSingleTagComponent } from './components/data-entry/details/parts/tags/single-tag.component';
 import { InitiativeParticipantLabelComponent } from './components/data-entry/details/parts/common/participant-label.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 
 
@@ -78,6 +79,7 @@ import { InitiativeParticipantLabelComponent } from './components/data-entry/det
         BuildingComponent, InitiativeNodeComponent,
         InitiativeParticipantLabelComponent,
         InitiativeComponent,
+        SidebarComponent,
         InitiativeInputNameComponent, 
         InitiativeListTagsComponent,InitiativeSingleTagComponent,
         InitiativeAuthoritySelectComponent,

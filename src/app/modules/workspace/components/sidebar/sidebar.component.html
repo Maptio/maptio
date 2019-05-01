@@ -1,0 +1,99 @@
+<div class="d-flex flex-column">
+    <div class="position-relative  ">
+        <div class="d-flex flex-column mission text-bold">
+            <span class="text-uppercase text-muted small">Mission</span>
+            <span>{{mission}}</span>
+        </div>
+        <div class="mt-3" *ngIf="!isLoading">
+            <search #search [list]="flattenNodes" (selectInitiative)="onSelectCircle($event)"></search>
+
+        </div>
+        <div class="my-1">
+            <div data-toggle="collapse" class="cursor-pointer  small text-muted" href="#controls-box" role="button"
+                aria-expanded="false" aria-controls="controls-box" (click)="onShowAdvanced()">
+
+                <span class="toggle-collapse mr-1">
+                    <i class="fa fa-caret-right"></i>
+                </span>
+                Advanced search
+            </div>
+
+
+            <div class="collapse" id="controls-box">
+                <div class="search-terms my-3">
+                    <div data-toggle="collapse" class="cursor-pointer text-uppercase small text-muted"
+                        href="#filterByUser" role="button" aria-expanded="true" aria-controls="filterByUser">
+                        <!-- <span class="toggle-collapse mr-1">
+                                <i class="fa fa-caret-right"></i>
+                            </span> -->
+                        Filter by user
+                    </div>
+                    <!-- <span class="text-uppercase small text-muted">Filter by user</span> -->
+                    <div class="my-1 " id="filterByUser">
+                        <div *ngIf="filteringUser" class="d-flex align-items-center">
+                            <initiative-member-label [member]="filteringUser">
+                            </initiative-member-label>
+                            <button class="btn btn-sm" (click)="onClearUserFilter()">
+                                <i class="fa fa-times text-muted"></i>
+                            </button>
+                        </div>
+                        <div *ngIf="!filteringUser">
+                            <div class="dropdown">
+                                <button class="pl-0 btn btn-sm btn-link  dropdown-toggle" id="usersListDropdown"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Select a person
+                                </button>
+                                <div class="dropdown-menu overflow-y" style="max-height:12rem"
+                                    aria-labelledby="usersListDropdown">
+                                    <h6 class="dropdown-header">My circles</h6>
+                                    <initiative-member-label class="dropdown-item" (click)="onSelectingUser(user)"
+                                        [member]="user"></initiative-member-label>
+                                    <h6 class="dropdown-header">Other people</h6>
+                                    <ng-container *ngFor="let member of members">
+                                        <initiative-member-label class="dropdown-item" (click)="onSelectingUser(member)"
+                                            [member]="member"></initiative-member-label>
+                                    </ng-container>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+
+                </div>
+                <div class="my-3">
+                    <div data-toggle="collapse" class="cursor-pointer text-uppercase small text-muted"
+                        href="#filterByTags" role="button" aria-expanded="true" aria-controls="filterByTags">
+
+                        <!-- <span class="toggle-collapse mr-1">
+                                <i class="fa fa-caret-right"></i>
+                            </span> -->
+                        Filter by tags
+                    </div>
+                    <div class="" id="filterByTags">
+                        <div *ngFor="let tag of tags" class="my-1 ">
+
+                            <input class="mr-1" type="checkbox" name="" id="" [value]="tag.isSelected"
+                                [checked]="tag.isSelected"
+                                (change)="$event.target.checked ? tag.isSelected = true : tag.isSelected = false; onSelectTag(tags)">
+
+                            <initiative-single-tag [tag]="tag">
+                            </initiative-single-tag>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+    <div>
+        <ng-content></ng-content>
+        
+    </div>
+</div>

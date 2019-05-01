@@ -47,10 +47,17 @@
 }
 
 #side-navigation{
-    width:40%;
+    min-width:30%;
+    max-width:30%;
+    width:30%;
     transition:all 1s;
 }
 
+.close-panel-button {
+    top:50%;
+    left:30%;
+    z-index:1;
+}
 
 .slideable{
 

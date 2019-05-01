@@ -1,7 +1,7 @@
 import { BuildingComponent } from "../../components/data-entry/hierarchy/building.component";
 import { DataService, CounterService } from "../../services/data.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Subscription, Subject } from "rxjs/Rx";
+import { Subscription, Subject, ReplaySubject } from "rxjs/Rx";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Team } from "../../../../shared/model/team.data";
@@ -35,7 +35,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     public isBuildingPanelCollapsed: boolean = true;
     public isDetailsPanelCollapsed: boolean = true;
-    public isTagsPanelCollapsed:boolean= true;
+    public isTagsPanelCollapsed: boolean = true;
     public isBuildingVisible: boolean = true;
     public isEmptyMap: Boolean;
     public isSaving: Boolean;
@@ -61,13 +61,19 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public openedNodeTeamId: string;
     public openEditTag$: Subject<void> = new Subject<void>();
 
+    public selectableTags$: Subject<Tag[]> = new ReplaySubject<Tag[]>();
+    public selectableUsers$: Subject<User[]> = new ReplaySubject<User[]>();
+    public zoomInitiative$: Subject<Initiative> = new ReplaySubject<Initiative>();
+
     public mapped: Initiative;
     teamName: string;
     teamId: string;
+    isFullSidebar:boolean;
     selectableTags: Array<Tag>;
 
     @ViewChild("dragConfirmation")
     dragConfirmationModal: NgbModal;
+
 
     ngOnDestroy(): void {
         EmitterService.get("currentTeam").emit(undefined)
@@ -82,15 +88,15 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.isLoading = true;
         this.cd.markForCheck();
+
         this.routeSubscription = this.route.data
             .do((data) => {
+                
                 let newDatasetId = data.data.dataset.datasetId;
                 if (newDatasetId !== this.datasetId) {
                     this.isBuildingPanelCollapsed = true;
                     this.isDetailsPanelCollapsed = true;
                     this.isTagsPanelCollapsed = true;
-                    // this.closeDetailsPanel();
-                    // this.closeBuildingPanel();
                     this.cd.markForCheck()
                 }
             })
@@ -150,14 +156,14 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.tags = change.tags
 
         let depth = 0
-        change.initiative.traverse((node) => { 
+        change.initiative.traverse((node) => {
             depth++;
             node.tags = intersectionBy(change.tags, node.tags, (t: Tag) => t.shortid)
-         });
+        });
 
         this.datasetFactory.upsert(this.dataset, this.datasetId)
             .then((hasSaved: boolean) => {
-                this.dataService.set({ initiative: change.initiative, dataset: this.dataset, team: this.team, members: this.members, user:this.user });
+                this.dataService.set({ initiative: change.initiative, dataset: this.dataset, team: this.team, members: this.members, user: this.user });
                 return hasSaved;
             }, (reason) => { console.error(reason) })
             .then(() => {
@@ -171,7 +177,18 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             });
     }
 
+    onSelectMembers(members: User[]) {
+        this.selectableUsers$.next(members);
+        this.onOpenUserSummary(members[0]);
+    }
 
+    onSelectTags(tags: Tag[]) {
+        this.selectableTags$.next(tags);
+    }
+
+    onSelectInitiative(node: Initiative) {
+        this.zoomInitiative$.next(node);
+    }
 
 
     toggleEditMode() {
@@ -179,8 +196,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.cd.markForCheck();
     }
 
-    onEditingTags(tags:Tag[]){
-        this.saveChanges({initiative: this.dataset.initiative, tags:tags})
+    onEditingTags(tags: Tag[]) {
+        this.saveChanges({ initiative: this.dataset.initiative, tags: tags })
     }
 
     onOpenDetails(node: Initiative) {
@@ -213,6 +230,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isDetailsPanelCollapsed = false;
         this.isBuildingPanelCollapsed = true;
         this.isTagsPanelCollapsed = true;
+        this.isFullSidebar = true;
         // this.resizeMap();
         this.cd.markForCheck();
 
@@ -222,12 +240,14 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isTagsPanelCollapsed = false;
         this.isDetailsPanelCollapsed = true;
         this.isBuildingPanelCollapsed = true;
+        this.isFullSidebar = true;
         // this.resizeMap();
         this.cd.markForCheck();
 
     }
 
-    closeAllPanels(){
+    closeAllPanels() {
+        this.isFullSidebar = false;
         this.isDetailsPanelCollapsed = true;
         this.isBuildingPanelCollapsed = true;
         this.isTagsPanelCollapsed = true;
@@ -250,6 +270,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isBuildingPanelCollapsed = false;
         this.isDetailsPanelCollapsed = true;
         this.isTagsPanelCollapsed = true;
+        this.isFullSidebar = true;
         // this.resizeMap();
         this.cd.markForCheck();
     }

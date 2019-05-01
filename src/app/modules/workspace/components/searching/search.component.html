@@ -46,13 +46,13 @@
     <div class="card-body d-flex justify-content-start">
 
         <div class="w-100 d-flex justify-content-start"> -->
-            <div class="d-flex input-group input-group-sm">
+            <div class="d-flex input-group ">
                     <input #initiativeSearch highlightClass="highlight-typeahead" [resultTemplate]="rt" type="text" id="initiativeSearch"
-                    class="form-control form-control-sm" (selectItem)="select($event)" [ngbTypeahead]="search"
+                    class="form-control " (selectItem)="select($event)" [ngbTypeahead]="search"
                     [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" autofocus="autofocus"
                     placement="bottom-left" placeholder="Search circles" />
                 <div class="input-group-append">
-                    <button class="btn btn-sm btn-secondary" (click)="initiativeSearch.value='';clearSearch()">
+                    <button class="btn  btn-secondary" (click)="initiativeSearch.value='';clearSearch()">
                         <i class="fa fa-times text-white"></i>   
                     </button>
                 </div>
