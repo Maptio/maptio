@@ -12,7 +12,7 @@
 
     <div class="col-12 position-relative h-100">
 
-        <div class=" position-relative d-flex justify-content-start h-99 rounded border"
+        <div class=" position-relative d-flex justify-content-start h-99 rounded border border-light"
             [class.overflow-hidden]="team?.isExample && isBuildingVisible">
 
             <div id="toggle"
@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div id="details" [class.hide]="isDetailsPanelCollapsed || !isBuildingVisible"
-                [ngClass]="{'show border-right': !isDetailsPanelCollapsed && isBuildingVisible}"
+                [ngClass]="{'show border-right border-light': !isDetailsPanelCollapsed && isBuildingVisible}"
                 class="d-none d-md-block collapsible bg-white  details h-100 justify-content-start overflow-y">
                 <div id="sidenav-details" class="h-100 w-100">
                     <div class="card border-0 bg-transparent">
