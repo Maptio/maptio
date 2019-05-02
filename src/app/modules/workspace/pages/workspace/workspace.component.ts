@@ -179,6 +179,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     onSelectMembers(members: User[]) {
+        
         this.isNoSearchResults = false;
         this.cd.markForCheck();
         this.selectableUsers$.next(members);
@@ -221,7 +222,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     onOpenUserSummary(user: User) {
         this.openedUser = user;
-        this.openedNode = null;
+         this.openedNode = null;
         if (this.isDetailsPanelCollapsed) this.openDetailsPanel();
         this.cd.markForCheck();
     }

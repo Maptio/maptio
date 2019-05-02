@@ -3,14 +3,7 @@
         <span class="mx-1">{{member.name}}</span>
 </ng-template>
 
-
-
-<button *ngIf="summaryUrl" class="pl-0 btn btn-link d-flex align-items-center" [routerLink]="summaryUrl"
-    [queryParams]="{member: member.shortid}">
+<button  class="pl-0 btn btn-link d-flex align-items-center" (click)="onSelect(member)">
     <ng-container *ngTemplateOutlet="memberLabel"></ng-container>
    
 </button>
-<span *ngIf="!summaryUrl" class="d-flex align-items-center" >
-        <ng-container *ngTemplateOutlet="memberLabel"></ng-container>
-   
-</span>

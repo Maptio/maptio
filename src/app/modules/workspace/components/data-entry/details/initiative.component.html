@@ -39,7 +39,7 @@
 	<div class="d-flex flex-column my-3">
 		<div *ngFor="let helper of node?.getAllParticipants(); let i=index" class="d-flex flex-column mb-2">
 			<div class="d-flex align-items-center">
-				<initiative-member-label [member]="helper" [summaryUrl]="getSummaryUrlRoot()"></initiative-member-label>
+				<initiative-member-label [member]="helper" (selectMember)="onSelectMember($event)"></initiative-member-label>
 				<span *ngIf="isAuthority(helper)">({{team?.settings.authority}})</span>
 			</div>
 
@@ -72,7 +72,7 @@
 	</div>
 	<div class="mb-4">
 		<initiative-authority-select [isUnauthorized]="!canEditAuthority()" [isEditMode]="isEditMode" [team]="team"
-			[authority]="node?.accountable" [summaryUrlRoot]="getSummaryUrlRoot()" (save)="saveAccountable($event)">
+			[authority]="node?.accountable" (selectMember)="onSelectMember($event)" (save)="saveAccountable($event)">
 			<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
 		</initiative-authority-select>
 
@@ -99,7 +99,7 @@
 		<div class="my-2 bg-light p-2 rounded"
 			*ngFor="let helper of node?.getAllParticipants(); let i=index;trackBy:trackByUserId">
 			<initiative-helper-input [helper]="helper" [isUnauthorized]="!canEditHelper(helper)"
-				[isAuthority]="isAuthority(helper)" [team]="team" [summaryUrlRoot]="getSummaryUrlRoot()"
+				[isAuthority]="isAuthority(helper)" [team]="team" (selectMember)="onSelectMember($event)"
 				(remove)="removeHelper($event)" (save)="saveHelpers()">
 				<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
 			</initiative-helper-input>

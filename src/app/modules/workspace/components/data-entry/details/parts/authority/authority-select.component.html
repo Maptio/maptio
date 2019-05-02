@@ -20,11 +20,8 @@
             <common-autocomplete #autocomplete [placeholder]="placeholder"
                 [removeConfirmationMessage]="'Remove this authority and associated role?'" [resultTemplate]="rt"
                 [showSelectedResult]="true" [resultFormatter]="formatter" [isUnauthorized]="isUnauthorized" [item]="authority" [filter]="filterMembers" (pick)="onSelect($event)">
-                <initiative-member-label *ngIf="authority" [member]="authority" [summaryUrl]="summaryUrlRoot"></initiative-member-label>
-                <!-- <a *ngIf="authority" [routerLink]="summaryUrlRoot" [queryParams]="{member: authority?.shortid}">
-                    <img src="{{authority?.picture}}"  class="rounded-circle participant-picture" />
-                    {{authority?.name}}
-                </a> -->
+                <initiative-member-label *ngIf="authority" [member]="authority" ></initiative-member-label>
+           
                 <span *ngIf="!authority">
                     No {{team?.settings.authority}}
                 </span>

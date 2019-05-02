@@ -530,6 +530,7 @@ If upon examining all branches the map of child nodes is empty, return null
 
     circle
       .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
+        
         showToolipOf$.next({ initiatives: [d.data], user: null });
         localStorage.removeItem("user_id");
 
@@ -605,7 +606,6 @@ If upon examining all branches the map of child nodes is empty, return null
         if (!localStorage.getItem("user_id")) {
           toggleDetailsPanel$.next(false);
         }
-        // localStorage.removeItem("user_id")
         // if (!localStorage.getItem("user_id")) {
         //   showToolipOf$.next({ initiatives: [root.data], user: null });
         // }

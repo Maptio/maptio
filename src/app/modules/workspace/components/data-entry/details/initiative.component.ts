@@ -43,6 +43,7 @@ export class InitiativeComponent implements OnChanges {
 
     @Output() edited: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output("editTags") editTags: EventEmitter<any> = new EventEmitter<any>();
+    @Output("selectMember") selectMember : EventEmitter<User> = new EventEmitter<User>();
 
     public members$: Promise<User[]>;
     public dataset$: Promise<DataSet>
@@ -192,6 +193,11 @@ export class InitiativeComponent implements OnChanges {
         this.onBlur();
     }
 
+    onSelectMember(member:User){
+        
+        localStorage.removeItem("node_id");
+        this.selectMember.emit(member);
+    }
 
     getSummaryUrlRoot() {
         return `/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}/directory`

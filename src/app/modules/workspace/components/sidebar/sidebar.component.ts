@@ -79,6 +79,7 @@ export class SidebarComponent implements OnInit {
     }
 
     onClearUserFilter() {
+        
         localStorage.removeItem("user_id")
         this.filteringUser = null;
         this.selectMembers.emit([]);

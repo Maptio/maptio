@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output , EventEmitter} from '@angular/core';
 import { User } from '../../../../../../../shared/model/user.data';
 
 @Component({
@@ -9,9 +9,15 @@ import { User } from '../../../../../../../shared/model/user.data';
 export class InitiativeParticipantLabelComponent implements OnInit {
 
     @Input("member") member: User;
-    @Input("summaryUrl") summaryUrl?: string;
+   @Output("selectMember") selectMember:EventEmitter<User> = new EventEmitter<User>();
 
     constructor() { }
+
+    onSelect(member:User){
+        
+        localStorage.setItem("user_id", member.shortid)
+        this.selectMember.emit(member);
+    }
 
     ngOnInit(): void { }
 }
