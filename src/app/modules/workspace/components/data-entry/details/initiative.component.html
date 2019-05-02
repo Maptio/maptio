@@ -9,7 +9,7 @@
 	</span>
 </ng-template>
 
-<div class="d-flex flex-column align-items-start">
+<!-- <div class="d-flex flex-column align-items-start">
 	<div class="custom-control custom-switch">
 		<input type="checkbox" (change)="isEditMode=!isEditMode" [value]="isEditMode" class="custom-control-input"
 			id="customSwitch1">
@@ -22,11 +22,18 @@
 
 </div>
 
-<hr>
+<hr> -->
+
+
+<div class="d-flex flex-column align-items-start">
+	<span class="font-weight-bold h5" *ngIf="!isEditMode">{{node?.name}}</span>
+	<button class="btn btn-outline-success" *ngIf="!isEditMode" (click)="isEditMode=true">Edit</button>
+	<button class="btn btn-outline-success" *ngIf="isEditMode" (click)="isEditMode=false">I'm done editing</button>
+</div>
 
 <div class="d-flex flex-column h-100" *ngIf="!isEditMode">
 
-	<span class="font-weight-bold h5">{{node?.name}}</span>
+	<!-- <span class="font-weight-bold h5">{{node?.name}}</span> -->
 
 	<div class="d-flex mb-2">
 		<initiative-single-tag *ngFor="let tag of node?.tags; let i=index" class="mr-1" [tag]="tag">
@@ -39,7 +46,8 @@
 	<div class="d-flex flex-column my-3">
 		<div *ngFor="let helper of node?.getAllParticipants(); let i=index" class="d-flex flex-column mb-2">
 			<div class="d-flex align-items-center">
-				<initiative-member-label [member]="helper" (selectMember)="onSelectMember($event)"></initiative-member-label>
+				<initiative-member-label [member]="helper" (selectMember)="onSelectMember($event)">
+				</initiative-member-label>
 				<span *ngIf="isAuthority(helper)">({{team?.settings.authority}})</span>
 			</div>
 
