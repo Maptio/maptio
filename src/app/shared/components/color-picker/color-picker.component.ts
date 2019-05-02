@@ -11,6 +11,7 @@ export class ColorPickerComponent implements OnInit {
 
     @Input("color") color: string;
     @Input("label") label: string;
+    @Input("placement") placement?: string="top";
     @Input("default") defaultColor: string;
     @Input("isMinimal") isMinimal: boolean;
     @Output("change") changeColor: EventEmitter<string> = new EventEmitter<string>();
