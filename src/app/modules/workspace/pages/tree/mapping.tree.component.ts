@@ -84,6 +84,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public isAllExpanded$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isAllCollapsed$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isReset$: Observable<boolean>;
+  public isNoMatchingCircles$: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
   private zoomSubscription: Subscription;
   private dataSubscription: Subscription;

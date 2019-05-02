@@ -69,8 +69,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public tagsState: Array<SelectableTag>;
 
   public margin: number;
-  public selectableTags$: Observable<Array<SelectableTag>>;
-  public selectableUsers$: Observable<Array<User>>;
+  public selectableTags$: Subject<Array<SelectableTag>> = new Subject<SelectableTag[]>();
+  public selectableUsers$: Subject<Array<User>> = new Subject<User[]>();
   public zoom$: Observable<number>;
   // public fontColor$: Observable<string>;
   public mapColor$: Observable<string>;
@@ -78,6 +78,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public toggleDetailsPanel$:Subject<boolean> = new Subject<boolean>();
   // public isLocked$: Observable<boolean>;
   public isReset$: Observable<boolean>;
+  public isNoMatchingCircles$: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
 
   public rootNode: Initiative;

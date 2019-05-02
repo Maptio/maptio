@@ -5,11 +5,11 @@
 
 
 
-<a *ngIf="summaryUrl" class="d-flex align-items-center" [routerLink]="summaryUrl"
+<button *ngIf="summaryUrl" class="btn btn-link d-flex align-items-center" [routerLink]="summaryUrl"
     [queryParams]="{member: member.shortid}">
     <ng-container *ngTemplateOutlet="memberLabel"></ng-container>
    
-</a>
+</button>
 <span *ngIf="!summaryUrl" class="d-flex align-items-center" >
         <ng-container *ngTemplateOutlet="memberLabel"></ng-container>
    

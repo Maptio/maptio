@@ -81,7 +81,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public showToolipOf$: Subject<{ initiatives: Initiative[], user: User }> = new Subject<{ initiatives: Initiative[], user: User }>();
   public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }>();
   public toggleDetailsPanel$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public isNoMatchingCircles$: Subject<boolean> = new BehaviorSubject<boolean>();
+  public isNoMatchingCircles$: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
   private zoomSubscription: Subscription;
   private dataSubscription: Subscription;
@@ -348,7 +348,7 @@ If upon examining all branches the map of child nodes is empty, return null
     const uiService = this.uiService;
     const router: Router = this.router;
     const route: ActivatedRoute = this.route;
-    const zoomSubscription = this.zoomSubscription;
+    let zoomSubscription = this.zoomSubscription;
     let view: any;
     let lastZoomCircle = this.lastZoomCircle;
     let setIsShowMission = this.setIsShowMission.bind(this);

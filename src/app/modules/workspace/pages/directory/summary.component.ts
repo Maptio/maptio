@@ -15,7 +15,7 @@ import { SelectableTag, Tag } from "../../../../shared/model/tag.data";
 import { Observable, Subscription } from "rxjs";
 import { IDataVisualizer } from "../../components/canvas/mapping.interface";
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
-import { Subject } from "rxjs";
+import { Subject, BehaviorSubject} from "rxjs";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { UserService } from "../../../../shared/services/user/user.service";
@@ -51,9 +51,11 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     public translateY: number;
     public scale: number;
     public tagsState: Array<SelectableTag>;
-
+    public isNoMatchingCircles$: Subject<boolean> = new BehaviorSubject<boolean>(false);
+    public toggleDetailsPanel$:Subject<boolean> = new BehaviorSubject<boolean>(false);
+  
     public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
-    public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
+    public showToolipOf$: Subject<{ initiatives: Initiative[], user: User }> = new Subject<{ initiatives: Initiative[], user: User }>();
     public showContextMenuOf$: Subject<{
         initiatives: Initiative[], x: Number, y: Number,
         isReadOnlyContextMenu: boolean
