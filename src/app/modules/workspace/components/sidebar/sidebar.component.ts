@@ -81,6 +81,8 @@ export class SidebarComponent implements OnInit {
         localStorage.removeItem("user_id")
         this.filteringUser = null;
         this.selectMembers.emit([]);
+        this.selectInitiative.emit(null);
+        this.selectTags.emit([])
         this.cd.markForCheck();
     }
 

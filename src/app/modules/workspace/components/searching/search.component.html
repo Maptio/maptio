@@ -52,7 +52,7 @@
                     [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" autofocus="autofocus"
                     placement="bottom-left" placeholder="Search by name, description, people" />
                 <div class="input-group-append">
-                    <button class="btn  btn-outline-secondary" (click)="initiativeSearch.value='';clearSearch()">
+                    <button ngbTooltip="Clear search" placement="top" container="body" class="btn  btn-outline-secondary" (click)="initiativeSearch.value='';clearSearch()">
                         <i class="fa fa-times"></i>   
                     </button>
                 </div>
