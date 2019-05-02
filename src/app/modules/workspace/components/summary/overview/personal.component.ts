@@ -68,10 +68,10 @@ export class PersonalSummaryComponent implements OnInit {
         }
         if (changes.dataset && changes.dataset.currentValue) {
             this._dataset = changes.dataset.currentValue;
-            this.columnNumber = (localStorage.getItem(`map_settings_${this._dataset.datasetId}`)
+            this.columnNumber = 1; /*(localStorage.getItem(`map_settings_${this._dataset.datasetId}`)
                 ? JSON.parse(localStorage.getItem(`map_settings_${this._dataset.datasetId}`)).directoryColumnsNumber
                 : 1
-            ) || 1;
+            ) || 1;*/
             this.cd.markForCheck();
         }
         this.ngOnInit();

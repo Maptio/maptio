@@ -364,7 +364,7 @@ If upon examining all branches the map of child nodes is empty, return null
     text.each(function (dtext: any) {
       d3.select(this).selectAll("span.member-picture")
         .on("click", (d: any, index: number, elements: Array<HTMLElement>) => {
-          debugger
+          
           let shortId = elements[index].getAttribute("data-member-shortid");
           let user = (<Initiative>dtext.data).getAllParticipants().filter(u => u.shortid === shortId)[0];
           localStorage.removeItem("node_id");
@@ -391,7 +391,7 @@ If upon examining all branches the map of child nodes is empty, return null
     })
 
 
-    svg.style("padding-left", `calc(55% - ${this.height / 2}px)`);
+    svg.style("padding-left", `calc(65% - ${this.height / 2}px)`);
 
     const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 10.5;
     const zooming = d3
@@ -600,7 +600,7 @@ If upon examining all branches the map of child nodes is empty, return null
     lastZoomCircle = root;
     svg
       .on("click", (): void => {
-        debugger
+        
         localStorage.removeItem("node_id");
         if (!localStorage.getItem("user_id")) {
           toggleDetailsPanel$.next(false);
