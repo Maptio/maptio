@@ -30,7 +30,7 @@
         <div class="col-12 h-100 d-flex justify-content-between px-0">
 
 
-          <div class="h-100 w-100 d-flex justify-content-end" [class.m-4]="isFullScreen && rlaSummary.isActive">
+          <div class="h-100 w-100 d-flex justify-content-end" >
             <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
           </div>
           <div
