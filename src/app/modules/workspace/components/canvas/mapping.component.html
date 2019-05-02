@@ -34,24 +34,24 @@
             <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
           </div>
           <div
-            class="d-flex flex-column bg-transparent position-absolute top-right  align-items-center align-items-md-end col-12 col-md-auto ml-md-0 pl-md-0 my-md-2 z-index-1"
-            [class.mr-md-1]="!isFullScreen" [class.mr-md-2]="isFullScreen">
-            <div class="btn-group-vertical mb-3 d-none d-md-block">
-              <!-- <button
+            class="d-flex flex-column bg-transparent  align-items-center align-items-md-end col-12 col-md-auto z-index-1 m-4"
+            >
+            <!-- <div class="btn-group-vertical mb-3 d-none d-md-block">
+              <button
                 class="btn btn-light toolbar p-1 text-dark d-flex flex-column justify-content-between align-items-center"
                 [class.disabled]="isSearchDisabled || isMapSettingsDisabled" (click)="isSearchToggled=!isSearchToggled"
                 data-toggle="collapse" href="#collapseSearch" role="button">
                 <i class="fa fa-search"></i>
                 <span class="icon-text-label">Search</span>
-              </button> -->
-              <!-- <button
+              </button>
+              <button
                 class="btn btn-light toolbar p-1 text-dark d-flex flex-column justify-content-between align-items-center"
                 [class.disabled]="isSearchDisabled || isMapSettingsDisabled"
                 (click)="isFiltersToggled=!isFiltersToggled" data-toggle="collapse" href="#collapseFilter"
                 role="button">
                 <i class="fa fa-filter"></i>
                 <span class="icon-text-label">Filter</span>
-              </button> -->
+              </button>
               <button
                 class="btn btn-light toolbar p-1 text-dark d-flex flex-column justify-content-between align-items-center"
                 [class.disabled]="isMapSettingsDisabled" (click)="isSharingToggled=!isSharingToggled"
@@ -60,9 +60,9 @@
                 <span class="icon-text-label">Share</span>
               </button>
 
-            </div>
+            </div> -->
 
-            <div class="d-none d-md-block btn-group-vertical my-3">
+            <!-- <div class="d-none d-md-block btn-group-vertical my-3">
               <ng-container *ngTemplateOutlet="viewsButtonGroup"></ng-container>
               <button
                 class="d-flex btn btn-light toolbar select-view summary-list text-dark p-1 btn-control flex-column justify-content-end align-items-center"
@@ -73,20 +73,20 @@
             </div>
             <div class="d-md-none btn-group col-9 my-2">
               <ng-container *ngTemplateOutlet="viewsButtonGroup"></ng-container>
-            </div>
+            </div> -->
 
-            <div class=" btn-group-vertical my-3 d-none d-md-block">
+            <div class=" btn-group-vertical d-none d-md-block">
               <button
                 class="btn btn-light toolbar text-dark p-1 d-flex flex-column justify-content-between align-items-center"
                 [class.disabled]="isMapSettingsDisabled" (click)="zoomOut()">
                 <i class="fa fa-minus py-1"></i>
-                <span class="icon-text-label">Zoom out</span>
+                <!-- <span class="icon-text-label">Zoom out</span> -->
               </button>
               <button
                 class="btn btn-light toolbar text-dark p-1 d-flex flex-column justify-content-between align-items-center"
                 [class.disabled]="isMapSettingsDisabled" (click)="zoomIn()">
                 <i class="fa fa-plus py-1"></i>
-                <span class="icon-text-label">Zoom in</span>
+                <!-- <span class="icon-text-label">Zoom in</span> -->
               </button>
               <!-- <button
                 class="btn btn-light toolbar text-dark p-1 d-flex flex-column justify-content-between  align-items-center"
@@ -103,8 +103,9 @@
               </button>
             </div>
             <div class=" btn-group-vertical my-3 d-none d-md-block">
-                <common-color-picker [isMinimal]="true" [color]="settings.mapColor" [label]="'Map'" [default]="DEFAULT_MAP_COLOR"
-                (change)="changeMapColor($event)" [placement]="'left'"></common-color-picker>
+              <common-color-picker [isMinimal]="true" [color]="settings.mapColor" [label]="'Map'"
+                [default]="DEFAULT_MAP_COLOR" (change)="changeMapColor($event)" [placement]="'left'">
+              </common-color-picker>
               <!-- <button
                 class="btn btn-light toolbar text-dark p-1 d-flex flex-column justify-content-between align-items-center"
                 [class.disabled]="isMapSettingsDisabled" (click)="isSettingToggled=!isSettingToggled"
@@ -147,8 +148,8 @@
     <div closable class="collapse rounded col-auto bg-light p-4" id="collapseSettings">
       <div class="card bg-transparent border-0">
         <div class="card-body">
-          <common-color-picker [isMinimal]="true" [color]="settings.mapColor" [label]="'Map'" [default]="DEFAULT_MAP_COLOR"
-            (change)="changeMapColor($event)"></common-color-picker>
+          <common-color-picker [isMinimal]="true" [color]="settings.mapColor" [label]="'Map'"
+            [default]="DEFAULT_MAP_COLOR" (change)="changeMapColor($event)"></common-color-picker>
         </div>
 
       </div>
@@ -164,6 +165,6 @@
   </button> to create your first circle
 </div>
 <div *ngIf="isEmptyMap" class="px-4 d-flex flex-column position-absolute center-center d-md-none w-100 text-center">
-    <b>Map editing is disable on mobile.</b> 
-    <span class="text-muted">Open Maptio on a desktop to start adding circles</span>
-  </div>
+  <b>Map editing is disable on mobile.</b>
+  <span class="text-muted">Open Maptio on a desktop to start adding circles</span>
+</div>
