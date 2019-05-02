@@ -19,18 +19,23 @@ export class SidebarComponent implements OnInit {
     @Output("selectMembers") selectMembers = new EventEmitter<User[]>();
     @Output("selectTags") selectTags = new EventEmitter<Tag[]>();
     @Output("toggleFullHeight") toggleFullHeight = new EventEmitter<boolean>();
+    @Output("openBuildingPanel") openBuildingPanel = new EventEmitter<void>();
+    @Output("openTagsPanel") openTagsPanel = new EventEmitter<void>();
 
     mission: string;
     filteringUser: User;
     flattenNodes: Initiative[];
     tags: SelectableTag[];
-    isShowAdvanced:boolean;
+    isShowAdvanced: boolean;
 
-    constructor(private cd:ChangeDetectorRef) { }
+    constructor(private cd: ChangeDetectorRef) { }
 
-    ngOnInit(): void { }
+    ngOnInit(): void {
+
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
+        console.log(localStorage.getItem("user_id"))
         //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
         //Add '${implements OnChanges}' to the class.
         if (changes.dataset && changes.dataset.currentValue) {
@@ -40,11 +45,31 @@ export class SidebarComponent implements OnInit {
                 t => t.name.length,
                 "desc");
             this.flattenNodes = dataset.initiative.flatten();
+
+
+
             this.cd.markForCheck();
         }
     }
 
-    onShowAdvanced(){
+    ngDoCheck(): void {
+        if (!this.filteringUser) {
+            if (localStorage.getItem("user_id")) {
+                this.filteringUser = this.members.filter(m => m.shortid === localStorage.getItem("user_id"))[0];
+                this.cd.markForCheck();
+            }
+        }
+    }
+
+    onOpenBuildingPanel() {
+        this.openBuildingPanel.emit();
+    }
+
+    onOpenTagsPanel() {
+        this.openTagsPanel.emit();
+    }
+
+    onShowAdvanced() {
         this.isShowAdvanced = !this.isShowAdvanced;
         this.toggleFullHeight.emit(this.isShowAdvanced);
     }
@@ -54,10 +79,10 @@ export class SidebarComponent implements OnInit {
     }
 
     onClearUserFilter() {
+        localStorage.removeItem("user_id")
         this.filteringUser = null;
         this.selectMembers.emit([]);
         this.cd.markForCheck();
-        // this.selectableUsers$.next([]);
     }
 
     filterMembers = (term: string) => {
@@ -69,16 +94,13 @@ export class SidebarComponent implements OnInit {
 
 
     onSelectingUser(user: User) {
+        localStorage.setItem("user_id", user.shortid)
         this.filteringUser = user;
         this.selectMembers.emit([user]);
         this.cd.markForCheck();
-        // this.selectableUsers$.next([user]);
-        // this.showToolipOf$.next({ initiatives: null, user: user });
     }
 
     onSelectTag(tags: SelectableTag[]) {
-        console.log(tags, tags.filter(t => t.isSelected))
-        // this.selectableTags$.next(tags.filter(t => t.isSelected))
         this.selectTags.emit(tags.filter(t => t.isSelected))
     }
 }
