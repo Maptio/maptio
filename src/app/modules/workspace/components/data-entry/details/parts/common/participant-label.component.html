@@ -1,9 +1,15 @@
 <ng-template #memberLabel>
-        <img src="{{member?.picture}}" class="rounded-circle participant-picture" />
-        <span class="mx-1">{{member.name}}</span>
+    <img src="{{member?.picture}}" class="rounded-circle participant-picture" />
+    <span class="mx-1">{{member.name}}</span>
 </ng-template>
 
-<button  class="pl-0 btn btn-link d-flex align-items-center" (click)="onSelect(member)">
+<button *ngIf="!isLabel" class="pl-0 btn btn-link d-flex align-items-center" (click)="onSelect(member)">
     <ng-container *ngTemplateOutlet="memberLabel"></ng-container>
-   
+
 </button>
+
+
+<span *ngIf="isLabel" class="d-flex align-items-center">
+    <ng-container *ngTemplateOutlet="memberLabel"></ng-container>
+
+</span>

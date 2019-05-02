@@ -38,15 +38,12 @@
                 <div class="search-terms my-3">
                     <div data-toggle="collapse" class="cursor-pointer text-uppercase small text-muted"
                         href="#filterByUser" role="button" aria-expanded="true" aria-controls="filterByUser">
-                        <!-- <span class="toggle-collapse mr-1">
-                                <i class="fa fa-caret-right"></i>
-                            </span> -->
+                 
                         Filter by user
                     </div>
-                    <!-- <span class="text-uppercase small text-muted">Filter by user</span> -->
                     <div class="my-1 " id="filterByUser">
                         <div *ngIf="filteringUser" class="d-flex align-items-center">
-                            <initiative-member-label [member]="filteringUser">
+                            <initiative-member-label [member]="filteringUser" [isLabel]="true">
                             </initiative-member-label>
                             <button class="btn btn-sm" (click)="onClearUserFilter()">
                                 <i class="fa fa-times text-muted"></i>
