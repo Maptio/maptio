@@ -138,23 +138,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this._lastZoomedCircle = v;
   }
 
-
-
-
   public setIsShowMission(v: boolean) {
     this.isShowMission = v;
     this.cd.markForCheck();
   }
 
-
-  // public get filteringUser(): User {
-  //   return this._filteringUser;
-  // }
-
-
-  // public set filteringUser(v: User) {
-  //   this._filteringUser = v;
-  // }
 
   ngOnInit() {
     this.loaderService.show();
@@ -258,31 +246,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     )
   }
 
-  // onSelectCircle(node: Initiative) {
-  //   this.zoomInitiative$.next(node);
-  // }
-
-  // onClearUserFilter() {
-  //   this.selectableUsers$.next([]);
-  // }
-
-  // filterMembers = (term: string) => {
-  //   return term.length < 1
-  //     ? this.members
-  //     : this.members
-  //       .filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email))
-  // }
-
-
-  // onSelectingUser(user: User) {
-  //   this.selectableUsers$.next([user]);
-  //   this.showToolipOf$.next({ initiatives: null, user: user });
-  // }
-
-  // onSelectTag(tags: SelectableTag[]) {
-  //   console.log(tags, tags.filter(t => t.isSelected))
-  //   this.selectableTags$.next(tags.filter(t => t.isSelected))
-  // }
 
   filterByTags(initiative: Initiative, tags: Tag[], users: User[]): Initiative {
 
@@ -382,6 +345,7 @@ If upon examining all branches the map of child nodes is empty, return null
     const uiService = this.uiService;
     const router: Router = this.router;
     const route: ActivatedRoute = this.route;
+    const zoomSubscription = this.zoomSubscription;
     let view: any;
     let lastZoomCircle = this.lastZoomCircle;
     let setIsShowMission = this.setIsShowMission.bind(this);
@@ -397,13 +361,15 @@ If upon examining all branches the map of child nodes is empty, return null
     text.each(function (dtext: any) {
       d3.select(this).selectAll("span.member-picture")
         .on("click", (d: any, index: number, elements: Array<HTMLElement>) => {
+          debugger
           let shortId = elements[index].getAttribute("data-member-shortid");
           let user = (<Initiative>dtext.data).getAllParticipants().filter(u => u.shortid === shortId)[0];
+          localStorage.removeItem("node_id");
+          localStorage.setItem("user_id", user.shortid);
           selectableUsers$.next([user]);
           showToolipOf$.next({ initiatives: null, user: user });
           document.querySelector("#controls-box").classList.add("show");
-          localStorage.removeItem("node_id");
-          localStorage.setItem("user_id", user.shortid);
+          
 
           // router.navigate(["../directory"], { relativeTo: route, queryParams: { member: shortId } });
           d3.getEvent().stopPropagation();
@@ -631,14 +597,18 @@ If upon examining all branches the map of child nodes is empty, return null
     lastZoomCircle = root;
     svg
       .on("click", (): void => {
+        debugger
         localStorage.removeItem("node_id");
-        toggleDetailsPanel$.next(false);
+        if(!localStorage.getItem("user_id")){
+          toggleDetailsPanel$.next(false);
+        }
+        // localStorage.removeItem("user_id")
         // if (!localStorage.getItem("user_id")) {
         //   showToolipOf$.next({ initiatives: [root.data], user: null });
         // }
         zoom(root);
 
-        setIsShowMission(true);
+        // setIsShowMission(true);
         d3.getEvent().stopPropagation();
       })
     initMapElementsAtPosition([root.x, root.y])
@@ -666,7 +636,7 @@ If upon examining all branches the map of child nodes is empty, return null
       svg.dispatch("click");
     }
 
-    this.zoomInitiative$.asObservable().subscribe(zoomedNode => {
+    zoomSubscription = this.zoomInitiative$.asObservable().subscribe(zoomedNode => {
       
       if (!zoomedNode) {
         svg.dispatch("click");

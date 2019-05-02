@@ -54,7 +54,7 @@
 }
 
 .close-panel-button {
-    top:50%;
+    top:0%;
     left:30%;
     z-index:1;
 }

@@ -72,10 +72,10 @@
 
 
 
-            <button class="close-panel-button position-absolute btn btn-light rounded-0 rounded-right p-0 m-0 py-3 px-1" *ngIf="isFullSidebar"
-                (click)="closeAllPanels()">
+            <button class="close-panel-button position-absolute btn btn-light rounded-0 rounded-right p-0 m-0 py-3 px-2" *ngIf="isFullSidebar"
+                (click)="closeAllPanels()" ngbTooltip="Close side panel" placement="right" container="body">
                 <span aria-hidden="true" class="text-muted">
-                    <i class="fas fa-times"></i>
+                    <i class="fas fa-caret-left"></i>
                 </span>
             </button>
             <div id="side-navigation"
@@ -86,17 +86,12 @@
 
 
                 <div class="z-index-2 position-absolute top-left card border-0 m-2"
-                    [class.bg-transparent]="isFullSidebar"
+                    [class.bg-transparent]="isFullSidebar" [class.bg-translucid]="!isFullSidebar"
                     [class.d-none]="!isDetailsPanelCollapsed || !isBuildingPanelCollapsed || !isTagsPanelCollapsed">
                     <div class="card-body">
                         <sidebar [dataset]="dataset" [members]="members" [user]="user"
                             (selectMembers)="onSelectMembers($event)" (selectInitiative)="onSelectInitiative($event)"
-                            (selectTags)="onSelectTags($event)" (toggleFullHeight)="isFullSidebar=!isFullSidebar">
-                            <div>
-                                <button class="btn btn-success" (click)="openBuildingPanel()">View/Edit map</button>
-                                <button class="btn btn-success" (click)="openTagsPanel()">View/Edit tags</button>
-
-                            </div>
+                            (selectTags)="onSelectTags($event)" (toggleFullHeight)="isFullSidebar=!isFullSidebar" (openBuildingPanel)="openBuildingPanel()" (openTagsPanel)="openTagsPanel()">
 
                         </sidebar>
                     </div>
@@ -110,6 +105,7 @@
 
                         <div class="d-flex mh-100  overflow-y overflow-x-hidden">
                             <div class="w-100 h-100 position-relative">
+                                    
                                 <div class="slideable " [class.hide]="isBuildingPanelCollapsed"
                                     [ngClass]="{'show ':!isBuildingPanelCollapsed}">
                                     <building class="w-100" #building [user]="user" [isEmptyMap]="isEmptyMap"
@@ -131,8 +127,9 @@
                                     </div>
 
                                 </div>
-                                <div class="slideable" [class.hide]="isTagsPanelCollapsed"
+                                <div class="slideable d-flex flex-column" [class.hide]="isTagsPanelCollapsed"
                                     [ngClass]="{'show ':!isTagsPanelCollapsed}">
+                                  
                                     <edit-tags [tags]="tags" [team]="team" (edit)="onEditingTags($event)"></edit-tags>
 
                                 </div>
