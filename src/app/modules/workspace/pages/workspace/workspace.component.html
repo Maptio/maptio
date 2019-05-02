@@ -128,7 +128,8 @@
                                             (edited)="saveDetailChanges()" [isEditMode]="isEditMode"
                                             (editTags)="onEditTags()"></initiative>
                                         <summary-personal *ngIf="openedUser" [member]="openedUser"
-                                            [initiative]="dataset.initiative" [team]="team" [dataset]="dataset">
+                                            [initiative]="dataset.initiative" [team]="team" [dataset]="dataset"
+                                            (selectMember)="onSelectMembers([$event])" (selectInitiative)="onSelectInitiative($event)">
                                         </summary-personal>
                                     </div>
 
