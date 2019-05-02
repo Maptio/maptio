@@ -53,10 +53,10 @@ export class SidebarComponent implements OnInit {
     }
 
     ngDoCheck(): void {
-        if (localStorage.getItem("user_id")) {
-            this.filteringUser = this.members.filter(m => m.shortid === localStorage.getItem("user_id"))[0];
-            this.cd.markForCheck();
-        }
+        // if (localStorage.getItem("user_id")) {
+        //     this.filteringUser = this.members.filter(m => m.shortid === localStorage.getItem("user_id"))[0];
+        //     this.cd.markForCheck();
+        // }
     }
 
     onOpenBuildingPanel() {
