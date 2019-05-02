@@ -240,7 +240,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
 
                     });
 
-                d3.select(this).selectAll("foreignObject > div.details > img, foreignObject > div.details > div.secondary > span.member-picture > img")
+                d3.select(this).selectAll("foreignObject > div.details > span > img, foreignObject > div.details > div.secondary > span.member-picture > img")
                     .style("height", () => {
                         return `${isVerySmallCircle ? 1 : myInnerFontScale(zoomFactor)}px`
 

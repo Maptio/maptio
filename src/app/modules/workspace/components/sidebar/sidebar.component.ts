@@ -4,6 +4,8 @@ import { User } from '../../../../shared/model/user.data';
 import { DataSet } from '../../../../shared/model/dataset.data';
 import { Tag, SelectableTag } from '../../../../shared/model/tag.data';
 import { orderBy } from 'lodash';
+import { EmitterService } from '../../../../core/services/emitter.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'sidebar',
@@ -27,11 +29,22 @@ export class SidebarComponent implements OnInit {
     flattenNodes: Initiative[];
     tags: SelectableTag[];
     isShowAdvanced: boolean;
+    filteringUserSubscription:Subscription;
 
     constructor(private cd: ChangeDetectorRef) { }
 
     ngOnInit(): void {
+        this.filteringUserSubscription = EmitterService.get("filtering_user_id").asObservable().subscribe(user => {
+            debugger
+            this.filteringUser = user;
+            this.cd.markForCheck()
+        })
+    }
 
+    ngOnDestroy(): void {
+        //Called once, before the instance is destroyed.
+        //Add 'implements OnDestroy' to the class.
+        this.filteringUserSubscription.unsubscribe();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -52,13 +65,6 @@ export class SidebarComponent implements OnInit {
         }
     }
 
-    ngDoCheck(): void {
-        // if (localStorage.getItem("user_id")) {
-        //     this.filteringUser = this.members.filter(m => m.shortid === localStorage.getItem("user_id"))[0];
-        //     this.cd.markForCheck();
-        // }
-    }
-
     onOpenBuildingPanel() {
         this.openBuildingPanel.emit();
     }
@@ -77,9 +83,9 @@ export class SidebarComponent implements OnInit {
     }
 
     onClearUserFilter() {
-
+        EmitterService.get("filtering_user_id").next(null);
         localStorage.removeItem("user_id")
-        this.filteringUser = null;
+        // this.filteringUser = null;
         this.selectMembers.emit([]);
         this.selectInitiative.emit(null);
         this.selectTags.emit([])
@@ -95,8 +101,9 @@ export class SidebarComponent implements OnInit {
 
 
     onSelectingUser(user: User) {
+        EmitterService.get("filtering_user_id").next(user);
         localStorage.setItem("user_id", user.shortid)
-        this.filteringUser = user;
+        // this.filteringUser = user;
         this.selectMembers.emit([user]);
         this.cd.markForCheck();
     }

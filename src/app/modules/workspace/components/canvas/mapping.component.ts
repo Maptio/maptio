@@ -36,6 +36,7 @@ import * as screenfull from 'screenfull';
 import { SlackService } from "../sharing/slack.service";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { MapSettingsService, MapSettings } from "../../services/map-settings.service";
+import { EmitterService } from "../../../../core/services/emitter.service";
 
 @Component({
   selector: "mapping",
@@ -86,7 +87,7 @@ export class MappingComponent {
   public flattenInitiative: Initiative[] = [];
   public team: Team;
   public dataset: DataSet;
-  public members :User[];
+  public members: User[];
   public slug: string;
   public tags: Array<SelectableTag>;
   public tagsFragment: string;
@@ -97,7 +98,7 @@ export class MappingComponent {
   public subscription: Subscription;
   public instance: IDataVisualizer;
   public settings: MapSettings;
-  public isNoMatchingCircles:boolean;
+  public isNoMatchingCircles: boolean;
 
   isFiltersToggled: boolean = false;
   isSearchDisabled: boolean = false;
@@ -175,24 +176,30 @@ export class MappingComponent {
     this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
     this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
 
-    component.showToolipOf$.asObservable().subscribe((tooltip: { initiatives: Initiative[], user:User}) => {
-      if(tooltip.initiatives) this.openDetails.emit(tooltip.initiatives[0]);
-      if(tooltip.user) this.openUserSummary.emit(tooltip.user);
+    component.showToolipOf$.asObservable().subscribe((tooltip: { initiatives: Initiative[], user: User }) => {
+      if (tooltip.initiatives) {
+        this.openDetails.emit(tooltip.initiatives[0]);
+      }
+
+      if (tooltip.user) {
+        this.openUserSummary.emit(tooltip.user);
+        EmitterService.get("filtering_user_id").next(tooltip.user);
+      }
     })
 
     component.showContextMenuOf$.asObservable().subscribe(node => {
       this.showContextMenu(node);
     })
 
-    component.toggleDetailsPanel$.filter(o => !o).subscribe(()=>{
+    component.toggleDetailsPanel$.filter(o => !o).subscribe(() => {
       this.hideAllPanels.emit();
     })
 
-    component.isNoMatchingCircles$.filter(o=> o).subscribe(()=>{
+    component.isNoMatchingCircles$.filter(o => o).subscribe(() => {
       this.noSearchResults.emit(true);
     })
 
-    let f = this.route.snapshot.fragment ; //|| this.getFragment(component);
+    let f = this.route.snapshot.fragment; //|| this.getFragment(component);
     this.x = Number.parseFloat(this.uriService.parseFragment(f).get("x"));
     this.y = Number.parseFloat(this.uriService.parseFragment(f).get("y"));
     this.scale = Number.parseFloat(
@@ -457,11 +464,11 @@ export class MappingComponent {
     // location.hash = this.uriService.buildFragment(ancient);
   }
 
-  broadcastUsersSelection(user:User){
+  broadcastUsersSelection(user: User) {
 
     this.selectableUsers$.next([user])
   }
-  resetBroadcastUsersSelection(){
+  resetBroadcastUsersSelection() {
     this.selectableUsers$.next(this.members)
   }
 
