@@ -40,7 +40,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public isEmptyMap: Boolean;
     public isSaving: Boolean;
     public isEditMode: boolean;
-    public isNoSearchResults:boolean;
+    public isNoSearchResults: boolean;
     // public isSettingsPanelCollapsed: boolean = true;
     public datasetId: string;
     private routeSubscription: Subscription;
@@ -69,7 +69,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public mapped: Initiative;
     teamName: string;
     teamId: string;
-    isFullSidebar:boolean;
+    isFullSidebar: boolean;
     selectableTags: Array<Tag>;
 
     @ViewChild("dragConfirmation")
@@ -92,7 +92,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
         this.routeSubscription = this.route.data
             .do((data) => {
-                
+
                 let newDatasetId = data.data.dataset.datasetId;
                 if (newDatasetId !== this.datasetId) {
                     this.isBuildingPanelCollapsed = true;
@@ -179,7 +179,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     onSelectMembers(members: User[]) {
-        
+
         this.isNoSearchResults = false;
         this.cd.markForCheck();
         this.selectableUsers$.next(members);
@@ -214,15 +214,15 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         if (this.isDetailsPanelCollapsed) this.openDetailsPanel();
         this.cd.markForCheck();
     }
-    onNoSearhcResults(){
-        this.isFullSidebar=false;
+    onNoSearhcResults() {
+        this.isFullSidebar = false;
         this.isNoSearchResults = true;
         this.cd.markForCheck();
     }
 
     onOpenUserSummary(user: User) {
         this.openedUser = user;
-         this.openedNode = null;
+        this.openedNode = null;
         if (this.isDetailsPanelCollapsed) this.openDetailsPanel();
         this.cd.markForCheck();
     }

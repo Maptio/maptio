@@ -113,10 +113,12 @@ export class PersonalSummaryComponent implements OnInit {
     }
 
     onSelectMember(user: User) {
+       localStorage.setItem("user_id", user.shortid)
         this.selectMember.emit(user);
     }
 
     onSelectInitiative(initiative:Initiative){
+        localStorage.setItem("node_id", initiative.id)
         this.selectInitiative.emit(initiative);
     }
 

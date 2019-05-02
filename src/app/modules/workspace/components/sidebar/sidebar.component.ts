@@ -53,11 +53,9 @@ export class SidebarComponent implements OnInit {
     }
 
     ngDoCheck(): void {
-        if (!this.filteringUser) {
-            if (localStorage.getItem("user_id")) {
-                this.filteringUser = this.members.filter(m => m.shortid === localStorage.getItem("user_id"))[0];
-                this.cd.markForCheck();
-            }
+        if (localStorage.getItem("user_id")) {
+            this.filteringUser = this.members.filter(m => m.shortid === localStorage.getItem("user_id"))[0];
+            this.cd.markForCheck();
         }
     }
 
@@ -79,7 +77,7 @@ export class SidebarComponent implements OnInit {
     }
 
     onClearUserFilter() {
-        
+
         localStorage.removeItem("user_id")
         this.filteringUser = null;
         this.selectMembers.emit([]);
