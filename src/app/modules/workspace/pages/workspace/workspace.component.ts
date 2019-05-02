@@ -312,7 +312,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     private isOnePanelOpened() {
-        return this.isBuildingPanelCollapsed !== this.isDetailsPanelCollapsed;
+        return this.isBuildingPanelCollapsed || this.isDetailsPanelCollapsed || this.isTagsPanelCollapsed;
     }
 
     private isTwoPanelsOpened() {

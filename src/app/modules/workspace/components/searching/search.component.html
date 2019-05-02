@@ -47,12 +47,16 @@
 
         <div class="w-100 d-flex justify-content-start"> -->
             <div class="d-flex input-group ">
+                <div class="input-group-prepend">
+                    <ng-content></ng-content>
+                    
+                </div>
                     <input #initiativeSearch highlightClass="highlight-typeahead" [resultTemplate]="rt" type="text" id="initiativeSearch"
                     class="form-control " (selectItem)="select($event)" [ngbTypeahead]="search"
                     [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" autofocus="autofocus"
                     placement="bottom-left" placeholder="Search by name, description, people" />
                 <div class="input-group-append">
-                    <button ngbTooltip="Clear search" placement="top" container="body" class="btn  btn-outline-secondary" (click)="initiativeSearch.value='';clearSearch()">
+                    <button ngbTooltip="Clear search" placement="top" container="body" class="btn border border-left-0" (click)="initiativeSearch.value='';clearSearch()">
                         <i class="fa fa-times"></i>   
                     </button>
                 </div>
