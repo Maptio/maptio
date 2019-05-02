@@ -50,10 +50,10 @@
                     <input #initiativeSearch highlightClass="highlight-typeahead" [resultTemplate]="rt" type="text" id="initiativeSearch"
                     class="form-control " (selectItem)="select($event)" [ngbTypeahead]="search"
                     [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" autofocus="autofocus"
-                    placement="bottom-left" placeholder="Search circles" />
+                    placement="bottom-left" placeholder="Search by name, description, people" />
                 <div class="input-group-append">
-                    <button class="btn  btn-secondary" (click)="initiativeSearch.value='';clearSearch()">
-                        <i class="fa fa-times text-white"></i>   
+                    <button class="btn  btn-outline-secondary" (click)="initiativeSearch.value='';clearSearch()">
+                        <i class="fa fa-times"></i>   
                     </button>
                 </div>
             </div>
