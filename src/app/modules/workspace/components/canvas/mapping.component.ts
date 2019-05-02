@@ -97,6 +97,7 @@ export class MappingComponent {
   public subscription: Subscription;
   public instance: IDataVisualizer;
   public settings: MapSettings;
+  public isNoMatchingCircles:boolean;
 
   isFiltersToggled: boolean = false;
   isSearchDisabled: boolean = false;
@@ -119,7 +120,7 @@ export class MappingComponent {
   @Output("expandTree") expandTree = new EventEmitter<boolean>();
   @Output("toggleEditingPanelsVisibility") toggleEditingPanelsVisibility = new EventEmitter<Boolean>();
   @Output("hideAllPanels") hideAllPanels = new EventEmitter<void>();
-
+  @Output("noSearchResults") noSearchResults = new EventEmitter<boolean>();
   constructor(
     private dataService: DataService,
     private cd: ChangeDetectorRef,
@@ -185,6 +186,10 @@ export class MappingComponent {
 
     component.toggleDetailsPanel$.filter(o => !o).subscribe(()=>{
       this.hideAllPanels.emit();
+    })
+
+    component.isNoMatchingCircles$.filter(o=> o).subscribe(()=>{
+      this.noSearchResults.emit(true);
     })
 
     let f = this.route.snapshot.fragment ; //|| this.getFragment(component);

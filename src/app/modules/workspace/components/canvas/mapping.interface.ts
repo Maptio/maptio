@@ -30,6 +30,7 @@ export interface IDataVisualizer {
     showToolipOf$: Subject<{ initiatives: Initiative[], user: User }>;
     showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }>;
     toggleDetailsPanel$:Subject<boolean>;
+    isNoMatchingCircles$:Subject<boolean>;
     analytics: Angulartics2Mixpanel;
 
     init(): void;

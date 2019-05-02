@@ -33,6 +33,18 @@ body{
   background: hsla(255, 100%, 100%, 0.95);
 }
 
+.opacity-10{
+opacity:0.1
+}
+
+.opacity-50{
+  opacity:0.5
+}
+
+.opacity-100{
+  opacity:1; 
+}
+
 .bg-texture, .modal-content{
   background-color: #ffffff;
 background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%232f81b7' fill-opacity='0.05' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");

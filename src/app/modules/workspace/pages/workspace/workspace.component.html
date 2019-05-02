@@ -72,15 +72,16 @@
 
 
 
-            <button class="close-panel-button position-absolute btn btn-light rounded-0 rounded-right p-0 m-0 py-3 px-2" *ngIf="isFullSidebar"
-                (click)="closeAllPanels()" ngbTooltip="Close side panel" placement="right" container="body">
+            <button class="close-panel-button position-absolute btn btn-light rounded-0 rounded-right p-0 m-0 py-3 px-2"
+                *ngIf="isFullSidebar" (click)="closeAllPanels()" ngbTooltip="Close side panel" placement="right"
+                container="body">
                 <span aria-hidden="true" class="text-muted">
                     <i class="fas fa-caret-left"></i>
                 </span>
             </button>
-            <div id="side-navigation"
-                [ngClass]="{'overflow-y h-100 bg-white z-index-1 border-0 border-right box-shadow-right rounded-0 rounded-left ':isFullSidebar}"
-                [ngClass]="{'bg-transparent ':!isFullSidebar}"
+            <div id="side-navigation" [ngClass]="{
+                    'overflow-y h-100 bg-white z-index-1 border-0 border-right box-shadow-right rounded-0 rounded-left ':isFullSidebar,
+                'bg-transparent ':!isFullSidebar}"
                 class="position-absolute card  d-md-flex flex-md-column  justify-content-start">
 
 
@@ -91,8 +92,13 @@
                     <div class="card-body">
                         <sidebar [dataset]="dataset" [members]="members" [user]="user"
                             (selectMembers)="onSelectMembers($event)" (selectInitiative)="onSelectInitiative($event)"
-                            (selectTags)="onSelectTags($event)" (toggleFullHeight)="isFullSidebar=!isFullSidebar" (openBuildingPanel)="openBuildingPanel()" (openTagsPanel)="openTagsPanel()">
-
+                            (selectTags)="onSelectTags($event)" (toggleFullHeight)="isFullSidebar=!isFullSidebar"
+                            (openBuildingPanel)="openBuildingPanel()" (openTagsPanel)="openTagsPanel()">
+                         <div>
+                                <span class="small text-orange" *ngIf="isNoSearchResults">
+                                        Maptio cannot find a circle matching this search</span>
+                         </div>
+                            
                         </sidebar>
                     </div>
                 </div>
@@ -105,7 +111,7 @@
 
                         <div class="d-flex mh-100  overflow-y overflow-x-hidden">
                             <div class="w-100 h-100 position-relative">
-                                    
+
                                 <div class="slideable " [class.hide]="isBuildingPanelCollapsed"
                                     [ngClass]="{'show ':!isBuildingPanelCollapsed}">
                                     <building class="w-100" #building [user]="user" [isEmptyMap]="isEmptyMap"
@@ -129,7 +135,7 @@
                                 </div>
                                 <div class="slideable d-flex flex-column" [class.hide]="isTagsPanelCollapsed"
                                     [ngClass]="{'show ':!isTagsPanelCollapsed}">
-                                  
+
                                     <edit-tags [tags]="tags" [team]="team" (edit)="onEditingTags($event)"></edit-tags>
 
                                 </div>
@@ -161,7 +167,7 @@
                             (openDetails)="onOpenDetails($event)" (openUserSummary)="onOpenUserSummary($event)"
                             (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
                             (openTreePanel)="openBuildingPanel()" (expandTree)="buildingComponent.toggleAll(true)"
-                            (hideAllPanels)="closeAllPanels()"
+                            (hideAllPanels)="closeAllPanels()" (noSearchResults)="onNoSearhcResults()"
                             (toggleEditingPanelsVisibility)="toggleEditingPanelsVisibility($event)">
                         </mapping>
                     </ng-container>

@@ -40,6 +40,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public isEmptyMap: Boolean;
     public isSaving: Boolean;
     public isEditMode: boolean;
+    public isNoSearchResults:boolean;
     // public isSettingsPanelCollapsed: boolean = true;
     public datasetId: string;
     private routeSubscription: Subscription;
@@ -204,6 +205,11 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.openedNode = node;
         this.openedUser = null;
         if (this.isDetailsPanelCollapsed) this.openDetailsPanel();
+        this.cd.markForCheck();
+    }
+    onNoSearhcResults(){
+        this.isFullSidebar=false;
+        this.isNoSearchResults = true;
         this.cd.markForCheck();
     }
 
