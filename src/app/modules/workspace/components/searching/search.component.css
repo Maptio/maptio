@@ -1,11 +1,4 @@
-.search{
-    /* padding-right: 7vw;
-    background: #00000005; */
-    font-weight: 400;
-    /* width:30vw; */
-    /* padding-left: 3vw; */
-  }
-  
+
   ::ng-deep ngb-typeahead-window.dropdown-menu {
     position:absolute;
     width: 100%;
@@ -13,3 +6,5 @@
     max-height: 33vh;
     overflow-y: auto;
   }
+
+  
