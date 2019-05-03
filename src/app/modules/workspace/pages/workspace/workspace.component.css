@@ -55,9 +55,7 @@
 }
 
 #side-navigation.hide{
-    min-width:0;
-    max-width:0;
-    width:0;
+    transform:translateX(-100%);
     opacity:0;
     transition:all 250ms;
 }
