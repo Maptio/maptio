@@ -41,7 +41,7 @@ export class SidebarComponent implements OnInit {
 
     ngOnInit(): void {
         this.filteringUserSubscription = EmitterService.get("filtering_user").asObservable().subscribe(user => {
-            
+         
             this.filteringUser = user;
             this.cd.markForCheck()
         })
