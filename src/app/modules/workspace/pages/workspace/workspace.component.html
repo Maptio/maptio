@@ -52,7 +52,6 @@
                         </div>
                     </div>
 
-
                     <div class="p-3 overflow-y">
                         <div class="w-100" [ngClass]="{'z-index-0':!isFullSidebar}">
                             <div [class.hide]="isDetailsPanelCollapsed && isBuildingPanelCollapsed && isTagsPanelCollapsed"
@@ -64,11 +63,10 @@
 
                                         <div class="slideable " [class.hide]="isBuildingPanelCollapsed"
                                             [ngClass]="{'show ':!isBuildingPanelCollapsed}">
-                                     
-                                                <building #building [user]="user"
-                                                    [isEmptyMap]="isEmptyMap" (save)="saveChanges($event)"
-                                                    (openDetails)="onOpenDetails($event)">
-                                                </building>
+
+                                            <building #building [user]="user" [isEmptyMap]="isEmptyMap"
+                                                (save)="saveChanges($event)" (openDetails)="onOpenDetails($event)">
+                                            </building>
 
                                         </div>
 

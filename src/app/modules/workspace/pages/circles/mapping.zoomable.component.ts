@@ -189,12 +189,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
         }
 
       })
-      .do((result: { svg: string, root: any, nodes: any })=>{
-         // wait till SVG is rendered before hydrating
+      .do((result: { svg: string, root: any, nodes: any }) => {
+        // wait till SVG is rendered before hydrating
         document.querySelector(".map-container").innerHTML = result.svg;
       })
       .subscribe((result: { svg: string, root: any, nodes: any }) => {
-       
+
         this.hydrate(result.root, result.nodes);
         this.flattenNodes = result.nodes.map((d: any) => d.data);
 
@@ -360,7 +360,7 @@ If upon examining all branches the map of child nodes is empty, return null
     text.each(function (dtext: any) {
       d3.select(this).selectAll("span.member-picture")
         .on("click", (d: any, index: number, elements: Array<HTMLElement>) => {
-          
+
           let shortId = elements[index].getAttribute("data-member-shortid");
           let user = (<Initiative>dtext.data).getAllParticipants().filter(u => u.shortid === shortId)[0];
           localStorage.removeItem("node_id");
@@ -534,7 +534,7 @@ If upon examining all branches the map of child nodes is empty, return null
         if (lastZoomCircle.data.id === d.data.id) { //zoom out
           lastZoomCircle = root;
           zoom(root);
-          
+
           localStorage.removeItem("node_id");
           setIsShowMission(true);
 
@@ -598,7 +598,7 @@ If upon examining all branches the map of child nodes is empty, return null
     lastZoomCircle = root;
     svg
       .on("click", (): void => {
-        
+
         localStorage.removeItem("node_id");
         if (!localStorage.getItem("user_id")) {
           toggleDetailsPanel$.next(false);
@@ -625,20 +625,22 @@ If upon examining all branches the map of child nodes is empty, return null
       svg.call(zooming);
     } catch (error) { console.error(error); }
 
+    if (!localStorage.getItem("keepEditingOpen")) {
+      if (localStorage.getItem("node_id")) {
 
-    if (localStorage.getItem("node_id")) {
-      
-      let id = localStorage.getItem("node_id");
-      if (lastZoomCircle.data.id.toString() === id.toString()) return;
-      svg.select(`circle.node[id="${id}"]`).dispatch("click");
-    } else {
-      
+        let id = localStorage.getItem("node_id");
+        if (lastZoomCircle.data.id.toString() === id.toString()) return;
+        svg.select(`circle.node[id="${id}"]`).dispatch("click");
+      } else {
 
-      svg.dispatch("click");
+
+        svg.dispatch("click");
+      }
+
     }
-
+    
     zoomSubscription = this.zoomInitiative$.asObservable().subscribe(zoomedNode => {
-      
+
       if (!zoomedNode) {
         svg.dispatch("click");
         return;

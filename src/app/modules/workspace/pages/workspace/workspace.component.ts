@@ -138,6 +138,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
 
     saveDetailChanges() {
+        localStorage.removeItem("keepEditingOpen");
         // only save initiative as tags are not modified
         // dataset is "auto-magically" bound here to changes inside initiative
         this.saveChanges({ initiative: this.dataset.initiative, tags: this.tags })
@@ -204,6 +205,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     onEditingTags(tags: Tag[]) {
+        localStorage.setItem("keepEditingOpen", true);
         this.saveChanges({ initiative: this.dataset.initiative, tags: tags })
     }
 

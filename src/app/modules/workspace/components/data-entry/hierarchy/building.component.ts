@@ -129,6 +129,7 @@ export class BuildingComponent {
     }
 
     saveChanges() {
+        localStorage.setItem("keepEditingOpen", true);
         this.save.emit({ initiative: this.nodes[0], tags: this.tags });
     }
 
