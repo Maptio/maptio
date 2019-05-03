@@ -3,62 +3,53 @@
         <span class="pointer-none text-gray-light text-uppercase small">{{r.header}}</span>
     </div>
     <div class="row " *ngIf="!r.header">
-        <div class="col-12 d-flex justify-content-between">
+        <div class="col-12 d-flex justify-content-start align-items-baseline">
 
             <ng-container>
                 <ng-container *ngIf="r.type===SearchResultType.Initiative">
-                    <div class="d-flex flex-column align-items-start w-100 small">
-                        <div class="w-100 text-truncate">
+                    <button class="btn opacity-50"><i class="fas fa-circle"></i></button>
+                    <div class="d-flex flex-column align-items-start w-100">
+                        <div class="w-100 text-wrap">
                             <span>{{r.result.name}}</span>
 
                         </div>
                         <div>
-                            <small class="flex-shrink-0" *ngIf="r.result.accountable">
-                                <span *ngIf="r.result.accountable" class="mx-1">led by</span>
+                            <small class="flex-shrink-0 d-flex align-items-center" *ngIf="r.result.accountable">
+                                <span *ngIf="r.result.accountable" class="mr-1">led by</span>
                                 <img [src]="r.result.accountable.picture" [alt]="r.result.accountable.name"
-                                    class="rounded-circle participant-picture mr-1">{{r.result.accountable.name}}
+                                    class="rounded-circle participant-picture small mr-1">{{r.result.accountable.name}}
                             </small>
                         </div>
-
-                        <!-- <small class="d-flex w-100 flex-wrap" *ngIf="r.result.helpers.length>0">
-                        <span *ngIf="r.result.helpers.length>0" class="">with the help of</span>
-
-                        <span class="pl-1" *ngFor="let helper of r.result.helpers; let i=index">
-                            <img [src]="helper.picture" [alt]="helper.name" width="15" height="15" class="rounded-circle user mr-1">{{helper.name}}
-                        </span>
-
-                    </small> -->
                     </div>
-
                 </ng-container>
-                <!-- <ng-container *ngIf="r.type===SearchResultType.User">
-                    <span>
+                <ng-container *ngIf="r.type===SearchResultType.User">
+                        <button class="btn opacity-50"><i class="fas fa-user"></i></button>
+                    <div>
                         <img [src]="r.result.picture" [alt]="r.result.name" width="30" height="30"
                             class="rounded-circle user mr-1">{{r.result.name}}
-                    </span>
-                </ng-container> -->
+                    </div>
+                </ng-container>
             </ng-container>
         </div>
     </div>
 </ng-template>
 
-<!-- <div class="card bg-transparent border-0">
-    <div class="card-body d-flex justify-content-start">
-
-        <div class="w-100 d-flex justify-content-start"> -->
+ 
 <div class="d-flex input-group search">
     <div class="input-group-prepend">
         <ng-content></ng-content>
 
     </div>
-    <!-- <div class="position-relative"> -->
-        <input #initiativeSearch highlightClass="highlight-typeahead" [resultTemplate]="rt" type="text"
-            id="initiativeSearch" class="form-control search border-left-0 border-right-0" (selectItem)="select($event)"
-            [ngbTypeahead]="search" [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false"
-            autofocus="autofocus" placement="bottom-left" placeholder="Search circles" />
-        <span class="position-absolute text-muted opacity-50" style="top:calc(50% - 12px); right:48px;"><i class="fa fa-search "></i></span>
-    <!-- </div> -->
-
+       
+    <input [value]="selectedResult?.result?.name"
+    (focus)="selectAllContent($event)" (mouseup)="$event.preventDefault()"
+    #initiativeSearch="ngbTypeahead" highlightClass="highlight-typeahead" [resultTemplate]="rt" type="text"
+        id="initiativeSearch" class="form-control search border-left-0 border-right-0 pr-5" (selectItem)="select($event)"
+        [ngbTypeahead]="search" [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false"
+         placement="bottom-left" placeholder="Search circles and people" />
+    <span class="position-absolute text-muted opacity-50" style="top:calc(50% - 12px); right:48px;"><i
+            class="fa fa-search "></i></span>
+   
     <div class="input-group-append">
         <button ngbTooltip="Clear search" placement="top" container="body" class="btn border border-left-0"
             (click)="initiativeSearch.value='';clearSearch()">
@@ -66,9 +57,3 @@
         </button>
     </div>
 </div>
-
-<!-- </div>
-
-
-    </div>
-</div> -->

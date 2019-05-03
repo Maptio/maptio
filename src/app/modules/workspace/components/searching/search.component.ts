@@ -1,7 +1,7 @@
 import { Initiative } from "../../../../shared/model/initiative.data";
-import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter, ViewChild } from "@angular/core";
 
-import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
+import { NgbTypeaheadSelectItemEvent, NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
 import { Observable } from "rxjs/Observable";
 import { User } from "../../../../shared/model/user.data";
 import { flatten, uniqBy } from "lodash-es"
@@ -11,7 +11,7 @@ export enum SearchResultType {
     User,
 }
 
-class SearchResult {
+export class SearchResult {
     type: SearchResultType
     result: User | Initiative
     header?: string
@@ -24,16 +24,20 @@ class SearchResult {
 })
 export class SearchComponent implements OnInit {
     @Input() list: Initiative[];
+    @Input() selectedResult: SearchResult;
     @Output() selectInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
     @Output() selectUser: EventEmitter<User> = new EventEmitter<User>();
+    @Output() clear:EventEmitter<void> = new EventEmitter<void>();
 
     constructor(private cd: ChangeDetectorRef) { }
 
-    ngOnInit() { }
-
     public searchResultsCount: number;
     public isSearching: boolean;
+    @ViewChild("initiativeSearch") public typeahead: NgbTypeahead;
+
     SearchResultType = SearchResultType;
+
+    ngOnInit() { }
 
     findInitiatives(term: string): SearchResult[] {
         return this.list
@@ -53,7 +57,10 @@ export class SearchComponent implements OnInit {
                             .toLowerCase()
                             .indexOf(term.toLowerCase()) > -1)
             )
-            .map(i => <SearchResult>{ type: SearchResultType.Initiative, result: i });
+            .map(i => <SearchResult>{ type: SearchResultType.Initiative, result: i })
+            .sort((a: SearchResult, b: SearchResult) => {
+                return b.result.name - a.result.name
+            });
     }
 
     findUsers(term: string): SearchResult[] {
@@ -62,30 +69,33 @@ export class SearchComponent implements OnInit {
                 .map(i => i.getAllParticipants())
             ), u => u.user_id)
             .filter(u => u.name.toLowerCase().indexOf(term.toLowerCase()) > -1)
-            .map(i => <SearchResult>{ type: SearchResultType.User, result: i });
+            .map(i => <SearchResult>{ type: SearchResultType.User, result: i })
+            .sort((a: SearchResult, b: SearchResult) => {
+                return b.result.name - a.result.name
+            });
     }
 
     addHeader(results: SearchResult[], header: SearchResult) {
         return results.length > 0 ? [header].concat(results) : [];
     }
 
-    // searchInitiatives = (text$: Observable<string>) =>
-    //     text$
-    //         .debounceTime(200)
-    //         .distinctUntilChanged()
-    //         .do((term: string) => {
-    //             this.isSearching = true && term !== "";
-    //             this.cd.markForCheck();
-    //         })
-    //         .map(search => {
-    //             return search === ""
-    //                 ? this.list
-    //                 : this.filter(search)
-    //         })
-    //         .do(list => {
-    //             this.searchResultsCount = list.length;
-    //             this.cd.markForCheck();
-    //         });
+    searchInitiatives = (text$: Observable<string>) =>
+        text$
+            .debounceTime(200)
+            .distinctUntilChanged()
+            .do((term: string) => {
+                this.isSearching = true && term !== "";
+                this.cd.markForCheck();
+            })
+            .map(search => {
+                return search === ""
+                    ? this.list
+                    : this.filter(search)
+            })
+            .do(list => {
+                this.searchResultsCount = list.length;
+                this.cd.markForCheck();
+            });
 
 
     search = (text$: Observable<string>) =>
@@ -103,28 +113,33 @@ export class SearchComponent implements OnInit {
 
                 return search === ""
                     ? []
-                    : this.findInitiatives(search).slice(0,5)
-                    // this.addHeader(this.findUsers(search), usersHeader)
-                    //     .concat(this.addHeader(this.findInitiatives(search), circlesHeader)).slice(0, 10)
+                    : this.findUsers(search).concat(this.findInitiatives(search)).slice(0, 10)
             })
             .do(list => {
                 this.searchResultsCount = list.length;
                 this.cd.markForCheck();
             })
 
-    formatter = (result: Initiative) => {
-        return result.name;
+    formatter = (result: SearchResult) => {
+        return result && result.result ? result.result.name : "";
     };
+
+    selectAllContent(event: Event) {
+        event.target.select();
+    }
 
     select(event: NgbTypeaheadSelectItemEvent) {
         if (!event.item || !event.item.result) return;
         if (event.item.type === SearchResultType.Initiative) {
             let initiative = event.item.result;
             this.isSearching = false;
+            this.selectedResult = event.item.result;
             this.cd.markForCheck();
             this.selectInitiative.emit(initiative)
         }
         if (event.item.type === SearchResultType.User) {
+            this.selectedResult = event.item.result;
+            this.cd.markForCheck();
             this.selectUser.emit(event.item.result)
         }
 
@@ -133,6 +148,8 @@ export class SearchComponent implements OnInit {
 
     clearSearch() {
         // this.select({ item: null, preventDefault: null })
-        this.selectInitiative.emit(null);
+        // this.selectInitiative.emit(null);
+        // this.selectUser.emit(null);
+        this.clear.emit();
     }
 }

@@ -6,6 +6,7 @@ import { Tag, SelectableTag } from '../../../../shared/model/tag.data';
 import { orderBy } from 'lodash';
 import { EmitterService } from '../../../../core/services/emitter.service';
 import { Subscription } from 'rxjs';
+import { SearchResult, SearchResultType } from '../searching/search.component';
 
 @Component({
     selector: 'sidebar',
@@ -17,7 +18,7 @@ export class SidebarComponent implements OnInit {
     @Input("dataset") dataset: DataSet;
     @Input("user") user: User;
     @Input("members") members: User[];
-    @Input("isWithAdvancedSearch") isWithAdvancedSearch:boolean;
+    @Input("isWithAdvancedSearch") isWithAdvancedSearch: boolean;
     @Output("selectInitiative") selectInitiative = new EventEmitter<Initiative>();
     @Output("selectMembers") selectMembers = new EventEmitter<User[]>();
     @Output("selectTags") selectTags = new EventEmitter<Tag[]>();
@@ -27,19 +28,42 @@ export class SidebarComponent implements OnInit {
 
     mission: string;
     filteringUser: User;
+    filteringInitiative: Initiative;
     flattenNodes: Initiative[];
     tags: SelectableTag[];
     isShowAdvanced: boolean;
-    filteringUserSubscription:Subscription;
+    selectedResult:SearchResult;
+
+    filteringUserSubscription: Subscription;
+    filteringInitiativeSubscription: Subscription;
 
     constructor(private cd: ChangeDetectorRef) { }
 
     ngOnInit(): void {
-        this.filteringUserSubscription = EmitterService.get("filtering_user_id").asObservable().subscribe(user => {
+        this.filteringUserSubscription = EmitterService.get("filtering_user").asObservable().subscribe(user => {
             debugger
             this.filteringUser = user;
+            this.selectedResult =
+                this.cd.markForCheck()
+        })
+
+        this.filteringInitiativeSubscription = EmitterService.get("filtering_node").asObservable().subscribe(initiative => {
+            debugger
+            this.filteringInitiative = initiative;
             this.cd.markForCheck()
         })
+    }
+
+    getSelectedResult() {
+        let r = new SearchResult();
+        if(this.filteringUser){
+            r.type = SearchResultType.User;
+            r.result = this.filteringUser
+        }else if(this.filteringInitiative){
+            r.type = SearchResultType.Initiative;
+            r.result = this.filteringInitiative
+        }
+        return r;
     }
 
     ngOnDestroy(): void {
@@ -80,18 +104,20 @@ export class SidebarComponent implements OnInit {
     }
 
     onSelectCircle(node: Initiative) {
+        this.filteringInitiative = node;
+        this.cd.markForCheck();
         this.selectInitiative.emit(node);
     }
 
-    onClearUserFilter() {
-        EmitterService.get("filtering_user_id").next(null);
-        localStorage.removeItem("user_id")
-        // this.filteringUser = null;
-        this.selectMembers.emit([]);
-        this.selectInitiative.emit(null);
-        this.selectTags.emit([])
-        this.cd.markForCheck();
-    }
+    // onClearUserFilter() {
+    //     EmitterService.get("filtering_user").next(null);
+    //     localStorage.removeItem("user_id")
+    //     // this.filteringUser = null;
+    //     this.selectMembers.emit([]);
+    //     this.selectInitiative.emit(null);
+    //     this.selectTags.emit([])
+    //     this.cd.markForCheck();
+    // }
 
     filterMembers = (term: string) => {
         return term.length < 1
@@ -100,9 +126,24 @@ export class SidebarComponent implements OnInit {
                 .filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email))
     }
 
+    onClear(){
+        EmitterService.get("filtering_user").next(null);
+        localStorage.removeItem("user_id")
+        EmitterService.get("filtering_initiative").next(null);
+        localStorage.removeItem("node_id");
+        this.filteringUser = null;
+        this.filteringInitiative = null;
+        // this.getSelectedResult();
+        // this.filteringUser = null;
+        this.selectMembers.emit([]);
+        this.selectInitiative.emit(null);
+        this.selectTags.emit([])
+        this.cd.markForCheck();
+    }
 
-    onSelectingUser(user: User) {
-        EmitterService.get("filtering_user_id").next(user);
+
+    onSelectMember(user: User) {
+        EmitterService.get("filtering_user").next(user);
         localStorage.setItem("user_id", user.shortid)
         // this.filteringUser = user;
         this.selectMembers.emit([user]);

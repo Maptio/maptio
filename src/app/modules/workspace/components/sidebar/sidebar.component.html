@@ -3,7 +3,7 @@
         <div>
             <ng-content></ng-content>
 
-            <search #search [list]="flattenNodes" (selectInitiative)="onSelectCircle($event)">
+            <search #search [list]="flattenNodes" [selectedResult]="getSelectedResult()" (selectInitiative)="onSelectCircle($event)" (clear)="onClear()" (selectUser)="onSelectMember($event)">
                 <button ngbTooltip="Menu" placement="top" container="body"
                     class="btn  border border-right-0 dropdown-toggle without-caret" type="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -42,7 +42,7 @@
 
 
             <div class="collapse" id="controls-box">
-                <div class="search-terms my-3">
+                <div *ngIf="false" class="search-terms my-3">
                     <div data-toggle="collapse" class="cursor-pointer text-uppercase small text-muted opacity-50"
                         href="#filterByUser" role="button" aria-expanded="true" aria-controls="filterByUser">
 
@@ -65,11 +65,11 @@
                                 <div class="dropdown-menu overflow-y" style="max-height:12rem"
                                     aria-labelledby="usersListDropdown">
                                     <h6 class="dropdown-header">My circles</h6>
-                                    <initiative-member-label class="dropdown-item" (click)="onSelectingUser(user)"
+                                    <initiative-member-label class="dropdown-item" (click)="onSelectMember(user)"
                                         [member]="user"></initiative-member-label>
                                     <h6 class="dropdown-header">Other people</h6>
                                     <ng-container *ngFor="let member of members">
-                                        <initiative-member-label class="dropdown-item" (click)="onSelectingUser(member)"
+                                        <initiative-member-label class="dropdown-item" (click)="onSelectMember(member)"
                                             [member]="member"></initiative-member-label>
                                     </ng-container>
                                 </div>

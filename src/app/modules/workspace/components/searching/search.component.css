@@ -3,8 +3,15 @@
     position:absolute;
     width: 100%;
     /* width:calc(100% - 3vw); */
-    max-height: 33vh;
+    /* max-height: 33vh; */
     overflow-y: auto;
+    margin-left:-38px;
+  }
+
+
+  ::ng-deep ngb-typeahead-window.dropdown-menu > .dropdown-item {
+    padding-left:0!important;
+    padding-right:0!important;
   }
 
   
