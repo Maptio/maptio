@@ -35,7 +35,7 @@
                                 'bg-translucid ':!isFullSidebar  ,
                                 'h-100' : !isOnePanelOpened()
                                }">
-                            <div class="card-body  w-100">
+                            <div class="card-body p-3  w-100">
                                 <sidebar [dataset]="dataset" [members]="members" [user]="user"
                                     [isWithAdvancedSearch]="!isOnePanelOpened() || !isFullSidebar"
                                     [isWithAdvancedSearch]="!isFullSidebar" (selectMembers)="onSelectMembers($event)"

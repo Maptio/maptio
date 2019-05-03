@@ -4,11 +4,11 @@
         relevant to multiple circles across the
         map.
     </div>
-    <div class="w-100 my-3">
+    <div class="w-100 mt-3">
         <div class=" d-flex flex-column bg-light rounded p-3 ">
             <h6>Create a new tag</h6>
 
-            <form class="form-group form-inline d-flex" [formGroup]="newTagForm" (submit)="addTag()">
+            <form class="form-group  form-inline d-flex" [formGroup]="newTagForm" (submit)="addTag()">
                 <input type="text" id="inputname" formControlName="name"
                     [class.is-invalid]="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)"
                     class="form-control form-control-warning flex-grow-1" required>
@@ -27,10 +27,9 @@
             </small>
         </div>
 
-        <hr>
         <div class="p-3">
 
-            <div class="form-group form-inline d-flex" *ngFor="let tag of tags; let i=index">
+            <div class="form-group  form-inline d-flex" *ngFor="let tag of tags; let i=index">
                 <input type="text" class="flex-grow-1 form-control" name="inputTagName"
                     [ngModelOptions]="{standalone: true}" [ngModel]="tag.name"
                     (ngModelChange)="saveTagName(tag, $event)" (blur)="saveTagChanges()" />
