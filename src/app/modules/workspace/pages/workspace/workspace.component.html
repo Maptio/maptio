@@ -9,11 +9,14 @@
         <div class=" position-relative w-100 h-100 rounded border"
             [class.overflow-hidden]="team?.isExample && isBuildingVisible">
 
-            <button class="z-index-2 box-shadow-right close-panel-button position-absolute btn btn-light rounded-0 rounded-right p-0 m-0 py-3 px-2"
-                *ngIf="isFullSidebar" [class.stick-left]="isSidebarClosed" (click)="isSidebarClosed=!isSidebarClosed" [ngbTooltip]="isSidebarClosed ? 'Expand side panel' : 'Collapse side panel'"
-                placement="right" container="body">
+            <button
+                class="z-index-2 box-shadow-right close-panel-button position-absolute btn btn-light rounded-0 rounded-right p-0 m-0 py-3 px-2"
+                *ngIf="isFullSidebar" [class.stick-left]="isSidebarClosed" (click)="isSidebarClosed=!isSidebarClosed"
+                [ngbTooltip]="isSidebarClosed ? 'Expand side panel' : 'Collapse side panel'" placement="right"
+                container="body">
                 <span aria-hidden="true" class="text-muted">
-                    <i class="fas " [class.fa-caret-right]="isSidebarClosed" [class.fa-caret-left]="!isSidebarClosed"></i>
+                    <i class="fas " [class.fa-caret-right]="isSidebarClosed"
+                        [class.fa-caret-left]="!isSidebarClosed"></i>
                 </span>
             </button>
 
@@ -50,20 +53,23 @@
                     </div>
 
 
-                    <div class="card-body overflow-hover">
-                        <div class="" [ngClass]="{'z-index-0':!isFullSidebar}">
+                    <div class="p-3 overflow-y">
+                        <div class="w-100" [ngClass]="{'z-index-0':!isFullSidebar}">
                             <div [class.hide]="isDetailsPanelCollapsed && isBuildingPanelCollapsed && isTagsPanelCollapsed"
                                 [class.show]="!isDetailsPanelCollapsed || !isBuildingPanelCollapsed || !isTagsPanelCollapsed"
                                 class="collapsible d-none d-md-flex flex-column overflow-y-hidden overflow-x-hidden ">
 
                                 <div class="d-flex mh-100  overflow-y overflow-x-hidden">
-                                    <div class="w-100 h-100 position-relative">
+                                    <div class="mw-100 h-100 position-relative">
 
                                         <div class="slideable " [class.hide]="isBuildingPanelCollapsed"
                                             [ngClass]="{'show ':!isBuildingPanelCollapsed}">
-                                            <building class="w-100" #building [user]="user" [isEmptyMap]="isEmptyMap"
-                                                (save)="saveChanges($event)" (openDetails)="onOpenDetails($event)">
-                                            </building>
+                                     
+                                                <building #building [user]="user"
+                                                    [isEmptyMap]="isEmptyMap" (save)="saveChanges($event)"
+                                                    (openDetails)="onOpenDetails($event)">
+                                                </building>
+
                                         </div>
 
                                         <div class="slideable  " [class.hide]="isDetailsPanelCollapsed"
@@ -83,7 +89,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="slideable d-flex flex-column" [class.hide]="isTagsPanelCollapsed"
+                                        <div class="slideable" [class.hide]="isTagsPanelCollapsed"
                                             [ngClass]="{'show ':!isTagsPanelCollapsed}">
 
                                             <edit-tags [tags]="tags" [team]="team" (edit)="onEditingTags($event)">
