@@ -67,7 +67,9 @@ export class BuildingComponent {
                                         action: "move", mode: "list", confirmed: true, team: this.team.name,
                                         teamId: this.team.team_id
                                     });
-                                    TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
+                                    TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to });
+                                    this.updateTree();
+                                    this.saveChanges()
                                 }
                                 else {
                                     this.analytics.eventTrack("Initiative", {
@@ -170,13 +172,6 @@ export class BuildingComponent {
         TREE_ACTIONS.MOVE_NODE(this.tree.treeModel, foundToNode, {}, { from: foundTreeNode, to: { parent: foundToNode } })
 
     }
-
-    beforeChange($event: NgbTabChangeEvent) {
-        // Keep this method !
-        // If not present, the change detection doesnt happen on ngbTabSet.select
-
-    }
-
 
     removeNode(node: Initiative) {
 
