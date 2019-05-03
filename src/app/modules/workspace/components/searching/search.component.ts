@@ -59,7 +59,9 @@ export class SearchComponent implements OnInit {
             )
             .map(i => <SearchResult>{ type: SearchResultType.Initiative, result: i })
             .sort((a: SearchResult, b: SearchResult) => {
-                return b.result.name - a.result.name
+                if (a.result.name < b.result.name) { return -1; }
+                if (a.result.name > b.result.name) { return 1; }
+                return 0;
             });
     }
 
@@ -71,32 +73,15 @@ export class SearchComponent implements OnInit {
             .filter(u => u.name.toLowerCase().indexOf(term.toLowerCase()) > -1)
             .map(i => <SearchResult>{ type: SearchResultType.User, result: i })
             .sort((a: SearchResult, b: SearchResult) => {
-                return b.result.name - a.result.name
+                if (a.result.name < b.result.name) { return -1; }
+                if (a.result.name > b.result.name) { return 1; }
+                return 0;
             });
     }
 
     addHeader(results: SearchResult[], header: SearchResult) {
         return results.length > 0 ? [header].concat(results) : [];
     }
-
-    searchInitiatives = (text$: Observable<string>) =>
-        text$
-            .debounceTime(200)
-            .distinctUntilChanged()
-            .do((term: string) => {
-                this.isSearching = true && term !== "";
-                this.cd.markForCheck();
-            })
-            .map(search => {
-                return search === ""
-                    ? this.list
-                    : this.filter(search)
-            })
-            .do(list => {
-                this.searchResultsCount = list.length;
-                this.cd.markForCheck();
-            });
-
 
     search = (text$: Observable<string>) =>
         text$
@@ -121,11 +106,11 @@ export class SearchComponent implements OnInit {
             })
 
     formatter = (result: SearchResult) => {
-        return result && result.result ? result.result.name : "";
+        return result && result.result ? result.result.name : "dede";
     };
 
     selectAllContent(event: Event) {
-        event.target.select();
+        (<any>event.target).select();
     }
 
     select(event: NgbTypeaheadSelectItemEvent) {
