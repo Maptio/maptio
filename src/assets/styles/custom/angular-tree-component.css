@@ -9,6 +9,10 @@
   overflow: hidden
 }
 
+.tree-node.node-root > tree-node-children > .tree-children{
+  padding-left:0;
+}
+
 .node-drop-slot {
   position: relative;
   height: 12px !important;
@@ -188,3 +192,4 @@ tree-root .angular-tree-component-rtl .tree-children {
   visibility: hidden;
   height: 0;
 }
+
