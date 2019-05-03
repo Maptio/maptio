@@ -194,7 +194,7 @@ export class InitiativeComponent implements OnChanges {
     }
 
     onSelectMember(member:User){
-        
+        debugger
         localStorage.removeItem("node_id");
         this.selectMember.emit(member);
     }

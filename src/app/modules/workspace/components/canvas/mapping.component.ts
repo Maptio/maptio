@@ -226,7 +226,7 @@ export class MappingComponent {
 
     this.selectableTags$.next([]);
     this.selectableUsers$.next([]);
-    this.zoomInitiative$.next(null);
+    // this.zoomInitiative$.next();
 
     if (component.constructor === MappingSummaryComponent) {
       this.isMapSettingsDisabled = true;

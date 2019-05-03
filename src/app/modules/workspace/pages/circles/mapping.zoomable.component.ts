@@ -364,7 +364,7 @@ If upon examining all branches the map of child nodes is empty, return null
     text.each(function (dtext: any) {
       d3.select(this).selectAll("span.member-picture")
         .on("click", (d: any, index: number, elements: Array<HTMLElement>) => {
-          
+          debugger
           let shortId = elements[index].getAttribute("data-member-shortid");
           let user = (<Initiative>dtext.data).getAllParticipants().filter(u => u.shortid === shortId)[0];
           localStorage.removeItem("node_id");
@@ -538,6 +538,7 @@ If upon examining all branches the map of child nodes is empty, return null
         if (lastZoomCircle.data.id === d.data.id) { //zoom out
           lastZoomCircle = root;
           zoom(root);
+          debugger
           localStorage.removeItem("node_id");
           setIsShowMission(true);
 
@@ -601,7 +602,7 @@ If upon examining all branches the map of child nodes is empty, return null
     lastZoomCircle = root;
     svg
       .on("click", (): void => {
-        
+        debugger
         localStorage.removeItem("node_id");
         if (!localStorage.getItem("user_id")) {
           toggleDetailsPanel$.next(false);
@@ -630,17 +631,18 @@ If upon examining all branches the map of child nodes is empty, return null
 
 
     if (localStorage.getItem("node_id")) {
+      debugger
       let id = localStorage.getItem("node_id");
       if (lastZoomCircle.data.id.toString() === id.toString()) return;
       svg.select(`circle.node[id="${id}"]`).dispatch("click");
     } else {
-
+      debugger
 
       svg.dispatch("click");
     }
 
     zoomSubscription = this.zoomInitiative$.asObservable().subscribe(zoomedNode => {
-
+debugger
       if (!zoomedNode) {
         svg.dispatch("click");
         return;

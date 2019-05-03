@@ -126,6 +126,7 @@ export class SidebarComponent implements OnInit {
     }
 
     onClear() {
+        debugger
         EmitterService.get("filtering_user").next(null);
         localStorage.removeItem("user_id")
         EmitterService.get("filtering_initiative").next(null);
