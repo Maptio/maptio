@@ -178,26 +178,23 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .combineLatest(this.mapColor$, this.selectableTags$.asObservable(), this.selectableUsers$.asObservable())
       .flatMap((data: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
-        // this.filteringUser = data[3][0];
-        // this.cd.markForCheck();
 
         let filtered = this.filterByTags(data[0].initiative.children[0], data[2], data[3]);
         if (!filtered) {
           this.isNoMatchingCircles$.next(true)
-          // this.isNoMatchingCircles = true;
-          // this.cd.markForCheck();
         } else {
           this.isNoMatchingCircles$.next(false)
-          // this.isNoMatchingCircles = false;
-          // this.cd.markForCheck();
           if (document.querySelector(".map-container")) document.querySelector(".map-container").innerHTML = "";
           return this.draw(filtered, data[1], this.height, this.width)
         }
 
       })
-      .subscribe((result: { svg: string, root: any, nodes: any }) => {
-
+      .do((result: { svg: string, root: any, nodes: any })=>{
+         // wait till SVG is rendered before hydrating
         document.querySelector(".map-container").innerHTML = result.svg;
+      })
+      .subscribe((result: { svg: string, root: any, nodes: any }) => {
+       
         this.hydrate(result.root, result.nodes);
         this.flattenNodes = result.nodes.map((d: any) => d.data);
 
@@ -364,7 +361,7 @@ If upon examining all branches the map of child nodes is empty, return null
     text.each(function (dtext: any) {
       d3.select(this).selectAll("span.member-picture")
         .on("click", (d: any, index: number, elements: Array<HTMLElement>) => {
-          debugger
+          
           let shortId = elements[index].getAttribute("data-member-shortid");
           let user = (<Initiative>dtext.data).getAllParticipants().filter(u => u.shortid === shortId)[0];
           localStorage.removeItem("node_id");
@@ -530,7 +527,7 @@ If upon examining all branches the map of child nodes is empty, return null
 
     circle
       .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
-        
+
         showToolipOf$.next({ initiatives: [d.data], user: null });
         localStorage.removeItem("user_id");
 
@@ -538,7 +535,7 @@ If upon examining all branches the map of child nodes is empty, return null
         if (lastZoomCircle.data.id === d.data.id) { //zoom out
           lastZoomCircle = root;
           zoom(root);
-          debugger
+          
           localStorage.removeItem("node_id");
           setIsShowMission(true);
 
@@ -602,7 +599,7 @@ If upon examining all branches the map of child nodes is empty, return null
     lastZoomCircle = root;
     svg
       .on("click", (): void => {
-        debugger
+        
         localStorage.removeItem("node_id");
         if (!localStorage.getItem("user_id")) {
           toggleDetailsPanel$.next(false);
@@ -631,18 +628,18 @@ If upon examining all branches the map of child nodes is empty, return null
 
 
     if (localStorage.getItem("node_id")) {
-      debugger
+      
       let id = localStorage.getItem("node_id");
       if (lastZoomCircle.data.id.toString() === id.toString()) return;
       svg.select(`circle.node[id="${id}"]`).dispatch("click");
     } else {
-      debugger
+      
 
       svg.dispatch("click");
     }
 
     zoomSubscription = this.zoomInitiative$.asObservable().subscribe(zoomedNode => {
-debugger
+      
       if (!zoomedNode) {
         svg.dispatch("click");
         return;
