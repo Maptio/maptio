@@ -268,16 +268,6 @@ export class BuildingComponent {
                 this.nodes = [];
                 this.nodes.push(dataset.initiative);
             })
-            // .then(() => {
-            //     this.dataService.set({
-            //         initiative: this.nodes[0],
-            //         dataset: dataset,
-            //         team: this.team,
-            //         members: members
-            //     });
-
-            //     this.cd.markForCheck();
-            // })
             .then(() => {
                 this.loaderService.hide();
             })

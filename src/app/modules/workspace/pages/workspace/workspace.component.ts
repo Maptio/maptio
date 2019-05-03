@@ -1,7 +1,7 @@
 import { BuildingComponent } from "../../components/data-entry/hierarchy/building.component";
 import { DataService, CounterService } from "../../services/data.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Subscription, Subject, ReplaySubject } from "rxjs/Rx";
+import { Subscription, Subject, ReplaySubject , Observable} from "rxjs/Rx";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Team } from "../../../../shared/model/team.data";
@@ -61,7 +61,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public openedNodeParent: Initiative;
     public openedNodeTeamId: string;
     public openEditTag$: Subject<void> = new Subject<void>();
-    public isSidebarClosed:boolean;
+    public isSidebarClosed: boolean;
 
     public selectableTags$: Subject<Tag[]> = new ReplaySubject<Tag[]>();
     public selectableUsers$: Subject<User[]> = new ReplaySubject<User[]>();
@@ -93,6 +93,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
         this.routeSubscription = this.route.data
             .do((data) => {
+                this.isLoading = true;
+                this.cd.markForCheck();
 
                 let newDatasetId = data.data.dataset.datasetId;
                 if (newDatasetId !== this.datasetId) {
@@ -103,13 +105,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 }
             })
             .do((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {
-                this.isLoading = true;
-                this.cd.markForCheck();
-                return this.buildingComponent.loadData(data.data.dataset, data.data.team, data.data.members)
-                    .then(() => {
-                        this.isLoading = false;
-                        this.cd.markForCheck();
-                    });
+                
+                this.updateInitiativeTree(data.data.dataset, data.data.team, data.data.members);
             })
             .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {
 
@@ -130,23 +127,21 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 });
                 EmitterService.get("currentTeam").emit(this.team);
                 this.isEmptyMap = !this.dataset.initiative.children || this.dataset.initiative.children.length === 0;
+                this.isLoading = false;
                 this.cd.markForCheck();
             });
     }
 
+    updateInitiativeTree(dataset: DataSet, team: Team, members: User[]) {
+        this.buildingComponent.loadData(dataset, team, members);
+    }
 
 
     saveDetailChanges() {
-        this.buildingComponent.saveChanges();
+        // only save initiative as tags are not modified
+        // dataset is "auto-magically" bound here to changes inside initiative
+        this.saveChanges({ initiative: this.dataset.initiative, tags: this.tags })
     }
-
-    // applySettings(data: { initiative: Initiative, tags: Tag[] }) {
-    //     data.initiative.traverse((node: Initiative) => {
-    //         node.tags = intersectionBy(data.tags, node.tags, (t: Tag) => t.shortid);
-    //     })
-    //     this.saveChanges(data.initiative, data.tags);
-    //     this.cd.markForCheck();
-    // }
 
     saveChanges(change: { initiative: Initiative, tags: Array<Tag> }) {
         this.isEmptyMap = !change.initiative.children || change.initiative.children.length === 0;
@@ -168,6 +163,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.dataService.set({ initiative: change.initiative, dataset: this.dataset, team: this.team, members: this.members, user: this.user });
                 return hasSaved;
             }, (reason) => { console.error(reason) })
+            .then(() => {
+                this.updateInitiativeTree(this.dataset, this.team, this.members)
+            })
             .then(() => {
                 this.intercom.trackEvent("Editing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: change.initiative.name, circles: depth });
                 this.mixpanel.eventTrack("Editing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: change.initiative.name, circles: depth });

@@ -78,7 +78,7 @@
 
                                                 <initiative *ngIf="openedNode" #initiative [dataset]="dataset"
                                                     [node]="openedNode" [user]="user" [team]="team"
-                                                    (edited)="saveDetailChanges()"
+                                                    (edited)="saveDetailChanges($event)"
                                                     (selectMember)="onSelectMembers([$event])" [isEditMode]="isEditMode"
                                                     (editTags)="onEditTags()"></initiative>
                                                 <summary-personal *ngIf="openedUser" [member]="openedUser"

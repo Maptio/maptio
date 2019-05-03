@@ -210,7 +210,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
             console.error(err)
           }
         }
-
       )
       ;
   }
