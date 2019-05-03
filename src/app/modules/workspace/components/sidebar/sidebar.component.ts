@@ -32,7 +32,7 @@ export class SidebarComponent implements OnInit {
     flattenNodes: Initiative[];
     tags: SelectableTag[];
     isShowAdvanced: boolean;
-    selectedResult:SearchResult;
+    selectedResult: SearchResult;
 
     filteringUserSubscription: Subscription;
     filteringInitiativeSubscription: Subscription;
@@ -41,14 +41,13 @@ export class SidebarComponent implements OnInit {
 
     ngOnInit(): void {
         this.filteringUserSubscription = EmitterService.get("filtering_user").asObservable().subscribe(user => {
-            debugger
+            
             this.filteringUser = user;
-            this.selectedResult =
-                this.cd.markForCheck()
+            this.cd.markForCheck()
         })
 
         this.filteringInitiativeSubscription = EmitterService.get("filtering_node").asObservable().subscribe(initiative => {
-            debugger
+            
             this.filteringInitiative = initiative;
             this.cd.markForCheck()
         })
@@ -56,10 +55,10 @@ export class SidebarComponent implements OnInit {
 
     getSelectedResult() {
         let r = new SearchResult();
-        if(this.filteringUser){
+        if (this.filteringUser) {
             r.type = SearchResultType.User;
             r.result = this.filteringUser
-        }else if(this.filteringInitiative){
+        } else if (this.filteringInitiative) {
             r.type = SearchResultType.Initiative;
             r.result = this.filteringInitiative
         }
@@ -126,7 +125,7 @@ export class SidebarComponent implements OnInit {
                 .filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email))
     }
 
-    onClear(){
+    onClear() {
         EmitterService.get("filtering_user").next(null);
         localStorage.removeItem("user_id")
         EmitterService.get("filtering_initiative").next(null);
