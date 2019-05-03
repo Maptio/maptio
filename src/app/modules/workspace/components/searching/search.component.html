@@ -47,7 +47,7 @@
         id="initiativeSearch" class="form-control search border-left-0 border-right-0 pr-5" (selectItem)="select($event)"
         [ngbTypeahead]="search" [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false"
          placement="bottom-left" placeholder="Search circles and people" />
-    <span class="position-absolute text-muted opacity-50" style="top:calc(50% - 12px); right:48px;"><i
+    <span class="position-absolute z-index-3 text-muted opacity-50" style="top:calc(50% - 12px); right:48px;"><i
             class="fa fa-search "></i></span>
    
     <div class="input-group-append">

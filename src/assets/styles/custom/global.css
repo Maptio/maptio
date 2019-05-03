@@ -474,6 +474,10 @@ a.card.no-underline, a.no-underline:hover {
   z-index:2;
 }
 
+.z-index-3{
+  z-index:3;
+}
+
 .control.switch{
   position: absolute;
   top: 29vh;
