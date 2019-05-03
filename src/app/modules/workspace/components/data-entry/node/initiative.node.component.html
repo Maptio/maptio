@@ -18,7 +18,7 @@
 	<div *permissionsOnly="Permissions.canEditInitiativeName;initiative node.data; else elseNameBlock; then thenNameBlock; "></div>
 	<ng-template #thenNameBlock>
 		<input class="form-control input inputNodeName box-shadow-0 border-left-0 border-right-0 text-truncate" type="text" [focusif]="node.data.hasFocus"
-		 [ngModel]="node.data.name" (focus)="node.data.isDraggable=false;openNode(node.data)" (blur)="node.data.isDraggable=true"
+		 [ngModel]="node.data.name" (focus)="node.data.isDraggable=false;" (blur)="node.data.isDraggable=true"
 		 debounce (func)="saveNodeName($event, node.data)" />
 	</ng-template>
 	<ng-template #elseNameBlock>

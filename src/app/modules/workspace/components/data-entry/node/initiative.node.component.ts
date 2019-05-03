@@ -109,7 +109,7 @@ export class InitiativeNodeComponent {
         this.node.treeModel.setExpandedNode(treeNode, true);
         this.updateTreeEvent.emit(this.node.treeModel);
         this.edited.emit(true);
-        this.add.emit(newNode);
+        // this.add.emit(newNode);
     }
 
 
