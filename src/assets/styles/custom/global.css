@@ -16,7 +16,7 @@
 }
 
 body{
-
+  height: calc(100% - 4px)!important;
   color: var(--maptio-black) !important;
 }
 
