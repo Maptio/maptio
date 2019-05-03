@@ -178,7 +178,9 @@ export class MappingComponent {
 
     component.showToolipOf$.asObservable().subscribe((tooltip: { initiatives: Initiative[], user: User }) => {
       if (tooltip.initiatives) {
-        this.openDetails.emit(tooltip.initiatives[0]);
+        if (!localStorage.getItem("keepEditingOpen")) {
+          this.openDetails.emit(tooltip.initiatives[0]);
+        }
         EmitterService.get("filtering_node").next(tooltip.initiatives[0]);
       }
 

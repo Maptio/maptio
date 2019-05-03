@@ -190,11 +190,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       })
       .do((result: { svg: string, root: any, nodes: any }) => {
+        debugger
         // wait till SVG is rendered before hydrating
         document.querySelector(".map-container").innerHTML = result.svg;
       })
       .subscribe((result: { svg: string, root: any, nodes: any }) => {
-
+        debugger
         this.hydrate(result.root, result.nodes);
         this.flattenNodes = result.nodes.map((d: any) => d.data);
 
@@ -526,9 +527,9 @@ If upon examining all branches the map of child nodes is empty, return null
 
     circle
       .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
-
         showToolipOf$.next({ initiatives: [d.data], user: null });
         localStorage.removeItem("user_id");
+        localStorage.removeItem("keepEditingOpen");
 
         node.classed("highlighted", false);
         if (lastZoomCircle.data.id === d.data.id) { //zoom out
@@ -625,7 +626,6 @@ If upon examining all branches the map of child nodes is empty, return null
       svg.call(zooming);
     } catch (error) { console.error(error); }
 
-    if (!localStorage.getItem("keepEditingOpen")) {
       if (localStorage.getItem("node_id")) {
 
         let id = localStorage.getItem("node_id");
@@ -637,8 +637,8 @@ If upon examining all branches the map of child nodes is empty, return null
         svg.dispatch("click");
       }
 
-    }
     
+
     zoomSubscription = this.zoomInitiative$.asObservable().subscribe(zoomedNode => {
 
       if (!zoomedNode) {
