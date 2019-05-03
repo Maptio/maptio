@@ -61,6 +61,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public openedNodeParent: Initiative;
     public openedNodeTeamId: string;
     public openEditTag$: Subject<void> = new Subject<void>();
+    public isSidebarClosed:boolean;
 
     public selectableTags$: Subject<Tag[]> = new ReplaySubject<Tag[]>();
     public selectableUsers$: Subject<User[]> = new ReplaySubject<User[]>();

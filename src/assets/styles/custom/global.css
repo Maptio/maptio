@@ -140,6 +140,10 @@ body {
 
 }
 
+.bg-gray-light{
+  background:var(--maptio-gray-light) !important;
+}
+
 .text-gray-light{
   color:var(--maptio-gray-light) !important;
 }

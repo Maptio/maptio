@@ -3,7 +3,8 @@
         <div>
             <ng-content></ng-content>
 
-            <search #search [list]="flattenNodes" [selectedResult]="getSelectedResult()" (selectInitiative)="onSelectCircle($event)" (clear)="onClear()" (selectUser)="onSelectMember($event)">
+            <search #search [list]="flattenNodes" [selectedResult]="getSelectedResult()"
+                (selectInitiative)="onSelectCircle($event)" (clear)="onClear()" (selectUser)="onSelectMember($event)">
                 <button ngbTooltip="Menu" placement="top" container="body"
                     class="btn  border border-right-0 dropdown-toggle without-caret" type="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -13,14 +14,14 @@
                     <span class="dropdown-header text-uppercase small text-muted">Editing</span>
                     <button (click)="onOpenBuildingPanel()" class="dropdown-item">Edit map</button>
                     <button (click)="onOpenTagsPanel()" class="dropdown-item">Edit tags</button>
-                    
+
                     <div class="dropdown-divider"></div>
-                    
+
                     <span class="dropdown-header text-uppercase small text-muted">Views</span>
                     <a routerLink="./circles" class="dropdown-item">Circles</a>
                     <a routerLink="./tree" class="dropdown-item">Tree</a>
                     <a routerLink="./network" class="dropdown-item">Network</a>
-                    
+
                     <div class="dropdown-divider"></div>
 
                     <span class="dropdown-header text-uppercase small text-muted">Share</span>
@@ -30,9 +31,9 @@
                 </div>
             </search>
         </div>
-        <div class="my-1">
+        <div class="my-1" *ngIf="isWithAdvancedSearch">
             <div data-toggle="collapse" class="cursor-pointer  small text-muted" href="#controls-box" role="button"
-                aria-expanded="false" aria-controls="controls-box" (click)="onShowAdvanced()">
+                aria-expanded="false" aria-controls="controls-box">
 
                 <span class="toggle-collapse mr-1">
                     <i class="fa fa-caret-right"></i>

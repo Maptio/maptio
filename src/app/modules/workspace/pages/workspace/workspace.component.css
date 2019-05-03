@@ -50,15 +50,30 @@
     min-width:30%;
     max-width:30%;
     width:30%;
-    transition:all 1s;
+    opacity:1;
+    transition:all 250ms;
 }
 
-
+#side-navigation.hide{
+    min-width:0;
+    max-width:0;
+    width:0;
+    opacity:0;
+    transition:all 250ms;
+}
 
 .close-panel-button {
     top:0%;
     left:30%;
     z-index:1;
+    transition:all 250ms;
+}
+
+.close-panel-button.stick-left {
+    top:0%;
+    left:0;
+    z-index:1;
+    transition:all 250ms;
 }
 
 .slideable{

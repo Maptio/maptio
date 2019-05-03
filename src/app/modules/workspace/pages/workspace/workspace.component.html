@@ -9,89 +9,97 @@
         <div class=" position-relative w-100 h-100 rounded border"
             [class.overflow-hidden]="team?.isExample && isBuildingVisible">
 
-            <button class="close-panel-button position-absolute btn btn-light rounded-0 rounded-right p-0 m-0 py-3 px-2"
-                *ngIf="isFullSidebar" (click)="closeAllPanels()" ngbTooltip="Close side panel" placement="right"
-                container="body">
+            <button class="z-index-2 box-shadow-right close-panel-button position-absolute btn btn-light rounded-0 rounded-right p-0 m-0 py-3 px-2"
+                *ngIf="isFullSidebar" [class.stick-left]="isSidebarClosed" (click)="isSidebarClosed=!isSidebarClosed" [ngbTooltip]="isSidebarClosed ? 'Expand side panel' : 'Collapse side panel'"
+                placement="right" container="body">
                 <span aria-hidden="true" class="text-muted">
-                    <i class="fas fa-caret-left"></i>
+                    <i class="fas " [class.fa-caret-right]="isSidebarClosed" [class.fa-caret-left]="!isSidebarClosed"></i>
                 </span>
             </button>
 
 
             <div id="side-navigation" [ngClass]="{
                     ' bg-white z-index-1  box-shadow-right  ':isFullSidebar,
-                'bg-transparent ':!isFullSidebar}"
+                'bg-transparent ':!isFullSidebar,
+            'hide':isSidebarClosed}"
                 class="h-100 overflow-y border-0 border-right rounded-0 rounded-left position-absolute card  d-md-flex flex-md-column  justify-content-start">
 
-                <div class="w-100 overflow-hidden d-flex flex-column p-2 h-100">
+                <div class="w-100 overflow-hidden d-flex flex-column h-100" [class.bg-light]="isFullSidebar">
 
-                    <div class=" z-index-2 card border-0 w-100 position-relative" [ngClass]="{
-                         'bg-transparent  ':isFullSidebar,
-                         'bg-translucid  ':!isFullSidebar  ,
-                         'h-100' : !isOnePanelOpened()
-                        }">
-                        <div class="card-body  w-100" >
-                            <sidebar [dataset]="dataset" [members]="members" [user]="user"
-                                [isWithAdvancedSearch]="!isFullSidebar" (selectMembers)="onSelectMembers($event)"
-                                (selectInitiative)="onSelectInitiative($event)" (selectTags)="onSelectTags($event)"
-                                (toggleFullHeight)="isFullSidebar=!isFullSidebar"
-                                (openBuildingPanel)="openBuildingPanel()" (openTagsPanel)="openTagsPanel()">
-                                <div>
-                                    <span class="small text-orange" *ngIf="isNoSearchResults">
-                                        Maptio cannot find a circle matching this search</span>
-                                </div>
+                    <div class="p-3">
+                        <div class=" z-index-2 card border-0 w-100 position-relative" [ngClass]="{
+                                'bg-white box-shadow  ':isFullSidebar,
+                                'bg-translucid  ':!isFullSidebar  ,
+                                'h-100' : !isOnePanelOpened()
+                               }">
+                            <div class="card-body  w-100">
+                                <sidebar [dataset]="dataset" [members]="members" [user]="user"
+                                    [isWithAdvancedSearch]="!isOnePanelOpened() || !isFullSidebar"
+                                    [isWithAdvancedSearch]="!isFullSidebar" (selectMembers)="onSelectMembers($event)"
+                                    (selectInitiative)="onSelectInitiative($event)" (selectTags)="onSelectTags($event)"
+                                    (toggleFullHeight)="isFullSidebar=true" (openBuildingPanel)="openBuildingPanel()"
+                                    (openTagsPanel)="openTagsPanel()">
+                                    <div>
+                                        <span class="small text-orange" *ngIf="isNoSearchResults">
+                                            Maptio cannot find a circle matching this search</span>
+                                    </div>
 
-                            </sidebar>
+                                </sidebar>
+                            </div>
                         </div>
                     </div>
 
 
-                    <div class="card-body overflow-hover" [ngClass]="{'z-index-0':!isFullSidebar}">
-                        <div [class.hide]="isDetailsPanelCollapsed && isBuildingPanelCollapsed && isTagsPanelCollapsed"
-                            [class.show]="!isDetailsPanelCollapsed || !isBuildingPanelCollapsed || !isTagsPanelCollapsed"
-                            class="collapsible d-none d-md-flex flex-column overflow-y-hidden overflow-x-hidden ">
+                    <div class="card-body overflow-hover">
+                        <div class="" [ngClass]="{'z-index-0':!isFullSidebar}">
+                            <div [class.hide]="isDetailsPanelCollapsed && isBuildingPanelCollapsed && isTagsPanelCollapsed"
+                                [class.show]="!isDetailsPanelCollapsed || !isBuildingPanelCollapsed || !isTagsPanelCollapsed"
+                                class="collapsible d-none d-md-flex flex-column overflow-y-hidden overflow-x-hidden ">
 
-                            <div class="d-flex mh-100  overflow-y overflow-x-hidden">
-                                <div class="w-100 h-100 position-relative">
+                                <div class="d-flex mh-100  overflow-y overflow-x-hidden">
+                                    <div class="w-100 h-100 position-relative">
 
-                                    <div class="slideable " [class.hide]="isBuildingPanelCollapsed"
-                                        [ngClass]="{'show ':!isBuildingPanelCollapsed}">
-                                        <building class="w-100" #building [user]="user" [isEmptyMap]="isEmptyMap"
-                                            (save)="saveChanges($event)" (openDetails)="onOpenDetails($event)">
-                                        </building>
-                                    </div>
-
-                                    <div class="slideable  " [class.hide]="isDetailsPanelCollapsed"
-                                        [ngClass]="{'show ':!isDetailsPanelCollapsed}">
-                                        <div class="w-100">
-
-                                            <initiative *ngIf="openedNode" #initiative [dataset]="dataset"
-                                                [node]="openedNode" [user]="user" [team]="team"
-                                                (edited)="saveDetailChanges()"
-                                                (selectMember)="onSelectMembers([$event])" [isEditMode]="isEditMode"
-                                                (editTags)="onEditTags()"></initiative>
-                                            <summary-personal *ngIf="openedUser" [member]="openedUser"
-                                                [initiative]="dataset.initiative" [team]="team" [dataset]="dataset"
-                                                (selectMember)="onSelectMembers([$event])"
-                                                (selectInitiative)="onSelectInitiative($event)">
-                                            </summary-personal>
+                                        <div class="slideable " [class.hide]="isBuildingPanelCollapsed"
+                                            [ngClass]="{'show ':!isBuildingPanelCollapsed}">
+                                            <building class="w-100" #building [user]="user" [isEmptyMap]="isEmptyMap"
+                                                (save)="saveChanges($event)" (openDetails)="onOpenDetails($event)">
+                                            </building>
                                         </div>
 
-                                    </div>
-                                    <div class="slideable d-flex flex-column" [class.hide]="isTagsPanelCollapsed"
-                                        [ngClass]="{'show ':!isTagsPanelCollapsed}">
+                                        <div class="slideable  " [class.hide]="isDetailsPanelCollapsed"
+                                            [ngClass]="{'show ':!isDetailsPanelCollapsed}">
+                                            <div class="w-100">
 
-                                        <edit-tags [tags]="tags" [team]="team" (edit)="onEditingTags($event)">
-                                        </edit-tags>
+                                                <initiative *ngIf="openedNode" #initiative [dataset]="dataset"
+                                                    [node]="openedNode" [user]="user" [team]="team"
+                                                    (edited)="saveDetailChanges()"
+                                                    (selectMember)="onSelectMembers([$event])" [isEditMode]="isEditMode"
+                                                    (editTags)="onEditTags()"></initiative>
+                                                <summary-personal *ngIf="openedUser" [member]="openedUser"
+                                                    [initiative]="dataset.initiative" [team]="team" [dataset]="dataset"
+                                                    (selectMember)="onSelectMembers([$event])"
+                                                    (selectInitiative)="onSelectInitiative($event)">
+                                                </summary-personal>
+                                            </div>
 
+                                        </div>
+                                        <div class="slideable d-flex flex-column" [class.hide]="isTagsPanelCollapsed"
+                                            [ngClass]="{'show ':!isTagsPanelCollapsed}">
+
+                                            <edit-tags [tags]="tags" [team]="team" (edit)="onEditingTags($event)">
+                                            </edit-tags>
+
+                                        </div>
                                     </div>
+
                                 </div>
 
+
                             </div>
-
-
                         </div>
                     </div>
+
+
 
 
                 </div>
