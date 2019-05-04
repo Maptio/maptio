@@ -297,9 +297,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     onEditTags() {
-        this.isBuildingPanelCollapsed = false;
-        this.buildingComponent.tabs.select("tags-tab");
-        this.cd.markForCheck();
+        this.openTagsPanel();
+        // this.isBuildingPanelCollapsed = false;
+        // this.buildingComponent.tabs.select("tags-tab");
+        // this.cd.markForCheck();
     }
 
     // private resizeMap() {

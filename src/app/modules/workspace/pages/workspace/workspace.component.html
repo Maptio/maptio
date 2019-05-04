@@ -63,8 +63,9 @@
                                 <i class="fas fa-plus  mx-1"></i>
                                 Add sub-circle
                             </button>
-                            <button class="btn btn-outline-secondary btn-sm mr-2">
-                                <i class="fas fa-pen mx-1"></i>Edit
+                            <button (click)="isEditMode=!isEditMode" class="btn btn-outline-secondary btn-sm mr-2">
+                                <span *ngIf="isEditMode"><i class="fas fa-save mx-1"></i>Save</span>
+                                <span *ngIf="!isEditMode"><i class="fas fa-pen mx-1"></i>Edit</span>
                             </button>
 
                             <button class="btn btn-outline-danger btn-sm mr-2">
