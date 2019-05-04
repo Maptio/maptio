@@ -34,7 +34,7 @@ import { AuthHttp } from "angular2-jwt";
 import { map, tap } from "rxjs/operators";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { of } from "rxjs";
-import { DomSanitizer } from "@angular/platform-browser";
+import { DomSanitizer, SafeStyle } from "@angular/platform-browser";
 
 const d3 = Object.assign(
   {},
@@ -70,7 +70,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public translateX: number;
   public translateY: number;
   public scale: number;
-  public containerHeight:string;
+  public containerHeight:SafeStyle;
 
   public margin: number;
   public zoom$: Observable<number>;
@@ -680,7 +680,7 @@ If upon examining all branches the map of child nodes is empty, return null
     });
 
     manualZoomSubscription = this.zoom$.subscribe((factor:number)=>{
-      zooming.scaleBy(svg.transition().duration(TRANSITION_DURATION/2), factor)
+      zooming.scaleBy(<any>svg.transition().duration(TRANSITION_DURATION/2), factor);
     });
   }
 
@@ -695,7 +695,7 @@ If upon examining all branches the map of child nodes is empty, return null
       this.resetSubscription.unsubscribe();
     }
     if(this.manualZoomSubscription){
-      this.manualZoomSubscription().unsubscribe();
+      this.manualZoomSubscription.unsubscribe();
     }
   }
 
