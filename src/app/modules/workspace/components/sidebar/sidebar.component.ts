@@ -17,11 +17,13 @@ export class SidebarComponent implements OnInit {
 
     @Input("dataset") dataset: DataSet;
     @Input("user") user: User;
+    @Input("team") team: Team;
     @Input("members") members: User[];
     @Input("isWithAdvancedSearch") isWithAdvancedSearch: boolean;
     @Output("selectInitiative") selectInitiative = new EventEmitter<Initiative>();
     @Output("selectMembers") selectMembers = new EventEmitter<User[]>();
     @Output("selectTags") selectTags = new EventEmitter<Tag[]>();
+    @Output("editTags") editTags = new EventEmitter<void>();
     @Output("toggleFullHeight") toggleFullHeight = new EventEmitter<boolean>();
     @Output("openBuildingPanel") openBuildingPanel = new EventEmitter<void>();
     @Output("openTagsPanel") openTagsPanel = new EventEmitter<void>();
@@ -151,6 +153,11 @@ export class SidebarComponent implements OnInit {
     }
 
     onSelectTag(tags: SelectableTag[]) {
+        debugger
         this.selectTags.emit(tags.filter(t => t.isSelected))
+    }
+
+    onEditTags(){
+        this.editTags.emit();
     }
 }

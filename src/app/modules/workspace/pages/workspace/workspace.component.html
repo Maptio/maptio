@@ -36,12 +36,12 @@
                                 'h-100' : !isOnePanelOpened()
                                }">
                             <div class="card-body p-3  w-100">
-                                <sidebar [dataset]="dataset" [members]="members" [user]="user"
+                                <sidebar [dataset]="dataset" [team]="team" [members]="members" [user]="user"
                                     [isWithAdvancedSearch]="!isOnePanelOpened() || !isFullSidebar"
                                     [isWithAdvancedSearch]="!isFullSidebar" (selectMembers)="onSelectMembers($event)"
                                     (selectInitiative)="onSelectInitiative($event)" (selectTags)="onSelectTags($event)"
                                     (toggleFullHeight)="isFullSidebar=true" (openBuildingPanel)="openBuildingPanel()"
-                                    (openTagsPanel)="openTagsPanel()">
+                                    (openTagsPanel)="openTagsPanel()" (editTags)="openTagsPanel()">
                                     <div>
                                         <span class="small text-orange" *ngIf="isNoSearchResults">
                                             Maptio cannot find a circle matching this search</span>

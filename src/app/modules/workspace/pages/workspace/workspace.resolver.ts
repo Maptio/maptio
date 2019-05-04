@@ -10,11 +10,12 @@ import { Observable } from "rxjs/Observable";
 import { UserService } from "../../../../shared/services/user/user.service";
 import { from } from "rxjs";
 import { map, flatMap } from "rxjs/operators"
+import { BillingService } from "../../../../shared/services/billing/billing.service";
 
 @Injectable()
 export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, team: Team, members: User[], user: User }> {
 
-    constructor(private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userService: UserService, private auth: Auth) {
+    constructor(private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userService: UserService, private auth: Auth, private billingService:BillingService) {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ dataset: DataSet, team: Team, members: User[], user: User }> {
@@ -24,6 +25,14 @@ export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, t
             .pipe(
                 flatMap((datasets: DataSet[]) => {
                     return this.teamFactory.get(datasets[0].initiative.team_id)
+                }),
+                flatMap((team: Team) => {
+                    return this.billingService.getTeamStatus(team).map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean }) => {
+                        team.createdAt = value.created_at;
+                        team.freeTrialLength = value.freeTrialLength;
+                        team.isPaying = value.isPaying;
+                        return team;
+                    })
                 }),
                 flatMap((team: Team) =>
                     this.userService.getUsersInfo(team.members)

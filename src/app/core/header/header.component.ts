@@ -51,26 +51,26 @@ export class HeaderComponent implements OnInit {
         private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private billingService: BillingService,
         private onboarding: OnboardingService) {
 
-        let [teamDefined, teamUndefined] = from(EmitterService.get("currentTeam")).partition((team: Team) => !!team);
+        // let [teamDefined, teamUndefined] = from(EmitterService.get("currentTeam")).partition((team: Team) => !!team);
 
-        teamDefined.flatMap((team: Team) => {
-            return this.billingService.getTeamStatus(team).map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean }) => {
-                team.createdAt = value.created_at;
-                team.freeTrialLength = value.freeTrialLength;
-                team.isPaying = value.isPaying;
-                return team;
-            })
-        })
-            .subscribe((value: Team) => {
-                this.team = value;
-                this.cd.markForCheck();
-            });
+        // teamDefined.flatMap((team: Team) => {
+        //     return this.billingService.getTeamStatus(team).map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean }) => {
+        //         team.createdAt = value.created_at;
+        //         team.freeTrialLength = value.freeTrialLength;
+        //         team.isPaying = value.isPaying;
+        //         return team;
+        //     })
+        // })
+        //     .subscribe((value: Team) => {
+        //         this.team = value;
+        //         this.cd.markForCheck();
+        //     });
 
-        teamUndefined
-            .subscribe((value: Team) => {
-                this.team = value;
-                this.cd.markForCheck();
-            });
+        // teamUndefined
+        //     .subscribe((value: Team) => {
+        //         this.team = value;
+        //         this.cd.markForCheck();
+        //     });
 
     }
 

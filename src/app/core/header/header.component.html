@@ -48,7 +48,7 @@
     <div class=" navbar-collapse collapse" [ngClass]="{' p-2 vh-100 vw-100': isMenuOpened}" id="navbarSupportedContent">
         <ul class="navbar-nav d-flex justify-content-end w-100" (click)="onMenuClick()">
 
-            <li class="navbar-text d-none d-md-flex align-items-center position-relative ml-auto mr-auto"
+            <!-- <li class="navbar-text d-none d-md-flex align-items-center position-relative ml-auto mr-auto"
                 *ngIf="team && isMap()">
                 <span *ngIf="team?.name " class="text-muted mr-1">Organisation
                     <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}">
@@ -60,7 +60,7 @@
                     free trial.
                     <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/billing">Subscribe now</a>
                 </span>
-            </li>
+            </li> -->
             <li class="nav-item dropdown d-none d-md-flex align-items-center"
                 *ngIf="auth.allAuthenticated() && datasets && datasets?.length !== 0">
                 <a class="nav-link dropdown-toggle" id="mapsListDropdownLink" data-toggle="dropdown"

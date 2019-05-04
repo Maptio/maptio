@@ -1,7 +1,6 @@
 <div class="d-flex flex-column">
     <div class="position-relative">
         <div>
-            <ng-content></ng-content>
 
             <search #search [list]="flattenNodes" [selectedResult]="getSelectedResult()"
                 (selectInitiative)="onSelectCircle($event)" (clear)="onClear()" (selectUser)="onSelectMember($event)">
@@ -32,71 +31,25 @@
             </search>
         </div>
         <div class="my-1" *ngIf="isWithAdvancedSearch">
-            <div data-toggle="collapse" class="cursor-pointer  small text-muted" href="#controls-box" role="button"
+            <div data-toggle="collapse" class="cursor-pointer  small text-muted ml-1" href="#controls-box" role="button"
                 aria-expanded="false" aria-controls="controls-box">
 
                 <span class="toggle-collapse mr-1">
                     <i class="fa fa-caret-right"></i>
                 </span>
-                Refine
+                Filter by tags
             </div>
 
 
             <div class="collapse" id="controls-box">
-                <div *ngIf="false" class="search-terms my-3">
-                    <div data-toggle="collapse" class="cursor-pointer text-uppercase small text-muted opacity-50"
-                        href="#filterByUser" role="button" aria-expanded="true" aria-controls="filterByUser">
 
-                        Filter by user
-                    </div>
-                    <div class="my-1 " id="filterByUser">
-                        <div *ngIf="filteringUser" class="d-flex align-items-center">
-                            <initiative-member-label [member]="filteringUser" [isLabel]="true">
-                            </initiative-member-label>
-                            <button class="btn btn-sm" (click)="onClearUserFilter()">
-                                <i class="fa fa-times text-muted"></i>
-                            </button>
-                        </div>
-                        <div *ngIf="!filteringUser">
-                            <div class="dropdown">
-                                <button class="pl-0 btn  btn-link  dropdown-toggle" id="usersListDropdown"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Select a person
-                                </button>
-                                <div class="dropdown-menu overflow-y" style="max-height:12rem"
-                                    aria-labelledby="usersListDropdown">
-                                    <h6 class="dropdown-header">My circles</h6>
-                                    <initiative-member-label class="dropdown-item" (click)="onSelectMember(user)"
-                                        [member]="user"></initiative-member-label>
-                                    <h6 class="dropdown-header">Other people</h6>
-                                    <ng-container *ngFor="let member of members">
-                                        <initiative-member-label class="dropdown-item" (click)="onSelectMember(member)"
-                                            [member]="member"></initiative-member-label>
-                                    </ng-container>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-
-
-                </div>
-                <div class="my-3">
-                    <div data-toggle="collapse" class="cursor-pointer text-uppercase small text-muted  opacity-50"
+                <div class="my-1">
+                    <!-- <div data-toggle="collapse" class="cursor-pointer text-uppercase small text-muted  opacity-50"
                         href="#filterByTags" role="button" aria-expanded="true" aria-controls="filterByTags">
-
-                        <!-- <span class="toggle-collapse mr-1">
-                                    <i class="fa fa-caret-right"></i>
-                                </span> -->
-                        Filter by tags
-                    </div>
-                    <div class="d-flex flex-wrap" id="filterByTags">
+                        Filter by tags 
+                    </div> -->
+                    <div class="d-flex flex-wrap align-items-baseline" id="filterByTags">
                         <div *ngFor="let tag of tags" class="my-1 ">
-
-
                             <initiative-single-tag [tag]="tag">
                                 <input class="mr-1" type="checkbox" name="" id="" [value]="tag.isSelected"
                                     [checked]="tag.isSelected"
@@ -104,6 +57,9 @@
 
                             </initiative-single-tag>
                         </div>
+                        <div>
+                            <button class="btn btn-sm btn-link" (click)="onEditTags()">Edit tags</button>
+                        </div>
                     </div>
 
                 </div>
@@ -111,34 +67,25 @@
             </div>
         </div>
 
-        <div class="d-flex flex-column mission text-bold mt-3" *ngIf="isWithAdvancedSearch">
+        <div class="d-flex flex-column mission mt-4" *ngIf="isWithAdvancedSearch">
+            <span class="text-uppercase text-muted small  opacity-50">Organization</span>
+            <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/people">{{team.name}}</a>
+            <span *ngIf="!team?.isPaying && !team.isExample" class="small text-green">{{team?.getRemainingTrialDays()}}
+                days left on your
+                free trial.
+                <a class="text-bold" routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/billing">Subscribe now</a>
+            </span>
+        </div>
+
+
+        <div class="d-flex flex-column mission  mt-3" *ngIf="isWithAdvancedSearch">
             <span class="text-uppercase text-muted small  opacity-50">Vision</span>
-            <span class="">{{mission}}</span>
+            <span class="text-bold">{{mission}}</span>
         </div>
 
-
-        <div class="card border-0 bg-light  mt-5" *ngIf="false">
-            <div class="card-body">
-                <!-- <div class="h5 card-title">
-                    Edit map
-                </div> -->
-                <div class="card-text">
-                    <div class="d-flex flex-column my-3 align-items-start">
-                        <span class="text-uppercase text-muted small my-1 opacity-50">Move, create and delete
-                            circles</span>
-                        <button class="btn btn-success" (click)="onOpenBuildingPanel()">Edit map</button>
-                    </div>
-
-                    <div class="d-flex flex-column my-3 align-items-start">
-                        <span class="text-uppercase text-muted my-1 small opacity-50">Divide circles in
-                            categories</span>
-                        <button class="btn btn-outline-secondary" (click)="onOpenTagsPanel()">Edit tags</button>
-
-                    </div>
-                </div>
-
-            </div>
-
+        <div class="d-flex flex-column align-items-start  mt-3" *ngIf="isWithAdvancedSearch">
+            <span class="text-uppercase text-muted small  opacity-50">My circles</span>
+            <a *ngFor="let i of [1,2,3,4,5]" >Circle {{i}}</a>
         </div>
 
 
