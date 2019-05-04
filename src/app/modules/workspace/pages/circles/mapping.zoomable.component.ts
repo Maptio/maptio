@@ -377,8 +377,10 @@ If upon examining all branches the map of child nodes is empty, return null
         .on("mouseover", (d: any, index: number, elements: Array<HTMLElement>) => {
           let name = elements[index].getAttribute("data-member-name");
           tooltip.text(name);
-          tooltip.style("opacity", 1).style("left", (d3.getEvent().pageX) + "px")
-            .style("top", (d3.getEvent().pageY - 28) + "px");;
+          tooltip
+            .style("opacity", 1).style("left", (d3.getEvent().pageX) + "px")
+            .style("top", (d3.getEvent().pageY - 28) + "px")
+            .style("pointer-events","none")
         })
         .on("mouseout", (d: any, index: number, elements: Array<HTMLElement>) => {
           let name = elements[index].getAttribute("data-member-name");
@@ -626,18 +628,18 @@ If upon examining all branches the map of child nodes is empty, return null
       svg.call(zooming);
     } catch (error) { console.error(error); }
 
-      if (localStorage.getItem("node_id")) {
+    if (localStorage.getItem("node_id")) {
 
-        let id = localStorage.getItem("node_id");
-        if (lastZoomCircle.data.id.toString() === id.toString()) return;
-        svg.select(`circle.node[id="${id}"]`).dispatch("click");
-      } else {
+      let id = localStorage.getItem("node_id");
+      if (lastZoomCircle.data.id.toString() === id.toString()) return;
+      svg.select(`circle.node[id="${id}"]`).dispatch("click");
+    } else {
 
 
-        svg.dispatch("click");
-      }
+      svg.dispatch("click");
+    }
 
-    
+
 
     zoomSubscription = this.zoomInitiative$.asObservable().subscribe(zoomedNode => {
 

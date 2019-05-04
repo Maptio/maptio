@@ -195,7 +195,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
 
         return `
             <div class="details d-flex flex-column align-items-start " style="font-size: ${fontSize}px;line-height:1.25;">
-            ${accountablePicture}    
+                ${accountablePicture}    
                 <div class="primary ">
                     <div>${d.data.name || '(Empty)'}</div>
                 </div>
