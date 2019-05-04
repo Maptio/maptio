@@ -85,7 +85,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public toggleDetailsPanel$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isNoMatchingCircles$: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
-  private zoomSubscription: Subscription;
+  private zoomInitiativeSubscription: Subscription;
+  private manualZoomSubscription:Subscription;
   private dataSubscription: Subscription;
   private resetSubscription: Subscription;
 
@@ -348,10 +349,12 @@ If upon examining all branches the map of child nodes is empty, return null
     const showContextMenuOf$ = this.showContextMenuOf$;
     const toggleDetailsPanel$ = this.toggleDetailsPanel$;
     const selectableUsers$ = this.selectableUsers$;
+    const zoom$ = this.zoom$;
     const uiService = this.uiService;
     const router: Router = this.router;
     const route: ActivatedRoute = this.route;
-    let zoomSubscription = this.zoomSubscription;
+    let zoomInitiativeSubscription = this.zoomInitiativeSubscription;
+    let manualZoomSubscription = this.manualZoomSubscription;
     let view: any;
     let lastZoomCircle = this.lastZoomCircle;
     let setIsShowMission = this.setIsShowMission.bind(this);
@@ -649,7 +652,7 @@ If upon examining all branches the map of child nodes is empty, return null
 
 
 
-    zoomSubscription = this.zoomInitiative$.asObservable().subscribe(zoomedNode => {
+    zoomInitiativeSubscription = this.zoomInitiative$.asObservable().subscribe(zoomedNode => {
 
       if (!zoomedNode) {
         svg.dispatch("click");
@@ -669,23 +672,30 @@ If upon examining all branches the map of child nodes is empty, return null
         }
       }
 
+
       node.classed("highlighted", false);
       svg.select(`g.node[id="${zoomedId}"]`).classed("highlighted", true);
       showToolipOf$.next({ initiatives: [zoomedNode], user: null });
 
+    });
 
-    })
+    manualZoomSubscription = this.zoom$.subscribe((factor:number)=>{
+      zooming.scaleBy(svg.transition().duration(TRANSITION_DURATION/2), factor)
+    });
   }
 
   ngOnDestroy() {
-    if (this.zoomSubscription) {
-      this.zoomSubscription.unsubscribe();
+    if (this.zoomInitiativeSubscription) {
+      this.zoomInitiativeSubscription.unsubscribe();
     }
     if (this.dataSubscription) {
       this.dataSubscription.unsubscribe();
     }
     if (this.resetSubscription) {
       this.resetSubscription.unsubscribe();
+    }
+    if(this.manualZoomSubscription){
+      this.manualZoomSubscription().unsubscribe();
     }
   }
 
