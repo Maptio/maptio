@@ -8,12 +8,12 @@
                         <i class="fas fa-pen mr-1" aria-hidden="true"></i> Edit circle details
                     </span>
                 </button>
-                <button *ngIf="initiative.accountable" class="d-flex flex-column cursor-pointer list-group-item list-group-item-action" (click)="openUser(initiative)">
+                <!-- <button *ngIf="initiative.accountable" class="d-flex flex-column cursor-pointer list-group-item list-group-item-action" (click)="openUser(initiative)">
                     <span class="d-flex align-items-center justify-content-start nowrap">
                         <i class="far fa-id-card mr-1"></i> {{initiative.accountable.name}}'s summary
                         <img [src]="initiative.accountable.picture" [alt]="initiative.accountable.name" class="rounded-circle participant-picture mx-1">
                     </span>
-                </button>
+                </button> -->
             </ng-container>
 
             <div class="cursor-pointer list-group-item list-group-item-action" (click)="isAddingNode=!isAddingNode" *ngIf="!isReadOnly">
