@@ -112,7 +112,7 @@ export class SearchComponent implements OnInit {
     getResultDisplay(){
        if(!this.selectedResult || !this.selectedResult.result) return "";
         return this.selectedResult.type === SearchResultType.Initiative
-        ? this.selectedResult.result.name
+        ? ( this.selectedResult.result.name ? this.selectedResult.result.name : "New node")
         : `${this.selectedResult.result.name}'s circles`
     }
 
