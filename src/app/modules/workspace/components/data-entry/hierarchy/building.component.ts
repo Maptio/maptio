@@ -157,7 +157,7 @@ export class BuildingComponent {
     }
 
     openNodeDetails(node: Initiative, isEditMode:boolean) {
-        debugger
+        
         this.openDetails.emit(node)
         if(isEditMode) this.forceEdit.emit();
     }

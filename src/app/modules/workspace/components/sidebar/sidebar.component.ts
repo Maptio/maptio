@@ -154,7 +154,7 @@ export class SidebarComponent implements OnInit {
     }
 
     onSelectTag(tags: SelectableTag[]) {
-        debugger
+        
         this.selectTags.emit(tags.filter(t => t.isSelected))
     }
 

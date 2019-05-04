@@ -155,7 +155,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .get()
       .do((data) => {
 
-        this.isLoading = false;
+        this.isLoading = true;
         this.isNoMatchingCircles = false;
         this.analytics.eventTrack("Map", {
           action: "viewing",
@@ -194,7 +194,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       })
       .do((result: { svg: string, root: any, nodes: any }) => {
-        debugger
+        
         this.containerHeight = this.sanitizer.bypassSecurityTrustStyle(`calc(65% - ${this.height/2}px)`);
         // wait till SVG is rendered before hydrating
         // document.querySelector(".map-container").style("padding-left", `calc(65% - ${this.height / 2}px)`);
@@ -202,14 +202,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       })
       .subscribe((result: { svg: string, root: any, nodes: any }) => {
-        debugger
+        
         this.hydrate(result.root, result.nodes);
         this.flattenNodes = result.nodes.map((d: any) => d.data);
 
         // document.querySelector("svg") && document.querySelector("svg").classList.remove("loading");
 
         this.loaderService.hide();
-
         this.isLoading = false;
         this.cd.markForCheck();
       },
@@ -561,7 +560,7 @@ If upon examining all branches the map of child nodes is empty, return null
         d3.getEvent().stopPropagation();
       })
       .on("contextmenu", function (d: any) {
-        debugger
+        
         d3.getEvent().preventDefault();
         const that = <any>this;
         let mousePosition;

@@ -36,65 +36,18 @@
           <div
             class="d-flex flex-column bg-transparent  align-items-center align-items-md-end col-12 col-md-auto z-index-1 m-3"
             >
-            <!-- <div class="btn-group-vertical mb-3 d-none d-md-block">
-              <button
-                class="btn btn-light toolbar p-1 text-dark d-flex flex-column justify-content-between align-items-center"
-                [class.disabled]="isSearchDisabled || isMapSettingsDisabled" (click)="isSearchToggled=!isSearchToggled"
-                data-toggle="collapse" href="#collapseSearch" role="button">
-                <i class="fa fa-search"></i>
-                <span class="icon-text-label">Search</span>
-              </button>
-              <button
-                class="btn btn-light toolbar p-1 text-dark d-flex flex-column justify-content-between align-items-center"
-                [class.disabled]="isSearchDisabled || isMapSettingsDisabled"
-                (click)="isFiltersToggled=!isFiltersToggled" data-toggle="collapse" href="#collapseFilter"
-                role="button">
-                <i class="fa fa-filter"></i>
-                <span class="icon-text-label">Filter</span>
-              </button>
-              <button
-                class="btn btn-light toolbar p-1 text-dark d-flex flex-column justify-content-between align-items-center"
-                [class.disabled]="isMapSettingsDisabled" (click)="isSharingToggled=!isSharingToggled"
-                data-toggle="collapse" href="#collapseSlack" role="button">
-                <i class="fab fa-slack"></i>
-                <span class="icon-text-label">Share</span>
-              </button>
-
-            </div> -->
-
-            <!-- <div class="d-none d-md-block btn-group-vertical my-3">
-              <ng-container *ngTemplateOutlet="viewsButtonGroup"></ng-container>
-              <button
-                class="d-flex btn btn-light toolbar select-view summary-list text-dark p-1 btn-control flex-column justify-content-end align-items-center"
-                #rlaSummary="routerLinkActive" [routerLinkActive]="['active']"
-                routerLink="/map/{{datasetId}}/{{slug}}/directory">
-                <span class="d-none d-md-block icon-text-label">Directory</span>
-              </button>
-            </div>
-            <div class="d-md-none btn-group col-9 my-2">
-              <ng-container *ngTemplateOutlet="viewsButtonGroup"></ng-container>
-            </div> -->
 
             <div class=" btn-group-vertical d-none d-md-flex">
                 <button ngbTooltip="Zoom in" placement="left" container="body"
                 class="btn btn-light  "
                 [class.disabled]="isMapSettingsDisabled" (click)="zoomIn()">
                 <i class="fa fa-plus"></i>
-                <!-- <span class="icon-text-label">Zoom in</span> -->
               </button>
               <button ngbTooltip="Zoom out" placement="left" container="body"
                 class="btn btn-light  "
                 [class.disabled]="isMapSettingsDisabled" (click)="zoomOut()">
                 <i class="fa fa-minus"></i>
-                <!-- <span class="icon-text-label">Zoom out</span> -->
               </button>
-              
-              <!-- <button
-                class="btn btn-light toolbar text-dark p-1 d-flex flex-column justify-content-between  align-items-center"
-                [class.disabled]="isMapSettingsDisabled" (click)="resetZoom()">
-                <i class="fa fa-expand-arrows-alt py-1"></i>
-                <span class="icon-text-label">Zoom fit</span>
-              </button> -->
               <button *ngIf="false"
                 class="btn btn-light toolbar text-dark p-1 d-flex flex-column justify-content-between align-items-center"
                 (click)="fullScreen()">
@@ -107,22 +60,11 @@
               <common-color-picker [isMinimal]="true" [color]="settings.mapColor" [label]="'Map'"
                 [default]="DEFAULT_MAP_COLOR" (change)="changeMapColor($event)" [placement]="'left'">
               </common-color-picker>
-              <!-- <button
-                class="btn btn-light toolbar text-dark p-1 d-flex flex-column justify-content-between align-items-center"
-                [class.disabled]="isMapSettingsDisabled" (click)="isSettingToggled=!isSettingToggled"
-                data-toggle="collapse" href="#collapseSettings" role="button">
-                <i class="fas fa-palette"></i>
-                <span class="icon-text-label">Colors</span>
-              </button> -->
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- <div class="summary-tooltip col-4 position-absolute top-left ml-3 z-index-2 mh-100 overflow-y" [style.max-height.px]="VIEWPORT_HEIGHT" *ngIf="hoveredInitiatives">
-      <tooltip *ngFor="let hoveredInitiative of hoveredInitiatives" [initiative]="hoveredInitiative" [isNameOnly]="isNameOnly"
-        [team]="team"></tooltip>
-    </div> -->
     <context-menu [initiatives]="selectedInitiatives" [isReadOnly]="isReadOnlyContextMenu" [x]="selectedInitiativeX"
       [y]="selectedInitiativeY" (add)="emitAddInitiative($event)" (remove)="emitRemoveInitiative($event)"
       (edit)="emitOpenInitiative($event)" (openAccountable)="goToUserSummary($event)"></context-menu>
@@ -137,10 +79,7 @@
         (selectUser)="goToUserSummary($event)"></search>
     </div>
     <div closable id="collapseFilter" class="collapse rounded mb-3 col-12 bg-light p-3">
-      <!-- <button *ngFor="let member of members" (click)="broadcastUsersSelection(member)">{{member.name}}</button>
-     -->
-      <!-- <button (click)="resetBroadcastUsersSelection()">Reset users search</button>  -->
-      <filter-tags [team]="team" [tags]="tags" (changeTagsSelection)="broadcastTagsSelection($event)"></filter-tags>
+     <filter-tags [team]="team" [tags]="tags" (changeTagsSelection)="broadcastTagsSelection($event)"></filter-tags>
     </div>
     <div closable id="collapseSlack" class="collapse rounded mb-3 col-12 bg-light p-3">
       <slack-share [slack]="team?.slack" [team]="team" [isPrinting]="isPrinting" [hasNotified]="hasNotified"
