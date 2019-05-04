@@ -65,7 +65,7 @@
                                             [ngClass]="{'show ':!isBuildingPanelCollapsed}">
 
                                             <building #building [user]="user" [isEmptyMap]="isEmptyMap"
-                                                (save)="saveChanges($event)" (openDetails)="onOpenDetails($event)">
+                                                (save)="saveChanges($event)" (openDetails)="onSelectInitiative($event)">
                                             </building>
 
                                         </div>
