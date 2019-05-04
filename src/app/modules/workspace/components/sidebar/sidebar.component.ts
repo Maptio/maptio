@@ -7,6 +7,7 @@ import { orderBy } from 'lodash';
 import { EmitterService } from '../../../../core/services/emitter.service';
 import { Subscription } from 'rxjs';
 import { SearchResult, SearchResultType } from '../searching/search.component';
+import { Team } from '../../../../shared/model/team.data';
 
 @Component({
     selector: 'sidebar',
