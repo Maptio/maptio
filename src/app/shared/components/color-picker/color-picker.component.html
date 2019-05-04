@@ -9,13 +9,17 @@
 <ng-container *ngIf="isMinimal">
 
   <ng-template #popContent>
-    <div class="d-flex flex-column align-items-start">
-      <color-hue-picker [color]="color" [width]="255" (onChangeComplete)="pickColor($event)"></color-hue-picker>
-      <button class="btn btn-link btn-sm my-1 pl-0" (click)="reset()">Reset</button>
 
+    <div class="d-flex flex-column align-items-start" style="width:255px">
+      <color-hue-picker [color]="color" [width]="255" (onChangeComplete)="pickColor($event)"></color-hue-picker>
+      <div class="d-flex justify-content-between w-100">
+        <button class="btn btn-link btn-sm my-1 pl-0" (click)="reset()">Reset</button>
+        
+        <button class="btn btn-link btn-sm my-1 pr-0" (click)="close()">Close</button>
+      </div>
     </div>
   </ng-template>
-  <button type="button"  [style.borderColor]="color" [style.backgroundColor]="color"
+  <button #popover="ngbPopover" type="button"  [style.borderColor]="color" [style.backgroundColor]="color"
     [style.border-color]="color" class="btn btn-outline-secondary" [autoClose]="'outside'" [ngbPopover]="popContent"
     popoverClass="popover-color-picker" [placement]="placement">
     <i class="fas fa-brush text-white"></i>

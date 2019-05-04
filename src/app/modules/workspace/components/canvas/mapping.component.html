@@ -103,7 +103,7 @@
                 <span class="icon-text-label">{{isFullScreen ? 'Normal screen' : 'Fullscreen'}}</span>
               </button>
             </div>
-            <div class=" btn-group-vertical my-3 d-none d-md-block" ngbTooltip="Pick map color" placement="left" container="body">
+            <div class=" btn-group-vertical my-3 d-none d-md-block" ngbTooltip="Pick map color" placement="bottom" container="body">
               <common-color-picker [isMinimal]="true" [color]="settings.mapColor" [label]="'Map'"
                 [default]="DEFAULT_MAP_COLOR" (change)="changeMapColor($event)" [placement]="'left'">
               </common-color-picker>

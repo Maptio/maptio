@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 import { environment } from '../../../config/environment';
 import { ColorEvent } from 'ngx-color';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'common-color-picker',
@@ -16,12 +17,20 @@ export class ColorPickerComponent implements OnInit {
     @Input("isMinimal") isMinimal: boolean;
     @Output("change") changeColor: EventEmitter<string> = new EventEmitter<string>();
     
+    @ViewChild("popover") popover:NgbPopover;
+
     constructor() { }
 
-    ngOnInit(): void { }
+    ngOnInit(): void { 
+        
+    }
 
     pickColor(e: ColorEvent) {
         this.changeColor.emit(e.color.hex);
+    }
+
+    close(){
+        this.popover.close();
     }
 
     reset() {
