@@ -112,6 +112,7 @@ export class BuildingComponent {
 
     @Output("save") save: EventEmitter<{ initiative: Initiative, tags: Tag[] }> = new EventEmitter<{ initiative: Initiative, tags: Tag[] }>();
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
+   @Output("forceEdit") forceEdit = new EventEmitter<void>();
    
     constructor(private dataService: DataService, private datasetFactory: DatasetFactory,
         private modalService: NgbModal, private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private loaderService: LoaderService) {
@@ -155,8 +156,10 @@ export class BuildingComponent {
         this.tree.treeModel.update();
     }
 
-    openNodeDetails(node: Initiative) {
+    openNodeDetails(node: Initiative, isEditMode:boolean) {
+        debugger
         this.openDetails.emit(node)
+        if(isEditMode) this.forceEdit.emit();
     }
 
     onEditingTags(tags: Tag[]) {

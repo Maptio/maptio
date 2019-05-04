@@ -32,8 +32,8 @@
 			(stateChange)="setState($event)">
 			<ng-template #treeNodeTemplate let-node let-index="index">
 				<initiative-node [node]="node" [datasetId]="datasetId" [team]="team" [user]="user"
-					(edited)="saveChanges()" (update)="updateTreeModel(tree.treeModel)" (open)="openNodeDetails($event)"
-					(add)="openNodeDetails($event)"></initiative-node>
+					(edited)="saveChanges()" (update)="updateTreeModel(tree.treeModel)" (open)="openNodeDetails($event, false)"
+					(add)="openNodeDetails($event, true)"></initiative-node>
 			</ng-template>
 		</tree-root>
 	</div>

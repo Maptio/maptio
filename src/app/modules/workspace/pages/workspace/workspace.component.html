@@ -90,7 +90,7 @@
                                             [ngClass]="{'show ':!isBuildingPanelCollapsed}">
 
                                             <building #building [user]="user" [isEmptyMap]="isEmptyMap"
-                                                (save)="saveChanges($event)"
+                                                (save)="saveChanges($event)" (forceEdit)="isEditMode=true"
                                                 (openDetails)="onSelectInitiative($event);isBackToBuildingVisible=true">
                                             </building>
 
