@@ -81,11 +81,11 @@ export class UIService {
     return { x: xn, y: yn };
   }
 
-  public getContextMenuCoordinates(mouse: any, matrix: any) {
+  public getContextMenuCoordinates(mouse: any, matrix: any, padding?:number) {
 
     let m = document.getElementById("maptio-context-menu");
 
-    let center = { x: window.pageXOffset, y: window.pageYOffset };
+    let center = { x: window.pageXOffset , y: window.pageYOffset };
     let canvas = { width: this.getCanvasWidth(), height: this.getCanvasHeight() };
     let divider = 4; //because context-menu is col-3;
     let menu = { width: m.clientWidth, height: 350 }

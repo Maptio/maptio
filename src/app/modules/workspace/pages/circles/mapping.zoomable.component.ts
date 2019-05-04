@@ -34,6 +34,7 @@ import { AuthHttp } from "angular2-jwt";
 import { map, tap } from "rxjs/operators";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { of } from "rxjs";
+import { DomSanitizer } from "@angular/platform-browser";
 
 const d3 = Object.assign(
   {},
@@ -69,6 +70,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public translateX: number;
   public translateY: number;
   public scale: number;
+  public containerHeight:string;
 
   public margin: number;
   public zoom$: Observable<number>;
@@ -125,6 +127,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     private dataService: DataService,
     private loaderService: LoaderService,
     private http: AuthHttp,
+    private sanitizer:DomSanitizer,
     private element: ElementRef
   ) {
   }
@@ -191,8 +194,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .do((result: { svg: string, root: any, nodes: any }) => {
         debugger
+        this.containerHeight = this.sanitizer.bypassSecurityTrustStyle(`calc(65% - ${this.height/2}px)`);
         // wait till SVG is rendered before hydrating
+        // document.querySelector(".map-container").style("padding-left", `calc(65% - ${this.height / 2}px)`);
         document.querySelector(".map-container").innerHTML = result.svg;
+
       })
       .subscribe((result: { svg: string, root: any, nodes: any }) => {
         debugger
@@ -389,8 +395,8 @@ If upon examining all branches the map of child nodes is empty, return null
         })
     })
 
-
-    svg.style("padding-left", `calc(65% - ${this.height / 2}px)`);
+    svg.style("position","relative")
+    // svg.style("padding-left", `calc(65% - ${this.height / 2}px)`);
 
     const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 10.5;
     const zooming = d3
@@ -552,6 +558,7 @@ If upon examining all branches the map of child nodes is empty, return null
         d3.getEvent().stopPropagation();
       })
       .on("contextmenu", function (d: any) {
+        debugger
         d3.getEvent().preventDefault();
         const that = <any>this;
         let mousePosition;
@@ -562,17 +569,18 @@ If upon examining all branches the map of child nodes is empty, return null
         else {
           mousePosition = d3.mouse(that);
         }
+        let padding = width*.60 - height/2;
         let matrix = that.getCTM().translate(
           +that.getAttribute("cx"),
           +that.getAttribute("cy")
         );
 
-        let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 }
+        let mouse = { x: mousePosition[0]+padding, y: mousePosition[1]}
         let initiative = d.data;
         let circle = d3.select(that);
         showContextMenuOf$.next({
           initiatives: [initiative],
-          x: uiService.getContextMenuCoordinates(mouse, matrix).x,
+          x: uiService.getContextMenuCoordinates(mouse, matrix).x ,
           y: uiService.getContextMenuCoordinates(mouse, matrix).y,
           isReadOnlyContextMenu: false
         });
@@ -581,7 +589,7 @@ If upon examining all branches the map of child nodes is empty, return null
           .on("mouseenter", function (d: any) {
             showContextMenuOf$.next({
               initiatives: [initiative],
-              x: uiService.getContextMenuCoordinates(mouse, matrix).x,
+              x: uiService.getContextMenuCoordinates(mouse, matrix).x ,
               y: uiService.getContextMenuCoordinates(mouse, matrix).y,
               isReadOnlyContextMenu: false
             });
