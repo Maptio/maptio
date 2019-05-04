@@ -302,6 +302,10 @@ ul.picture-list > .list-inline-item{
   box-shadow: 0 0 0 0 !important;
 }
 
+.focused .input-group-prepend button, .focused .input-group-append button{
+  border-color:#80bdff!important;
+}
+
 
 .large{
   font-size: large!important;

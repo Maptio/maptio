@@ -33,6 +33,8 @@ export class SearchComponent implements OnInit {
 
     public searchResultsCount: number;
     public isSearching: boolean;
+    public isFocus:boolean;
+    
     @ViewChild("initiativeSearch") public typeahead: NgbTypeahead;
 
     SearchResultType = SearchResultType;
