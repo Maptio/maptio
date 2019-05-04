@@ -52,14 +52,28 @@
                         </div>
                     </div>
 
-                    <div *ngIf="!isDetailsPanelCollapsed" class="bg-light p-3">
-                        <div class="d-flex">
-                                <button class="btn btn-link">Edit</button>
-                                <button class="btn btn-link">Delete</button>
-                                <button class="btn btn-link">Create sub-circle</button>
+                    <div *ngIf="!isDetailsPanelCollapsed && openedNode" class="bg-light p-3">
+                        <button *ngIf="isBackToBuildingVisible" class="btn btn-link btn-sm pl-0"
+                            (click)="openBuildingPanel()">
+                            <i class="fas fa-caret-left  mx-1"></i>
+                            Back
+                        </button>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-outline-secondary btn-sm mr-2">
+                                <i class="fas fa-plus  mx-1"></i>
+                                Add sub-circle
+                            </button>
+                            <button class="btn btn-outline-secondary btn-sm mr-2">
+                                <i class="fas fa-pen mx-1"></i>Edit
+                            </button>
+
+                            <button class="btn btn-outline-danger btn-sm mr-2">
+                                <i class="fas fa-trash  mx-1">
+                                </i>Delete
+                            </button>
                         </div>
-                        <button class="btn btn-link" (click)="openBuildingPanel()">See in hierarchy</button>
-                  
+
+
                     </div>
 
                     <div class="p-3 overflow-y">
@@ -75,7 +89,8 @@
                                             [ngClass]="{'show ':!isBuildingPanelCollapsed}">
 
                                             <building #building [user]="user" [isEmptyMap]="isEmptyMap"
-                                                (save)="saveChanges($event)" (openDetails)="onSelectInitiative($event)">
+                                                (save)="saveChanges($event)"
+                                                (openDetails)="onSelectInitiative($event);isBackToBuildingVisible=true">
                                             </building>
 
                                         </div>
@@ -137,10 +152,11 @@
                     <ng-container *ngIf="!isLoading">
                         <mapping [isEmptyMap]="isEmptyMap" [selectableTags$]="selectableTags$"
                             [selectableUsers$]="selectableUsers$" [zoomInitiative$]="zoomInitiative$"
-                            (openDetails)="onOpenDetails($event)" (openUserSummary)="onOpenUserSummary($event)"
-                            (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
-                            (openTreePanel)="openBuildingPanel()" (expandTree)="buildingComponent.toggleAll(true)"
-                            (hideAllPanels)="closeAllPanels()" (noSearchResults)="onNoSearhcResults()"
+                            (openDetails)="onOpenDetails($event);isBackToBuildingVisible=false"
+                            (openUserSummary)="onOpenUserSummary($event)" (addInitiative)="addInitiative($event)"
+                            (removeInitiative)="removeInitiative($event)" (openTreePanel)="openBuildingPanel()"
+                            (expandTree)="buildingComponent.toggleAll(true)" (hideAllPanels)="closeAllPanels()"
+                            (noSearchResults)="onNoSearhcResults()"
                             (toggleEditingPanelsVisibility)="toggleEditingPanelsVisibility($event)">
                         </mapping>
                     </ng-container>

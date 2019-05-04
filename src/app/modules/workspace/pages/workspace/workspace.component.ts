@@ -36,8 +36,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public isBuildingPanelCollapsed: boolean = true;
     public isDetailsPanelCollapsed: boolean = true;
     public isTagsPanelCollapsed: boolean = true;
+    
     public isBuildingVisible: boolean = true;
     public isEmptyMap: Boolean;
+    public isBackToBuildingVisible:boolean;
     public isSaving: Boolean;
     public isEditMode: boolean;
     public isNoSearchResults: boolean;
