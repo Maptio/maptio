@@ -109,6 +109,13 @@ export class SearchComponent implements OnInit {
         return result && result.result ? result.result.name : "dede";
     };
 
+    getResultDisplay(){
+       if(!this.selectedResult || !this.selectedResult.result) return "";
+        return this.selectedResult.type === SearchResultType.Initiative
+        ? this.selectedResult.result.name
+        : `${this.selectedResult.result.name}'s circles`
+    }
+
     selectAllContent(event: Event) {
         (<any>event.target).select();
     }

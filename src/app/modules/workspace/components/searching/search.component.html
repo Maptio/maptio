@@ -41,7 +41,7 @@
 
     </div>
        
-    <input [value]="selectedResult?.result?.name"
+    <input [value]="getResultDisplay()"
     (focus)="selectAllContent($event)" (mouseup)="$event.preventDefault()"
     #initiativeSearch="ngbTypeahead" highlightClass="highlight-typeahead" [resultTemplate]="rt" type="text"
         id="initiativeSearch" class="form-control search border-left-0 border-right-0 pr-5" (selectItem)="select($event)"
