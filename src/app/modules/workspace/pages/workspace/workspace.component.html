@@ -52,6 +52,16 @@
                         </div>
                     </div>
 
+                    <div *ngIf="!isDetailsPanelCollapsed" class="bg-light p-3">
+                        <div class="d-flex">
+                                <button class="btn btn-link">Edit</button>
+                                <button class="btn btn-link">Delete</button>
+                                <button class="btn btn-link">Create sub-circle</button>
+                        </div>
+                        <button class="btn btn-link" (click)="openBuildingPanel()">See in hierarchy</button>
+                  
+                    </div>
+
                     <div class="p-3 overflow-y">
                         <div class="w-100" [ngClass]="{'z-index-0':!isFullSidebar}">
                             <div [class.hide]="isDetailsPanelCollapsed && isBuildingPanelCollapsed && isTagsPanelCollapsed"
@@ -59,7 +69,7 @@
                                 class="collapsible d-none d-md-flex flex-column overflow-y-hidden overflow-x-hidden ">
 
                                 <div class="d-flex mh-100  overflow-y overflow-x-hidden">
-                                    <div class="mw-100 h-100 position-relative">
+                                    <div class="w-100 h-100 position-relative">
 
                                         <div class="slideable " [class.hide]="isBuildingPanelCollapsed"
                                             [ngClass]="{'show ':!isBuildingPanelCollapsed}">
@@ -78,7 +88,9 @@
                                                     [node]="openedNode" [user]="user" [team]="team"
                                                     (edited)="saveDetailChanges($event)"
                                                     (selectMember)="onSelectMembers([$event])" [isEditMode]="isEditMode"
-                                                    (editTags)="onEditTags()"></initiative>
+                                                    (editTags)="onEditTags()">
+
+                                                </initiative>
                                                 <summary-personal *ngIf="openedUser" [member]="openedUser"
                                                     [initiative]="dataset.initiative" [team]="team" [dataset]="dataset"
                                                     (selectMember)="onSelectMembers([$event])"

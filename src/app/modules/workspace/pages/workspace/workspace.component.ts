@@ -205,7 +205,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     onEditingTags(tags: Tag[]) {
-        localStorage.setItem("keepEditingOpen", true);
+        localStorage.setItem("keepEditingOpen", JSON.stringify(true));
         this.saveChanges({ initiative: this.dataset.initiative, tags: tags })
     }
 

@@ -25,25 +25,25 @@
 <hr> -->
 
 
-<div class="d-flex flex-column align-items-start">
+<!-- <div class="d-flex flex-column align-items-start">
 	<span class="font-weight-bold h5" *ngIf="!isEditMode">{{node?.name}}</span>
 	<button class="btn btn-outline-success" *ngIf="!isEditMode" (click)="isEditMode=true">Edit</button>
 	<button class="btn btn-outline-success" *ngIf="isEditMode" (click)="isEditMode=false">I'm done editing</button>
-</div>
+</div> -->
 
 <div class="d-flex flex-column h-100" *ngIf="!isEditMode">
 
-	<!-- <span class="font-weight-bold h5">{{node?.name}}</span> -->
+	<span class="font-weight-bold h5">{{node?.name}}</span>
 
-	<div class="d-flex mb-2">
+	<div class="d-flex mb-2" *ngIf="node?.tags && node?.tags.length >0 ">
 		<initiative-single-tag *ngFor="let tag of node?.tags; let i=index" class="mr-1" [tag]="tag">
 		</initiative-single-tag>
 	</div>
-	<div class="my-3">
+	<div class="my-3" *ngIf="node?.description">
 
 		<markdown [data]="node?.description"></markdown>
 	</div>
-	<div class="d-flex flex-column my-3">
+	<div class="d-flex flex-column my-3" *ngIf="node?.getAllParticipants() && node?.getAllParticipants().length >0 ">
 		<div *ngFor="let helper of node?.getAllParticipants(); let i=index" class="d-flex flex-column mb-2">
 			<div class="d-flex align-items-center">
 				<initiative-member-label [member]="helper" (selectMember)="onSelectMember($event)">

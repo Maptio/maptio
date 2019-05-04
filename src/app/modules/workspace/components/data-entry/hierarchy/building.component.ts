@@ -129,7 +129,7 @@ export class BuildingComponent {
     }
 
     saveChanges() {
-        localStorage.setItem("keepEditingOpen", true);
+        localStorage.setItem("keepEditingOpen", JSON.stringify(true));
         this.save.emit({ initiative: this.nodes[0], tags: this.tags });
     }
 
