@@ -8,12 +8,12 @@
 
 	<div class="card  w-100 border-0 bg-transparent">
 		<div class="card-body px-0 pb-1">
-			<div *ngIf="!isEmptyMap" class="d-flex justify-content-between">
-				<button name="" id="" class="btn btn-link px-0" (click)="!isToggling && toggleAll(true)" role="button">
+			<div *ngIf="!isEmptyMap" class="d-flex justify-content-start">
+				<button name="" id="" class="btn btn-link pl-0" (click)="!isToggling && toggleAll(true)" role="button">
 					<i class="fas" [class.fa-plus-circle]="!isExpanding" [class.fa-circle-notch]="isExpanding"
 						[class.fa-spin]="isExpanding" aria-hidden="true"></i> Expand all
 				</button>
-				<button name="" id="" class="btn btn-link px-0" (click)="!isToggling && toggleAll(false)"
+				<button name="" id="" class="btn btn-link " (click)="!isToggling && toggleAll(false)"
 					role="button">
 					<i class="fas" [class.fa-minus-circle]="!isCollapsing" [class.fa-circle-notch]="isCollapsing"
 						[class.fa-spin]="isCollapsing" aria-hidden="true"></i> Collapse all
