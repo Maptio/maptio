@@ -85,18 +85,18 @@ describe("mapping.component.ts", () => {
     describe("Controller", () => {
 
         describe("zoomIn", () => {
-            it("should set the zoom factor to 1.2", async(() => {
+            it("should set the zoom factor to 2", async(() => {
                 let spy = spyOn(component.zoom$, "next");
                 component.zoomIn();
-                expect(spy).toHaveBeenCalledWith(3)
+                expect(spy).toHaveBeenCalledWith(2)
             }));
         });
 
         describe("zoomOut", () => {
-            it("should set the zoom factor to 0.8", async(() => {
+            it("should set the zoom factor to .5", async(() => {
                 let spy = spyOn(component.zoom$, "next");
                 component.zoomOut();
-                expect(spy).toHaveBeenCalledWith(1 / 3)
+                expect(spy).toHaveBeenCalledWith(1 / 2)
             }));
         });
 
