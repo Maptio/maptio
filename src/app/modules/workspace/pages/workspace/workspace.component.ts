@@ -95,12 +95,13 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
         this.routeSubscription = this.route.data
             .do((data) => {
-                
+                debugger
                 this.isLoading = true;
                 this.cd.markForCheck();
 
                 let newDatasetId = data.data.dataset.datasetId;
-                if (newDatasetId !== this.datasetId) {
+                
+                if (this.datasetId &&  newDatasetId !== this.datasetId) {
                     localStorage.removeItem("node_id");
                     localStorage.removeItem("user_id");
                     this.closeAllPanels();
