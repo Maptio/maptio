@@ -200,7 +200,7 @@ export class BuildingComponent {
         
         this.saveChanges();
         this.updateTree();
-        localStorage.setItem("node_id", parent.id); // sp that the map refreshes focused on parent node instead of zooming out
+        localStorage.setItem("node_id", parent.id.toString(); // sp that the map refreshes focused on parent node instead of zooming out
     }
 
     addNodeTo(node: Initiative, subNode: Initiative) {
