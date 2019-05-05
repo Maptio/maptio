@@ -13,7 +13,7 @@ import { LoaderService } from '../../../../shared/components/loading/loader.serv
 import { Intercom } from 'ng-intercom';
 import { environment } from '../../../../config/environment';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
-import * as LogRocket from "logrocket";
+// import * as LogRocket from "logrocket";
 
 @Component({
     selector: 'authorize',
@@ -93,12 +93,12 @@ export class AuthorizeComponent implements OnInit {
                     email: user.email
                 });
             })
-            .do((user: User) => {
-                LogRocket.identify(user.user_id, {
-                    name: user.name,
-                    email: user.email,
-                });
-            })
+            // .do((user: User) => {
+            //     LogRocket.identify(user.user_id, {
+            //         name: user.name,
+            //         email: user.email,
+            //     });
+            // })
             .subscribe((user: User) => {
                 this.loader.hide();
                 this.router.navigateByUrl("/home");

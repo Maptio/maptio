@@ -14,7 +14,7 @@ import { User } from "../../shared/model/user.data";
 import { EmitterService } from "../services/emitter.service";
 import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
 import { uniq } from "lodash-es";
-import * as LogRocket from "logrocket";
+// import * as LogRocket from "logrocket";
 import { Intercom } from "ng-intercom";
 
 @Injectable()
@@ -302,10 +302,10 @@ export class Auth {
                                 firstname: user.firstname,
                                 lastname: user.lastname
                               });
-                              LogRocket.identify(user.user_id, {
-                                name: user.name,
-                                email: user.email,
-                              });
+                              // LogRocket.identify(user.user_id, {
+                              //   name: user.name,
+                              //   email: user.email,
+                              // });
                               this.fullstory.identify(user.user_id, {
                                 displayName: user.name,
                                 email: user.email

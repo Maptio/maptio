@@ -6,7 +6,7 @@ import { environment } from '../config/environment';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel"
 import { IntercomModule, Intercom } from 'ng-intercom';
-import * as LogRocket from "logrocket";
+// import * as LogRocket from "logrocket";
 
 @NgModule({
     declarations: [
@@ -29,12 +29,12 @@ export class AnalyticsModule {
     constructor(mixpanel: Angulartics2Mixpanel) {
 
         if (!isDevMode()) {
-            LogRocket.init(environment.LOGROCKET_APP_ID, {
-                network: {
-                    isEnabled: true
-                }
+            // LogRocket.init(environment.LOGROCKET_APP_ID, {
+            //     network: {
+            //         isEnabled: true
+            //     }
 
-            });
+            // });
             mixpanel.startTracking()
         }
         

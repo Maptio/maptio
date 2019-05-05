@@ -53,7 +53,7 @@ import "ng2-file-upload";
 
 //tracking
 import "angulartics2";
-import "logrocket";
+// import "logrocket";
 import "ng-intercom"
 
 
