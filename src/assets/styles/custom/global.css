@@ -306,6 +306,9 @@ ul.picture-list > .list-inline-item{
   border-color:#80bdff!important;
 }
 
+.list-group-item:focus, .list-group-item:hover{
+  z-index: 0!important;
+}
 
 .large{
   font-size: large!important;
