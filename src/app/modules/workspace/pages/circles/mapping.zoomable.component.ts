@@ -522,6 +522,7 @@ If upon examining all branches the map of child nodes is empty, return null
           if (d === focus || d.parent === focus) return 1;
           return 0.15;
         })
+        .attr("k", newScale)
 
       text
         .transition().duration(TRANSITION_DURATION / 2)
@@ -571,7 +572,10 @@ If upon examining all branches the map of child nodes is empty, return null
         else {
           mousePosition = d3.mouse(that);
         }
-        let padding = width*.60 - height/2;
+
+        let k = <number>d3.select(that).attr("k");
+        let padding = (width*.60 - height/2)/k;
+
         let matrix = that.getCTM().translate(
           +that.getAttribute("cx"),
           +that.getAttribute("cy")
