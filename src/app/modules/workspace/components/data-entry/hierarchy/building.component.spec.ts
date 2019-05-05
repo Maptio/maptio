@@ -279,7 +279,7 @@ describe("building.component.ts", () => {
             spyOn(component, "updateTree")
             component.removeNode(node2);
             expect(component.nodes[0].children.length).toBe(2);
-            expect(component.saveChanges).not.toHaveBeenCalled();
+            expect(component.saveChanges).toHaveBeenCalled();
             expect(component.updateTree).toHaveBeenCalledTimes(1);
         });
 
@@ -301,7 +301,7 @@ describe("building.component.ts", () => {
 
             expect(component.nodes[0].children.length).toBe(1);
             expect(component.nodes[0].children[0].children.length).toBe(1);
-            expect(component.saveChanges).not.toHaveBeenCalled();
+            expect(component.saveChanges).toHaveBeenCalled();
             expect(component.updateTree).toHaveBeenCalledTimes(1);
         });
     });
@@ -329,7 +329,7 @@ describe("building.component.ts", () => {
             expect(component.nodes[0].children[0].name).toBe("NEW");
             expect(component.nodes[0].children[0].team_id).toBe("team_id")
             expect(component.nodes[0].children[0].children).toBeDefined();
-            expect(component.saveChanges).not.toHaveBeenCalled();
+            expect(component.saveChanges).toHaveBeenCalled();
             expect(component.updateTree).toHaveBeenCalledTimes(1);
         });
 
@@ -356,7 +356,7 @@ describe("building.component.ts", () => {
             expect(component.nodes[0].children[0].children[0].team_id).toBe("team_id")
             expect(component.nodes[0].children[0].children[0].children).toBeDefined();
             expect(component.nodes[0].children[0].children[0].name).toBe("NEW");
-            expect(component.saveChanges).not.toHaveBeenCalled();
+            expect(component.saveChanges).toHaveBeenCalled();
             expect(component.updateTree).toHaveBeenCalledTimes(1);
         });
     });

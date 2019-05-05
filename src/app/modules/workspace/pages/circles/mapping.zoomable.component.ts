@@ -573,7 +573,7 @@ If upon examining all branches the map of child nodes is empty, return null
           mousePosition = d3.mouse(that);
         }
 
-        let k = <number>d3.select(that).attr("k");
+        let k = Number.parseFloat(d3.select(that).attr("k"));
         let padding = (width*.60 - height/2)/k;
 
         let matrix = that.getCTM().translate(
