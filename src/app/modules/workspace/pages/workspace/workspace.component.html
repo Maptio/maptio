@@ -154,7 +154,7 @@
                         <mapping [isEmptyMap]="isEmptyMap" [selectableTags$]="selectableTags$"
                             [selectableUsers$]="selectableUsers$" [zoomInitiative$]="zoomInitiative$"
                             (openDetails)="onOpenDetails($event);isBackToBuildingVisible=false"
-                            (openUserSummary)="onOpenUserSummary($event)" (addInitiative)="addInitiative($event)"
+                            (openUserSummary)="onOpenUserSummary($event)" (addInitiative)="addInitiative($event);isEditMode=true"
                             (removeInitiative)="removeInitiative($event)" (openTreePanel)="openBuildingPanel()"
                             (expandTree)="buildingComponent.toggleAll(true)" (hideAllPanels)="closeAllPanels()"
                             (noSearchResults)="onNoSearhcResults()"

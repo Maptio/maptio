@@ -112,8 +112,8 @@ export class BuildingComponent {
 
     @Output("save") save: EventEmitter<{ initiative: Initiative, tags: Tag[] }> = new EventEmitter<{ initiative: Initiative, tags: Tag[] }>();
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
-   @Output("forceEdit") forceEdit = new EventEmitter<void>();
-   
+    @Output("forceEdit") forceEdit = new EventEmitter<void>();
+
     constructor(private dataService: DataService, private datasetFactory: DatasetFactory,
         private modalService: NgbModal, private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private loaderService: LoaderService) {
         // this.nodes = [];
@@ -156,10 +156,9 @@ export class BuildingComponent {
         this.tree.treeModel.update();
     }
 
-    openNodeDetails(node: Initiative, isEditMode:boolean) {
-        
+    openNodeDetails(node: Initiative, isEditMode: boolean) {
         this.openDetails.emit(node)
-        if(isEditMode) this.forceEdit.emit();
+        if (isEditMode) this.forceEdit.emit();
     }
 
     onEditingTags(tags: Tag[]) {
@@ -180,10 +179,12 @@ export class BuildingComponent {
     removeNode(node: Initiative) {
 
         let hasFoundNode: boolean = false;
+        let parent ;
 
         let index = this.nodes[0].children.findIndex(c => c.id === node.id);
         if (index > -1) {
             this.nodes[0].children.splice(index, 1);
+            parent = this.nodes[0];
         }
         else {
             this.nodes[0].traverse(n => {
@@ -192,44 +193,46 @@ export class BuildingComponent {
                 if (index > -1) {
                     hasFoundNode = true;
                     n.children.splice(index, 1);
+                    parent = n;
                 }
             });
         }
-
-        this.updateTree()
+        
+        this.saveChanges();
+        this.updateTree();
+        localStorage.setItem("node_id", parent.id); // sp that the map refreshes focused on parent node instead of zooming out
     }
 
     addNodeTo(node: Initiative, subNode: Initiative) {
-        let hasFoundNode: boolean = false;
-        if (this.nodes[0].id === node.id) {
-            hasFoundNode = true;
-            let newNode = subNode;
-            newNode.children = [];
+
+        const addNode = (parent: Initiative, child: Initiative) => {
+            let newNode = child;
+            newNode.children = []
             newNode.team_id = node.team_id;
             newNode.hasFocus = true;
             newNode.id = Math.floor(Math.random() * 10000000000000);
-            this.nodes[0].children = this.nodes[0].children || [];
-            this.nodes[0].children.unshift(newNode);
-            // this.openDetails.emit(newNode)
+            parent.children = parent.children || [];
+            parent.children.unshift(newNode);
+            this.saveChanges();
+            this.updateTree();
+            this.openNodeDetails(newNode, true);
+        }
+
+        let hasFoundNode: boolean = false;
+        if (this.nodes[0].id === node.id) {
+            hasFoundNode = true;
+            addNode(this.nodes[0], subNode);
         }
         else {
             this.nodes[0].traverse(n => {
                 if (hasFoundNode) return;
                 if (n.id === node.id) {
                     hasFoundNode = true;
-                    let newNode = subNode;
-                    newNode.children = []
-                    newNode.team_id = node.team_id;
-                    newNode.hasFocus = true;
-                    newNode.id = Math.floor(Math.random() * 10000000000000);
-                    n.children = n.children || [];
-                    n.children.unshift(newNode);
-                    // this.openDetails.emit(newNode)
+                    addNode(n, subNode);
+
                 }
             });
         }
-
-        this.updateTree()
     }
 
     addRootNode() {
