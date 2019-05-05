@@ -29,7 +29,7 @@
         </small>
 
 
-        <textarea #inputDescription class="form-control mb-4" id="inputDescription" [value]="text || ''"
+        <textarea #inputDescription class="form-control" id="inputDescription" [value]="text || ''"
             data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [attr.rows]="rows"
             [attr.placeholder]="placeholder" (change)="onChange($event.target.value)" (blur)="isEditMode=false">
 
