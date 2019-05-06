@@ -137,10 +137,7 @@ export class MappingComponent {
   ) {
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
-    // this.selectableTags$ = new ReplaySubject<Array<SelectableTag>>();
-    // this.selectableUsers$ = new ReplaySubject<Array<SelectableUser>>();
     this.mapColor$ = new BehaviorSubject<string>("");
-    // this.zoomToInitiative$ = new Subject();
   }
 
   ngAfterViewInit() {
@@ -228,7 +225,6 @@ export class MappingComponent {
 
     this.selectableTags$.next([]);
     this.selectableUsers$.next([]);
-    // this.zoomInitiative$.next();
 
     if (component.constructor === MappingSummaryComponent) {
       this.isMapSettingsDisabled = true;
@@ -242,28 +238,7 @@ export class MappingComponent {
   }
 
   onDeactivate(component: any) {
-    // this.settings = this.mapSettingsService.get(this.datasetId);
-
-    // let position = this.uriService.parseFragment(this.route.snapshot.fragment);
-    // position.delete("tags");
-    // let lastPosition = this.uriService.buildFragment(position);
-
-    // switch (component.constructor) {
-    //   case MappingZoomableComponent:
-    //     this.settings.lastPosition.circles = lastPosition;
-    //     break;
-    //   case MappingTreeComponent:
-    //     this.settings.lastPosition.tree = lastPosition;
-    //     break;
-    //   case MappingNetworkComponent:
-    //     this.settings.lastPosition.network = lastPosition;
-    //     break;
-    //   default:
-    //     break;
-    // }
-    // this.mapSettingsService.set(this.datasetId, this.settings);
-
-    // this.cd.markForCheck();
+  
   }
 
   ngOnInit() {
@@ -302,24 +277,8 @@ export class MappingComponent {
           this.zoomToInitiative(new Initiative({ id: <number>queryParams.id }));
         }
 
-        // let fragmentTags =
-        //   this.uriService.parseFragment(fragment).has("tags") &&
-        //     this.uriService.parseFragment(fragment).get("tags")
-        //     ? this.uriService
-        //       .parseFragment(fragment)
-        //       .get("tags")
-        //       .split(",")
-        //       .map(
-        //         (s: string) =>
-        //           new SelectableTag({ shortid: s, isSelected: true })
-        //       )
-        //     : <SelectableTag[]>[];
-
         this.tags = compact<SelectableTag>(
           data.dataset.tags.map((dataTag: SelectableTag) => {
-            // let searchTag = fragmentTags.find(
-            //   t => t.shortid === dataTag.shortid
-            // );
             return new SelectableTag({
               shortid: dataTag.shortid,
               name: dataTag.name,
@@ -344,33 +303,6 @@ export class MappingComponent {
     if (this.subscription) this.subscription.unsubscribe();
   }
 
-  // getLatestFragment(view: string) {
-  //   switch (view) {
-  //     case "circles":
-  //       return `${this.settings.lastPosition.circles}&tags=${this.tagsFragment || ""}`
-  //     case "tree":
-  //       return `${this.settings.lastPosition.tree}&tags=${this.tagsFragment || ""}`
-  //     case "network":
-  //       return `${this.settings.lastPosition.network}&tags=${this.tagsFragment || ""}`
-  //     default:
-  //       return ""
-  //   }
-  // }
-
-  // getFragment(component: IDataVisualizer) {
-  //   switch (component.constructor) {
-  //     case MappingZoomableComponent:
-  //       return this.settings.lastPosition.circles || "";
-  //     case MappingTreeComponent:
-  //       return this.settings.lastPosition.tree || "";
-  //     case MappingNetworkComponent:
-  //       return this.settings.lastPosition.network || "";
-  //     case MappingSummaryComponent:
-  //       return `x=0&y=0&scale=1`;
-  //     default:
-  //       return ""
-  //   }
-  // }
 
   showContextMenu(context: { initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }) {
     this.isReadOnlyContextMenu = context.isReadOnlyContextMenu;
@@ -382,9 +314,6 @@ export class MappingComponent {
 
   showTooltip(nodes: Initiative[]) {
     if (nodes) this.emitOpenInitiative(nodes[0]);
-    // this.hoveredInitiatives = nodes;
-    // this.isNameOnly = isNameOnly;
-    // this.cd.markForCheck();
   }
 
   zoomOut() {
@@ -455,16 +384,6 @@ export class MappingComponent {
 
   broadcastTagsSelection(tags: Tag[]) {
     this.selectableTags$.next(tags);
-
-    // let tagsHash = tags
-    //   .filter(t => t.isSelected === true)
-    //   .map(t => t.shortid)
-    //   .join(",");
-    // this.tagsFragment = `tags=${tagsHash}`;
-
-    // let ancient = this.uriService.parseFragment(this.route.snapshot.fragment);
-    // ancient.set("tags", tagsHash);
-    // location.hash = this.uriService.buildFragment(ancient);
   }
 
   broadcastUsersSelection(user: User) {

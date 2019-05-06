@@ -1,26 +1,3 @@
-<ng-template #viewsButtonGroup>
-  <button
-    class="btn btn-light toolbar select-view circles text-dark p-1 d-flex flex-column justify-content-end align-items-center"
-    #rlaCircles="routerLinkActive" [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/circles">
-    <span class="d-none d-md-block icon-text-label">Circles </span>
-  </button>
-  <button
-    class="btn btn-light toolbar select-view tree text-dark p-1 d-flex flex-column justify-content-end align-items-center"
-    routerLink="/map/{{datasetId}}/{{slug}}/tree" [routerLinkActive]="['active']">
-    <span class="d-none d-md-block icon-text-label">Tree</span>
-  </button>
-  <button
-    class="btn btn-light toolbar select-view network text-dark p-1 d-flex flex-column justify-content-end align-items-center"
-    #rlaNetwork="routerLinkActive" [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/network">
-    <span class="d-none d-md-block icon-text-label">Network</span>
-  </button>
-
-
-</ng-template>
-
-
-
-
 <div class="d-flex rounded-right justify-content-center h-100 position-relative bg-white overflow-x-hidden"
   [class.overflow-y-hidden]="!isFullScreen" id="mapping-canvas">
   <div class="w-100">
@@ -30,33 +7,24 @@
         <div class="col-12 h-100 d-flex justify-content-between px-0">
 
 
-          <div class="h-100 w-100 d-flex justify-content-end" >
+          <div class="h-100 w-100 d-flex justify-content-end">
             <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
           </div>
           <div
-            class="d-flex flex-column bg-transparent  align-items-center align-items-md-end col-12 col-md-auto z-index-1 m-3"
-            >
+            class="d-flex flex-column bg-transparent  align-items-center align-items-md-end col-12 col-md-auto z-index-1 m-3">
 
             <div class=" btn-group-vertical d-none d-md-flex">
-                <button ngbTooltip="Zoom in" placement="left" container="body"
-                class="btn btn-light  "
+              <button ngbTooltip="Zoom in" placement="left" container="body" class="btn btn-light  "
                 [class.disabled]="isMapSettingsDisabled" (click)="zoomIn()">
                 <i class="fa fa-plus"></i>
               </button>
-              <button ngbTooltip="Zoom out" placement="left" container="body"
-                class="btn btn-light  "
+              <button ngbTooltip="Zoom out" placement="left" container="body" class="btn btn-light  "
                 [class.disabled]="isMapSettingsDisabled" (click)="zoomOut()">
                 <i class="fa fa-minus"></i>
               </button>
-              <button *ngIf="false"
-                class="btn btn-light toolbar text-dark p-1 d-flex flex-column justify-content-between align-items-center"
-                (click)="fullScreen()">
-                <i class="fas  py-1" [class.fa-expand]="!isFullScreen" [class.fa-compress]="isFullScreen"
-                  aria-hidden="true"></i>
-                <span class="icon-text-label">{{isFullScreen ? 'Normal screen' : 'Fullscreen'}}</span>
-              </button>
             </div>
-            <div class=" btn-group-vertical my-3 d-none d-md-block" ngbTooltip="Pick map color" placement="bottom" container="body">
+            <div class=" btn-group-vertical my-3 d-none d-md-block" ngbTooltip="Pick map color" placement="bottom"
+              container="body">
               <common-color-picker [isMinimal]="true" [color]="settings.mapColor" [label]="'Map'"
                 [default]="DEFAULT_MAP_COLOR" (change)="changeMapColor($event)" [placement]="'left'">
               </common-color-picker>
@@ -69,32 +37,6 @@
       [y]="selectedInitiativeY" (add)="emitAddInitiative($event)" (remove)="emitRemoveInitiative($event)"
       (edit)="emitOpenInitiative($event)" (openAccountable)="goToUserSummary($event)"></context-menu>
 
-  </div>
-
-  <div id="collapsible-options"
-    class="d-flex flex-column justify-content-start align-items-end position-absolute pr-3 mx-5 my-2 windows z-index-1">
-    <div closable id="collapseSearch" class="collapse rounded bg-light p-3 mb-3 col-12"
-      [class.d-none]="isSearchDisabled">
-      <search #search [list]="flattenInitiative" (selectInitiative)="zoomToInitiative($event)"
-        (selectUser)="goToUserSummary($event)"></search>
-    </div>
-    <div closable id="collapseFilter" class="collapse rounded mb-3 col-12 bg-light p-3">
-     <filter-tags [team]="team" [tags]="tags" (changeTagsSelection)="broadcastTagsSelection($event)"></filter-tags>
-    </div>
-    <div closable id="collapseSlack" class="collapse rounded mb-3 col-12 bg-light p-3">
-      <slack-share [slack]="team?.slack" [team]="team" [isPrinting]="isPrinting" [hasNotified]="hasNotified"
-        [hasConfigurationError]="hasConfigurationError" (shareMap)="sendSlackNotification($event)"></slack-share>
-    </div>
-    <div closable class="collapse rounded col-auto bg-light p-4" id="collapseSettings">
-      <div class="card bg-transparent border-0">
-        <div class="card-body">
-          <common-color-picker [isMinimal]="true" [color]="settings.mapColor" [label]="'Map'"
-            [default]="DEFAULT_MAP_COLOR" (change)="changeMapColor($event)"></common-color-picker>
-        </div>
-
-      </div>
-
-    </div>
   </div>
 </div>
 
