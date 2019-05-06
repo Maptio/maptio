@@ -33,6 +33,7 @@ export class SidebarComponent implements OnInit {
     filteringUser: User;
     filteringInitiative: Initiative;
     flattenNodes: Initiative[];
+    filteringTagsNumber:number=0;
     tags: SelectableTag[];
     isShowAdvanced: boolean;
     selectedResult: SearchResult;
@@ -154,8 +155,10 @@ export class SidebarComponent implements OnInit {
     }
 
     onSelectTag(tags: SelectableTag[]) {
-        
-        this.selectTags.emit(tags.filter(t => t.isSelected))
+        let filteringTags = tags.filter(t => t.isSelected).map(t => <Tag>t) || [];
+        this.selectTags.emit(filteringTags);
+        this.filteringTagsNumber = filteringTags.length;
+        this.cd.markForCheck();
     }
 
     onEditTags(){
