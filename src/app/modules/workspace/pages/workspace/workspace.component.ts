@@ -95,7 +95,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
         this.routeSubscription = this.route.data
             .do((data) => {
-                debugger
                 this.isLoading = true;
                 this.cd.markForCheck();
 

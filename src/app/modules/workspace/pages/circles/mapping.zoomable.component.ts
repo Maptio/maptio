@@ -182,7 +182,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .combineLatest(this.mapColor$, this.selectableTags$.asObservable(), this.selectableUsers$.asObservable())
       .flatMap((data: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
-
         let filtered = this.filterByTags(data[0].initiative.children[0], data[2], data[3]);
         if (!filtered) {
           this.isNoMatchingCircles$.next(true)
