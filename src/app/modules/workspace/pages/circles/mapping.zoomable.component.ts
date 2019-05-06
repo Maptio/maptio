@@ -70,7 +70,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public translateX: number;
   public translateY: number;
   public scale: number;
-  public containerHeight:SafeStyle;
+  public containerHeight: SafeStyle;
 
   public margin: number;
   public zoom$: Observable<number>;
@@ -86,7 +86,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public isNoMatchingCircles$: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
   private zoomInitiativeSubscription: Subscription;
-  private manualZoomSubscription:Subscription;
+  private manualZoomSubscription: Subscription;
   private dataSubscription: Subscription;
   private resetSubscription: Subscription;
 
@@ -128,7 +128,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     private dataService: DataService,
     private loaderService: LoaderService,
     private http: AuthHttp,
-    private sanitizer:DomSanitizer,
+    private sanitizer: DomSanitizer,
     private element: ElementRef
   ) {
   }
@@ -156,7 +156,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .do((data) => {
 
         this.isLoading = true;
-        this.isNoMatchingCircles = false;
+        this.isNoMatchingCircles$.next(false);
         this.analytics.eventTrack("Map", {
           action: "viewing",
           view: "initiatives",
@@ -182,6 +182,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .combineLatest(this.mapColor$, this.selectableTags$.asObservable(), this.selectableUsers$.asObservable())
       .flatMap((data: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
+        debugger
         let filtered = this.filterByTags(data[0].initiative.children[0], data[2], data[3]);
         if (!filtered) {
           this.isNoMatchingCircles$.next(true)
@@ -193,15 +194,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       })
       .do((result: { svg: string, root: any, nodes: any }) => {
-        
-        this.containerHeight = this.sanitizer.bypassSecurityTrustStyle(`calc(65% - ${this.height/2}px)`);
+
+        this.containerHeight = this.sanitizer.bypassSecurityTrustStyle(`calc(65% - ${this.height / 2}px)`);
         // wait till SVG is rendered before hydrating
         // document.querySelector(".map-container").style("padding-left", `calc(65% - ${this.height / 2}px)`);
         document.querySelector(".map-container").innerHTML = result.svg;
 
       })
       .subscribe((result: { svg: string, root: any, nodes: any }) => {
-        
+
         this.hydrate(result.root, result.nodes);
         this.flattenNodes = result.nodes.map((d: any) => d.data);
 
@@ -256,28 +257,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     console.log("filter", tags, users)
 
-    /*
-    Observe that the task has a recursive structure: applying it to any branch of a tree does to the branch the same thing that you want to do to the entire tree
-A branch could be either pruned, or removed entirely
-Your recursive implementation would return a pruned branch; it would signal branch removal by returning null
-The recursive function would check the incoming Node
-If the node represents a leaf, its content would be checked against the list of items that we wish to keep
-If a leaf is not on the "keep list", return null; otherwise return the leaf
-For non-leaf branches call the recursive method, and examine its result
-If the result is null, remove the corresponding branch from the map; otherwise, replace the branch with the pruned branch returned from the call
-If upon examining all branches the map of child nodes is empty, return null
-*/
-    // const selectedTags = tags.filter(t => !!t.isSelected);
-    // const selectedUsers = users.filter(u => !!u.isSelected);
+
     if (isEmpty(tags) && isEmpty(users)) return initiative;
 
     let clone = cloneDeep(initiative);
     const isMatchingTags = (node: Initiative): boolean => {
-      // if (isEmpty(node.tags)) {
-      //   return false;
-      // } else {
-      //   return intersectionBy(selectedTags, node.tags, t => t.shortid).length > 0;
-      // }
+
 
       let isMatchTags = (isEmpty(node.tags))
         ? false
@@ -288,6 +273,18 @@ If upon examining all branches the map of child nodes is empty, return null
       return isMatchTags || isMatchUser;
     }
 
+
+    /*
+      Observe that the task has a recursive structure: applying it to any branch of a tree does to the branch the same thing that you want to do to the entire tree
+      A branch could be either pruned, or removed entirely
+      Your recursive implementation would return a pruned branch; it would signal branch removal by returning null
+      The recursive function would check the incoming Node
+      If the node represents a leaf, its content would be checked against the list of items that we wish to keep
+      If a leaf is not on the "keep list", return null; otherwise return the leaf
+      For non-leaf branches call the recursive method, and examine its result
+      If the result is null, remove the corresponding branch from the map; otherwise, replace the branch with the pruned branch returned from the call
+      If upon examining all branches the map of child nodes is empty, return null
+    */
     function isAliveBranch(node: Initiative): Initiative {
       if (isEmpty(compact(node.children))) {
         // node is a leaf
@@ -387,7 +384,7 @@ If upon examining all branches the map of child nodes is empty, return null
           tooltip
             .style("opacity", 1).style("left", (d3.getEvent().pageX) + "px")
             .style("top", (d3.getEvent().pageY - 28) + "px")
-            .style("pointer-events","none")
+            .style("pointer-events", "none")
         })
         .on("mouseout", (d: any, index: number, elements: Array<HTMLElement>) => {
           let name = elements[index].getAttribute("data-member-name");
@@ -396,7 +393,7 @@ If upon examining all branches the map of child nodes is empty, return null
         })
     })
 
-    svg.style("position","relative")
+    svg.style("position", "relative")
     // svg.style("padding-left", `calc(65% - ${this.height / 2}px)`);
 
     const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 10.5;
@@ -560,7 +557,7 @@ If upon examining all branches the map of child nodes is empty, return null
         d3.getEvent().stopPropagation();
       })
       .on("contextmenu", function (d: any) {
-        
+
         d3.getEvent().preventDefault();
         const that = <any>this;
         let mousePosition;
@@ -573,19 +570,19 @@ If upon examining all branches the map of child nodes is empty, return null
         }
 
         let k = Number.parseFloat(d3.select(that).attr("k"));
-        let padding = (width*.60 - height/2)/k;
+        let padding = (width * .60 - height / 2) / k;
 
         let matrix = that.getCTM().translate(
           +that.getAttribute("cx"),
           +that.getAttribute("cy")
         );
 
-        let mouse = { x: mousePosition[0]+padding, y: mousePosition[1]}
+        let mouse = { x: mousePosition[0] + padding, y: mousePosition[1] }
         let initiative = d.data;
         let circle = d3.select(that);
         showContextMenuOf$.next({
           initiatives: [initiative],
-          x: uiService.getContextMenuCoordinates(mouse, matrix).x ,
+          x: uiService.getContextMenuCoordinates(mouse, matrix).x,
           y: uiService.getContextMenuCoordinates(mouse, matrix).y,
           isReadOnlyContextMenu: false
         });
@@ -594,7 +591,7 @@ If upon examining all branches the map of child nodes is empty, return null
           .on("mouseenter", function (d: any) {
             showContextMenuOf$.next({
               initiatives: [initiative],
-              x: uiService.getContextMenuCoordinates(mouse, matrix).x ,
+              x: uiService.getContextMenuCoordinates(mouse, matrix).x,
               y: uiService.getContextMenuCoordinates(mouse, matrix).y,
               isReadOnlyContextMenu: false
             });
@@ -681,8 +678,8 @@ If upon examining all branches the map of child nodes is empty, return null
 
     });
 
-    manualZoomSubscription = this.zoom$.subscribe((factor:number)=>{
-      zooming.scaleBy(<any>svg.transition().duration(TRANSITION_DURATION/2), factor);
+    manualZoomSubscription = this.zoom$.subscribe((factor: number) => {
+      zooming.scaleBy(<any>svg.transition().duration(TRANSITION_DURATION / 2), factor);
     });
   }
 
@@ -696,7 +693,7 @@ If upon examining all branches the map of child nodes is empty, return null
     if (this.resetSubscription) {
       this.resetSubscription.unsubscribe();
     }
-    if(this.manualZoomSubscription){
+    if (this.manualZoomSubscription) {
       this.manualZoomSubscription.unsubscribe();
     }
   }
