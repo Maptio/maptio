@@ -105,8 +105,8 @@ export class MappingComponent {
 
   @Input("isEmptyMap") isEmptyMap: Boolean;
   @Input("zoomInitiative$") zoomInitiative$: Subject<Initiative>;
-  @Input("selectableTags$") selectableTags$: Subject<Array<Tag>>;
-  @Input("selectableUsers$") selectableUsers$: Subject<Array<User>>;
+  @Input("selectableTags$") selectableTags$: BehaviorSubject<Array<Tag>>;
+  @Input("selectableUsers$") selectableUsers$: BehaviorSubject<Array<User>>;
 
   @Output("openDetails") openDetails = new EventEmitter<Initiative>();
   @Output("openUserSummary") openUserSummary = new EventEmitter<User>();
@@ -223,8 +223,8 @@ export class MappingComponent {
     component.isReset$ = this.isReset$.asObservable();
 
 
-    this.selectableTags$.next([]);
-    this.selectableUsers$.next([]);
+    // this.selectableTags$.next([]);
+    // this.selectableUsers$.next([]);
 
     if (component.constructor === MappingSummaryComponent) {
       this.isMapSettingsDisabled = true;

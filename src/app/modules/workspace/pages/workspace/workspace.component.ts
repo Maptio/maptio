@@ -1,7 +1,7 @@
 import { BuildingComponent } from "../../components/data-entry/hierarchy/building.component";
 import { DataService, CounterService } from "../../services/data.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Subscription, Subject, ReplaySubject , Observable} from "rxjs/Rx";
+import { Subscription, Subject, ReplaySubject , Observable, BehaviorSubject} from "rxjs/Rx";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Team } from "../../../../shared/model/team.data";
@@ -65,8 +65,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public openEditTag$: Subject<void> = new Subject<void>();
     public isSidebarClosed: boolean;
 
-    public selectableTags$: Subject<Tag[]> = new ReplaySubject<Tag[]>();
-    public selectableUsers$: Subject<User[]> = new ReplaySubject<User[]>();
+    public selectableTags$: Subject<Tag[]> = new BehaviorSubject<Tag[]>([]);
+    public selectableUsers$: Subject<User[]> = new BehaviorSubject<User[]>([]);
     public zoomInitiative$: Subject<Initiative> = new ReplaySubject<Initiative>();
 
     public mapped: Initiative;
@@ -103,6 +103,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 if (this.datasetId &&  newDatasetId !== this.datasetId) {
                     localStorage.removeItem("node_id");
                     localStorage.removeItem("user_id");
+                    this.selectableUsers$.next([])
+                    this.selectableTags$.next([])
                     this.closeAllPanels();
                 }
             })
