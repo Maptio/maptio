@@ -192,15 +192,22 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
             d.data.accountable ? d.data.accountable.picture : null,
             d.data.accountable ? d.data.accountable.shortid : null)
         let helpersPictures = d.data.helpers.map((h: any) => getImageTag(h.name, h.picture, h.shortid)).join('');
-
+       
+        let tagLines = d.data.tags.map((t:any) => `<span style="border-color:${t.color};background:${t.color};width:25%" class="badge mr-1"> </span>`).join('')
         return `
             <div class="details d-flex flex-column align-items-start " style="font-size: ${fontSize}px;line-height:1.25;">
                 ${accountablePicture}    
-                <div class="primary ">
+                <div class="primary authority">
                     <div>${d.data.name || '(Empty)'}</div>
                 </div>
-                <div class="secondary d-flex flex-wrap">
+                <div class="secondary d-flex flex-column w-100">
+                    <div class="tags d-flex flex-wrap" style="padding-bottom:10%">
+                    ${tagLines}
+                    </div>
+                    <div class="helpers d-flex flex-wrap">
                     ${helpersPictures}
+                    </div>
+                    
                 </div>
             </div>
             `;

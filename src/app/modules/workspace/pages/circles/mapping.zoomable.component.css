@@ -46,7 +46,7 @@
     opacity:1;
     display:flex!important;
     transition:all 250ms;
-    padding-top: 10%;
+    padding-top: 5%;
     pointer-events: visible;
 }
 
