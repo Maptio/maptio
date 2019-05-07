@@ -264,13 +264,18 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const isMatchingTags = (node: Initiative): boolean => {
 
 
-      let isMatchTags = (isEmpty(node.tags))
-        ? false
-        : intersectionBy(tags, node.tags, t => t.shortid).length > 0;
+      let isMatchTags = isEmpty(tags)
+        ? true
+        : (isEmpty(node.tags))
+          ? false
+          : intersectionBy(tags, node.tags, t => t.shortid).length > 0;
 
-      let isMatchUser = intersectionBy(users, node.getAllParticipants(), u => u.shortid).length > 0;
+      let isMatchUser = isEmpty(users)
+        ? true
+        : intersectionBy(users, node.getAllParticipants(), u => u.shortid).length > 0;
 
-      return isMatchTags || isMatchUser;
+
+      return isMatchTags && isMatchUser;
     }
 
 
