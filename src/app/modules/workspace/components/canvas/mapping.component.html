@@ -13,7 +13,7 @@
           <div
             class="d-flex flex-column bg-transparent  align-items-center align-items-md-end col-12 col-md-auto z-index-1 m-3">
 
-            <div class=" btn-group-vertical d-none d-md-flex">
+            <div class=" btn-group-vertical d-none d-md-flex box-shadow rounded">
               <button ngbTooltip="Zoom in" placement="left" container="body" class="btn btn-light  "
                 [class.disabled]="isMapSettingsDisabled" (click)="zoomIn()">
                 <i class="fa fa-plus"></i>
@@ -23,7 +23,7 @@
                 <i class="fa fa-minus"></i>
               </button>
             </div>
-            <div class=" btn-group-vertical my-3 d-none d-md-block" ngbTooltip="Pick map color" placement="bottom"
+            <div class=" box-shadow rounded btn-group-vertical my-3 d-none d-md-block" ngbTooltip="Pick map color" placement="bottom"
               container="body">
               <common-color-picker [isMinimal]="true" [color]="settings.mapColor" [label]="'Map'"
                 [default]="DEFAULT_MAP_COLOR" (change)="changeMapColor($event)" [placement]="'left'">
