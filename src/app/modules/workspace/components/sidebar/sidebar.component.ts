@@ -137,6 +137,7 @@ export class SidebarComponent implements OnInit {
         localStorage.removeItem("node_id");
         this.filteringUser = null;
         this.filteringInitiative = null;
+        this.tags.forEach(t => t.isSelected = false);
         // this.getSelectedResult();
         // this.filteringUser = null;
         this.selectMembers.emit([]);
@@ -149,9 +150,13 @@ export class SidebarComponent implements OnInit {
     onSelectMember(user: User) {
         EmitterService.get("filtering_user").next(user);
         localStorage.setItem("user_id", user.shortid)
-        // this.filteringUser = user;
+        this.filteringUser = user;
         this.selectMembers.emit([user]);
         this.cd.markForCheck();
+    }
+
+    isSelectedUser(member:User){
+        return this.filteringUser && this.filteringUser.user_id === member.user_id;
     }
 
     onSelectTag(tags: SelectableTag[]) {

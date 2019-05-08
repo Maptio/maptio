@@ -27,14 +27,14 @@ export class SearchComponent implements OnInit {
     @Input() selectedResult: SearchResult;
     @Output() selectInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
     @Output() selectUser: EventEmitter<User> = new EventEmitter<User>();
-    @Output() clear:EventEmitter<void> = new EventEmitter<void>();
+    @Output() clear: EventEmitter<void> = new EventEmitter<void>();
 
     constructor(private cd: ChangeDetectorRef) { }
 
     public searchResultsCount: number;
     public isSearching: boolean;
-    public isFocus:boolean;
-    
+    public isFocus: boolean;
+
     @ViewChild("initiativeSearch") public typeahead: NgbTypeahead;
 
     SearchResultType = SearchResultType;
@@ -100,7 +100,7 @@ export class SearchComponent implements OnInit {
 
                 return search === ""
                     ? []
-                    : this.findUsers(search).concat(this.findInitiatives(search)).slice(0, 10)
+                    : this.findInitiatives(search).slice(0, 5)
             })
             .do(list => {
                 this.searchResultsCount = list.length;
@@ -111,11 +111,11 @@ export class SearchComponent implements OnInit {
         return result && result.result ? result.result.name : "dede";
     };
 
-    getResultDisplay(){
-       if(!this.selectedResult || !this.selectedResult.result) return "";
-        return this.selectedResult.type === SearchResultType.Initiative
-        ? ( this.selectedResult.result.name ? this.selectedResult.result.name : "New node")
-        : `${this.selectedResult.result.name}'s circles`
+    getResultDisplay() {
+        if (!this.selectedResult || !this.selectedResult.result) return "";
+        // return this.selectedResult.type === SearchResultType.Initiative
+        return this.selectedResult.result.name ? this.selectedResult.result.name : "New node";
+        // : `${this.selectedResult.result.name}'s circles`
     }
 
     selectAllContent(event: Event) {

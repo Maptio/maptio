@@ -10,6 +10,7 @@ export class InitiativeParticipantLabelComponent implements OnInit {
 
     @Input("member") member: User;
     @Input("isLabel") isLabel?: boolean = false;
+    @Input("isPictureOnly") isPictureOnly?:boolean = false;
     @Output("selectMember") selectMember: EventEmitter<User> = new EventEmitter<User>();
 
     constructor() { }

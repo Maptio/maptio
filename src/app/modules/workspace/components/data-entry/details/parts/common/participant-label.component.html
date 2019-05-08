@@ -1,6 +1,6 @@
 <ng-template #memberLabel>
-    <img src="{{member?.picture}}" class="rounded-circle participant-picture" />
-    <span class="mx-1">{{member.name}}</span>
+    <img src="{{member?.picture}}" class="rounded-circle participant-picture cursor-pointer" [ngbTooltip]="member?.name" placement="top" container="body" />
+    <span *ngIf="!isPictureOnly" class="mx-1  cursor-pointer">{{member.name}}</span>
 </ng-template>
 
 <button *ngIf="!isLabel" class="pl-0 btn btn-link d-flex align-items-center" (click)="onSelect(member)">

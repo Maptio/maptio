@@ -10,7 +10,7 @@
             [class.overflow-hidden]="team?.isExample && isBuildingVisible">
 
             <button
-                class="z-index-2 box-shadow-right close-panel-button position-absolute btn btn-light rounded-0 rounded-right p-0 m-0 py-3 px-2"
+                class="z-index-1 box-shadow-right close-panel-button position-absolute btn btn-light rounded-0 rounded-right p-0 m-0 py-3 px-2"
                 *ngIf="isFullSidebar" [class.stick-left]="isSidebarClosed" (click)="isSidebarClosed=!isSidebarClosed"
                 [ngbTooltip]="isSidebarClosed ? 'Expand side panel' : 'Collapse side panel'" placement="right"
                 container="body">
@@ -22,34 +22,30 @@
 
 
             <div id="side-navigation" [ngClass]="{
-                    ' bg-white z-index-1  box-shadow-right  ':isFullSidebar,
+                    ' bg-white  box-shadow-right  ':isFullSidebar,
                 'bg-transparent ':!isFullSidebar,
             'hide':isSidebarClosed}"
-                class="h-100 overflow-y border-0 border-right rounded-0 rounded-left position-absolute card  d-md-flex flex-md-column  justify-content-start">
+                class="z-index-1 h-100 overflow-y border-0 border-right rounded-0 rounded-left position-absolute card  d-md-flex flex-md-column  justify-content-start">
 
                 <div class="w-100 overflow-hidden d-flex flex-column h-100" [class.bg-white]="isFullSidebar">
 
-                    <div class="p-3">
-                        <div class=" box-shadow  z-index-2 card border-0 w-100 position-relative" [ngClass]="{
-                                'bg-white   ':isFullSidebar,
-                                'bg-translucid ':!isFullSidebar  ,
-                                'h-100' : !isOnePanelOpened()
-                               }">
-                            <div class="card-body p-3  w-100">
-                                <sidebar [dataset]="dataset" [team]="team" [members]="members" [user]="user"
-                                    [isWithAdvancedSearch]="!isOnePanelOpened() || !isFullSidebar"
-                                    [isWithAdvancedSearch]="!isFullSidebar" (selectMembers)="onSelectMembers($event)"
-                                    (selectInitiative)="onSelectInitiative($event)" (selectTags)="onSelectTags($event)"
-                                    (toggleFullHeight)="isFullSidebar=true" (openBuildingPanel)="openBuildingPanel()"
-                                    (openTagsPanel)="openTagsPanel()" (editTags)="openTagsPanel()">
-                                    <div>
-                                        <span class="small text-orange" *ngIf="isNoSearchResults">
-                                            Maptio cannot find a circle matching this search</span>
-                                    </div>
-
-                                </sidebar>
+                    <div class="p-3" [ngClass]="{
+                        'bg-white   ':isFullSidebar,
+                        'bg-transparent ':!isFullSidebar  ,
+                        'h-100' : !isOnePanelOpened()
+                       }" >
+                        <sidebar [dataset]="dataset" [team]="team" [members]="members" [user]="user"
+                            [isWithAdvancedSearch]="!isOnePanelOpened() || !isFullSidebar"
+                            [isWithAdvancedSearch]="!isFullSidebar" (selectMembers)="onSelectMembers($event)"
+                            (selectInitiative)="onSelectInitiative($event)" (selectTags)="onSelectTags($event)"
+                            (toggleFullHeight)="isFullSidebar=true" (openBuildingPanel)="openBuildingPanel()"
+                            (openTagsPanel)="openTagsPanel()" (editTags)="openTagsPanel()">
+                            <div>
+                                <span class="small text-orange" *ngIf="isNoSearchResults">
+                                    Maptio cannot find a circle matching this search</span>
                             </div>
-                        </div>
+
+                        </sidebar>
                     </div>
 
                     <div *ngIf="!isDetailsPanelCollapsed && openedNode" class="bg-light p-3">
@@ -131,13 +127,7 @@
                         </div>
                     </div>
 
-
-
-
                 </div>
-
-
-
 
             </div>
 
@@ -151,19 +141,6 @@
                         </div>
                     </ng-container>
                     <ng-container *ngIf="!isLoading">
-                        <div *ngIf="selectedUser || selectedTags.length > 0 "
-                            class="card mt-3 border-0 position-absolute top-left z-index-1 w-50"
-                            style="background: hsla(255, 100%, 100%, 0.8)" [style.marginLeft]="margin">
-                            <div class="card-body d-flex flex-column">
-                                <span class="text-uppercase small text-muted opacity-50">Applied filters</span>
-                                <div class="d-flex">
-                                    <initiative-member-label class="small" [member]="selectedUser" [isLabel]="true">
-                                    </initiative-member-label>
-                                    <initiative-single-tag *ngFor="let tag of selectedTags" [tag]="tag">
-                                    </initiative-single-tag>
-                                </div>
-                            </div>
-                        </div>
                         <mapping [isEmptyMap]="isEmptyMap" [selectableTags$]="selectableTags$"
                             [selectableUsers$]="selectableUsers$" [zoomInitiative$]="zoomInitiative$"
                             (openDetails)="onOpenDetails($event);isBackToBuildingVisible=false"
@@ -178,9 +155,6 @@
                 </div>
             </div>
         </div>
-
-
-
 
     </div>
 </div>

@@ -6,6 +6,7 @@
     /* max-height: 33vh; */
     overflow-y: auto;
     margin-left:-38px;
+    overflow-x:hidden;
   }
 
 

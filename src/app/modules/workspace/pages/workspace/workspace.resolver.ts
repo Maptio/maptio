@@ -11,7 +11,7 @@ import { UserService } from "../../../../shared/services/user/user.service";
 import { from } from "rxjs";
 import { map, flatMap } from "rxjs/operators"
 import { BillingService } from "../../../../shared/services/billing/billing.service";
-
+import {orderBy} from "lodash-es"
 @Injectable()
 export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, team: Team, members: User[], user: User }> {
 
@@ -47,7 +47,11 @@ export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, t
 
                 }),
                 map(data => {
-                    return { dataset: data.data.dataset, team: data.data.team, members: data.data.members, user: data.user }
+                    return { 
+                        dataset: data.data.dataset, 
+                        team: data.data.team, 
+                        members: orderBy(data.data.members, m => m.name, "asc"), 
+                        user: data.user }
                 })
             );
         /*
