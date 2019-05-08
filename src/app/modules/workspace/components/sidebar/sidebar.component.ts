@@ -115,7 +115,7 @@ export class SidebarComponent implements OnInit {
     }
 
     onOpenUserSummary(user:User){
-        this.openMemberSummary.emit(user)
+        this.openMemberSummary.emit([user])
     }
 
     onClearUserFilter() {
