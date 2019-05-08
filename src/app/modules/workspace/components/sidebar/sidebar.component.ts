@@ -139,8 +139,6 @@ export class SidebarComponent implements OnInit {
         this.filteringUser = null;
         this.filteringInitiative = null;
         this.tags.forEach(t => t.isSelected = false);
-        // this.getSelectedResult();
-        // this.filteringUser = null;
         this.selectMembers.emit([]);
         this.selectInitiative.emit(null);
         this.selectTags.emit([])

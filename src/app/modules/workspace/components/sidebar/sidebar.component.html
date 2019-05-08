@@ -70,10 +70,10 @@
                         <!-- <button *ngFor="let member of members" class="dropdown-item" type="button">Action</button> -->
                     </div>
                 </div>
-                <div *ngIf="filteringUser">
+                <div *ngIf="filteringUser" class="d-flex align-items-center">
                     <initiative-member-label (click)="onSelectMember(member)" [member]="filteringUser" [isLabel]="true">
                     </initiative-member-label>
-                    <span (click)="filteringUser=null"><i class="fa fa-times"></i></span>
+                    <span class="text-muted cursor-pointer" (click)="filteringUser=null"><i class="fa fa-times"></i></span>
                 </div>
             </div>
 
