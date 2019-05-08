@@ -1,9 +1,9 @@
 <div class="box-shadow  card border-0 w-100 position-relative mb-3">
-    <search #search [list]="flattenNodes" [selectedResult]="getSelectedResult()"
+    <search #search [list]="flattenNodes" [selectedResult]="getSelectedResult()" (click)="isFiltersOpen=true"
+    
         (selectInitiative)="onSelectCircle($event)" (clear)="onClear()" (selectUser)="onSelectMember($event)">
-        <button ngbTooltip="Menu" placement="top" container="body"
-            class="btn  border-0 dropdown-toggle without-caret" type="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
+        <button ngbTooltip="Menu" placement="top" container="body" class="btn  border-0 dropdown-toggle without-caret"
+            type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-bars"></i>
         </button>
         <div class="dropdown-menu">
@@ -29,19 +29,19 @@
 
 </div>
 
-<div class="box-shadow d-flex flex-column mission  card border-0 w-100 position-relative my-3 p-3">
-    <div class="d-flex w-100 text-muted small  opacity-50" data-toggle="collapse" href="#filters-box" role="button" aria-expanded="false"
-        aria-controls="filters-box">
-        <span class="toggle-collapse mr-1">
-                <i class="fa fa-caret-right"></i>
-            </span>
+<div  class="box-shadow d-flex flex-column mission  card border-0 w-100 position-relative my-3 p-3" *ngIf="isWithAdvancedSearch">
+    <div class="d-flex w-100 text-muted small  opacity-50" data-toggle="collapse" href="#filters-box" role="button"
+        aria-expanded="false" aria-controls="filters-box">
+        <!-- <span class="toggle-collapse mr-1">
+            <i class="fa fa-caret-right"></i>
+        </span> -->
         <span class="text-uppercase ">Filters</span>
 
 
     </div>
     <ng-content></ng-content>
 
-    <div class="collapse" id="filters-box">
+    <div  id="filters-box">
         <div class="mt-2">
             <div class="d-flex flex-wrap align-items-baseline" id="filterByTags">
                 <div *ngFor="let tag of tags" class="my-1 ">

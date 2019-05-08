@@ -30,6 +30,7 @@ export class SidebarComponent implements OnInit {
     @Output("openTagsPanel") openTagsPanel = new EventEmitter<void>();
 
     mission: string;
+    isFiltersOpen:boolean=false;
     filteringUser: User;
     filteringInitiative: Initiative;
     flattenNodes: Initiative[];
