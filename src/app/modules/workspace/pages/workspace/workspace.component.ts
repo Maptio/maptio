@@ -191,7 +191,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isNoSearchResults = false;
         this.cd.markForCheck();
         this.selectableUsers$.next(members);
-        this.onOpenUserSummary(members[0]);
+        // this.onOpenUserSummary(members[0]);
     }
 
     onSelectTags(tags: Tag[]) {

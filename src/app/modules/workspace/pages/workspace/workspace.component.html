@@ -36,7 +36,7 @@
                        }" >
                         <sidebar [dataset]="dataset" [team]="team" [members]="members" [user]="user"
                             [isWithAdvancedSearch]="!isOnePanelOpened() || !isFullSidebar"
-                            [isWithAdvancedSearch]="!isFullSidebar" (selectMembers)="onSelectMembers($event)"
+                            [isWithAdvancedSearch]="!isFullSidebar" (openMemberSummary)="onOpenUserSummary($event)" (selectMembers)="onSelectMembers($event)"
                             (selectInitiative)="onSelectInitiative($event)" (selectTags)="onSelectTags($event)"
                             (toggleFullHeight)="isFullSidebar=true" (openBuildingPanel)="openBuildingPanel()"
                             (openTagsPanel)="openTagsPanel()" (editTags)="openTagsPanel()">

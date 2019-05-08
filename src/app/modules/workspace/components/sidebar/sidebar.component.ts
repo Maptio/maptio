@@ -23,6 +23,7 @@ export class SidebarComponent implements OnInit {
     @Input("isWithAdvancedSearch") isWithAdvancedSearch: boolean;
     @Output("selectInitiative") selectInitiative = new EventEmitter<Initiative>();
     @Output("selectMembers") selectMembers = new EventEmitter<User[]>();
+    @Output("openMemberSummary") openMemberSummary = new EventEmitter<User[]>();
     @Output("selectTags") selectTags = new EventEmitter<Tag[]>();
     @Output("editTags") editTags = new EventEmitter<void>();
     @Output("toggleFullHeight") toggleFullHeight = new EventEmitter<boolean>();
@@ -113,15 +114,17 @@ export class SidebarComponent implements OnInit {
         this.selectInitiative.emit(node);
     }
 
-    // onClearUserFilter() {
-    //     EmitterService.get("filtering_user").next(null);
-    //     localStorage.removeItem("user_id")
-    //     // this.filteringUser = null;
-    //     this.selectMembers.emit([]);
-    //     this.selectInitiative.emit(null);
-    //     this.selectTags.emit([])
-    //     this.cd.markForCheck();
-    // }
+    onOpenUserSummary(user:User){
+        this.openMemberSummary.emit(user)
+    }
+
+    onClearUserFilter() {
+        EmitterService.get("filtering_user").next(null);
+        localStorage.removeItem("user_id")
+        // this.filteringUser = null;
+        this.selectMembers.emit([]);
+        this.cd.markForCheck();
+    }
 
     filterMembers = (term: string) => {
         return term.length < 1
