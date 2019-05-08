@@ -19,6 +19,8 @@ import { Tag } from "../../../../shared/model/tag.data";
 import { Intercom } from "ng-intercom";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { intersectionBy } from "lodash";
+import { SafeStyle } from "@angular/platform-browser";
+import { UIService } from "../../services/ui.service";
 
 @Component({
     selector: "workspace",
@@ -43,6 +45,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public isSaving: Boolean;
     public isEditMode: boolean;
     public isNoSearchResults: boolean;
+    public selectedTags:Tag[]=[];
+    public selectedUser:User=null;
     // public isSettingsPanelCollapsed: boolean = true;
     public datasetId: string;
     private routeSubscription: Subscription;
@@ -64,6 +68,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public openedNodeTeamId: string;
     public openEditTag$: Subject<void> = new Subject<void>();
     public isSidebarClosed: boolean;
+    public margin:SafeStyle;
 
     public selectableTags$: Subject<Tag[]> = new BehaviorSubject<Tag[]>([]);
     public selectableUsers$: Subject<User[]> = new BehaviorSubject<User[]>([]);
@@ -86,10 +91,12 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
+        private uiService: UIService,
         private dataService: DataService, private cd: ChangeDetectorRef, private mixpanel: Angulartics2Mixpanel, private intercom: Intercom) {
     }
 
     ngOnInit() {
+        this.margin = this.uiService.getCanvasMargin();
         this.isLoading = true;
         this.cd.markForCheck();
 
@@ -103,6 +110,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 if (this.datasetId &&  newDatasetId !== this.datasetId) {
                     localStorage.removeItem("node_id");
                     localStorage.removeItem("user_id");
+                    this.selectedUser = null;
+                    this.selectedTags = [];
                     this.selectableUsers$.next([])
                     this.selectableTags$.next([])
                     this.closeAllPanels();
@@ -183,8 +192,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     onSelectMembers(members: User[]) {
-
         this.isNoSearchResults = false;
+        this.selectedUser = members[0];
         this.cd.markForCheck();
         this.selectableUsers$.next(members);
         this.onOpenUserSummary(members[0]);
@@ -192,6 +201,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     onSelectTags(tags: Tag[]) {
         this.isNoSearchResults = false;
+        this.selectedTags = tags;
         this.cd.markForCheck();
         this.selectableTags$.next(tags);
     }
@@ -227,6 +237,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     onOpenUserSummary(user: User) {
         this.openedUser = user;
+        this.selectedUser = user;
         this.openedNode = null;
         if (this.isDetailsPanelCollapsed) this.openDetailsPanel();
         this.cd.markForCheck();

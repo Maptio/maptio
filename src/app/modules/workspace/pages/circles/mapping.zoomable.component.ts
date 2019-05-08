@@ -195,7 +195,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .do((result: { svg: string, root: any, nodes: any }) => {
 
-        this.containerHeight = this.sanitizer.bypassSecurityTrustStyle(`calc(65% - ${this.height / 2}px)`);
+        this.containerHeight = this.uiService.getCanvasMargin();
         // wait till SVG is rendered before hydrating
         // document.querySelector(".map-container").style("padding-left", `calc(65% - ${this.height / 2}px)`);
         document.querySelector(".map-container").innerHTML = result.svg;
@@ -274,6 +274,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         ? true
         : intersectionBy(users, node.getAllParticipants(), u => u.shortid).length > 0;
 
+        debugger
 
       return isMatchTags && isMatchUser;
     }

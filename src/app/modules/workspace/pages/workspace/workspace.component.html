@@ -142,7 +142,7 @@
             </div>
 
 
-            <div class="h-100 flex-shrink-0 w-100" id="main">
+            <div class="h-100 flex-shrink-0 w-100 position-relative" id="main">
                 <div class="h-100 ">
                     <ng-container *ngIf="isLoading">
                         <div style="font-size: 4rem"
@@ -151,10 +151,24 @@
                         </div>
                     </ng-container>
                     <ng-container *ngIf="!isLoading">
+                        <div *ngIf="selectedUser || selectedTags.length > 0 "
+                            class="card mt-3 border-0 position-absolute top-left z-index-1 w-50"
+                            style="background: hsla(255, 100%, 100%, 0.8)" [style.marginLeft]="margin">
+                            <div class="card-body d-flex flex-column">
+                                <span class="text-uppercase small text-muted opacity-50">Applied filters</span>
+                                <div class="d-flex">
+                                    <initiative-member-label class="small" [member]="selectedUser" [isLabel]="true">
+                                    </initiative-member-label>
+                                    <initiative-single-tag *ngFor="let tag of selectedTags" [tag]="tag">
+                                    </initiative-single-tag>
+                                </div>
+                            </div>
+                        </div>
                         <mapping [isEmptyMap]="isEmptyMap" [selectableTags$]="selectableTags$"
                             [selectableUsers$]="selectableUsers$" [zoomInitiative$]="zoomInitiative$"
                             (openDetails)="onOpenDetails($event);isBackToBuildingVisible=false"
-                            (openUserSummary)="onOpenUserSummary($event)" (addInitiative)="addInitiative($event);isEditMode=true"
+                            (openUserSummary)="onOpenUserSummary($event)"
+                            (addInitiative)="addInitiative($event);isEditMode=true"
                             (removeInitiative)="removeInitiative($event)" (openTreePanel)="openBuildingPanel()"
                             (expandTree)="buildingComponent.toggleAll(true)" (hideAllPanels)="closeAllPanels()"
                             (noSearchResults)="onNoSearhcResults()"

@@ -5,6 +5,7 @@ import { isEmpty, intersection } from "lodash-es"
 import { DeviceDetectorService } from 'ngx-device-detector';
 import * as screenfull from 'screenfull';
 import { select, selectAll } from "d3-selection"
+import { DomSanitizer } from "@angular/platform-browser";
 
 export enum Browsers {
   Firefox,
@@ -19,7 +20,7 @@ export enum Browsers {
 
 @Injectable()
 export class UIService {
-  constructor(private deviceService: DeviceDetectorService) {
+  constructor(private deviceService: DeviceDetectorService, private sanitizer:DomSanitizer) {
   }
 
   getCanvasXMargin() {
@@ -44,6 +45,11 @@ export class UIService {
       : document.getElementById("main")
         ? document.getElementById("main").clientHeight
         : window.screen.availHeight;
+  }
+
+  getCanvasMargin(){
+    let height = this.getCanvasHeight();
+    return this.sanitizer.bypassSecurityTrustStyle(`calc(65% - ${height / 2}px)`);
   }
 
   getCircularPath(radius: number, centerX: number, centerY: number) {
