@@ -152,10 +152,7 @@ span.navbar-text a {
     padding: 0;
 }
 
-.dropdown-menu.overflow {
-    max-height: 75vh;
-    overflow-y: auto;
-}
+
 
 .form-big{
     width:25vw;

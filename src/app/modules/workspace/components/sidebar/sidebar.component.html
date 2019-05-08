@@ -1,6 +1,5 @@
 <div class="box-shadow  card border-0 w-100 position-relative mb-3">
     <search #search [list]="flattenNodes" [selectedResult]="getSelectedResult()" (click)="isFiltersOpen=true"
-    
         (selectInitiative)="onSelectCircle($event)" (clear)="onClear()" (selectUser)="onSelectMember($event)">
         <button ngbTooltip="Menu" placement="top" container="body" class="btn  border-0 dropdown-toggle without-caret"
             type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -29,20 +28,22 @@
 
 </div>
 
-<div style="max-height: 40vh"  class="overflow-y box-shadow d-flex flex-column mission  card border-0 w-100 position-relative my-3 p-3" *ngIf="isWithAdvancedSearch">
+<div class="box-shadow d-flex flex-column mission  card border-0 w-100 position-relative my-3 p-3"
+    *ngIf="isWithAdvancedSearch">
     <div class="d-flex w-100 text-muted small  opacity-50" data-toggle="collapse" href="#filters-box" role="button"
         aria-expanded="false" aria-controls="filters-box">
         <!-- <span class="toggle-collapse mr-1">
             <i class="fa fa-caret-right"></i>
         </span> -->
-        <span class="text-uppercase ">Filters</span>
-        
+        <span class="text-uppercase ">Filter circles</span>
+
 
     </div>
     <ng-content></ng-content>
 
-    <div  id="filters-box">
+    <div id="filters-box">
         <div class="mt-2">
+            <span class="small text-muted my-1">by tags</span>
             <div class="d-flex flex-wrap align-items-baseline" id="filterByTags">
                 <div *ngFor="let tag of tags" class="my-1 ">
                     <initiative-single-tag [tag]="tag">
@@ -54,8 +55,31 @@
                 </div>
             </div>
         </div>
-        <div class="mt-2">
-            <div class="d-flex flex-wrap">
+        <div class="mt-2 d-flex flex-column align-items-start">
+            <span class="small text-muted my-1">by {{team.settings.helper | lowercase}}</span>
+            <div>
+                <div class="btn-group " *ngIf="!filteringUser">
+                    <button class="btn btn-sm pl-0 dropdown-toggle" type="button" id="dropdownFilterUser"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Select a {{team.settings.helper | lowercase}}
+                    </button>
+                    <div style="max-height:25vh" class="dropdown-menu overflow" aria-labelledby="dropdownFilterUser">
+                        <initiative-member-label *ngFor="let member of members" class="dropdown-item"
+                            (click)="onSelectMember(member)" [member]="member" [isLabel]="true">
+                        </initiative-member-label>
+                        <!-- <button *ngFor="let member of members" class="dropdown-item" type="button">Action</button> -->
+                    </div>
+                </div>
+                <div *ngIf="filteringUser">
+                    <initiative-member-label (click)="onSelectMember(member)" [member]="filteringUser" [isLabel]="true">
+                    </initiative-member-label>
+                    <span (click)="filteringUser=null"><i class="fa fa-times"></i></span>
+                </div>
+            </div>
+
+
+
+            <!-- <div class="d-flex flex-wrap">
                 <span class="mr-1 mb-1" [class.opacity-50]="filteringUser && !isSelectedUser(member)"
                     *ngFor="let member of members">
                     <initiative-member-label (click)="onSelectMember(member)" [member]="member" [isLabel]="true"
@@ -63,7 +87,7 @@
 
                 </span>
 
-            </div>
+            </div> -->
         </div>
     </div>
 

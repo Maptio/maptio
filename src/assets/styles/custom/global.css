@@ -534,6 +534,10 @@ transition: max-height .25s ease-in-out;
   overflow-y: hidden!important;
 }
 
+.dropdown-menu.overflow {
+  overflow-y: auto;
+}
+
 .container-fluid{
   overflow: auto;
 }

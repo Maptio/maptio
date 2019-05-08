@@ -67,7 +67,7 @@
                     aria-haspopup="true" aria-expanded="false">
                     Maps
                 </a>
-                <div class="dropdown-menu dropdown-menu-right overflow" aria-labelledby="mapsListDropdownLink">
+                <div style="max-height:75vh" class="dropdown-menu dropdown-menu-right overflow" aria-labelledby="mapsListDropdownLink">
                     <ng-container *ngFor="let dataset of datasets">
                         <ng-container *ngIf="dataset.initiative">
                             <a class="dropdown-item"
