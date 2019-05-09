@@ -617,7 +617,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     lastZoomCircle = root;
     svg
       .on("click", (): void => {
-
         localStorage.removeItem("node_id");
         if (!localStorage.getItem("user_id")) {
           toggleDetailsPanel$.next(false);
