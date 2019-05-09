@@ -1,5 +1,6 @@
 <div class="box-shadow  card border-0 w-100 position-relative mb-3">
-    <search #search [list]="flattenNodes" [selectedResult]="getSelectedResult()" [highlightClear]="filteringTagsNumber > 0" (click)="isFiltersOpen=true"
+    <search #search [list]="flattenNodes" [selectedResult]="getSelectedResult()"
+        [highlightClear]="filteringTagsNumber > 0" (click)="isFiltersOpen=true"
         (selectInitiative)="onSelectCircle($event)" (clear)="onClear()" (selectUser)="onSelectMember($event)">
         <button ngbTooltip="Menu" placement="top" container="body" class="btn  border-0 dropdown-toggle without-caret"
             type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -45,11 +46,11 @@
         <div class="mt-2">
             <span class="small  my-1 d-flex align-items-baseline justify-content-between">
                 <span>
-                        <i class="fa fa-tags text-muted opacity-50 mr-1"></i>
-                        <span> by tags</span>
-        
+                    <i class="fa fa-tags text-muted opacity-50 mr-1"></i>
+                    <span> by tags</span>
+
                 </span>
-               
+
                 <button class="btn btn-link btn-sm" (click)="onOpenTagsPanel()">Edit tags</button>
             </span>
             <div class="d-flex flex-wrap align-items-baseline" id="filterByTags">
@@ -74,6 +75,13 @@
                         Select a {{team.settings.helper | lowercase}}
                     </button>
                     <div style="max-height:25vh" class="dropdown-menu overflow" aria-labelledby="dropdownFilterUser">
+                        <h6 class="dropdown-header">My circles</h6>
+                        <initiative-member-label class="dropdown-item" (click)="onSelectMember(user)" [member]="user"
+                            [isLabel]="true">
+                        </initiative-member-label>
+
+                        <div class="dropdown-divider"></div>
+                        <h6 class="dropdown-header">Other people</h6>
                         <initiative-member-label *ngFor="let member of members" class="dropdown-item"
                             (click)="onSelectMember(member)" [member]="member" [isLabel]="true">
                         </initiative-member-label>

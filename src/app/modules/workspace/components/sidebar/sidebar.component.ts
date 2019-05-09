@@ -23,7 +23,7 @@ export class SidebarComponent implements OnInit {
     @Input("isWithAdvancedSearch") isWithAdvancedSearch: boolean;
     @Output("selectInitiative") selectInitiative = new EventEmitter<Initiative>();
     @Output("selectMembers") selectMembers = new EventEmitter<User[]>();
-    @Output("openMemberSummary") openMemberSummary = new EventEmitter<User[]>();
+    @Output("openMemberSummary") openMemberSummary = new EventEmitter<User>();
     @Output("selectTags") selectTags = new EventEmitter<Tag[]>();
     @Output("editTags") editTags = new EventEmitter<void>();
     @Output("toggleFullHeight") toggleFullHeight = new EventEmitter<boolean>();
@@ -119,7 +119,7 @@ export class SidebarComponent implements OnInit {
     }
 
     onOpenUserSummary(user:User){
-        this.openMemberSummary.emit([user])
+        this.openMemberSummary.emit(user)
     }
 
     onClearUserFilter() {

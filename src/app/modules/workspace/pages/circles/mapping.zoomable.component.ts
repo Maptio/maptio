@@ -378,7 +378,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           localStorage.setItem("user_id", user.shortid);
           selectableUsers$.next([user]);
           showToolipOf$.next({ initiatives: null, user: user });
-          document.querySelector("#controls-box").classList.add("show");
+          // document.querySelector("#controls-box").classList.add("show");
 
 
           // router.navigate(["../directory"], { relativeTo: route, queryParams: { member: shortId } });
