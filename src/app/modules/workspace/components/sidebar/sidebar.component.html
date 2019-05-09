@@ -44,14 +44,14 @@
 
     <div id="filters-box" class="pl-3 pb-3">
         <div class="mt-2">
-            <span class="small  my-1 d-flex align-items-baseline justify-content-between">
+            <span class="small  my-1 d-flex align-items-baseline justify-content-start">
                 <span>
                     <i class="fa fa-tags text-muted opacity-50 mr-1"></i>
                     <span> By tags</span>
 
                 </span>
 
-                <button class="btn btn-link btn-sm" (click)="onOpenTagsPanel()">Edit tags</button>
+                <button class="btn btn-link btn-sm" (click)="onOpenTagsPanel()">(Edit)</button>
             </span>
             <div class="d-flex flex-wrap align-items-baseline" id="filterByTags">
                 <div *ngFor="let tag of tags" class="my-1 ">
