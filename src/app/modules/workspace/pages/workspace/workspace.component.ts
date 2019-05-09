@@ -108,9 +108,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 if (this.datasetId &&  newDatasetId !== this.datasetId) {
                     localStorage.removeItem("node_id");
                     localStorage.removeItem("user_id");
-                    this.selectableUsers$.next([])
-                    this.selectableTags$.next([])
+                    this.selectableUsers$.next([]);
+                    this.selectableTags$.next([]);
                     this.closeAllPanels();
+                    this.uiService.clean();
                 }
             })
             .do((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {
