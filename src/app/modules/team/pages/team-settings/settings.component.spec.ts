@@ -115,7 +115,8 @@ describe("settings.component.ts", () => {
             component.teamSettingsForm.setValue({
                 name: "s",
                 authority: "King",
-                helper: "Kong"
+                helper: "Kong",
+                vision: "Meh"
             });
             let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
             spyOn(mockTeamFactory, "upsert");
@@ -129,7 +130,8 @@ describe("settings.component.ts", () => {
             component.teamSettingsForm.setValue({
                 name: "More than 2 letters",
                 authority: "King",
-                helper: "Kong"
+                helper: "Kong",
+                vision: "Meh"
             });
             component.teamSettingsForm.markAsDirty();
             let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
@@ -153,7 +155,8 @@ describe("settings.component.ts", () => {
             component.teamSettingsForm.setValue({
                 name: "More than 2 letters",
                 authority: "King",
-                helper: "Kong"
+                helper: "Kong",
+                vision: "Meh"
             });
             component.teamSettingsForm.markAsDirty();
             let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
