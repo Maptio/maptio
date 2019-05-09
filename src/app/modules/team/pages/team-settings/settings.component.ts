@@ -22,6 +22,7 @@ export class TeamSettingsComponent implements OnInit {
     public teamName: string;
     public teamAuthority: string;
     public teamHelper: string;
+    public teamVision: string;
     public isTeamSettingSaved: boolean;
     public isTeamSettingFailed: boolean;
 
@@ -47,6 +48,10 @@ export class TeamSettingsComponent implements OnInit {
                 validators: [],
                 updateOn: "submit"
             }),
+            "vision": new FormControl(this.teamVision, {
+                validators: [],
+                updateOn: "submit"
+            }),
         });
     }
 
@@ -65,6 +70,7 @@ export class TeamSettingsComponent implements OnInit {
                 this.teamName = this.team.name;
                 this.teamAuthority = this.team.settings.authority;
                 this.teamHelper = this.team.settings.helper;
+                this.teamVision = this.team.settings.vision;
             });
 
     }
@@ -82,7 +88,8 @@ export class TeamSettingsComponent implements OnInit {
                 isTemporary : this.team.isTemporary,
                 settings: {
                     authority: this.teamSettingsForm.controls["authority"].value,
-                    helper: this.teamSettingsForm.controls["helper"].value
+                    helper: this.teamSettingsForm.controls["helper"].value,
+                    vision: this.teamSettingsForm.controls["vision"].value
                 }
             });
 

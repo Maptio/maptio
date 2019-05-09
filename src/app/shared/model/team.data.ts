@@ -52,7 +52,7 @@ export class Team implements Serializable<Team> {
      */
     public members: Array<User>;
 
-    public settings: { authority: string, helper: string };
+    public settings: { authority: string, helper: string, vision:string };
 
     public slack: SlackIntegration;
 
@@ -96,6 +96,7 @@ export class Team implements Serializable<Team> {
         deserialized.settings = { authority: environment.DEFAULT_AUTHORITY_TERMINOLOGY, helper: environment.DEFAULT_HELPER_TERMINOLOGY }
         deserialized.settings.authority = input.settings ? input.settings.authority || environment.DEFAULT_AUTHORITY_TERMINOLOGY : environment.DEFAULT_AUTHORITY_TERMINOLOGY;
         deserialized.settings.helper = input.settings ? input.settings.helper || environment.DEFAULT_HELPER_TERMINOLOGY : environment.DEFAULT_HELPER_TERMINOLOGY
+        deserialized.settings.vision = input.settings ? input.settings.vision || environment.DEFAULT_VISION_TERMINOLOGY : environment.DEFAULT_VISION_TERMINOLOGY
         deserialized.slack = SlackIntegration.create().deserialize(input.slack || {});
 
 

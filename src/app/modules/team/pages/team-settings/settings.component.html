@@ -48,6 +48,16 @@
             </div>
         </div>
 
+        <div class="form-group w-50">
+            <label class="col-form-label" for="inputVisionName">Vision</label>
+            <div class="">
+                <input type="text" class="mr-2 form-control col-xl-4 col-6  form-control-warning " [(ngModel)]="teamVision" formControlName="vision" placeholder="e.g. Vision, Purpose, Mission"
+                    maxlength="25">
+                <small class="form-text text-muted">What do you call the highest level description of what your organisation does? e.g. Vision, Purpose, Mission
+                </small>
+            </div>
+        </div>
+
         <button *permissionsOnly="Permissions.canEditTeam" type="submit" class="btn btn-success">Save</button>
         <span class="text-green mx-1 flash small" *ngIf="isTeamSettingSaved"  [class.show]="isTeamSettingSaved">
             <i class="fas fa-save"></i>Saved!
