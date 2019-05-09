@@ -25,6 +25,7 @@ export class SearchResult {
 export class SearchComponent implements OnInit {
     @Input() list: Initiative[];
     @Input() selectedResult: SearchResult;
+    @Input() highlightClear:boolean;
     @Output() selectInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
     @Output() selectUser: EventEmitter<User> = new EventEmitter<User>();
     @Output() clear: EventEmitter<void> = new EventEmitter<void>();

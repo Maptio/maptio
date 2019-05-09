@@ -53,13 +53,14 @@ export class SidebarComponent implements OnInit {
         })
 
         this.filteringInitiativeSubscription = EmitterService.get("filtering_node").asObservable().subscribe(initiative => {
-            
+            debugger
             this.filteringInitiative = initiative;
             this.cd.markForCheck()
         })
     }
 
     getSelectedResult() {
+        debugger
         let r = new SearchResult();
         if (this.filteringUser) {
             r.type = SearchResultType.User;
@@ -67,6 +68,9 @@ export class SidebarComponent implements OnInit {
         } else if (this.filteringInitiative) {
             r.type = SearchResultType.Initiative;
             r.result = this.filteringInitiative
+        }
+        else{
+            return null
         }
         return r;
     }

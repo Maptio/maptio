@@ -1,5 +1,5 @@
 <div class="box-shadow  card border-0 w-100 position-relative mb-3">
-    <search #search [list]="flattenNodes" [selectedResult]="getSelectedResult()" (click)="isFiltersOpen=true"
+    <search #search [list]="flattenNodes" [selectedResult]="getSelectedResult()" [highlightClear]="filteringTagsNumber > 0" (click)="isFiltersOpen=true"
         (selectInitiative)="onSelectCircle($event)" (clear)="onClear()" (selectUser)="onSelectMember($event)">
         <button ngbTooltip="Menu" placement="top" container="body" class="btn  border-0 dropdown-toggle without-caret"
             type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

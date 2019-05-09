@@ -51,7 +51,7 @@
             class="fa fa-search "></i></span>
    
     <div class="input-group-append">
-        <button ngbTooltip="Clear search" placement="top" container="body" class="btn border-0"
+        <button ngbTooltip="Clear search" [class.btn-secondary]="(selectedResult && selectedResult.result) || highlightClear" placement="top" container="body" class="btn border-0"
             (click)="initiativeSearch.value='';clearSearch()">
             <i class="fa fa-times"></i>
         </button>
