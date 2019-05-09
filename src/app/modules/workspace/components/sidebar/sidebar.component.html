@@ -85,7 +85,6 @@
                         <initiative-member-label *ngFor="let member of members" class="dropdown-item"
                             (click)="onSelectMember(member)" [member]="member" [isLabel]="true">
                         </initiative-member-label>
-                        <!-- <button *ngFor="let member of members" class="dropdown-item" type="button">Action</button> -->
                     </div>
                 </div>
                 <div *ngIf="filteringUser" class="d-flex flex-column align-items-start bg-light rounded p-2 w-100">
@@ -102,18 +101,6 @@
 
                 </div>
             </div>
-
-
-
-            <!-- <div class="d-flex flex-wrap">
-                <span class="mr-1 mb-1" [class.opacity-50]="filteringUser && !isSelectedUser(member)"
-                    *ngFor="let member of members">
-                    <initiative-member-label (click)="onSelectMember(member)" [member]="member" [isLabel]="true"
-                        [isPictureOnly]="true"></initiative-member-label>
-
-                </span>
-
-            </div> -->
         </div>
     </div>
 

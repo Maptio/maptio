@@ -174,7 +174,7 @@ export class MappingComponent {
     this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
 
     component.showToolipOf$.asObservable().subscribe((tooltip: { initiatives: Initiative[], user: User }) => {
-      debugger
+ 
       if (tooltip.initiatives) {
         if (!localStorage.getItem("keepEditingOpen")) {
           this.openDetails.emit(tooltip.initiatives[0]);

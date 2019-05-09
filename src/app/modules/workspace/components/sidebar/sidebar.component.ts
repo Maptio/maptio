@@ -53,14 +53,12 @@ export class SidebarComponent implements OnInit {
         })
 
         this.filteringInitiativeSubscription = EmitterService.get("filtering_node").asObservable().subscribe(initiative => {
-            debugger
-            this.filteringInitiative = initiative;
+           this.filteringInitiative = initiative;
             this.cd.markForCheck()
         })
     }
 
     getSelectedResult() {
-        debugger
         let r = new SearchResult();
         if (this.filteringUser) {
             r.type = SearchResultType.User;
