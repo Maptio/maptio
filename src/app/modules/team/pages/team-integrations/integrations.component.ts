@@ -89,7 +89,7 @@ export class TeamIntegrationsComponent implements OnInit {
             team_id: this.team.team_id,
             name: this.team.name,
             members: this.team.members,
-            settings: { authority: this.team.settings.authority, helper: this.team.settings.helper },
+            settings: { authority: this.team.settings.authority, helper: this.team.settings.helper, vision:this.team.settings.vision },
             slack: new SlackIntegration({
                 access_token: slackAccessToken,
                 team_name: slackTeamName,
@@ -129,7 +129,7 @@ export class TeamIntegrationsComponent implements OnInit {
                     team_id: this.team.team_id,
                     name: this.team.name,
                     members: this.team.members,
-                    settings: { authority: this.team.settings.authority, helper: this.team.settings.helper },
+                    settings: { authority: this.team.settings.authority, helper: this.team.settings.helper, vision: this.team.settings.vision },
                     slack: new SlackIntegration({})
                 });
 

@@ -93,7 +93,7 @@ export class Team implements Serializable<Team> {
         }
         deserialized.isTemporary = input.isTemporary;
         deserialized.isExample = input.isExample;
-        deserialized.settings = { authority: environment.DEFAULT_AUTHORITY_TERMINOLOGY, helper: environment.DEFAULT_HELPER_TERMINOLOGY }
+        deserialized.settings = { authority: environment.DEFAULT_AUTHORITY_TERMINOLOGY, helper: environment.DEFAULT_HELPER_TERMINOLOGY, vision:environment.DEFAULT_VISION_TERMINOLOGY }
         deserialized.settings.authority = input.settings ? input.settings.authority || environment.DEFAULT_AUTHORITY_TERMINOLOGY : environment.DEFAULT_AUTHORITY_TERMINOLOGY;
         deserialized.settings.helper = input.settings ? input.settings.helper || environment.DEFAULT_HELPER_TERMINOLOGY : environment.DEFAULT_HELPER_TERMINOLOGY
         deserialized.settings.vision = input.settings ? input.settings.vision || environment.DEFAULT_VISION_TERMINOLOGY : environment.DEFAULT_VISION_TERMINOLOGY

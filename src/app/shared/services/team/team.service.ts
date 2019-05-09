@@ -101,11 +101,11 @@ export class TeamService {
         return this.teamFactory.get(user.teams)
     }
 
-    saveTerminology(team: Team, name: string, authority: string, helper: string) {
+    saveTerminology(team: Team, name: string, authority: string, helper: string, vision:string) {
         if (!name) return Promise.reject("Organisation name cannot be empty");
        
         team.name = name;
-        team.settings = { authority: authority, helper: helper }
+        team.settings = { authority: authority, helper: helper, vision:vision }
 
         return this.teamFactory.upsert(team)
             .then((isUpdated: boolean) => {

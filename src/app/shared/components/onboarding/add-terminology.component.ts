@@ -59,7 +59,7 @@ export class AddTerminologyComponent implements OnInit {
             let authority = this.form.controls["authority"].value
             let helper = this.form.controls["helper"].value
 
-            return this.teamService.saveTerminology(this.team, this.team.name, authority, helper)
+            return this.teamService.saveTerminology(this.team, this.team.name, authority, helper, "vision")
                 .then((team: Team) => {
                     this.added.emit(team);
                     this.isAdding = false;
