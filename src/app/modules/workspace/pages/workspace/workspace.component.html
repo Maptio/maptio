@@ -39,7 +39,7 @@
                             [isWithAdvancedSearch]="!isFullSidebar" (openMemberSummary)="onOpenUserSummary($event)" (selectMembers)="onSelectMembers($event)"
                             (selectInitiative)="onSelectInitiative($event)" (selectTags)="onSelectTags($event)"
                             (toggleFullHeight)="isFullSidebar=true" (openBuildingPanel)="openBuildingPanel()"
-                            (openTagsPanel)="openTagsPanel()" (editTags)="openTagsPanel()">
+                            (openTagsPanel)="openTagsPanel()" (openSlackShare)="onOpenSlackShare()" (editTags)="openTagsPanel()">
                             <div>
                                 <span class="small text-orange" *ngIf="isNoSearchResults">
                                     Maptio cannot find a circle matching this search</span>

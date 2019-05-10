@@ -49,6 +49,13 @@ export class User implements Serializable<User> {
      */
     public picture: string;
 
+
+    /**
+     * User picture URL (Base 64)
+     */
+    public base64Picture: string;
+
+
     /**
      * True is activation is pending, false otherwise
      */
@@ -116,6 +123,7 @@ export class User implements Serializable<User> {
         deserialized.isInvitationSent = input.app_metadata && input.app_metadata.invitation_sent ? input.app_metadata.invitation_sent : false;
         deserialized.userRole = input.app_metadata && input.app_metadata.role ? (<any>UserRole)[input.app_metadata.role] : UserRole.Standard;
         deserialized.loginsCount = input.logins_count;
+        deserialized.base64Picture= input.base64Picture;
         deserialized.lastSeenAt = input.last_login ? parse(input.last_login) : null;
         deserialized.createdAt = input.created_at ? parse(input.created_at) : null;
 
@@ -170,6 +178,8 @@ export class User implements Serializable<User> {
         // HACK : is slug is empty, return "user"
         return slug(this.name || this.nickname || "", { lower: true }) || "user";
     }
+
+  
 }
 
 export class SelectableUser extends User {

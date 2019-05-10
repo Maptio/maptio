@@ -178,24 +178,20 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
         let fontSize = (d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE < 2) ? 1 : (d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE);
         let verySmallCircle = fontSize <= 2;
 
-        const getImageTag = (name:string, picture: any, shortid:any) => {
-            return picture ?
-                `<span id="${d.data.id}"  class="member-picture" data-member-name="${name}" data-member-shortid="${shortid}">
-                    <img class="rounded-circle"  src="${picture}" style="float:left;height:${!!picture ? fontSize * 2 : 0}px;width:${!!picture ? fontSize * 2 : 0}px" />
-                </span>
-                    `
+        const getImageTag = (user: any) => {
+            if (!user) return "";
+            return user.picture ?
+                `<span class="member-picture" id="${user.shortid}" style="background: url(${user.picture}) no-repeat; float:left;height:${!!user.picture ? fontSize * 2 : 0}px;width:${!!user.picture ? fontSize * 2 : 0}px;background-position:center center;background-size:contain;border-radius:50%;"  data-member-name="${user.name}" data-member-shortid="${user.shortid}">
+                </span>`
                 : "";
         }
 
-        let accountablePicture = getImageTag(
-            d.data.accountable ? d.data.accountable.name : null, 
-            d.data.accountable ? d.data.accountable.picture : null,
-            d.data.accountable ? d.data.accountable.shortid : null)
-        let helpersPictures = d.data.helpers.map((h: any) => getImageTag(h.name, h.picture, h.shortid)).join('');
-       
-        let tagLines = d.data.tags.map((t:any) => `<span style="border-color:${t.color};background:${t.color};width:25%" class="badge mr-1"> </span>`).join('')
+        let accountablePicture = getImageTag(d.data.accountable ? d.data.accountable : null)
+        let helpersPictures = d.data.helpers.map((h: any) => getImageTag(h)).join('');
+
+        let tagLines = d.data.tags.map((t: any) => `<span style="border-color:${t.color};background:${t.color};width:25%" class="badge mr-1"> </span>`).join('')
         return `
-            <div class="details d-flex flex-column align-items-start " style="font-size: ${fontSize}px;line-height:1.25;">
+            <div  class="details d-flex flex-column align-items-start " style="font-size: ${fontSize}px;line-height:1.25;">
                 ${accountablePicture}    
                 <div class="primary authority">
                     <div>${d.data.name || '(Empty)'}</div>

@@ -8,6 +8,8 @@ import { EmitterService } from '../../../../core/services/emitter.service';
 import { Subscription } from 'rxjs';
 import { SearchResult, SearchResultType } from '../searching/search.component';
 import { Team } from '../../../../shared/model/team.data';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ShareSlackComponent } from '../sharing/slack.component';
 
 @Component({
     selector: 'sidebar',
@@ -29,13 +31,14 @@ export class SidebarComponent implements OnInit {
     @Output("toggleFullHeight") toggleFullHeight = new EventEmitter<boolean>();
     @Output("openBuildingPanel") openBuildingPanel = new EventEmitter<void>();
     @Output("openTagsPanel") openTagsPanel = new EventEmitter<void>();
+    // @Output("openSlackShare") openSlackShare = new EventEmitter<void>();
 
     mission: string;
-    isFiltersOpen:boolean=false;
+    isFiltersOpen: boolean = false;
     filteringUser: User;
     filteringInitiative: Initiative;
     flattenNodes: Initiative[];
-    filteringTagsNumber:number=0;
+    filteringTagsNumber: number = 0;
     tags: SelectableTag[];
     isShowAdvanced: boolean;
     selectedResult: SearchResult;
@@ -43,17 +46,17 @@ export class SidebarComponent implements OnInit {
     filteringUserSubscription: Subscription;
     filteringInitiativeSubscription: Subscription;
 
-    constructor(private cd: ChangeDetectorRef) { }
+    constructor(private cd: ChangeDetectorRef, private modalService: NgbModal) { }
 
     ngOnInit(): void {
         this.filteringUserSubscription = EmitterService.get("filtering_user").asObservable().subscribe(user => {
-         
+
             this.filteringUser = user;
             this.cd.markForCheck()
         })
 
         this.filteringInitiativeSubscription = EmitterService.get("filtering_node").asObservable().subscribe(initiative => {
-           this.filteringInitiative = initiative;
+            this.filteringInitiative = initiative;
             this.cd.markForCheck()
         })
     }
@@ -67,7 +70,7 @@ export class SidebarComponent implements OnInit {
             r.type = SearchResultType.Initiative;
             r.result = this.filteringInitiative
         }
-        else{
+        else {
             return null
         }
         return r;
@@ -97,6 +100,17 @@ export class SidebarComponent implements OnInit {
         }
     }
 
+    onOpenSlackShare() {
+        
+        const modalRef = this.modalService.open(ShareSlackComponent, {
+            centered: true
+        });
+        let component = <ShareSlackComponent>modalRef.componentInstance;
+        component.team = this.team;
+        component.dataset = this.dataset;
+        component.members=this.members;
+    }
+
     onOpenBuildingPanel() {
         this.openBuildingPanel.emit();
     }
@@ -116,7 +130,7 @@ export class SidebarComponent implements OnInit {
         this.selectInitiative.emit(node);
     }
 
-    onOpenUserSummary(user:User){
+    onOpenUserSummary(user: User) {
         this.openMemberSummary.emit(user)
     }
 
@@ -136,7 +150,7 @@ export class SidebarComponent implements OnInit {
     }
 
     onClear() {
-        
+
         EmitterService.get("filtering_user").next(null);
         localStorage.removeItem("user_id")
         EmitterService.get("filtering_initiative").next(null);
@@ -159,7 +173,7 @@ export class SidebarComponent implements OnInit {
         this.cd.markForCheck();
     }
 
-    isSelectedUser(member:User){
+    isSelectedUser(member: User) {
         return this.filteringUser && this.filteringUser.user_id === member.user_id;
     }
 
@@ -170,7 +184,7 @@ export class SidebarComponent implements OnInit {
         this.cd.markForCheck();
     }
 
-    onEditTags(){
+    onEditTags() {
         this.editTags.emit();
     }
 }

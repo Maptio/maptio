@@ -413,27 +413,5 @@ export class MappingComponent {
 
   }
 
-  sendSlackNotification(message: string) {
-    this.isPrinting = true;
-    this.hasNotified = false;
-    this.cd.markForCheck();
-
-    this.slackService.sendNotification(
-      message,
-      document.getElementById("map"),
-      this.dataset,
-      this.team)
-      .subscribe((result) => {
-        this.isPrinting = false;
-        this.hasNotified = true;
-        this.intercom.trackEvent("Sharing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: this.initiative.name });
-
-        this.cd.markForCheck()
-      },
-        (err) => {
-          this.hasConfigurationError = true;
-          this.cd.markForCheck();
-        })
-
-  }
+ 
 }

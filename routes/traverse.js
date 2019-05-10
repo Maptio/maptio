@@ -24,7 +24,6 @@ function linkUsers(dataset, members) {
     if (dataset.initiative) {
         traverse(dataset.initiative, function (node) {
             if (node.accountable) {
-                
                 let a = members.find(u => u.user_id === node.accountable.user_id);
                 if (a) {
                     node.accountable.picture = a.picture;
@@ -33,7 +32,6 @@ function linkUsers(dataset, members) {
                 }
             }
             if (node.helpers) {
-                
                 node.helpers.forEach(helper => {
                     let h = members.find(u => u.user_id === helper.user_id);
                     if (h) {

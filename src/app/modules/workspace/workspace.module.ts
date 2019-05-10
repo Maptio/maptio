@@ -28,7 +28,7 @@ import { OnboardingComponent } from "../../shared/components/onboarding/onboardi
 import { InstructionsComponent } from "../../shared/components/instructions/instructions.component";
 import { PersonalCardComponent } from "./components/summary/tab/card.component";
 import { SlackService } from "./components/sharing/slack.service";
-import { NgbTooltipModule, NgbTypeaheadModule, NgbPopoverModule, NgbTabsetModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbTooltipModule, NgbTypeaheadModule, NgbPopoverModule, NgbTabsetModule, NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
 import { ColorPickerComponent } from "../../shared/components/color-picker/color-picker.component";
 import { PermissionsModule } from "../../shared/permissions.module";
 import { DataService } from "./services/data.service";
@@ -71,6 +71,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
         NgbTypeaheadModule,
         NgbPopoverModule,
         NgbTabsetModule,
+        NgbModalModule,
         ColorHueModule,
         PermissionsModule
     ],
@@ -100,6 +101,9 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     providers: [BillingGuard, WorkspaceGuard, UIService, ColorService,
         SlackService, DataService, MapSettingsService,
         WorkspaceComponentResolver
+    ],
+    entryComponents: [
+        ShareSlackComponent
     ]
 })
 export class WorkspaceModule { }

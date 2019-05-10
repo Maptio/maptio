@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
 require('dotenv').config()
-import * as chartsGeneration  from "./generate-charts";
+import * as chartsGeneration from "./generate-charts";
 var db = mongojs(process.env.MONGODB_URI, ['users']);
 
 
@@ -25,14 +25,17 @@ var db = mongojs(process.env.MONGODB_URI, ['users']);
 //     //     });
 // });
 
-router.post('/make', function (req:any, res:any, next:any) {
+router.post('/make', function (req: any, res: any, next: any) {
     let data = req.body.initiative;
     let color = req.body.color;
     let width = req.body.width;
     let diameter = req.body.diameter;
     // console.log("make chart")
-        let svg = chartsGeneration.makeChart(data, color, diameter, width);
-        res.send(svg);
-    });
+    let svg = chartsGeneration.makeChart(data, color, diameter, width);
+
+    res.contentType("text/xml");
+    res.send(svg);
+});
+
 
 export default router;

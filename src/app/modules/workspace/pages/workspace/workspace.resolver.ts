@@ -36,7 +36,9 @@ export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, t
                 }),
                 flatMap((team: Team) =>
                     this.userService.getUsersInfo(team.members)
-                        .then(members => { team.members = members; return { team: team, members: members } })
+                        .then(members => { 
+                            team.members = members;
+                             return { team: team, members: members } })
                 ),
                 flatMap(tm =>
                     this.datasetFactory.getWithUsers(datasetId, tm.members)

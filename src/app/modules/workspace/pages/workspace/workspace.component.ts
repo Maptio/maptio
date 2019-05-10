@@ -1,7 +1,7 @@
 import { BuildingComponent } from "../../components/data-entry/hierarchy/building.component";
 import { DataService, CounterService } from "../../services/data.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Subscription, Subject, ReplaySubject , Observable, BehaviorSubject} from "rxjs/Rx";
+import { Subscription, Subject, ReplaySubject, Observable, BehaviorSubject } from "rxjs/Rx";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Team } from "../../../../shared/model/team.data";
@@ -38,10 +38,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public isBuildingPanelCollapsed: boolean = true;
     public isDetailsPanelCollapsed: boolean = true;
     public isTagsPanelCollapsed: boolean = true;
-    
+
     public isBuildingVisible: boolean = true;
     public isEmptyMap: Boolean;
-    public isBackToBuildingVisible:boolean;
+    public isBackToBuildingVisible: boolean;
     public isSaving: Boolean;
     public isEditMode: boolean;
     public isNoSearchResults: boolean;
@@ -66,7 +66,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public openedNodeTeamId: string;
     public openEditTag$: Subject<void> = new Subject<void>();
     public isSidebarClosed: boolean;
-    public margin:SafeStyle;
+    public margin: SafeStyle;
 
     public selectableTags$: Subject<Tag[]> = new BehaviorSubject<Tag[]>([]);
     public selectableUsers$: Subject<User[]> = new BehaviorSubject<User[]>([]);
@@ -104,8 +104,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.cd.markForCheck();
 
                 let newDatasetId = data.data.dataset.datasetId;
-                
-                if (this.datasetId &&  newDatasetId !== this.datasetId) {
+
+                if (this.datasetId && newDatasetId !== this.datasetId) {
                     localStorage.removeItem("node_id");
                     localStorage.removeItem("user_id");
                     this.selectableUsers$.next([]);
@@ -115,7 +115,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 }
             })
             .do((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {
-                
+
                 this.updateInitiativeTree(data.data.dataset, data.data.team, data.data.members);
             })
             .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {
@@ -314,4 +314,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     private isTwoPanelsOpened() {
         return !this.isDetailsPanelCollapsed && !this.isBuildingPanelCollapsed;
     }
+
+    onOpenSlackShare() {
+
+    }
+
+   
 }

@@ -8,10 +8,10 @@ import { JwtEncoder } from "../encoding/jwt.service";
 import { MailingService } from "../mailing/mailing.service";
 import { UUID } from "angular2-uuid/index";
 import { EmitterService } from "../../../core/services/emitter.service";
-import { Observable } from "rxjs/Rx";
+import { Observable, } from "rxjs/Rx";
 import { flatten } from "lodash-es"
 import { UserFactory } from '../../../core/http/user/user.factory';
-
+import { from } from 'rxjs';
 @Injectable()
 export class UserService {
 
@@ -120,7 +120,7 @@ export class UserService {
     }
 
 
-    private getHslFromName(name: string) : { h: number, s: number, l: number } {
+    private getHslFromName(name: string): { h: number, s: number, l: number } {
         let cleaned = name.toLowerCase().replace(/[^a-zA-Z0-9]+/g, "-");
         let hash = 0;
         for (var i = 0; i < cleaned.length; i++) {
@@ -130,38 +130,38 @@ export class UserService {
         return { h: hash % 360, s: 99, l: 35 };
     }
 
-    getHexFromHsl(hsl : { h: number, s: number, l: number }){
-        var h = hsl.h  /360;
+    getHexFromHsl(hsl: { h: number, s: number, l: number }) {
+        var h = hsl.h / 360;
         var s = hsl.s / 100;
-        var l = hsl.l/ 100;
+        var l = hsl.l / 100;
         var r, g, b;
         if (s === 0) {
-          r = g = b = l; // achromatic
+            r = g = b = l; // achromatic
         } else {
-          const hue2rgb = (p:number, q:number, t:number) => {
-            if (t < 0) t += 1;
-            if (t > 1) t -= 1;
-            if (t < 1 / 6) return p + (q - p) * 6 * t;
-            if (t < 1 / 2) return q;
-            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-            return p;
-          };
-          var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-          var p = 2 * l - q;
-          r = hue2rgb(p, q, h + 1 / 3);
-          g = hue2rgb(p, q, h);
-          b = hue2rgb(p, q, h - 1 / 3);
+            const hue2rgb = (p: number, q: number, t: number) => {
+                if (t < 0) t += 1;
+                if (t > 1) t -= 1;
+                if (t < 1 / 6) return p + (q - p) * 6 * t;
+                if (t < 1 / 2) return q;
+                if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+                return p;
+            };
+            var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            var p = 2 * l - q;
+            r = hue2rgb(p, q, h + 1 / 3);
+            g = hue2rgb(p, q, h);
+            b = hue2rgb(p, q, h - 1 / 3);
         }
-        const toHex = (x:number) => {
-          var hex = Math.round(x * 255).toString(16);
-          return hex.length === 1 ? '0' + hex : hex;
+        const toHex = (x: number) => {
+            var hex = Math.round(x * 255).toString(16);
+            return hex.length === 1 ? '0' + hex : hex;
         };
-        return `${toHex(r)}${toHex(g)}${toHex(b)}`.replace('-','').substr(0,6);
+        return `${toHex(r)}${toHex(g)}${toHex(b)}`.replace('-', '').substr(0, 6);
     }
 
     public createUser(email: string, firstname: string, lastname: string, isSignUp?: boolean, isAdmin?: boolean): Promise<User> {
         let color = this.getHexFromHsl(this.getHslFromName(`${firstname} ${lastname}`));
-        
+
         let newUser = {
             "connection": environment.CONNECTION_NAME,
             "email": email,
@@ -178,7 +178,7 @@ export class UserService {
             "user_metadata":
             {
                 "picture": `https://ui-avatars.com/api/?rounded=true&background=${color}&name=${firstname}+${lastname}&font-size=0.35&color=ffffff&size=500`,
- 
+
                 "given_name": firstname,
                 "family_name": lastname
             }
@@ -244,12 +244,58 @@ export class UserService {
                 let result: Array<User> = [];
                 if (inputs) {
                     inputs.forEach((input) => {
-                        result.push(User.create().deserialize(input));
+                        let user = User.create().deserialize(input);
+                        result.push(user);
                     });
                 }
                 return result;
             })
+            .flatMap(users => {
+                return Promise.all(users.map(u => this.getBase64ImageFromURL(u)))
+            })
     }
+
+    private getBase64ImageFromURL(user:User): Promise<User> {
+        // return Promise.create((observer: Observer<string>) => {
+        return new Promise((resolve, reject) => {
+            // create an image object
+            let img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.src = user.picture || '';
+
+            if (!img.complete) {
+                // This will call another method that will create image from url
+                img.onload = () => {
+                    let base64data = this.getBase64Image(img);
+                    user.base64Picture = 'data:image/jpg;base64,' + base64data;
+                    resolve(user);
+                };
+                img.onerror = (err) => {
+                    user.base64Picture = ""; //'data:image/jpg;base64,' + base64data;
+                    resolve(user);
+                };
+            } else {
+                let base64data = this.getBase64Image(img);
+                    user.base64Picture = 'data:image/jpg;base64,' + base64data;
+                    resolve(user);
+            }
+        })
+    }
+
+
+    private getBase64Image(img: HTMLImageElement): string {
+        // We create a HTML canvas object that will create a 2d image
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext("2d");
+        // This will draw image    
+        ctx.drawImage(img, 0, 0);
+        // Convert the drawn image to Data URL
+        var dataURL = canvas.toDataURL("image/png");
+        return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+    }
+
 
     public isActivationPendingByUserId(user_id: string): Promise<boolean> {
         return this.configuration.getAccessToken().then((token: string) => {

@@ -18,52 +18,61 @@ export class SlackService {
         svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
         svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
         let svgNode = this.downloadSvg(svg, "image.png", w, h) as SVGElement;
-        svgNode.setAttribute("width", `${w+20}px`);
-        svgNode.setAttribute("height", `${h+20}px`);
-        (svgNode.childNodes[0] as SVGElement).setAttribute("transform", `translate(${w/2},${h/2}) scale(0.95)`)
+        svgNode.setAttribute("width", `${w + 20}px`);
+        svgNode.setAttribute("height", `${h + 20}px`);
+        (svgNode.childNodes[0] as SVGElement).setAttribute("transform", `translate(${w / 2},${h / 2}) scale(0.95)`)
         return this.exportService.sendSlackNotification((<any>svgNode).outerHTML, dataset.datasetId, dataset.initiative, team.slack, message)
 
     }
 
-    private downloadSvg(svg: HTMLElement, fileName: string, width: number, height: number): Node {
+    public downloadSvg(svg: HTMLElement, users: User[]): Node {
         let copy = svg.cloneNode(true);
-        this.copyStylesInline(copy, svg);
+        this.copyStylesInline(copy, svg, users);
+        console.log(copy.outerHTML);
         return copy;
     }
 
-    private copyStylesInline(destinationNode: any, sourceNode: any) {
-        let containerElements = ["svg", "g"];
+    public copyStylesInline(destinationNode: any, sourceNode: any, users: User[]) {
+        let containerElements = ["svg", "g", "foreignobject", "div"];
+        let ignoreElements = ["text"]
         for (let cd = 0; cd < destinationNode.childNodes.length; cd++) {
-            let child = destinationNode.childNodes[cd];
-
-            if (child.tagName === "foreignObject") {
-                if (child.childNodes[0].tagName === "DIV") {
-                    child.childNodes[0].setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
-                }
-            }
-
-            if (containerElements.indexOf(child.tagName) !== -1) {
-                this.copyStylesInline(child, sourceNode.childNodes[cd]);
+            let child: HTMLElement = destinationNode.childNodes[cd];
+            
+            if (child.nodeType === 3) {
                 continue;
             }
+
             let style = sourceNode.childNodes[cd].currentStyle || window.getComputedStyle(sourceNode.childNodes[cd]);
             if (style === "undefined" || style == null) continue;
             for (let st = 0; st < style.length; st++) {
-                if (style[st] === "display" && style.getPropertyValue(style[st]) === "none") {
-                    child.style.setProperty(style[st], "block");
+                child.style.setProperty(style[st], style.getPropertyValue(style[st]));
+            }
+
+
+            if (child.tagName.toLowerCase() === "foreignobject") {
+                if (child.childNodes[0].tagName === "DIV") {
+                    child.childNodes[0].setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
 
                 }
-                else if (style[st] === "opacity" && style.getPropertyValue(style[st]) === "0") {
-                    child.style.setProperty(style[st], "1");
-                }
-                // else if (style["fill"].includes("url(")) {
-                //   child.style.setProperty("display", "none")
-                // }
-                else {
-                    child.style.setProperty(style[st], style.getPropertyValue(style[st]));
-                }
-                // child.style.setProperty(style[st], style.getPropertyValue(style[st]));
             }
+
+            if (child.tagName.toLowerCase() === "div") {
+                child.style.setProperty("font-family", "Helvetica");
+            }
+
+            if (child.tagName.toLowerCase() === "span") {
+                if (child.classList.contains("member-picture")) {
+                    let shortid = child.getAttribute("data-member-shortid");
+                    if (shortid) {
+                        let user = users.filter(u => u.shortid === shortid)[0];
+                        child.style.setProperty("background-image", `url(${user.base64Picture})`);
+                    }
+                }
+            }
+
+
+            this.copyStylesInline(child, sourceNode.childNodes[cd], users);
+           
         }
     }
 
