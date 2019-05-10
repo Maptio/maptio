@@ -31,7 +31,7 @@ describe("slack.component.ts", () => {
         // })
     });
 
-    describe("Sharing map", () => {
+    xdescribe("Sharing map", () => {
         it("should share map ", () => {
             spyOn(component.shareMap, "emit")
             component.sendNotification();
@@ -39,7 +39,7 @@ describe("slack.component.ts", () => {
         });
     });
 
-    describe("ngOnChanges", () => {
+    xdescribe("ngOnChanges", () => {
         it("should update template when printing ", () => {
             let spy = spyOn(component, "updateTemplate")
             component.ngOnChanges({ isPrinting: new SimpleChange(null, false, true) });

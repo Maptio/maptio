@@ -72,7 +72,7 @@ describe("export.service.ts", () => {
     describe("getSnapshot", () => {
         it("should upload the svgString and get a image url in return ",
             async(inject([ExportService,AuthHttp], (target: ExportService,  http: AuthHttp) => {
-                let svg = "<svg></svg>"
+                let png = "data://png"
                 let spy = spyOn(http, "request").and.returnValue(Observable.of(new Response({
                     status: 200,
                     headers: null,
@@ -89,17 +89,17 @@ describe("export.service.ts", () => {
                 })));
 
                 let expectedHeaders = new Headers();
-                expectedHeaders.append("Content-Type", "text/html");
-                expectedHeaders.append("Accept", "text/html")
+                expectedHeaders.append("Content-Type", "text/plain");
+                expectedHeaders.append("Accept", "text/plain")
 
                 let expectedRequest = new Request({
-                    url: `/api/v1/images/upload/datasetId`,
-                    body: "<svg></svg>",
+                    url: `/api/v1/images/upload/datasetId/data`,
+                    body: "data://png",
                     method: RequestMethod.Post,
                     headers: expectedHeaders
                 });
 
-                target.getSnapshot(svg, "datasetId").subscribe(url => {
+                target.getSnapshot(png, "datasetId").subscribe(url => {
                     expect(url).toBe("http://image.com/snapshot")
                 });
                 expect(spy).toHaveBeenCalledWith(expectedRequest);

@@ -12,6 +12,7 @@ import { saveAs } from "file-saver"
 import { ExportService } from '../../../../shared/services/export/export.service';
 import { reject } from 'lodash-es';
 import { Intercom } from 'ng-intercom';
+import { User } from '../../../../shared/model/user.data';
 
 @Component({
     selector: "slack-share",
@@ -72,18 +73,18 @@ export class ShareSlackComponent {
 
             var svgString = new XMLSerializer().serializeToString(styledSvg);
 
-            var canvas: HTMLCanvasElement = document.createElement("canvas");
+            var canvas = document.createElement("canvas");
             canvas.width = this.width;
             canvas.height = this.height;
             var context = canvas.getContext("2d");
-            var DOMURL = self.URL || self.webkitURL || self;
+            var DOMURL = (<any>self).URL || (<any>self).webkitURL || (<any>self);
             var img = new Image();
             var format = 'png';
 
             var imgsrc = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgString))); // Convert SVG string to data URL
 
             img.onload = function () {
-                context.clearRect(0, 0, this.width, this.height);
+                // context.clearRect(0, 0, this.width, this.height);
                 context.drawImage(img, 0, 0);
                 var png = canvas.toDataURL("image/png");
                 document.querySelector('#preview-container').innerHTML = '<img class="preview"  width="100%" height="100%" style="object-fit:cover;object-position:left" src="' + png + '"/>';
@@ -96,7 +97,7 @@ export class ShareSlackComponent {
     }
 
     savePicture() {
-        function dataURItoBlob(dataURI) {
+        function dataURItoBlob(dataURI:string) {
             // convert base64 to raw binary data held in a string
             // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
             var byteString = atob(dataURI.split(',')[1]);

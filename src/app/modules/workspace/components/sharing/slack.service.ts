@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { ExportService } from '../../../../shared/services/export/export.service';
 import { DataSet } from '../../../../shared/model/dataset.data';
 import { Team } from '../../../../shared/model/team.data';
+import { User } from '../../../../shared/model/user.data';
 
 @Injectable()
 export class SlackService {
@@ -11,24 +12,23 @@ export class SlackService {
 
     }
 
-    sendNotification(message: string, svg: HTMLElement, dataset: DataSet, team: Team): Observable<any> {
-        let g = svg.childNodes[0] as SVGElement;
-        let w = g.getBoundingClientRect().width;
-        let h = g.getBoundingClientRect().height;
-        svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
-        svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
-        let svgNode = this.downloadSvg(svg, "image.png", w, h) as SVGElement;
-        svgNode.setAttribute("width", `${w + 20}px`);
-        svgNode.setAttribute("height", `${h + 20}px`);
-        (svgNode.childNodes[0] as SVGElement).setAttribute("transform", `translate(${w / 2},${h / 2}) scale(0.95)`)
-        return this.exportService.sendSlackNotification((<any>svgNode).outerHTML, dataset.datasetId, dataset.initiative, team.slack, message)
+    // sendNotification(message: string, svg: HTMLElement, dataset: DataSet, team: Team): Observable<any> {
+    //     let g = svg.childNodes[0] as SVGElement;
+    //     let w = g.getBoundingClientRect().width;
+    //     let h = g.getBoundingClientRect().height;
+    //     svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
+    //     svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
+    //     let svgNode = this.downloadSvg(svg, "image.png", w, h) as SVGElement;
+    //     svgNode.setAttribute("width", `${w + 20}px`);
+    //     svgNode.setAttribute("height", `${h + 20}px`);
+    //     (svgNode.childNodes[0] as SVGElement).setAttribute("transform", `translate(${w / 2},${h / 2}) scale(0.95)`)
+    //     return this.exportService.sendSlackNotification((<any>svgNode).outerHTML, dataset.datasetId, dataset.initiative, team.slack, message)
 
-    }
+    // }
 
     public downloadSvg(svg: HTMLElement, users: User[]): Node {
         let copy = svg.cloneNode(true);
         this.copyStylesInline(copy, svg, users);
-        console.log(copy.outerHTML);
         return copy;
     }
 
@@ -36,7 +36,7 @@ export class SlackService {
         let containerElements = ["svg", "g", "foreignobject", "div"];
         let ignoreElements = ["text"]
         for (let cd = 0; cd < destinationNode.childNodes.length; cd++) {
-            let child: HTMLElement = destinationNode.childNodes[cd];
+            let child= destinationNode.childNodes[cd];
             
             if (child.nodeType === 3) {
                 continue;
