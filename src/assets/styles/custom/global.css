@@ -661,17 +661,17 @@ a.nav-link.active {
   color: var(--maptio-white) !important;
 }
 
-.nav.nav-tabs:not(.flex-column) > .nav-item >  a.nav-link.active{
+/* .nav.nav-tabs:not(.flex-column) > .nav-item >  a.nav-link.active{
   border-top:6px solid var(--maptio-accent) !important;
   padding-top:3px;
-}
+} */
 
-.nav.nav-tabs.flex-column > .nav-item >  a.nav-link.active{
+/* .nav.nav-tabs.flex-column > .nav-item >  a.nav-link.active{
   border-left:6px solid var(--maptio-accent) !important;
-}
-
+} */
+/* 
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
   border-color: var(--maptio-accent) var(--maptio-accent) #fff !important;
-}
+} */
 
 

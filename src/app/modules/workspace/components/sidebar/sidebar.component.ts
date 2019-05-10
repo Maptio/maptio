@@ -103,7 +103,8 @@ export class SidebarComponent implements OnInit {
     onOpenSlackShare() {
         
         const modalRef = this.modalService.open(ShareSlackComponent, {
-            centered: true
+            centered: true,
+            size:'lg'
         });
         let component = <ShareSlackComponent>modalRef.componentInstance;
         component.team = this.team;
