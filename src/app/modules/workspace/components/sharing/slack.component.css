@@ -20,8 +20,12 @@
 	right: 0;
 }
 
-#preview-container > img{
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+#preview-container{
+	opacity: 0.5;
+	transition:all 1s;
+}
+
+#preview-container.show{
+	opacity: 1;
+	transition:all 1s;
 }
