@@ -20,7 +20,7 @@ cloudinary.config({
 });
 
 
-router.post('/upload/:mapid', function (req, res, next) {
+router.post('/upload/:mapid/svg', function (req, res, next) {
     var svgString = req.body;
     var date = new Date();
     var mapid = req.params.mapid;
@@ -44,20 +44,32 @@ router.post('/upload/:mapid', function (req, res, next) {
             res.json(result)
         }
     );
+});
 
-    // cloudinary.uploader.upload(
-    //     `data:image/svg+xml;base64,${base64String}`,
-    //     function (result) { res.json(result) },
-    //     {
-    //         public_id: `${mapid}/snapshot/${date.toISOString()}`,
-    //         tags: [],
-    //         eager: {
-    //             background: "#ffffff",
-    //             quality: "auto:best",
-    //             format: "png"
-    //         }
+router.post('/upload/:mapid/data', function (req, res, next) {
+    var dataString = req.body;
+    var date = new Date();
+    var mapid = req.params.mapid;
+    console.log(dataString)
+    cloudinary.uploader.upload(
+        `${dataString}`,
+        {
+            public_id: `${mapid}/snapshot/${date.toISOString()}`,
+            tags: [],
+            eager: {
+                background: "#ffffff",
+                quality: "auto:best",
+                format: "png"
+            }
 
-    //     });
+        },
+        function (error, result) {
+            if (error) {
+                res.send(error);
+            }
+            res.json(result)
+        }
+    );
 });
 
 

@@ -11,6 +11,7 @@ import { DataSet } from '../../../../shared/model/dataset.data';
 import { saveAs } from "file-saver"
 import { ExportService } from '../../../../shared/services/export/export.service';
 import { reject } from 'lodash-es';
+import { Intercom } from 'ng-intercom';
 
 @Component({
     selector: "slack-share",
@@ -33,7 +34,7 @@ export class ShareSlackComponent {
     showConfiguration: boolean;
     pngImage: string;
     isLoading: boolean;
-    constructor(private cd: ChangeDetectorRef, private slackService: SlackService, private exportService: ExportService) { }
+    constructor(private cd: ChangeDetectorRef, private slackService: SlackService, private exportService: ExportService, private intercom:Intercom) { }
 
  
 
