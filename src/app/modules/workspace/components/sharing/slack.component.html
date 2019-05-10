@@ -8,9 +8,17 @@
                 <i *ngIf="isLoading" class="fas fa-circle-notch fa-spin fa-pulse"></i>
             </div> -->
 
-            <div  class='box w-100 my-3'>
+            <div class='box w-100 my-3'>
                 <div id="preview-container" class='content img-thumbnail'>
-                    <i *ngIf="isLoading" class="fas fa-circle-notch fa-spin fa-pulse"></i>
+                    <span class="content img-thumbnail d-flex justify-content-center align-items-center text-muted">
+                        <!-- <i *ngIf="isLoading" class="fas fa-circle-notch fa-spin fa-pulse  h1"></i>
+                            <span>Generating preview</span> -->
+                        <div class="spinner-border  spinner-border-sm mx-1" role="status">
+                            <span class="sr-only">Loading...</span>
+                            
+                        </div>
+                        <span >Generating preview</span>
+                    </span>
 
                 </div>
             </div>

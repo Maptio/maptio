@@ -25,9 +25,9 @@ body{
   border-style: solid;
 }
 
-.modal{
+/* .modal{
   background: hsla(0, 0%, 0%, 0.75);
-}
+} */
 
 .bg-translucid{
   background: hsla(255, 100%, 100%, 0.95);

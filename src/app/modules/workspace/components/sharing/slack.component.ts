@@ -45,9 +45,9 @@ export class ShareSlackComponent {
 
     ngOnInit() {
         console.log("ngOnInit slack ", this.members);
+        this.isLoading = true;
+        this.cd.markForCheck();
         setTimeout(() => {
-            this.isLoading = true;
-            this.cd.markForCheck();
             this.getPreviewImage().then((png) => {
                 this.pngImage = png;
                 this.isLoading = false;
