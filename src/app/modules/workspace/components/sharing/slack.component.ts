@@ -97,7 +97,7 @@ export class ShareSlackComponent {
     }
 
     savePicture() {
-        function dataURItoBlob(dataURI:string) {
+        function dataURItoBlob(dataURI: string) {
             // convert base64 to raw binary data held in a string
             // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
             var byteString = atob(dataURI.split(',')[1]);
@@ -124,6 +124,15 @@ export class ShareSlackComponent {
 
         let blob = dataURItoBlob(this.pngImage); // new Blob([this.pngImage], { type: "image/png" });
         saveAs(blob, `${this.dataset.initiative.name}.png`);
+    }
+
+    printPicture() {
+        var popup=window.open();
+        popup.document.write('<img src=' + this.pngImage + '>');
+        popup.document.close();
+        popup.focus();
+        popup.print();
+        popup.close();
     }
 
     sendNotification() {

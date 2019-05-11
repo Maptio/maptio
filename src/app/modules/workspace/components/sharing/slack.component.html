@@ -82,7 +82,11 @@
                 <div class="tab-pane h-100" id="print" role="tabpanel" aria-labelledby="print-tab">
                    
                     <div class="h-100 d-flex flex-column justify-content-center align-items-center">
-                        <button class="btn btn-outline-secondary" (click)="savePicture()">Save as image</button>
+                        <button class="btn btn-outline-secondary" (click)="savePicture()">Save</button>
+
+                        <span class="text-uppercase text-muted opacity-50 my-1 small">or</span>
+
+                        <button class="btn btn-outline-secondary" (click)="printPicture()">Print</button>
                     </div>
 
                 </div>
