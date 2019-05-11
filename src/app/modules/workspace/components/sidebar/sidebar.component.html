@@ -6,10 +6,11 @@
             type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-bars"></i>
         </button>
-        <div class="dropdown-menu">
-            <h6 class="dropdown-header opacity-50">
-                Editing</h6>
-            <button (click)="onOpenBuildingPanel()" class="dropdown-item">Edit map</button>
+        <div class="dropdown-menu ">
+            <h6 class="dropdown-header text-bold opacity-50">
+                Edit</h6>
+            <button (click)="onOpenBuildingPanel()" class="dropdown-item"> Edit
+                map</button>
             <button (click)="onOpenTagsPanel()" class="dropdown-item">Edit tags</button>
 
             <!-- <div class="dropdown-divider"></div>
@@ -21,10 +22,10 @@
 
             <div class="dropdown-divider"></div>
 
-            <h6 class="dropdown-header opacity-50 ">
-                Sharing</h6>
+            <h6 class="dropdown-header text-bold opacity-50">
+                Share</h6>
             <button class="dropdown-item" (click)="onOpenSlackShare()">Share on Slack</button>
-            <button class="dropdown-item" (click)="onOpenSlackShare()">Save / Print</button>
+            <button class="dropdown-item" (click)="onOpenSlackShare()">Print</button>
             <!-- <button class="dropdown-item">Print</button> -->
 
         </div>
