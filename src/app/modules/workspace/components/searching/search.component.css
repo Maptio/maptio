@@ -1,18 +1,11 @@
 
-  ::ng-deep ngb-typeahead-window.dropdown-menu {
-    position:absolute;
-    width: 100%;
-    /* width:calc(100% - 3vw); */
-    /* max-height: 33vh; */
-    overflow-y: auto;
+  ::ng-deep input.search +  ngb-typeahead-window.dropdown-menu {
     margin-left:-38px;
-    overflow-x:hidden;
   }
-
-
-  ::ng-deep ngb-typeahead-window.dropdown-menu > .dropdown-item {
+  
+  
+  ::ng-deep  input.search +  ngb-typeahead-window.dropdown-menu > .dropdown-item {
     padding-left:0!important;
     padding-right:0!important;
   }
-
   

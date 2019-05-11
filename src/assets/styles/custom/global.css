@@ -674,4 +674,13 @@ a.nav-link.active {
   border-color: var(--maptio-accent) var(--maptio-accent) #fff !important;
 } */
 
+ngb-typeahead-window.dropdown-menu {
+  position:absolute;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x:hidden;
+}
+
+
+
 

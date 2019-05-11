@@ -83,7 +83,7 @@ export class CommonAutocompleteComponent implements OnInit {
     }
 
     onFocusOut() {
-        this.isShowAutocomplete = false;
-        this.cd.markForCheck();
+        // this.isShowAutocomplete = false;
+        // this.cd.markForCheck();
     }
 }
