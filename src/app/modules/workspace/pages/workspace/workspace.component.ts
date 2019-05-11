@@ -50,6 +50,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     private routeSubscription: Subscription;
     private userSubscription: Subscription;
     public isLoading: boolean;
+    public cancelClicked: boolean;
 
     public dataset: DataSet;
     public members: Array<User>;
@@ -224,7 +225,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         if (this.isDetailsPanelCollapsed) this.openDetailsPanel();
         this.cd.markForCheck();
     }
-    onNoSearhcResults() {
+    onNoSearchResults() {
         this.isFullSidebar = false;
         this.isNoSearchResults = true;
         this.cd.markForCheck();
@@ -319,5 +320,5 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     }
 
-   
+
 }
