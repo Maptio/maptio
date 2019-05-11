@@ -96,7 +96,7 @@
     display: inline;
 }
 
-::ng-deep div.member-tooltip{
+::ng-deep div.tooltip{
     position: absolute;
     background: var(--maptio-black);
     font-size: small;
@@ -104,4 +104,18 @@
     padding:.5rem;
     border-radius:.5rem;
     transform: translateX(-50%) translateY(-50%);
+}
+
+::ng-deep div.tooltip.tag::before{
+    content: "\f02b";
+    font-family: "Font Awesome 5 Free";
+    font-weight: bold;
+    margin-right: 2px;
+}
+
+::ng-deep div.tooltip.member::before{
+    content: "\f007";
+    font-family: "Font Awesome 5 Free";
+    font-weight: bold;
+    margin-right: 2px;
 }

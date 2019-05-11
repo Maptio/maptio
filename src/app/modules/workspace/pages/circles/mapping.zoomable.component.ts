@@ -364,9 +364,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const text = g.selectAll("foreignObject.name").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
     // const memberImages = g.selectAll("foreignObject.name span.member-picture").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
 
-    d3.select("body").select("div.member-tooltip").remove();
-    let tooltip = d3.select("body").append("div");
-    tooltip.attr("class", "member-tooltip").style("opacity", 0);
+    d3.select("body").select("div.tooltip.member").remove();
+    let tooltipUser = d3.select("body").append("div");
+    tooltipUser.attr("class", "member tooltip").style("opacity", 0);
+    d3.select("body").select("div.tag.tooltip").remove();
+    let tooltipTag = d3.select("body").append("div");
+    tooltipTag.attr("class", "tag tooltip").style("opacity", 0);
+
 
     text.each(function (dtext: any) {
       d3.select(this).selectAll("span.member-picture")
@@ -386,16 +390,31 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
         .on("mouseover", (d: any, index: number, elements: Array<HTMLElement>) => {
           let name = elements[index].getAttribute("data-member-name");
-          tooltip.text(name);
-          tooltip
+          tooltipUser.text(name);
+          tooltipUser
             .style("opacity", 1).style("left", (d3.getEvent().pageX) + "px")
             .style("top", (d3.getEvent().pageY - 28) + "px")
             .style("pointer-events", "none")
         })
         .on("mouseout", (d: any, index: number, elements: Array<HTMLElement>) => {
           let name = elements[index].getAttribute("data-member-name");
-          tooltip.text(name);
-          tooltip.style("opacity", 0);
+          tooltipUser.text(name);
+          tooltipUser.style("opacity", 0);
+        })
+
+      d3.select(this).selectAll("span.tag-line")
+        .on("mouseover", (d: any, index: number, elements: Array<HTMLElement>) => {
+          let name = elements[index].getAttribute("data-tag-name");
+          tooltipTag.text(name);
+          tooltipTag
+            .style("opacity", 1).style("left", (d3.getEvent().pageX) + "px")
+            .style("top", (d3.getEvent().pageY - 28) + "px")
+            .style("pointer-events", "none")
+        })
+        .on("mouseout", (d: any, index: number, elements: Array<HTMLElement>) => {
+          let name = elements[index].getAttribute("data-tag-name");
+          tooltipTag.text(name);
+          tooltipTag.style("opacity", 0);
         })
     })
 

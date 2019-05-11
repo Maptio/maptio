@@ -189,7 +189,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
         let accountablePicture = getImageTag(d.data.accountable ? d.data.accountable : null)
         let helpersPictures = d.data.helpers.map((h: any) => getImageTag(h)).join('');
 
-        let tagLines = d.data.tags.map((t: any) => `<span style="border-color:${t.color};background:${t.color};width:25%" class="badge mr-1"> </span>`).join('')
+        let tagLines = d.data.tags.map((t: any) => `<span data-tag-name="${t.name}" style="border-color:${t.color};background:${t.color};width:25%" class="tag-line badge mr-1"> </span>`).join('')
         return `
             <div  class="details d-flex flex-column align-items-start " style="font-size: ${fontSize}px;line-height:1.25;">
                 ${accountablePicture}    
