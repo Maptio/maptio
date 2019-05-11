@@ -256,11 +256,16 @@ export class UserService {
     }
 
     private getBase64ImageFromURL(user:User): Promise<User> {
+
+        let gravatarRegex= /(?:d=)(.+)/;
         // return Promise.create((observer: Observer<string>) => {
         return new Promise((resolve, reject) => {
             // create an image object
             let img = new Image();
             img.crossOrigin = 'anonymous';
+            if(user.picture.match(gravatarRegex)){
+                user.picture = decodeURIComponent(gravatarRegex.exec(user.picture)[1])
+            }
             img.src = user.picture || '';
 
             if (!img.complete) {
