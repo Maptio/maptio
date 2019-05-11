@@ -85,10 +85,10 @@ export class ShareSlackComponent {
                 var hidefCanvasCssWidth = hidefCanvasWidth;
                 var hidefCanvasCssHeight = hidefCanvasHeight;
             
-                canvas.setAttribute('width', hidefCanvasWidth * window.devicePixelRatio);
-                canvas.setAttribute('height', hidefCanvasHeight * window.devicePixelRatio);
-                canvas.style.setProperty('width', hidefCanvasCssWidth);
-                canvas.style.setProperty('height', hidefCanvasCssHeight);
+                canvas.setAttribute('width', (hidefCanvasWidth * window.devicePixelRatio).toString());
+                canvas.setAttribute('height', (hidefCanvasHeight * window.devicePixelRatio).toString());
+                canvas.style.setProperty('width', hidefCanvasCssWidth.toString());
+                canvas.style.setProperty('height', hidefCanvasCssHeight.toString());
                 context.scale(window.devicePixelRatio, window.devicePixelRatio);               
               }
 
