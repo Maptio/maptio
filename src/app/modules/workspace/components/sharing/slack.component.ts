@@ -77,6 +77,23 @@ export class ShareSlackComponent {
             canvas.width = this.width;
             canvas.height = this.height;
             var context = canvas.getContext("2d");
+
+            if (window.devicePixelRatio) {
+                debugger
+                var hidefCanvasWidth = this.width;
+                var hidefCanvasHeight = this.height;
+                var hidefCanvasCssWidth = hidefCanvasWidth;
+                var hidefCanvasCssHeight = hidefCanvasHeight;
+            
+                canvas.setAttribute('width', hidefCanvasWidth * window.devicePixelRatio);
+                canvas.setAttribute('height', hidefCanvasHeight * window.devicePixelRatio);
+                canvas.style.setProperty('width', hidefCanvasCssWidth);
+                canvas.style.setProperty('height', hidefCanvasCssHeight);
+                context.scale(window.devicePixelRatio, window.devicePixelRatio);               
+              }
+
+
+
             var DOMURL = (<any>self).URL || (<any>self).webkitURL || (<any>self);
             var img = new Image();
             var format = 'png';
