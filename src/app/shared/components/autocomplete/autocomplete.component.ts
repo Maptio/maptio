@@ -50,7 +50,9 @@ export class CommonAutocompleteComponent implements OnInit {
         const inputFocus$ = this.focus$;
 
         return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
-            map(term => this.filter(term).slice(0, 5))
+            map(term => {
+                return [null].concat(this.filter(typeof(this.item)==='object' ? '' : term).slice(0, 5));
+            })
         );
     }
 
@@ -83,7 +85,7 @@ export class CommonAutocompleteComponent implements OnInit {
     }
 
     onFocusOut() {
-        // this.isShowAutocomplete = false;
-        // this.cd.markForCheck();
+        this.isShowAutocomplete = false;
+        this.cd.markForCheck();
     }
 }

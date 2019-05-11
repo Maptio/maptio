@@ -9,8 +9,8 @@
             (selectItem)="onSelect($event)" [ngbTypeahead]="search" [resultFormatter]="resultFormatter"
             [inputFormatter]="resultFormatter" (focus)="onFocus($event.target.value)" (blur)="onFocusOut()"
             (click)="onClick($event.target.value)" editable="false" />
-        <!-- <button *ngIf="isShowAutocomplete" class="h-100 position-absolute top-right btn btn-link btn-sm"
-            (click)="isShowAutocomplete=false">Cancel</button> -->
+        <button *ngIf="isShowAutocomplete" class="h-100 position-absolute top-right btn btn-link btn-sm"
+            (click)="isShowAutocomplete=false">Cancel</button>
     </div>
 
 
