@@ -1,6 +1,16 @@
 <ng-template #rt let-r="result" let-t="term">
-    <img src="{{r.picture}}" class="rounded-circle participant-picture" alt={{r.name}} /> {{r.name}}
-</ng-template>
+        <ng-container *ngIf="r">
+            <img src="{{r.picture}}" class="rounded-circle participant-picture" /> {{r.name}}
+        </ng-container>
+        <ng-container *ngIf="!r">
+            <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/people">
+                <span class="d-flex align-items-center"><i
+                        class="mr-1 fas fa-user-plus bg-dark rounded-circle text-white participant-picture d-flex align-items-center justify-content-center"></i>
+                    Add a new person</span>
+            </a>
+        </ng-container>
+    
+    </ng-template>
 <ng-template #editTipContent>
     <ng-content></ng-content>
 </ng-template>

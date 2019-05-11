@@ -1,27 +1,37 @@
-
 <ng-template #editTipContent>
-        <ng-content></ng-content>
-    </ng-template>
+    <ng-content></ng-content>
+</ng-template>
 <ng-template #rt let-r="result" let-t="term">
-    <img src="{{r.picture}}" class="rounded-circle participant-picture" /> {{r.name}}
+    <ng-container *ngIf="r">
+        <img src="{{r.picture}}" class="rounded-circle participant-picture" /> {{r.name}}
+    </ng-container>
+    <ng-container *ngIf="!r">
+        <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/people">
+            <span class="d-flex align-items-center"><i
+                    class="mr-1 fas fa-user-plus bg-dark rounded-circle text-white participant-picture d-flex align-items-center justify-content-center"></i>
+                Add a new person</span>
+        </a>
+    </ng-container>
+
 </ng-template>
 <span class="d-flex align-items-baseline text-gray-light mb-1">
     <i class="fas fa-user  mr-1"></i>
     <span class="text-uppercase text-bold small mr-1">{{team?.settings.authority}}</span>
 
     <span *ngIf="isUnauthorized" class="text-gray-light small" [stickyPopover]="editTipContent" placement='right'>
-            <i class="fas fa-lock"></i>
-        </span>
+        <i class="fas fa-lock"></i>
+    </span>
 </span>
-<div class="d-flex justify-content-start align-items-center bg-light rounded p-2" >
+<div class="d-flex justify-content-start align-items-center bg-light rounded p-2">
 
     <div class="d-flex justify-content-start align-items-center flex-grow-1">
         <div class="w-100">
             <common-autocomplete #autocomplete [placeholder]="placeholder"
                 [removeConfirmationMessage]="'Remove this authority and associated role?'" [resultTemplate]="rt"
-                [showSelectedResult]="true" [resultFormatter]="formatter" [isUnauthorized]="isUnauthorized" [item]="authority" [filter]="filterMembers" (pick)="onSelect($event)">
-                <initiative-member-label *ngIf="authority" [member]="authority" ></initiative-member-label>
-           
+                [showSelectedResult]="true" [resultFormatter]="formatter" [isUnauthorized]="isUnauthorized"
+                [item]="authority" [filter]="filterMembers" (pick)="onSelect($event)">
+                <initiative-member-label *ngIf="authority" [member]="authority"></initiative-member-label>
+
                 <span *ngIf="!authority">
                     No {{team?.settings.authority}}
                 </span>
