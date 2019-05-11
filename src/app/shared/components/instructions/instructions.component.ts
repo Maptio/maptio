@@ -54,12 +54,10 @@ export class InstructionsComponent implements OnInit {
 
     styleModal(){
         if(this.currentIndex === this.steps.length -1){
-            console.log("highlight modal", document.querySelector(".modal-body"), this.currentIndex, this.steps.length -1)
-        
+            
             document.querySelector(".modal-body").classList.add("bg-gradient")
             document.querySelector(".modal-body").classList.add("text-white")
         }else{
-            console.log("unhighlight modal", document.querySelector(".modal-body"), this.currentIndex, this.steps.length -1)
         
             document.querySelector(".modal-body").classList.remove("bg-gradient")
             document.querySelector(".modal-body").classList.remove("text-white")

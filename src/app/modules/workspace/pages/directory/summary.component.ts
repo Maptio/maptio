@@ -88,7 +88,6 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
             .get()
             .combineLatest(this.route.queryParams)
             .switchMap((data: [any, Params]) => {
-                console.log(data)
                 if (data[1].member)
                     return this.userFactory.get(data[1].member)
                         .then(user => this.userService.getUsersInfo([user]))

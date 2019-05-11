@@ -123,6 +123,9 @@ import charts  from "./routes/charts";
 app.use('/api/v1/jwt/', encoding);
 app.use('/api/v1/mail/confirm', confirming);
 app.use("/api/v1/charts", charts);
+var authenticationToken = require("./routes/token")
+
+app.use('/api/v1/authentication/', authenticationToken);
 
 app.use('/api/v1/images/', jwtCheck, check_scopes(["api"]), images)
 app.use('/api/v1/notifications/', jwtCheck, check_scopes(["api"]), notifications)
