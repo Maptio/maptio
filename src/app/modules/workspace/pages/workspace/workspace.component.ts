@@ -241,6 +241,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     addInitiative(data: { node: Initiative, subNode: Initiative }) {
         this.buildingComponent.addNodeTo(data.node, data.subNode);
     }
+    
+    addInitiativeTo(node:Initiative){
+        this.buildingComponent.addNodeTo(node, new Initiative());
+    }
 
     removeInitiative(node: Initiative) {
         this.buildingComponent.removeNode(node);
