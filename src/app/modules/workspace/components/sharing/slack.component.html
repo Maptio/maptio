@@ -1,113 +1,103 @@
-<div class="card bg-transparent border-0">
-    <div class="card-body">
-        <h5 class="card-title mb-2 d-flex justify-content-start align-items-center">
-            Share
-        </h5>
-
+<div class="modal-header">
+    <h5 class="modal-title">Share</h5>
+    <button type="button" class="close btn" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true"><i class="fa fa-times"></i> </span>
+    </button>
+</div>
+<div class="modal-body">
         <div class="w-100 py-4 d-flex">
-            <div class="img-thumbnail d-flex justify-content-center w-50">
-                <div class='box w-100'>
-                    <div id="preview-container" [class.show]="!isLoading" class='content '>
-                        <span class="content  d-flex justify-content-center align-items-center text-muted">
-
-                            <div class="spinner-border  spinner-border-sm mx-1" role="status">
-                                <span class="sr-only">Loading...</span>
-
-                            </div>
-                            <span>Generating preview</span>
-                        </span>
-
-                    </div>
-                </div>
-            </div>
-            <div class="w-50 pl-3">
-                <ul class="nav nav-tabs justify-content-start" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="h-100 nav-link  d-flex justify-content-center align-items-center active"
-                            id="slack-tab" data-toggle="tab" href="#slack" role="tab" aria-controls="slack"
-                            aria-selected="true">
-                            <i class="fab fa-slack mx-1"></i> Slack</a>
-                    </li>
-                    <li class="nav-item ">
-                        <button class="h-100 nav-link btn d-flex justify-content-center align-items-center" id="print-tab"
-                            data-toggle="tab" (click)="printPicture()" role="tab" aria-controls="print" aria-selected="false">
-                            <i class="fa fa-print mx-1"></i> Print
-                        </button>
-                    </li>
-                </ul>
-                <div class="d-flex mt-3 ">
-
-                    <div class="tab-content w-100">
-                        <div class="tab-pane active h-100 " id="slack" role="tabpanel" aria-labelledby="slack-tab">
-                            <ng-container *ngIf="!showConfiguration">
-
-
-
-                                <div class="h-100 d-flex flex-column justify-content-start align-items-end">
-                                    <textarea #slackMessage class="form-control unresizable" id="slackMessage"
-                                        placeholder="Share the current map with your organisation! Let them know what you have changed."
-                                        [(ngModel)]="message" rows="5"></textarea>
-                                    <div class="d-flex justify-content-end mt-2">
-                                        <button *ngIf="isPrinting" class="btn btn-outline-secondary disabled">
-                                            <span class="d-flex align-items-center">Share on <img width="auto"
-                                                    height="32" src="/assets/images/slack-icon.png" alt="Slack"></span>
-                                        </button>
-                                        <button *ngIf="!isPrinting" class="btn btn-outline-secondary btn-sm"
-                                            (click)="sendNotification()">
-                                            <span class="d-flex align-items-center">Share on <img width="auto"
-                                                    height="32" src="/assets/images/slack-icon.png" alt="Slack"></span>
-                                        </button>
-                                    </div>
-                                    <span class="my-1 text-muted small  d-flex justify-content-end align-items-center"
-                                        *ngIf="isPrinting && !hasNotified && !hasConfigurationError">
-                                        <i class="fas fa-circle-notch fa-spin mx-1"></i>Generating image preview
-                                    </span>
-                                    <span class="my-1 text-danger small  d-flex justify-content-end"
-                                        *ngIf="hasConfigurationError">
-                                        We cannot post to your Slack workspace anymore!
-                                        <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/integrations"
-                                            class="ml-1">Go to
-                                            settings</a>
-
-                                    </span>
-                                    <span class="my-1 text-green small  d-flex justify-content-end"
-                                        *ngIf="hasNotified && !hasConfigurationError">Shared!</span>
+                <div class="img-thumbnail d-flex justify-content-center w-50">
+                    <div class='box w-100'>
+                        <div id="preview-container" [class.show]="!isLoading" class='content '>
+                            <span class="content  d-flex justify-content-center align-items-center text-muted">
+    
+                                <div class="spinner-border  spinner-border-sm mx-1" role="status">
+                                    <span class="sr-only">Loading...</span>
+    
                                 </div>
-                            </ng-container>
-                            <ng-container *ngIf="showConfiguration">
-                                Slack is not setup for organisation
-                                <strong>{{team?.name}}</strong>!
-                                <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/integrations">Configure
-                                    updates
-                                    first.</a>
-                            </ng-container>
-
+                                <span>Generating preview</span>
+                            </span>
+    
                         </div>
-                        <!-- <div class="tab-pane h-100" id="print" role="tabpanel" aria-labelledby="print-tab">
-
-                            <div class="h-100 d-flex flex-column justify-content-center align-items-center">
-                                <button class="btn btn-outline-secondary" (click)="savePicture()">Save</button>
-
-                                <span class="text-uppercase text-muted opacity-50 my-1 small">or</span>
-
-                                <button class="btn btn-outline-secondary" (click)="printPicture()">Print</button>
+                    </div>
+                </div>
+                <div class="w-50 pl-3">
+                    <ul class="nav nav-tabs justify-content-start" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="h-100 nav-link  d-flex justify-content-center align-items-center active"
+                                id="slack-tab" data-toggle="tab" href="#slack" role="tab" aria-controls="slack"
+                                aria-selected="true">
+                                <i class="fab fa-slack mx-1"></i> Slack</a>
+                        </li>
+                        <li class="nav-item ">
+                            <button class="h-100 nav-link btn d-flex justify-content-center align-items-center"
+                                id="print-tab" data-toggle="tab" (click)="printPicture()" role="tab" aria-controls="print"
+                                aria-selected="false">
+                                <i class="fa fa-print mx-1"></i> Print
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="d-flex mt-3 ">
+    
+                        <div class="tab-content w-100">
+                            <div class="tab-pane active h-100 " id="slack" role="tabpanel" aria-labelledby="slack-tab">
+                                <ng-container *ngIf="!showConfiguration">
+    
+    
+    
+                                    <div class="h-100 d-flex flex-column justify-content-start align-items-end">
+                                        <textarea #slackMessage class="form-control unresizable" id="slackMessage"
+                                            placeholder="Share the current map with your organisation! Let them know what you have changed."
+                                            [(ngModel)]="message" rows="5"></textarea>
+                                        <div class="d-flex justify-content-end mt-2">
+                                            <button *ngIf="isPrinting" class="btn btn-outline-secondary disabled">
+                                                <span class="d-flex align-items-center">Share on <img width="auto"
+                                                        height="32" src="/assets/images/slack-icon.png" alt="Slack"></span>
+                                            </button>
+                                            <button *ngIf="!isPrinting" class="btn btn-outline-secondary btn-sm"
+                                                (click)="sendNotification()">
+                                                <span class="d-flex align-items-center">Share on <img width="auto"
+                                                        height="32" src="/assets/images/slack-icon.png" alt="Slack"></span>
+                                            </button>
+                                        </div>
+                                        <span class="my-1 text-muted small  d-flex justify-content-end align-items-center"
+                                            *ngIf="isPrinting && !hasNotified && !hasConfigurationError">
+                                            <i class="fas fa-circle-notch fa-spin mx-1"></i>Generating image preview
+                                        </span>
+                                        <span class="my-1 text-danger small  d-flex justify-content-end"
+                                            *ngIf="hasConfigurationError">
+                                            We cannot post to your Slack workspace anymore!
+                                            <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/integrations"
+                                                class="ml-1">Go to
+                                                settings</a>
+    
+                                        </span>
+                                        <span class="my-1 text-green small  d-flex justify-content-end"
+                                            *ngIf="hasNotified && !hasConfigurationError">Shared!</span>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="showConfiguration">
+                                    Slack is not setup for organisation
+                                    <strong>{{team?.name}}</strong>!
+                                    <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/integrations">Configure
+                                        updates
+                                        first.</a>
+                                </ng-container>
+    
                             </div>
-
-                        </div> -->
+                            <!-- <div class="tab-pane h-100" id="print" role="tabpanel" aria-labelledby="print-tab">
+    
+                                <div class="h-100 d-flex flex-column justify-content-center align-items-center">
+                                    <button class="btn btn-outline-secondary" (click)="savePicture()">Save</button>
+    
+                                    <span class="text-uppercase text-muted opacity-50 my-1 small">or</span>
+    
+                                    <button class="btn btn-outline-secondary" (click)="printPicture()">Print</button>
+                                </div>
+    
+                            </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Nav tabs -->
-
-
-
-
-        <!-- Tab panes -->
-
-
-
-
-    </div>
 </div>

@@ -13,6 +13,7 @@ import { ExportService } from '../../../../shared/services/export/export.service
 import { reject } from 'lodash-es';
 import { Intercom } from 'ng-intercom';
 import { User } from '../../../../shared/model/user.data';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: "slack-share",
@@ -28,14 +29,15 @@ export class ShareSlackComponent {
     @Input("hasConfigurationError") hasConfigurationError: boolean;
 
     // @Output() shareMap: EventEmitter<string> = new EventEmitter<string>();
-
+    
     message: string;
     width: number;
     height: number;
     showConfiguration: boolean;
     pngImage: string;
     isLoading: boolean;
-    constructor(private cd: ChangeDetectorRef, private slackService: SlackService, private exportService: ExportService, private intercom: Intercom) { }
+    constructor(private cd: ChangeDetectorRef, private slackService: SlackService, private exportService: ExportService, private intercom: Intercom, 
+        public activeModal: NgbActiveModal) { }
 
 
 
@@ -84,13 +86,13 @@ export class ShareSlackComponent {
                 var hidefCanvasHeight = this.height;
                 var hidefCanvasCssWidth = hidefCanvasWidth;
                 var hidefCanvasCssHeight = hidefCanvasHeight;
-            
+
                 canvas.setAttribute('width', (hidefCanvasWidth * window.devicePixelRatio).toString());
                 canvas.setAttribute('height', (hidefCanvasHeight * window.devicePixelRatio).toString());
                 canvas.style.setProperty('width', hidefCanvasCssWidth.toString());
                 canvas.style.setProperty('height', hidefCanvasCssHeight.toString());
-                context.scale(window.devicePixelRatio, window.devicePixelRatio);               
-              }
+                context.scale(window.devicePixelRatio, window.devicePixelRatio);
+            }
 
 
 
@@ -144,7 +146,7 @@ export class ShareSlackComponent {
     }
 
     printPicture() {
-        var popup=window.open();
+        var popup = window.open();
         popup.document.write('<img src=' + this.pngImage + '>');
         popup.document.close();
         popup.focus();
