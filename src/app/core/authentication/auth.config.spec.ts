@@ -34,15 +34,11 @@ describe("auth.config.ts", () => {
 
     it("should retrieve access token when it is not in localStorage", async(inject([AuthConfiguration, Http, MockBackend], (target: AuthConfiguration, http: Http, mockBackend: MockBackend) => {
         mockBackend.connections.subscribe((connection: MockConnection) => {
-            if (connection.request.method === RequestMethod.Post
-                && connection.request.url === environment.ACCESS_TOKEN_URL
-                && connection.request.json().client_id === environment.AUTH0_MANAGEMENTAPI_KEY
-                && connection.request.json().client_secret === environment.AUTH0_MANAGEMENTAPI_SECRET
-                && connection.request.json().audience === environment.ACCESS_TOKEN_AUDIENCE
-                && connection.request.json().grant_type === "client_credentials"
+            if (connection.request.method === RequestMethod.Get
+                && connection.request.url === "/api/v1/authentication/token"
             ) {
                 connection.mockRespond(new Response(new ResponseOptions({
-                    body: { access_token: "token" }
+                    body: "token" 
                 })));
             }
             else {

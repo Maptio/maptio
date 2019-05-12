@@ -764,7 +764,7 @@ describe("user.service.ts", () => {
                     && connection.request.headers.get("Authorization") === "Bearer token"
                 ) {
                     connection.mockRespond(new Response(new ResponseOptions({
-                        body: [{ user_id: "1" }, { user_id: "2" }, { user_id: "3" }]
+                        body: [{ user_id: "1", picture:"img1" }, { user_id: "2", picture:"img2" }, { user_id: "3", picture:"img3" }]
                     })));
                 }
                 else {
@@ -774,7 +774,7 @@ describe("user.service.ts", () => {
 
             let spyAccessToken = spyOn(configuration, "getAccessToken").and.returnValue(Promise.resolve("token"))
 
-            target.getUsersInfo([new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })])
+            target.getUsersInfo([new User({ user_id: "1", picture:"img1" }), new User({ user_id: "2", picture:"img2" }), new User({ user_id: "3", picture:"img3" })])
                 .then((result) => {
                     expect(result.length).toEqual(3);
                     result.forEach((r, i) => { expect(r.user_id).toBe(`${i + 1}`) })
@@ -791,7 +791,7 @@ describe("user.service.ts", () => {
                     && connection.request.headers.get("Authorization") === "Bearer token"
                 ) {
                     connection.mockRespond(new Response(new ResponseOptions({
-                        body: [{ user_id: "1" }, { user_id: "2" }]
+                        body: [{ user_id: "1", picture:"img1" }, { user_id: "2", picture:"img2" }]
                     })));
                 }
                 else {
