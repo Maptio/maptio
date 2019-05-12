@@ -16,6 +16,7 @@ import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
 import { uniq } from "lodash-es";
 // import * as LogRocket from "logrocket";
 import { Intercom } from "ng-intercom";
+import { UserService } from "../../shared/services/user/user.service";
 
 @Injectable()
 export class Auth {
@@ -38,6 +39,7 @@ export class Auth {
     private configuration: AuthConfiguration,
     private datasetFactory: DatasetFactory,
     private userFactory: UserFactory,
+    private userService:UserService,
     private router: Router,
     private loader: LoaderService,
     private userRoleService: UserRoleService,
@@ -198,6 +200,18 @@ export class Auth {
     localStorage.setItem("profile", JSON.stringify(profile));
     return this.userFactory
       .get(profile.user_id)
+      .then(user =>{
+        debugger
+        return this.userService.updateUserShortId(user.user_id, user.shortid).then(()=>{
+          return user
+        })
+      })
+      .then(user =>{
+        debugger
+        return this.userService.updateUserTeams(user.user_id, user.teams).then(()=>{
+          return user
+        })
+      })
       .then(user => {
         this.user$.next(user);
         return Promise.resolve<boolean>(true);

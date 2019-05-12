@@ -107,7 +107,7 @@
     "random-words": "^1.1.0",
     "randomstring": "^1.1.5",
     "request": "^2.85.0",
-    "request-promise": "^4.2.2",
+    "request-promise": "^4.2.4",
     "rimraf": "^2.5.2",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",

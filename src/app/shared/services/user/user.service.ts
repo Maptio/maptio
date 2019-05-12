@@ -257,7 +257,7 @@ export class UserService {
 
     private getBase64ImageFromURL(user:User): Promise<User> {
 
-        let gravatarRegex= /(?:d=)(.+)/;
+        let gravatarRegex= /(?:&d=)(.+)/;
         // return Promise.create((observer: Observer<string>) => {
         return new Promise((resolve, reject) => {
             // create an image object
@@ -384,6 +384,52 @@ export class UserService {
         });
     }
 
+    public updateUserShortId(user_id: string, shortid: string): Promise<boolean> {
+        return this.configuration.getAccessToken().then((token: string) => {
+
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+
+            return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
+                {
+                    "user_metadata":
+                    {
+                        "shortid": shortid
+                    },
+                    "connection": environment.CONNECTION_NAME
+                }
+                ,
+                { headers: headers })
+                .toPromise()
+                .then((response) => {
+                    return true
+                }, (error) => { return Promise.reject(error) })
+        });
+    }
+
+    public updateUserTeams(user_id: string, teams: string[]): Promise<boolean> {
+        return this.configuration.getAccessToken().then((token: string) => {
+
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+
+            return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
+                {
+                    "user_metadata":
+                    {
+                        "teams": teams
+                    },
+                    "connection": environment.CONNECTION_NAME
+                }
+                ,
+                { headers: headers })
+                .toPromise()
+                .then((response) => {
+                    return true
+                }, (error) => { return Promise.reject(error) })
+        });
+    }
+
     public updateUserProfile(user_id: string, firstname: string, lastname: string): Promise<boolean> {
         return this.configuration.getAccessToken().then((token: string) => {
 
@@ -439,7 +485,6 @@ export class UserService {
         });
     }
 
-
     public updateUserPictureUrl(user_id: string, pictureUrl: string): Promise<boolean> {
         return this.configuration.getAccessToken().then((token: string) => {
 
@@ -462,7 +507,6 @@ export class UserService {
                 }, (error) => { return Promise.reject("Cannot update user picture") })
         });
     }
-
 
     public updateActivationPendingStatus(user_id: string, isActivationPending: boolean): Promise<boolean> {
         return this.configuration.getAccessToken().then((token: string) => {

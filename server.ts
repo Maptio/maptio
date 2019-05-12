@@ -103,7 +103,7 @@ let cache = apicache.middleware
 // app.use(cache('5 seconds'))
 app.use(bodyParser.text({ type: "text/html", limit: '5mb' }))
 app.use(bodyParser.text({ type: "text/plain", limit: '5mb' }))
-app.use(bodyParser.json({ limit: '2mb' }));
+app.use(bodyParser.json({ limit: '5mb' }));
 app.use(sslRedirect());
 app.use(compression())
 // app.use(jwtCheck.unless({ path: ['/','/api/v1/mail/confirm', "/api/v1/jwt/encode", "/api/v1/jwt/decode"] }));
