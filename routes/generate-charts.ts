@@ -7,6 +7,7 @@ import { scaleLog, ScaleLogarithmic } from "d3-scale";
 import { HierarchyCircularNode, pack, hierarchy } from "d3-hierarchy";
 import { min } from "d3-array";
 import { color } from "d3-color";
+import {orderBy} from "lodash";
 
 import getColorRange from "./colors"
 import getCircularPath from "./paths"
@@ -34,7 +35,7 @@ const start = Date.now();
 
 // const data = JSON.parse(fs.readFileSync(path.resolve("src", "assets", "templates", "maps", "demo.json"), "utf-8"));
 // const css = fs.readFileSync(path.resolve("routes/circles.css"), "utf-8")
-const POSITION_INITIATIVE_NAME = { x: 0.75, y: 0.5, fontRatio: 1 };
+const POSITION_INITIATIVE_NAME = { x: 0.75, y: 0.70, fontRatio: 1 };
 const MAX_NUMBER_LETTERS_PER_CIRCLE = 15;
 const DEFAULT_PICTURE_ANGLE = Math.PI - Math.PI * 36 / 180;
 const CIRCLE_RADIUS = 16;
@@ -187,7 +188,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
         }
 
         let accountablePicture = getImageTag(d.data.accountable ? d.data.accountable : null)
-        let helpersPictures = d.data.helpers.map((h: any) => getImageTag(h)).join('');
+        let helpersPictures = orderBy(d.data.helpers, h => h.name, "asc").map((h: any) => getImageTag(h)).join('');
 
         let tagLines = d.data.tags.map((t: any) => `<span data-tag-name="${t.name}" style="border-color:${t.color};background:${t.color};width:25%" class="tag-line badge mr-1"> </span>`).join('')
         return `
