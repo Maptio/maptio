@@ -61,17 +61,12 @@
             <div class="d-flex flex-wrap align-items-baseline" id="filterByTags">
                 <div *ngFor="let tag of tags" class="my-1 ">
                     <initiative-single-tag [tag]="tag">
-                        <div class="custom-control custom-checkbox ml-1">
-                            <input id="check-{{tag.shortid}}" class="custom-control-input" type="checkbox" name="" id="" [value]="tag.isSelected"
-                                [checked]="tag.isSelected"
+                        <div class="custom-control custom-checkbox ml-1" style="min-height:1rem">
+                            <input id="check-{{tag.shortid}}" class="custom-control-input" type="checkbox" name="" id=""
+                                [value]="tag.isSelected" [checked]="tag.isSelected"
                                 (change)="$event.target.checked ? tag.isSelected = true : tag.isSelected = false; onSelectTag(tags)">
-                            <!-- <input type="checkbox" class="custom-control-input" id="customCheck1"> -->
                             <label class="custom-control-label" for="check-{{tag.shortid}}"></label>
                         </div>
-                        <!-- <input class="" type="checkbox" name="" id="" [value]="tag.isSelected"
-                            [checked]="tag.isSelected"
-                            (change)="$event.target.checked ? tag.isSelected = true : tag.isSelected = false; onSelectTag(tags)"> -->
-
                     </initiative-single-tag>
                 </div>
             </div>

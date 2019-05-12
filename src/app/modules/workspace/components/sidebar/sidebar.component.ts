@@ -90,8 +90,8 @@ export class SidebarComponent implements OnInit {
             let dataset = <DataSet>changes.dataset.currentValue;
             this.mission = dataset.initiative.children[0].name;
             this.tags = orderBy(dataset.tags.map((t: Tag) => { (<SelectableTag>t).isSelected = false; return <SelectableTag>t }),
-                t => t.name.length,
-                "desc");
+                t => t.name,
+                "asc");
             this.flattenNodes = dataset.initiative.flatten();
 
 
