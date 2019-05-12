@@ -631,6 +631,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
             });
             circle.dispatch("mouseout");
           })
+      })
+      .on("mouseout", ()=>{
+        showContextMenuOf$.next({
+          initiatives: null,
+          x: 0,
+          y: 0,
+          isReadOnlyContextMenu: false
+        });
       });
 
     lastZoomCircle = root;
