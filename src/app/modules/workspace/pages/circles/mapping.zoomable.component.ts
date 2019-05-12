@@ -554,6 +554,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
         .style("opacity", function (d: any) {
           return d === focus && d.children ? 0 : 1;
+        })
+        .style("pointer-events", function (d: any) {
+          return d === focus && d.children ? "none" : "visible";
         });
     }
 
