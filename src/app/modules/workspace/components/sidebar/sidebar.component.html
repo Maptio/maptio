@@ -35,47 +35,52 @@
 
 <div class="box-shadow d-flex flex-column mission  card border-0 w-100 position-relative my-3 p-3"
     *ngIf="isWithAdvancedSearch">
-    <div class="d-flex w-100 small" data-toggle="collapse" href="#filters-box" role="button" aria-expanded="false"
-        aria-controls="filters-box">
-        <!-- <span class="toggle-collapse mr-1">
-            <i class="fa fa-caret-right"></i>
-        </span> -->
-        <span class="text-uppercase ">
+    <div class="d-flex w-100 small">
+        <span class="text-uppercase text-muted opacity-50 ">
             Filter circles</span>
 
 
     </div>
     <ng-content></ng-content>
 
-    <div id="filters-box" class="pl-3 pb-3">
+    <div id="filters-box" class="">
         <div class="mt-2">
-            <span class="small  my-1 d-flex align-items-baseline justify-content-start">
-                <span>
-                    <i class="fa fa-tags text-muted opacity-50 mr-1"></i>
-                    <span> By tags</span>
-
+            <span class="  my-1 d-flex align-items-center justify-content-start" data-toggle="collapse" href="#tags-box"
+                role="button" aria-expanded="true" aria-controls="tags-box">
+                <span class="toggle-collapse mr-1">
+                    <i class="fa fa-caret-right"></i>
                 </span>
+                <small>
+                    <span> By tags</span>
+                </small>
 
                 <button class="btn btn-link btn-sm" (click)="onOpenTagsPanel()">(Edit)</button>
             </span>
-            <div class="d-flex flex-wrap align-items-baseline" id="filterByTags">
-                <div *ngFor="let tag of tags" class="my-1 ">
-                    <initiative-single-tag [tag]="tag">
-                        <div class="custom-control custom-checkbox ml-1" style="min-height:1rem">
-                            <input id="check-{{tag.shortid}}" class="custom-control-input" type="checkbox" name="" id=""
-                                [value]="tag.isSelected" [checked]="tag.isSelected"
-                                (change)="$event.target.checked ? tag.isSelected = true : tag.isSelected = false; onSelectTag(tags)">
-                            <label class="custom-control-label" for="check-{{tag.shortid}}"></label>
-                        </div>
-                    </initiative-single-tag>
+            <div class="collapse show" id="tags-box">
+                <div class="d-flex flex-wrap align-items-baseline ">
+                    <div *ngFor="let tag of tags" class="my-1 ">
+                        <initiative-single-tag [tag]="tag">
+                            <div class="custom-control custom-checkbox ml-1" style="min-height:1rem">
+                                <input id="check-{{tag.shortid}}" class="custom-control-input" type="checkbox" name=""
+                                    id="" [value]="tag.isSelected" [checked]="tag.isSelected"
+                                    (change)="$event.target.checked ? tag.isSelected = true : tag.isSelected = false; onSelectTag(tags)">
+                                <label class="custom-control-label" for="check-{{tag.shortid}}"></label>
+                            </div>
+                        </initiative-single-tag>
+                    </div>
                 </div>
+
             </div>
         </div>
         <div class="mt-2 d-flex flex-column align-items-start">
-            <span class="small my-1 d-flex align-items-baseline justify-content-between">
-                <i class="fa fa-user text-muted opacity-50 mr-2"></i>
-                By {{team.settings.helper | lowercase}}</span>
-            <div class="w-100">
+            <span class=" my-1 d-flex align-items-center justify-content-between" data-toggle="collapse"
+                href="#users-box" role="button" aria-expanded="true" aria-controls="users-box">
+                <span class="toggle-collapse mr-1">
+                    <i class="fa fa-caret-right"></i>
+                </span>
+                <span class="small">By {{team.settings.helper | lowercase}}</span>    
+            </span>
+            <div class="w-100 collapse show" id="users-box">
                 <div class="btn-group " *ngIf="!filteringUser">
                     <button class="btn btn-sm btn-link pl-0 dropdown-toggle" type="button" id="dropdownFilterUser"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
