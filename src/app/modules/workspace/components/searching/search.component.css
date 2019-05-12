@@ -9,3 +9,11 @@
     padding-right:0!important;
   }
   
+.clear-button::before{
+  content: "";
+    position: absolute;
+    left: 0;
+    top: 10%;
+    border-left: 1px solid #ddd;
+    height: 80%;
+}
