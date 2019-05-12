@@ -35,7 +35,7 @@ const start = Date.now();
 
 // const data = JSON.parse(fs.readFileSync(path.resolve("src", "assets", "templates", "maps", "demo.json"), "utf-8"));
 // const css = fs.readFileSync(path.resolve("routes/circles.css"), "utf-8")
-const POSITION_INITIATIVE_NAME = { x: 0.75, y: 0.70, fontRatio: 1 };
+const POSITION_INITIATIVE_NAME = { x: 0.75, y: 0.55, fontRatio: 1 };
 const MAX_NUMBER_LETTERS_PER_CIRCLE = 15;
 const DEFAULT_PICTURE_ANGLE = Math.PI - Math.PI * 36 / 180;
 const CIRCLE_RADIUS = 16;

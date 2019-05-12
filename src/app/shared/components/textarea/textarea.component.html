@@ -2,7 +2,7 @@
     <ng-content></ng-content>
 </ng-template>
 
-<div class="d-flex flex-column">
+<div class="d-flex flex-column bg-light p-2 rounded">
     <div class="d-flex align-items-baseline justify-content-start">
         <span class="d-flex align-items-baseline text-gray-light mr-1">
             <i class="fas fa-align-left  mr-1"></i>
@@ -22,14 +22,14 @@
 
 
     <div class="w-100 position-relative" *ngIf="isEditMode">
-        <small *ngIf="!isHeader" class="my-1 position-absolute bottom-left text-default text-muted ml-auto">
+        <small *ngIf="!isHeader" style="bottom:1px;left:1px" class="rounded-bottom py-1 position-absolute  text-default text-muted ml-auto bg-white w-99 px-2">
             Use
             <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">markdown</a> to
             create links and add formatting.
         </small>
 
 
-        <textarea #inputDescription class="form-control" id="inputDescription" [value]="text || ''"
+        <textarea #inputDescription class="form-control pb-4" id="inputDescription" [value]="text || ''"
             data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [attr.rows]="rows"
             [attr.placeholder]="placeholder" (change)="onChange($event.target.value)" (blur)="isEditMode=false">
 
@@ -38,7 +38,7 @@
     </div>
 
     <div *ngIf="!isEditMode && !isTextEmpty" (click)="!isUnauthorized && isEditMode=true "
-        class="position-relative w-100 bg-light p-2 rounded">
+        class="position-relative w-100  p-2 rounded">
 
         <markdown class="cursor-text  border-0 w-100 h-100" [ngClass]="{'lead text-bold' : isHeader}" [data]="text">
         </markdown>

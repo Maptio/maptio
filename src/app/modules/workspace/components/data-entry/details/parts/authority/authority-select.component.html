@@ -14,29 +14,31 @@
     </ng-container>
 
 </ng-template>
-<span class="d-flex align-items-baseline text-gray-light mb-1">
-    <i class="fas fa-user  mr-1"></i>
-    <span class="text-uppercase text-bold small mr-1">{{team?.settings.authority}}</span>
-
-    <span *ngIf="isUnauthorized" class="text-gray-light small" [stickyPopover]="editTipContent" placement='right'>
-        <i class="fas fa-lock"></i>
-    </span>
-</span>
-<div class="d-flex justify-content-start align-items-center bg-light rounded p-2">
-
-    <div class="d-flex justify-content-start align-items-center flex-grow-1">
-        <div class="w-100">
-            <common-autocomplete #autocomplete [placeholder]="placeholder"
-                [removeConfirmationMessage]="'Remove this authority and associated role?'" [resultTemplate]="rt"
-                [showSelectedResult]="true" [resultFormatter]="formatter" [isUnauthorized]="isUnauthorized"
-                [item]="authority" [filter]="filterMembers" (pick)="onSelect($event)">
-                <initiative-member-label *ngIf="authority" [member]="authority"></initiative-member-label>
-
-                <span *ngIf="!authority">
-                    No {{team?.settings.authority}}
+<div class="bg-light p-2 rounded">
+        <span class="d-flex align-items-baseline text-gray-light mb-1">
+                <i class="fas fa-user  mr-1"></i>
+                <span class="text-uppercase text-bold small mr-1">{{team?.settings.authority}}</span>
+            
+                <span *ngIf="isUnauthorized" class="text-gray-light small" [stickyPopover]="editTipContent" placement='right'>
+                    <i class="fas fa-lock"></i>
                 </span>
-            </common-autocomplete>
-        </div>
-
-    </div>
+            </span>
+            <div class="d-flex justify-content-start align-items-center bg-light rounded">
+            
+                <div class="d-flex justify-content-start align-items-center flex-grow-1">
+                    <div class="w-100">
+                        <common-autocomplete #autocomplete [placeholder]="placeholder"
+                            [removeConfirmationMessage]="'Remove this authority and associated role?'" [resultTemplate]="rt"
+                            [showSelectedResult]="true" [resultFormatter]="formatter" [isUnauthorized]="isUnauthorized"
+                            [item]="authority" [filter]="filterMembers" (pick)="onSelect($event)">
+                            <initiative-member-label *ngIf="authority" [member]="authority"></initiative-member-label>
+            
+                            <span *ngIf="!authority">
+                                No {{team?.settings.authority}}
+                            </span>
+                        </common-autocomplete>
+                    </div>
+            
+                </div>
+            </div>
 </div>
