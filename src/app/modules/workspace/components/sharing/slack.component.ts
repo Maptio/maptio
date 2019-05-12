@@ -36,6 +36,7 @@ export class ShareSlackComponent {
     showConfiguration: boolean;
     pngImage: string;
     isLoading: boolean;
+    isError:boolean;
     constructor(private cd: ChangeDetectorRef, private slackService: SlackService, private exportService: ExportService, private intercom: Intercom, 
         public activeModal: NgbActiveModal) { }
 
@@ -47,13 +48,21 @@ export class ShareSlackComponent {
     }
 
     ngOnInit() {
-        console.log("ngOnInit slack ", this.members);
         this.isLoading = true;
+        this.isError = false;
         this.cd.markForCheck();
         setTimeout(() => {
-            this.getPreviewImage().then((png) => {
+            this.getPreviewImage()
+            .then((png) => {
                 this.pngImage = png;
                 this.isLoading = false;
+                this.isError = false;
+                this.cd.markForCheck();
+            })
+            .catch((error)=>{
+                debugger
+                this.isLoading = false;
+                this.isError = true;
                 this.cd.markForCheck();
             })
         }, 500)
