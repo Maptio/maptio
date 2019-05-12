@@ -26,20 +26,25 @@
                 'bg-transparent ':!isFullSidebar,
             'hide':isSidebarClosed}"
                 class="z-index-1 h-100 overflow-y border-0 border-right rounded-0 rounded-left position-absolute card  d-md-flex flex-md-column  justify-content-start">
-
                 <div class="w-100 overflow-hidden d-flex flex-column h-100" [class.bg-white]="isFullSidebar">
 
-                    <div class="p-3" [ngClass]="{
+                    <div  class="p-3" [ngClass]="{
                         'bg-white   ':isFullSidebar,
+                        'bg-accent':!(isBuildingPanelCollapsed && isTagsPanelCollapsed),
                         'bg-transparent ':!isFullSidebar  ,
                         'h-100' : !isOnePanelOpened()
-                       }" >
+                       }">
                         <sidebar [dataset]="dataset" [team]="team" [members]="members" [user]="user"
                             [isWithAdvancedSearch]="!isOnePanelOpened() || !isFullSidebar"
-                            [isWithAdvancedSearch]="!isFullSidebar" (openMemberSummary)="onOpenUserSummary($event)" (selectMembers)="onSelectMembers($event)"
-                            (selectInitiative)="onSelectInitiative($event)" (selectTags)="onSelectTags($event)"
-                            (toggleFullHeight)="isFullSidebar=true" (openBuildingPanel)="openBuildingPanel()"
-                            (openTagsPanel)="openTagsPanel()" (openSlackShare)="onOpenSlackShare()" (editTags)="openTagsPanel()">
+                            [isWithAdvancedSearch]="!isFullSidebar" 
+                            [isWithSearch]="isBuildingPanelCollapsed && isTagsPanelCollapsed"
+                            [panelTitle]="visiblePanelName"
+                            (openMemberSummary)="onOpenUserSummary($event)"
+                            (selectMembers)="onSelectMembers($event)" (selectInitiative)="onSelectInitiative($event)"
+                            (selectTags)="onSelectTags($event)" (toggleFullHeight)="isFullSidebar=true"
+                            (openBuildingPanel)="openBuildingPanel()" (openTagsPanel)="openTagsPanel()"
+                            (openSlackShare)="onOpenSlackShare()" (editTags)="openTagsPanel()"
+                            (closeAllPanels)="closeAllPanels()">
                             <div>
                                 <span class="small text-orange" *ngIf="isNoSearchResults">
                                     Maptio cannot find a circle matching this search</span>
@@ -65,8 +70,9 @@
                             </button>
 
                             <button class="btn btn-outline-danger btn-sm " placement="top" container="body"
-                            mwlConfirmationPopover [popoverMessage]="'Remove circle and sub-circles ?'" focusbutton="cancel"
-                            appendToBody="false" (confirm)="removeInitiative(openedNode);" (cancel)="cancelClicked = true">
+                                mwlConfirmationPopover [popoverMessage]="'Remove circle and sub-circles ?'"
+                                focusbutton="cancel" appendToBody="false" (confirm)="removeInitiative(openedNode);"
+                                (cancel)="cancelClicked = true">
                                 <i class="fas fa-trash  mx-1">
                                 </i>Delete
                             </button>
@@ -86,7 +92,7 @@
 
                                         <div class="slideable " [class.hide]="isBuildingPanelCollapsed"
                                             [ngClass]="{'show ':!isBuildingPanelCollapsed}">
-
+                                        
                                             <building #building [user]="user" [isEmptyMap]="isEmptyMap"
                                                 (save)="saveChanges($event)" (forceEdit)="isEditMode=true"
                                                 (openDetails)="onSelectInitiative($event);isBackToBuildingVisible=true">
@@ -115,7 +121,7 @@
                                         </div>
                                         <div class="slideable" [class.hide]="isTagsPanelCollapsed"
                                             [ngClass]="{'show ':!isTagsPanelCollapsed}">
-
+                                          
                                             <edit-tags [tags]="tags" [team]="team" (edit)="onEditingTags($event)">
                                             </edit-tags>
 

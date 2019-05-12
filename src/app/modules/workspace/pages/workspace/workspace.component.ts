@@ -38,6 +38,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public isBuildingPanelCollapsed: boolean = true;
     public isDetailsPanelCollapsed: boolean = true;
     public isTagsPanelCollapsed: boolean = true;
+    public visiblePanelName:string;
 
     public isBuildingVisible: boolean = true;
     public isEmptyMap: Boolean;
@@ -268,6 +269,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isDetailsPanelCollapsed = true;
         this.isBuildingPanelCollapsed = true;
         this.isFullSidebar = true;
+        this.visiblePanelName = "Tags";
         this.cd.markForCheck();
 
     }
@@ -295,6 +297,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isDetailsPanelCollapsed = true;
         this.isTagsPanelCollapsed = true;
         this.isFullSidebar = true;
+        this.visiblePanelName = "Circles hierarchy";
         // this.resizeMap();
         this.cd.markForCheck();
     }

@@ -1,37 +1,20 @@
-<div class="box-shadow  card border-0 w-100 position-relative ">
-    <search #search [list]="flattenNodes" [selectedResult]="getSelectedResult()"
+<div class="  card border-0 w-100 position-relative" [ngClass]="{'box-shadow': isWithSearch}">
+    <search *ngIf="isWithSearch" #search [list]="flattenNodes" [selectedResult]="getSelectedResult()"
         [highlightClear]="filteringTagsNumber > 0" (click)="isFiltersOpen=true"
         (selectInitiative)="onSelectCircle($event)" (clear)="onClear()" (selectUser)="onSelectMember($event)">
-        <button ngbTooltip="Menu" placement="top" container="body" class="btn  border-0 dropdown-toggle without-caret"
-            type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-bars"></i>
-        </button>
-        <div class="dropdown-menu ">
-            <h6 class="dropdown-header text-bold opacity-50">
-                Edit</h6>
-            <button (click)="onOpenBuildingPanel()" class="dropdown-item"> Edit
-                map</button>
-            <button (click)="onOpenTagsPanel()" class="dropdown-item">Edit tags</button>
+        <ng-container *ngTemplateOutlet="menu"></ng-container>
 
-            <!-- <div class="dropdown-divider"></div>
-    
-                        <span class="dropdown-header text-uppercase small text-muted opacity-50">Views</span>
-                        <a routerLink="./circles" class="dropdown-item">Circles</a>
-                        <a routerLink="./tree" class="dropdown-item">Tree</a>
-                        <a routerLink="./network" class="dropdown-item">Network</a> -->
-
-            <div class="dropdown-divider"></div>
-
-            <h6 class="dropdown-header text-bold opacity-50">
-                Share</h6>
-            <button class="dropdown-item" (click)="onOpenSlackShare()">Share on Slack</button>
-            <button class="dropdown-item" (click)="onOpenSlackShare()">Print</button>
-            <!-- <button class="dropdown-item">Print</button> -->
-
-        </div>
     </search>
+    <div *ngIf="!isWithSearch" class="d-flex justify-content-between align-items-baseline bg-accent text-white">
+        <div class="d-flex align-items-baseline">
+            <ng-container *ngTemplateOutlet="menu"></ng-container>
+            <h5 class="m-0 ">{{panelTitle}}</h5>
+        </div>
 
+        <button class="btn text-white align-self-end" (click)="onClosePanel()"><i class="fa fa-times"></i></button>
+    </div>
 </div>
+
 
 <div class="box-shadow d-flex flex-column mission  card border-0 w-100 position-relative my-3 p-3"
     *ngIf="isWithAdvancedSearch">
@@ -78,7 +61,7 @@
                 <span class="toggle-collapse mr-1">
                     <i class="fa fa-caret-right"></i>
                 </span>
-                <span class="small">By {{team.settings.helper | lowercase}}</span>    
+                <span class="small">By {{team.settings.helper | lowercase}}</span>
             </span>
             <div class="w-100 collapse show" id="users-box">
                 <div class="btn-group " *ngIf="!filteringUser">
@@ -139,3 +122,34 @@
         </span>
     </div>
 </div>
+
+<ng-template #menu>
+    <button ngbTooltip="Menu" placement="top" container="body" class="btn  border-0 dropdown-toggle without-caret"
+        [class.text-white]="!isWithSearch" type="button" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="false">
+        <i class="fa fa-bars"></i>
+    </button>
+    <div class="dropdown-menu ">
+        <h6 class="dropdown-header text-bold opacity-50">
+            Edit</h6>
+        <button (click)="onOpenBuildingPanel()" class="dropdown-item"> Edit
+            map</button>
+        <button (click)="onOpenTagsPanel()" class="dropdown-item">Edit tags</button>
+
+        <!-- <div class="dropdown-divider"></div>
+
+                    <span class="dropdown-header text-uppercase small text-muted opacity-50">Views</span>
+                    <a routerLink="./circles" class="dropdown-item">Circles</a>
+                    <a routerLink="./tree" class="dropdown-item">Tree</a>
+                    <a routerLink="./network" class="dropdown-item">Network</a> -->
+
+        <div class="dropdown-divider"></div>
+
+        <h6 class="dropdown-header text-bold opacity-50">
+            Share</h6>
+        <button class="dropdown-item" (click)="onOpenSlackShare()">Share on Slack</button>
+        <button class="dropdown-item" (click)="onOpenSlackShare()">Print</button>
+        <!-- <button class="dropdown-item">Print</button> -->
+
+    </div>
+</ng-template>

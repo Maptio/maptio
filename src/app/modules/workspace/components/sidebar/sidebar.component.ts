@@ -22,6 +22,8 @@ export class SidebarComponent implements OnInit {
     @Input("user") user: User;
     @Input("team") team: Team;
     @Input("members") members: User[];
+    @Input("isWithSearch") isWithSearch:boolean;
+    @Input("panelTitle") panelTitle:string;
     @Input("isWithAdvancedSearch") isWithAdvancedSearch: boolean;
     @Output("selectInitiative") selectInitiative = new EventEmitter<Initiative>();
     @Output("selectMembers") selectMembers = new EventEmitter<User[]>();
@@ -31,6 +33,7 @@ export class SidebarComponent implements OnInit {
     @Output("toggleFullHeight") toggleFullHeight = new EventEmitter<boolean>();
     @Output("openBuildingPanel") openBuildingPanel = new EventEmitter<void>();
     @Output("openTagsPanel") openTagsPanel = new EventEmitter<void>();
+    @Output("closeAllPanels") closeAllPanels= new EventEmitter<void>();
     // @Output("openSlackShare") openSlackShare = new EventEmitter<void>();
 
     mission: string;
@@ -98,6 +101,10 @@ export class SidebarComponent implements OnInit {
 
             this.cd.markForCheck();
         }
+    }
+
+    onClosePanel(){
+        this.closeAllPanels.emit();
     }
 
     onOpenSlackShare() {
