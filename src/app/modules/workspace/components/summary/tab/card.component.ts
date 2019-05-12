@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { DataSet } from '../../../../../shared/model/dataset.data';
 import { Team } from '../../../../../shared/model/team.data';
 import { User } from '../../../../../shared/model/user.data';
-import { sortBy } from 'lodash';
+import { sortBy, orderBy } from 'lodash';
 
 @Component({
     selector: 'personal-card',
@@ -47,6 +47,6 @@ export class PersonalCardComponent implements OnInit {
     }
 
     sortHelpers(){
-        return sortBy(this.initiative.helpers, h => h.name)
+        return orderBy(this.initiative.helpers, h => h.name, "desc")
     }
 }
