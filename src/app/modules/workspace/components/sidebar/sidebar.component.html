@@ -35,12 +35,12 @@
 
 <div class="box-shadow d-flex flex-column mission  card border-0 w-100 position-relative my-3 p-3"
     *ngIf="isWithAdvancedSearch">
-    <div class="d-flex w-100 small" data-toggle="collapse" href="#filters-box" role="button"
-        aria-expanded="false" aria-controls="filters-box">
+    <div class="d-flex w-100 small" data-toggle="collapse" href="#filters-box" role="button" aria-expanded="false"
+        aria-controls="filters-box">
         <!-- <span class="toggle-collapse mr-1">
             <i class="fa fa-caret-right"></i>
         </span> -->
-        <span class="text-uppercase "> 
+        <span class="text-uppercase ">
             Filter circles</span>
 
 
@@ -61,9 +61,16 @@
             <div class="d-flex flex-wrap align-items-baseline" id="filterByTags">
                 <div *ngFor="let tag of tags" class="my-1 ">
                     <initiative-single-tag [tag]="tag">
-                        <input class="mr-1" type="checkbox" name="" id="" [value]="tag.isSelected"
+                        <div class="custom-control custom-checkbox ml-1">
+                            <input id="check-{{tag.shortid}}" class="custom-control-input" type="checkbox" name="" id="" [value]="tag.isSelected"
+                                [checked]="tag.isSelected"
+                                (change)="$event.target.checked ? tag.isSelected = true : tag.isSelected = false; onSelectTag(tags)">
+                            <!-- <input type="checkbox" class="custom-control-input" id="customCheck1"> -->
+                            <label class="custom-control-label" for="check-{{tag.shortid}}"></label>
+                        </div>
+                        <!-- <input class="" type="checkbox" name="" id="" [value]="tag.isSelected"
                             [checked]="tag.isSelected"
-                            (change)="$event.target.checked ? tag.isSelected = true : tag.isSelected = false; onSelectTag(tags)">
+                            (change)="$event.target.checked ? tag.isSelected = true : tag.isSelected = false; onSelectTag(tags)"> -->
 
                     </initiative-single-tag>
                 </div>

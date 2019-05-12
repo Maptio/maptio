@@ -98,7 +98,7 @@
 
 ::ng-deep div.tooltip{
     position: absolute;
-    background: var(--maptio-black);
+    background: black; /*var(--maptio-black)*/;
     font-size: small;
     color:var(--maptio-white);
     padding:.5rem;
@@ -111,6 +111,7 @@
     font-family: "Font Awesome 5 Free";
     font-weight: bold;
     margin-right: 2px;
+    font-size: 10px;
 }
 
 ::ng-deep div.tooltip.member::before{
@@ -118,4 +119,5 @@
     font-family: "Font Awesome 5 Free";
     font-weight: bold;
     margin-right: 2px;
+    font-size: 12px;
 }
