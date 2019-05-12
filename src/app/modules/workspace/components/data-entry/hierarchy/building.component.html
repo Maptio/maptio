@@ -1,10 +1,7 @@
 <div class="h-100 d-flex flex-column">
-	<!-- <div class="pr-3"> -->
-		<!-- <h4>Circles hierarchy</h4> -->
-		<div class="text-muted mt-1 small">Some explainer about circles and Maptio and how best to use the name, roles,
-			description, etc
-		</div>
-	<!-- </div> -->
+	<div class="text-muted mt-1 small">Some quick explainer about circles and Maptio and how best to use the name, roles,
+		description, etc
+	</div>
 
 	<div class="card  w-100 border-0 bg-transparent">
 		<div class="card-body px-0 pb-1">
@@ -13,8 +10,7 @@
 					<i class="fas" [class.fa-plus-circle]="!isExpanding" [class.fa-circle-notch]="isExpanding"
 						[class.fa-spin]="isExpanding" aria-hidden="true"></i> Expand all
 				</button>
-				<button name="" id="" class="btn btn-link " (click)="!isToggling && toggleAll(false)"
-					role="button">
+				<button name="" id="" class="btn btn-link " (click)="!isToggling && toggleAll(false)" role="button">
 					<i class="fas" [class.fa-minus-circle]="!isCollapsing" [class.fa-circle-notch]="isCollapsing"
 						[class.fa-spin]="isCollapsing" aria-hidden="true"></i> Collapse all
 				</button>
@@ -28,12 +24,11 @@
 		</div>
 	</div>
 	<div>
-		<tree-root #tree [nodes]="nodes" [options]="options" [state]="state"
-			(stateChange)="setState($event)">
+		<tree-root #tree [nodes]="nodes" [options]="options" [state]="state" (stateChange)="setState($event)">
 			<ng-template #treeNodeTemplate let-node let-index="index">
 				<initiative-node [node]="node" [datasetId]="datasetId" [team]="team" [user]="user"
-					(edited)="saveChanges()" (update)="updateTreeModel(tree.treeModel)" (open)="openNodeDetails($event, false)"
-					(add)="openNodeDetails($event, true)"></initiative-node>
+					(edited)="saveChanges()" (update)="updateTreeModel(tree.treeModel)"
+					(open)="openNodeDetails($event, false)" (add)="openNodeDetails($event, true)"></initiative-node>
 			</ng-template>
 		</tree-root>
 	</div>

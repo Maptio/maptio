@@ -131,17 +131,16 @@
     </button>
     <div class="dropdown-menu ">
         <h6 class="dropdown-header text-bold opacity-50">
+            View</h6>
+        <button (click)="onClosePanel()" class="dropdown-item"> Circles</button>
+        <div class="dropdown-divider"></div>
+
+
+        <h6 class="dropdown-header text-bold opacity-50">
             Edit</h6>
         <button (click)="onOpenBuildingPanel()" class="dropdown-item"> Edit
             map</button>
         <button (click)="onOpenTagsPanel()" class="dropdown-item">Edit tags</button>
-
-        <!-- <div class="dropdown-divider"></div>
-
-                    <span class="dropdown-header text-uppercase small text-muted opacity-50">Views</span>
-                    <a routerLink="./circles" class="dropdown-item">Circles</a>
-                    <a routerLink="./tree" class="dropdown-item">Tree</a>
-                    <a routerLink="./network" class="dropdown-item">Network</a> -->
 
         <div class="dropdown-divider"></div>
 
@@ -149,7 +148,6 @@
             Share</h6>
         <button class="dropdown-item" (click)="onOpenSlackShare()">Share on Slack</button>
         <button class="dropdown-item" (click)="onOpenSlackShare()">Print</button>
-        <!-- <button class="dropdown-item">Print</button> -->
 
     </div>
 </ng-template>
