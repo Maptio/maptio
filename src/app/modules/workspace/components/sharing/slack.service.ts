@@ -58,6 +58,8 @@ export class SlackService {
 
             if (child.tagName.toLowerCase() === "div") {
                 child.style.setProperty("font-family", "Helvetica");
+                child.style.setProperty("opacity", "1");
+                child.style.setProperty("display", "flex");
             }
 
             if (child.tagName.toLowerCase() === "span") {
