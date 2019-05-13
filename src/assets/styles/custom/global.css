@@ -684,3 +684,6 @@ ngb-typeahead-window.dropdown-menu {
 
 
 
+.dropdown-toggle::after {
+vertical-align: middle!important;
+}
