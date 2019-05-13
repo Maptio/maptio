@@ -18,17 +18,17 @@
                             </div>
                             <span>Generating preview</span>
                         </ng-container>
-                        <ng-container *ngIf="isError" >
-                         <span class="text-orange">
-                                <i class="fas fa-exclamation-triangle mr-1"></i>Cannot generate preview.</span>   
-                            </ng-container>
+                        <ng-container *ngIf="isError">
+                            <span class="text-orange">
+                                <i class="fas fa-exclamation-triangle mr-1"></i>Cannot generate preview.</span>
+                        </ng-container>
                     </span>
 
 
                 </div>
             </div>
         </div>
-        <div class="w-50 pl-3" *ngIf="!isError">
+        <div class="w-50 pl-3" >
             <ul class="nav nav-tabs justify-content-start" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="h-100 nav-link  d-flex justify-content-center align-items-center active" id="slack-tab"
@@ -56,11 +56,11 @@
                                     placeholder="Share the current map with your organisation! Let them know what you have changed."
                                     [(ngModel)]="message" rows="5"></textarea>
                                 <div class="d-flex justify-content-end mt-2">
-                                    <button *ngIf="isPrinting" class="btn btn-outline-secondary disabled">
+                                    <button *ngIf="isPrinting || isError" class="btn btn-outline-secondary disabled">
                                         <span class="d-flex align-items-center">Share on <img width="auto" height="32"
                                                 src="/assets/images/slack-icon.png" alt="Slack"></span>
                                     </button>
-                                    <button *ngIf="!isPrinting" class="btn btn-outline-secondary btn-sm"
+                                    <button *ngIf="!isPrinting && !isError" class="btn btn-outline-secondary "
                                         (click)="sendNotification()">
                                         <span class="d-flex align-items-center">Share on <img width="auto" height="32"
                                                 src="/assets/images/slack-icon.png" alt="Slack"></span>
@@ -70,8 +70,7 @@
                                     *ngIf="isPrinting && !hasNotified && !hasConfigurationError">
                                     <i class="fas fa-circle-notch fa-spin mx-1"></i>Generating image preview
                                 </span>
-                                <span class="my-1 text-danger small"
-                                    *ngIf="hasConfigurationError">
+                                <span class="my-1 text-danger small" *ngIf="hasConfigurationError">
                                     We cannot post to your Slack workspace anymore!
                                     <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/integrations"
                                         class="ml-1">Go to
