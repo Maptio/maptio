@@ -28,7 +28,7 @@
                 class="z-index-1 h-100 overflow-y border-0 border-right rounded-0 rounded-left position-absolute card  d-md-flex flex-md-column  justify-content-start">
                 <div class="w-100 overflow-hidden d-flex flex-column h-100" [class.bg-white]="isFullSidebar">
 
-                    <div  class="p-3" [ngClass]="{
+                    <div class="p-3" [ngClass]="{
                         'bg-white   ':isFullSidebar,
                         'bg-accent':!(isBuildingPanelCollapsed && isTagsPanelCollapsed),
                         'bg-transparent ':!isFullSidebar  ,
@@ -36,10 +36,9 @@
                        }">
                         <sidebar [dataset]="dataset" [team]="team" [members]="members" [user]="user"
                             [isWithAdvancedSearch]="!isOnePanelOpened() || !isFullSidebar"
-                            [isWithAdvancedSearch]="!isFullSidebar" 
+                            [isWithAdvancedSearch]="!isFullSidebar"
                             [isWithSearch]="isBuildingPanelCollapsed && isTagsPanelCollapsed"
-                            [panelTitle]="visiblePanelName"
-                            (openMemberSummary)="onOpenUserSummary($event)"
+                            [panelTitle]="visiblePanelName" (openMemberSummary)="onOpenUserSummary($event)"
                             (selectMembers)="onSelectMembers($event)" (selectInitiative)="onSelectInitiative($event)"
                             (selectTags)="onSelectTags($event)" (toggleFullHeight)="isFullSidebar=true"
                             (openBuildingPanel)="openBuildingPanel()" (openTagsPanel)="openTagsPanel()"
@@ -59,7 +58,7 @@
                             <i class="fas fa-caret-left  mx-1"></i>
                             Back
                         </button>
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-start">
                             <button (click)="addInitiativeTo(openedNode)" class="btn btn-outline-secondary btn-sm mr-2">
                                 <i class="fas fa-plus  mx-1"></i>
                                 Add sub-circle
@@ -69,7 +68,8 @@
                                 <span *ngIf="!isEditMode"><i class="fas fa-pen mx-1"></i>Edit</span>
                             </button>
 
-                            <button class="btn btn-outline-danger btn-sm " placement="top" container="body"
+                            <button *permissionsOnly="Permissions.canDeleteInitiative; initiative openedNode;"
+                                class="btn btn-outline-danger btn-sm " placement="top" container="body"
                                 mwlConfirmationPopover [popoverMessage]="'Remove circle and sub-circles ?'"
                                 focusbutton="cancel" appendToBody="false" (confirm)="removeInitiative(openedNode);"
                                 (cancel)="cancelClicked = true">
@@ -92,7 +92,7 @@
 
                                         <div class="slideable " [class.hide]="isBuildingPanelCollapsed"
                                             [ngClass]="{'show ':!isBuildingPanelCollapsed}">
-                                        
+
                                             <building #building [user]="user" [isEmptyMap]="isEmptyMap"
                                                 (save)="saveChanges($event)" (forceEdit)="isEditMode=true"
                                                 (openDetails)="onSelectInitiative($event);isBackToBuildingVisible=true">
@@ -121,7 +121,7 @@
                                         </div>
                                         <div class="slideable" [class.hide]="isTagsPanelCollapsed"
                                             [ngClass]="{'show ':!isTagsPanelCollapsed}">
-                                          
+
                                             <edit-tags [tags]="tags" [team]="team" (edit)="onEditingTags($event)">
                                             </edit-tags>
 

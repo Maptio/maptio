@@ -21,6 +21,7 @@ import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { intersectionBy } from "lodash";
 import { SafeStyle } from "@angular/platform-browser";
 import { UIService } from "../../services/ui.service";
+import { Permissions } from "../../../../shared/model/permission.data";
 
 @Component({
     selector: "workspace",
@@ -32,13 +33,14 @@ import { UIService } from "../../services/ui.service";
 
 export class WorkspaceComponent implements OnInit, OnDestroy {
 
+    Permissions = Permissions;
     @ViewChild("building")
     buildingComponent: BuildingComponent
 
     public isBuildingPanelCollapsed: boolean = true;
     public isDetailsPanelCollapsed: boolean = true;
     public isTagsPanelCollapsed: boolean = true;
-    public visiblePanelName:string;
+    public visiblePanelName: string;
 
     public isBuildingVisible: boolean = true;
     public isEmptyMap: Boolean;
@@ -242,8 +244,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     addInitiative(data: { node: Initiative, subNode: Initiative }) {
         this.buildingComponent.addNodeTo(data.node, data.subNode);
     }
-    
-    addInitiativeTo(node:Initiative){
+
+    addInitiativeTo(node: Initiative) {
         this.buildingComponent.addNodeTo(node, new Initiative());
     }
 
