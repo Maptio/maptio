@@ -156,7 +156,7 @@ export class ShareSlackComponent {
 
     printPicture() {
         var popup = window.open();
-        popup.document.write('<img src=' + this.pngImage + '>');
+        popup.document.write(`<img width="${this.width}" height="${this.height}" src="${this.pngImage}">`);
         popup.document.close();
         popup.focus();
         popup.print();
