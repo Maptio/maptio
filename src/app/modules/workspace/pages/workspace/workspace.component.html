@@ -69,7 +69,7 @@
                             </button>
 
                             <button *permissionsOnly="Permissions.canDeleteInitiative; initiative openedNode;"
-                                class="btn btn-outline-danger btn-sm " placement="top" container="body"
+                                class="btn btn-outline-danger btn-sm ml-auto" placement="top" container="body"
                                 mwlConfirmationPopover [popoverMessage]="'Remove circle and sub-circles ?'"
                                 focusbutton="cancel" appendToBody="false" (confirm)="removeInitiative(openedNode);"
                                 (cancel)="cancelClicked = true">
