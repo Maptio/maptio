@@ -549,7 +549,7 @@ transition: max-height .25s ease-in-out;
 .custom-control-input:checked~.custom-control-label::before {
   color: #fff;
   border-color: var(--maptio-accent);
-  background-color: var(--maptio-accent);
+  background-color: transparent;
 }
 
 .nowrap{

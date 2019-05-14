@@ -1,9 +1,11 @@
 .custom-control-label::before{
     top:0 !important;
+    border:0!important;
 }
 
 .custom-control-label::after{
     top:0!important;
+    border:0!important;
 }
 
 .custom-control-input:focus~.custom-control-label::before {
