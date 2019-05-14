@@ -43,16 +43,4 @@ export class ColorPickerComponent implements OnInit {
             }
         });
     }
-
-    onBlur(){
-        console.log("blur");
-    }
-
-    onFocusOut(){
-        console.log("focus out")
-    }
-
-    onFocusIn(){
-        console.log("focus in")
-    }
 }

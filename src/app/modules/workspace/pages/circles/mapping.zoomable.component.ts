@@ -255,9 +255,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   filterByTags(initiative: Initiative, tags: Tag[], users: User[]): Initiative {
 
-    console.log("filter", tags, users)
-
-
     if (isEmpty(tags) && isEmpty(users)) return initiative;
 
     let clone = cloneDeep(initiative);
@@ -478,7 +475,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     function initMapElementsAtPosition(v: any) {
-      // console.log(v)
       view = v;
       node
         .style("opacity", 0)

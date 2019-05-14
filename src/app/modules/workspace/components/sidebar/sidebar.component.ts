@@ -86,9 +86,6 @@ export class SidebarComponent implements OnInit {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log(localStorage.getItem("user_id"))
-        //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-        //Add '${implements OnChanges}' to the class.
         if (changes.dataset && changes.dataset.currentValue) {
             let dataset = <DataSet>changes.dataset.currentValue;
             this.mission = dataset.initiative.children[0].name;
@@ -96,9 +93,6 @@ export class SidebarComponent implements OnInit {
                 t => t.name,
                 "asc");
             this.flattenNodes = dataset.initiative.flatten();
-
-
-
             this.cd.markForCheck();
         }
     }
