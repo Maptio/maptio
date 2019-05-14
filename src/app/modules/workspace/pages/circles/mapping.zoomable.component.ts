@@ -197,7 +197,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         this.containerHeight = this.uiService.getCanvasMargin();
         // wait till SVG is rendered before hydrating
-        // document.querySelector(".map-container").style("padding-left", `calc(65% - ${this.height / 2}px)`);
         document.querySelector(".map-container").innerHTML = result.svg;
 
       })
@@ -205,9 +204,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         this.hydrate(result.root, result.nodes);
         this.flattenNodes = result.nodes.map((d: any) => d.data);
-
-        // document.querySelector("svg") && document.querySelector("svg").classList.remove("loading");
-
         this.loaderService.hide();
         this.isLoading = false;
         this.cd.markForCheck();
@@ -483,7 +479,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`)
         .style("opacity", 0)
         .transition()
-        .duration(TRANSITION_DURATION * 2)
+        .duration(TRANSITION_DURATION/5)
         .style("opacity", 1)
         .each((d: any) => (d.translateX = d.x - v[0]))
         .each((d: any) => (d.translateY = d.y - v[1]))
@@ -631,7 +627,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             circle.dispatch("mouseout");
           })
       })
-      .on("mouseout", ()=>{
+      .on("mouseout", () => {
         showContextMenuOf$.next({
           initiatives: null,
           x: 0,
