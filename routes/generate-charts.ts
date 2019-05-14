@@ -72,6 +72,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
         .attr("width", "100%")
         .attr("height", "100%")
         .style("overflow", "visible")
+        .style("margin", "-13px") // to center the main group , no idea why this works
         .attr("preserveAspectRatio", "none")
         .attr("xmlns", "http://www.w3.org/2000/svg")
         .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
