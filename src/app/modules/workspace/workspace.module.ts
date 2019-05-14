@@ -1,4 +1,6 @@
-import { ColorHueModule } from 'ngx-color/hue'; // <color-hue-picker></color-hue-picker>
+import { ColorHueModule } from 'ngx-color/hue';
+import { ColorTwitterModule } from 'ngx-color/twitter'
+// <color-hue-picker></color-hue-picker>
 import { ShareSlackComponent } from "./components/sharing/slack.component";
 import { SharedModule } from "../../shared/shared.module";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
@@ -73,6 +75,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
         NgbTabsetModule,
         NgbModalModule,
         ColorHueModule,
+        ColorTwitterModule,
         PermissionsModule
     ],
     declarations: [
@@ -81,8 +84,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
         InitiativeParticipantLabelComponent,
         InitiativeComponent,
         SidebarComponent,
-        InitiativeInputNameComponent, 
-        InitiativeListTagsComponent,InitiativeSingleTagComponent,
+        InitiativeInputNameComponent,
+        InitiativeListTagsComponent, InitiativeSingleTagComponent,
         InitiativeAuthoritySelectComponent,
         InitiativeDescriptionTextareaComponent,
         InitiativeHelpersSelectComponent,

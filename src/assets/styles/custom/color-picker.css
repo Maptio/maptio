@@ -15,3 +15,17 @@
     border-radius: 50%!important;
     border:0 !important;
 }
+
+.twitter-hash {
+    background: rgb(240, 240, 240);
+    height: 30px;
+    width: 35px!important;
+    border-radius: 4px 0px 0px 4px;
+    color: rgb(152, 161, 164);
+    margin-left: 0!important;
+    display: inline-block;
+}
+
+.twitter-picker{
+    z-index: 10;
+}

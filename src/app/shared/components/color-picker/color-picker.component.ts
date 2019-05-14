@@ -19,6 +19,9 @@ export class ColorPickerComponent implements OnInit {
     
     @ViewChild("popover") popover:NgbPopover;
 
+    toggleColorPicker:boolean;
+    DEFAULT_PRESETS_COLORS = environment.DEFAULT_PRESETS_COLORS;
+
     constructor() { }
 
     ngOnInit(): void { 
@@ -39,5 +42,17 @@ export class ColorPickerComponent implements OnInit {
                 hex : this.defaultColor
             }
         });
+    }
+
+    onBlur(){
+        console.log("blur");
+    }
+
+    onFocusOut(){
+        console.log("focus out")
+    }
+
+    onFocusIn(){
+        console.log("focus in")
     }
 }
