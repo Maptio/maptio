@@ -74,8 +74,8 @@ import "screenfull"
 
 
 // You can import js, ts, css, sass, ...
-import "bootstrap/dist/css/bootstrap.min.css"
 import "./assets/styles/vendor-google-fonts.css"
 import "./assets/styles/vendor-font-awesome.css"
+import "bootstrap/dist/css/bootstrap.min.css"
 
 
