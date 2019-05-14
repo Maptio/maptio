@@ -6,6 +6,7 @@
 .custom-control-label::after{
     top:0!important;
     border:0!important;
+    background: no-repeat 50%/75% 75%;
 }
 
 .custom-control-input:focus~.custom-control-label::before {
