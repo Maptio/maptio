@@ -8,10 +8,11 @@ export default function getColorRange(
     seedColor: string
 ): ScaleLinear<HSLColor, string> {
     let seed = hsl(seedColor);
-    let yellow = hsl(seedColor);
-    yellow.h = 20;
+    let white = hsl(seedColor);
+    white.l = .25;
+    white.h = 0;
     return scaleLinear<HSLColor, HSLColor>()
         .domain([0, depth])
         .interpolate(interpolateHcl)
-        .range([seed, yellow ]);
+        .range([seed, white ]);
 }
