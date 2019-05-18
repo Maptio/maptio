@@ -177,8 +177,8 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
     return document.body.innerHTML;
 
     function getForeignObjectHTML(d: any) {
-        let fontSize = (d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE < 2) ? 1 : (d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE);
-        let verySmallCircle = fontSize <= 2;
+        let fontSize = (d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE < 3) ? 1 : (d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE);
+        let verySmallCircle = fontSize <= 3;
 
         const getImageTag = (user: any) => {
             if (!user) return "";
