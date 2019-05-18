@@ -7,7 +7,7 @@ import { scaleLog, ScaleLogarithmic } from "d3-scale";
 import { HierarchyCircularNode, pack, hierarchy } from "d3-hierarchy";
 import { min } from "d3-array";
 import { color } from "d3-color";
-import {orderBy} from "lodash";
+import { orderBy } from "lodash";
 
 import getColorRange from "./colors"
 import getCircularPath from "./paths"
@@ -292,16 +292,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
     }
 
     function initMapElementsAtPosition(v: any) {
-        node
-            // .transition()
-            // .duration((d: any): number => d.children ? TRANSITION_DURATION / 5 : TRANSITION_DURATION / 5)
-            .attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`)
-            // .style("opacity", function (d: any) {
-            //     if (selectedTags.length === 0) return 1;
-            //     return uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid))
-            //         ? 1
-            //         : 0.1
-            // })
+        node.attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`)
             .each((d: any) => (d.translateX = d.x - v[0]))
             .each((d: any) => (d.translateY = d.y - v[1]))
 
@@ -309,22 +300,13 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
             .attr("r", function (d: any) {
                 return d.r;
             })
-            // .style("stroke", function (d: any) {
-            //     return d.children
-            //         ? colorRange(d.depth)
-            //         : !d.children && d.parent === root ? d3.color(colorRange(d.depth)).darker(1).toString() : null;
-            // })
             .style("fill", function (d: any) {
                 return d.children
                     ? colorRange(d.depth)
-                    : null;
+                    : d.parent === root
+                        ? colorRange(d.depth)
+                        : null;
             })
-        // .style("fill-opacity", function (d: any) {
-        //     return d.children
-        //         ? 0.1
-        //         : !d.children && d.parent === root ? 0.1 : 1;
-        // })
-        // .style("stroke-opacity", 0)
 
     }
 
@@ -353,7 +335,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
         groups
             .attr("class", (d: any): string => {
                 return d.parent
-                    ? d.children ? "node" : "node node--leaf"
+                    ? d.children || d.parent === root ? "node" : "node node--leaf"
                     : "node node--root";
             })
             .classed(className, true)
@@ -386,8 +368,10 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
         groups.select("circle")
             .attr("class", (d: any): string => {
                 return d.parent
-                    ? d.children ? "node" : "node node--leaf"
-                    : "node node--root";
+                        ? d.children || d.parent === root
+                            ? "node"
+                            : "node node--leaf"
+                        : "node node--root";
             })
             .classed("initiative-map", true)
             .each((d: any) => d.k = 1)
