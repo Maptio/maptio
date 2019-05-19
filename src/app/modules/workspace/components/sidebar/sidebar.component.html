@@ -140,6 +140,20 @@
             Edit</h6>
         <button (click)="onOpenBuildingPanel()" class="dropdown-item"> Circles hierarchy</button>
         <button (click)="onOpenTagsPanel()" class="dropdown-item">Tags</button>
+        <div class="submenu-item dropright">
+            <button class="dropdown-item dropdown-toggle " href="#" id="navbarDropdownSubMenuLink" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Map color
+            </button>
+
+            <div class="dropdown-menu w-100"  aria-labelledby="navbarDropdownSubMenuLink">
+                <common-color-picker class="dropdown-item p-0" [isMinimal]="true" [color]="settings.mapColor"
+                    [label]="'Map'" [default]="DEFAULT_MAP_COLOR" (change)="onChangeColor($event)" [placement]="'left'">
+                </common-color-picker>
+                <!-- <a class="dropdown-item" href="#">T</a> -->
+            </div>
+        </div>
+        <!-- <button (click)="onChangeColor()" class="dropdown-item">Map color</button> -->
 
         <div class="dropdown-divider"></div>
 

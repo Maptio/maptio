@@ -10,6 +10,8 @@ import { SearchResult, SearchResultType } from '../searching/search.component';
 import { Team } from '../../../../shared/model/team.data';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ShareSlackComponent } from '../sharing/slack.component';
+import { MapSettingsService, MapSettings } from '../../services/map-settings.service';
+import { environment } from '../../../../config/environment';
 
 @Component({
     selector: 'sidebar',
@@ -22,8 +24,8 @@ export class SidebarComponent implements OnInit {
     @Input("user") user: User;
     @Input("team") team: Team;
     @Input("members") members: User[];
-    @Input("isWithSearch") isWithSearch:boolean;
-    @Input("panelTitle") panelTitle:string;
+    @Input("isWithSearch") isWithSearch: boolean;
+    @Input("panelTitle") panelTitle: string;
     @Input("isWithAdvancedSearch") isWithAdvancedSearch: boolean;
     @Output("selectInitiative") selectInitiative = new EventEmitter<Initiative>();
     @Output("selectMembers") selectMembers = new EventEmitter<User[]>();
@@ -33,23 +35,26 @@ export class SidebarComponent implements OnInit {
     @Output("toggleFullHeight") toggleFullHeight = new EventEmitter<boolean>();
     @Output("openBuildingPanel") openBuildingPanel = new EventEmitter<void>();
     @Output("openTagsPanel") openTagsPanel = new EventEmitter<void>();
-    @Output("closeAllPanels") closeAllPanels= new EventEmitter<void>();
+    @Output("closeAllPanels") closeAllPanels = new EventEmitter<void>();
+    @Output("changeColor") changeColor = new EventEmitter<string>();
     // @Output("openSlackShare") openSlackShare = new EventEmitter<void>();
 
     mission: string;
     isFiltersOpen: boolean = false;
     filteringUser: User;
+    DEFAULT_MAP_COLOR: string = environment.DEFAULT_MAP_BACKGOUND_COLOR;
     filteringInitiative: Initiative;
     flattenNodes: Initiative[];
     filteringTagsNumber: number = 0;
     tags: SelectableTag[];
     isShowAdvanced: boolean;
     selectedResult: SearchResult;
+    settings: MapSettings;
 
     filteringUserSubscription: Subscription;
     filteringInitiativeSubscription: Subscription;
 
-    constructor(private cd: ChangeDetectorRef, private modalService: NgbModal) { }
+    constructor(private cd: ChangeDetectorRef, private modalService: NgbModal, private settingsService: MapSettingsService) { }
 
     ngOnInit(): void {
         this.filteringUserSubscription = EmitterService.get("filtering_user").asObservable().subscribe(user => {
@@ -62,6 +67,7 @@ export class SidebarComponent implements OnInit {
             this.filteringInitiative = initiative;
             this.cd.markForCheck()
         })
+
     }
 
     getSelectedResult() {
@@ -93,24 +99,33 @@ export class SidebarComponent implements OnInit {
                 t => t.name,
                 "asc");
             this.flattenNodes = dataset.initiative.flatten();
+            this.settings = this.settingsService.get(dataset.datasetId)
+
             this.cd.markForCheck();
         }
     }
 
-    onClosePanel(){
+    onClosePanel() {
         this.closeAllPanels.emit();
     }
 
     onOpenSlackShare() {
-        
+
         const modalRef = this.modalService.open(ShareSlackComponent, {
             centered: true,
-            size:'lg'
+            size: 'lg'
         });
         let component = <ShareSlackComponent>modalRef.componentInstance;
         component.team = this.team;
         component.dataset = this.dataset;
-        component.members=this.members;
+        component.members = this.members;
+    }
+
+    onChangeColor(color: string) {
+        this.settings.mapColor = color;
+        this.settingsService.set(this.dataset.datasetId, this.settings);
+
+        this.changeColor.emit(color);
     }
 
     onOpenBuildingPanel() {

@@ -28,4 +28,14 @@
 
 .twitter-picker{
     z-index: 10;
+    box-shadow: none!important;
+}
+
+.twitter-body{
+    display: flex!important;
+    flex-wrap: wrap;
+}
+
+.twitter-swatch{
+    margin-bottom: 6px!important;
 }

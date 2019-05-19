@@ -12,7 +12,7 @@
                     [class.is-invalid]="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)"
                     class="form-control form-control-warning flex-grow-1" required>
                 <div class="mx-1">
-                    <common-color-picker [color]="newTagColor" [isMinimal]="true" (change)="saveTagColor($event)">
+                    <common-color-picker [color]="newTagColor" [isMinimal]="false" (change)="saveTagColor($event)">
                     </common-color-picker>
                 </div>
                 <button type="submit" class="btn btn-success col-auto">

@@ -93,7 +93,7 @@ export class MappingComponent {
   public tagsFragment: string;
 
   public fontSize$: BehaviorSubject<number>;
-  public mapColor$: BehaviorSubject<string>;
+  // public mapColor$: BehaviorSubject<string>;
 
   public subscription: Subscription;
   public instance: IDataVisualizer;
@@ -107,6 +107,7 @@ export class MappingComponent {
   @Input("zoomInitiative$") zoomInitiative$: Subject<Initiative>;
   @Input("selectableTags$") selectableTags$: BehaviorSubject<Array<Tag>>;
   @Input("selectableUsers$") selectableUsers$: BehaviorSubject<Array<User>>;
+  @Input("mapColor$") mapColor$: BehaviorSubject<string>;
 
   @Output("openDetails") openDetails = new EventEmitter<Initiative>();
   @Output("openUserSummary") openUserSummary = new EventEmitter<User>();
@@ -137,15 +138,15 @@ export class MappingComponent {
   ) {
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
-    this.mapColor$ = new BehaviorSubject<string>("");
+    // this.mapColor$ = new BehaviorSubject<string>("");
   }
 
   ngAfterViewInit() {
-    this.route.queryParams.subscribe(params => {
-      if (params.reload) {
-        this.changeMapColor(params.color);
-      }
-    });
+    // this.route.queryParams.subscribe(params => {
+    //   if (params.reload) {
+    //     this.changeMapColor(params.color);
+    //   }
+    // });
 
     this.fullScreenLib.on("change", () => {
       this.isFullScreen = this.fullScreenLib.isFullscreen;
@@ -220,7 +221,7 @@ export class MappingComponent {
     component.selectableTags$ = this.selectableTags$;
     component.selectableUsers$ = this.selectableUsers$;
     component.zoomInitiative$ = this.zoomInitiative$;
-    component.mapColor$ = this.mapColor$.asObservable();
+    component.mapColor$ = this.mapColor$;
     component.translateX = this.x;
     component.translateY = this.y;
     component.scale = this.scale;

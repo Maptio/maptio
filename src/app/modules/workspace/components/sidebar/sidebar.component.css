@@ -16,3 +16,9 @@
 .custom-control-input:focus~.custom-control-label::after {
     box-shadow: unset!important
 }
+
+  
+  /* makes sub-menu S open on hover */
+  .submenu-item:hover > .dropdown-menu {
+    display: block;
+  }

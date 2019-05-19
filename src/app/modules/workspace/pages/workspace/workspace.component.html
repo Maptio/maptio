@@ -43,7 +43,7 @@
                             (selectTags)="onSelectTags($event)" (toggleFullHeight)="isFullSidebar=true"
                             (openBuildingPanel)="openBuildingPanel()" (openTagsPanel)="openTagsPanel()"
                             (openSlackShare)="onOpenSlackShare()" (editTags)="openTagsPanel()"
-                            (closeAllPanels)="closeAllPanels()">
+                            (closeAllPanels)="closeAllPanels()" (changeColor)="onChangeColor($event)">
                             <div>
                                 <span class="small text-orange" *ngIf="isNoSearchResults">
                                     Maptio cannot find a circle matching this search.</span>
@@ -165,7 +165,7 @@
                     </ng-container>
                     <ng-container *ngIf="!isLoading">
                         <mapping [isEmptyMap]="isEmptyMap" [selectableTags$]="selectableTags$"
-                            [selectableUsers$]="selectableUsers$" [zoomInitiative$]="zoomInitiative$"
+                            [selectableUsers$]="selectableUsers$" [mapColor$]="mapColor$" [zoomInitiative$]="zoomInitiative$"
                             (openDetails)="onOpenDetails($event);isBackToBuildingVisible=false"
                             (openUserSummary)="onOpenUserSummary($event)"
                             (addInitiative)="addInitiative($event);isEditMode=true"

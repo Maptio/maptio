@@ -22,6 +22,7 @@ import { intersectionBy } from "lodash";
 import { SafeStyle } from "@angular/platform-browser";
 import { UIService } from "../../services/ui.service";
 import { Permissions } from "../../../../shared/model/permission.data";
+import { MapSettingsService } from "../../services/map-settings.service";
 
 @Component({
     selector: "workspace",
@@ -74,6 +75,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     public selectableTags$: Subject<Tag[]> = new BehaviorSubject<Tag[]>([]);
     public selectableUsers$: Subject<User[]> = new BehaviorSubject<User[]>([]);
+    public mapColor$: Subject<string> = new BehaviorSubject<string>("");
     public zoomInitiative$: Subject<Initiative> = new ReplaySubject<Initiative>();
 
     public mapped: Initiative;
@@ -93,7 +95,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
-        private uiService: UIService,
+        private uiService: UIService,private settingsService:MapSettingsService,
         private dataService: DataService, private cd: ChangeDetectorRef, private mixpanel: Angulartics2Mixpanel, private intercom: Intercom) {
     }
 
@@ -108,10 +110,13 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.cd.markForCheck();
 
                 if (this.datasetId && data.data.dataset.datasetId !== this.datasetId) {
+                    debugger
                     localStorage.removeItem("node_id");
                     localStorage.removeItem("user_id");
                     this.selectableUsers$.next([]);
                     this.selectableTags$.next([]);
+                    let mapColor = this.settingsService.get(data.data.dataset.datasetId).mapColor;
+                    this.mapColor$.next(mapColor);
                     this.closeAllPanels();
                     this.uiService.clean();
                 }
@@ -201,6 +206,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isNoSearchResults = false;
         this.cd.markForCheck();
         this.selectableTags$.next(tags);
+    }
+
+    onChangeColor(color:string){
+        this.mapColor$.next(color);
     }
 
     onSelectInitiative(node: Initiative) {

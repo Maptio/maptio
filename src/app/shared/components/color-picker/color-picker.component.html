@@ -1,30 +1,39 @@
-<ng-container *ngIf="!isMinimal">
+<!-- <ng-container *ngIf="!isMinimal">
   <div class="form-group form-inline mb-0">
     <label for="example-time-input" class="col-form-label col-auto">{{label}}</label>
 
     <color-hue-picker [color]="color" [width]="255" (onChangeComplete)="pickColor($event)"></color-hue-picker>
     <button class="btn btn-outline-secondary ml-2 col-auto" (click)="reset()">Reset</button>
   </div>
-</ng-container>
-<ng-container *ngIf="isMinimal">
-  <div  class="position-relative" (blur)="toggleColorPicker=false">
-      <button type="button" [style.borderColor]="color" [style.backgroundColor]="color" [style.border-color]="color"
+</ng-container> -->
+
+<ng-container *ngIf="!isMinimal">
+  <div class="position-relative" (blur)="toggleColorPicker=false">
+    <button type="button" [style.borderColor]="color" [style.backgroundColor]="color" [style.border-color]="color"
       class="btn btn-outline-secondary" (click)="toggleColorPicker=!toggleColorPicker">
       <i class="fas fa-brush text-white"></i>
     </button>
-    <color-twitter (mouseover)="toggleColorPicker=true" (mouseleave)="toggleColorPicker=false" style="right:0;bottom:-7rem;" class="position-absolute bottom-right" *ngIf="toggleColorPicker" triangle="top-right" [colors]="DEFAULT_PRESETS_COLORS" (onChangeComplete)="pickColor($event)"></color-twitter>
-  
+    <color-twitter (mouseover)="toggleColorPicker=true" (mouseleave)="toggleColorPicker=false"
+      style="right:0;bottom:-7rem;" class="position-absolute bottom-right" *ngIf="toggleColorPicker"
+      triangle="top-right" [colors]="DEFAULT_PRESETS_COLORS" (onChangeComplete)="pickColor($event)"></color-twitter>
+
   </div>
- 
+</ng-container>
+<ng-container *ngIf="isMinimal">
+  <color-twitter  triangle="hide" [width]="'100%'" [colors]="DEFAULT_PRESETS_COLORS" (onChangeComplete)="pickColor($event)">
+  </color-twitter>
+</ng-container>
 
 
-  <!-- <ng-template #popContent> -->
 
-  <!-- 
+
+
+<!-- <ng-template #popContent> -->
+
+<!-- 
   </ng-template>
   <button #popover="ngbPopover" type="button" [style.borderColor]="color" [style.backgroundColor]="color"
     [style.border-color]="color" class="btn btn-outline-secondary" [autoClose]="'outside'" [ngbPopover]="popContent"
     popoverClass="popover-color-picker" [placement]="placement">
     <i class="fas fa-brush text-white"></i>
   </button> -->
-</ng-container>

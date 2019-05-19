@@ -77,7 +77,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public selectableTags$: Subject<Array<Tag>>;
   public selectableUsers$: Subject<Array<User>>;
   public isReset$: Observable<boolean>;
-  public mapColor$: Observable<string>;
+  public mapColor$: Subject<string>;
   public zoomInitiative$: Subject<Initiative>;
 
   public showToolipOf$: Subject<{ initiatives: Initiative[], user: User }> = new Subject<{ initiatives: Initiative[], user: User }>();
@@ -180,7 +180,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.cd.markForCheck();
         return data.dataset;
       })
-      .combineLatest(this.mapColor$, this.selectableTags$.asObservable(), this.selectableUsers$.asObservable())
+      .combineLatest(this.mapColor$.asObservable(), this.selectableTags$.asObservable(), this.selectableUsers$.asObservable())
       .flatMap((data: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
 
         let filtered = this.filterByTags(data[0].initiative.children[0], data[2], data[3]);
