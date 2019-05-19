@@ -37,6 +37,8 @@ import { SlackService } from "../sharing/slack.service";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { MapSettingsService, MapSettings } from "../../services/map-settings.service";
 import { EmitterService } from "../../../../core/services/emitter.service";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ShareSlackComponent } from "../sharing/slack.component";
 
 @Component({
   selector: "mapping",
@@ -130,6 +132,7 @@ export class MappingComponent {
     private analytics: Angulartics2Mixpanel,
     private uriService: URIService,
     public uiService: UIService,
+    private modalService: NgbModal,
     private exportService: ExportService,
     private intercom: Intercom,
     private router: Router,
@@ -357,18 +360,29 @@ export class MappingComponent {
     this.fullScreenLib.toggle(document.querySelector("#mapping-canvas"))
   }
 
-  changeMapColor(color: string) {
-    this.mapColor$.next(color);
-    this.settings.mapColor = color;
-    this.mapSettingsService.set(this.datasetId, this.settings)
-
-    this.analytics.eventTrack("Map", {
-      action: "change map color",
-      color: color,
-      team: this.team.name,
-      teamId: this.team.team_id
-    });
+  openShare(){
+    const modalRef = this.modalService.open(ShareSlackComponent, {
+      centered: true,
+      size: 'lg'
+  });
+  let component = <ShareSlackComponent>modalRef.componentInstance;
+  component.team = this.team;
+  component.dataset = this.dataset;
+  component.members = this.members;
   }
+
+  // changeMapColor(color: string) {
+  //   this.mapColor$.next(color);
+  //   this.settings.mapColor = color;
+  //   this.mapSettingsService.set(this.datasetId, this.settings)
+
+  //   this.analytics.eventTrack("Map", {
+  //     action: "change map color",
+  //     color: color,
+  //     team: this.team.name,
+  //     teamId: this.team.team_id
+  //   });
+  // }
 
   addFirstNode() {
     this.addInitiative.emit({ node: this.initiative, subNode: new Initiative() });

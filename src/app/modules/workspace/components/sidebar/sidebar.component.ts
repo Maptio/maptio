@@ -54,7 +54,7 @@ export class SidebarComponent implements OnInit {
     filteringUserSubscription: Subscription;
     filteringInitiativeSubscription: Subscription;
 
-    constructor(private cd: ChangeDetectorRef, private modalService: NgbModal, private settingsService: MapSettingsService) { }
+    constructor(private cd: ChangeDetectorRef,  private settingsService: MapSettingsService) { }
 
     ngOnInit(): void {
         this.filteringUserSubscription = EmitterService.get("filtering_user").asObservable().subscribe(user => {
@@ -109,17 +109,17 @@ export class SidebarComponent implements OnInit {
         this.closeAllPanels.emit();
     }
 
-    onOpenSlackShare() {
+    // onOpenSlackShare() {
 
-        const modalRef = this.modalService.open(ShareSlackComponent, {
-            centered: true,
-            size: 'lg'
-        });
-        let component = <ShareSlackComponent>modalRef.componentInstance;
-        component.team = this.team;
-        component.dataset = this.dataset;
-        component.members = this.members;
-    }
+    //     const modalRef = this.modalService.open(ShareSlackComponent, {
+    //         centered: true,
+    //         size: 'lg'
+    //     });
+    //     let component = <ShareSlackComponent>modalRef.componentInstance;
+    //     component.team = this.team;
+    //     component.dataset = this.dataset;
+    //     component.members = this.members;
+    // }
 
     onChangeColor(color: string) {
         this.settings.mapColor = color;
