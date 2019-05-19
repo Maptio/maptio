@@ -52,36 +52,9 @@
                         </sidebar>
                     </div>
 
-                    <div *ngIf="!isDetailsPanelCollapsed && openedNode" class="bg-light p-3">
-                        <button *ngIf="isBackToBuildingVisible" class="btn btn-link btn-sm pl-0"
-                            (click)="openBuildingPanel()">
-                            <i class="fas fa-caret-left  mx-1"></i>
-                            Back
-                        </button>
-                        <div class="d-flex justify-content-start">
-                            <button (click)="addInitiativeTo(openedNode)" class="btn btn-outline-secondary btn-sm mr-2">
-                                <i class="fas fa-plus  mx-1"></i>
-                                Add sub-circle
-                            </button>
-                            <button (click)="isEditMode=!isEditMode" class="btn btn-outline-secondary btn-sm mr-2">
-                                <span *ngIf="isEditMode"><i class="fas fa-save mx-1"></i>Save</span>
-                                <span *ngIf="!isEditMode"><i class="fas fa-pen mx-1"></i>Edit circle</span>
-                            </button>
-
-                            <button *permissionsOnly="Permissions.canDeleteInitiative; initiative openedNode;"
-                                class="btn btn-outline-danger btn-sm ml-auto" placement="top" container="body"
-                                mwlConfirmationPopover [popoverMessage]="'Remove circle and sub-circles ?'"
-                                focusbutton="cancel" appendToBody="false" (confirm)="removeInitiative(openedNode);"
-                                (cancel)="cancelClicked = true">
-                                <i class="fas fa-trash  mx-1">
-                                </i>Delete
-                            </button>
-                        </div>
 
 
-                    </div>
-
-                    <div class="p-3 overflow-y">
+                    <div class="overflow-y">
                         <div class="w-100" [ngClass]="{'z-index-0':!isFullSidebar}">
                             <div [class.hide]="isDetailsPanelCollapsed && isBuildingPanelCollapsed && isTagsPanelCollapsed"
                                 [class.show]="!isDetailsPanelCollapsed || !isBuildingPanelCollapsed || !isTagsPanelCollapsed"
@@ -102,13 +75,55 @@
 
                                         <div class="slideable  " [class.hide]="isDetailsPanelCollapsed"
                                             [ngClass]="{'show ':!isDetailsPanelCollapsed}">
-                                            <div class="w-100">
+                                            <div class="w-100 d-flex flex-column">
+
+                                                <span *ngIf="openedNode"
+                                                    class="font-weight-bold h5 mb-0 p-3">{{openedNode?.name}}</span>
+
 
                                                 <initiative *ngIf="openedNode" #initiative [dataset]="dataset"
                                                     [node]="openedNode" [user]="user" [team]="team"
                                                     (edited)="saveDetailChanges($event)"
                                                     (selectMember)="onSelectMembers([$event])" [isEditMode]="isEditMode"
                                                     (editTags)="onEditTags()">
+
+                                                    <div *ngIf="!isDetailsPanelCollapsed && openedNode"
+                                                        class="border-bottom border-top bg-light border-light px-3 py-4 my-2">
+                                                        <button *ngIf="isBackToBuildingVisible"
+                                                            class="btn btn-link btn-sm pl-0"
+                                                            (click)="openBuildingPanel()">
+                                                            <i class="fas fa-caret-left  mx-1"></i>
+                                                            Back
+                                                        </button>
+                                                        <div class="d-flex justify-content-start">
+                                                            <button (click)="addInitiativeTo(openedNode)"
+                                                                class="btn btn-outline-secondary btn-sm mr-2">
+                                                                <i class="fas fa-plus  mx-1"></i>
+                                                                Add sub-circle
+                                                            </button>
+                                                            <button (click)="isEditMode=!isEditMode"
+                                                                class="btn btn-outline-secondary btn-sm mr-2">
+                                                                <span *ngIf="isEditMode"><i
+                                                                        class="fas fa-save mx-1"></i>Save</span>
+                                                                <span *ngIf="!isEditMode"><i
+                                                                        class="fas fa-pen mx-1"></i>Edit circle</span>
+                                                            </button>
+
+                                                            <button
+                                                                *permissionsOnly="Permissions.canDeleteInitiative; initiative openedNode;"
+                                                                class="btn btn-danger btn-sm ml-auto" placement="top"
+                                                                container="body" mwlConfirmationPopover
+                                                                [popoverMessage]="'Remove circle and sub-circles ?'"
+                                                                focusbutton="cancel" appendToBody="false"
+                                                                (confirm)="removeInitiative(openedNode);"
+                                                                (cancel)="cancelClicked = true">
+                                                                <i class="fas fa-trash  mx-1">
+                                                                </i>Delete
+                                                            </button>
+                                                        </div>
+
+
+                                                    </div>
 
                                                 </initiative>
                                                 <summary-personal *ngIf="openedUser" [member]="openedUser"
