@@ -27,9 +27,9 @@ router.get('/token', function (req, res, next) {
         json: true
     };
 
-    request(options, function (error, response, body) {
-        if(error){
-            res.error(err)
+    request(options, function (err, response, body) {
+        if(err){
+            res.status(500).send(err);
         }
         else{
             res.send(body.access_token)
