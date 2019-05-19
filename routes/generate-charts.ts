@@ -7,7 +7,7 @@ import { scaleLog, ScaleLogarithmic } from "d3-scale";
 import { HierarchyCircularNode, pack, hierarchy } from "d3-hierarchy";
 import { min } from "d3-array";
 import { color } from "d3-color";
-import { orderBy } from "lodash";
+import { orderBy, isEmpty } from "lodash";
 
 import getColorRange from "./colors"
 import getCircularPath from "./paths"
@@ -199,7 +199,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
                     <div>${d.data.name || '(Empty)'}</div>
                 </div>
                 <div class="secondary d-flex flex-column w-100">
-                    <div class="tags d-flex flex-wrap" style="padding-bottom:10%">
+                    <div class="tags d-flex flex-wrap" style="padding-bottom:${isEmpty(d.data.tags) ? 0 : 10}%">
                     ${tagLines}
                     </div>
                     <div class="helpers d-flex flex-wrap">
