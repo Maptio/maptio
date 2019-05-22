@@ -9,13 +9,9 @@
         <span class="text-muted mx-1" *ngIf="isAuthority">({{team?.settings.authority | titlecase }})</span>
     </div>
 
-
-
     <button *ngIf="!isUnauthorized" class="btn btn-outline-secondary remove" mwlConfirmationPopover
         [popoverMessage]="'Remove this helper and associated role?'" placement="top" container="body"
         focusbutton="cancel" appendToBody="false" (confirm)="onRemove()" (cancel)="cancelClicked=true"></button>
-
-
 
 </div>
 <div class="mt-2" *ngIf="!(isUnauthorized && isEmptyRole)">

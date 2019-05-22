@@ -13,9 +13,8 @@
 
 <div class="d-flex flex-column h-100" *ngIf="!isEditMode">
 
-
-	<div class="p-3">
-		<div class="d-flex mb-2" *ngIf="node?.tags && node?.tags.length >0 ">
+	<div class="px-3">
+		<div class="d-flex my-3" *ngIf="node?.tags && node?.tags.length >0 ">
 			<initiative-single-tag *ngFor="let tag of node?.tags; let i=index" class="mr-1" [tag]="tag">
 			</initiative-single-tag>
 		</div>
@@ -51,19 +50,19 @@
 
 <div class="d-flex flex-column h-100" *ngIf="isEditMode">
 
-	<div class="mb-4">
+	<div class="my-3">
 		<initiative-input-name [isUnauthorized]="!canEditName()" [isEditMode]="isEditMode" [name]="node?.name"
 			(save)="saveName($event)">
 			<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
 		</initiative-input-name>
 	</div>
-	<div class="mb-4">
+	<div class="">
 		<initiative-list-tags [isUnauthorized]="!canEditTags()" [available]="dataset?.tags" [selected]="node?.tags"
 			[isEditMode]="isEditMode" (save)="saveTags($event)" (open)="openTagsPanel()">
 			<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
 		</initiative-list-tags>
 	</div>
-	<div class="mb-4">
+	<div class="">
 		<initiative-authority-select [isUnauthorized]="!canEditAuthority()" [isEditMode]="isEditMode" [team]="team"
 			[authority]="node?.accountable" (selectMember)="onSelectMember($event)" (save)="saveAccountable($event)">
 			<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
@@ -71,7 +70,7 @@
 
 	</div>
 
-	<div class="mb-4">
+	<div class="">
 		<initiative-description-textarea [isUnauthorized]="!canEditDescription()" [description]="node?.description"
 			[isEditMode]="isEditMode" (save)="saveDescription($event)">
 			<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
@@ -81,7 +80,7 @@
 
 
 
-	<div class="d-flex w-100 justify-content-end">
+	<div class="d-flex w-100 justify-content-end my-3">
 		<initiative-helpers-select class="w-100" [isUnauthorized]="!canAddHelper()" [team]="team"
 			[helpers]="node?.helpers" [user]="user" [authority]="node?.accountable" (save)="addHelpers($event)">
 		</initiative-helpers-select>
@@ -89,14 +88,14 @@
 	</div>
 
 	<div class="">
-		<div class="my-2 bg-light p-2 rounded"
+		<div class="px-3 py-2 rounded"
 			*ngFor="let helper of node?.getAllParticipants(); let i=index;trackBy:trackByUserId">
 			<initiative-helper-input [helper]="helper" [isUnauthorized]="!canEditHelper(helper)"
 				[isAuthority]="isAuthority(helper)" [team]="team" (selectMember)="onSelectMember($event)"
 				(remove)="removeHelper($event)" (save)="saveHelpers()">
 				<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
 			</initiative-helper-input>
-			<initiative-helper-privilege class="my-1" [isUnauthorized]="!canEditPrivilege()"
+			<initiative-helper-privilege class="my-1 px-3" [isUnauthorized]="!canEditPrivilege()"
 				[isAuthority]="isAuthority(helper)" [helper]="helper" (save)="saveHelpers()">
 			</initiative-helper-privilege>
 		</div>

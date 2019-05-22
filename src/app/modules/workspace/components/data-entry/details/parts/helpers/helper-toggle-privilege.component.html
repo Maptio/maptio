@@ -3,7 +3,7 @@
     <input type="checkbox" [disabled]="isAuthority || isUnauthorized" class="custom-control-input" id="customCheck-{{helper.shortid}}"
         (ngModelChange)="onChange($event)" [ngModel]="helper?.hasAuthorityPrivileges"
         [ngModelOptions]="{standalone: true}">
-    <label class="custom-control-label small text-uppercase text-gray-light text-bold" for="customCheck-{{helper.shortid}}">
+    <label class="custom-control-label small text-uppercase text-gray-light" for="customCheck-{{helper.shortid}}">
         Can edit circle
     </label>
 </div>

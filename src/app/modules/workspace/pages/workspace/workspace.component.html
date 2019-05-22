@@ -88,7 +88,7 @@
                                                     (editTags)="onEditTags()">
 
                                                     <div *ngIf="!isDetailsPanelCollapsed && openedNode"
-                                                        class="border-bottom border-top bg-light border-light px-3 py-4 my-2">
+                                                        class="border-bottom border-top bg-secondary border-light px-3 py-4">
                                                         <button *ngIf="isBackToBuildingVisible"
                                                             class="btn btn-link btn-sm pl-0"
                                                             (click)="openBuildingPanel()">
@@ -97,12 +97,12 @@
                                                         </button>
                                                         <div class="d-flex justify-content-start">
                                                             <button (click)="addInitiativeTo(openedNode)"
-                                                                class="btn btn-outline-secondary btn-sm mr-2">
+                                                                class="btn btn-outline-light btn-sm mr-2">
                                                                 <i class="fas fa-plus  mx-1"></i>
                                                                 Add sub-circle
                                                             </button>
                                                             <button (click)="isEditMode=!isEditMode"
-                                                                class="btn btn-outline-secondary btn-sm mr-2">
+                                                                class="btn btn-outline-light btn-sm mr-2">
                                                                 <span *ngIf="isEditMode"><i
                                                                         class="fas fa-save mx-1"></i>Save</span>
                                                                 <span *ngIf="!isEditMode"><i
@@ -165,7 +165,8 @@
                     </ng-container>
                     <ng-container *ngIf="!isLoading">
                         <mapping [isEmptyMap]="isEmptyMap" [selectableTags$]="selectableTags$"
-                            [selectableUsers$]="selectableUsers$" [mapColor$]="mapColor$" [zoomInitiative$]="zoomInitiative$"
+                            [selectableUsers$]="selectableUsers$" [mapColor$]="mapColor$"
+                            [zoomInitiative$]="zoomInitiative$"
                             (openDetails)="onOpenDetails($event);isBackToBuildingVisible=false"
                             (openUserSummary)="onOpenUserSummary($event)"
                             (addInitiative)="addInitiative($event);isEditMode=true"
