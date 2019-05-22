@@ -14,32 +14,51 @@
 <div class="d-flex flex-column h-100" *ngIf="!isEditMode">
 
 	<div class="px-3">
-		<div class="d-flex my-3" *ngIf="node?.tags && node?.tags.length >0 ">
-			<initiative-single-tag *ngFor="let tag of node?.tags; let i=index" class="mr-1" [tag]="tag">
-			</initiative-single-tag>
+		<div class="d-flex my-3">
+			<ng-container *ngIf="node?.tags && node?.tags.length >0 ">
+				<initiative-single-tag *ngFor="let tag of node?.tags; let i=index" class="mr-1" [tag]="tag">
+				</initiative-single-tag>
+			</ng-container>
+			<ng-container *ngIf="node?.tags.length ===0">
+				<span class="font-italic text-muted opacity-50">No tag</span>
+			</ng-container>
 		</div>
-		<div class="my-3" *ngIf="node?.description">
 
-			<markdown [data]="node?.description"></markdown>
+		<div class="my-3">
+			<markdown *ngIf="node?.description" [data]="node?.description"></markdown>
+			<span *ngIf="!node?.description" class="font-italic text-muted opacity-50">No description</span>
 		</div>
-		<div class="d-flex flex-column my-3"
-			*ngIf="node?.getAllParticipants() && node?.getAllParticipants().length >0 ">
-			<div *ngFor="let helper of node?.getAllParticipants(); let i=index" class="d-flex flex-column">
-				<div class="d-flex align-items-center">
-					<initiative-member-label [member]="helper" (selectMember)="onSelectMember($event)">
-					</initiative-member-label>
-					<span *ngIf="isAuthority(helper)">({{team?.settings.authority}})</span>
+
+		<div class="my-3">
+			<ng-container *ngIf="node?.getAllParticipants() && node?.getAllParticipants().length >0 ">
+				<div class="d-flex flex-column">
+					<div *ngFor="let helper of node?.getAllParticipants(); let i=index" class="d-flex flex-column">
+						<div class="d-flex align-items-center">
+							<initiative-member-label [member]="helper" (selectMember)="onSelectMember($event)">
+							</initiative-member-label>
+							<span *ngIf="isAuthority(helper)">({{team?.settings.authority}})</span>
+						</div>
+
+						<div class="d-flex align-items-baseline mb-3" *ngIf="helper?.roles[0]?.description">
+							<markdown class="small w-100"
+								[class.prefixed]="helper.roles.length > 0 && !!helper.roles[0] "
+								[data]="helper.roles ? helper.roles[0]?.description : ''"></markdown>
+
+						</div>
+					</div>
+
+
 				</div>
-
-				<div class="d-flex align-items-baseline mb-3" *ngIf="helper?.roles[0]?.description">
-					<markdown class="small w-100" [class.prefixed]="helper.roles.length > 0 && !!helper.roles[0] "
-						[data]="helper.roles ? helper.roles[0]?.description : ''"></markdown>
-
-				</div>
-			</div>
+			</ng-container>
+			<ng-container *ngIf="!node?.getAllParticipants() || node?.getAllParticipants().length ===0 ">
+				<span class="font-italic text-muted opacity-50">No {{team?.settings.authority | lowercase}} or
+					{{team?.settings.helper | lowercase}}</span>
+			</ng-container>
 
 
 		</div>
+
+
 	</div>
 
 
