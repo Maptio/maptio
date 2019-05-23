@@ -183,7 +183,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
         const getImageTag = (user: any) => {
             if (!user) return "";
             return user.picture ?
-                `<span class="member-picture" id="${user.shortid}" style="background: url(${user.picture}) no-repeat; float:left;height:${!!user.picture ? fontSize * 2 : 0}px;width:${!!user.picture ? fontSize * 2 : 0}px;background-position:center center;background-size:cover;border-radius:50%;"  data-member-name="${user.name}" data-member-shortid="${user.shortid}">
+                `<span class="member-picture" id="${user.shortid}" style="background: url('${user.picture}') no-repeat; float:left;height:${!!user.picture ? fontSize * 2 : 0}px;width:${!!user.picture ? fontSize * 2 : 0}px;background-position:center center;background-size:cover;border-radius:50%;"  data-member-name="${user.name}" data-member-shortid="${user.shortid}">
                 </span>`
                 : "";
         }
