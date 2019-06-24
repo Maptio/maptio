@@ -154,7 +154,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.dataSubscription = this.dataService
       .get()
       .do((data) => {
-
         this.isLoading = true;
         this.isNoMatchingCircles$.next(false);
         this.analytics.eventTrack("Map", {
@@ -180,9 +179,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.cd.markForCheck();
         return data.dataset;
       })
-      .combineLatest(this.mapColor$.asObservable(), this.selectableTags$.asObservable(), this.selectableUsers$.asObservable())
+      .combineLatest(this.mapColor$.asObservable().distinct(), this.selectableTags$.asObservable().distinct(), this.selectableUsers$.asObservable().distinct())
+      
       .flatMap((data: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
-
+        console.log("draw", data[0].initiative.name, data[1], data[2], data[3])
         let filtered = this.filterByTags(data[0].initiative.children[0], data[2], data[3]);
         if (!filtered) {
           this.isNoMatchingCircles$.next(true)
