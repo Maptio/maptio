@@ -107,6 +107,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public initiative: Initiative;
   public team: Team;
   public user: User;
+  public dataset:DataSet;
   public flattenNodes: Initiative[];
   public members: User[];
   public tags: SelectableTag[];
@@ -162,6 +163,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
           team: (<Team>data.team).name,
           teamId: (<Team>data.team).team_id
         });
+        if(this.dataset && this.dataset.datasetId && this.dataset.datasetId !== data.dataset.datasetId){
+          console.log("clean")
+          if (document.querySelector(".map-container")) document.querySelector(".map-container").innerHTML = "";
+          
+        }
+
+
         this.cd.markForCheck();
       })
       .map(data => {
@@ -170,6 +178,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.mission = this.initiative.name;
 
         this.team = data.team;
+        this.dataset = data.dataset;
         this.members = orderBy(data.members, m => m.name, "asc");
         this.tags = orderBy(
           data.dataset.tags.map((t: Tag) => { (<SelectableTag>t).isSelected = false; return t }),
@@ -182,13 +191,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .combineLatest(this.mapColor$.asObservable().distinct(), this.selectableTags$.asObservable().distinct(), this.selectableUsers$.asObservable().distinct())
       
       .flatMap((data: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
-        console.log("draw", data[0].initiative.name, data[1], data[2], data[3])
+        console.log("flatMap", data[0].initiative.name, data[1], data[2], data[3])
         let filtered = this.filterByTags(data[0].initiative.children[0], data[2], data[3]);
         if (!filtered) {
+          console.log("no draw")
           this.isNoMatchingCircles$.next(true)
         } else {
           this.isNoMatchingCircles$.next(false)
           if (document.querySelector(".map-container")) document.querySelector(".map-container").innerHTML = "";
+          console.log("draw")
           return this.draw(filtered, data[1], this.height, this.width)
         }
 
