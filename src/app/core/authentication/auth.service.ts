@@ -201,13 +201,11 @@ export class Auth {
     return this.userFactory
       .get(profile.user_id)
       .then(user =>{
-        debugger
         return this.userService.updateUserShortId(user.user_id, user.shortid).then(()=>{
           return user
         })
       })
       .then(user =>{
-        debugger
         return this.userService.updateUserTeams(user.user_id, user.teams).then(()=>{
           return user
         })
