@@ -27,10 +27,10 @@ To launch it on your local server, see the [Setting up dev](#setting-up-dev) sec
 ### Built With
 
 - Angular 7.2.1
+- D3 4.0
 - Typescript 3.3.3
 - Webpack 4.28.4
 - Bootstrap 4.1.1
-- D3 4.0
 - Express 4.14.1
 
 Additionally , we use these services/packages : 
@@ -73,11 +73,11 @@ Go to  `http://localhost:3000` to see it in the browser.
 
 ### Deploying / Publishing
 
-We use TravisCI (CircleCI soon),  Code Climate and Heroku for deploying to `https://app.maptio.com`.
+We use Circle CI,  Code Climate and Heroku for deploying to `https://app.maptio.com`.
 
 Any `git push` in the `master` branch will triggers the following events : 
 
-1. Build and run tests on Travis CI (CircleCI soon)
+1. Build and run tests on Circle CI 
 2. If pass, analyse on CodeClimate and report test coverage & quality metrics
 3. Deploy to Heroku at `https://app.maptio.com`
 
