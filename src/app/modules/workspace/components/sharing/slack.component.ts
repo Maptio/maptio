@@ -60,7 +60,6 @@ export class ShareSlackComponent {
                 this.cd.markForCheck();
             })
             .catch((error)=>{
-                debugger
                 this.isLoading = false;
                 this.isError = true;
                 this.cd.markForCheck();
@@ -90,7 +89,6 @@ export class ShareSlackComponent {
             var context = canvas.getContext("2d");
 
             if (window.devicePixelRatio) {
-                debugger
                 var hidefCanvasWidth = this.width;
                 var hidefCanvasHeight = this.height;
                 var hidefCanvasCssWidth = hidefCanvasWidth;

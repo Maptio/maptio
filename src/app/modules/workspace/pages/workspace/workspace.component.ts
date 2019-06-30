@@ -110,7 +110,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.cd.markForCheck();
 
                 if (this.datasetId && data.data.dataset.datasetId !== this.datasetId) {
-                    debugger
                     localStorage.removeItem("node_id");
                     localStorage.removeItem("user_id");
                     this.selectableUsers$.next([]);
