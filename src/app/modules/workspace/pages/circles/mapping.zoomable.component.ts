@@ -33,8 +33,9 @@ import { color } from "d3-color";
 import { AuthHttp } from "angular2-jwt";
 import { map, tap } from "rxjs/operators";
 import { DataSet } from "../../../../shared/model/dataset.data";
-import { of } from "rxjs";
+import { of, concat, merge } from "rxjs";
 import { DomSanitizer, SafeStyle } from "@angular/platform-browser";
+import { environment } from "../../../../config/environment";
 
 const d3 = Object.assign(
   {},
@@ -107,12 +108,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public initiative: Initiative;
   public team: Team;
   public user: User;
-  public dataset:DataSet;
+  public dataset: DataSet;
   public flattenNodes: Initiative[];
   public members: User[];
   public tags: SelectableTag[];
   public isNoMatchingCircles: boolean;
   public mission: string;
+
+  private _currentColor: string;
+  private _currentTags: SelectableTag[];
+  private _currentUsers: SelectableUser[]
 
 
   private _lastZoomedCircle: any;
@@ -163,17 +168,17 @@ export class MappingZoomableComponent implements IDataVisualizer {
           team: (<Team>data.team).name,
           teamId: (<Team>data.team).team_id
         });
-        if(this.dataset && this.dataset.datasetId && this.dataset.datasetId !== data.dataset.datasetId){
+        if (this.dataset && this.dataset.datasetId && this.dataset.datasetId !== data.dataset.datasetId) {
           console.log("clean")
           if (document.querySelector(".map-container")) document.querySelector(".map-container").innerHTML = "";
-          
+
         }
 
 
         this.cd.markForCheck();
       })
       .map(data => {
-
+        console.log("map")
         this.initiative = data.initiative.children[0];
         this.mission = this.initiative.name;
 
@@ -188,19 +193,39 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.cd.markForCheck();
         return data.dataset;
       })
-      .combineLatest(this.mapColor$.asObservable().distinct(), this.selectableTags$.asObservable().distinct(), this.selectableUsers$.asObservable().distinct())
-      
-      .flatMap((data: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
-        console.log("flatMap", data[0].initiative.name, data[1], data[2], data[3])
-        let filtered = this.filterByTags(data[0].initiative.children[0], data[2], data[3]);
+      .combineLatest(
+        merge(
+          this.mapColor$.defaultIfEmpty(environment.DEFAULT_MAP_BACKGOUND_COLOR).asObservable(),
+          this.selectableTags$.asObservable(),
+          this.selectableUsers$.asObservable()
+        )
+      )
+      .flatMap((data: [DataSet, string | SelectableTag[] | SelectableUser[]]) => {
+        
+        if (data[1] instanceof Array) {
+          if (data[1][0] instanceof User) {
+            this._currentUsers = !isEmpty(data[1][0]) ? data[1] : []
+          }
+          else if (data[1][0] instanceof Tag) {
+            this._currentTags = !isEmpty(data[1][0]) ? data[1] : []
+          }
+          else{
+            this._currentUsers = null;
+            this._currentTags = null;
+          }
+        } else {
+          if (typeof data[1] === "string") {
+            this._currentColor = data[1];
+          }
+        }
+        console.log("flatMap", data, this._currentColor, this._currentTags, this._currentUsers)
+        let filtered = this.filterByTags(data[0].initiative.children[0], this._currentTags, this._currentUsers);
         if (!filtered) {
-          console.log("no draw")
           this.isNoMatchingCircles$.next(true)
         } else {
           this.isNoMatchingCircles$.next(false)
           if (document.querySelector(".map-container")) document.querySelector(".map-container").innerHTML = "";
-          console.log("draw")
-          return this.draw(filtered, data[1], this.height, this.width)
+          return this.draw(filtered, this._currentColor, this.height, this.width)
         }
 
       })
@@ -490,7 +515,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`)
         .style("opacity", 0)
         .transition()
-        .duration(TRANSITION_DURATION/5)
+        .duration(TRANSITION_DURATION / 5)
         .style("opacity", 1)
         .each((d: any) => (d.translateX = d.x - v[0]))
         .each((d: any) => (d.translateY = d.y - v[1]))
