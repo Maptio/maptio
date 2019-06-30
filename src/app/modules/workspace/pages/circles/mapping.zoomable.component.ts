@@ -195,7 +195,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .combineLatest(
         merge(
-          this.mapColor$.defaultIfEmpty(environment.DEFAULT_MAP_BACKGOUND_COLOR).asObservable(),
+          this.mapColor$.defaultIfEmpty(environment.DEFAULT_MAP_BACKGOUND_COLOR),
           this.selectableTags$.asObservable(),
           this.selectableUsers$.asObservable()
         )
@@ -204,10 +204,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
         
         if (data[1] instanceof Array) {
           if (data[1][0] instanceof User) {
-            this._currentUsers = !isEmpty(data[1][0]) ? data[1] : []
+            this._currentUsers = !isEmpty(data[1][0]) ? data[1] as SelectableUser[] : []
           }
           else if (data[1][0] instanceof Tag) {
-            this._currentTags = !isEmpty(data[1][0]) ? data[1] : []
+            this._currentTags = !isEmpty(data[1][0]) ? data[1] as SelectableTag[] : []
           }
           else{
             this._currentUsers = null;
