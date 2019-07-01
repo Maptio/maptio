@@ -49,7 +49,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public isSaving: Boolean;
     public isEditMode: boolean;
     public isNoSearchResults: boolean;
-    // public isSettingsPanelCollapsed: boolean = true;
     public datasetId: string;
     private routeSubscription: Subscription;
     private userSubscription: Subscription;

@@ -39,6 +39,7 @@ import { MapSettingsService, MapSettings } from "../../services/map-settings.ser
 import { EmitterService } from "../../../../core/services/emitter.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ShareSlackComponent } from "../sharing/slack.component";
+import { UserService } from "../../../../shared/services/user/user.service";
 
 @Component({
   selector: "mapping",
@@ -131,6 +132,7 @@ export class MappingComponent {
     private route: ActivatedRoute,
     private analytics: Angulartics2Mixpanel,
     private uriService: URIService,
+    private userService: UserService,
     public uiService: UIService,
     private modalService: NgbModal,
     private exportService: ExportService,
@@ -178,7 +180,7 @@ export class MappingComponent {
     this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
 
     component.showToolipOf$.asObservable().subscribe((tooltip: { initiatives: Initiative[], user: User }) => {
- 
+
       if (tooltip.initiatives) {
         if (!localStorage.getItem("keepEditingOpen")) {
           this.openDetails.emit(tooltip.initiatives[0]);
@@ -191,7 +193,7 @@ export class MappingComponent {
         EmitterService.get("filtering_user").next(tooltip.user);
       }
 
-      if(!tooltip.initiatives && !tooltip.user){
+      if (!tooltip.initiatives && !tooltip.user) {
         EmitterService.get("filtering_node").next(null);
         EmitterService.get("filtering_user").next(null);
       }
@@ -248,7 +250,7 @@ export class MappingComponent {
   }
 
   onDeactivate(component: any) {
-  
+
   }
 
   ngOnInit() {
@@ -327,7 +329,7 @@ export class MappingComponent {
   }
 
   zoomOut() {
-    this.zoom$.next(1 /2);
+    this.zoom$.next(1 / 2);
     this.analytics.eventTrack("Map", {
       action: "zoom out",
       mode: "button",
@@ -360,15 +362,19 @@ export class MappingComponent {
     this.fullScreenLib.toggle(document.querySelector("#mapping-canvas"))
   }
 
-  openShare(){
-    const modalRef = this.modalService.open(ShareSlackComponent, {
-      centered: true,
-      size: 'lg'
-  });
-  let component = <ShareSlackComponent>modalRef.componentInstance;
-  component.team = this.team;
-  component.dataset = this.dataset;
-  component.members = this.members;
+  openShare() {
+    this.userService.getUsersInfo(this.team.members).then(users => {
+      const modalRef = this.modalService.open(ShareSlackComponent, {
+        centered: true,
+        size: 'lg'
+      });
+      let component = <ShareSlackComponent>modalRef.componentInstance;
+      component.team = this.team;
+      component.dataset = this.dataset;
+      component.members = users;
+    })
+
+
   }
 
   // changeMapColor(color: string) {
@@ -428,5 +434,5 @@ export class MappingComponent {
 
   }
 
- 
+
 }
