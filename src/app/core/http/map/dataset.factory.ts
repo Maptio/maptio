@@ -178,7 +178,7 @@ export class DatasetFactory {
     }
 
     public getWithUsers(id: string, users: User[]): Promise<DataSet> {
-        return this._http.post("/api/v1/dataset/" + id, users)
+        return this._http.post("/api/v1/dataset/" + id, users.map(u => { delete u.base64Picture; return u }))
             .map((response: Response) => {
                 let d = DataSet.create().deserialize(response.json());
                 d.datasetId = id; // reassign id
