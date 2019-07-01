@@ -33,7 +33,7 @@
                     [ngModelOptions]="{standalone: true}" [ngModel]="tag.name"
                     (ngModelChange)="saveTagName(tag, $event)" (blur)="saveTagChanges()" />
                 <div class="mx-1">
-                    <common-color-picker [color]="tag.color" [isMinimal]="true" (change)="saveColor(tag, $event)">
+                    <common-color-picker [color]="tag.color" [isMinimal]="false" (change)="saveColor(tag, $event)">
                     </common-color-picker>
                 </div>
                 <button placement="top" container="body" mwlConfirmationPopover
