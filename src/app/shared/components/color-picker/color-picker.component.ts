@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { environment } from '../../../config/environment';
 import { ColorEvent } from 'ngx-color';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
@@ -12,34 +12,52 @@ export class ColorPickerComponent implements OnInit {
 
     @Input("color") color: string;
     @Input("label") label: string;
-    @Input("placement") placement?: string="top";
+    @Input("placement") placement?: string = "top";
     @Input("default") defaultColor: string;
     @Input("isMinimal") isMinimal: boolean;
     @Output("change") changeColor: EventEmitter<string> = new EventEmitter<string>();
-    
-    @ViewChild("popover") popover:NgbPopover;
 
-    toggleColorPicker:boolean;
+    toggleColorPicker: boolean;
     DEFAULT_PRESETS_COLORS = environment.DEFAULT_PRESETS_COLORS;
 
-    constructor() { }
+    @ViewChild('colorSelector') element: ElementRef;
 
-    ngOnInit(): void { 
-        
+    constructor(private cd: ChangeDetectorRef) { }
+
+    ngOnInit(): void {
+
+    }
+
+    ngAfterViewInit(): void {
+        //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+        //Add 'implements AfterViewInit' to the class.
+        console.log(this.color, (this.element.nativeElement as HTMLElement), (this.element.nativeElement as HTMLElement).querySelector(`.swatch[title="${this.color}"]`))
+        this.styleSwatch();
+
+    }
+
+    styleSwatch() {
+        let selector = `.swatch[title="${this.color}"], .swatch[title="${this.color.toUpperCase()}"], .swatch[title="${this.color.toLowerCase()}"]`;
+        if((this.element.nativeElement as HTMLElement).querySelector(".swatch.selected")){
+            (this.element.nativeElement as HTMLElement).querySelector(".swatch.selected").classList.remove("selected");
+        }
+        if ((this.element.nativeElement as HTMLElement).querySelector(selector)) {
+            (this.element.nativeElement as HTMLElement).querySelector(selector).classList.add("selected")
+        }
     }
 
     pickColor(e: ColorEvent) {
+        this.color = e.color.hex;
         this.changeColor.emit(e.color.hex);
+        this.cd.markForCheck();
+        this.styleSwatch();
     }
 
-    close(){
-        this.popover.close();
-    }
 
     reset() {
         this.pickColor(<ColorEvent>{
-            color : {
-                hex : this.defaultColor
+            color: {
+                hex: this.defaultColor
             }
         });
     }
