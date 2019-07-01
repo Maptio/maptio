@@ -116,9 +116,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public isNoMatchingCircles: boolean;
   public mission: string;
 
-  private _currentColor: string;
-  private _currentTags: SelectableTag[];
-  private _currentUsers: SelectableUser[]
+  // private _currentColor: string;
+  // private _currentTags: SelectableTag[];
+  // private _currentUsers: SelectableUser[]
 
 
   private _lastZoomedCircle: any;
@@ -227,18 +227,18 @@ export class MappingZoomableComponent implements IDataVisualizer {
         //     this._currentColor = data[1];
         //   }
         // }
-        this._currentColor = data[1];
-        this._currentTags = data[2];
-        this._currentUsers = data[3];
+        // this._currentColor = data[1];
+        // this._currentTags = data[2];
+        // this._currentUsers = data[3];
 
-        console.log("flatMap", data[0].datasetId, this._currentColor, this._currentTags, this._currentUsers)
-        let filtered = this.filterByTags(data[0].initiative.children[0], this._currentTags, this._currentUsers);
+        console.log("flatMap", data[0].datasetId, data[1], data[2], data[3])
+        let filtered = this.filterByTags(data[0].initiative.children[0], data[2], data[3]);
         if (!filtered) {
           this.isNoMatchingCircles$.next(true)
         } else {
           this.isNoMatchingCircles$.next(false)
           if (document.querySelector(".map-container")) document.querySelector(".map-container").innerHTML = "";
-          return this.draw(filtered, this._currentColor, this.height, this.width)
+          return this.draw(filtered, data[1], this.height, this.width)
         }
 
       })

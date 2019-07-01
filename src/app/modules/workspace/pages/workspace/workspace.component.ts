@@ -112,8 +112,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 if (this.datasetId && data.data.dataset.datasetId !== this.datasetId) {
                     localStorage.removeItem("node_id");
                     localStorage.removeItem("user_id");
-                    this.selectableUsers$.next([]);
-                    this.selectableTags$.next([]);
+                    // this.selectableUsers$.next([]);
+                    // this.selectableTags$.next([]);
                     let mapColor = this.settingsService.get(data.data.dataset.datasetId).mapColor;
                     this.mapColor$.next(mapColor);
                     this.closeAllPanels();
