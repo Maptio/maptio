@@ -18,7 +18,7 @@ import {
   isDevMode,
   ElementRef
 } from "@angular/core";
-import { partition, cloneDeep, intersectionBy, isEmpty, compact, orderBy } from "lodash-es";
+import { partition, cloneDeep, intersectionBy, isEmpty, compact, orderBy, sortBy } from "lodash-es";
 import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { Team } from "../../../../shared/model/team.data";
 import * as screenfull from 'screenfull';
@@ -31,11 +31,12 @@ import { HierarchyCircularNode, pack, hierarchy, HierarchyNode } from "d3-hierar
 import { min, thresholdFreedmanDiaconis } from "d3-array";
 import { color } from "d3-color";
 import { AuthHttp } from "angular2-jwt";
-import { map, tap } from "rxjs/operators";
+import { map, tap, distinctUntilChanged } from "rxjs/operators";
 import { DataSet } from "../../../../shared/model/dataset.data";
-import { of, concat, merge } from "rxjs";
+import { of, concat, merge, forkJoin } from "rxjs";
 import { DomSanitizer, SafeStyle } from "@angular/platform-browser";
 import { environment } from "../../../../config/environment";
+import { join } from "bluebird";
 
 const d3 = Object.assign(
   {},
@@ -194,31 +195,43 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return data.dataset;
       })
       .combineLatest(
-        merge(
-          this.mapColor$.defaultIfEmpty(environment.DEFAULT_MAP_BACKGOUND_COLOR),
-          this.selectableTags$.asObservable(),
-          this.selectableUsers$.asObservable()
-        )
+        this.mapColor$.defaultIfEmpty(environment.DEFAULT_MAP_BACKGOUND_COLOR).distinctUntilChanged(),
+        this.selectableTags$.asObservable().distinctUntilChanged(),
+        this.selectableUsers$.asObservable().distinctUntilChanged()
       )
-      .flatMap((data: [DataSet, string | SelectableTag[] | SelectableUser[]]) => {
+      .merge()
+      .distinctUntilChanged((pre: [DataSet, string, SelectableTag[], SelectableUser[]], cur: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
         
-        if (data[1] instanceof Array) {
-          if (data[1][0] instanceof User) {
-            this._currentUsers = !isEmpty(data[1][0]) ? data[1] as SelectableUser[] : []
-          }
-          else if (data[1][0] instanceof Tag) {
-            this._currentTags = !isEmpty(data[1][0]) ? data[1] as SelectableTag[] : []
-          }
-          else{
-            this._currentUsers = null;
-            this._currentTags = null;
-          }
-        } else {
-          if (typeof data[1] === "string") {
-            this._currentColor = data[1];
-          }
-        }
-        console.log("flatMap", data, this._currentColor, this._currentTags, this._currentUsers)
+        console.log("flat", pre, cur)
+        return pre[0].datasetId === cur[0].datasetId
+          && pre[1] === cur[1]
+          && sortBy(pre[2], t => t.shortid).map(t => t.shortid).join() === sortBy(cur[2], t => t.shortid).map(t => t.shortid).join()
+          && sortBy(pre[3], u => u.user_id).map(t => t.shortid).join() === sortBy(cur[3], u => u.user_id).map(t => t.shortid).join()
+        
+      })
+      .flatMap((data: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
+
+        // if (data[1] instanceof Array) {
+        //   if (data[1][0] instanceof User) {
+        //     this._currentUsers = !isEmpty(data[1][0]) ? data[1] as SelectableUser[] : []
+        //   }
+        //   else if (data[1][0] instanceof Tag) {
+        //     this._currentTags = !isEmpty(data[1][0]) ? data[1] as SelectableTag[] : []
+        //   }
+        //   else{
+        //     this._currentUsers = null;
+        //     this._currentTags = null;
+        //   }
+        // } else {
+        //   if (typeof data[1] === "string") {
+        //     this._currentColor = data[1];
+        //   }
+        // }
+        this._currentColor = data[1];
+        this._currentTags = data[2];
+        this._currentUsers = data[3];
+
+        console.log("flatMap", data[0].datasetId, this._currentColor, this._currentTags, this._currentUsers)
         let filtered = this.filterByTags(data[0].initiative.children[0], this._currentTags, this._currentUsers);
         if (!filtered) {
           this.isNoMatchingCircles$.next(true)
