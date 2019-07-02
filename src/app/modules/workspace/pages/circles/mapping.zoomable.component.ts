@@ -31,9 +31,9 @@ import { HierarchyCircularNode, pack, hierarchy, HierarchyNode } from "d3-hierar
 import { min, thresholdFreedmanDiaconis } from "d3-array";
 import { color } from "d3-color";
 import { AuthHttp } from "angular2-jwt";
-import { map, tap, distinctUntilChanged } from "rxjs/operators";
+import { map, tap, distinctUntilChanged, flatMap, combineLatest, merge } from "rxjs/operators";
 import { DataSet } from "../../../../shared/model/dataset.data";
-import { of, concat, merge, forkJoin } from "rxjs";
+import { of, concat, forkJoin } from "rxjs";
 import { DomSanitizer, SafeStyle } from "@angular/platform-browser";
 import { environment } from "../../../../config/environment";
 import { join } from "bluebird";
@@ -83,7 +83,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public zoomInitiative$: Subject<Initiative>;
 
   public showToolipOf$: Subject<{ initiatives: Initiative[], user: User }> = new Subject<{ initiatives: Initiative[], user: User }>();
-  public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean, canDelete:boolean }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean, canDelete:boolean }>();
+  public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean, canDelete: boolean }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean, canDelete: boolean }>();
   public toggleDetailsPanel$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isNoMatchingCircles$: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -160,95 +160,74 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.loaderService.show();
     this.dataSubscription = this.dataService
       .get()
-      .do((data) => {
-        this.isLoading = true;
-        this.isNoMatchingCircles$.next(false);
-        this.analytics.eventTrack("Map", {
-          action: "viewing",
-          view: "initiatives",
-          team: (<Team>data.team).name,
-          teamId: (<Team>data.team).team_id
-        });
-        if (this.dataset && this.dataset.datasetId && this.dataset.datasetId !== data.dataset.datasetId) {
-          console.log("clean")
-          if (document.querySelector(".map-container")) document.querySelector(".map-container").innerHTML = "";
+      .pipe(
+        tap((data) => {
+          this.isLoading = true;
+          this.isNoMatchingCircles$.next(false);
+          this.analytics.eventTrack("Map", {
+            action: "viewing",
+            view: "initiatives",
+            team: (<Team>data.team).name,
+            teamId: (<Team>data.team).team_id
+          });
+          if (this.dataset && this.dataset.datasetId && this.dataset.datasetId !== data.dataset.datasetId) {
+            console.log("clean")
+            if (document.querySelector(".map-container")) document.querySelector(".map-container").innerHTML = "";
 
-        }
+          }
+          this.cd.markForCheck();
+          console.log("1", data.dataset.getHash())
+        }),
+        map(data => {
+          this.initiative = data.initiative.children[0];
+          this.mission = this.initiative.name;
 
+          this.team = data.team;
+          this.dataset = data.dataset;
+          this.members = orderBy(data.members, m => m.name, "asc");
+          this.tags = orderBy(
+            data.dataset.tags.map((t: Tag) => { (<SelectableTag>t).isSelected = false; return t }),
+            t => t.name.length,
+            "desc");
+          this.user = data.user;
+          this.cd.markForCheck();
+          console.log("2", data.dataset.getHash())
+          return data.dataset;
+        }),
+        combineLatest(
+          this.mapColor$.defaultIfEmpty(environment.DEFAULT_MAP_BACKGOUND_COLOR).distinctUntilChanged(),
+          this.selectableTags$.asObservable().distinctUntilChanged(),
+          this.selectableUsers$.asObservable().distinctUntilChanged()
+        ),
+        merge(),
+        distinctUntilChanged((pre: [DataSet, string, SelectableTag[], SelectableUser[]], cur: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
 
-        this.cd.markForCheck();
-      })
-      .map(data => {
-        console.log("map")
-        this.initiative = data.initiative.children[0];
-        this.mission = this.initiative.name;
+          console.log("3", pre[0].getHash(), cur[0].getHash())
+          return pre[0].datasetId === cur[0].datasetId
+            && pre[1] === cur[1]
+            && sortBy(pre[2], t => t.shortid).map(t => t.shortid).join() === sortBy(cur[2], t => t.shortid).map(t => t.shortid).join()
+            && sortBy(pre[3], u => u.user_id).map(t => t.shortid).join() === sortBy(cur[3], u => u.user_id).map(t => t.shortid).join()
+        }),
+        flatMap((data: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
 
-        this.team = data.team;
-        this.dataset = data.dataset;
-        this.members = orderBy(data.members, m => m.name, "asc");
-        this.tags = orderBy(
-          data.dataset.tags.map((t: Tag) => { (<SelectableTag>t).isSelected = false; return t }),
-          t => t.name.length,
-          "desc");
-        this.user = data.user;
-        this.cd.markForCheck();
-        return data.dataset;
-      })
-      .combineLatest(
-        this.mapColor$.defaultIfEmpty(environment.DEFAULT_MAP_BACKGOUND_COLOR).distinctUntilChanged(),
-        this.selectableTags$.asObservable().distinctUntilChanged(),
-        this.selectableUsers$.asObservable().distinctUntilChanged()
+          let filtered = this.filterByTags(data[0].initiative.children[0], data[2], data[3]);
+          if (!filtered) {
+            this.isNoMatchingCircles$.next(true)
+          } else {
+            this.isNoMatchingCircles$.next(false)
+            if (document.querySelector(".map-container")) document.querySelector(".map-container").innerHTML = "";
+            return this.draw(filtered, data[1], this.height, this.width)
+          }
+
+        }),
+        tap((result: { svg: string, root: any, nodes: any }) => {
+
+          this.containerHeight = this.uiService.getCanvasMargin();
+          // wait till SVG is rendered before hydrating
+          document.querySelector(".map-container").innerHTML = result.svg;
+
+        })
       )
-      .merge()
-      .distinctUntilChanged((pre: [DataSet, string, SelectableTag[], SelectableUser[]], cur: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
-
-        console.log("flat", pre, cur)
-        return pre[0].datasetId === cur[0].datasetId
-          && pre[1] === cur[1]
-          && sortBy(pre[2], t => t.shortid).map(t => t.shortid).join() === sortBy(cur[2], t => t.shortid).map(t => t.shortid).join()
-          && sortBy(pre[3], u => u.user_id).map(t => t.shortid).join() === sortBy(cur[3], u => u.user_id).map(t => t.shortid).join()
-
-      })
-      .flatMap((data: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
-
-        // if (data[1] instanceof Array) {
-        //   if (data[1][0] instanceof User) {
-        //     this._currentUsers = !isEmpty(data[1][0]) ? data[1] as SelectableUser[] : []
-        //   }
-        //   else if (data[1][0] instanceof Tag) {
-        //     this._currentTags = !isEmpty(data[1][0]) ? data[1] as SelectableTag[] : []
-        //   }
-        //   else{
-        //     this._currentUsers = null;
-        //     this._currentTags = null;
-        //   }
-        // } else {
-        //   if (typeof data[1] === "string") {
-        //     this._currentColor = data[1];
-        //   }
-        // }
-        // this._currentColor = data[1];
-        // this._currentTags = data[2];
-        // this._currentUsers = data[3];
-
-        console.log("flatMap", data[0].datasetId, data[1], data[2], data[3])
-        let filtered = this.filterByTags(data[0].initiative.children[0], data[2], data[3]);
-        if (!filtered) {
-          this.isNoMatchingCircles$.next(true)
-        } else {
-          this.isNoMatchingCircles$.next(false)
-          if (document.querySelector(".map-container")) document.querySelector(".map-container").innerHTML = "";
-          return this.draw(filtered, data[1], this.height, this.width)
-        }
-
-      })
-      .do((result: { svg: string, root: any, nodes: any }) => {
-
-        this.containerHeight = this.uiService.getCanvasMargin();
-        // wait till SVG is rendered before hydrating
-        document.querySelector(".map-container").innerHTML = result.svg;
-
-      })
       .subscribe((result: { svg: string, root: any, nodes: any }) => {
 
         this.hydrate(result.root, result.nodes);
