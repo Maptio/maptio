@@ -105,10 +105,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public slug: string;
   public showContextMenuOf$: Subject<{
     initiatives: Initiative[], x: Number, y: Number,
-    isReadOnlyContextMenu: boolean
+    isReadOnlyContextMenu: boolean, canDelete:boolean
   }> = new Subject<{
     initiatives: Initiative[], x: Number, y: Number,
-    isReadOnlyContextMenu: boolean
+    isReadOnlyContextMenu: boolean, canDelete:boolean
   }>();
 
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
@@ -701,7 +701,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             initiatives: null,
             x: 0,
             y: 0,
-            isReadOnlyContextMenu: true
+            isReadOnlyContextMenu: true, canDelete:false
           });
         })
         .on("contextmenu", function (d: any) {
@@ -720,7 +720,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             initiatives: [initiative],
             x: uiService.getContextMenuCoordinates(mouse, matrix).x,
             y: uiService.getContextMenuCoordinates(mouse, matrix).y,
-            isReadOnlyContextMenu: true
+            isReadOnlyContextMenu: true, canDelete:false
           });
 
           d3.select(".context-menu")
@@ -729,7 +729,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 initiatives: [initiative],
                 x: uiService.getContextMenuCoordinates(mouse, matrix).x,
                 y: uiService.getContextMenuCoordinates(mouse, matrix).y,
-                isReadOnlyContextMenu: true
+                isReadOnlyContextMenu: true, canDelete:false
               });
               circle.dispatch("mouseover");
             })
@@ -738,7 +738,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 initiatives: null,
                 x: 0,
                 y: 0,
-                isReadOnlyContextMenu: true
+                isReadOnlyContextMenu: true, canDelete:false
               });
               circle.dispatch("mouseout");
             })

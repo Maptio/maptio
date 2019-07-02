@@ -83,7 +83,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public zoomInitiative$: Subject<Initiative>;
 
   public showToolipOf$: Subject<{ initiatives: Initiative[], user: User }> = new Subject<{ initiatives: Initiative[], user: User }>();
-  public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }>();
+  public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean, canDelete:boolean }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean, canDelete:boolean }>();
   public toggleDetailsPanel$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isNoMatchingCircles$: Subject<boolean> = new BehaviorSubject<boolean>(false);
 

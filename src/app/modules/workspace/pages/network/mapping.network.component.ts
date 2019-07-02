@@ -27,10 +27,10 @@ import { select, selectAll, event, mouse } from "d3-selection";
 import { zoom, zoomIdentity, zoomTransform } from "d3-zoom";
 import { tree, hierarchy, HierarchyNode } from "d3-hierarchy";
 import { color } from "d3-color";
-import {forceSimulation, forceLink, forceManyBody, forceCenter,ForceLink} from "d3-force"
-import {map as d3Map} from "d3-collection"
-import {drag} from "d3-drag"
- 
+import { forceSimulation, forceLink, forceManyBody, forceCenter, ForceLink } from "d3-force"
+import { map as d3Map } from "d3-collection"
+import { drag } from "d3-drag"
+
 const d3 = Object.assign(
   {},
   {
@@ -44,7 +44,7 @@ const d3 = Object.assign(
     tree,
     hierarchy,
     color,
-    forceSimulation,forceLink, forceManyBody,forceCenter,
+    forceSimulation, forceLink, forceManyBody, forceCenter,
     d3Map,
     drag,
     getEvent() { return require("d3-selection").event }
@@ -75,7 +75,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   // public fontColor$: Observable<string>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Subject<Initiative>;
-  public toggleDetailsPanel$:Subject<boolean> = new Subject<boolean>();
+  public toggleDetailsPanel$: Subject<boolean> = new Subject<boolean>();
   // public isLocked$: Observable<boolean>;
   public isReset$: Observable<boolean>;
   public isNoMatchingCircles$: Subject<boolean> = new BehaviorSubject<boolean>(false);
@@ -92,16 +92,16 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
   public showContextMenuOf$: Subject<{
     initiatives: Initiative[], x: Number, y: Number,
-    isReadOnlyContextMenu: boolean
+    isReadOnlyContextMenu: boolean, canDelete: boolean
   }> = new Subject<{
     initiatives: Initiative[], x: Number, y: Number,
-    isReadOnlyContextMenu: boolean
+    isReadOnlyContextMenu: boolean, canDelete: boolean
   }>();
 
   public hideOptions$: Subject<boolean> = new Subject<boolean>();
   public isOptionsVisible: boolean;
 
-  public showToolipOf$: Subject<{ initiatives: Initiative[], user: User }> = new Subject<{ initiatives: Initiative[], user:User }>();
+  public showToolipOf$: Subject<{ initiatives: Initiative[], user: User }> = new Subject<{ initiatives: Initiative[], user: User }>();
   public analytics: Angulartics2Mixpanel;
 
   private zoomSubscription: Subscription;
@@ -186,7 +186,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .attr("height", this.height)
       .attr(
         "transform",
-        `translate(${0}, ${-this.height/4}) scale(${this.scale})`
+        `translate(${0}, ${-this.height / 4}) scale(${this.scale})`
       );
     g.append("g").attr("class", "links");
     // g.append("g").attr("class", "labels");
@@ -249,7 +249,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       svg.call(
         zooming.transform,
         d3.zoomIdentity
-          .translate(0, -this.height/4)
+          .translate(0, -this.height / 4)
           .scale(1)
       );
       svg.call(zooming);
@@ -263,7 +263,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         } else {
           svg.transition().duration(this.TRANSITION_DURATION).call(
             zooming.transform,
-            d3.zoomIdentity.translate(0, -this.height/4)
+            d3.zoomIdentity.translate(0, -this.height / 4)
           );
         }
       } catch (error) { }
@@ -845,7 +845,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           initiatives: null,
           x: 0,
           y: 0,
-          isReadOnlyContextMenu: true
+          isReadOnlyContextMenu: true, canDelete:false
         });
       })
       .on("contextmenu", function (d: any) {
@@ -869,7 +869,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           initiatives: list,
           x: uiService.getContextMenuCoordinates(mouse, matrix).x,
           y: uiService.getContextMenuCoordinates(mouse, matrix).y,
-          isReadOnlyContextMenu: true
+          isReadOnlyContextMenu: true, canDelete:false
         });
 
         d3.select(".context-menu")
@@ -878,7 +878,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
               initiatives: list,
               x: uiService.getContextMenuCoordinates(mouse, matrix).x,
               y: uiService.getContextMenuCoordinates(mouse, matrix).y,
-              isReadOnlyContextMenu: true
+              isReadOnlyContextMenu: true, canDelete: false
             });
             path.dispatch("mouseover");
           })
@@ -887,7 +887,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
               initiatives: null,
               x: 0,
               y: 0,
-              isReadOnlyContextMenu: true
+              isReadOnlyContextMenu: true, canDelete: false
             });
             path.dispatch("mouseout");
           })

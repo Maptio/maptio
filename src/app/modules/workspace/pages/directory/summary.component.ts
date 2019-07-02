@@ -58,10 +58,10 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     public showToolipOf$: Subject<{ initiatives: Initiative[], user: User }> = new Subject<{ initiatives: Initiative[], user: User }>();
     public showContextMenuOf$: Subject<{
         initiatives: Initiative[], x: Number, y: Number,
-        isReadOnlyContextMenu: boolean
+        isReadOnlyContextMenu: boolean, canDelete:boolean
     }> = new Subject<{
         initiatives: Initiative[], x: Number, y: Number,
-        isReadOnlyContextMenu: boolean
+        isReadOnlyContextMenu: boolean, canDelete:boolean
     }>();
     public analytics: Angulartics2Mixpanel;
 

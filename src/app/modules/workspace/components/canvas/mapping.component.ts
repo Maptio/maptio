@@ -263,7 +263,7 @@ export class MappingComponent {
       .do((params: Params) => {
         if (this.datasetId !== params["mapid"]) {
           this.showTooltip(null);
-          this.showContextMenu({ initiatives: null, x: 0, y: 0, isReadOnlyContextMenu: null })
+          this.showContextMenu({ initiatives: null, x: 0, y: 0, isReadOnlyContextMenu: null, canDelete:null })
 
         }
         this.datasetId = params["mapid"];
