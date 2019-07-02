@@ -66,6 +66,7 @@ export class MappingComponent {
   selectedInitiativeX: Number;
   selectedInitiativeY: Number;
   isReadOnlyContextMenu: boolean;
+  canDelete:boolean;
 
   isPrinting: boolean;
   hasNotified: boolean;
@@ -316,11 +317,12 @@ export class MappingComponent {
   }
 
 
-  showContextMenu(context: { initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }) {
+  showContextMenu(context: { initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean, canDelete:boolean }) {
     this.isReadOnlyContextMenu = context.isReadOnlyContextMenu;
     this.selectedInitiatives = context.initiatives;
     this.selectedInitiativeX = context.x;
     this.selectedInitiativeY = context.y;
+    this.canDelete = context.canDelete;
     this.cd.markForCheck();
   }
 

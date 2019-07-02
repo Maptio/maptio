@@ -177,14 +177,14 @@ export class BuildingComponent {
     }
 
     removeNode(node: Initiative) {
-
+        debugger
         let hasFoundNode: boolean = false;
         let parent ;
 
         let index = this.nodes[0].children.findIndex(c => c.id === node.id);
         if (index > -1) {
-            this.nodes[0].children.splice(index, 1);
-            parent = this.nodes[0];
+            // this.nodes[0].children.splice(index, 1);
+            // parent = this.nodes[0];
         }
         else {
             this.nodes[0].traverse(n => {

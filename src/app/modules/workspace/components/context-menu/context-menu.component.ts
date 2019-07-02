@@ -15,6 +15,7 @@ export class ContextMenuComponent implements OnInit {
     @Input("x") x: Number;
     @Input("y") y: Number;
     @Input("isReadOnly") isReadOnly: Boolean;
+    @Input("canDelete") canDelete:boolean;
 
     @Output() add: EventEmitter<{ node: Initiative, subNode: Initiative }> = new EventEmitter<{ node: Initiative, subNode: Initiative }>();
     @Output() remove: EventEmitter<Initiative> = new EventEmitter<Initiative>();

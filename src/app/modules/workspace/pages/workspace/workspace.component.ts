@@ -206,6 +206,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.selectableTags$.next(tags);
     }
 
+    isRoot(initiative:Initiative){
+        return this.dataset.initiative.children[0].id === initiative.id;
+    }
+
     onChangeColor(color:string){
         this.mapColor$.next(color);
     }

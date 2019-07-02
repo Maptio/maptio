@@ -63,10 +63,10 @@ export class InitiativeNodeComponent {
     }
 
     isRoot(): boolean {
-        return this.node.isRoot;
+        return this.node.level <= 2;
     }
 
-    isDraggable(){
+    isDraggable() {
         return this.node.data.isDraggable;
     }
 
@@ -97,7 +97,7 @@ export class InitiativeNodeComponent {
         newNode.children = []
         newNode.team_id = initiative.team_id;
         newNode.hasFocus = true;
-        if(this.user.userRole===UserRole.Standard){
+        if (this.user.userRole === UserRole.Standard) {
             let helper = <Helper>this.user;
             helper.roles = [];
             helper.hasAuthorityPrivileges = true;
@@ -114,6 +114,7 @@ export class InitiativeNodeComponent {
 
 
     removeChildNode(initiative: Initiative) {
+        if (this.node.level <= 2) return;
         this.node.treeModel.getNodeById(initiative.id).data.children = [];
         let parent = this.node.treeModel.getNodeById(initiative.id).parent;
         let index = parent.data.children.indexOf(initiative);

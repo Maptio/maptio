@@ -29,11 +29,7 @@ export class ColorPickerComponent implements OnInit {
     }
 
     ngAfterViewInit(): void {
-        //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-        //Add 'implements AfterViewInit' to the class.
-        console.log(this.color, (this.element.nativeElement as HTMLElement), (this.element.nativeElement as HTMLElement).querySelector(`.swatch[title="${this.color}"]`))
         this.styleSwatch();
-
     }
 
     styleSwatch() {

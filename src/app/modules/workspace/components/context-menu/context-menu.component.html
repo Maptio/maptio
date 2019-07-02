@@ -42,7 +42,7 @@
 
                 </ng-container>
                 <ng-template #thenDeleteBlock>
-                    <div *ngIf="!isReadOnly" (click)="isRemovingNode=!isRemovingNode" class="cursor-pointer list-group-item list-group-item-action small ">
+                    <div *ngIf="!isReadOnly && canDelete" (click)="isRemovingNode=!isRemovingNode" class="cursor-pointer list-group-item list-group-item-action small ">
 
                         <div>
                             <div class="d-flex justify-content-between align-items-center">
@@ -61,7 +61,7 @@
                 </ng-template>
 
                 <ng-template #elseDeleteBlock>
-                    <div *ngIf="!isReadOnly" (click)="isRemovingNode=!isRemovingNode" class="cursor-pointer list-group-item list-group-item-action small disabled">
+                    <div *ngIf="!isReadOnly && canDelete" (click)="isRemovingNode=!isRemovingNode" class="cursor-pointer list-group-item list-group-item-action small disabled">
 
                         <div class="d-flex flex-column justify-content-start align-items-start">
                             <div>

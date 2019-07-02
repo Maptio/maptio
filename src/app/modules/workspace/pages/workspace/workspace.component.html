@@ -86,7 +86,6 @@
                                                     (edited)="saveDetailChanges($event)"
                                                     (selectMember)="onSelectMembers([$event])" [isEditMode]="isEditMode"
                                                     (editTags)="onEditTags()">
-
                                                     <div *ngIf="!isDetailsPanelCollapsed && openedNode"
                                                         class="bg-transparent border border-left-0 border-right-0 px-3 py-4">
                                                         <button *ngIf="isBackToBuildingVisible"
@@ -108,7 +107,7 @@
                                                                         class="fas fa-pen mx-1"></i>Edit circle</span>
                                                             </button>
 
-                                                            <button
+                                                            <button [class.invisible]="isRoot(openedNode)"
                                                                 *permissionsOnly="Permissions.canDeleteInitiative; initiative openedNode;"
                                                                 class="btn btn-danger btn-sm ml-auto" placement="top"
                                                                 container="body" mwlConfirmationPopover

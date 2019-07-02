@@ -34,7 +34,7 @@
         </div>
       </div>
     </div>
-    <context-menu [initiatives]="selectedInitiatives" [isReadOnly]="isReadOnlyContextMenu" [x]="selectedInitiativeX"
+    <context-menu [initiatives]="selectedInitiatives" [canDelete]="canDelete" [isReadOnly]="isReadOnlyContextMenu" [x]="selectedInitiativeX"
       [y]="selectedInitiativeY" (add)="emitAddInitiative($event)" (remove)="emitRemoveInitiative($event)"
       (edit)="emitOpenInitiative($event)" (openAccountable)="goToUserSummary($event)"></context-menu>
 

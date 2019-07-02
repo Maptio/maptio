@@ -653,7 +653,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
           initiatives: [initiative],
           x: uiService.getContextMenuCoordinates(mouse, matrix).x,
           y: uiService.getContextMenuCoordinates(mouse, matrix).y,
-          isReadOnlyContextMenu: false
+          isReadOnlyContextMenu: false,
+          canDelete : d !== root
         });
 
         d3.select(".context-menu")
@@ -662,7 +663,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
               initiatives: [initiative],
               x: uiService.getContextMenuCoordinates(mouse, matrix).x,
               y: uiService.getContextMenuCoordinates(mouse, matrix).y,
-              isReadOnlyContextMenu: false
+              isReadOnlyContextMenu: false,
+              canDelete : d !== root
             });
             circle.dispatch("mouseover");
           })
@@ -671,7 +673,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
               initiatives: null,
               x: 0,
               y: 0,
-              isReadOnlyContextMenu: false
+              isReadOnlyContextMenu: false,
+              canDelete : d !== root
             });
             circle.dispatch("mouseout");
           })
