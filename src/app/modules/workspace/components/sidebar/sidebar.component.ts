@@ -94,13 +94,12 @@ export class SidebarComponent implements OnInit {
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.dataset && changes.dataset.currentValue) {
             let dataset = <DataSet>changes.dataset.currentValue;
-            this.mission = dataset.initiative.children[0].name;
+            this.mission = dataset.initiative.children[0] ? dataset.initiative.children[0].name : '';
             this.tags = orderBy(dataset.tags.map((t: Tag) => { (<SelectableTag>t).isSelected = false; return <SelectableTag>t }),
                 t => t.name,
                 "asc");
             this.flattenNodes = dataset.initiative.flatten();
-            this.settings = this.settingsService.get(dataset.datasetId)
-
+            this.settings = this.settingsService.get(dataset.datasetId);
             this.cd.markForCheck();
         }
     }
