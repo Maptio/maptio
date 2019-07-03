@@ -5,18 +5,13 @@
 
 
             <ng-container *ngFor="let initiative of initiatives">
-                <button class="d-flex flex-column cursor-pointer border-white list-group-item list-group-item-action small"
+                <button
+                    class="d-flex flex-column cursor-pointer border-white list-group-item list-group-item-action small"
                     (click)="openNode(initiative)">
                     <span>
                         <i class="fas fa-pen mr-1" aria-hidden="true"></i> Edit circle details
                     </span>
                 </button>
-                <!-- <button *ngIf="initiative.accountable" class="d-flex flex-column cursor-pointer list-group-item list-group-item-action" (click)="openUser(initiative)">
-                    <span class="d-flex align-items-center justify-content-start nowrap">
-                        <i class="far fa-id-card mr-1"></i> {{initiative.accountable.name}}'s summary
-                        <img [src]="initiative.accountable.picture" [alt]="initiative.accountable.name" class="rounded-circle participant-picture mx-1">
-                    </span>
-                </button> -->
             </ng-container>
 
             <div class="cursor-pointer border-white  list-group-item list-group-item-action small"
@@ -30,16 +25,29 @@
                         aria-hidden="true"></i>
                 </div>
                 <div *ngIf="isAddingNode" class="my-1">
-                    <div class="form-group w-100">
+                    <form class="form-group" [formGroup]="addNodeForm" (submit)="addNode(initiatives[0])">
+                        <div class="form-group w-100">
+                            <input formControlName="newName" class="form-control form-control-warning form-control-sm"
+                                [class.is-invalid]="addNodeForm.controls['newName'].invalid  && (addNodeForm.controls['newName'].dirty || addNodeForm.controls['newName'].touched)"
+                                (click)="$event.stopPropagation()" type="text" required>
+                            <small class="invalid-feedback">
+                                Required
+                            </small>
+                        </div>
+                        <div class="form-group d-flex justify-content-between w-100">
+                            <button (click)="$event.stopPropagation()" class="btn btn-outline-success btn-sm"
+                                type="submit">Add circle and edit
+                                details</button>
+                        </div>
+
+                    </form>
+
+
+                    <!-- <div class="form-group w-100">
                         <input #inputNewInitiative class="form-control form-control-sm"
                             (click)="$event.stopPropagation()" type="text" name="" id="">
-                    </div>
-                    <div class="form-group d-flex justify-content-between w-100">
-                        <button class="btn btn-outline-success btn-sm"
-                            (click)="addNode(initiatives[0],inputNewInitiative.value, true)">Add circle and edit
-                            details</button>
-                        <!-- <button class="btn btn-success btn-sm" (click)="addNode(initiatives[0],inputNewInitiative.value, false)">Add circle</button> -->
-                    </div>
+                    </div> -->
+
                 </div>
 
             </div>

@@ -3,6 +3,7 @@ import { Initiative } from '../../../../shared/model/initiative.data';
 import { Permissions } from '../../../../shared/model/permission.data';
 import { environment } from '../../../../config/environment';
 import { User } from '../../../../shared/model/user.data';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'context-menu',
@@ -15,43 +16,55 @@ export class ContextMenuComponent implements OnInit {
     @Input("x") x: Number;
     @Input("y") y: Number;
     @Input("isReadOnly") isReadOnly: Boolean;
-    @Input("canDelete") canDelete:boolean;
+    @Input("canDelete") canDelete: boolean;
 
     @Output() add: EventEmitter<{ node: Initiative, subNode: Initiative }> = new EventEmitter<{ node: Initiative, subNode: Initiative }>();
     @Output() remove: EventEmitter<Initiative> = new EventEmitter<Initiative>();
     @Output() edit: EventEmitter<Initiative> = new EventEmitter<Initiative>();
     @Output() openAccountable: EventEmitter<User> = new EventEmitter<User>();
 
-    @ViewChild("inputNewInitiative") public inputNewInitiative: ElementRef;
     isRemovingNode: Boolean;
     isAddingNode: Boolean;
-    isClosed:boolean;
+    isClosed: boolean;
+    addNodeForm: FormGroup;
     Permissions = Permissions;
     KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
 
-    constructor(private cd: ChangeDetectorRef) { }
+    constructor(private cd: ChangeDetectorRef) {
+        this.addNodeForm = new FormGroup({
+            "newName": new FormControl("", {
+                validators: [
+                    Validators.required
+                ],
+                updateOn: "submit"
+            }),
+        });
 
-    ngOnInit(): void { 
-        this.isAddingNode=false;
+    }
+
+    ngOnInit(): void {
+        this.isAddingNode = false;
         this.isRemovingNode = false;
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        this.isAddingNode =false;
+        this.isAddingNode = false;
         this.isRemovingNode = false;
         this.isClosed = false;
         this.cd.markForCheck();
     }
 
-    addNode(node: Initiative, subNodeName: string, openDetailsPanel: Boolean) {
-        let subNode = new Initiative({ name: subNodeName })
-        this.add.emit({ node: node, subNode: subNode });
-        if (openDetailsPanel) {
+    addNode(node: Initiative) {
+        if (this.addNodeForm.valid) {
+            let subNodeName = this.addNodeForm.controls["newName"].value
+            let subNode = new Initiative({ name: subNodeName })
+            this.add.emit({ node: node, subNode: subNode });
             this.edit.emit(subNode);
+            this.isAddingNode = false;
+            this.addNodeForm.reset();
+            this.cd.markForCheck();
         }
-        this.isAddingNode = false;
-        (<HTMLInputElement>this.inputNewInitiative.nativeElement).value = "";
-        this.cd.markForCheck();
+
     }
 
 
@@ -61,11 +74,11 @@ export class ContextMenuComponent implements OnInit {
         this.cd.markForCheck();
     }
 
-    openNode(node:Initiative){
+    openNode(node: Initiative) {
         this.edit.emit(node);
     }
 
-    openUser(node:Initiative){
+    openUser(node: Initiative) {
         this.openAccountable.emit(node.accountable);
         this.isClosed = true;
         this.cd.markForCheck();
