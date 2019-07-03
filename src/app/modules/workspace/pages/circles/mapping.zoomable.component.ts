@@ -161,8 +161,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
 
   ngOnInit() {
-    console.log("ngOnInit")
-    this.loaderService.show();
+   this.loaderService.show();
     this.dataSubscription = this.dataService
       .get()
       .pipe(
@@ -176,7 +175,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
             teamId: (<Team>data.team).team_id
           });
           if (this.dataset && this.dataset.datasetId && this.dataset.datasetId !== data.dataset.datasetId) {
-            console.log("clean")
             if (document.querySelector(".map-container")) document.querySelector(".map-container").innerHTML = "";
 
           }
@@ -205,16 +203,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
         merge(),
         // distinctUntilChanged((pre: [DataSet, string, SelectableTag[], SelectableUser[]], cur: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
 
-        //   // console.log("2", pre[0].getHash(), cur[0].getHash())
         //   return pre[0].datasetId === cur[0].datasetId
         //     && pre[1] === cur[1]
         //     && sortBy(pre[2], t => t.shortid).map(t => t.shortid).join() === sortBy(cur[2], t => t.shortid).map(t => t.shortid).join()
         //     && sortBy(pre[3], u => u.user_id).map(t => t.shortid).join() === sortBy(cur[3], u => u.user_id).map(t => t.shortid).join()
         // }),
         flatMap((data: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
-          console.log("flatMap 1", Date.now())
           let filtered = this.filterByTags(data[0].initiative.children[0], data[2], data[3]);
-          console.log("flatMap 2", Date.now())
           if (!filtered) {
             this.isNoMatchingCircles$.next(true)
           } else {
@@ -609,7 +604,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         d3.getEvent().stopPropagation();
       })
       .on("contextmenu", function (d: any) {
-        // console.log("contextmenu click", d, root)
         d3.getEvent().preventDefault();
         const that = <any>this;
         let mousePosition;
@@ -642,7 +636,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         d3.select(".context-menu")
           .on("mouseenter", () => {
-            // console.log("contextmenu mouseenter", d.data.id, root.data.id)
             showContextMenuOf$.next({
               initiatives: [initiative],
               x: uiService.getContextMenuCoordinates(mouse, matrix).x,
@@ -653,7 +646,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
             circle.dispatch("mouseover");
           })
           .on("mouseleave", () => {
-            // console.log("contextmenu mouseleave", d.data.id, root.data.id)
             showContextMenuOf$.next({
               initiatives: null,
               x: 0,
@@ -665,7 +657,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
           })
       })
     // .on("mouseout", (d: any) => {
-    //   console.log("contextmenu mouseout", d.data.id, root.data.id)
     //   setTimeout(() => {
     //     showContextMenuOf$.next({
     //       initiatives: null,

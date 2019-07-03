@@ -44,7 +44,6 @@ export class ContextMenuComponent implements OnInit {
     }
 
     addNode(node: Initiative, subNodeName: string, openDetailsPanel: Boolean) {
-        console.log("addNode", Date.now())
         let subNode = new Initiative({ name: subNodeName })
         this.add.emit({ node: node, subNode: subNode });
         if (openDetailsPanel) {
@@ -57,7 +56,6 @@ export class ContextMenuComponent implements OnInit {
 
 
     removeNode(node: Initiative) {
-        console.log("removeNode", Date.now())
         this.remove.emit(node);
         this.isRemovingNode = false;
         this.cd.markForCheck();
