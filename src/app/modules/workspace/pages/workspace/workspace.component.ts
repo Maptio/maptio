@@ -94,7 +94,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
-        private uiService: UIService,private settingsService:MapSettingsService,
+        private uiService: UIService, private settingsService: MapSettingsService,
         private dataService: DataService, private cd: ChangeDetectorRef, private mixpanel: Angulartics2Mixpanel, private intercom: Intercom) {
     }
 
@@ -112,7 +112,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                     localStorage.removeItem("node_id");
                     localStorage.removeItem("user_id");
                     this.selectableUsers$.next([]);
-                    // this.selectableTags$.next([]);
+                    this.selectableTags$.next([]);
                     let mapColor = this.settingsService.get(data.data.dataset.datasetId).mapColor;
                     this.mapColor$.next(mapColor);
                     this.closeAllPanels();
@@ -132,13 +132,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.datasetId = this.dataset.datasetId;
                 this.teamName = this.team.name;
                 this.teamId = this.team.team_id;
-                this.dataService.set({
-                    initiative: this.dataset.initiative,
-                    dataset: this.dataset,
-                    team: this.team,
-                    members: this.members,
-                    user: this.user
-                });
+               this.saveChanges({initiative: this.dataset.initiative, tags: this.dataset.tags})
                 EmitterService.get("currentTeam").emit(this.team);
                 this.isEmptyMap = !this.dataset.initiative.children || this.dataset.initiative.children.length === 0;
                 this.isLoading = false;
@@ -149,7 +143,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     updateInitiativeTree(dataset: DataSet, team: Team, members: User[]) {
         this.buildingComponent.loadData(dataset, team, members);
     }
-
 
     saveDetailChanges() {
         localStorage.removeItem("keepEditingOpen");
@@ -172,9 +165,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             depth++;
             node.tags = intersectionBy(change.tags, node.tags, (t: Tag) => t.shortid)
         });
-       // optimistic update
+        // optimistic update
         this.dataService.set({ initiative: change.initiative, dataset: this.dataset, team: this.team, members: this.members, user: this.user });
-                
+
         this.datasetFactory.upsert(this.dataset, this.datasetId)
             .then((hasSaved: boolean) => {
                 // this.dataService.set({ initiative: change.initiative, dataset: this.dataset, team: this.team, members: this.members, user: this.user });
@@ -207,11 +200,11 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.selectableTags$.next(tags);
     }
 
-    isRoot(initiative:Initiative){
+    isRoot(initiative: Initiative) {
         return this.dataset.initiative.children[0].id === initiative.id;
     }
 
-    onChangeColor(color:string){
+    onChangeColor(color: string) {
         this.mapColor$.next(color);
     }
 

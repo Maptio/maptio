@@ -161,7 +161,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
 
   ngOnInit() {
-   this.loaderService.show();
+    this.loaderService.show();
     this.dataSubscription = this.dataService
       .get()
       .pipe(
@@ -175,8 +175,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             teamId: (<Team>data.team).team_id
           });
           if (this.dataset && this.dataset.datasetId && this.dataset.datasetId !== data.dataset.datasetId) {
-            if (document.querySelector(".map-container")) document.querySelector(".map-container").innerHTML = "";
-
+            this.clean();
           }
           this.cd.markForCheck();
         }),
@@ -214,10 +213,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
             this.isNoMatchingCircles$.next(true)
           } else {
             this.isNoMatchingCircles$.next(false)
-            if (document.querySelector(".map-container")) document.querySelector(".map-container").innerHTML = "";
+            this.clean();
             return this.draw(filtered, data[1], this.height, this.width)
           }
-
         }),
         tap((result: { svg: string, root: any, nodes: any }) => {
 
@@ -242,6 +240,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
         }
       )
       ;
+  }
+
+  clean() {
+    if (document.querySelector(".map-container")) {
+      document.querySelector(".map-container").innerHTML = "";
+    }
   }
 
   draw(data: Initiative, color: string, diameter: number, width: number) {
