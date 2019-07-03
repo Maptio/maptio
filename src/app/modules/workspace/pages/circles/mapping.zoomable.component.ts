@@ -138,6 +138,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
     private sanitizer: DomSanitizer,
     private element: ElementRef
   ) {
+
+
+
+
   }
 
 
@@ -157,6 +161,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
 
   ngOnInit() {
+    console.log("ngOnInit")
     this.loaderService.show();
     this.dataSubscription = this.dataService
       .get()
@@ -176,7 +181,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
           }
           this.cd.markForCheck();
-          console.log("1", data.dataset.getHash())
         }),
         map(data => {
           this.initiative = data.initiative.children[0];
@@ -191,7 +195,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
             "desc");
           this.user = data.user;
           this.cd.markForCheck();
-          console.log("2", data.dataset.getHash())
           return data.dataset;
         }),
         combineLatest(
@@ -200,17 +203,18 @@ export class MappingZoomableComponent implements IDataVisualizer {
           this.selectableUsers$.asObservable().distinctUntilChanged()
         ),
         merge(),
-        distinctUntilChanged((pre: [DataSet, string, SelectableTag[], SelectableUser[]], cur: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
+        // distinctUntilChanged((pre: [DataSet, string, SelectableTag[], SelectableUser[]], cur: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
 
-          console.log("3", pre[0].getHash(), cur[0].getHash())
-          return pre[0].datasetId === cur[0].datasetId
-            && pre[1] === cur[1]
-            && sortBy(pre[2], t => t.shortid).map(t => t.shortid).join() === sortBy(cur[2], t => t.shortid).map(t => t.shortid).join()
-            && sortBy(pre[3], u => u.user_id).map(t => t.shortid).join() === sortBy(cur[3], u => u.user_id).map(t => t.shortid).join()
-        }),
+        //   // console.log("2", pre[0].getHash(), cur[0].getHash())
+        //   return pre[0].datasetId === cur[0].datasetId
+        //     && pre[1] === cur[1]
+        //     && sortBy(pre[2], t => t.shortid).map(t => t.shortid).join() === sortBy(cur[2], t => t.shortid).map(t => t.shortid).join()
+        //     && sortBy(pre[3], u => u.user_id).map(t => t.shortid).join() === sortBy(cur[3], u => u.user_id).map(t => t.shortid).join()
+        // }),
         flatMap((data: [DataSet, string, SelectableTag[], SelectableUser[]]) => {
-
+          console.log("flatMap 1", Date.now())
           let filtered = this.filterByTags(data[0].initiative.children[0], data[2], data[3]);
+          console.log("flatMap 2", Date.now())
           if (!filtered) {
             this.isNoMatchingCircles$.next(true)
           } else {
@@ -727,7 +731,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       }
 
       let zoomedId = zoomedNode.id;
-      let parent = nodes.find(n => n.data.id === zoomedId).parent;
+      let parent = nodes.find(n => n.data.id === zoomedId) ? nodes.find(n => n.data.id === zoomedId).parent : root;
       localStorage.setItem("node_id", zoomedId.toString());
 
       if (parent.data.id === root.data.id && isEmpty(zoomedNode.children)) {

@@ -71,26 +71,19 @@ export class DataSet implements Serializable<DataSet> {
     return this.initiative && this.initiative.children && this.initiative.children[0] ? this.initiative.children[0].name : "";
   }
 
-  getHash() {
-    // let start = Date.now();
-    // let datasetUID = '';
-    // this.initiative.traverse(n => {
-    //   //${n.accountable ? n.accountable.user_id : ''}${n.helpers.map(h => h.user_id).join('')
-    //   datasetUID += `\n${n.children ? n.children.length : 0}${n.name}`
-    // });
-    // console.log("getHash", datasetUID, Date.now()-start)
-    return this.hashCode(JSON.stringify(this.initiative));
-  }
+  // getHash() {
+  //   return this.hashCode(JSON.stringify(this.initiative));
+  // }
 
-  private hashCode(str: string) {
-    let hash = 0;
-    let char: number;
-    if (str.length == 0) return hash;
-    for (let i = 0; i < str.length; i++) {
-      char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash; // Convert to 32bit integer
-    }
-    return hash;
-  }
+  // private hashCode(str: string) {
+  //   let hash = 0;
+  //   let char: number;
+  //   if (str.length == 0) return hash;
+  //   for (let i = 0; i < str.length; i++) {
+  //     char = str.charCodeAt(i);
+  //     hash = ((hash << 5) - hash) + char;
+  //     hash = hash & hash; // Convert to 32bit integer
+  //   }
+  //   return hash;
+  // }
 }

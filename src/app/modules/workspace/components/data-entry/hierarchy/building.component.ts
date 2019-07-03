@@ -177,7 +177,8 @@ export class BuildingComponent {
     }
 
     removeNode(node: Initiative) {
-        debugger
+        
+        console.log("building removeNode", Date.now())
         let hasFoundNode: boolean = false;
         let parent ;
 
@@ -204,6 +205,7 @@ export class BuildingComponent {
     }
 
     addNodeTo(node: Initiative, subNode: Initiative) {
+        console.log("building addNodeTo", Date.now())
 
         const addNode = (parent: Initiative, child: Initiative) => {
             let newNode = child;

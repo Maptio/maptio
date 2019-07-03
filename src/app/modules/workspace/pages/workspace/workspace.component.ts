@@ -124,7 +124,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.updateInitiativeTree(data.data.dataset, data.data.team, data.data.members);
             })
             .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {
-
                 this.dataset = data.data.dataset;
                 this.tags = data.data.dataset.tags;
                 this.team = data.data.team;
@@ -160,6 +159,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     saveChanges(change: { initiative: Initiative, tags: Array<Tag> }) {
+        console.log("saveChanges 1 ", Date.now())
         this.isEmptyMap = !change.initiative.children || change.initiative.children.length === 0;
         this.isSaving = true;
         this.cd.markForCheck();
@@ -173,10 +173,14 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             depth++;
             node.tags = intersectionBy(change.tags, node.tags, (t: Tag) => t.shortid)
         });
-
+        console.log("saveChanges 2 ", Date.now());
+        // optimistic update
+        this.dataService.set({ initiative: change.initiative, dataset: this.dataset, team: this.team, members: this.members, user: this.user });
+                
         this.datasetFactory.upsert(this.dataset, this.datasetId)
             .then((hasSaved: boolean) => {
-                this.dataService.set({ initiative: change.initiative, dataset: this.dataset, team: this.team, members: this.members, user: this.user });
+                console.log("saveChanges 3 ", Date.now())
+                // this.dataService.set({ initiative: change.initiative, dataset: this.dataset, team: this.team, members: this.members, user: this.user });
                 return hasSaved;
             }, (reason) => { console.error(reason) })
             .then(() => {
