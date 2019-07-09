@@ -168,7 +168,10 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
         .style("overflow", "visible")
         .html(getForeignObjectHTML)
 
-
+    
+        node.attr("parent-id", function(d:any){
+            return d.parent ? d.parent.data.id : null;
+        })
 
     initMapElementsAtPosition([root.x, root.y]);
     adjustViewToZoomEvent(g, d3.getEvent());
