@@ -492,7 +492,7 @@ a.card.no-underline, a.no-underline:hover {
 .control.switch{
   position: absolute;
   top: 29vh;
-  right:0vw;
+  right:0;
   z-index: 1;
 }
 
