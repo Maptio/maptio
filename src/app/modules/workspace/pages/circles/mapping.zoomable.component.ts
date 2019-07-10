@@ -512,12 +512,25 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .transition()
         .duration(TRANSITION_DURATION / 5)
         .style("opacity", function (d: any) {
-          return d.parent && d.parent.data.id === localStorage.getItem("node_id") ? 0.15 : "initial";
+          return d.parent && d.parent.data.id.toString() === localStorage.getItem("node_id").toString() ? 0.15 : "initial";
         })
         .each((d: any) => (d.translateX = d.x - v[0]))
         .each((d: any) => (d.translateY = d.y - v[1]))
 
       text
+        .style("opacity", function (d: any) {
+          console.log(d.data.name, d.data.id, localStorage.getItem("node_id"))
+          return d.data.id.toString() === localStorage.getItem("node_id").toString()
+            ? 1
+            : d.parent && d.parent.data.id.toString() === localStorage.getItem("node_id").toString()
+              ? 1
+              : 0;
+        })
+        .style("font-weight", function (d: any) {
+          return d.data.id.toString() === localStorage.getItem("node_id").toString()
+            ? "bold"
+            : "unset"
+        })
         .on("click", function (d: any) {
           d3.select(`circle.node[id="${d.data.id}"]`).dispatch("click")
           d3.getEvent().stopPropagation();
@@ -552,15 +565,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
           return "none";
         })
         .on("mouseenter", function (d: any) {
-          console.log(d3.getEvent())
           d3.select(this)
             .classed("focused", true)
             .style("opacity", d === focus ? "unset" : d.parent === focus ? 1 : "initial");
-          // d3.select(this).select("foreignObject")
-          //   .style("opacity", 0);
-
-          // g.selectAll(`[parent-id="${focus.data.id}"]`)
-          //   .style("opacity", 1)
         })
         .on("mouseleave", function (d: any) {
           d3.select(this)
@@ -568,9 +575,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("opacity", d.parent === focus ? 0.15 : "initial");
           d3.select(this).select("foreignObject")
             .style("opacity", 1)
-          // g.selectAll(`[parent-id="${focus.data.id}"]`)
-          //   .style("opacity", 0.1)
-        })
+        });
 
       d3.selectAll(`[id="${focus.data.id}"]`)
         .on("mouseenter", function (d: any) {
@@ -579,23 +584,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("opacity", "unset")
         })
         .on("mouseleave", function (d: any) {
-          d3.select(this).select("foreignObject").style("opacity", 1).style("font-weight","bold")
+          d3.select(this).select("foreignObject").style("opacity", 1).style("font-weight", "bold")
           d3.selectAll(`[parent-id="${focus.data.id}"]`)
-          .style("opacity", 0.15)
-        })
+            .style("opacity", 0.15)
+        });
 
       d3.selectAll(`[parent-id="${focus.data.id}"]`)
         .on("mouseover", function (d: any) {
-          console.log("mouseover")
-          // d3.select(this).select("foreignObject").dispatch("mouseover");
-          g.selectAll(`[id="${focus.data.id}"] > foreignObject`).style("opacity", "0")
+          g.selectAll(`[id="${focus.data.id}"] > foreignObject`).style("opacity", 0)
           d3.getEvent().stopPropagation();
-        })
-        .on("mouseout", function (d: any) {
-          console.log("mouseout")
-
-        })
-
+        });
 
       circle
         .transition().duration(TRANSITION_DURATION / 2)
@@ -612,9 +610,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
           return d.parent === focus || d === focus || focus.parent === d.parent ? "inline"
             : "none"
         })
-        .style("opacity", function (d: any) {
-          return d === focus && d.children ? 0 : 1;
-        })
+        // .style("opacity", function (d: any) {
+        //   return d === focus && d.children ? 0 : 1;
+        // })
         .style("pointer-events", function (d: any) {
           return d === focus && d.children ? "none" : "visible";
         });
