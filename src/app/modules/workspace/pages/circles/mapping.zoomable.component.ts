@@ -579,9 +579,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("opacity", "unset")
         })
         .on("mouseleave", function (d: any) {
-          d3.select(this).select("foreignObject").style("opacity", 1)
+          d3.select(this).select("foreignObject").style("opacity", 1).style("font-weight","bold")
           d3.selectAll(`[parent-id="${focus.data.id}"]`)
-          .style("opacity", 0)
+          .style("opacity", 0.15)
         })
 
       d3.selectAll(`[parent-id="${focus.data.id}"]`)
