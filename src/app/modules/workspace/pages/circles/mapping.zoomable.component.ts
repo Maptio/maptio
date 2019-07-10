@@ -556,11 +556,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
           d3.select(this)
             .classed("focused", true)
             .style("opacity", d === focus ? "unset" : d.parent === focus ? 1 : "initial");
-          d3.select(this).select("foreignObject")
-            .style("opacity", 0);
+          // d3.select(this).select("foreignObject")
+          //   .style("opacity", 0);
 
-          g.selectAll(`[parent-id="${focus.data.id}"]`)
-            .style("opacity", 1)
+          // g.selectAll(`[parent-id="${focus.data.id}"]`)
+          //   .style("opacity", 1)
         })
         .on("mouseleave", function (d: any) {
           d3.select(this)
@@ -568,23 +568,34 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("opacity", d.parent === focus ? 0.15 : "initial");
           d3.select(this).select("foreignObject")
             .style("opacity", 1)
-          // g.selectAll(`[parent-id="${focus.data.id}"] > *`)
-          //   .style("opacity", 0)
+          // g.selectAll(`[parent-id="${focus.data.id}"]`)
+          //   .style("opacity", 0.1)
+        })
+
+      d3.selectAll(`[id="${focus.data.id}"]`)
+        .on("mouseenter", function (d: any) {
+          d3.select(this).select("foreignObject").style("opacity", 0);
+          d3.selectAll(`[parent-id="${focus.data.id}"]`)
+            .style("opacity", "unset")
+        })
+        .on("mouseleave", function (d: any) {
+          d3.select(this).select("foreignObject").style("opacity", 1)
+          d3.selectAll(`[parent-id="${focus.data.id}"]`)
+          .style("opacity", 0)
         })
 
       d3.selectAll(`[parent-id="${focus.data.id}"]`)
-        .on("mouseenter", function (d: any) {
+        .on("mouseover", function (d: any) {
           console.log("mouseover")
-          d3.select(this).select("foreignObject").dispatch("mouseover");
-          // d3.getEvent().stopPropagation();
+          // d3.select(this).select("foreignObject").dispatch("mouseover");
           g.selectAll(`[id="${focus.data.id}"] > foreignObject`).style("opacity", "0")
+          d3.getEvent().stopPropagation();
         })
-        .on("mouseleave", function (d: any) {
+        .on("mouseout", function (d: any) {
           console.log("mouseout")
 
         })
 
-      console.log(`[parent-id="${focus.data.id}"]`)
 
       circle
         .transition().duration(TRANSITION_DURATION / 2)
