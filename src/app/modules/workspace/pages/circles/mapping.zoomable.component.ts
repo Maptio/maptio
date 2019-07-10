@@ -512,7 +512,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .transition()
         .duration(TRANSITION_DURATION / 5)
         .style("opacity", function (d: any) {
-          return d.parent && d.parent.data.id.toString() === localStorage.getItem("node_id").toString() ? 0.15 : "initial";
+          return localStorage.getItem("node_id") && d.parent && d.parent.data.id.toString() === localStorage.getItem("node_id").toString()
+            ? 0.15
+            : "initial";
         })
         .each((d: any) => (d.translateX = d.x - v[0]))
         .each((d: any) => (d.translateY = d.y - v[1]))
@@ -520,11 +522,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
       text
         .style("opacity", function (d: any) {
           console.log(d.data.name, d.data.id, localStorage.getItem("node_id"))
-          return d.data.id.toString() === localStorage.getItem("node_id").toString()
+          return localStorage.getItem("node_id") && d.data.id.toString() === localStorage.getItem("node_id").toString()
             ? 1
             : d.parent && d.parent.data.id.toString() === localStorage.getItem("node_id").toString()
               ? 1
-              : 0;
+              : !d.children
+                ? 1
+                : 0;
         })
         .style("font-weight", function (d: any) {
           return d.data.id.toString() === localStorage.getItem("node_id").toString()
@@ -558,6 +562,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           .scale(newScale)
       );
 
+      console.log("focus", focus.data.id, focus.data.name)
       node
         .style("pointer-events", function (d: any) {
           if (d === root) return "visible";
@@ -570,14 +575,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("opacity", d === focus ? "unset" : d.parent === focus ? 1 : "initial");
         })
         .on("mouseleave", function (d: any) {
-          d3.select(this)
-            .classed("focused", false)
-            .style("opacity", d.parent === focus ? 0.15 : "initial");
           d3.select(this).select("foreignObject")
             .style("opacity", 1)
         });
 
       d3.selectAll(`[id="${focus.data.id}"]`)
+        .style("opacity", 0.15)
         .on("mouseenter", function (d: any) {
           d3.select(this).select("foreignObject").style("opacity", 0);
           d3.selectAll(`[parent-id="${focus.data.id}"]`)
@@ -614,7 +617,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         //   return d === focus && d.children ? 0 : 1;
         // })
         .style("pointer-events", function (d: any) {
-          return d === focus && d.children ? "none" : "visible";
+          return "none" ; //d === focus && d.children ? "none" : "visible";
         });
     }
 
