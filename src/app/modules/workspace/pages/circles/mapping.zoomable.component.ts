@@ -522,7 +522,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
       text
         .style("opacity", function (d: any) {
           console.log(d.data.name, d.data.id, localStorage.getItem("node_id"))
-          return localStorage.getItem("node_id") && d.data.id.toString() === localStorage.getItem("node_id").toString()
+          if(!localStorage.getItem("node_id")){
+            // whole map visible
+            return !d.children ? 1 : 0;
+          }
+          return d.data.id.toString() === localStorage.getItem("node_id").toString()
             ? 1
             : d.parent && d.parent.data.id.toString() === localStorage.getItem("node_id").toString()
               ? 1
@@ -531,6 +535,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 : 0;
         })
         .style("font-weight", function (d: any) {
+          if(!localStorage.getItem("node_id")){
+            // whole map visible
+            return "unset";
+          }
           return d.data.id.toString() === localStorage.getItem("node_id").toString()
             ? "bold"
             : "unset"
@@ -580,13 +588,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
         });
 
       d3.selectAll(`[id="${focus.data.id}"]`)
-        .style("opacity", 0.15)
         .on("mouseenter", function (d: any) {
           d3.select(this).select("foreignObject").style("opacity", 0);
           d3.selectAll(`[parent-id="${focus.data.id}"]`)
             .style("opacity", "unset")
         })
         .on("mouseleave", function (d: any) {
+          console.log("circle mouseleave", focus.data.id)
           d3.select(this).select("foreignObject").style("opacity", 1).style("font-weight", "bold")
           d3.selectAll(`[parent-id="${focus.data.id}"]`)
             .style("opacity", 0.15)
@@ -617,7 +625,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         //   return d === focus && d.children ? 0 : 1;
         // })
         .style("pointer-events", function (d: any) {
-          return "none" ; //d === focus && d.children ? "none" : "visible";
+          return "none"; //d === focus && d.children ? "none" : "visible";
         });
     }
 
@@ -729,6 +737,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
         // setIsShowMission(true);
         d3.getEvent().stopPropagation();
       })
+
+    g.on("mouseleave", function (d: any) {
+      if (localStorage.getItem("node_id")) {
+        console.log("g mouseleave", localStorage.getItem("node_id"))
+        d3.selectAll(`[id="${localStorage.getItem("node_id")}"]`).dispatch("mouseleave")
+      }
+    })
+
     initMapElementsAtPosition([root.x, root.y])
 
     try {
