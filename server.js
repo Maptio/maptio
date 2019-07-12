@@ -79,7 +79,7 @@ if (!isDevelopment) {
         'https://slack.com/api/'
       ],
       frameSrc:[
-        'termsfeed.com'
+        'https://*.termsfeed.com'
       ],
       childSrc: [
         "'self'",'blob:',
