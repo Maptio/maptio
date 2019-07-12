@@ -78,6 +78,9 @@ if (!isDevelopment) {
         'https://*.logrocket.io',
         'https://slack.com/api/'
       ],
+      frameSrc:[
+        'termsfeed.com'
+      ],
       childSrc: [
         "'self'",'blob:',
         'https://share.intercom.io',
