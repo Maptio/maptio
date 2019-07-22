@@ -80,7 +80,9 @@ if (!isDevelopment) {
       ],
       frameSrc:[
         'https://www.termsfeed.com',
-        'https://termsfeed.com'
+        'https://termsfeed.com',
+        'https://login.maptio.com',
+        'https://maptio.chargebee.com'
       ],
       childSrc: [
         "'self'",'blob:',
