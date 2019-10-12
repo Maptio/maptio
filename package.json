@@ -90,7 +90,7 @@
     "mobx": "^3.4.1",
     "mobx-angular": "^2.0.1",
     "mongojs": "^2.4.0",
-    "newrelic": "^1.37.2",
+    "newrelic": "^5.13.1",
     "ng-intercom": "^6.0.0-beta.3",
     "ng2-file-upload": "^1.2.1",
     "ngx-color": "^2.0.5",
