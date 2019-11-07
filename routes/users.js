@@ -109,9 +109,10 @@ router.put('/:id', function (req, res, next) {
     var user = req.body;
     db.users.update(
         { user_id: user.user_id },
-        req.body,
+        { $set: req.body},
         { upsert: true },
         function (err, result) {
+            console.log(err, result)
             if (err) {
                 res.send(err);
             } else {
