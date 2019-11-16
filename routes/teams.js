@@ -102,7 +102,7 @@ router.put('/:id', function (req, res, next) {
     var team = req.body;
     db.teams.update(
         { _id: mongojs.ObjectId(req.params.id) },
-        req.body,
+        {$set: req.body},
         { upsert: true },
         function (err, result) {
             if (err) {
