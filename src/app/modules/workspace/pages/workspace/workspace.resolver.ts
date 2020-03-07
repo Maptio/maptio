@@ -1,5 +1,9 @@
 import { Auth } from "../../../../core/authentication/auth.service";
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
+import {
+  ActivatedRouteSnapshot,
+  Resolve,
+  RouterStateSnapshot
+} from "@angular/router";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Injectable } from "@angular/core";
@@ -12,70 +16,96 @@ import { SelectableTag } from "../../../../shared/model/tag.data";
 import { Observable } from "rxjs/Observable";
 import { UserService } from "../../../../shared/services/user/user.service";
 import { from } from "rxjs";
-import { map, flatMap } from "rxjs/operators"
+import { map, flatMap } from "rxjs/operators";
 
 @Injectable()
-export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, team: Team, members: User[], user: User }> {
+export class WorkspaceComponentResolver
+  implements
+    Resolve<{ dataset: DataSet; team: Team; members: User[]; user: User }> {
+  constructor(
+    private datasetFactory: DatasetFactory,
+    private teamFactory: TeamFactory,
+    private userService: UserService,
+    private userFactory: UserFactory,
+    private auth: Auth
+  ) {}
 
-    constructor(private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userService: UserService, private userFactory: UserFactory, private auth: Auth) {
-    }
+  resolve(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<{ dataset: DataSet; team: Team; members: User[]; user: User }> {
+    let datasetId = <string>route.params["mapid"];
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ dataset: DataSet, team: Team, members: User[], user: User }> {
-        let datasetId = <string>route.params["mapid"];
+    return from(this.datasetFactory.get(datasetId)).pipe(
+      map((dataset: DataSet) => {
+        dataset.tags = dataset.tags
+          .map(t => new SelectableTag(t))
+          .map(t => {
+            t.isSelected = false;
+            return t;
+          });
+        return dataset;
+      }),
+      flatMap((dataset: DataSet) => {
+        return this.teamFactory.get(dataset.initiative.team_id).then(t => {
+          return { dataset: dataset, team: t };
+        });
+      }),
+      flatMap(dt => {
+        return Promise.all([
+          this.userService.getUsersInfo(dt.team.members),
+          this.userFactory.getUsers(dt.team.members.map(m => m.user_id))
+        ])
+          .then(([auth0Users, databaseUsers]: [User[], User[]]) => {
+            return databaseUsers
+              .filter(u => u.teams.length > 0 && u.datasets.length > 0)
+              .map(u => {
+                u.picture = auth0Users.find(du => du.user_id === u.user_id)
+                  ? auth0Users.find(du => du.user_id === u.user_id).picture
+                  : u.picture;
+                u.name = auth0Users.find(du => du.user_id === u.user_id)
+                  ? auth0Users.find(du => du.user_id === u.user_id).name
+                  : u.name;
 
-        return from(this.datasetFactory.get(datasetId))
-            .pipe(
-                map((dataset: DataSet) => {
-                    dataset.tags = dataset.tags.map(t => new SelectableTag(t)).map(t => { t.isSelected = false; return t });
-                    return dataset;
-                }),
-                flatMap((dataset: DataSet) => {
-                    return this.teamFactory.get(dataset.initiative.team_id)
-                        .then(
-                            t => {
-                                return { dataset: dataset, team: t }
-                            })
-                }),
-                flatMap(dt => {
+                return u;
+              });
+          })
+          .then(members => compact(members))
+          .then(members => [dt.team, sortBy(members, m => m.name)])
 
-                    return Promise.all([this.userService.getUsersInfo(dt.team.members), this.userFactory.getUsers(dt.team.members.map(m => m.user_id))])
-                        .then(([auth0Users, databaseUsers]: [User[], User[]]) => {
-                            return databaseUsers.map(u => {
-                                u.picture = auth0Users.find(du => du.user_id === u.user_id) ? auth0Users.find(du => du.user_id === u.user_id).picture : u.picture;
-                                u.name = auth0Users.find(du => du.user_id === u.user_id) ? auth0Users.find(du => du.user_id === u.user_id).name : u.name;
-                                
-                                return u;
-                            })
-                        })
-                        .then(members => compact(members))
-                        .then(members => [dt.team, sortBy(members, m => m.name)])
+          .then(([team, members]: [Team, User[]]) => {
+            team.members = members;
+            return { dataset: dt.dataset, team: team, members: members };
+          });
 
-                        .then(([team, members]: [Team, User[]]) => {
-                            team.members = members;
-                            return { dataset: dt.dataset, team: team, members: members };
-                        })
-
-                    // return Promise.all([this.userService.getUsersInfo(dt.team.members), this.userFactory.getUsers(dt.team.members.map(m => m.user_id))])
-                    //     .then(([auth0Users, databaseUsers]: [User[], User[]]) => {
-                    //         return databaseUsers.map(u => {
-                    //             u.picture = auth0Users.find(du => du.user_id === u.user_id) ? auth0Users.find(du => du.user_id === u.user_id).picture : u.picture;
-                    //             return u;
-                    //         })
-                    //     })
-                    //     .then(members => compact(members))
-                    //     .then(members => sortBy(members, m => m.name))
-                    //     .then(members => { return { dataset: dt.dataset, team: dt.team, members: members } })
-
-
-                }),
-                flatMap(dt => {
-                    return this.auth.getUser().first().toPromise().then(u => { return { user: u, data: dt } })
-
-                }),
-                map(data => {
-                    return { dataset: data.data.dataset, team: data.data.team, members: data.data.members, user: data.user }
-                }
-                )
-            )
-    }
+        // return Promise.all([this.userService.getUsersInfo(dt.team.members), this.userFactory.getUsers(dt.team.members.map(m => m.user_id))])
+        //     .then(([auth0Users, databaseUsers]: [User[], User[]]) => {
+        //         return databaseUsers.map(u => {
+        //             u.picture = auth0Users.find(du => du.user_id === u.user_id) ? auth0Users.find(du => du.user_id === u.user_id).picture : u.picture;
+        //             return u;
+        //         })
+        //     })
+        //     .then(members => compact(members))
+        //     .then(members => sortBy(members, m => m.name))
+        //     .then(members => { return { dataset: dt.dataset, team: dt.team, members: members } })
+      }),
+      flatMap(dt => {
+        return this.auth
+          .getUser()
+          .first()
+          .toPromise()
+          .then(u => {
+            return { user: u, data: dt };
+          });
+      }),
+      map(data => {
+        return {
+          dataset: data.data.dataset,
+          team: data.data.team,
+          members: data.data.members,
+          user: data.user
+        };
+      })
+    );
+  }
 }
