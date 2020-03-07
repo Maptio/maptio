@@ -42,8 +42,6 @@ export class UserFactory {
     if (!usersId || usersId.length === 0) {
       return Promise.reject("You cannot make a search for all users !");
     }
-    // TODO : get users by batch if count > 200
-
     let chunks = chunk(usersId, 50);
 
     return Promise.all(
@@ -65,7 +63,7 @@ export class UserFactory {
           .toPromise()
       )
     ).then(array => {
-      return flattenDeep(array);
+      return <User[]>flattenDeep(array);
     });
   }
 
