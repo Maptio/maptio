@@ -1,4 +1,8 @@
-import { UserRoleService, Permissions } from "../../shared/model/permission.data";
+import { TeamFactory } from "./../http/team/team.factory";
+import {
+  UserRoleService,
+  Permissions
+} from "../../shared/model/permission.data";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { environment } from "../../config/environment";
 import { LoaderService } from "../../shared/components/loading/loader.service";
@@ -38,12 +42,13 @@ export class Auth {
     private configuration: AuthConfiguration,
     private datasetFactory: DatasetFactory,
     private userFactory: UserFactory,
+    private teamFactory: TeamFactory,
     private router: Router,
     private loader: LoaderService,
     private userRoleService: UserRoleService,
     private analytics: Angulartics2Mixpanel,
     private intercom: Intercom
-  ) { }
+  ) {}
 
   public logout(): void {
     localStorage.clear();
@@ -57,18 +62,23 @@ export class Auth {
     let persist = new Map<string, string>();
     for (let i = 0; i < localStorage.length; i++) {
       if (localStorage.key(i).indexOf("map_settings") > -1) {
-        persist.set(localStorage.key(i), localStorage.getItem(localStorage.key(i)))
+        persist.set(
+          localStorage.key(i),
+          localStorage.getItem(localStorage.key(i))
+        );
       }
       if (localStorage.key(i).indexOf("redirectUrl") > -1) {
-        persist.set(localStorage.key(i), localStorage.getItem(localStorage.key(i)))
+        persist.set(
+          localStorage.key(i),
+          localStorage.getItem(localStorage.key(i))
+        );
       }
     }
 
     localStorage.clear();
     persist.forEach((value: string, key: string) => {
-      localStorage.setItem(key, value)
-    })
-
+      localStorage.setItem(key, value);
+    });
   }
 
   /**
@@ -111,7 +121,7 @@ export class Auth {
         scope: "openid profile api invite",
         audience: environment.MAPTIO_API_URL
       },
-      function (err: any, authResult: any) {
+      function(err: any, authResult: any) {
         if (authResult.accessToken) {
           EmitterService.get("maptio_api_token").emit(authResult.accessToken);
         }
@@ -121,21 +131,29 @@ export class Auth {
 
   public loginMaptioApiSSO() {
     return new Promise((resolve, reject) => {
-
-      this.configuration.getWebAuth().checkSession({
-        scope: "openid profile api invite",
-        audience: environment.MAPTIO_API_URL,
-        responseType: "token id_token",
-        redirectUri: `${window.location.protocol}//${window.location.hostname}${window.location.port === "" ? "" : `:${window.location.port}`}/authorize`,
-        connection: "google-oauth2"
-      },
-        function (err: any, authResult: any) {
+      this.configuration.getWebAuth().checkSession(
+        {
+          scope: "openid profile api invite",
+          audience: environment.MAPTIO_API_URL,
+          responseType: "token id_token",
+          redirectUri: `${window.location.protocol}//${
+            window.location.hostname
+          }${
+            window.location.port === "" ? "" : `:${window.location.port}`
+          }/authorize`,
+          connection: "google-oauth2"
+        },
+        function(err: any, authResult: any) {
           if (err) {
             console.error(err);
-            reject(err)
+            reject(err);
           }
-          resolve({ accessToken: authResult.accessToken, idToken: authResult.idToken })
-        })
+          resolve({
+            accessToken: authResult.accessToken,
+            idToken: authResult.idToken
+          });
+        }
+      );
     });
   }
 
@@ -162,7 +180,6 @@ export class Auth {
     return this.permissions;
   }
 
-
   public getUser(): Observable<User> {
     let profileString = localStorage.getItem("profile");
 
@@ -178,6 +195,20 @@ export class Auth {
           return user;
         })
         .then((user: User) => {
+          return user.teams.length > 0
+            ? this.teamFactory
+                .get(user.teams)
+                .then(teams =>
+                  teams.filter(team => team.isExample).map(team => team.team_id)
+                )
+                .then(exampleTeamIds => {
+                  user.exampleTeamIds = exampleTeamIds;
+                  return user;
+                })
+            : user;
+        })
+        .then((user: User) => {
+          console.log("user", user);
           this.permissions = this.userRoleService.get(user.userRole);
           return user;
         })
@@ -222,18 +253,18 @@ export class Auth {
   // }
 
   public googleSignIn() {
-    this.signin("google-oauth2")
+    this.signin("google-oauth2");
   }
 
   private signin(connection: string) {
-    this.configuration.getWebAuth().authorize(
-      {
-        scope: 'profile openid email',
-        responseType: 'token',
-        redirectUri: `${window.location.protocol}//${window.location.hostname}${window.location.port === "" ? "" : `:${window.location.port}`}/authorize`,
-        connection: connection
-      }
-    )
+    this.configuration.getWebAuth().authorize({
+      scope: "profile openid email",
+      responseType: "token",
+      redirectUri: `${window.location.protocol}//${window.location.hostname}${
+        window.location.port === "" ? "" : `:${window.location.port}`
+      }/authorize`,
+      connection: connection
+    });
   }
 
   public login(email: string, password: string): Promise<boolean> {
@@ -246,7 +277,7 @@ export class Auth {
           password: password,
           scope: "profile openid email"
         },
-        function (err: any, authResult: any) {
+        function(err: any, authResult: any) {
           if (err) {
             EmitterService.get("loginErrorMessage").emit(err.description);
             return;
@@ -257,7 +288,7 @@ export class Auth {
           if (authResult.accessToken) {
             this.configuration.getWebAuth().client.userInfo(
               authResult.accessToken,
-              function (err: Error, profile: any) {
+              function(err: Error, profile: any) {
                 profile.user_id = profile.sub;
                 profile.sub = undefined;
                 this.loader.show();
@@ -280,12 +311,9 @@ export class Auth {
                           })
                           .then(
                             (user: User) => {
-
-
                               this.loader.show();
 
-
-                              if(isDevMode()) return user;
+                              if (isDevMode()) return user;
 
                               let isMaptioTeam = this.MAPTIO_INTERNAL_EMAILS.includes(
                                 user.email
@@ -294,7 +322,7 @@ export class Auth {
                               this.analytics.setSuperProperties({
                                 user_id: user.user_id,
                                 email: user.email,
-                                hostname : window.location.hostname, 
+                                hostname: window.location.hostname,
                                 isInternal: isMaptioTeam
                               });
                               this.analytics.eventTrack("Login", {
@@ -304,32 +332,39 @@ export class Auth {
                               });
                               LogRocket.identify(user.user_id, {
                                 name: user.name,
-                                email: user.email,
+                                email: user.email
                               });
                               this.fullstory.identify(user.user_id, {
                                 displayName: user.name,
                                 email: user.email
-                            });
+                              });
                               this.intercom.update({
                                 app_id: environment.INTERCOM_APP_ID,
                                 email: user.email,
                                 name: user.name,
                                 avatar: {
                                   type: "avatar",
-                                  image_url: user.picture,
+                                  image_url: user.picture
                                 },
                                 is_invited: user.isInvitationSent,
-                                user_id: user.user_id,
+                                user_id: user.user_id
                               });
 
                               return user;
                             },
-                            () => { this.loader.hide(); }
+                            () => {
+                              this.loader.hide();
+                            }
                           )
                           .then((user: User) => {
                             // let welcomeURL = user.datasets.length === 1 ? `/map/${user.datasets[0]}/welcome/initiatives` : `/home`;
                             this.loader.hide();
-                            let redirectUrl = localStorage.getItem("redirectUrl") && localStorage.getItem("redirectUrl") !== null && localStorage.getItem("redirectUrl") !== "null" ? localStorage.getItem("redirectUrl") : null;
+                            let redirectUrl =
+                              localStorage.getItem("redirectUrl") &&
+                              localStorage.getItem("redirectUrl") !== null &&
+                              localStorage.getItem("redirectUrl") !== "null"
+                                ? localStorage.getItem("redirectUrl")
+                                : null;
                             this.router.navigateByUrl(
                               redirectUrl ? redirectUrl : "/home"
                             );
