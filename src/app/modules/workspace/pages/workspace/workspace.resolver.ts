@@ -21,14 +21,14 @@ import { map, flatMap } from "rxjs/operators";
 @Injectable()
 export class WorkspaceComponentResolver
   implements
-    Resolve<{ dataset: DataSet; team: Team; members: User[]; user: User }> {
+  Resolve<{ dataset: DataSet; team: Team; members: User[]; user: User }> {
   constructor(
     private datasetFactory: DatasetFactory,
     private teamFactory: TeamFactory,
     private userService: UserService,
     private userFactory: UserFactory,
     private auth: Auth
-  ) {}
+  ) { }
 
   resolve(
     route: ActivatedRouteSnapshot,
@@ -58,7 +58,7 @@ export class WorkspaceComponentResolver
         ])
           .then(([auth0Users, databaseUsers]: [User[], User[]]) => {
             return databaseUsers
-              .filter(u => u.teams.length > 0 && u.datasets.length > 0)
+              .filter(u => u.teams.length > 0)
               .map(u => {
                 u.picture = auth0Users.find(du => du.user_id === u.user_id)
                   ? auth0Users.find(du => du.user_id === u.user_id).picture
@@ -99,6 +99,7 @@ export class WorkspaceComponentResolver
           });
       }),
       map(data => {
+        console.log("workspace resolved", data)
         return {
           dataset: data.data.dataset,
           team: data.data.team,
