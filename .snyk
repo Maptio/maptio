@@ -1,0 +1,28 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.14.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - angular-tree-component > lodash:
+        patched: '2020-05-02T05:42:04.184Z'
+    - cloudinary > lodash:
+        patched: '2020-05-02T05:42:04.184Z'
+    - cloudinary-core > lodash:
+        patched: '2020-05-02T05:42:04.184Z'
+    - aws-sdk > xmlbuilder > lodash:
+        patched: '2020-05-02T05:42:04.184Z'
+    - jwks-rsa > lru-memoizer > lodash:
+        patched: '2020-05-02T05:42:04.184Z'
+    - request-promise > request-promise-core > lodash:
+        patched: '2020-05-02T05:42:04.184Z'
+    - aws-sdk > xml2js > xmlbuilder > lodash:
+        patched: '2020-05-02T05:42:04.184Z'
+    - mongojs > nyc > istanbul-lib-instrument > @babel/traverse > lodash:
+        patched: '2020-05-02T05:42:04.184Z'
+    - mongojs > nyc > istanbul-lib-instrument > @babel/traverse > @babel/generator > lodash:
+        patched: '2020-05-02T05:42:04.184Z'
+    - mongojs > nyc > istanbul-lib-instrument > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        patched: '2020-05-02T05:42:04.184Z'
+    - mongojs > nyc > istanbul-lib-instrument > @babel/traverse > @babel/helper-function-name > @babel/helper-get-function-arity > @babel/types > lodash:
+        patched: '2020-05-02T05:42:04.184Z'
