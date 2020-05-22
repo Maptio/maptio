@@ -28,7 +28,7 @@ import { select, selectAll, event, mouse } from "d3-selection";
 import { zoom, zoomIdentity, zoomTransform } from "d3-zoom";
 import { tree, hierarchy, HierarchyNode } from "d3-hierarchy";
 import { color } from "d3-color";
-import {forceSimulation, forceLink, forceManyBody, forceCenter,ForceLink} from "d3-force"
+import {forceSimulation, forceLink, forceManyBody, forceCenter, ForceLink} from "d3-force"
 import {map as d3Map} from "d3-collection"
 import {drag} from "d3-drag"
 
@@ -45,7 +45,7 @@ const d3 = Object.assign(
     tree,
     hierarchy,
     color,
-    forceSimulation,forceLink, forceManyBody,forceCenter,
+    forceSimulation, forceLink, forceManyBody, forceCenter,
     d3Map,
     drag,
     getEvent() { return require("d3-selection").event }
@@ -198,7 +198,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .attr("height", this.height)
       .attr(
         "transform",
-        `translate(${0}, ${-this.height/4}) scale(${this.scale})`
+        `translate(${0}, ${-this.height / 4}) scale(${this.scale})`
       );
     g.append("g").attr("class", "links");
     // g.append("g").attr("class", "labels");
@@ -261,7 +261,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       svg.call(
         zooming.transform,
         d3.zoomIdentity
-          .translate(0, -this.height/4)
+          .translate(0, -this.height / 4)
           .scale(1)
       );
       svg.call(zooming);
@@ -275,7 +275,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         } else {
           svg.transition().duration(this.TRANSITION_DURATION).call(
             zooming.transform,
-            d3.zoomIdentity.translate(0, -this.height/4)
+            d3.zoomIdentity.translate(0, -this.height / 4)
           );
         }
       } catch (error) { }
@@ -423,7 +423,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
 
     let links = map(
-      groupBy(rawlinks, 'linkid'),
+      groupBy(rawlinks, "linkid"),
       (items: Array<any>, linkid: string) => {
         return {
           source: items[0].source,
@@ -542,8 +542,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   saveChanges(authorityCentricMode: boolean) {
     this.isSaving = true;
     this.dataset.initiative.authorityCentricMode = authorityCentricMode;
-    
-    if(!this.dataset){
+
+    if (!this.dataset) {
       return;
     }
 
@@ -923,7 +923,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             path.dispatch("mouseout");
           })
 
-      });;
+      });
 
 
     simulation.nodes(graph.nodes).on("tick", ticked);
@@ -953,7 +953,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       let source = d[0], target = d[2]
       // // fit path like you've been doing
       //   path.attr("d", function(d){
-      var dx = target.x - source.x,
+      let dx = target.x - source.x,
         dy = target.y - source.y,
         dr = Math.sqrt(dx * dx + dy * dy);
       return "M" + source.x + "," + source.y + "A" + dr + "," + dr + " 0 0,1 " + target.x + "," + target.y;
@@ -962,13 +962,13 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     function positionArrow(d: any) {
       let source = d[0], target = d[2], weight = d[3]
       // length of current path
-      var pl = this.getTotalLength(),
+      let pl = this.getTotalLength(),
         // radius of circle plus marker head
-        r = CIRCLE_RADIUS * 1.5 + Math.sqrt(CIRCLE_RADIUS * 2 + CIRCLE_RADIUS * 2), //16.97 is the "size" of the marker Math.sqrt(12**2 + 12 **2)
+        r = CIRCLE_RADIUS * 1.5 + Math.sqrt(CIRCLE_RADIUS * 2 + CIRCLE_RADIUS * 2), // 16.97 is the "size" of the marker Math.sqrt(12**2 + 12 **2)
         // position close to where path intercepts circle
         m = this.getPointAtLength(pl - r)
         ;
-      var dx = m.x - source.x,
+      let dx = m.x - source.x,
         dy = m.y - source.y,
         dr = Math.sqrt(dx * dx + dy * dy);
 
