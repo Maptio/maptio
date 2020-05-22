@@ -1,4 +1,4 @@
-import { Team } from '../../../../shared/model/team.data';
+import { Team } from "../../../../shared/model/team.data";
 import { Role } from "../../../../shared/model/role.data";
 import { User } from "../../../../shared/model/user.data";
 import { ColorService } from "../../services/color.service";
@@ -8,6 +8,7 @@ import { DataService } from "../../services/data.service";
 import { URIService } from "../../../../shared/services/uri/uri.service";
 import { Tag, SelectableTag } from "../../../../shared/model/tag.data";
 import { Initiative } from "../../../../shared/model/initiative.data";
+import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
 import { Subject, BehaviorSubject } from "rxjs/Rx";
 import { Subscription } from "rxjs/Subscription";
 import { Observable } from "rxjs/Observable";
@@ -30,7 +31,7 @@ import { color } from "d3-color";
 import {forceSimulation, forceLink, forceManyBody, forceCenter,ForceLink} from "d3-force"
 import {map as d3Map} from "d3-collection"
 import {drag} from "d3-drag"
- 
+
 const d3 = Object.assign(
   {},
   {
@@ -106,6 +107,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   private dataSubscription: Subscription;
   private resetSubscription: Subscription;
 
+  public isSaving: boolean;
+  public dataset: any;
+
+
   T: any;
   TRANSITION_DURATION = 250;
 
@@ -128,28 +133,37 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     private cd: ChangeDetectorRef,
     private router: Router,
     private dataService: DataService,
-    private uriService: URIService
+    private uriService: URIService,
+    private datasetFactory: DatasetFactory
   ) {
   }
 
   ngOnInit() {
     this.isLoading = true;
     this.init();
+
     this.dataSubscription = this.dataService
       .get()
+      .map(dataset => {
+        this.isAuthorityCentricMode$.next(dataset.initiative.authorityCentricMode);
+        return dataset;
+      })
       .combineLatest(this.mapColor$, this.isAuthorityCentricMode$.asObservable())
-      .subscribe(complexData => {
-        let data = <any>complexData[0].initiative;
-        this.datasetId = complexData[0].dataset.datasetId;
-        this.rootNode = complexData[0].initiative;
-        this.team = complexData[0].team;
+      .subscribe(([dataset, color, authorityCentricMode]) => {
+        this.dataset = dataset.dataset;
+
+        let data = <any>dataset.initiative;
+        this.datasetId = dataset.dataset.datasetId;
+        this.rootNode = dataset.initiative;
+        this.team = dataset.team;
         this.slug = data.getSlug();
-        this.update(data, complexData[1], complexData[2]);
+        this._isAuthorityCentricMode = authorityCentricMode;
+        this.update(data, color, this._isAuthorityCentricMode);
         this.analytics.eventTrack("Map", {
           action: "viewing",
           view: "connections",
-          team: (<Team>complexData[0].team).name,
-          teamId: (<Team>complexData[0].team).team_id
+          team: (<Team>dataset.team).name,
+          teamId: (<Team>dataset.team).team_id
         });
         this.isLoading = false;
         this.cd.markForCheck();
@@ -520,9 +534,27 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   }
 
 
-  public switch() {
-    this._isAuthorityCentricMode = !this._isAuthorityCentricMode;
-    this.isAuthorityCentricMode$.next(this._isAuthorityCentricMode);
+  public switch(value: boolean) {
+    this.isAuthorityCentricMode$.next(value);
+    this.saveChanges(value);
+  }
+
+  saveChanges(authorityCentricMode: boolean) {
+    this.isSaving = true;
+    this.dataset.initiative.authorityCentricMode = authorityCentricMode;
+    
+    if(!this.dataset){
+      return;
+    }
+
+    this.datasetFactory.upsert(this.dataset, this.dataset.datasetId)
+        .then((hasSaved: boolean) => {
+          // this.dataService.set(this.dataset);
+          return hasSaved;
+        }, (reason) => { console.error(reason) })
+        .then(() => {
+          this.isSaving = false;
+        });
   }
 
   public isNoNetwork: boolean;
