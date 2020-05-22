@@ -153,6 +153,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             })
             .then(() => {
                 this.isSaving = false;
+                this.openedNode = Object.create(this.openedNode);
                 this.cd.markForCheck();
             });
     }

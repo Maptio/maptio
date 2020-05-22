@@ -66,7 +66,7 @@
 
             <div *ngFor="let i of helps; let ix=index" class="">
 
-                <personal-card [initiative]="i" [datasetId]="datasetId" [team]="team" [isWithLeader]="true" (selectMember)="onSelectMember($event)"
+                <personal-card [initiative]="i" [datasetId]="datasetId" [team]="team" [isWithLeader]="true" [selctedMemberId]="member?.user_id" (selectMember)="onSelectMember($event)"
                     (selectInitiative)="onSelectInitiative($event)"></personal-card>
 
             </div>

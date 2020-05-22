@@ -21,8 +21,8 @@
                 </li>
             </ul>
         </div>
-        <div class="card-subtitle" *ngIf="initiative.getRoles(initiative.accountable?.user_id)[0]?.description">
-            <markdown [data]="initiative.getRoles(initiative.accountable?.user_id)[0]?.description"></markdown>
+        <div class="card-subtitle" *ngIf="initiative.getRoles(isWithLeader ? selectedMemberId : initiative.accountable?.user_id)[0]?.description">
+            <markdown [data]="initiative.getRoles(isWithLeader ? selectedMemberId : initiative.accountable?.user_id)[0]?.description"></markdown>
         </div>
         <div class="card-text">
             <div *ngIf="(initiative.helpers?.length !== 0)" class=" row" [class.bg-light]="isShowRoles">
