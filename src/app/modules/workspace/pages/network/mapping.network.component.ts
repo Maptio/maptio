@@ -150,7 +150,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .map(dataset => {
         this.datasetId = dataset.dataset.datasetId;
         this.settings = this.mapSettingsService.get(this.datasetId);
-        this.isAuthorityCentricMode$.next(this.settings.views.network?.isAuthorityCentricMode);
+        this.isAuthorityCentricMode$.next(this.settings.views.network ? this.settings.views.network.isAuthorityCentricMode || true);
         return dataset;
       })
       .combineLatest(this.mapColor$, this.isAuthorityCentricMode$.asObservable())
