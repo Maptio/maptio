@@ -63,7 +63,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public datasetId: string;
   public teamId: string;
   public teamName: string;
-  public authorityLabel:string;
+  public authorityLabel: string;
   public settings: MapSettings;
 
   public height: number;
@@ -232,13 +232,13 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     //   .attr("x", this.uiService.getCenteredMargin())
     //   .style("overflow", "visible");
 
-      let definitions = svg.append("defs");
+    let definitions = svg.append("defs");
 
     let g = svg
       .append("g")
       .attr(
         "transform",
-        `translate(${0}, ${this.height/2}) scale(${1})`
+        `translate(${0}, ${this.height / 2}) scale(${1})`
       );
 
     try {
@@ -246,7 +246,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       svg.call(
         zooming.transform,
         d3.zoomIdentity
-          .translate(0, this.height/2)
+          .translate(0, this.height / 2)
           .scale(1)
       );
       svg.call(zooming);
@@ -255,7 +255,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
       svg.transition().duration(this.TRANSITION_DURATION).call(
         zooming.transform,
-        d3.zoomIdentity.translate(document.querySelector("svg#map").clientWidth / 4 , this.height/2)
+        d3.zoomIdentity.translate(document.querySelector("svg#map").clientWidth / 4, this.height / 2)
       );
     });
 
@@ -267,7 +267,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         } else {
           svg.transition().duration(this.TRANSITION_DURATION).call(
             zooming.transform,
-            d3.zoomIdentity.translate(0, this.height/2)
+            d3.zoomIdentity.translate(0, this.height / 2)
           );
         }
       } catch (error) { }
@@ -400,7 +400,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       pathsToRoot.set(n.data.id, n.ancestors().map((a: any) => a.data.id));
     });
     setPathsToRoot(pathsToRoot)
-   
+
     traverse(root, (n: any) => {
       // if (settings.views.tree.expandedNodesIds.indexOf(n.data.id) > -1) {
       //   expand(n)
@@ -468,7 +468,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let t = d3.zoomTransform(svg.node());
         let x = -source.y0;
         let y = -source.x0;
-        x = x * t.k +margin //+ viewerWidth / 2;
+        x = x * t.k + margin //+ viewerWidth / 2;
         y = y * t.k + viewerHeight / 2;
         svg.transition().call(zoomListener.transform, d3.zoomIdentity.translate(x, y).scale(t.k));
       }
@@ -483,7 +483,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         }
         updateGraph(d, TRANSITION_DURATION);
         centerNode(d);
-        if(d !== root) showToolipOf$.next({ initiatives: [d.data], isNameOnly: false })
+        if (d !== root) showToolipOf$.next({ initiatives: [d.data], isNameOnly: false })
       }
 
 

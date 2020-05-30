@@ -80,6 +80,8 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
 
     isExpanded: boolean;
 
+    authorityCentricMode: boolean = true;
+
     public constructor(init?: Partial<Initiative>) {
         Object.assign(this, init);
     }
@@ -95,6 +97,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
         this.description = input.description;
         this.start = input.start;
         this.team_id = input.team_id;
+        this.authorityCentricMode = input.authorityCentricMode;
         // this.slug = input.slug;
         if (input.accountable) {
             this.accountable = new Helper().deserialize(input.accountable);
