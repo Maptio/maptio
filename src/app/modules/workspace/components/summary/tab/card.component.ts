@@ -17,7 +17,7 @@ export class PersonalCardComponent implements OnInit {
     @Input("team") team: Team;
     @Input("datasetId") public datasetId: string;
     @Input("isWithLeader") isWithLeader: boolean;
-    @Input("selctedMemberId") selectedMemberId: string;
+    @Input("selectedMemberId") selectedMemberId: string;
     @Output("selectMember") selectMember: EventEmitter<User> = new EventEmitter<User>();
     @Output("selectInitiative") selectInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
 
@@ -47,7 +47,7 @@ export class PersonalCardComponent implements OnInit {
         return `multi-collapse-${this.initiative.id}`
     }
 
-    sortHelpers(){
+    sortHelpers() {
         return sortBy(this.initiative.helpers, h => h.name)
     }
 }
