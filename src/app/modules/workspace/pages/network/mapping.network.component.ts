@@ -28,9 +28,10 @@ import { select, selectAll, event, mouse } from "d3-selection";
 import { zoom, zoomIdentity, zoomTransform } from "d3-zoom";
 import { tree, hierarchy, HierarchyNode } from "d3-hierarchy";
 import { color } from "d3-color";
-import {forceSimulation, forceLink, forceManyBody, forceCenter, ForceLink} from "d3-force"
-import {map as d3Map} from "d3-collection"
-import {drag} from "d3-drag"
+import { forceSimulation, forceLink, forceManyBody, forceCenter, ForceLink } from "d3-force"
+import { map as d3Map } from "d3-collection"
+import { drag } from "d3-drag"
+import { MapSettings, MapSettingsService } from "../../services/map-settings.service";
 
 const d3 = Object.assign(
   {},
@@ -68,6 +69,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public translateY: number;
   public scale: number;
   public tagsState: Array<SelectableTag>;
+  public settings: MapSettings;
 
   public margin: number;
   public selectableTags$: Observable<Array<SelectableTag>>;
@@ -134,7 +136,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     private router: Router,
     private dataService: DataService,
     private uriService: URIService,
-    private datasetFactory: DatasetFactory
+    private datasetFactory: DatasetFactory,
+    private mapSettingsService: MapSettingsService
   ) {
   }
 
@@ -145,7 +148,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     this.dataSubscription = this.dataService
       .get()
       .map(dataset => {
-        this.isAuthorityCentricMode$.next(dataset.initiative.authorityCentricMode);
+        this.datasetId = dataset.dataset.datasetId;
+        this.settings = this.mapSettingsService.get(this.datasetId);
+        this.isAuthorityCentricMode$.next(this.settings.views.network?.isAuthorityCentricMode);
         return dataset;
       })
       .combineLatest(this.mapColor$, this.isAuthorityCentricMode$.asObservable())
@@ -153,7 +158,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         this.dataset = dataset.dataset;
 
         let data = <any>dataset.initiative;
-        this.datasetId = dataset.dataset.datasetId;
         this.rootNode = dataset.initiative;
         this.team = dataset.team;
         this.slug = data.getSlug();
@@ -541,20 +545,24 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
   saveChanges(authorityCentricMode: boolean) {
     this.isSaving = true;
-    this.dataset.initiative.authorityCentricMode = authorityCentricMode;
+    const settings = this.settings;
+    settings.views.network.isAuthorityCentricMode = authorityCentricMode
+
+    this.mapSettingsService.set(this.datasetId, settings)
+    // this.dataset.initiative.authorityCentricMode = authorityCentricMode;
 
     if (!this.dataset) {
       return;
     }
 
     this.datasetFactory.upsert(this.dataset, this.dataset.datasetId)
-        .then((hasSaved: boolean) => {
-          // this.dataService.set(this.dataset);
-          return hasSaved;
-        }, (reason) => { console.error(reason) })
-        .then(() => {
-          this.isSaving = false;
-        });
+      .then((hasSaved: boolean) => {
+        // this.dataService.set(this.dataset);
+        return hasSaved;
+      }, (reason) => { console.error(reason) })
+      .then(() => {
+        this.isSaving = false;
+      });
   }
 
   public isNoNetwork: boolean;
