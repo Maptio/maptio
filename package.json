@@ -101,7 +101,7 @@
     "popper.js": "^1.14.6",
     "random-words": "^1.1.0",
     "randomstring": "^1.1.5",
-    "request": "^2.85.0",
+    "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "rimraf": "^2.5.2",
     "rxjs": "^6.3.3",
