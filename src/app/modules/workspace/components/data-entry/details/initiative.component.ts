@@ -30,7 +30,7 @@ import { PermissionsService } from "../../../../../shared/services/permissions/p
     templateUrl: "./initiative.component.html",
     styleUrls: ["./initiative.component.css"],
     providers: [Angulartics2Mixpanel],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.Default
 })
 
 export class InitiativeComponent implements OnChanges {
