@@ -42,6 +42,8 @@ Additionally , we use these services/packages :
 ### Prerequisites
 
 You must have [Node.js (> 7.10.1)](https://nodejs.org/en/download/) installed.
+For local development please install [MongoDB (Community Edition)](https://docs.mongodb.com/manual/installation/) too.
+
 
 ### Setting up Dev
 
@@ -59,7 +61,24 @@ https://maptio.slack.com/files/U2V4KAPJP/FDXNFAUBE/_env__root_folder_.md to ./en
 https://maptio.slack.com/files/U2V4KAPJP/FDZ9UK64E/id_rsa__root_folder__no_extension_.diff to ./id_rsa
 https://maptio.slack.com/files/U2V4KAPJP/FDXNG2XJQ/rsa_pub__root_folder_.diff to ./rsa.pub
 
-#### 3. Install dependencies and start the Node.js server
+Please note, the environment variables point to the production database, please handle these safely and be careful when making changes locally. To avoid problems, it's recommended that you set up at least the DB locally - see the next step.
+
+#### 3. Set up a local database
+
+To keep your data locally, create a new folder in the root of the repository called `local_data` and run the MongoDB demon pointing it to that folder:
+
+```shell
+mongod --dbpath=./local_data/
+```
+
+Next, point the app at the database by commenting out the `MONGODB_URI` environment variable and pointing to your new database, e.g.:
+
+```shell
+#MONGODB_URI=mongodb://<PRODUCTION URI>
+MONGODB_URI=mongodb://localhost:27017/maptio
+```
+
+#### 4. Install dependencies and start the Node.js server
 
 ```shell
 npm install
@@ -67,17 +86,23 @@ npm start
 ```
 A webpack analyzer window might open at http://localhost:8888, ignore this for now.
 
-#### 4. Access 
+#### 5. Access
 
 Go to  `http://localhost:3000` to see it in the browser.
 
+If you have previously logged in to the app locally using the production
+database, you will find it's now impossible to log in to the app locally if
+it's using your local database. To fix this, open developer tools and remove
+everything under `Application > Local Storage > http://localhost:3000`
+
+
 ### Deploying / Publishing
 
-We use TravisCI (CircleCI soon),  Code Climate and Heroku for deploying to `https://app.maptio.com`.
+We use CircleCI,  Code Climate and Heroku for deploying to `https://app.maptio.com`.
 
 Any `git push` in the `master` branch will triggers the following events : 
 
-1. Build and run tests on Travis CI (CircleCI soon)
+1. Build and run tests on CircleCI
 2. If pass, analyse on CodeClimate and report test coverage & quality metrics
 3. Deploy to Heroku at `https://app.maptio.com`
 
@@ -85,7 +110,7 @@ Each step is logged on our private Slack `maptio.slack.com`, in the `#build` cha
 
 ### Issue tracker
 
-We use [GitHub issue tracker](https://github.com/Safiyya/maptio/issues).
+We use [GitHub issue tracker](https://github.com/tomnixon/maptio/issues).
 
 Ideally Pull requests and commits should reference the issue number ([See this guide](https://help.github.com/articles/closing-issues-via-commit-messages/))
 
@@ -112,7 +137,7 @@ npm run test:watch
 npm run test:coverage
 ```
 
-Locally, you can follow test coverate statistics by opening `./coverage/html/index.html` in a browser (generated with Istanbul)
+Locally, you can follow test coverate statistics by opening `./coverage/index.html` in a browser (generated with Istanbul)
 
 ## Style guide
 
