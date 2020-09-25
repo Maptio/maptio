@@ -5,6 +5,7 @@ import { of } from 'rxjs/observable/of';
 import { Auth } from '../../../../../../../core/authentication/auth.service';
 import { User } from '../../../../../../../shared/model/user.data';
 import { Subscription, Subject } from 'rxjs';
+import { cloneDeep } from "lodash-es";
 
 @Component({
     selector: 'initiative-helpers-select',
@@ -55,8 +56,12 @@ export class InitiativeHelpersSelectComponent implements OnInit {
             return;
         }
 
-        newHelper.roles = [];
-        this.helpers.unshift(newHelper);
+        // Create a copy to avoid adding the same object to multiple initiative
+        // and overwriting roles across initiatives
+        const helperCopy = cloneDeep(newHelper);
+        helperCopy.roles = [];
+
+        this.helpers.unshift(helperCopy);
 
         this.save.emit(this.helpers);
         this.cd.markForCheck();
