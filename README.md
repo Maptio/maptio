@@ -1,8 +1,10 @@
 ![Logo of the project](./public/images/logo-full.png)
 
 [![Build Status](https://travis-ci.com/Safiyya/maptio.svg?token=nc9XxWrdvz8syvD6uvUM&branch=master)](https://travis-ci.com/Safiyya/maptio)
+[![CircleCI](https://circleci.com/github/tomnixon/maptio.svg?style=svg&circle-token=0c8395a403ed8f724ce36387033696b3cc363e34)](https://app.circleci.com/pipelines/github/tomnixon)
 [![Maintainability](https://api.codeclimate.com/v1/badges/be1b4f8e1652075411b3/maintainability)](https://codeclimate.com/repos/58ddc02f974e760287000b1d/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/be1b4f8e1652075411b3/test_coverage)](https://codeclimate.com/repos/58ddc02f974e760287000b1d/test_coverage)
+
 
 # Maptio
 
@@ -15,12 +17,15 @@ So that people throughout the organisation can:
 - enjoy greater transparency
 - avoid the tyranny of heavy-weight processes, bureaucracy and excessive management.
 
+
 ## Installing / Getting started
 
 The latest version of the app is running at [https://app.maptio.com](https://app.maptio.com).
-A staging environment is setup at [https://maptio-staging.herokuapp.com/](https://maptio-staging.herokuapp.com/)
+A staging environment is setup at [https://maptio-staging.herokuapp.com/](https://maptio-staging.herokuapp.com/).
+Please be careful when using the staging environment as it is currently connected to the production database.
 
 To launch it on your local server, see the [Setting up dev](#setting-up-dev) section.
+
 
 ## Developing
 
@@ -37,7 +42,6 @@ Additionally , we use these services/packages :
 - Angular Tree Component `angular2-tree-component`
 - Auth0 for authentication as a service
 - Cloudinary for image storage/retrieval
-
 
 ### Prerequisites
 
@@ -93,7 +97,72 @@ Go to  `http://localhost:3000` to see it in the browser.
 If you have previously logged in to the app locally using the production
 database, you will find it's now impossible to log in to the app locally if
 it's using your local database. To fix this, open developer tools and remove
-everything under `Application > Local Storage > http://localhost:3000`
+everything under `Application > Local Storage > http://localhost:3000`.
+
+For development, it's enough to just use a trial account, because you can always
+clean up the database and start again (but ideally we should work out a better
+local development account workflow at some point!).
+
+
+### Source mapping
+
+By default source mapping doesn't work locally because of the integration with FullStory.
+It can be re-enabled by simply commenting out the scripts in `index.html`
+
+
+### Infrastructure
+
+#### Server
+
+The app is hosted on heroku.
+There are two heroku projects, one for the production server (app.maptio.com) and one for the staging server:
+* [maptio-eu (production) on heroku](https://dashboard.heroku.com/apps/maptio-eu)
+* [maptio-staging on heroku](https://dashboard.heroku.com/apps/maptio-staging)
+
+
+#### Database
+
+The app uses MongoDB as its database.
+There is currently only one database set up in the cloud.
+It powers both the production and the staging sites (caution required!).
+It is hosted on MongoDB Atlas:
+* [MongoDB Atlas instance](https://cloud.mongodb.com/v2/59b415d9c0c6e3360f567f24)
+
+
+#### Continuous Integration
+
+CircleCI is used to run tests on every branch:
+* [Maptio on CircleCI](https://app.circleci.com/pipelines/github/tomnixon)
+Deployments are done on Heroku based on pushes to branches on github, which orchestrates the CI steps.
+See more below.
+
+
+#### Auth0
+
+Authentication is managed through Auth0. The production account is used locally and on staging too for now.
+* [Auth0 productin account](https://manage.auth0.com/dashboard/us/circlemapping/)
+
+
+#### Cloudinary
+
+Cloudinary is used to store user profile images, with the same account serving production, staging and local environments.
+The account can be accessed through Heroku login in the resources section.
+* [Cloudinary login through Heroku resources](https://dashboard.heroku.com/apps/maptio-staging/resources)
+
+
+#### Code quality
+
+At the start of the project Code Climate was used to keep track of code quality. It's not used that much anymore but might still be useful
+in the future.
+* [CodeClimate](https://codeclimate.com/repos/58ddc02f974e760287000b1d)
+
+
+#### Analytics
+
+The following services are used for analytics and/or logging (links need to be added here);:
+* [Mixpanel]()
+* [Fullstory]()
+* [Logrocket]()
 
 
 ### Deploying / Publishing
