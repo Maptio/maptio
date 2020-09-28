@@ -12,6 +12,7 @@ tokeep.txt
 public/*.js
 public/*.css
 mongo*.json
+local_data/*
 .env
 id_rsa
 id_rsa.pub
