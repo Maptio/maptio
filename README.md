@@ -159,10 +159,10 @@ in the future.
 
 #### Analytics
 
-The following services are used for analytics and/or logging (links need to be added here);:
-* [Mixpanel]()
-* [Fullstory]()
-* [Logrocket]()
+The following services are used for analytics and/or logging:
+* [FullStory](https://app.fullstory.com/ui/8HKGB)
+* [LogRocket](https://app.logrocket.com/w3vkbz/maptio)
+* [Mixpanel - link to be added later]()
 
 
 ### Deploying / Publishing
