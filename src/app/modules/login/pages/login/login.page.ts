@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
 
 
     public loginErrorMessage: string;
+    public isAuthorizeErrorFromAuth0: Boolean;
     public isWrongPassword: Boolean;
     public isUnknownEmail: Boolean;
 
@@ -105,7 +106,13 @@ export class LoginComponent implements OnInit {
         this.subscription = this.route.queryParams.subscribe((params: Params) => {
             this.token = params["token"];
             // HACK : wouldbe nicer to have booleans for login attempt cases, but that will do for now
-            this.previousAttemptMessage = params["login_message"];
+            const loginMessage = params["login_message"];
+
+            if (loginMessage === "Error: authorize_error_from_auth0") {
+                this.isAuthorizeErrorFromAuth0 = true;
+            } else {
+                this.previousAttemptMessage = loginMessage;
+            }
 
             this.isLoggingIn = (this.token === undefined);
             if (!this.isLoggingIn) {
