@@ -10,7 +10,7 @@ export class URIService {
 
         if (query.has("error")) {
             console.error("Got the following error from Auth0: ", query);
-            throw new Error("authorize_error_from_auth0")
+            throw new Error("authorize_error_from_auth0");
         }
 
         return query;
