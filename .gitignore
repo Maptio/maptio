@@ -7,12 +7,10 @@ tslint.json
 TODO.md
 npm-debug.log
 newrelic_agent.log
-TODO.md
 tokeep.txt
 public/*.js
 public/*.css
 public/images/sources/*.*
-stats.json
 
 # Environment variables and keys
 .env
