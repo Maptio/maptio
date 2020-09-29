@@ -7,6 +7,12 @@ export class URIService {
             let pair = pairs[i].split("=");
             query.set(decodeURIComponent(pair[0]), pair[1] ? decodeURIComponent(pair[1]) : undefined);
         }
+
+        if (query.has("error")) {
+            console.error("Got the following error from Auth0: ", query);
+            throw new Error("authorize_error_from_auth0")
+        }
+
         return query;
     }
 
