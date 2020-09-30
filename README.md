@@ -104,6 +104,52 @@ clean up the database and start again (but ideally we should work out a better
 local development account workflow at some point!).
 
 
+### Using a backup of the production database locally
+
+Using an empty databse locally (as described above) is not always enough (e.g. performance issues only appear with sufficiently complex
+maps). Connecting to the production database locally is dangerous as it may lead to data loss. To avoid both issues, we can back up the
+production database and restore it to our own local MongoDB instance. To do this, please follow the instructions below.
+
+#### 1. Empty your current local database
+
+If you followed the instructions above, you can simply delete the `local_data` folder (back it up first if that might be useful):
+
+```shell
+mv local_data local_data_backup
+mkdir local_data
+```
+
+#### 2. Start a new instance of MongoDB pointing at the new data location
+
+```shell
+mongod --dbpath=./local_data/
+```
+
+#### 3. Perform a backup of the production DB
+
+First, you'll need to copy the production `MONGODB_URI` variable from the `.env` file. Then, paste it into the following command and
+execute the command:
+
+```shell
+mongodump --uri "<MONGODB_URI>" --out ./db_backup
+```
+
+The `mongodump` command should be installed with the MongoDB installation (checked with MongoDB Community Edition 4.4 installed via
+homebrew on MacOS).
+
+#### 4. Restore the copy of the production DB to your local MongoDB instance
+
+The previous command should have copied all data from the prod DB to the `db_backup` folder. Now we need to populate our local MongoDB
+database with that data simply by running (note this will only work if an instance of MongoDB is running locally on the default port as it
+should be after step 2 above):
+
+```shell
+mongorestore db_backup
+```
+
+You should now be able to see production data locally if you log in to maptio with an account that is part of an existing organisation.
+
+
 ### Source mapping
 
 By default source mapping doesn't work locally because of the integration with FullStory.
@@ -159,10 +205,10 @@ in the future.
 
 #### Analytics
 
-The following services are used for analytics and/or logging (links need to be added here);:
-* [Mixpanel]()
-* [Fullstory]()
-* [Logrocket]()
+The following services are used for analytics and/or logging:
+* [FullStory](https://app.fullstory.com/ui/8HKGB)
+* [LogRocket](https://app.logrocket.com/w3vkbz/maptio)
+* [Mixpanel - link to be added later]()
 
 
 ### Deploying / Publishing

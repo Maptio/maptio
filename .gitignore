@@ -7,15 +7,19 @@ tslint.json
 TODO.md
 npm-debug.log
 newrelic_agent.log
-TODO.md
 tokeep.txt
 public/*.js
 public/*.css
-mongo*.json
-local_data/*
+public/images/sources/*.*
+
+# Environment variables and keys
 .env
 id_rsa
 id_rsa.pub
 rsa.pub
-public/images/sources/*.*
-stats.json
+
+# MongoDB
+mongo*.json
+local_data/*
+local_data_backup/*
+prod_db_backup/*

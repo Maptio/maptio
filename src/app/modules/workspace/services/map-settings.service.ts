@@ -67,7 +67,7 @@ export class MapSettingsService {
                             expandedNodesIds: []
                         },
                         network: {
-                            isAuthorityCentricMode: true
+                            isAuthorityCentricMode: false
                         }
                     }
                 }
