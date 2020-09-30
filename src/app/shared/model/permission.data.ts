@@ -14,8 +14,7 @@ export enum UserRole {
 }
 
 export enum Permissions {
-    Nothing, // HACK : to avoid (Permissions.canAddUser) = false (because its index is 0)
-    canAddUser,
+    canAddUser = 1, // Start from 1 (to avoid `Permissions.canAddUser === false`) and auto-increment
     canDeleteUser,
     canEditUser,
     canInviteUser,
