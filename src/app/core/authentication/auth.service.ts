@@ -51,13 +51,18 @@ export class Auth {
   ) {}
 
   public logout(): void {
-    localStorage.clear();
+    this.clear();
     this.user$.unsubscribe();
     this.router.navigateByUrl("/logout");
     this.analytics.eventTrack("Logout", {});
     this.fullstory.shutdown();
   }
 
+  /**
+   * Clear local storage while keeping some settings
+   *
+   * This should be used in favour of localStorage.clear() whenever local storage needs to be cleaned out
+   */
   public clear() {
     let persist = new Map<string, string>();
     for (let i = 0; i < localStorage.length; i++) {
@@ -368,6 +373,9 @@ export class Auth {
                             this.router.navigateByUrl(
                               redirectUrl ? redirectUrl : "/home"
                             );
+
+                            // Prevent the URL from being persisted between sessions
+                            if (redirectUrl) localStorage.removeItem("redirectUrl");
                           });
                       } else {
                         this.errorService.handleError(
