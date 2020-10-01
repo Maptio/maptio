@@ -3,6 +3,7 @@ import { DataService } from "../../services/data.service";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { UIService } from "../../services/ui.service";
 import { ColorService } from "../../services/color.service";
+import { PermissionsService } from "../../../../shared/services/permissions/permissions.service";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { SelectableTag, Tag } from "../../../../shared/model/tag.data";
@@ -122,7 +123,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private cd: ChangeDetectorRef,
     private dataService: DataService,
     private uriService: URIService,
-    private mapSettingsService: MapSettingsService
+    private mapSettingsService: MapSettingsService,
+    private permissionsService: PermissionsService
   ) {
   }
 
@@ -351,6 +353,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let router = this.router;
     let userFactory = this.userFactory;
     let showDetailsOf$ = this.showDetailsOf$;
+    const canOpenInitiativeContextMenu = this.permissionsService.canOpenInitiativeContextMenu();
     let showContextMenuOf$ = this.showContextMenuOf$;
     let showToolipOf$ = this.showToolipOf$;
     let g = this.g;
@@ -704,6 +707,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           });
         })
         .on("contextmenu", function (d: any) {
+          if (!canOpenInitiativeContextMenu) return;
+
           d3.getEvent().preventDefault();
           let mousePosition = d3.mouse(this);
           let matrix = this.getCTM().translate(

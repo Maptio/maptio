@@ -3,6 +3,7 @@ import { DataService } from "../../services/data.service";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { Browsers, UIService } from "../../services/ui.service";
 import { ColorService } from "../../services/color.service";
+import { PermissionsService } from "../../../../shared/services/permissions/permissions.service";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { SelectableUser } from "../../../../shared/model/user.data";
@@ -136,7 +137,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     private cd: ChangeDetectorRef,
     private dataService: DataService,
     private uriService: URIService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private permissionsService: PermissionsService
   ) {
     this.T = d3.transition(null).duration(this.TRANSITION_DURATION);
   }
@@ -502,6 +504,7 @@ document.querySelector("svg#map").clientWidth / 2,
     let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
     let TRANSITION_DURATION = this.TRANSITION_DURATION;
     let showToolipOf$ = this.showToolipOf$;
+    const canOpenInitiativeContextMenu = this.permissionsService.canOpenInitiativeContextMenu();
     let showContextMenuOf$ = this.showContextMenuOf$;
     // let getCenteredMargin = this.getCenteredMargin.bind(this);
     let browser = this.browser;
@@ -811,6 +814,8 @@ document.querySelector("svg#map").clientWidth / 2,
             .style("stroke-opacity", 0)
         })
         .on("contextmenu", function (d: any) {
+          if (!canOpenInitiativeContextMenu) return;
+
           d3.getEvent().preventDefault();
           let mousePosition;
 

@@ -122,4 +122,8 @@ export class PermissionsService {
             (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
 
     }
+
+    public canOpenInitiativeContextMenu(): boolean {
+        return this.userPermissions.includes(Permissions.canOpenInitiativeContextMenu);
+    }
 }

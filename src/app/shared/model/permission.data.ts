@@ -29,12 +29,12 @@ export enum Permissions {
     canEditInitiativeDescription,
     canEditInitiativeTags,
     canEditInitiativeAuthority,
+    canOpenInitiativeContextMenu,
     canAddHelper,
     canDeleteHelper,
     canEditHelper,
     canGiveHelperPrivileges,
     canSubscribe
-
 }
 
 
@@ -72,6 +72,7 @@ export class UserRoleService {
             Permissions.canEditInitiativeDescription,
             Permissions.canEditInitiativeTags,
             Permissions.canEditInitiativeAuthority,
+            Permissions.canOpenInitiativeContextMenu,
             Permissions.canAddHelper,
             Permissions.canDeleteHelper,
             Permissions.canEditHelper,

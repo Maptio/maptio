@@ -6,6 +6,7 @@ import { UIService } from "../../services/ui.service";
 import { Router } from "@angular/router";
 import { DataService } from "../../services/data.service";
 import { URIService } from "../../../../shared/services/uri/uri.service";
+import { PermissionsService } from "../../../../shared/services/permissions/permissions.service";
 import { Tag, SelectableTag } from "../../../../shared/model/tag.data";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
@@ -137,7 +138,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     private dataService: DataService,
     private uriService: URIService,
     private datasetFactory: DatasetFactory,
-    private mapSettingsService: MapSettingsService
+    private mapSettingsService: MapSettingsService,
+    private permissionsService: PermissionsService
   ) {
   }
 
@@ -585,6 +587,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let uiService = this.uiService;
     let showDetailsOf$ = this.showDetailsOf$;
     let showToolipOf$ = this.showToolipOf$;
+    const canOpenInitiativeContextMenu = this.permissionsService.canOpenInitiativeContextMenu();
     let showContextMenuOf$ = this.showContextMenuOf$;
     let datasetSlug = this.slug;
     let datasetId = this.datasetId;
@@ -888,6 +891,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         });
       })
       .on("contextmenu", function (d: any) {
+        if (!canOpenInitiativeContextMenu) return;
+
         d3.getEvent().preventDefault();
         let mousePosition = d3.mouse(this);
         let matrix = this.getCTM().translate(
