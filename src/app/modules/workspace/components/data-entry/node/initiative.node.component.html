@@ -3,6 +3,11 @@
 		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
 	</span>
 </ng-template>
+<ng-template #createTipContent>
+	<span class="text-orange">You don't have permission to add this.
+		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+	</span>
+</ng-template>
 <ng-template #editTipContent>
 	<span class="text-orange">You don't have permission to edit this.
 		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
@@ -32,10 +37,23 @@
 			<p *ngIf="isRoot()">Create outer circle</p>
 			<p *ngIf="!isRoot()">Add sub-circle</p>
 		</ng-template>
-		<button class="btn add border border-left-0 border-right-0 btn-outline-secondary" (click)="addChildNode(node.data)" placement="top"
-		 [ngbTooltip]="addButtonTooltip" container="body" angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'add', team:teamName, teamId:teamId  }"></button>
-		<!-- <button class="btn edit border border-left-0 border-right-0 btn-outline-secondary" *ngIf="!isRoot()" (click)="openNode(node.data)"
-		 placement="top" container="body" ngbTooltip="Open circle" angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'edit', team:teamName, teamId:teamId }"></button> -->
+
+		<ng-container *ngIf="!isRoot()">
+			<div *permissionsOnly="Permissions.canCreateInitiative; initiative node.data; else elseCreateBlock; then thenCreateBlock; "></div>
+
+			<ng-template #thenCreateBlock>
+				<button class="btn add border border-left-0 border-right-0 btn-outline-secondary" (click)="addChildNode(node.data)" placement="top"
+				[ngbTooltip]="addButtonTooltip" container="body" angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'add', team:teamName, teamId:teamId  }"></button>
+				<!-- <button class="btn edit border border-left-0 border-right-0 btn-outline-secondary" *ngIf="!isRoot()" (click)="openNode(node.data)"
+				placement="top" container="body" ngbTooltip="Open circle" angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'edit', team:teamName, teamId:teamId }"></button> -->
+			</ng-template>
+
+			<ng-template #elseCreateBlock>
+				<button class="btn add border border-left-0 border-right-0 btn-outline-secondary disabled not-allowed" placement="top" [stickyPopover]="createTipContent" container="body"></button>
+			</ng-template>
+		</ng-container>
+
+
 		<ng-container *ngIf="!isRoot()">
 			<div *permissionsOnly="Permissions.canDeleteInitiative; initiative node.data; else elseDeleteBlock;then thenDeleteBlock; ">
 
@@ -52,7 +70,6 @@
 
 				</button>
 			</ng-template>
-
 		</ng-container>
 	</div>
 </ng-template>

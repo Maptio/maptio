@@ -53,9 +53,7 @@ export class UserRoleService {
     }
 
     private getStandardPermissions(): Permissions[] {
-        return [
-            Permissions.canCreateInitiative
-        ]
+        return [];
     }
 
     private getAdminPermissions(): Permissions[] {
