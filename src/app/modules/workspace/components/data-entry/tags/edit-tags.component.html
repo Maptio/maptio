@@ -1,3 +1,8 @@
+<ng-template #editTipContent>
+	<span class="text-orange">You don't have permission to edit this.
+		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+	</span>
+</ng-template>
 <ng-template #deleteTipContent>
 	<span class="text-orange">You don't have permission to delete this.
 		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
@@ -46,7 +51,9 @@
                 </ng-template>
 
                 <ng-template #elseTagsBlock>
-                    <input type="text" class="flex-grow-1 form-control" name="inputTagName" [ngModel]="tag.name" disabled />
+                    <div class="flex-grow-1 d-flex" [stickyPopover]="editTipContent">
+                        <input type="text" class="flex-grow-1 form-control cursor-not-allowed" name="inputTagName" [ngModel]="tag.name" disabled />
+                    </div>
                     <div class="mx-1">
                         <common-color-picker [color]="tag.color" [isDisabled]="true" (change)="saveColor(tag, $event)"></common-color-picker>
                     </div>
