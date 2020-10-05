@@ -107,7 +107,7 @@
                     </a>
 
                 </div>
-                <div class="ml-auto">
+                <div *permissionsOnly="Permissions.canInviteUser" class="ml-auto">
                     <button class="btn btn-outline-secondary pull-right nowrap" mwlConfirmationPopover
                         [popoverMessage]="inviteAllUsersMessage" placement="top" focusButton="cancel"
                         appendToBody="true" (confirm)="inviteAll()" (cancel)="cancelClicked = true">Invite/resend

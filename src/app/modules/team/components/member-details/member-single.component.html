@@ -61,8 +61,10 @@
                             </button>
                         </ng-template>
                     </ng-container>
-                    <button *ngIf="member.isActivationPending && member.isInvitationSent" class="btn btn-outline-secondary pull-right" (click)="inviteUser()"
-                        placement="left" container="body" ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
+                    <ng-container *permissionsOnly="Permissions.canInviteUser">
+                        <button *ngIf="member.isActivationPending && member.isInvitationSent" class="btn btn-outline-secondary pull-right" (click)="inviteUser()"
+                            placement="left" container="body" ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
+                    </ng-container>
                 </ng-container>
                 <ng-container *ngIf="isDisplaySendingLoader">
                     <div class="indicator text-green d-flex justify-content-end align-items-center">
