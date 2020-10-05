@@ -48,7 +48,7 @@
                 <ng-template #elseTagsBlock>
                     <input type="text" class="flex-grow-1 form-control" name="inputTagName" [ngModel]="tag.name" disabled />
                     <div class="mx-1">
-                        <common-color-picker [color]="tag.color" [isMinimal]="true" (change)="saveColor(tag, $event)"></common-color-picker>
+                        <common-color-picker [color]="tag.color" [isDisabled]="true" (change)="saveColor(tag, $event)"></common-color-picker>
                     </div>
                     <button placement="top" container="body" appendToBody="false" class="btn btn-outline-secondary remove col-auto disabled cursor-not-allowed"
                         [stickyPopover]="deleteTipContent">

@@ -13,8 +13,11 @@ export class ColorPickerComponent implements OnInit {
     @Input("label") label: string;
     @Input("default") defaultColor: string;
     @Input("isMinimal") isMinimal: boolean;
+    @Input("isDisabled") isDisabled: boolean = false;
     @Output("change") changeColor: EventEmitter<string> = new EventEmitter<string>();
-    
+
+    KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
+
     constructor() { }
 
     ngOnInit(): void { }
