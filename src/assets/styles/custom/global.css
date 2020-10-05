@@ -305,6 +305,11 @@ ul.picture-list > .list-inline-item{
   cursor:move;
 }
 
+.cursor-not-allowed,
+button.cursor-not-allowed{
+    cursor: not-allowed;
+}
+
 .home-background{
   background-image: url('/assets/images/screenshot-light.png');
   background-size: contain;
