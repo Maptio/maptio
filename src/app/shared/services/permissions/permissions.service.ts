@@ -25,10 +25,15 @@ export class PermissionsService {
 
     public canEditInitiativeName( initiative:Initiative): boolean {
         return this.userPermissions.includes(Permissions.canEditInitiativeName)
+            // TODO: Refactor into small functions - there's lots of repetition here and we could clean the lines below
+            // with more readable helper functions (see some possible names below)
+            // TODO: || isWithoutLead(initiative)
             // ||
             // !initiative.accountable
+            // TODO: || isLeadOf(initiative)
             // ||
             // (initiative.accountable && initiative.accountable.user_id === this.userId)
+            // TODO: || hasAuthorityPriviligesFor(initiative)
             // ||
             // (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
     }
