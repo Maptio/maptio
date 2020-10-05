@@ -29,9 +29,8 @@ export class PermissionsService {
             !initiative.accountable
             ||
             (initiative.accountable && initiative.accountable.user_id === this.userId)
-            ||
-            (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
-
+            // ||
+            // (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
     }
 
     public canEditInitiativeDescription( initiative:Initiative): boolean {
@@ -40,9 +39,8 @@ export class PermissionsService {
             !initiative.accountable
             ||
             (initiative.accountable && initiative.accountable.user_id === this.userId)
-            ||
-            (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
-
+            // ||
+            // (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
     }
 
     public canEditInitiativeTags( initiative:Initiative): boolean {
@@ -51,9 +49,8 @@ export class PermissionsService {
             !initiative.accountable
             ||
             (initiative.accountable && initiative.accountable.user_id === this.userId)
-            ||
-            (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
-
+            // ||
+            // (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
     }
 
     public canEditInitiativeAuthority( initiative:Initiative): boolean {
@@ -70,11 +67,8 @@ export class PermissionsService {
             !initiative.accountable
             ||
             (initiative.accountable && initiative.accountable.user_id === this.userId)
-            ||
-            (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
-            ||
-            (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
-
+            // ||
+            // (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
     }
 
     public canDeleteHelper( initiative:Initiative,helper:Helper): boolean {
@@ -83,11 +77,10 @@ export class PermissionsService {
             !initiative.accountable
             ||
             (initiative.accountable && initiative.accountable.user_id === this.userId)
-            ||
-            (helper.user_id === this.userId)
-            ||
-            (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
-
+            // ||
+            // (helper.user_id === this.userId)
+            // ||
+            // (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
     }
 
     public canEditHelper( initiative:Initiative,helper:Helper): boolean {
@@ -96,11 +89,10 @@ export class PermissionsService {
             !initiative.accountable
             ||
             (initiative.accountable && initiative.accountable.user_id === this.userId)
-            ||
-            (helper.user_id === this.userId)
-            ||
-            (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
-
+            // ||
+            // (helper.user_id === this.userId)
+            // ||
+            // (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
     }
 
     public canGiveHelperPrivilege( initiative:Initiative): boolean {
@@ -109,7 +101,6 @@ export class PermissionsService {
             (initiative.accountable && initiative.accountable.user_id === this.userId)
             ||
             (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
-
     }
 
     public canDeleteInitiative( initiative:Initiative): boolean {
@@ -118,9 +109,8 @@ export class PermissionsService {
             !initiative.accountable
             ||
             (initiative.accountable && initiative.accountable.user_id === this.userId)
-            ||
-            (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
-
+            // ||
+            // (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
     }
 
     public canOpenInitiativeContextMenu(): boolean {
