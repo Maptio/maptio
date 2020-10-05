@@ -306,6 +306,7 @@ ul.picture-list > .list-inline-item{
 }
 
 .cursor-not-allowed,
+button[type="button"].cursor-not-allowed,
 button.cursor-not-allowed{
     cursor: not-allowed;
 }
