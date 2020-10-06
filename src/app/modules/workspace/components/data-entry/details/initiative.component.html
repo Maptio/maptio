@@ -44,6 +44,7 @@
 	<div class="d-flex w-100 justify-content-end">
 		<initiative-helpers-select class="w-100" [isUnauthorized]="!canAddHelper()" [team]="team"
 			[helpers]="node?.helpers" [user]="user" [authority]="node?.accountable" (save)="addHelpers($event)">
+			<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
 		</initiative-helpers-select>
 
 	</div>
