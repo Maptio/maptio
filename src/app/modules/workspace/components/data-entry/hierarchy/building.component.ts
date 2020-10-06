@@ -1,5 +1,6 @@
 import { User } from "../../../../../shared/model/user.data";
 import { Team } from "../../../../../shared/model/team.data";
+import { Permissions } from "../../../../../shared/model/permission.data";
 import { UserFactory } from "../../../../../core/http/user/user.factory";
 import { DatasetFactory } from "../../../../../core/http/map/dataset.factory";
 import { DataService } from "../../../services/data.service";
@@ -19,6 +20,7 @@ import { DataSet } from "../../../../../shared/model/dataset.data";
 import { UserService } from "../../../../../shared/services/user/user.service";
 import { intersectionBy } from "lodash";
 import { Subject } from "rxjs";
+import { environment } from "../../../../../config/environment";
 
 @Component({
     selector: "building",
@@ -87,6 +89,8 @@ export class BuildingComponent {
 
     SAVING_FREQUENCY: number = 10;
 
+    KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
+    Permissions = Permissions;
 
     @ViewChild("tree") public tree: TreeComponent;
     @ViewChild("tabs") public tabs: NgbTabset;

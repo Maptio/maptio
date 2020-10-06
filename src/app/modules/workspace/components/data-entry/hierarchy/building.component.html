@@ -19,10 +19,28 @@
 								<i class="fas" [class.fa-minus-circle]="!isCollapsing" [class.fa-circle-notch]="isCollapsing" [class.fa-spin]="isCollapsing"
 								 aria-hidden="true"></i> Collapse all
 							</button>
-							<button *ngIf="isEmptyMap" name="" id="" class="btn btn-outline-secondary ml-auto" (click)="addRootNode()" role="button"
-							 placement="top" container="body" ngbTooltip="Add a new circle">
-								<i class="fa fa-plus large" aria-hidden="true"></i> New outer circle
-							</button>
+
+							<ng-container *permissionsOnly="Permissions.canCreateRootInitiative; else elseFirstNodeBlock; then thenFirstNodeBlock">main</ng-container>
+
+							<ng-template #thenFirstNodeBlock>
+								<button *ngIf="isEmptyMap" name="" id="" class="btn btn-outline-secondary ml-auto" (click)="addRootNode()" role="button"
+								placement="top" container="body" ngbTooltip="Add a new circle">
+									<i class="fa fa-plus large" aria-hidden="true"></i> New outer circle
+								</button>
+							</ng-template>
+
+							<ng-template #permissionsTipContent>
+								<span class="text-orange">You don't have permission to do this.
+								<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+								</span>
+							</ng-template>
+
+							<ng-template #elseFirstNodeBlock>
+								<button *ngIf="isEmptyMap" name="" id="" class="btn btn-outline-secondary ml-auto disabled cursor-not-allowed" role="button"
+								placement="top" container="body" [stickyPopover]="permissionsTipContent">
+									<i class="fa fa-plus large" aria-hidden="true"></i> New outer circle
+								</button>
+							</ng-template>
 						</div>
 					</div>
 					<div>

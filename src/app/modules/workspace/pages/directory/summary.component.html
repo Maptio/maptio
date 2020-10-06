@@ -55,7 +55,7 @@
                 </div>
 
                 <ul class="d-none d-md-block card-columns p-0" [class.five-columns]="!selectedMember" [class.one-column]="selectedMember">
-                    <button class="card bg-secondary border cursor-pointer text-white" (click)="onAddingNewMember()">
+                    <button *permissionsOnly="Permissions.canAddUser" class="card bg-secondary border cursor-pointer text-white" (click)="onAddingNewMember()">
                         <div class="card-body">
                             Add new person
                         </div>

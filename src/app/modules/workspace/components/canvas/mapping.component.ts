@@ -29,6 +29,7 @@ import { MappingZoomableComponent } from "../../pages/circles/mapping.zoomable.c
 import { ExportService } from "../../../../shared/services/export/export.service";
 import { Intercom } from "ng-intercom";
 import { User } from "../../../../shared/model/user.data";
+import { Permissions } from "../../../../shared/model/permission.data";
 import { MappingSummaryComponent } from "../../pages/directory/summary.component";
 import { SearchComponent } from "../searching/search.component";
 import { environment } from "../../../../config/environment";
@@ -53,6 +54,8 @@ export class MappingComponent {
   isFirstEdit: boolean;
   DEFAULT_TEXT_COLOR: string = environment.DEFAULT_MAP_TEXT_COLOR;
   DEFAULT_MAP_COLOR: string = environment.DEFAULT_MAP_BACKGOUND_COLOR;
+  KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
+  Permissions = Permissions;
   fullScreenLib: any = screenfull;
   isFullScreen: boolean;
   hoveredInitiatives: Initiative[];

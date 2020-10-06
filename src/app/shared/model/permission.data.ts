@@ -14,15 +14,17 @@ export enum UserRole {
 }
 
 export enum Permissions {
-    Nothing, // HACK : to avoid (Permissions.canAddUser) = false (because its index is 0)
-    canAddUser,
+    canAddUser = 1, // Start from 1 (to avoid `Permissions.canAddUser === false`) and auto-increment
     canDeleteUser,
     canEditUser,
     canInviteUser,
     canCreateTeam,
     canCreateUnlimitedTeams,
     canEditTeam,
-    canEditMapName, 
+    canCreateMap,
+    canEditTags,
+    canEditMapName,
+    canCreateRootInitiative,
     canCreateInitiative,
     canDeleteInitiative,
     canMoveInitiative,
@@ -30,12 +32,12 @@ export enum Permissions {
     canEditInitiativeDescription,
     canEditInitiativeTags,
     canEditInitiativeAuthority,
+    canOpenInitiativeContextMenu,
     canAddHelper,
     canDeleteHelper,
     canEditHelper,
     canGiveHelperPrivileges,
     canSubscribe
-
 }
 
 
@@ -54,9 +56,7 @@ export class UserRoleService {
     }
 
     private getStandardPermissions(): Permissions[] {
-        return [
-            Permissions.canCreateInitiative
-        ]
+        return [];
     }
 
     private getAdminPermissions(): Permissions[] {
@@ -65,9 +65,12 @@ export class UserRoleService {
             Permissions.canDeleteUser,
             Permissions.canEditUser,
             Permissions.canEditTeam,
+            Permissions.canEditTags,
             Permissions.canCreateTeam,
             Permissions.canInviteUser,
+            Permissions.canCreateMap,
             Permissions.canEditMapName,
+            Permissions.canCreateRootInitiative,
             Permissions.canCreateInitiative,
             Permissions.canDeleteInitiative,
             Permissions.canMoveInitiative,
@@ -75,6 +78,7 @@ export class UserRoleService {
             Permissions.canEditInitiativeDescription,
             Permissions.canEditInitiativeTags,
             Permissions.canEditInitiativeAuthority,
+            Permissions.canOpenInitiativeContextMenu,
             Permissions.canAddHelper,
             Permissions.canDeleteHelper,
             Permissions.canEditHelper,

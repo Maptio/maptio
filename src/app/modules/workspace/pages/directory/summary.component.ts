@@ -3,6 +3,7 @@ import { Params, ActivatedRouteSnapshot, Router } from "@angular/router";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Team } from "../../../../shared/model/team.data";
 import { User } from "../../../../shared/model/user.data";
+import { Permissions } from "../../../../shared/model/permission.data";
 import { UIService } from "../../services/ui.service";
 import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { UserFactory } from "../../../../core/http/user/user.factory";
@@ -71,6 +72,7 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     dataSubscription: Subscription;
     filterMembers$: Subject<string> = new Subject<string>();
     isOthersPeopleVisible: boolean;
+    Permissions = Permissions;
 
     constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory,
         public userFactory: UserFactory, private userService: UserService, public teamFactory: TeamFactory, private dataService: DataService,
