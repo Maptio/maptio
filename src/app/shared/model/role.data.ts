@@ -5,6 +5,8 @@ import { Serializable } from "../interfaces/serializable.interface";
  */
 export class Role implements Serializable<Role> {
 
+    public shortid?: string;
+    public title?: string;
     public description: string;
 
     public constructor(init?: Partial<Role>) {
@@ -14,6 +16,8 @@ export class Role implements Serializable<Role> {
     deserialize(input: any): Role {
         if (!input || !input.description) return
         let deserialized = new Role();
+        deserialized.shortid = input.shortid;
+        deserialized.title = input.title;
         deserialized.description = input.description;
         return deserialized;
     }
