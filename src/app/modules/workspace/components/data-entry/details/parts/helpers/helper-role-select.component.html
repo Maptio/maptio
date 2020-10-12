@@ -1,0 +1,57 @@
+<ng-template #rt let-result="result" let-term="term">
+    <span *ngIf="!result.shortid">Create new role</span>
+    <span *ngIf="result.shortid">{{ result.title }}</span>
+</ng-template>
+
+<common-autocomplete
+  class="d-block mt-2 mb-3"
+  [placeholder]="'Start typing the title of a role'"
+  [resultTemplate]="rt"
+  [showSelectedResult]="false"
+  [filter]="filterRoles"
+  (pick)="onAddingRole($event)"
+>
+</common-autocomplete>
+
+<!-- Version copied from helpers-select -->
+<!-- <common-autocomplete
+  [isUnauthorized]="isUnauthorized"
+  [placeholder]="placeholder"
+  [resultTemplate]="rt"
+  [showSelectedResult]="false"
+  [resultFormatter]="formatter"
+  [filter]="filterMembers"
+  (pick)="onAddingHelper($event)"
+>
+  <button class="btn btn-outline-success">
+    Add {{ team?.settings.helper | lowercase }}
+  </button>
+</common-autocomplete> -->
+
+<!-- Version copied from authority-select -->
+<!-- <common-autocomplete
+  #autocomplete
+  [placeholder]="placeholder"
+  [removeConfirmationMessage]="'Remove this authority and associated role?'"
+  [resultTemplate]="rt"
+  [showSelectedResult]="true"
+  [resultFormatter]="formatter"
+  [isUnauthorized]="isUnauthorized"
+  [item]="authority"
+  [filter]="filterMembers"
+  (pick)="onSelect($event)"
+>
+  <a
+    *ngIf="authority"
+    [routerLink]="summaryUrlRoot"
+    [queryParams]="{ member: authority?.shortid }"
+  >
+    <img
+      src="{{ authority?.picture }}"
+      class="rounded-circle participant-picture"
+    />
+    {{ authority?.name }}
+  </a>
+
+  <span *ngIf="!authority"> No {{ team?.settings.authority }} </span>
+</common-autocomplete> -->

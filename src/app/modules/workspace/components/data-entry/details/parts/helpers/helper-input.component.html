@@ -37,6 +37,9 @@
             (click)="!isUnauthorized && isEditMode=true">Add role</button>
     </div>
 
+    <initiative-helper-role-select [roles]="helper.roles">
+    </initiative-helper-role-select>
+
     <initiative-helper-role-input *ngFor="let role of helper.roles" [role]="role">
     </initiative-helper-role-input>
 
