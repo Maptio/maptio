@@ -10,6 +10,7 @@ import { Role } from '../../../../../../../shared/model/role.data';
 export class InitiativeHelperRoleInputComponent implements OnInit {
     // @Input("helper") helper: Helper;
     @Input("role") role: Role;
+    @Input("roleIndex") roleIndex: number;
     // @Input("team") team: Team;
     // @Input("summaryUrlRoot") summaryUrlRoot: string;
     // @Input("isAuthority") isAuthority: boolean;
@@ -25,10 +26,13 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
     // isEmptyRole:boolean;
     isDescriptionVisible: boolean;
     isEditMode = true;
+    saveAsLibraryRole: boolean;
 
     constructor(private cd: ChangeDetectorRef) { }
 
-    ngOnInit(): void { }
+    ngOnInit(): void {
+        this.saveAsLibraryRole = this.role.shortid ? true : false;
+    }
 
     // ngOnChanges(changes:SimpleChanges){
     //     if(changes.helper && changes.helper.currentValue){

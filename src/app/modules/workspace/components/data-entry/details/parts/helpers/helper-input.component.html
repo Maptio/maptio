@@ -40,7 +40,8 @@
     <initiative-helper-role-select *ngIf="isEditRoleMode" [roles]="helper.roles" (pick)="onRolePick($event)">
     </initiative-helper-role-select>
 
-    <initiative-helper-role-input *ngFor="let role of helper.roles" [role]="role">
+    <initiative-helper-role-input *ngFor="let role of helper.roles; let roleIndex = index"
+        [role]="role" [roleIndex]="roleIndex">
     </initiative-helper-role-input>
 
     <!-- <div class="w-100 position-relative" *ngIf="isEditMode">

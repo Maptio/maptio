@@ -1,21 +1,101 @@
-<div *ngIf="isEditMode; else nonEditMode">
-    editing...
+<div *ngIf="isEditMode; else nonEditMode" class="mb-4">
+  <span class="text-uppercase text-bold text-gray-light small">Role title</span>
+  <input
+    #inputTitle
+    class="form-control mb-2"
+    id="inputTitle"
+    [value]="role.title || ''"
+    placeholder="This is the role title."
+  />
+
+  <span class="text-uppercase text-bold text-gray-light small"
+    >Role description</span
+  >
+  <textarea
+    #inputDescription
+    class="form-control"
+    id="inputDescription"
+    [value]="role.description || ''"
+    data-provide="markdown"
+    data-iconlibrary="fa"
+    data-autofocus="true"
+    rows="3"
+    placeholder="This is the role description. It may use markdown."
+  >
+  </textarea>
+
+  <small class="text-default text-muted">
+    Use
+    <a
+      href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
+      target="_blank"
+      >markdown</a
+    >
+    to create links and add formatting.
+  </small>
+
+  <div class="my-2">
+    <div class="custom-control custom-radio">
+      <input
+        type="radio"
+        [id]="'customRoleRadio-' + roleIndex"
+        class="custom-control-input"
+        [checked]="!saveAsLibraryRole"
+        (click)="saveAsLibraryRole = false"
+      />
+      <label class="custom-control-label" [for]="'customRoleRadio-' + roleIndex"
+        >Custom role for this person</label
+      >
+    </div>
+    <div class="custom-control custom-radio">
+      <input
+        type="radio"
+        [id]="'libraryRoleRadio-' + roleIndex"
+        class="custom-control-input"
+        [checked]="saveAsLibraryRole"
+        (click)="saveAsLibraryRole = true"
+      />
+      <label
+        class="custom-control-label"
+        [for]="'libraryRoleRadio-' + roleIndex"
+        >Add to role library</label
+      >
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end mt-2">
+    <button type="submit" class="btn btn-outline-secondary mr-2">Cancel</button>
+    <button type="submit" class="btn btn-success">Save</button>
+  </div>
+  <div class="d-flex justify-content-end mt-2">
+    <button type="submit" class="btn btn-danger ml-auto">
+      Delete this role
+    </button>
+  </div>
 </div>
 
 <ng-template #nonEditMode>
-    <div *ngIf="role.title">
-        <div class="d-flex flex-row align-items-center">
-            <div class="text-bold">{{ role.title }}</div>
+  <div *ngIf="role.title">
+    <div class="d-flex flex-row align-items-center">
+      <div class="text-bold">{{ role.title }}</div>
 
-            <button *ngIf="role.description" class="btn bg-transparent" (click)="isDescriptionVisible = !isDescriptionVisible">
-                <i [class.fa-caret-right]="!isDescriptionVisible" [class.fa-caret-down]="isDescriptionVisible" class="fas"></i>
-            </button>
-        </div>
-
-        <div *ngIf="role.description && isDescriptionVisible">
-            {{ role.description }}
-        </div>
+      <button
+        *ngIf="role.description"
+        class="btn bg-transparent"
+        (click)="isDescriptionVisible = !isDescriptionVisible"
+      >
+        <i
+          [class.fa-caret-right]="!isDescriptionVisible"
+          [class.fa-caret-down]="isDescriptionVisible"
+          class="fas"
+        ></i>
+      </button>
     </div>
 
-    <div *ngIf="!role.title && role.description">{{ role.description }}</div>
+    <div *ngIf="role.description && isDescriptionVisible">
+      {{ role.description }}
+    </div>
+  </div>
+
+  <div *ngIf="!role.title && role.description">{{ role.description }}</div>
 </ng-template>
