@@ -24,12 +24,11 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
     // isEditRoleToggled:boolean;
     // isEmptyRole:boolean;
     isDescriptionVisible: boolean;
+    isEditMode = true;
 
     constructor(private cd: ChangeDetectorRef) { }
 
-    ngOnInit(): void {
-        console.log(this.role);
-    }
+    ngOnInit(): void { }
 
     // ngOnChanges(changes:SimpleChanges){
     //     if(changes.helper && changes.helper.currentValue){

@@ -1,15 +1,21 @@
-<div *ngIf="role.title">
-    <div class="d-flex flex-row align-items-center">
-        <div class="text-bold">{{ role.title }}</div>
-
-        <button *ngIf="role.description" class="btn bg-transparent" (click)="isDescriptionVisible = !isDescriptionVisible">
-            <i [class.fa-caret-right]="!isDescriptionVisible" [class.fa-caret-down]="isDescriptionVisible" class="fas"></i>
-        </button>
-    </div>
-
-    <div *ngIf="role.description && isDescriptionVisible">
-        {{ role.description }}
-    </div>
+<div *ngIf="isEditMode; else nonEditMode">
+    editing...
 </div>
 
-<div *ngIf="!role.title && role.description">{{ role.description }}</div>
+<ng-template #nonEditMode>
+    <div *ngIf="role.title">
+        <div class="d-flex flex-row align-items-center">
+            <div class="text-bold">{{ role.title }}</div>
+
+            <button *ngIf="role.description" class="btn bg-transparent" (click)="isDescriptionVisible = !isDescriptionVisible">
+                <i [class.fa-caret-right]="!isDescriptionVisible" [class.fa-caret-down]="isDescriptionVisible" class="fas"></i>
+            </button>
+        </div>
+
+        <div *ngIf="role.description && isDescriptionVisible">
+            {{ role.description }}
+        </div>
+    </div>
+
+    <div *ngIf="!role.title && role.description">{{ role.description }}</div>
+</ng-template>
