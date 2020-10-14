@@ -22,7 +22,7 @@ export class InitiativeHelperInputComponent implements OnInit {
     cancelClicked:boolean;
     hasRole:boolean;
     isEditRoleToggled:boolean;
-    isEmptyRole:boolean;
+    isEditRoleMode = false;
 
     constructor(private cd: ChangeDetectorRef) { }
 
@@ -36,7 +36,6 @@ export class InitiativeHelperInputComponent implements OnInit {
             && !!(changes.helper.currentValue as Helper).roles[0].description;
             this.isEditRoleToggled = this.hasRole;
             if(this.isAuthority) this.helper.hasAuthorityPrivileges = true;
-            this.isEmptyRole = !(this.helper.roles && this.helper.roles[0] && this.helper.roles[0].description.trim().length >0); 
         }
     }
 
@@ -46,6 +45,13 @@ export class InitiativeHelperInputComponent implements OnInit {
 
     onChangePrivilege(helper: Helper, hasAuthorityPrivileges: boolean) {
         this.helper.hasAuthorityPrivileges = hasAuthorityPrivileges;
+        this.save.emit();
+        this.cd.markForCheck();
+    }
+
+    onRolePick(roles: Role[]) {
+        this.isEditRoleMode = false;
+        this.helper.roles = roles;
         this.save.emit();
         this.cd.markForCheck();
     }

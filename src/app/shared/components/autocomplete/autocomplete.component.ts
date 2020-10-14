@@ -20,6 +20,7 @@ export class CommonAutocompleteComponent implements OnInit {
     @Input("label") label: string;
     @Input("isUnauthorized") isUnauthorized: boolean;
     @Input("showSelectedResult") showSelectedResult:boolean;
+    @Input("showCancelButton") showCancelButton = true;
 
     @Output("pick") pick: EventEmitter<any> = new EventEmitter<any>();
 

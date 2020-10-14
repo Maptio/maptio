@@ -1,5 +1,5 @@
 // import { Component, OnInit, Input, Output, ChangeDetectorRef, SimpleChanges, EventEmitter } from '@angular/core';
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 // import { Team } from '../../../../../../../shared/model/team.data';
 // import { Helper } from '../../../../../../../shared/model/helper.data';
 // import { Role } from '../../../../../shared/model/role.data';
@@ -24,7 +24,7 @@ export class InitiativeHelperRoleSelectComponent implements OnInit {
     // @Input("isEditMode") isEditMode: boolean;
     // @Input("isUnauthorized") isUnauthorized: boolean;
 
-    // @Output("save") save: EventEmitter<Array<Helper>> = new EventEmitter<Array<Helper>>();
+    @Output("pick") pick = new EventEmitter<Array<Role>>();
 
     // placeholder: string;
     // subscription: Subscription;
@@ -46,11 +46,9 @@ export class InitiativeHelperRoleSelectComponent implements OnInit {
 
 
     onAddingRole(newRole: Role) {
-        console.log(newRole)
         if (!newRole.shortid) {
             this.roles.unshift(newRole);
         }
-        console.log(this.roles);
     //     if ((this.authority && newHelper.user_id === this.authority.user_id) || this.helpers.findIndex(user => user.user_id === newHelper.user_id) > 0) {
     //         return
     //     }
@@ -65,7 +63,7 @@ export class InitiativeHelperRoleSelectComponent implements OnInit {
 
     //     this.helpers.unshift(helperCopy);
 
-    //     this.save.emit(this.helpers);
+        this.pick.emit(this.roles);
     //     this.cd.markForCheck();
     }
 

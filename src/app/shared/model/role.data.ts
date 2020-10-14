@@ -7,14 +7,14 @@ export class Role implements Serializable<Role> {
 
     public shortid?: string;
     public title?: string;
-    public description: string;
+    public description?: string;
 
     public constructor(init?: Partial<Role>) {
         Object.assign(this, init);
     }
 
     deserialize(input: any): Role {
-        if (!input || !input.description) return
+        if (!input) return
         let deserialized = new Role();
         deserialized.shortid = input.shortid;
         deserialized.title = input.title;
