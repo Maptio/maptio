@@ -103,9 +103,8 @@
       (cancel)="cancelClicked = true" -->
     </div>
 
-    <div *ngIf="role.description && isDescriptionVisible">
-      {{ role.description }}
-    </div>
+    <markdown *ngIf="role.description && isDescriptionVisible" class="cursor-text  border-0 w-100 h-100" [data]="role.description">
+    </markdown>
   </div>
 
   <div *ngIf="!role.title && role.description">{{ role.description }}</div>
