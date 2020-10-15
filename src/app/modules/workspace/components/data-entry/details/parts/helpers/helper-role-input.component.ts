@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 // import { Helper } from '../../../../../../../shared/model/helper.data';
 // import { Team } from '../../../../../../../shared/model/team.data';
-import { Role } from '../../../../../../../shared/model/role.data';
+import { Role } from "../../../../../../../shared/model/role.data";
 
 @Component({
-    selector: 'initiative-helper-role-input',
-    templateUrl: './helper-role-input.component.html',
+    selector: "initiative-helper-role-input",
+    templateUrl: "./helper-role-input.component.html",
+    styleUrls: ["./helper-role-input.component.css"],
 })
 export class InitiativeHelperRoleInputComponent implements OnInit {
     // @Input("helper") helper: Helper;
@@ -25,7 +26,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
     // isEditRoleToggled:boolean;
     // isEmptyRole:boolean;
     isDescriptionVisible: boolean;
-    isEditMode = true;
+    isEditMode = false;
     saveAsLibraryRole: boolean;
 
     constructor(private cd: ChangeDetectorRef) { }

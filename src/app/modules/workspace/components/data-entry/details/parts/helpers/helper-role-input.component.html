@@ -64,7 +64,7 @@
   </div>
 
   <div class="d-flex justify-content-end mt-2">
-    <button type="submit" class="btn btn-outline-secondary mr-2">Cancel</button>
+    <button type="submit" class="btn btn-outline-secondary mr-2" (click)="isEditMode = false">Cancel</button>
     <button type="submit" class="btn btn-success">Save</button>
   </div>
   <div class="d-flex justify-content-end mt-2">
@@ -90,6 +90,26 @@
           class="fas"
         ></i>
       </button>
+
+      <button
+        class="btn edit btn-outline-secondary ml-auto"
+        placement="top"
+        container="body"
+        (click)="isEditMode = true"
+      ></button>
+      <!-- [ngbTooltip]="addButtonTooltip" -->
+
+      <button
+        class="btn remove btn-outline-secondary"
+        placement="top"
+        container="body"
+        mwlConfirmationPopover
+        [popoverMessage]="'Remove circle and sub-circles ?'"
+        focusbutton="cancel"
+        appendToBody="false"
+      ></button>
+      <!-- (confirm)="removeChildNode(node.data)"
+      (cancel)="cancelClicked = true" -->
     </div>
 
     <div *ngIf="role.description && isDescriptionVisible">
