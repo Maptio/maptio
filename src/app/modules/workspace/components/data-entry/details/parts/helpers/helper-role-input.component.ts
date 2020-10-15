@@ -11,6 +11,8 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
     @Input("role") role: Role;
     @Input("roleIndex") roleIndex: number;
 
+    @Output("save") save: EventEmitter<void> = new EventEmitter<void>();
+
     roleForm: FormGroup;
     title = new FormControl();
     description = new FormControl();
@@ -35,6 +37,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
             const newRoleValue = changes.role.currentValue;
             const saveAsLibraryRoleValue = newRoleValue.shortid ? true : false;
 
+            // Patching value rather than setting value as title and description are optional
             this.roleForm.patchValue({
                 title: newRoleValue.title,
                 description: newRoleValue.description,
@@ -45,7 +48,17 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
     }
 
     onSave() {
-        console.log(this.roleForm);
+        this.isEditMode = false;
+
+        this.role.title = this.title.value;
+        this.role.description = this.description.value;
+
+        if (this.saveAsLibraryRole.value) {
+            console.log("TODO: Save shortid!")
+        }
+
+        this.save.emit();
+        this.cd.markForCheck();
     }
 
     onCancel() {

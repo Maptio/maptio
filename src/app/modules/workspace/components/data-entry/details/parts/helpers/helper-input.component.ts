@@ -56,13 +56,7 @@ export class InitiativeHelperInputComponent implements OnInit {
         this.cd.markForCheck();
     }
 
-    onChangeRole(description: string) {
-        if (this.helper.roles[0]) {
-            this.helper.roles[0].description = description;
-        }
-        else {
-            this.helper.roles[0] = new Role({ description: description })
-        }
+    onChangeRole() {
         this.save.emit();
         this.cd.markForCheck();
     }

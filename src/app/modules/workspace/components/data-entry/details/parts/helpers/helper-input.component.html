@@ -41,7 +41,7 @@
     </initiative-helper-role-select>
 
     <initiative-helper-role-input *ngFor="let role of helper.roles; let roleIndex = index"
-        [role]="role" [roleIndex]="roleIndex">
+        [role]="role" [roleIndex]="roleIndex" (save)="onChangeRole()">
     </initiative-helper-role-input>
 
     <!-- <div class="w-100 position-relative" *ngIf="isEditMode">
