@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, SimpleChanges } from '@angular/core';
-// import { Helper } from '../../../../../../../shared/model/helper.data';
-// import { Team } from '../../../../../../../shared/model/team.data';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, SimpleChanges } from "@angular/core";
+import { FormGroup, FormControl } from "@angular/forms";
 import { Role } from "../../../../../../../shared/model/role.data";
 
 @Component({
@@ -9,9 +8,55 @@ import { Role } from "../../../../../../../shared/model/role.data";
     styleUrls: ["./helper-role-input.component.css"],
 })
 export class InitiativeHelperRoleInputComponent implements OnInit {
-    // @Input("helper") helper: Helper;
     @Input("role") role: Role;
     @Input("roleIndex") roleIndex: number;
+
+    roleForm: FormGroup;
+    title = new FormControl();
+    description = new FormControl();
+    saveAsLibraryRole = new FormControl();
+
+    isDescriptionVisible: boolean;
+    isEditMode = false;
+    // saveAsLibraryRole: boolean;
+
+    constructor(private cd: ChangeDetectorRef) {
+        this.roleForm = new FormGroup({
+            title: this.title,
+            description: this.description,
+            saveAsLibraryRole: this.saveAsLibraryRole,
+        });
+    }
+
+    ngOnInit(): void { }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.role && changes.role.currentValue) {
+            const newRoleValue = changes.role.currentValue;
+            const saveAsLibraryRoleValue = newRoleValue.shortid ? true : false;
+
+            this.roleForm.patchValue({
+                title: newRoleValue.title,
+                description: newRoleValue.description,
+                saveAsLibraryRole: saveAsLibraryRoleValue,
+            });
+            this.cd.markForCheck();
+        }
+    }
+
+    onSave() {
+        console.log(this.roleForm);
+    }
+
+    onCancel() {
+        this.isEditMode = false;
+    }
+}
+
+// import { Helper } from '../../../../../../../shared/model/helper.data';
+// import { Team } from '../../../../../../../shared/model/team.data';
+
+    // @Input("helper") helper: Helper;
     // @Input("team") team: Team;
     // @Input("summaryUrlRoot") summaryUrlRoot: string;
     // @Input("isAuthority") isAuthority: boolean;
@@ -25,15 +70,6 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
     // hasRole:boolean;
     // isEditRoleToggled:boolean;
     // isEmptyRole:boolean;
-    isDescriptionVisible: boolean;
-    isEditMode = false;
-    saveAsLibraryRole: boolean;
-
-    constructor(private cd: ChangeDetectorRef) { }
-
-    ngOnInit(): void {
-        this.saveAsLibraryRole = this.role.shortid ? true : false;
-    }
 
     // ngOnChanges(changes:SimpleChanges){
     //     if(changes.helper && changes.helper.currentValue){
@@ -67,4 +103,3 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
     //     this.save.emit();
     //     this.cd.markForCheck();
     // }
-}
