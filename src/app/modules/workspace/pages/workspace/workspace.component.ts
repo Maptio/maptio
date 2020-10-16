@@ -115,11 +115,17 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.teamName = this.team.name;
                 this.teamId = this.team.team_id;
                 EmitterService.get("currentTeam").emit(this.team);
+
+                // TODO: This might best be placed, eventually, in the resolver, me thinks?
+                this.roleLibrary.setRoles(this.dataset.roles);
+
                 this.isEmptyMap = !this.dataset.initiative.children || this.dataset.initiative.children.length === 0;
                 this.cd.markForCheck();
             });
 
-        this.roleLibrary.roleAdded.subscribe(this.onRoleAddedToLibrary);
+        this.roleLibrary.roleAdded.subscribe(() => {
+            this.onRoleAddedToLibrary();
+        });
     }
 
 
@@ -226,7 +232,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     onRoleAddedToLibrary() {
-        console.log("workspace is aware that a role has been added to the library, yay!");
+        this.dataset.roles = this.roleLibrary.getRoles();
+        this.saveDetailChanges();
     }
 
     // private resizeMap() {

@@ -18,6 +18,10 @@ export class RoleLibraryService {
         this.roles = roles;
     }
 
+    getRoles(): Role[] {
+        return this.roles;
+    }
+
     addRoleToLibrary(role: Role): void {
         if (!role.shortid) {
             console.error("Attempting to add a custom role to the role library.");
