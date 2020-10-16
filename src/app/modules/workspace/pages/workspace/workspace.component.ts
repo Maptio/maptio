@@ -1,5 +1,6 @@
 import { BuildingComponent } from "../../components/data-entry/hierarchy/building.component";
 import { DataService, CounterService } from "../../services/data.service";
+import { RoleLibraryService } from "../../services/role-library.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription, Subject } from "rxjs/Rx";
 import { Initiative } from "../../../../shared/model/initiative.data";
@@ -16,6 +17,7 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { User } from "../../../../shared/model/user.data";
 import { Tag } from "../../../../shared/model/tag.data";
+import { Role } from "../../../../shared/model/role.data";
 import { Intercom } from "ng-intercom";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 
@@ -50,6 +52,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public teams: Team[];
     public tags: Tag[];
     public user: User;
+    public roles: Role[];
     public canvasYMargin: number;
     public canvasHeight: number
 
@@ -73,7 +76,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
-        private dataService: DataService, private cd: ChangeDetectorRef, private mixpanel: Angulartics2Mixpanel, private intercom: Intercom) {
+        private dataService: DataService, private roleLibrary: RoleLibraryService, private cd: ChangeDetectorRef,
+        private mixpanel: Angulartics2Mixpanel, private intercom: Intercom) {
 
     }
 
@@ -114,6 +118,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.isEmptyMap = !this.dataset.initiative.children || this.dataset.initiative.children.length === 0;
                 this.cd.markForCheck();
             });
+
+        this.roleLibrary.roleAdded.subscribe(this.onRoleAddedToLibrary);
     }
 
 
@@ -217,6 +223,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isBuildingPanelCollapsed = false;
         this.buildingComponent.tabs.select("tags-tab");
         this.cd.markForCheck();
+    }
+
+    onRoleAddedToLibrary() {
+        console.log("workspace is aware that a role has been added to the library, yay!");
     }
 
     // private resizeMap() {

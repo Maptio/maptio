@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, SimpleChanges } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
+
 import { Role } from "../../../../../../../shared/model/role.data";
+import { RoleLibraryService } from "../../../../../services/role-library.service";
 
 @Component({
     selector: "initiative-helper-role-input",
@@ -23,7 +25,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
     isEditMode = false;
     // saveAsLibraryRole: boolean;
 
-    constructor(private cd: ChangeDetectorRef) {
+    constructor(private cd: ChangeDetectorRef, private roleLibrary: RoleLibraryService) {
         this.roleForm = new FormGroup({
             title: this.title,
             description: this.description,
@@ -63,11 +65,24 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
         this.role.title = this.title.value;
         this.role.description = this.description.value;
 
-        if (this.saveAsLibraryRole.value) {
-            console.log("TODO: Save shortid!")
+        if (this.saveAsLibraryRole.value && this.role.isCustomRole()) {
+            this.role.convertToLibraryRole();
+            this.roleLibrary.addRoleToLibrary(this.role);
         }
 
-        this.save.emit();
+        if (this.saveAsLibraryRole.value && this.role.isLibraryRole()) {
+            this.roleLibrary.editRole(this.role);
+        }
+
+        if (!this.saveAsLibraryRole.value && this.role.isLibraryRole()) {
+            this.role.convertToCustomRole();
+            this.save.emit();
+        }
+
+        if (!this.saveAsLibraryRole.value && this.role.isCustomRole()) {
+            this.save.emit();
+        }
+
         this.cd.markForCheck();
     }
 

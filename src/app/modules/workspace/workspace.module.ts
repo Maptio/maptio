@@ -32,6 +32,7 @@ import { NgbTooltipModule, NgbTypeaheadModule, NgbPopoverModule, NgbTabsetModule
 import { ColorPickerComponent } from "../../shared/components/color-picker/color-picker.component";
 import { PermissionsModule } from "../../shared/permissions.module";
 import { DataService } from "./services/data.service";
+import { RoleLibraryService } from "./services/role-library.service";
 import { MapSettingsService } from "./services/map-settings.service";
 import { EditTagsComponent } from "./components/data-entry/tags/edit-tags.component";
 import { UIService } from "./services/ui.service";
@@ -96,7 +97,7 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
         CommonTextareaComponent
     ],
     providers: [BillingGuard, WorkspaceGuard, UIService, ColorService,
-        SlackService, DataService, MapSettingsService,
+        SlackService, DataService, RoleLibraryService, MapSettingsService,
         WorkspaceComponentResolver
     ]
 })

@@ -1,4 +1,5 @@
 import { Serializable } from "../interfaces/serializable.interface";
+import * as shortid from "shortid";
 
 /**
  * Role i.e. how a helper is contributing to an initiative
@@ -36,4 +37,30 @@ export class Role implements Serializable<Role> {
             return [false, undefined]
         }
     };
+
+    isLibraryRole(): boolean {
+        return this.shortid ? true : false;
+    }
+
+    isCustomRole(): boolean {
+        return !this.isLibraryRole();
+    }
+
+    convertToLibraryRole(): void {
+        if (this.isLibraryRole()) {
+            console.error(`Attempting to convert a library role (${this.shortid}) to a library role. Aborting.`);
+            return;
+        }
+
+        this.shortid = shortid.generate();
+    }
+
+    convertToCustomRole() {
+        if (this.isCustomRole()) {
+            console.error(`Attempting to convert a custom role (${this.title}) to a custom role. Aborting.`);
+            return;
+        }
+
+        this.shortid = undefined;
+    }
 }
