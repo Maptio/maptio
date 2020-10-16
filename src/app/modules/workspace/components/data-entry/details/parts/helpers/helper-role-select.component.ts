@@ -1,5 +1,8 @@
 // import { Component, OnInit, Input, Output, ChangeDetectorRef, SimpleChanges, EventEmitter } from '@angular/core';
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+
+import { isEqual } from "lodash-es";
+
 // import { Team } from '../../../../../../../shared/model/team.data';
 // import { Helper } from '../../../../../../../shared/model/helper.data';
 // import { Role } from '../../../../../shared/model/role.data';
@@ -8,7 +11,7 @@ import { Role } from "../../../../../../../shared/model/role.data";
 // import { Auth } from '../../../../../../../core/authentication/auth.service';
 // import { User } from '../../../../../../../shared/model/user.data';
 // import { Subscription, Subject } from 'rxjs';
-// import { cloneDeep } from "lodash-es";
+import { RoleLibraryService } from "../../../../../services/role-library.service";
 
 @Component({
     selector: "initiative-helper-role-select",
@@ -31,6 +34,7 @@ export class InitiativeHelperRoleSelectComponent implements OnInit {
     // isLoaded: boolean;
 
     // constructor(private auth: Auth, private cd: ChangeDetectorRef) { }
+    constructor(private roleLibrary: RoleLibraryService) { }
 
     ngOnInit() {
     }
@@ -46,9 +50,7 @@ export class InitiativeHelperRoleSelectComponent implements OnInit {
 
 
     onAddingRole(newRole: Role) {
-        if (!newRole.shortid) {
-            this.roles.unshift(newRole);
-        }
+        this.roles.unshift(newRole);
     //     if ((this.authority && newHelper.user_id === this.authority.user_id) || this.helpers.findIndex(user => user.user_id === newHelper.user_id) > 0) {
     //         return
     //     }
@@ -64,7 +66,7 @@ export class InitiativeHelperRoleSelectComponent implements OnInit {
     //     this.helpers.unshift(helperCopy);
 
         this.pick.emit(this.roles);
-    //     this.cd.markForCheck();
+        // this.cd.markForCheck();
     }
 
     // onAddingCurrentUser() {
@@ -81,9 +83,17 @@ export class InitiativeHelperRoleSelectComponent implements OnInit {
         const newRole = new Role();
         newRole.title = term;
 
-        const roleChoices = [
+        let roleChoices = [
             newRole,
         ];
+
+        roleChoices = roleChoices.concat(this.roleLibrary.getRoles());
+
+        // Don't show roles already on the helper
+        roleChoices = roleChoices.filter((roleChoice) => {
+            const isRoleChoiceInHelper = this.roles.find(roleInHelper => isEqual(roleInHelper, roleChoice));
+            return !isRoleChoiceInHelper;
+        });
 
         return roleChoices;
         // return term.length < 1
