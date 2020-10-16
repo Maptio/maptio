@@ -66,46 +66,52 @@
 </div>
 
 <ng-template #nonEditMode>
-  <div *ngIf="role.title">
-    <div class="d-flex flex-row align-items-center">
-      <div class="text-bold">{{ role.title }}</div>
+  <div class="d-flex flex-row align-items-center">
+    <div class="text-bold" [class.text-gray]="!role.title && isDescriptionVisible">
+      <ng-container *ngIf="role.title; else titleBasedOnDescription">{{ role.title }}</ng-container>
 
-      <button
-        *ngIf="role.description"
-        class="btn bg-transparent"
-        (click)="isDescriptionVisible = !isDescriptionVisible"
-      >
-        <i
-          [class.fa-caret-right]="!isDescriptionVisible"
-          [class.fa-caret-down]="isDescriptionVisible"
-          class="fas"
-        ></i>
-      </button>
+      <ng-template #titleBasedOnDescription>
+        <ng-container *ngIf="!isDescriptionVisible; else showUntitledRoleLabel">{{ role.description }}</ng-container>
+      </ng-template>
 
-      <button
-        class="btn edit btn-outline-secondary ml-auto"
-        placement="top"
-        container="body"
-        (click)="isEditMode = true"
-      ></button>
-      <!-- [ngbTooltip]="addButtonTooltip" -->
-
-      <button
-        class="btn remove btn-outline-secondary"
-        placement="top"
-        container="body"
-        mwlConfirmationPopover
-        [popoverMessage]="'Remove circle and sub-circles ?'"
-        focusbutton="cancel"
-        appendToBody="false"
-      ></button>
-      <!-- (confirm)="removeChildNode(node.data)"
-      (cancel)="cancelClicked = true" -->
+      <ng-template #showUntitledRoleLabel>
+        Untitled role
+      </ng-template>
     </div>
 
-    <markdown *ngIf="role.description && isDescriptionVisible" class="cursor-text  border-0 w-100 h-100" [data]="role.description">
-    </markdown>
+    <button
+      *ngIf="role.description"
+      class="btn bg-transparent"
+      (click)="isDescriptionVisible = !isDescriptionVisible"
+    >
+      <i
+        [class.fa-caret-right]="!isDescriptionVisible"
+        [class.fa-caret-down]="isDescriptionVisible"
+        class="fas"
+      ></i>
+    </button>
+
+    <button
+      class="btn edit btn-outline-secondary ml-auto"
+      placement="top"
+      container="body"
+      (click)="isEditMode = true"
+    ></button>
+    <!-- [ngbTooltip]="addButtonTooltip" -->
+
+    <button
+      class="btn remove btn-outline-secondary"
+      placement="top"
+      container="body"
+      mwlConfirmationPopover
+      [popoverMessage]="'Remove circle and sub-circles ?'"
+      focusbutton="cancel"
+      appendToBody="false"
+    ></button>
+    <!-- (confirm)="removeChildNode(node.data)"
+    (cancel)="cancelClicked = true" -->
   </div>
 
-  <div *ngIf="!role.title && role.description">{{ role.description }}</div>
+  <markdown *ngIf="role.description && isDescriptionVisible" class="cursor-text  border-0 w-100 h-100" [data]="role.description">
+  </markdown>
 </ng-template>

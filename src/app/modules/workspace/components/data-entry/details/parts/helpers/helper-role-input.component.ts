@@ -18,7 +18,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
     description = new FormControl();
     saveAsLibraryRole = new FormControl();
 
-    isDescriptionVisible: boolean;
+    isDescriptionVisible = false;
     isEditMode = false;
     // saveAsLibraryRole: boolean;
 
@@ -44,6 +44,11 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
                 saveAsLibraryRole: saveAsLibraryRoleValue,
             });
             this.cd.markForCheck();
+
+            // Roles without titles should be expanded to show the description
+            if (!newRoleValue.title) {
+                this.isDescriptionVisible = true;
+            }
         }
     }
 
