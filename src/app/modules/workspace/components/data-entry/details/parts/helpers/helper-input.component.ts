@@ -56,6 +56,12 @@ export class InitiativeHelperInputComponent implements OnInit {
         this.cd.markForCheck();
     }
 
+    onRemoveRole(roleToBeRemoved: Role) {
+        this.helper.roles = this.helper.roles.filter(role => role !== roleToBeRemoved)
+        this.save.emit();
+        this.cd.markForCheck();
+    }
+
     onChangeRole() {
         this.save.emit();
         this.cd.markForCheck();

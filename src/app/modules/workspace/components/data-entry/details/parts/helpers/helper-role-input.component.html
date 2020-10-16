@@ -104,12 +104,12 @@
       placement="top"
       container="body"
       mwlConfirmationPopover
-      [popoverMessage]="'Remove circle and sub-circles ?'"
+      [popoverMessage]="'Remove role?'"
+      (confirm)="onRemove()"
+      (cancel)="cancelClicked = true"
       focusbutton="cancel"
       appendToBody="false"
     ></button>
-    <!-- (confirm)="removeChildNode(node.data)"
-    (cancel)="cancelClicked = true" -->
   </div>
 
   <markdown *ngIf="role.description && isDescriptionVisible" class="cursor-text  border-0 w-100 h-100" [data]="role.description">

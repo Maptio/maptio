@@ -11,7 +11,8 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
     @Input("role") role: Role;
     @Input("roleIndex") roleIndex: number;
 
-    @Output("save") save: EventEmitter<void> = new EventEmitter<void>();
+    @Output("save") save = new EventEmitter<void>();
+    @Output("remove") remove = new EventEmitter<Role>();
 
     roleForm: FormGroup;
     title = new FormControl();
@@ -50,6 +51,10 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
                 this.isDescriptionVisible = true;
             }
         }
+    }
+
+    onRemove() {
+        this.remove.emit(this.role);
     }
 
     onSave() {
