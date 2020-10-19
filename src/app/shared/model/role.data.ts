@@ -63,4 +63,9 @@ export class Role implements Serializable<Role> {
 
         this.shortid = undefined;
     }
+
+    copyContentFrom(sourceRole: Role) {
+        this.title = sourceRole.title;
+        this.description = sourceRole.description;
+    }
 }

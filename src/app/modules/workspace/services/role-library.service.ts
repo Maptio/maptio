@@ -23,14 +23,14 @@ export class RoleLibraryService {
     }
 
     addRoleToLibrary(role: Role): void {
-        if (!role.shortid) {
-            console.error("Attempting to add a custom role to the role library.");
+        if (role.isCustomRole()) {
+            console.error("Attempted to add a custom role to the role library.");
             return;
         }
 
-        const isRoleAlreadyInLibrary = this.roles.find((libraryRole) => libraryRole.shortid === role.shortid)
+        const isRoleAlreadyInLibrary = this.roles.find((libraryRole) => libraryRole.shortid === role.shortid);
         if (isRoleAlreadyInLibrary) {
-            console.error("Attempting to add a role to the role library when it is already there.");
+            console.error("Attempted to add a role to the role library when it is already there.");
             return;
         }
 
@@ -38,8 +38,19 @@ export class RoleLibraryService {
         this.roleAdded.next();
     }
 
+    editRole(role: Role): void {
+        if (role.isCustomRole()) {
+            console.error("Attempted to save edits to a custom role with role library service.");
+            return;
+        }
+
+        const libraryRole = this.roles.find((libraryRole) => libraryRole.shortid === role.shortid);
+        libraryRole.copyContentFrom(role);
+
+        // TODO: Sync across open map
+    }
+
     deleteRoleFromLibrary(role: Role): void { }
-    editRole(role: Role): void { }
 
     save(): void { }
 }
