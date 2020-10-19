@@ -47,12 +47,17 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
                 description: newRoleValue.description,
                 saveAsLibraryRole: this.isAlreadySavedInLibrary,
             });
-            this.cd.markForCheck();
 
-            // Roles without titles should be expanded to show the description
-            if (!newRoleValue.title) {
-                this.isDescriptionVisible = true;
-            }
+            this.expandToShowDescriptionIfNoTitlePresent();
+        }
+    }
+
+    /**
+     * Roles without titles should be expanded to show the description
+     */
+    expandToShowDescriptionIfNoTitlePresent(titleValue?: string) {
+        if (!titleValue) {
+            this.isDescriptionVisible = true;
         }
     }
 
@@ -88,6 +93,8 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
         if (!this.saveAsLibraryRole.value && this.role.isCustomRole()) {
             this.save.emit();
         }
+
+        this.expandToShowDescriptionIfNoTitlePresent();
 
         this.isSubmissionAttempted = false;
         this.cd.markForCheck();
