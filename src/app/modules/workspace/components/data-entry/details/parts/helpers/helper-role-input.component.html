@@ -1,28 +1,37 @@
 <div *ngIf="isEditMode; else nonEditMode" class="my-4">
   <form (ngSubmit)="onSave()" [formGroup]="roleForm">
-    <label for="inputTitle" class="mb-0 text-uppercase text-bold text-gray-light small">Role title</label>
-    <input
-      formControlName="title"
-      class="form-control mb-2"
-      id="inputTitle"
-      placeholder="This is the role title."
-      [class.is-invalid]="title.invalid  && (title.dirty || title.touched) || isSubmissionAttempted"
-    />
-    <small class="invalid-feedback">
-      Role titles are required for library roles
-    </small>
+    <div class="form-group">
+      <label for="inputTitle" class="mb-0 text-uppercase text-bold text-gray-light small">Role title</label>
+      <input
+        formControlName="title"
+        class="form-control mb-2"
+        id="inputTitle"
+        placeholder="This is the role title."
+        [class.is-invalid]="showTitleFieldError()"
+      />
+      <small class="invalid-feedback">
+        <ng-container *ngIf="saveAsLibraryRole.value; else titleErrorForCustomRoles">Role titles are required for library roles</ng-container>
+        <ng-template #titleErrorForCustomRoles>Please fill out either the title or the description</ng-template>
+      </small>
+    </div>
 
-    <label class="mb-0 text-uppercase text-bold text-gray-light small">Role description</label>
-    <textarea
-      formControlName="description"
-      class="form-control"
-      id="inputDescription"
-      data-provide="markdown"
-      data-iconlibrary="fa"
-      data-autofocus="true"
-      rows="3"
-      placeholder="This is the role description. It may use markdown."
-    ></textarea>
+    <div class="form-group">
+      <label class="mb-0 text-uppercase text-bold text-gray-light small">Role description</label>
+      <textarea
+        formControlName="description"
+        class="form-control"
+        id="inputDescription"
+        data-provide="markdown"
+        data-iconlibrary="fa"
+        data-autofocus="true"
+        rows="3"
+        placeholder="This is the role description. It may use markdown."
+        [class.is-invalid]="showDescriptionFieldError()"
+      ></textarea>
+      <small class="invalid-feedback">
+        Please fill out either the title or the description
+      </small>
+    </div>
 
     <small class="text-default text-muted">
       Use

@@ -1,8 +1,25 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, SimpleChanges } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } from "@angular/forms";
 
 import { Role } from "../../../../../../../shared/model/role.data";
 import { RoleLibraryService } from "../../../../../services/role-library.service";
+
+
+const eitherTitleOrDescriptionProvided: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+    const title = control.get("title");
+    const description = control.get("description");
+
+    const isValid = title && description && (title.value && title.value.trim() || description.value && description.value.trim());
+
+    return isValid ? null : { neitherTitleNorDescriptionProvided: true };
+};
+
+const noWhitespaceValidator: ValidatorFn = (control: FormControl): ValidationErrors | null => {
+    const isWhitespace = (control.value || "").trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { "whitespace": true };
+}
+
 
 @Component({
     selector: "initiative-helper-role-input",
@@ -60,12 +77,33 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
 
     setValidatorsDependingOnRoleType(saveAsLibraryRole: boolean) {
         if (saveAsLibraryRole) {
+            // No cross-field validation is necessary for library roles
+            this.roleForm.setValidators([]);
+
             // Title is required for library roles
-            this.title.setValidators([Validators.required])
+            this.title.setValidators([Validators.required, noWhitespaceValidator])
+            this.title.updateValueAndValidity();
         } else {
+            // Ensure that at least one of either role or description is populated for custom roles
+            this.roleForm.setValidators([eitherTitleOrDescriptionProvided]);
+
             // Title is optional for custom roles
             this.title.setValidators([])
         }
+    }
+
+    showNeitherTitleNorDescriptionProvidedError() {
+        return this.roleForm.errors && this.roleForm.errors.neitherTitleNorDescriptionProvided && this.isSubmissionAttempted;
+    }
+
+    showTitleFieldError() {
+        const isDirtyOrTouched = (this.title.dirty || this.title.touched);
+        return (this.saveAsLibraryRole.value && this.title.invalid && (isDirtyOrTouched || this.isSubmissionAttempted)) ||
+            this.showNeitherTitleNorDescriptionProvidedError();
+    }
+
+    showDescriptionFieldError() {
+        return this.showNeitherTitleNorDescriptionProvidedError();
     }
 
     /**
