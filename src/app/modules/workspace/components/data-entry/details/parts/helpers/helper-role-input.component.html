@@ -6,7 +6,11 @@
       class="form-control mb-2"
       id="inputTitle"
       placeholder="This is the role title."
+      [class.is-invalid]="title.invalid  && (title.dirty || title.touched) || isSubmissionAttempted"
     />
+    <small class="invalid-feedback">
+      Role titles are required for library roles
+    </small>
 
     <label class="mb-0 text-uppercase text-bold text-gray-light small">Role description</label>
     <textarea

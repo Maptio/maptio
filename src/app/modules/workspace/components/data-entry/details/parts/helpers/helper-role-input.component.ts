@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, SimpleChanges } from "@angular/core";
-import { FormGroup, FormControl } from "@angular/forms";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { Role } from "../../../../../../../shared/model/role.data";
 import { RoleLibraryService } from "../../../../../services/role-library.service";
@@ -34,14 +34,20 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
         });
     }
 
-    ngOnInit(): void { }
+    ngOnInit(): void {
+        this.saveAsLibraryRole.valueChanges.subscribe(newSaveAsLibraryRoleValue => {
+            this.setValidatorsDependingOnRoleType(newSaveAsLibraryRoleValue);
+        });
+    }
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.role && changes.role.currentValue) {
             const newRoleValue = changes.role.currentValue as Role;
-            this.isAlreadySavedInLibrary = newRoleValue.isLibraryRole();
 
-            // Patching value rather than setting value as title and description are optional
+            this.isAlreadySavedInLibrary = newRoleValue.isLibraryRole();
+            this.setValidatorsDependingOnRoleType(this.isAlreadySavedInLibrary);
+
+            // Patching rather than setting value as title and description are optional
             this.roleForm.patchValue({
                 title: newRoleValue.title,
                 description: newRoleValue.description,
@@ -49,6 +55,16 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
             });
 
             this.expandToShowDescriptionIfNoTitlePresent(newRoleValue.title);
+        }
+    }
+
+    setValidatorsDependingOnRoleType(saveAsLibraryRole: boolean) {
+        if (saveAsLibraryRole) {
+            // Title is required for library roles
+            this.title.setValidators([Validators.required])
+        } else {
+            // Title is optional for custom roles
+            this.title.setValidators([])
         }
     }
 
