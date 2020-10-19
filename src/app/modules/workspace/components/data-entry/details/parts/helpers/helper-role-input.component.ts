@@ -48,7 +48,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
                 saveAsLibraryRole: this.isAlreadySavedInLibrary,
             });
 
-            this.expandToShowDescriptionIfNoTitlePresent();
+            this.expandToShowDescriptionIfNoTitlePresent(newRoleValue.title);
         }
     }
 
@@ -94,7 +94,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
             this.save.emit();
         }
 
-        this.expandToShowDescriptionIfNoTitlePresent();
+        this.expandToShowDescriptionIfNoTitlePresent(this.role.title);
 
         this.isSubmissionAttempted = false;
         this.cd.markForCheck();
