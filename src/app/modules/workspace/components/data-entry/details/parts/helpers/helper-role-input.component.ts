@@ -23,7 +23,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
 
     isDescriptionVisible = false;
     isEditMode = false;
-    // saveAsLibraryRole: boolean;
+    isAlreadySavedInLibrary = false;
 
     constructor(private cd: ChangeDetectorRef, private roleLibrary: RoleLibraryService) {
         this.roleForm = new FormGroup({
@@ -37,14 +37,14 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.role && changes.role.currentValue) {
-            const newRoleValue = changes.role.currentValue;
-            const saveAsLibraryRoleValue = newRoleValue.shortid ? true : false;
+            const newRoleValue = changes.role.currentValue as Role;
+            this.isAlreadySavedInLibrary = newRoleValue.isLibraryRole();
 
             // Patching value rather than setting value as title and description are optional
             this.roleForm.patchValue({
                 title: newRoleValue.title,
                 description: newRoleValue.description,
-                saveAsLibraryRole: saveAsLibraryRoleValue,
+                saveAsLibraryRole: this.isAlreadySavedInLibrary,
             });
             this.cd.markForCheck();
 
