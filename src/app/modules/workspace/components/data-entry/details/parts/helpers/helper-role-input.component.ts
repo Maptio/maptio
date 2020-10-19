@@ -20,10 +20,11 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
     title = new FormControl();
     description = new FormControl();
     saveAsLibraryRole = new FormControl();
+    isAlreadySavedInLibrary = false;
 
     isDescriptionVisible = false;
     isEditMode = false;
-    isAlreadySavedInLibrary = false;
+    isSubmissionAttempted = false;
 
     constructor(private cd: ChangeDetectorRef, private roleLibrary: RoleLibraryService) {
         this.roleForm = new FormGroup({
@@ -60,6 +61,11 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
     }
 
     onSave() {
+        if (!this.roleForm.valid) {
+            this.isSubmissionAttempted = true;
+            return;
+        }
+
         this.isEditMode = false;
 
         this.role.title = this.title.value;
@@ -83,6 +89,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
             this.save.emit();
         }
 
+        this.isSubmissionAttempted = false;
         this.cd.markForCheck();
     }
 
