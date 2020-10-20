@@ -15,7 +15,7 @@ export class Role implements Serializable<Role> {
     }
 
     deserialize(input: any): Role {
-        if (!input) return
+        if (!input || (!input.description && !input.title)) return;
         let deserialized = new Role();
         deserialized.shortid = input.shortid;
         deserialized.title = input.title;
