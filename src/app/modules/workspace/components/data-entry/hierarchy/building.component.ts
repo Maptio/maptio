@@ -16,6 +16,7 @@ import { InitiativeNodeComponent } from "../node/initiative.node.component"
 import { NgbModal, NgbTabset, NgbTabChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 import { LoaderService } from "../../../../../shared/components/loading/loader.service";
 import { Tag } from "../../../../../shared/model/tag.data";
+import { Role } from "../../../../../shared/model/role.data";
 import { DataSet } from "../../../../../shared/model/dataset.data";
 import { UserService } from "../../../../../shared/services/user/user.service";
 import { intersectionBy } from "lodash";
@@ -167,6 +168,23 @@ export class BuildingComponent {
         this.nodes[0].traverse((node: Initiative) => {
             node.tags = intersectionBy(tags, node.tags, (t: Tag) => t.shortid);
         })
+        this.saveChanges();
+    }
+
+    onLibraryRoleEdit(libraryRole: Role) {
+        this.nodes[0].traverse((node: Initiative) => {
+            // Select both helpers and the person accountable for the initiative
+            const people = node.accountable ? node.helpers.concat([node.accountable]) : node.helpers;
+
+            // Update the role for each person that has it assigned
+            people.forEach((helper) => {
+                const matchingRole = helper.roles.find((role) => role.shortid === libraryRole.shortid);
+                if (matchingRole) {
+                    matchingRole.copyContentFrom(libraryRole);
+                }
+            });
+        });
+
         this.saveChanges();
     }
 

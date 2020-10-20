@@ -11,6 +11,7 @@ export class RoleLibraryService {
     // roleDeleted$ = this.roleDeletedSource.asObservable();
 
     roleAdded = new Subject<void>();
+    roleEdited = new Subject<Role>();
 
     constructor() { }
 
@@ -47,7 +48,7 @@ export class RoleLibraryService {
         const libraryRole = this.roles.find((libraryRole) => libraryRole.shortid === role.shortid);
         libraryRole.copyContentFrom(role);
 
-        // TODO: Sync across open map
+        this.roleEdited.next(libraryRole);
     }
 
     deleteRoleFromLibrary(role: Role): void { }
