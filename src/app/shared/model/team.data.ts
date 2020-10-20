@@ -1,6 +1,7 @@
 import { SlackIntegration } from "./integrations.data";
 import { Serializable } from "./../interfaces/serializable.interface";
 import { User } from "./user.data";
+import { Role } from "./role.data";
 import * as slug from "slug";
 import * as addDays from "date-fns/add_days";
 import * as differenceInDays from "date-fns/difference_in_days";
@@ -48,6 +49,11 @@ export class Team implements Serializable<Team> {
    */
   public members: Array<User>;
 
+  /**
+   * Library of roles
+   */
+  public roles: Array<Role>;
+
   public settings: { authority: string; helper: string };
 
   public slack: SlackIntegration;
@@ -80,12 +86,22 @@ export class Team implements Serializable<Team> {
     deserialized.name = input.name;
     deserialized.team_id = input._id;
     deserialized.shortid = input.shortid;
+
     if (input.members) {
       deserialized.members = [];
       input.members.forEach((member: any) => {
         deserialized.members.push(User.create().deserialize(member));
       });
     }
+
+    const roles = new Array<Role>();
+    if (input.roles && input.roles instanceof Array && input.roles.length > 0) {
+      input.roles.forEach(function (inputRole: any) {
+        roles.push(new Role().deserialize(inputRole))
+      });
+    }
+    deserialized.roles = roles;
+
     deserialized.isTemporary = input.isTemporary;
     deserialized.isExample = input.isExample;
     deserialized.settings = {

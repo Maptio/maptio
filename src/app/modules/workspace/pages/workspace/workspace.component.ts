@@ -8,6 +8,7 @@ import { DataSet } from "../../../../shared/model/dataset.data";
 import { Team } from "../../../../shared/model/team.data";
 import { EmitterService } from "../../../../core/services/emitter.service";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
+import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { ViewChild } from "@angular/core";
 import {
     Component, OnInit, OnDestroy,
@@ -76,8 +77,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
-        private dataService: DataService, private roleLibrary: RoleLibraryService, private cd: ChangeDetectorRef,
-        private mixpanel: Angulartics2Mixpanel, private intercom: Intercom) {
+        private teamFactory: TeamFactory, private dataService: DataService, private roleLibrary: RoleLibraryService,
+        private cd: ChangeDetectorRef, private mixpanel: Angulartics2Mixpanel, private intercom: Intercom) {
 
     }
 
@@ -160,11 +161,14 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         
         let depth = 0
         change.initiative.traverse((n) => { depth++ });
-        
-        this.datasetFactory.upsert(this.dataset, this.datasetId)
-        .then((hasSaved: boolean) => {
+
+        Promise.all([
+            this.datasetFactory.upsert(this.dataset, this.datasetId),
+            this.teamFactory.upsert(this.team),
+        ])
+        .then(([hasSavedDataset, hasSavedTeam]: [boolean, boolean]) => {
                 this.dataService.set({ initiative: change.initiative, dataset: this.dataset, team: this.team, members: this.members });
-                return hasSaved;
+                return hasSavedDataset && hasSavedTeam;
             }, (reason) => { console.error(reason) })
             .then(() => {
                 this.intercom.trackEvent("Editing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: change.initiative.name, circles: depth });
