@@ -19,6 +19,7 @@ import { Tag } from "../../../../../shared/model/tag.data";
 import { Role } from "../../../../../shared/model/role.data";
 import { DataSet } from "../../../../../shared/model/dataset.data";
 import { UserService } from "../../../../../shared/services/user/user.service";
+import { RoleLibraryService } from "../../../services/role-library.service";
 import { intersectionBy } from "lodash";
 import { Subject } from "rxjs";
 import { environment } from "../../../../../config/environment";
@@ -119,7 +120,8 @@ export class BuildingComponent {
    
     constructor(private dataService: DataService, private datasetFactory: DatasetFactory,
         private modalService: NgbModal, private analytics: Angulartics2Mixpanel,
-        private userFactory: UserFactory, private userService: UserService, private cd: ChangeDetectorRef, private loaderService: LoaderService) {
+        private userFactory: UserFactory, private userService: UserService, private roleLibrary: RoleLibraryService,
+        private cd: ChangeDetectorRef, private loaderService: LoaderService) {
         // this.nodes = [];
     }
 
@@ -308,6 +310,12 @@ export class BuildingComponent {
             .then(dataset => {
                 this.nodes = [];
                 this.nodes.push(dataset.initiative);
+
+                // Ensure roles within the dataset are synchronised with team roles that might have been updated while
+                // editing another dataset
+                this.roleLibrary.setRoles(team.roles);
+                this.roleLibrary.syncDatasetRoles(dataset.roles, this.nodes[0]);
+                dataset.roles = team.roles;
 
                 return Promise.all([this.userService.getUsersInfo(team.members), this.userFactory.getUsers(team.members.map(m => m.user_id))])
                     .then(([auth0Users, databaseUsers]: [User[], User[]]) => {

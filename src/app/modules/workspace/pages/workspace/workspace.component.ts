@@ -116,10 +116,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.teamName = this.team.name;
                 this.teamId = this.team.team_id;
                 EmitterService.get("currentTeam").emit(this.team);
-
-                // TODO: This might best be placed, eventually, in the resolver, me thinks?
-                this.roleLibrary.setRoles(this.dataset.roles);
-
                 this.isEmptyMap = !this.dataset.initiative.children || this.dataset.initiative.children.length === 0;
                 this.cd.markForCheck();
             });
@@ -161,6 +157,11 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         
         let depth = 0
         change.initiative.traverse((n) => { depth++ });
+
+        // Ensure that that the dataset and team versions of the role library are identical before saving
+        const roleLibrary = this.roleLibrary.getRoles();
+        this.dataset.roles = roleLibrary;
+        this.team.roles = roleLibrary;
 
         Promise.all([
             this.datasetFactory.upsert(this.dataset, this.datasetId),

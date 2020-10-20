@@ -64,6 +64,11 @@ export class Role implements Serializable<Role> {
         this.shortid = undefined;
     }
 
+    hasEqualContentAs(otherRole: Role) {
+        return this.title === otherRole.title
+            && this.description === otherRole.description;
+    }
+
     copyContentFrom(sourceRole: Role) {
         this.title = sourceRole.title;
         this.description = sourceRole.description;
