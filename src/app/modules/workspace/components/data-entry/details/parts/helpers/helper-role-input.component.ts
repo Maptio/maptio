@@ -119,6 +119,10 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
         this.remove.emit(this.role);
     }
 
+    onDelete() {
+        this.roleLibrary.deleteRoleFromLibrary(this.role);
+    }
+
     onSave() {
         if (!this.roleForm.valid) {
             this.isSubmissionAttempted = true;

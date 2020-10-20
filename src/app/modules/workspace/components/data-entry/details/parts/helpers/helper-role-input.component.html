@@ -77,7 +77,19 @@
     </div>
 
     <div class="d-flex justify-content-end mt-2" *ngIf="saveAsLibraryRole.value">
-      <button type="button" class="btn btn-danger ml-auto">
+      <button
+        type="button"
+        class="btn btn-danger ml-auto"
+        placement="top"
+        container="body"
+        mwlConfirmationPopover
+        [popoverTitle]="'Warning'"
+        [popoverMessage]="'This will remove the role from ALL holders in the organisation and delete it from the list of roles. This cannot be undone. Are you sure?'"
+        (confirm)="onDelete()"
+        focusbutton="cancel"
+        appendToBody="false"
+      >
+        <!-- (cancel)="cancelClicked = true" -->
         Delete this role
       </button>
     </div>

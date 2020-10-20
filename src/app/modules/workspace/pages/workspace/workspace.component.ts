@@ -130,6 +130,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.roleLibrary.roleEdited.subscribe((editedRole) => {
             this.onLibraryRoleEdit(editedRole);
         });
+
+        this.roleLibrary.roleDeleted.subscribe((deletedRole) => {
+            this.onLibraryRoleDelete(deletedRole);
+        });
     }
 
 
@@ -243,6 +247,11 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     onLibraryRoleEdit(editedRole: Role) {
         // Call building component to make the changes as it is responsible for editing initiatives
         this.buildingComponent.onLibraryRoleEdit(editedRole);
+    }
+
+    onLibraryRoleDelete(deletedRole: Role) {
+        // Call building component to make the changes as it is responsible for editing initiatives
+        this.buildingComponent.onLibraryRoleDelete(deletedRole);
     }
 
     // private resizeMap() {

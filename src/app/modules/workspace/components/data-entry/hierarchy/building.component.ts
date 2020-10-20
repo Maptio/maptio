@@ -188,6 +188,23 @@ export class BuildingComponent {
         this.saveChanges();
     }
 
+    onLibraryRoleDelete(libraryRole: Role) {
+        this.nodes[0].traverse((node: Initiative) => {
+            // Select both helpers and the person accountable for the initiative
+            const people = node.accountable ? node.helpers.concat([node.accountable]) : node.helpers;
+
+            // Remove the role for each person that has it assigned
+            people.forEach((person) => {
+                const matchingRoleIndex = person.roles.findIndex((role) => role.shortid === libraryRole.shortid);
+                if (matchingRoleIndex > -1) {
+                    person.roles.splice(matchingRoleIndex, 1);
+                }
+            });
+        });
+
+        this.saveChanges();
+    }
+
     moveNode(node: Initiative, from: Initiative, to: Initiative) {
         let foundTreeNode = this.tree.treeModel.getNodeById(node.id)
         let foundToNode = this.tree.treeModel.getNodeById(to.id);
@@ -350,5 +367,3 @@ export class BuildingComponent {
             })
     }
 }
-
-

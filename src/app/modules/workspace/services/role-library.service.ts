@@ -6,12 +6,9 @@ import { Role } from "../../../shared/model/role.data";
 export class RoleLibraryService {
     private roles: Role[] = [];
 
-    // private roleDeletedSource = new Subject<Role>();
-
-    // roleDeleted$ = this.roleDeletedSource.asObservable();
-
     roleAdded = new Subject<void>();
     roleEdited = new Subject<Role>();
+    roleDeleted = new Subject<Role>();
 
     constructor() { }
 
@@ -23,14 +20,27 @@ export class RoleLibraryService {
         return this.roles;
     }
 
+    /**
+     * Find library role matching (by shortid) the given role
+     * @param   role  Role to look for in the library
+     * @returns       Matching library role or undefined
+     */
+    findRoleInLibrary(role: Role): Role {
+        if (role.isCustomRole()) {
+            console.error("Attempted to search for a custom role with role library service.");
+            return;
+        }
+
+        return this.roles.find((libraryRole) => libraryRole.shortid === role.shortid);
+    }
+
     addRoleToLibrary(role: Role): void {
         if (role.isCustomRole()) {
             console.error("Attempted to add a custom role to the role library.");
             return;
         }
 
-        const isRoleAlreadyInLibrary = this.roles.find((libraryRole) => libraryRole.shortid === role.shortid);
-        if (isRoleAlreadyInLibrary) {
+        if (this.findRoleInLibrary(role)) {
             console.error("Attempted to add a role to the role library when it is already there.");
             return;
         }
@@ -45,13 +55,29 @@ export class RoleLibraryService {
             return;
         }
 
-        const libraryRole = this.roles.find((libraryRole) => libraryRole.shortid === role.shortid);
+        const libraryRole = this.findRoleInLibrary(role);
         libraryRole.copyContentFrom(role);
 
         this.roleEdited.next(libraryRole);
     }
 
-    deleteRoleFromLibrary(role: Role): void { }
+    deleteRoleFromLibrary(role: Role): void {
+        if (role.isCustomRole()) {
+            console.error("Attempted delete a custom role with role library service.");
+            return;
+        }
 
-    save(): void { }
+        const libraryRole = this.findRoleInLibrary(role);
+        if (!libraryRole) {
+            console.error("Attempted to delete a role that can't be found in the role library.");
+            return;
+        }
+
+        const libraryRoleIndex = this.roles.indexOf(libraryRole, 0);
+        if (libraryRoleIndex > -1) {
+            this.roles.splice(libraryRoleIndex, 1);
+        }
+
+        this.roleDeleted.next(libraryRole);
+    }
 }
