@@ -180,7 +180,7 @@ export class BuildingComponent {
 
             // Update the role for each person that has it assigned
             people.forEach((helper) => {
-                const matchingRole = helper.roles.find((role) => role.shortid === libraryRole.shortid);
+                const matchingRole = helper.roles.find((role) => role && (role.shortid === libraryRole.shortid));
                 if (matchingRole) {
                     matchingRole.copyContentFrom(libraryRole);
                 }
@@ -197,7 +197,7 @@ export class BuildingComponent {
 
             // Remove the role for each person that has it assigned
             people.forEach((person) => {
-                const matchingRoleIndex = person.roles.findIndex((role) => role.shortid === libraryRole.shortid);
+                const matchingRoleIndex = person.roles.findIndex((role) => role && (role.shortid === libraryRole.shortid));
                 if (matchingRoleIndex > -1) {
                     person.roles.splice(matchingRoleIndex, 1);
                 }
