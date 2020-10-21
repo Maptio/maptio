@@ -22,7 +22,7 @@ export class InitiativeHelperInputComponent implements OnInit {
     cancelClicked:boolean;
     hasRole:boolean;
     isEditRoleToggled:boolean;
-    isEditRoleMode = false;
+    isAddRoleMode = false;
 
     constructor(private cd: ChangeDetectorRef) { }
 
@@ -50,7 +50,7 @@ export class InitiativeHelperInputComponent implements OnInit {
     }
 
     onRolePick(roles: Role[]) {
-        this.isEditRoleMode = false;
+        this.isAddRoleMode = false;
         this.helper.roles = roles;
         this.save.emit();
         this.cd.markForCheck();
