@@ -45,11 +45,11 @@
           type="radio"
           formControlName="saveAsLibraryRole"
           [value]="false"
-          [id]="'customRoleRadio-' + roleIndex"
+          id="customRoleRadio"
           class="custom-control-input"
         />
 
-        <label class="custom-control-label" [for]="'customRoleRadio-' + roleIndex">
+        <label class="custom-control-label" for="customRoleRadio">
           <ng-container *ngIf="isAlreadySavedInLibrary; else radioCustomRoleChoiceTextForCustomRoles">Convert to custom role</ng-container>
           <ng-template #radioCustomRoleChoiceTextForCustomRoles>Custom role for this person</ng-template>
         </label>
@@ -60,11 +60,11 @@
           type="radio"
           formControlName="saveAsLibraryRole"
           [value]="true"
-          [id]="'libraryRoleRadio-' + roleIndex"
+          id="libraryRoleRadio"
           class="custom-control-input"
         />
 
-        <label class="custom-control-label" [for]="'libraryRoleRadio-' + roleIndex">
+        <label class="custom-control-label" for="libraryRoleRadio">
           <ng-container *ngIf="isAlreadySavedInLibrary; else radioLibraryRoleChoiceTextForCustomRoles">Edit role for ALL holders</ng-container>
           <ng-template #radioLibraryRoleChoiceTextForCustomRoles>Add to role library</ng-template>
         </label>

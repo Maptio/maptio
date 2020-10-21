@@ -28,7 +28,6 @@ const noWhitespaceValidator: ValidatorFn = (control: FormControl): ValidationErr
 })
 export class InitiativeHelperRoleInputComponent implements OnInit {
     @Input("role") role: Role;
-    @Input("roleIndex") roleIndex: number;
 
     @Output("save") save = new EventEmitter<void>();
     @Output("remove") remove = new EventEmitter<Role>();
