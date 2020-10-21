@@ -32,12 +32,12 @@
             <i class="fas fa-lock"></i>
         </span>
 
-        <button *ngIf="isAddRoleMode" class="btn btn-link btn-sm" (click)="isAddRoleMode=false">Cancel</button>
-        <button [class.invisible]="isAddRoleMode || isUnauthorized" class="btn btn-link btn-sm"
-            (click)="!isUnauthorized && isAddRoleMode=true">Add role</button>
+        <button *ngIf="isPickRoleMode" class="btn btn-link btn-sm" (click)="isPickRoleMode=false">Cancel</button>
+        <button [class.invisible]="isPickRoleMode || isUnauthorized" class="btn btn-link btn-sm"
+            (click)="!isUnauthorized && isPickRoleMode=true">Add role</button>
     </div>
 
-    <initiative-helper-role-select *ngIf="isAddRoleMode" [roles]="helper.roles" (pick)="onRolePick($event)">
+    <initiative-helper-role-select *ngIf="isPickRoleMode" [roles]="helper.roles" (pick)="onRolePick($event)">
     </initiative-helper-role-select>
 
     <ng-container *ngFor="let role of helper.roles; let roleIndex = index">
