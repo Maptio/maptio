@@ -110,9 +110,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
      * Roles without titles should be expanded to show the description
      */
     expandToShowDescriptionIfNoTitlePresent(titleValue?: string) {
-        if (!titleValue) {
-            this.isDescriptionVisible = true;
-        }
+        this.isDescriptionVisible = titleValue ? false : true;
     }
 
     onRemove() {
