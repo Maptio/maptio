@@ -29,8 +29,8 @@ const noWhitespaceValidator: ValidatorFn = (control: FormControl): ValidationErr
 export class InitiativeHelperRoleInputComponent implements OnInit {
     @Input("role") role: Role;
 
+    @Output("cancel") cancel = new EventEmitter<void>();
     @Output("save") save = new EventEmitter<void>();
-    @Output("remove") remove = new EventEmitter<Role>();
 
     roleForm: FormGroup;
     title = new FormControl();
@@ -38,7 +38,6 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
     saveAsLibraryRole = new FormControl();
     isAlreadySavedInLibrary = false;
 
-    isDescriptionVisible = false;
     isEditMode = false;
     isSubmissionAttempted = false;
 
@@ -69,8 +68,6 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
                 description: newRoleValue.description,
                 saveAsLibraryRole: this.isAlreadySavedInLibrary,
             });
-
-            this.expandToShowDescriptionIfNoTitlePresent(newRoleValue.title);
         }
     }
 
@@ -105,17 +102,6 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
         return this.showNeitherTitleNorDescriptionProvidedError();
     }
 
-    /**
-     * Roles without titles should be expanded to show the description
-     */
-    expandToShowDescriptionIfNoTitlePresent(titleValue?: string) {
-        this.isDescriptionVisible = titleValue ? false : true;
-    }
-
-    onRemove() {
-        this.remove.emit(this.role);
-    }
-
     onDelete() {
         this.roleLibrary.deleteRoleFromLibrary(this.role);
     }
@@ -125,8 +111,6 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
             this.isSubmissionAttempted = true;
             return;
         }
-
-        this.isEditMode = false;
 
         this.role.title = this.title.value;
         this.role.description = this.description.value;
@@ -142,21 +126,16 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
 
         if (!this.saveAsLibraryRole.value && this.role.isLibraryRole()) {
             this.role.convertToCustomRole();
-            this.save.emit();
         }
 
-        if (!this.saveAsLibraryRole.value && this.role.isCustomRole()) {
-            this.save.emit();
-        }
-
-        this.expandToShowDescriptionIfNoTitlePresent(this.role.title);
+        this.save.emit();
 
         this.isSubmissionAttempted = false;
         this.cd.markForCheck();
     }
 
     onCancel() {
-        this.isEditMode = false;
+        this.cancel.emit();
     }
 }
 

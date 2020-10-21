@@ -20,6 +20,10 @@ export class InitiativeHelperInputComponent implements OnInit {
 
     cancelClicked: boolean;
     isPickRoleMode = false;
+    isCreateRoleMode = false;
+    isEditRoleMode = false;
+
+    newRole: Role;
 
     constructor(private cd: ChangeDetectorRef) { }
 
@@ -41,11 +45,35 @@ export class InitiativeHelperInputComponent implements OnInit {
         this.cd.markForCheck();
     }
 
-    onRolePick(roles: Role[]) {
+    onPickRole(roles: Role[]) {
         this.isPickRoleMode = false;
         this.helper.roles = roles;
         this.save.emit();
         this.cd.markForCheck();
+    }
+
+    onCreateRole(newRole: Role) {
+        this.isPickRoleMode = false;
+        this.isCreateRoleMode = true;
+        this.newRole = newRole;
+        this.cd.markForCheck();
+    }
+
+    onCancelCreatingNewRole() {
+        this.isCreateRoleMode = false;
+        this.newRole = undefined;
+        this.cd.markForCheck();
+    }
+
+    onSaveNewRole() {
+        this.helper.roles.unshift(this.newRole);
+        this.isCreateRoleMode = false;
+        this.newRole = undefined;
+        this.save.emit();
+        this.cd.markForCheck();
+    }
+
+    onEditRole() {
     }
 
     onRemoveRole(roleToBeRemoved: Role) {

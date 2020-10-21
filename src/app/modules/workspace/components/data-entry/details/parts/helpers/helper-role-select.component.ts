@@ -28,6 +28,7 @@ export class InitiativeHelperRoleSelectComponent implements OnInit {
     // @Input("isUnauthorized") isUnauthorized: boolean;
 
     @Output("pick") pick = new EventEmitter<Array<Role>>();
+    @Output("create") create = new EventEmitter<Role>();
 
     // placeholder: string;
     // subscription: Subscription;
@@ -39,8 +40,6 @@ export class InitiativeHelperRoleSelectComponent implements OnInit {
     ngOnInit() {
     }
 
-
-
     // isCurrentUserAlredyAdded() {
     //     if (this.helpers && this.user) {
     //         return this.helpers.concat([this.authority]).filter(h => !!h).findIndex(h => h.user_id === this.user.user_id) > -1;
@@ -48,25 +47,15 @@ export class InitiativeHelperRoleSelectComponent implements OnInit {
     //     this.cd.markForCheck();
     // }
 
-
     onAddingRole(newRole: Role) {
-        this.roles.unshift(newRole);
-    //     if ((this.authority && newHelper.user_id === this.authority.user_id) || this.helpers.findIndex(user => user.user_id === newHelper.user_id) > 0) {
-    //         return
-    //     }
-    //     if(this.helpers.findIndex(h => h.user_id === newHelper.user_id) > -1){
-    //         return;
-    //     }
-
-    //     // Create a copy to avoid adding the same object to multiple initiative
-    //     // and overwriting roles across initiatives
-    //     const helperCopy = cloneDeep(newHelper);
-    //     helperCopy.roles = [];
-
-    //     this.helpers.unshift(helperCopy);
-
-        this.pick.emit(this.roles);
-        // this.cd.markForCheck();
+        if (newRole.isLibraryRole()) {
+            // We've picked an existing library role
+            this.roles.unshift(newRole);
+            this.pick.emit(this.roles);
+        } else {
+            // We've chosen to create a new role
+            this.create.emit(newRole);
+        }
     }
 
     // onAddingCurrentUser() {
@@ -96,25 +85,6 @@ export class InitiativeHelperRoleSelectComponent implements OnInit {
         });
 
         return roleChoices;
-        // return term.length < 1
-        //     ? this.team.members
-        //     : this.team.members.filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email));
     }
 
 }
-
-
-
-
-//
-// To be deleted when I'm certain it's OK to do so
-//
-
-// formatter = (result: Helper) => { return result ? result.name : '' };
-
-// ngOnChanges(changes: SimpleChanges): void {
-//     if (changes.team && changes.team.currentValue) {
-//         this.placeholder = `Start typing the name of a ${(changes.team.currentValue as Team).settings.helper.toLowerCase()}`
-//     }
-//     this.cd.markForCheck();
-// }
