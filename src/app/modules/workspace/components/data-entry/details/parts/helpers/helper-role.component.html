@@ -1,0 +1,50 @@
+<ng-container *ngIf="role"> <!-- Fail gracefully on incorrect database data leading to undefined roles -->
+  <div class="d-flex flex-row align-items-center">
+    <div class="text-bold" [class.text-gray]="!role.title && isDescriptionVisible">
+      <ng-container *ngIf="role.title; else titleBasedOnDescription">{{ role.title }}</ng-container>
+
+      <ng-template #titleBasedOnDescription>
+        <ng-container *ngIf="!isDescriptionVisible; else showUntitledRoleLabel">{{ role.description }}</ng-container>
+      </ng-template>
+
+      <ng-template #showUntitledRoleLabel>
+        Untitled role
+      </ng-template>
+    </div>
+
+    <button
+      *ngIf="role.description"
+      class="btn bg-transparent"
+      (click)="isDescriptionVisible = !isDescriptionVisible"
+    >
+      <i
+        [class.fa-caret-right]="!isDescriptionVisible"
+        [class.fa-caret-down]="isDescriptionVisible"
+        class="fas"
+      ></i>
+    </button>
+
+    <button
+      class="btn edit btn-outline-secondary ml-auto"
+      placement="top"
+      container="body"
+      (click)="onEdit()"
+    ></button>
+    <!-- [ngbTooltip]="addButtonTooltip" -->
+
+    <button
+      class="btn remove btn-outline-secondary"
+      placement="top"
+      container="body"
+      mwlConfirmationPopover
+      [popoverMessage]="'Remove role?'"
+      (confirm)="onRemove()"
+      (cancel)="cancelClicked = true"
+      focusbutton="cancel"
+      appendToBody="false"
+    ></button>
+  </div>
+
+  <markdown *ngIf="role.description && isDescriptionVisible" class="cursor-text  border-0 w-100 h-100" [data]="role.description">
+  </markdown>
+</ng-container>
