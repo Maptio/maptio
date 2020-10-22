@@ -1,9 +1,9 @@
-import { Pipe } from "@angular/core";
+import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
   name: "ellipsis"
 })
-export class EllipsisPipe {
+export class EllipsisPipe implements PipeTransform {
   transform(value: string, desiredLength: number) {
     if (desiredLength === undefined) {
       return value;

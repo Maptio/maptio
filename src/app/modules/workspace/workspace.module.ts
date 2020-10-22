@@ -26,6 +26,7 @@ import { MappingSummaryComponent } from "./pages/directory/summary.component";
 import { PersonalSummaryComponent } from "./components/summary/overview/personal.component";
 import { OnboardingComponent } from "../../shared/components/onboarding/onboarding.component";
 import { InstructionsComponent } from "../../shared/components/instructions/instructions.component";
+import { StripMarkdownPipe } from "../../shared/pipes/strip-markdown.pipe";
 import { EllipsisPipe } from "../../shared/pipes/ellipsis.pipe";
 import { PersonalCardComponent } from "./components/summary/tab/card.component";
 import { SlackService } from "./components/sharing/slack.service";
@@ -99,6 +100,7 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
         CommonAutocompleteComponent,
         CommonTextareaComponent,
 
+        StripMarkdownPipe,
         EllipsisPipe
     ],
     providers: [BillingGuard, WorkspaceGuard, UIService, ColorService,
