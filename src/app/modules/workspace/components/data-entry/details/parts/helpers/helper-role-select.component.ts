@@ -84,6 +84,9 @@ export class InitiativeHelperRoleSelectComponent implements OnInit {
             return !isRoleChoiceInHelper;
         });
 
+        // Filter by title using the search term provided
+        roleChoices = roleChoices.filter((roleChoice) => new RegExp(term, "gi").test(roleChoice.title));
+
         return roleChoices;
     }
 
