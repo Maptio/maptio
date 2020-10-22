@@ -10,7 +10,7 @@
     </div>
 
     <button *ngIf="!isUnauthorized" class="btn btn-outline-secondary remove" mwlConfirmationPopover
-        [popoverMessage]="'Remove this helper and associated role?'" placement="top" container="body"
+        [popoverMessage]="'Remove this helper and associated roles?'" placement="top" container="body"
         focusbutton="cancel" appendToBody="false" (confirm)="onRemove()" (cancel)="cancelClicked=true"></button>
 </div>
 
