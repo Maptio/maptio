@@ -1,5 +1,6 @@
 <ng-template #rt let-result="result" let-term="term">
-    <span *ngIf="!result.shortid">Create new role</span>
+    <span *ngIf="!result.shortid && !term">Create new role</span>
+    <span *ngIf="!result.shortid && term">{{term}} (Create new role)</span>
     <span *ngIf="result.shortid">{{ result.title }}</span>
 </ng-template>
 
