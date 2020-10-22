@@ -10,6 +10,8 @@ import { Role } from "../../../../../../../shared/model/role.data";
 })
 export class InitiativeHelperRoleComponent {
     @Input("role") role: Role;
+    @Input("showControls") showControls: boolean;
+
     @Output("edit") edit = new EventEmitter<Role>();
     @Output("remove") remove = new EventEmitter<Role>();
 

@@ -57,7 +57,8 @@
             (cancel)="onCancelEditingRole()" (save)="onChangeRole()">
         </initiative-helper-role-input>
 
-        <initiative-helper-role *ngIf="role !== roleBeingEdited" [role]="role" (edit)="onEditRole($event)"
+        <initiative-helper-role *ngIf="role !== roleBeingEdited" [role]="role"
+            [showControls]="!isPickRoleMode && !isCreateRoleMode && !isEditRoleMode" (edit)="onEditRole($event)"
             (remove)="onRemoveRole($event)">
         </initiative-helper-role>
 

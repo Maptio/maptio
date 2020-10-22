@@ -24,25 +24,27 @@
       ></i>
     </button>
 
-    <button
-      class="btn edit btn-outline-secondary ml-auto"
-      placement="top"
-      container="body"
-      (click)="onEdit()"
-    ></button>
-    <!-- [ngbTooltip]="addButtonTooltip" -->
+    <ng-container *ngIf="showControls">
+      <button
+        class="btn edit btn-outline-secondary ml-auto"
+        placement="top"
+        container="body"
+        (click)="onEdit()"
+      ></button>
+      <!-- [ngbTooltip]="addButtonTooltip" -->
 
-    <button
-      class="btn remove btn-outline-secondary"
-      placement="top"
-      container="body"
-      mwlConfirmationPopover
-      [popoverMessage]="'Remove role?'"
-      (confirm)="onRemove()"
-      (cancel)="cancelClicked = true"
-      focusbutton="cancel"
-      appendToBody="false"
-    ></button>
+      <button
+        class="btn remove btn-outline-secondary"
+        placement="top"
+        container="body"
+        mwlConfirmationPopover
+        [popoverMessage]="'Remove role?'"
+        (confirm)="onRemove()"
+        (cancel)="cancelClicked = true"
+        focusbutton="cancel"
+        appendToBody="false"
+      ></button>
+    </ng-container>
   </div>
 
   <markdown *ngIf="role.description && isDescriptionVisible" class="cursor-text d-block border-0 w-100 h-100 mb-2"
