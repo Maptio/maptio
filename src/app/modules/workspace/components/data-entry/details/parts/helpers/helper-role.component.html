@@ -1,6 +1,6 @@
 <ng-container *ngIf="role"> <!-- Fail gracefully on incorrect database data leading to undefined roles -->
   <div class="d-flex flex-row align-items-center">
-    <div class="text-bold" [class.text-gray]="!role.title && isDescriptionVisible">
+    <div class="text-bold" [class.text-gray-light]="!role.title && isDescriptionVisible">
       <ng-container *ngIf="role.title; else titleBasedOnDescription">{{ role.title }}</ng-container>
 
       <ng-template #titleBasedOnDescription>
