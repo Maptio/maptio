@@ -41,11 +41,15 @@
         (create)="onCreateRole($event)">
     </initiative-helper-role-select>
 
-    <initiative-helper-role-input *ngIf="isCreateRoleMode" [role]="newRole" [helper]="helper"
-        (cancel)="onCancelCreatingNewRole()" (save)="onSaveNewRole()">
-    </initiative-helper-role-input>
+    <ng-container *ngIf="isCreateRoleMode">
+        <initiative-helper-role-input [role]="newRole" [helper]="helper" (cancel)="onCancelCreatingNewRole()"
+            (save)="onSaveNewRole()">
+        </initiative-helper-role-input>
 
-    <ng-container *ngFor="let role of helper.roles; let roleIndex = index">
+        <hr class="role-divider my-1">
+    </ng-container>
+
+    <ng-container *ngFor="let role of helper.roles; let roleIndex = index; let last = last">
         <!-- <initiative-helper-role-input *ngFor="let role of helper.roles; let roleIndex = index"
             [role]="role" [roleIndex]="roleIndex" (remove)="onRemoveRole($event)" (save)="onChangeRole()">
         </initiative-helper-role-input> -->
@@ -56,6 +60,8 @@
         <initiative-helper-role *ngIf="role !== roleBeingEdited" [role]="role" (edit)="onEditRole($event)"
             (remove)="onRemoveRole($event)">
         </initiative-helper-role>
+
+        <hr *ngIf="!last" class="role-divider my-1">
     </ng-container>
 
     <!-- <div class="w-100 position-relative" *ngIf="isEditMode">

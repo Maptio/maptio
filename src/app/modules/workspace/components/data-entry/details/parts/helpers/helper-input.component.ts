@@ -6,7 +6,7 @@ import { Role } from "../../../../../../../shared/model/role.data";
 @Component({
     selector: "initiative-helper-input",
     templateUrl: "./helper-input.component.html",
-    // styleUrls: ["./helper-input.component.css"]
+    styleUrls: ["./helper-input.component.css"],
 })
 export class InitiativeHelperInputComponent implements OnInit {
     @Input("helper") helper: Helper;
