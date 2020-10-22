@@ -58,8 +58,8 @@
         </initiative-helper-role-input>
 
         <initiative-helper-role *ngIf="role !== roleBeingEdited" [role]="role"
-            [showControls]="!isPickRoleMode && !isCreateRoleMode && !isEditRoleMode" (edit)="onEditRole($event)"
-            (remove)="onRemoveRole($event)">
+            [showControls]="!isUnauthorized && !isPickRoleMode && !isCreateRoleMode && !isEditRoleMode"
+            (edit)="onEditRole($event)" (remove)="onRemoveRole($event)">
         </initiative-helper-role>
 
         <hr *ngIf="!last" class="role-divider my-1">
