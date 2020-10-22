@@ -64,8 +64,12 @@ export class Role implements Serializable<Role> {
         this.shortid = undefined;
     }
 
+    hasTitle() {
+        return this.title && this.title.trim() ? true : false;
+    }
+
     hasContent() {
-        return  this.title && this.title.trim() || this.description && this.description.trim();
+        return  this.hasTitle() || this.description && this.description.trim();
     }
 
     hasEqualContentAs(otherRole: Role) {

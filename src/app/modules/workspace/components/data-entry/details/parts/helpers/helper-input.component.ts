@@ -48,7 +48,7 @@ export class InitiativeHelperInputComponent implements OnInit {
 
     onPickRole(roles: Role[]) {
         this.isPickRoleMode = false;
-        this.helper.roles = roles;
+        this.helper.roles = this.sortRoles(roles);
         this.save.emit();
         this.cd.markForCheck();
     }
@@ -68,6 +68,7 @@ export class InitiativeHelperInputComponent implements OnInit {
 
     onSaveNewRole() {
         this.helper.roles.unshift(this.newRole);
+        this.helper.roles = this.sortRoles(this.helper.roles);
         this.isCreateRoleMode = false;
         this.newRole = undefined;
         this.save.emit();
@@ -86,6 +87,7 @@ export class InitiativeHelperInputComponent implements OnInit {
 
     onChangeRole() {
         this.onCancelEditingRole();
+        this.helper.roles = this.sortRoles(this.helper.roles);
         this.save.emit();
         this.cd.markForCheck();
     }
@@ -94,6 +96,35 @@ export class InitiativeHelperInputComponent implements OnInit {
         this.helper.roles = this.helper.roles.filter(role => role !== roleToBeRemoved)
         this.save.emit();
         this.cd.markForCheck();
+    }
+
+    sortRoles(roles: Role[]): Role[] {
+        return roles.sort((a, b) => {
+            // Make sure that roles without titles end up at the bottom of the list
+            if (!a.hasTitle() && b.hasTitle()) {
+                return 1;
+            }
+
+            if (a.hasTitle() && !b.hasTitle()) {
+                return -1;
+            }
+
+            // Sort the remaining roles by title
+            if (a.hasTitle() && b.hasTitle()) {
+                const aTitle = a.title.toLowerCase();
+                const bTitle = b.title.toLowerCase();
+
+                if (aTitle > bTitle) {
+                    return 1;
+                }
+
+                if (aTitle < bTitle) {
+                    return -1;
+                }
+            }
+
+            return 0;
+        });
     }
 
 }
