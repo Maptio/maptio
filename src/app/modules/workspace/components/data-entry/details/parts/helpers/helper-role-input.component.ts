@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, SimpleChanges } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, SimpleChanges, OnDestroy } from "@angular/core";
 import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } from "@angular/forms";
+
+import { Subscription } from "rxjs";
 
 import { Role } from "../../../../../../../shared/model/role.data";
 import { Helper } from "../../../../../../../shared/model/helper.data";
@@ -27,7 +29,7 @@ const noWhitespaceValidator: ValidatorFn = (control: FormControl): ValidationErr
     templateUrl: "./helper-role-input.component.html",
     styleUrls: ["./helper-role-input.component.css"],
 })
-export class InitiativeHelperRoleInputComponent implements OnInit {
+export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
     @Input("role") role: Role;
     @Input("helper") helper: Helper;
 
@@ -39,6 +41,8 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
     description = new FormControl();
     saveAsLibraryRole = new FormControl();
     isAlreadySavedInLibrary = false;
+
+    saveAsLibraryRoleSubscription: Subscription;
 
     isEditMode = false;
     isSubmissionAttempted = false;
@@ -52,9 +56,13 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.saveAsLibraryRole.valueChanges.subscribe(newSaveAsLibraryRoleValue => {
+        this.saveAsLibraryRoleSubscription = this.saveAsLibraryRole.valueChanges.subscribe(newSaveAsLibraryRoleValue => {
             this.setValidatorsDependingOnRoleType(newSaveAsLibraryRoleValue);
         });
+    }
+
+    ngOnDestroy(): void {
+        if (this.saveAsLibraryRoleSubscription) this.saveAsLibraryRoleSubscription.unsubscribe();
     }
 
     ngOnChanges(changes: SimpleChanges) {
