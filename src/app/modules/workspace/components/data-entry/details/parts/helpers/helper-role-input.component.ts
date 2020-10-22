@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, Simp
 import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } from "@angular/forms";
 
 import { Role } from "../../../../../../../shared/model/role.data";
+import { Helper } from "../../../../../../../shared/model/helper.data";
 import { RoleLibraryService } from "../../../../../services/role-library.service";
 
 
@@ -28,6 +29,7 @@ const noWhitespaceValidator: ValidatorFn = (control: FormControl): ValidationErr
 })
 export class InitiativeHelperRoleInputComponent implements OnInit {
     @Input("role") role: Role;
+    @Input("helper") helper: Helper;
 
     @Output("cancel") cancel = new EventEmitter<void>();
     @Output("save") save = new EventEmitter<void>();

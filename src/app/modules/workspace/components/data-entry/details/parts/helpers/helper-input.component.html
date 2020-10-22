@@ -49,7 +49,7 @@
         <!-- <initiative-helper-role-input *ngFor="let role of helper.roles; let roleIndex = index"
             [role]="role" [roleIndex]="roleIndex" (remove)="onRemoveRole($event)" (save)="onChangeRole()">
         </initiative-helper-role-input> -->
-        <initiative-helper-role-input *ngIf="isEditRoleMode && role === roleBeingEdited" [role]="role"
+        <initiative-helper-role-input *ngIf="isEditRoleMode && role === roleBeingEdited" [role]="role" [helper]="helper"
             (cancel)="onCancelEditingRole()" (save)="onChangeRole()">
         </initiative-helper-role-input>
 
