@@ -7,7 +7,7 @@ import { DataService } from "../../../services/data.service";
 import { Initiative } from "../../../../../shared/model/initiative.data";
 
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
-import { EventEmitter } from "@angular/core";
+import { EventEmitter, OnDestroy } from "@angular/core";
 import { Component, ViewChild, Output, Input, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { TreeNode, TREE_ACTIONS, TreeComponent } from "angular-tree-component";
 
@@ -21,7 +21,7 @@ import { DataSet } from "../../../../../shared/model/dataset.data";
 import { UserService } from "../../../../../shared/services/user/user.service";
 import { RoleLibraryService } from "../../../services/role-library.service";
 import { intersectionBy } from "lodash";
-import { Subject } from "rxjs";
+import { Subject, Subscription } from "rxjs";
 import { environment } from "../../../../../config/environment";
 
 @Component({
@@ -30,7 +30,7 @@ import { environment } from "../../../../../config/environment";
     styleUrls: ["./building.component.css"],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BuildingComponent {
+export class BuildingComponent implements OnDestroy {
 
     searched: string;
     nodes: Array<Initiative>;
@@ -117,12 +117,28 @@ export class BuildingComponent {
 
     @Output("save") save: EventEmitter<{ initiative: Initiative, tags: Tag[] }> = new EventEmitter<{ initiative: Initiative, tags: Tag[] }>();
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
-   
+
+    private roleEditedSubscription: Subscription;
+    private roleDeletedSubscription: Subscription;
+
     constructor(private dataService: DataService, private datasetFactory: DatasetFactory,
         private modalService: NgbModal, private analytics: Angulartics2Mixpanel,
         private userFactory: UserFactory, private userService: UserService, private roleLibrary: RoleLibraryService,
         private cd: ChangeDetectorRef, private loaderService: LoaderService) {
         // this.nodes = [];
+
+        this.roleEditedSubscription = this.roleLibrary.roleEdited.subscribe((editedRole) => {
+            this.onLibraryRoleEdit(editedRole);
+        });
+
+        this.roleDeletedSubscription = this.roleLibrary.roleDeleted.subscribe((deletedRole) => {
+            this.onLibraryRoleDelete(deletedRole);
+        });
+    }
+
+    ngOnDestroy() {
+        if (this.roleEditedSubscription) this.roleEditedSubscription.unsubscribe();
+        if (this.roleDeletedSubscription) this.roleDeletedSubscription.unsubscribe();
     }
 
     ngAfterViewChecked() {

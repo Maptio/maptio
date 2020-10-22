@@ -119,14 +119,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.isEmptyMap = !this.dataset.initiative.children || this.dataset.initiative.children.length === 0;
                 this.cd.markForCheck();
             });
-
-        this.roleLibrary.roleEdited.subscribe((editedRole) => {
-            this.onLibraryRoleEdit(editedRole);
-        });
-
-        this.roleLibrary.roleDeleted.subscribe((deletedRole) => {
-            this.onLibraryRoleDelete(deletedRole);
-        });
     }
 
 
@@ -238,16 +230,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isBuildingPanelCollapsed = false;
         this.buildingComponent.tabs.select("tags-tab");
         this.cd.markForCheck();
-    }
-
-    onLibraryRoleEdit(editedRole: Role) {
-        // Call building component to make the changes as it is responsible for editing initiatives
-        this.buildingComponent.onLibraryRoleEdit(editedRole);
-    }
-
-    onLibraryRoleDelete(deletedRole: Role) {
-        // Call building component to make the changes as it is responsible for editing initiatives
-        this.buildingComponent.onLibraryRoleDelete(deletedRole);
     }
 
     // private resizeMap() {
