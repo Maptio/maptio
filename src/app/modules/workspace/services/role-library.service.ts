@@ -7,7 +7,6 @@ import { Initiative } from "../../../shared/model/initiative.data";
 export class RoleLibraryService {
     private roles: Role[] = [];
 
-    roleAdded = new Subject<void>();
     roleEdited = new Subject<Role>();
     roleDeleted = new Subject<Role>();
 
@@ -51,7 +50,6 @@ export class RoleLibraryService {
         }
 
         this.roles.push(role)
-        this.roleAdded.next();
     }
 
     editRole(role: Role): void {

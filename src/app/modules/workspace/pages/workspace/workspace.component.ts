@@ -120,10 +120,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.cd.markForCheck();
             });
 
-        this.roleLibrary.roleAdded.subscribe(() => {
-            this.onRoleAddedToLibrary();
-        });
-
         this.roleLibrary.roleEdited.subscribe((editedRole) => {
             this.onLibraryRoleEdit(editedRole);
         });
@@ -242,11 +238,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isBuildingPanelCollapsed = false;
         this.buildingComponent.tabs.select("tags-tab");
         this.cd.markForCheck();
-    }
-
-    onRoleAddedToLibrary() {
-        this.dataset.roles = this.roleLibrary.getRoles();
-        this.saveDetailChanges();
     }
 
     onLibraryRoleEdit(editedRole: Role) {
