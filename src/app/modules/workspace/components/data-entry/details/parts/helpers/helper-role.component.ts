@@ -10,6 +10,7 @@ import { Role } from "../../../../../../../shared/model/role.data";
 })
 export class InitiativeHelperRoleComponent {
     @Input("role") role: Role;
+    @Input("closed") closed: Role;
     @Input("showControls") showControls: boolean;
 
     @Output("edit") edit = new EventEmitter<Role>();
@@ -30,7 +31,11 @@ export class InitiativeHelperRoleComponent {
      * Roles without titles should be expanded to show the description
      */
     expandToShowDescriptionIfNoTitlePresent(titleValue?: string) {
-        this.isDescriptionVisible = titleValue ? false : true;
+        if (this.closed) {
+            this.isDescriptionVisible = false;
+        } else {
+            this.isDescriptionVisible = titleValue ? false : true;
+        }
     }
 
     onEdit() {

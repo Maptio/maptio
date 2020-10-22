@@ -47,6 +47,19 @@ export class PersonalCardComponent implements OnInit {
         return `multi-collapse-${this.initiative.id}`
     }
 
+    getRoles() {
+        let userId;
+        if (this.isWithLeader) {
+            userId = this.selectedMemberId;
+        } else if (this.initiative.accountable) {
+            userId = this.initiative.accountable.user_id;
+        } else {
+            return;
+        }
+
+        return this.initiative.getRoles(userId);
+    }
+
     sortHelpers() {
         return sortBy(this.initiative.helpers, h => h.name)
     }
