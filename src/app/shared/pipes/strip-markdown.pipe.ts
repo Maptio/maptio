@@ -9,8 +9,14 @@ export class StripMarkdownPipe implements PipeTransform {
   constructor(private markdownService: MarkdownService) { }
 
   transform(text: string) {
-    const textAsMarkdown = this.markdownService.compile(text);
-    const textAsPlainText = textAsMarkdown.replace(/<(?:.|\n)*?>/gm, " ");
+    // Convert to HTML
+    const textAsHTML = this.markdownService.compile(text);
+
+    // Convert to plaintext
+    const tempElement = document.createElement("div");
+    tempElement.innerHTML = textAsHTML;
+    const textAsPlainText = tempElement.innerText;
+
     return textAsPlainText;
   }
 
