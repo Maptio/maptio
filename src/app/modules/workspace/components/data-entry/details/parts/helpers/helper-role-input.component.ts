@@ -73,6 +73,24 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
         }
     }
 
+    showDeleteButton() {
+        return this.saveAsLibraryRole.value && this.role.isLibraryRole();
+    }
+
+    showNeitherTitleNorDescriptionProvidedError() {
+        return this.roleForm.errors && this.roleForm.errors.neitherTitleNorDescriptionProvided && this.isSubmissionAttempted;
+    }
+
+    showTitleFieldError() {
+        const isDirtyOrTouched = (this.title.dirty || this.title.touched);
+        return (this.saveAsLibraryRole.value && this.title.invalid && (isDirtyOrTouched || this.isSubmissionAttempted)) ||
+            this.showNeitherTitleNorDescriptionProvidedError();
+    }
+
+    showDescriptionFieldError() {
+        return this.showNeitherTitleNorDescriptionProvidedError();
+    }
+
     setValidatorsDependingOnRoleType(saveAsLibraryRole: boolean) {
         if (saveAsLibraryRole) {
             // No cross-field validation is necessary for library roles
@@ -88,20 +106,6 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
             // Title is optional for custom roles
             this.title.setValidators([])
         }
-    }
-
-    showNeitherTitleNorDescriptionProvidedError() {
-        return this.roleForm.errors && this.roleForm.errors.neitherTitleNorDescriptionProvided && this.isSubmissionAttempted;
-    }
-
-    showTitleFieldError() {
-        const isDirtyOrTouched = (this.title.dirty || this.title.touched);
-        return (this.saveAsLibraryRole.value && this.title.invalid && (isDirtyOrTouched || this.isSubmissionAttempted)) ||
-            this.showNeitherTitleNorDescriptionProvidedError();
-    }
-
-    showDescriptionFieldError() {
-        return this.showNeitherTitleNorDescriptionProvidedError();
     }
 
     onDelete() {

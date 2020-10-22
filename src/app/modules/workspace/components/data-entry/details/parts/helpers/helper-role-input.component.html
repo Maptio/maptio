@@ -75,7 +75,7 @@
     <button type="submit" class="btn btn-success" [disabled]="isSubmissionAttempted && !roleForm.valid">Save</button>
   </div>
 
-  <div class="d-flex justify-content-end mt-2" *ngIf="saveAsLibraryRole.value">
+  <div class="d-flex justify-content-end mt-2" *ngIf="showDeleteButton()">
     <button
       type="button"
       class="btn btn-danger ml-auto"
