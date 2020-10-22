@@ -24,6 +24,7 @@ export class InitiativeHelperInputComponent implements OnInit {
     isEditRoleMode = false;
 
     newRole: Role;
+    roleBeingEdited: Role;
 
     constructor(private cd: ChangeDetectorRef) { }
 
@@ -73,16 +74,24 @@ export class InitiativeHelperInputComponent implements OnInit {
         this.cd.markForCheck();
     }
 
-    onEditRole() {
+    onEditRole(role: Role) {
+        this.roleBeingEdited = role;
+        this.isEditRoleMode = true;
     }
 
-    onRemoveRole(roleToBeRemoved: Role) {
-        this.helper.roles = this.helper.roles.filter(role => role !== roleToBeRemoved)
+    onCancelEditingRole() {
+        this.roleBeingEdited = undefined;
+        this.isEditRoleMode = false;
+    }
+
+    onChangeRole() {
+        this.onCancelEditingRole();
         this.save.emit();
         this.cd.markForCheck();
     }
 
-    onChangeRole() {
+    onRemoveRole(roleToBeRemoved: Role) {
+        this.helper.roles = this.helper.roles.filter(role => role !== roleToBeRemoved)
         this.save.emit();
         this.cd.markForCheck();
     }

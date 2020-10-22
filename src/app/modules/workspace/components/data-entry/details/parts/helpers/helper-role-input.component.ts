@@ -104,6 +104,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit {
 
     onDelete() {
         this.roleLibrary.deleteRoleFromLibrary(this.role);
+        this.cancel.emit();
     }
 
     onSave() {
