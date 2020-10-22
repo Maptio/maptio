@@ -41,8 +41,8 @@
         (create)="onCreateRole($event)">
     </initiative-helper-role-select>
 
-    <initiative-helper-role-input *ngIf="isCreateRoleMode" [role]="newRole" (cancel)="onCancelCreatingNewRole()"
-        (save)="onSaveNewRole()">
+    <initiative-helper-role-input *ngIf="isCreateRoleMode" [role]="newRole" [helper]="helper"
+        (cancel)="onCancelCreatingNewRole()" (save)="onSaveNewRole()">
     </initiative-helper-role-input>
 
     <ng-container *ngFor="let role of helper.roles; let roleIndex = index">
