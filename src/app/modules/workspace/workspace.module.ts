@@ -26,6 +26,7 @@ import { MappingSummaryComponent } from "./pages/directory/summary.component";
 import { PersonalSummaryComponent } from "./components/summary/overview/personal.component";
 import { OnboardingComponent } from "../../shared/components/onboarding/onboarding.component";
 import { InstructionsComponent } from "../../shared/components/instructions/instructions.component";
+import { EllipsisPipe } from "../../shared/pipes/ellipsis.pipe";
 import { PersonalCardComponent } from "./components/summary/tab/card.component";
 import { SlackService } from "./components/sharing/slack.service";
 import { NgbTooltipModule, NgbTypeaheadModule, NgbPopoverModule, NgbTabsetModule } from "@ng-bootstrap/ng-bootstrap";
@@ -96,7 +97,9 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
         ColorPickerComponent,
         EditTagsComponent,
         CommonAutocompleteComponent,
-        CommonTextareaComponent
+        CommonTextareaComponent,
+
+        EllipsisPipe
     ],
     providers: [BillingGuard, WorkspaceGuard, UIService, ColorService,
         SlackService, DataService, RoleLibraryService, MapSettingsService,

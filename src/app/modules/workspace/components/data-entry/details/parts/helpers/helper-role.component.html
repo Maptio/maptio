@@ -4,7 +4,7 @@
       <ng-container *ngIf="role.title; else titleBasedOnDescription">{{ role.title }}</ng-container>
 
       <ng-template #titleBasedOnDescription>
-        <ng-container *ngIf="!isDescriptionVisible; else showUntitledRoleLabel">{{ role.description }}</ng-container>
+        <ng-container *ngIf="!isDescriptionVisible; else showUntitledRoleLabel">{{ role.description | ellipsis:25 }}</ng-container>
       </ng-template>
 
       <ng-template #showUntitledRoleLabel>
