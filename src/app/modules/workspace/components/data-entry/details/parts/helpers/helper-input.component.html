@@ -14,13 +14,6 @@
         focusbutton="cancel" appendToBody="false" (confirm)="onRemove()" (cancel)="cancelClicked=true"></button>
 </div>
 
-<!-- <div class="mt-2" *ngIf="!(isUnauthorized && isEmptyRole)">
-    <common-textarea *ngFor="let role of helper.roles" rows="3" label="Role" [isUnauthorized]="isUnauthorized" [placeholder]="placeholder"
-        [text]="role ? role?.description : ''" (save)="onChangeRole($event)">
-        <ng-content></ng-content>
-    </common-textarea>
-</div> -->
-
 <div class="d-flex flex-column mt-2">
     <div class="d-flex align-items-baseline justify-content-start">
         <span class="d-flex align-items-baseline text-gray-light mr-1">
@@ -50,9 +43,6 @@
     </ng-container>
 
     <ng-container *ngFor="let role of helper.roles; let roleIndex = index; let last = last">
-        <!-- <initiative-helper-role-input *ngFor="let role of helper.roles; let roleIndex = index"
-            [role]="role" [roleIndex]="roleIndex" (remove)="onRemoveRole($event)" (save)="onChangeRole()">
-        </initiative-helper-role-input> -->
         <initiative-helper-role-input *ngIf="isEditRoleMode && role === roleBeingEdited" [role]="role" [helper]="helper"
             (cancel)="onCancelEditingRole()" (save)="onChangeRole()">
         </initiative-helper-role-input>
@@ -64,24 +54,4 @@
 
         <hr *ngIf="!last" class="role-divider my-1">
     </ng-container>
-
-    <!-- <div class="w-100 position-relative" *ngIf="isEditMode">
-        <small *ngIf="!isHeader" class="my-1 position-absolute bottom-left text-default text-muted ml-auto">
-            Use
-            <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">markdown</a> to
-            create links and add formatting.
-        </small>
-
-        <textarea #inputDescription class="form-control mb-4" id="inputDescription" [value]="text || ''"
-            data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [attr.rows]="rows"
-            [attr.placeholder]="placeholder" (change)="onChange($event.target.value)" (blur)="isEditMode=false">
-        </textarea>
-    </div>
-
-    <div *ngIf="!isEditMode && !isTextEmpty" (click)="!isUnauthorized && isEditMode=true"
-        class="position-relative w-100 bg-light p-2 rounded">
-
-        <markdown class="cursor-text  border-0 w-100 h-100" [ngClass]="{'lead text-bold' : isHeader}" [data]="text">
-        </markdown>
-    </div> -->
 </div>
