@@ -33,6 +33,14 @@ export class InitiativeHelperInputComponent implements OnInit {
     ngOnChanges(changes:SimpleChanges){
         if (changes.helper && changes.helper.currentValue) {
             if (this.isAuthority) this.helper.hasAuthorityPrivileges = true;
+
+            this.isPickRoleMode = false;
+
+            this.isCreateRoleMode = false;
+            this.newRole = undefined;
+
+            this.isEditRoleMode = false;
+            this.roleBeingEdited = undefined;
         }
     }
 
