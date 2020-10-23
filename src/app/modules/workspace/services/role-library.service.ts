@@ -123,14 +123,26 @@ export class RoleLibraryService {
 
             people.forEach((person) => {
                 rolesToBeDeleted.forEach((roleToBeDeleted) => {
-                    const matchingRoleIndex = person.roles.findIndex((role) => role.shortid === roleToBeDeleted.shortid);
+                    const matchingRoleIndex = person.roles.findIndex((role) => {
+                        if (role && roleToBeDeleted) {
+                            return role.shortid === roleToBeDeleted.shortid
+                        } else {
+                            return false;
+                        }
+                    });
                     if (matchingRoleIndex > -1) {
                         person.roles.splice(matchingRoleIndex, 1);
                     }
                 });
 
                 rolesToBeEdited.forEach((roleToBeEdited) => {
-                    const matchingRole = person.roles.find((role) => role.shortid === roleToBeEdited.shortid);
+                    const matchingRole = person.roles.find((role) => {
+                        if (role && roleToBeEdited) {
+                            return role.shortid === roleToBeEdited.shortid
+                        } else {
+                            return false;
+                        }
+                    });
                     if (matchingRole) {
                         matchingRole.copyContentFrom(roleToBeEdited);
                     }
