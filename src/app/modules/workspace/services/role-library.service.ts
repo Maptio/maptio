@@ -13,6 +13,9 @@ export class RoleLibraryService {
     constructor() { }
 
     setRoles(roles: Role[]): void {
+        // Filter out stale non-library roles
+        roles = roles.filter((role) => role.isLibraryRole());
+
         this.roles = roles;
     }
 
