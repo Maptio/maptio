@@ -99,6 +99,11 @@ export class RoleLibraryService {
         // First, we identify all roles that need to be deleted or edited by comparing the dataset's roles with the
         // role library (i.e. team roles).
         datasetRoles.forEach((datasetRole) => {
+            // Defend against stale undefined/null data
+            if (!datasetRole.isLibraryRole()) {
+                return;
+            }
+
             const matchingLibraryRole = this.findRoleInList(datasetRole, this.roles);
             if (!matchingLibraryRole) {
                 rolesToBeDeleted.push(datasetRole);
