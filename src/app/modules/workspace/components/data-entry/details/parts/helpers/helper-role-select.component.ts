@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 
-import { isEqual } from "lodash-es";
+import { isEqual, cloneDeep } from "lodash-es";
 
 import { Role } from "../../../../../../../shared/model/role.data";
 import { RoleLibraryService } from "../../../../../services/role-library.service";
@@ -24,7 +24,8 @@ export class InitiativeHelperRoleSelectComponent implements OnInit {
     onAddingRole(newRole: Role) {
         if (newRole.isLibraryRole()) {
             // We've picked an existing library role
-            this.roles.unshift(newRole);
+            const roleCopy = cloneDeep(newRole);
+            this.roles.unshift(roleCopy);
             this.pick.emit(this.roles);
         } else {
             // We've chosen to create a new role
