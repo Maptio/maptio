@@ -52,6 +52,6 @@
             (edit)="onEditRole($event)" (remove)="onRemoveRole($event)">
         </initiative-helper-role>
 
-        <hr *ngIf="!last" class="role-divider my-1">
+        <hr *ngIf="!last && helper.roles[roleIndex +1]" class="role-divider my-1">
     </ng-container>
 </div>
