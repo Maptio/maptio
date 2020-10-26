@@ -1,6 +1,7 @@
 import { Initiative } from "./initiative.data";
 import { Serializable } from "./../interfaces/serializable.interface";
 import { Tag, DEFAULT_TAGS } from "./tag.data";
+import { Role } from "./role.data";
 import { Team } from "./team.data";
 
 /**
@@ -18,6 +19,8 @@ export class DataSet implements Serializable<DataSet> {
   depth: number;
 
   tags: Array<Tag>;
+
+  roles: Array<Role>;
 
   isArchived:boolean;
 
@@ -37,6 +40,7 @@ export class DataSet implements Serializable<DataSet> {
     deserialized.datasetId = input._id;
     deserialized.initiative = Initiative.create().deserialize(input.initiative || input);
     deserialized.isArchived = input.isArchived;
+
     let tags = new Array<Tag>();
     if (input.tags && input.tags instanceof Array && input.tags.length > 0) {
       input.tags.forEach(function (inputTag: any) {
@@ -46,8 +50,17 @@ export class DataSet implements Serializable<DataSet> {
     else {
       tags = DEFAULT_TAGS;
     }
-
     deserialized.tags = tags;
+
+    let roles = new Array<Role>();
+    if (input.roles && input.roles instanceof Array && input.roles.length > 0) {
+      input.roles.forEach(function (inputRole: any) {
+        roles.push(new Role().deserialize(inputRole))
+      });
+    }
+    deserialized.roles = roles;
+
+
     // deserialized.createdOn = input.createdOn;
     return deserialized;
   }

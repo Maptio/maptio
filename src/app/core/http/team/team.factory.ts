@@ -80,6 +80,7 @@ export class TeamFactory {
             slack : input.slack,
             isTemporary:input.isTemporary,
             isExample : input.isExample,
+            roles: input.roles,
             members: input.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id, nickname: m.nickname } })
         };
 
@@ -107,6 +108,7 @@ export class TeamFactory {
             slack : team.slack,
             isTemporary:team.isTemporary,
             isExample : team.isExample,
+            roles: team.roles,
             members: team.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id, nickname: m.nickname } })
         };
         return this.http.put("/api/v1/team/" + team.team_id, transformed)

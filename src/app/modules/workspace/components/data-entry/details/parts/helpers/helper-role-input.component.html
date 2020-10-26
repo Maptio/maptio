@@ -1,0 +1,92 @@
+<form (ngSubmit)="onSave()" [formGroup]="roleForm" class="mt-2 mb-3">
+  <div class="form-group">
+    <label for="inputTitle" class="mb-0 text-uppercase text-bold text-gray-light small">Role title</label>
+    <input
+      formControlName="title"
+      class="form-control mb-2"
+      id="inputTitle"
+      placeholder="This is the role title."
+      [class.is-invalid]="showTitleFieldError()"
+    />
+    <small class="invalid-feedback">
+      <ng-container *ngIf="saveAsLibraryRole.value; else titleErrorForCustomRoles">Role titles are required for library roles</ng-container>
+      <ng-template #titleErrorForCustomRoles>Please fill out either the title or the description</ng-template>
+    </small>
+  </div>
+
+  <div class="form-group">
+    <label class="mb-0 text-uppercase text-bold text-gray-light small">Role description</label>
+    <textarea
+      formControlName="description"
+      class="form-control"
+      id="inputDescription"
+      data-provide="markdown"
+      data-iconlibrary="fa"
+      data-autofocus="true"
+      rows="3"
+      placeholder="This is the role description. It may use markdown."
+      [class.is-invalid]="showDescriptionFieldError()"
+    ></textarea>
+    <small class="invalid-feedback">
+      Please fill out either the title or the description
+    </small>
+  </div>
+
+  <small class="text-default text-muted">
+    Use
+    <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">markdown</a>
+    to create links and add formatting.
+  </small>
+
+  <div class="my-2">
+    <div class="custom-control custom-radio">
+      <input
+        type="radio"
+        formControlName="saveAsLibraryRole"
+        [value]="false"
+        [id]="'customRoleRadio-' + helper.shortid"
+        class="custom-control-input"
+      />
+
+      <label class="custom-control-label" [for]="'customRoleRadio-' + helper.shortid">
+        <ng-container *ngIf="isAlreadySavedInLibrary; else radioCustomRoleChoiceTextForCustomRoles">Convert to custom role</ng-container>
+        <ng-template #radioCustomRoleChoiceTextForCustomRoles>Custom role for this person</ng-template>
+      </label>
+    </div>
+
+    <div class="custom-control custom-radio">
+      <input
+        type="radio"
+        formControlName="saveAsLibraryRole"
+        [value]="true"
+        [id]="'libraryRoleRadio-' + helper.shortid"
+        class="custom-control-input"
+      />
+
+      <label class="custom-control-label" [for]="'libraryRoleRadio-' + helper.shortid">
+        <ng-container *ngIf="isAlreadySavedInLibrary; else radioLibraryRoleChoiceTextForCustomRoles">Edit role for ALL holders</ng-container>
+        <ng-template #radioLibraryRoleChoiceTextForCustomRoles>Add to role library</ng-template>
+      </label>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end mt-2">
+    <button *ngIf="!roleForm.dirty" type="button" class="btn btn-outline-secondary mr-2" (click)="onCancel()">Cancel</button>
+    <button *ngIf="roleForm.dirty" type="button" class="btn btn-outline-secondary mr-2" placement="top" container="body" mwlConfirmationPopover
+      [popoverTitle]="'Warning'"
+      [popoverMessage]="'Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?'"
+      (confirm)="onCancel()" focusbutton="cancel" appendToBody="false">
+      Cancel
+    </button>
+    <button type="submit" class="btn btn-success" [disabled]="isSubmissionAttempted && !roleForm.valid">Save</button>
+  </div>
+
+  <div class="d-flex justify-content-end mt-2" *ngIf="showDeleteButton()">
+    <button type="button" class="btn btn-danger ml-auto" placement="top" container="body" mwlConfirmationPopover
+      [popoverTitle]="'Warning'"
+      [popoverMessage]="'This will remove the role from ALL holders in the organisation and delete it from the list of roles. This cannot be undone. Are you sure?'"
+      (confirm)="onDelete()" focusbutton="cancel" appendToBody="false">
+      Delete this role
+    </button>
+  </div>
+</form>

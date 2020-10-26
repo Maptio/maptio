@@ -1,0 +1,16 @@
+<ng-template #rt let-result="result" let-term="term">
+    <span *ngIf="!result.shortid && !term">Create new role</span>
+    <span *ngIf="!result.shortid && term">{{term}} (Create new role)</span>
+    <span *ngIf="result.shortid">{{ result.title }}</span>
+</ng-template>
+
+<common-autocomplete
+  class="d-block mt-2 mb-3"
+  [placeholder]="'Start typing the title of a role'"
+  [resultTemplate]="rt"
+  [showSelectedResult]="false"
+  [showCancelButton]="false"
+  [filter]="filterRoles"
+  (pick)="onAddingRole($event)"
+>
+</common-autocomplete>

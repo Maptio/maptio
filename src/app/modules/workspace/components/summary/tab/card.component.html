@@ -21,9 +21,13 @@
                 </li>
             </ul>
         </div>
-        <div class="card-subtitle" *ngIf="initiative.getRoles(isWithLeader ? selectedMemberId : initiative.accountable?.user_id)[0]?.description">
-            <markdown [data]="initiative.getRoles(isWithLeader ? selectedMemberId : initiative.accountable?.user_id)[0]?.description"></markdown>
+
+        <div class="card-subtitle mb-3" *ngIf="getRoles()">
+            <initiative-helper-role *ngFor="let role of getRoles()" [role]="role" [closed]="true"
+                [showControls]="false" class="d-block mb-1">
+            </initiative-helper-role>
         </div>
+
         <div class="card-text">
             <div *ngIf="(initiative.helpers?.length !== 0)" class=" row" [class.bg-light]="isShowRoles">
                 <a class="btn btn-link px-3 text-left" data-toggle="collapse" [attr.data-target]="'.'+getMultipleCollapseClass()" [attr.aria-controls]="getMultipleCollapseId()"
@@ -38,8 +42,12 @@
                                     <img [hidden]="h.user_id === member?.user_id " class="rounded-circle  participant-picture" src="{{h.picture}}" alt="{{h.name}}"
                                         title="{{h.name}}" placement="top" container="body" ngbTooltip="{{h.name}}">
                                 </button>
-                                <markdown class="small mx-1 no-margin d-flex flex-column align-items-start" *ngIf="h.roles[0]?.description" [data]="h.roles[0]?.description"></markdown>
 
+                                <div class="mb-2 ml-2">
+                                    <initiative-helper-role *ngFor="let role of h.roles" [role]="role" [closed]="true"
+                                        [showControls]="false" class="d-block mb-1">
+                                    </initiative-helper-role>
+                                </div>
                             </div>
                         </div>
                     </div>
