@@ -85,7 +85,7 @@ export class PersonalSummaryComponent implements OnInit {
             if (i.accountable && i.accountable.user_id === this._user.user_id) {
                 if (!authorities.includes(i)) authorities.push(i)
             }
-            if (i.helpers && i.helpers.find(h => h.user_id === this._user.user_id && i.accountable && i.accountable.user_id !== h.user_id)) {
+            if (i.helpers && this.isHelperButNotAccountable(i)) {
                 if (!helps.includes(i)) helps.push(i)
             }
 
@@ -93,6 +93,21 @@ export class PersonalSummaryComponent implements OnInit {
 
         this.authorities = sortBy(authorities, i => i.name);
         this.helps = sortBy(helps, i => i.name)
+    }
+
+    /**
+     * Check if the current user is a helper in an initiative
+     *
+     * Make an exception for those cases when a user is a helper, but is also
+     * the user accountable for the initiative. In that case we need to return
+     * false.
+     *
+     * @param helper        helper from the initiative
+     * @param initiative    the initiative  
+     */
+    isHelperButNotAccountable(initiative: Initiative) {
+        // Incorrect code according to the intention!
+        return initiative.helpers.find(helper => helper.user_id === this._user.user_id && initiative.accountable && initiative.accountable.user_id !== helper.user_id);
     }
 
     toggleAuthorityView(i: number) {
