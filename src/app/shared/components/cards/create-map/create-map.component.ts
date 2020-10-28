@@ -1,10 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Team } from '../../../model/team.data';
+import { Permissions } from "../../../model/permission.data";
 import { DataSet } from '../../../model/dataset.data';
 import { Router } from '@angular/router';
 import { Intercom } from 'ng-intercom';
 import { MapService } from '../../../services/map/map.service';
+import { environment } from "../../../../config/environment";
 
 @Component({
     selector: 'common-create-map',
@@ -14,6 +16,10 @@ import { MapService } from '../../../services/map/map.service';
 export class CreateMapComponent implements OnInit {
     form: FormGroup;
     isCreatingMap: Boolean;
+    Permissions = Permissions;
+
+    KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
+
     @Input("teams") teams: Team[];
     @Input("isRedirect") isRedirect: Boolean;
 

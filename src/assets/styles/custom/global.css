@@ -340,6 +340,12 @@ ul.picture-list > .list-inline-item{
   cursor:move;
 }
 
+.cursor-not-allowed,
+button[type="button"].cursor-not-allowed,
+button.cursor-not-allowed{
+    cursor: not-allowed;
+}
+
 .home-background{
   background-image: url('/assets/images/screenshot-light.png');
   background-size: contain;
@@ -403,7 +409,6 @@ img.user{
 .remove::before {
   content: "\f1f8";
   font-family: "Font Awesome 5 Free";
-  cursor: pointer;
   font-weight: bold;
 }
 
@@ -687,9 +692,6 @@ ngb-typeahead-window.dropdown-menu {
   overflow-x:hidden;
 }
 
-
-
-
 .dropdown-toggle::after {
-vertical-align: middle!important;
+  vertical-align: middle!important;
 }

@@ -1,0 +1,53 @@
+<ng-container *ngIf="role"> <!-- Fail gracefully on incorrect database data leading to undefined roles -->
+  <div class="d-flex flex-row align-items-center">
+    <div class="text-bold" [class.text-gray-light]="!role.title && isDescriptionVisible">
+      <ng-container *ngIf="role.title; else titleBasedOnDescription">{{ role.title }}</ng-container>
+
+      <ng-template #titleBasedOnDescription>
+        <ng-container *ngIf="!isDescriptionVisible; else showUntitledRoleLabel">{{ role.description | stripMarkdown | ellipsis:50 }}</ng-container>
+      </ng-template>
+
+      <ng-template #showUntitledRoleLabel>
+        Untitled role
+      </ng-template>
+    </div>
+
+    <button
+      *ngIf="role.description"
+      class="btn bg-transparent py-0 border-0"
+      (click)="isDescriptionVisible = !isDescriptionVisible"
+    >
+      <i
+        [class.fa-caret-right]="!isDescriptionVisible"
+        [class.fa-caret-down]="isDescriptionVisible"
+        class="fas"
+      ></i>
+    </button>
+
+    <ng-container *ngIf="showControls">
+      <button
+        class="btn edit btn-outline-secondary ml-auto"
+        placement="top"
+        container="body"
+        (click)="onEdit()"
+      ></button>
+      <!-- [ngbTooltip]="addButtonTooltip" -->
+
+      <button
+        class="btn remove btn-outline-secondary"
+        placement="top"
+        container="body"
+        mwlConfirmationPopover
+        [popoverMessage]="'Remove role? (This does not affect other holders of this role)'"
+        (confirm)="onRemove()"
+        (cancel)="cancelClicked = true"
+        focusbutton="cancel"
+        appendToBody="false"
+      ></button>
+    </ng-container>
+  </div>
+
+  <markdown *ngIf="role.description && isDescriptionVisible" class="cursor-text d-block border-0 w-100 h-100 mb-2"
+    [data]="role.description">
+  </markdown>
+</ng-container>

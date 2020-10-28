@@ -2,6 +2,7 @@ import { URIService } from "../../../../shared/services/uri/uri.service";
 import { DataService } from "../../services/data.service";
 import { Browsers, UIService } from "../../services/ui.service";
 import { ColorService } from "../../services/color.service";
+import { PermissionsService } from "../../../../shared/services/permissions/permissions.service";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { SelectableUser, User } from "../../../../shared/model/user.data";
@@ -136,7 +137,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     private loaderService: LoaderService,
     private http: AuthHttp,
     private sanitizer: DomSanitizer,
-    private element: ElementRef
+    private element: ElementRef,
+    private permissionsService: PermissionsService
   ) {
 
 
@@ -372,6 +374,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const TRANSITION_DURATION = this.TRANSITION_DURATION;
     const showToolipOf$ = this.showToolipOf$;
     const showContextMenuOf$ = this.showContextMenuOf$;
+    const canOpenInitiativeContextMenu = this.permissionsService.canOpenInitiativeContextMenu();
     const toggleDetailsPanel$ = this.toggleDetailsPanel$;
     const selectableUsers$ = this.selectableUsers$;
     const zoom$ = this.zoom$;
@@ -470,7 +473,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
           })
       }
     }
-
 
     function getViewScaleForRadius(radius: number): number {
       return (height) / (radius * 2 + margin);
@@ -654,6 +656,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
         d3.getEvent().stopPropagation();
       })
       .on("contextmenu", function (d: any) {
+        if (!canOpenInitiativeContextMenu) return;
+
         d3.getEvent().preventDefault();
         const that = <any>this;
         let mousePosition;

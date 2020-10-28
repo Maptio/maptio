@@ -1,5 +1,6 @@
 import { BuildingComponent } from "../../components/data-entry/hierarchy/building.component";
 import { DataService, CounterService } from "../../services/data.service";
+import { RoleLibraryService } from "../../services/role-library.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription, Subject, ReplaySubject, Observable, BehaviorSubject } from "rxjs/Rx";
 import { Initiative } from "../../../../shared/model/initiative.data";
@@ -7,6 +8,7 @@ import { DataSet } from "../../../../shared/model/dataset.data";
 import { Team } from "../../../../shared/model/team.data";
 import { EmitterService } from "../../../../core/services/emitter.service";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
+import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { ViewChild } from "@angular/core";
 import {
     Component, OnInit, OnDestroy,
@@ -16,6 +18,7 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { User } from "../../../../shared/model/user.data";
 import { Tag } from "../../../../shared/model/tag.data";
+import { Role } from "../../../../shared/model/role.data";
 import { Intercom } from "ng-intercom";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { intersectionBy } from "lodash";
@@ -61,6 +64,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public teams: Team[];
     public tags: Tag[];
     public user: User;
+    public roles: Role[];
     public canvasYMargin: number;
     public canvasHeight: number
 
@@ -95,7 +99,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
         private uiService: UIService, private settingsService: MapSettingsService,
-        private dataService: DataService, private cd: ChangeDetectorRef, private mixpanel: Angulartics2Mixpanel, private intercom: Intercom) {
+        private dataService: DataService, private cd: ChangeDetectorRef,
+        private teamFactory: TeamFactory, private roleLibrary: RoleLibraryService,
+        private mixpanel: Angulartics2Mixpanel, private intercom: Intercom) {
     }
 
     ngOnInit() {
@@ -165,26 +171,35 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             depth++;
             node.tags = intersectionBy(change.tags, node.tags, (t: Tag) => t.shortid)
         });
+
+        // Ensure that that the dataset and team versions of the role library are identical before saving
+        const roleLibrary = this.roleLibrary.getRoles();
+        this.dataset.roles = roleLibrary;
+        this.team.roles = roleLibrary;
+
         // optimistic update
         this.dataService.set({ initiative: change.initiative, dataset: this.dataset, team: this.team, members: this.members, user: this.user });
 
-        this.datasetFactory.upsert(this.dataset, this.datasetId)
-            .then((hasSaved: boolean) => {
-                // this.dataService.set({ initiative: change.initiative, dataset: this.dataset, team: this.team, members: this.members, user: this.user });
-                return hasSaved;
-            }, (reason) => { console.error(reason) })
-            .then(() => {
-                this.updateInitiativeTree(this.dataset, this.team, this.members)
-            })
-            .then(() => {
-                this.intercom.trackEvent("Editing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: change.initiative.name, circles: depth });
-                this.mixpanel.eventTrack("Editing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: change.initiative.name, circles: depth });
-                return;
-            })
-            .then(() => {
-                this.isSaving = false;
-                this.cd.markForCheck();
-            });
+        Promise.all([
+            this.datasetFactory.upsert(this.dataset, this.datasetId),
+            this.teamFactory.upsert(this.team),
+        ])
+        .then(([hasSavedDataset, hasSavedTeam]: [boolean, boolean]) => {
+            // this.dataService.set({ initiative: change.initiative, dataset: this.dataset, team: this.team, members: this.members, user: this.user });
+            return hasSavedDataset && hasSavedTeam;
+        }, (reason) => { console.error(reason) })
+        .then(() => {
+            this.updateInitiativeTree(this.dataset, this.team, this.members)
+        })
+        .then(() => {
+            this.intercom.trackEvent("Editing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: change.initiative.name, circles: depth });
+            this.mixpanel.eventTrack("Editing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: change.initiative.name, circles: depth });
+            return;
+        })
+        .then(() => {
+            this.isSaving = false;
+            this.cd.markForCheck();
+        });
     }
 
     onSelectMembers(members: User[]) {
@@ -331,6 +346,4 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     onOpenSlackShare() {
 
     }
-
-
 }

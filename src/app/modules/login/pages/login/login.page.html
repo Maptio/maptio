@@ -17,8 +17,15 @@
                 <a routerLink="/signup" class="alert-link cursor-pointer">Sign up
                 </a>
             </div>
+
             <div class="alert alert-danger" role="alert" *ngIf="previousAttemptMessage">
                 {{previousAttemptMessage}}
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="isAuthorizeErrorFromAuth0">
+                We're really sorry - there was a problem connecting your Google account to Maptio. Don't worry, we can fix this for you.
+                Please email <a href="mailto:support@maptio.com">support@maptio.com</a>
+                (or use the chat icon in the bottom corner), let us know the google email address you wanted to use and we will get you in
+                as soon as possible. So sorry this is not working for you right now.
             </div>
 
         </div>

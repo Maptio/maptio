@@ -1,4 +1,4 @@
-import { Team } from '../../../../shared/model/team.data';
+import { Team } from "../../../../shared/model/team.data";
 import { Role } from "../../../../shared/model/role.data";
 import { User } from "../../../../shared/model/user.data";
 import { ColorService } from "../../services/color.service";
@@ -6,8 +6,10 @@ import { UIService } from "../../services/ui.service";
 import { Router } from "@angular/router";
 import { DataService } from "../../services/data.service";
 import { URIService } from "../../../../shared/services/uri/uri.service";
+import { PermissionsService } from "../../../../shared/services/permissions/permissions.service";
 import { Tag, SelectableTag } from "../../../../shared/model/tag.data";
 import { Initiative } from "../../../../shared/model/initiative.data";
+import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
 import { Subject, BehaviorSubject } from "rxjs/Rx";
 import { Subscription } from "rxjs/Subscription";
 import { Observable } from "rxjs/Observable";
@@ -30,6 +32,7 @@ import { color } from "d3-color";
 import { forceSimulation, forceLink, forceManyBody, forceCenter, ForceLink } from "d3-force"
 import { map as d3Map } from "d3-collection"
 import { drag } from "d3-drag"
+import { MapSettings, MapSettingsService } from "../../services/map-settings.service";
 
 const d3 = Object.assign(
   {},
@@ -67,6 +70,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public translateY: number;
   public scale: number;
   public tagsState: Array<SelectableTag>;
+  public settings: MapSettings;
 
   public margin: number;
   public selectableTags$: Subject<Array<SelectableTag>> = new Subject<SelectableTag[]>();
@@ -108,6 +112,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   private dataSubscription: Subscription;
   private resetSubscription: Subscription;
 
+  public isSaving: boolean;
+  public dataset: any;
+
+
   T: any;
   TRANSITION_DURATION = 250;
 
@@ -130,28 +138,40 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     private cd: ChangeDetectorRef,
     private router: Router,
     private dataService: DataService,
-    private uriService: URIService
+    private uriService: URIService,
+    private datasetFactory: DatasetFactory,
+    private mapSettingsService: MapSettingsService,
+    private permissionsService: PermissionsService
   ) {
   }
 
   ngOnInit() {
     this.isLoading = true;
     this.init();
+
     this.dataSubscription = this.dataService
       .get()
+      .map(dataset => {
+        this.datasetId = dataset.dataset.datasetId;
+        this.settings = this.mapSettingsService.get(this.datasetId);
+        this.isAuthorityCentricMode$.next(this.settings.views.network ? this.settings.views.network.isAuthorityCentricMode : true);
+        return dataset;
+      })
       .combineLatest(this.mapColor$, this.isAuthorityCentricMode$.asObservable())
-      .subscribe(complexData => {
-        let data = <any>complexData[0].initiative;
-        this.datasetId = complexData[0].dataset.datasetId;
-        this.rootNode = complexData[0].initiative;
-        this.team = complexData[0].team;
+      .subscribe(([dataset, color, authorityCentricMode]) => {
+        this.dataset = dataset.dataset;
+
+        let data = <any>dataset.initiative;
+        this.rootNode = dataset.initiative;
+        this.team = dataset.team;
         this.slug = data.getSlug();
-        this.update(data, complexData[1], complexData[2]);
+        this._isAuthorityCentricMode = authorityCentricMode;
+        this.update(data, color, this._isAuthorityCentricMode);
         this.analytics.eventTrack("Map", {
           action: "viewing",
           view: "connections",
-          team: (<Team>complexData[0].team).name,
-          teamId: (<Team>complexData[0].team).team_id
+          team: (<Team>dataset.team).name,
+          teamId: (<Team>dataset.team).team_id
         });
         this.isLoading = false;
         this.cd.markForCheck();
@@ -411,7 +431,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
 
     let links = map(
-      groupBy(rawlinks, 'linkid'),
+      groupBy(rawlinks, "linkid"),
       (items: Array<any>, linkid: string) => {
         return {
           source: items[0].source,
@@ -522,9 +542,31 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   }
 
 
-  public switch() {
-    this._isAuthorityCentricMode = !this._isAuthorityCentricMode;
-    this.isAuthorityCentricMode$.next(this._isAuthorityCentricMode);
+  public switch(value: boolean) {
+    this.isAuthorityCentricMode$.next(value);
+    this.saveChanges(value);
+  }
+
+  saveChanges(authorityCentricMode: boolean) {
+    this.isSaving = true;
+    const settings = this.settings;
+    settings.views.network.isAuthorityCentricMode = authorityCentricMode
+
+    this.mapSettingsService.set(this.datasetId, settings)
+    // this.dataset.initiative.authorityCentricMode = authorityCentricMode;
+
+    if (!this.dataset) {
+      return;
+    }
+
+    this.datasetFactory.upsert(this.dataset, this.dataset.datasetId)
+      .then((hasSaved: boolean) => {
+        // this.dataService.set(this.dataset);
+        return hasSaved;
+      }, (reason) => { console.error(reason) })
+      .then(() => {
+        this.isSaving = false;
+      });
   }
 
   public isNoNetwork: boolean;
@@ -546,6 +588,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let bilinks: Array<any> = [];
     let uiService = this.uiService;
     let showToolipOf$ = this.showToolipOf$;
+    const canOpenInitiativeContextMenu = this.permissionsService.canOpenInitiativeContextMenu();
     let showContextMenuOf$ = this.showContextMenuOf$;
     let datasetSlug = this.slug;
     let datasetId = this.datasetId;
@@ -849,6 +892,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         });
       })
       .on("contextmenu", function (d: any) {
+        if (!canOpenInitiativeContextMenu) return;
+
         d3.getEvent().preventDefault();
         let mousePosition = d3.mouse(this);
         let matrix = this.getCTM().translate(
@@ -892,7 +937,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             path.dispatch("mouseout");
           })
 
-      });;
+      });
 
 
     simulation.nodes(graph.nodes).on("tick", ticked);
@@ -922,7 +967,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       let source = d[0], target = d[2]
       // // fit path like you've been doing
       //   path.attr("d", function(d){
-      var dx = target.x - source.x,
+      let dx = target.x - source.x,
         dy = target.y - source.y,
         dr = Math.sqrt(dx * dx + dy * dy);
       return "M" + source.x + "," + source.y + "A" + dr + "," + dr + " 0 0,1 " + target.x + "," + target.y;
@@ -931,13 +976,13 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     function positionArrow(d: any) {
       let source = d[0], target = d[2], weight = d[3]
       // length of current path
-      var pl = this.getTotalLength(),
+      let pl = this.getTotalLength(),
         // radius of circle plus marker head
-        r = CIRCLE_RADIUS * 1.5 + Math.sqrt(CIRCLE_RADIUS * 2 + CIRCLE_RADIUS * 2), //16.97 is the "size" of the marker Math.sqrt(12**2 + 12 **2)
+        r = CIRCLE_RADIUS * 1.5 + Math.sqrt(CIRCLE_RADIUS * 2 + CIRCLE_RADIUS * 2), // 16.97 is the "size" of the marker Math.sqrt(12**2 + 12 **2)
         // position close to where path intercepts circle
         m = this.getPointAtLength(pl - r)
         ;
-      var dx = m.x - source.x,
+      let dx = m.x - source.x,
         dy = m.y - source.y,
         dr = Math.sqrt(dx * dx + dy * dy);
 

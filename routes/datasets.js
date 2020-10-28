@@ -99,7 +99,7 @@ router.put('/:did', function (req, res, next) {
     var dataset = req.body;
     db.datasets.update(
         { _id: mongojs.ObjectId(req.params.did) },
-        req.body,
+        {$set: req.body},
         { upsert: true },
         function (err, result) {
             if (err) {

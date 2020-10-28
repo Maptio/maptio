@@ -28,12 +28,12 @@
                 <div class="form-group my-2">
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" id="helpModeRadio" name="radioViewMode" class="custom-control-input" [checked]="_isAuthorityCentricMode"
-                            (click)="switch()">
+                            (click)="switch(true)">
                         <label class="custom-control-label" for="helpModeRadio">Connect leads and contributors</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" id="participationModeRadio" name="radioViewMode" class="custom-control-input" [checked]="!_isAuthorityCentricMode"
-                            (click)="switch()">
+                            (click)="switch(false)">
                         <label class="custom-control-label" for="participationModeRadio">Connect all contributors</label>
                     </div>
                 </div>

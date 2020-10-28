@@ -17,9 +17,12 @@
 <div class="d-flex justify-content-between align-items-baseline text-gray-light ">
     <span>
         <!-- <i class="fas fa-users  mr-1"></i> -->
-        <span class="text-uppercase  small">Who's helping?</span>
+        <span class="text-uppercase small mr-1">Who's helping?</span>
+        <span *ngIf="isUnauthorized" class="text-gray-light small" [stickyPopover]="editTipContent" placement='right'>
+            <i class="fas fa-lock"></i>
+        </span>
     </span>
-    <button *ngIf="!isCurrentUserAlredyAdded()" class="align-self-end btn btn-sm btn-link p-0"
+    <button *ngIf="!isCurrentUserAlredyAdded() && !isUnauthorized" class="align-self-end btn btn-sm btn-link p-0"
         (click)="onAddingCurrentUser()">
         Add yourself as a {{team?.settings.helper |  lowercase}}
     </button>

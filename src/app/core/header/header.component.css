@@ -74,6 +74,11 @@
     padding: 0;
 }
 
+.navbar-text {
+    flex: 1;
+    justify-content: center;
+}
+
 .navbar>.container .navbar-brand-centered, .navbar>.container-fluid .navbar-brand-centered {
     margin-left: -80px;
 }

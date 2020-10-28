@@ -15,10 +15,13 @@ export class ColorPickerComponent implements OnInit {
     @Input("placement") placement?: string = "top";
     @Input("default") defaultColor: string;
     @Input("isMinimal") isMinimal: boolean;
+    @Input("isDisabled") isDisabled: boolean = false;
     @Output("change") changeColor: EventEmitter<string> = new EventEmitter<string>();
 
     toggleColorPicker: boolean;
+
     DEFAULT_PRESETS_COLORS = environment.DEFAULT_PRESETS_COLORS;
+    KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
 
     @ViewChild('colorSelector') element: ElementRef;
 

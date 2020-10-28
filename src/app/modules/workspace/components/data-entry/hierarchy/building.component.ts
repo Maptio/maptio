@@ -1,11 +1,12 @@
 import { User } from "../../../../../shared/model/user.data";
 import { Team } from "../../../../../shared/model/team.data";
+import { Permissions } from "../../../../../shared/model/permission.data";
 import { DatasetFactory } from "../../../../../core/http/map/dataset.factory";
 import { DataService } from "../../../services/data.service";
 import { Initiative } from "../../../../../shared/model/initiative.data";
 
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
-import { EventEmitter } from "@angular/core";
+import { EventEmitter, OnDestroy } from "@angular/core";
 import { Component, ViewChild, Output, Input, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { TreeNode, TREE_ACTIONS, TreeComponent } from "angular-tree-component";
 
@@ -14,10 +15,12 @@ import { InitiativeNodeComponent } from "../node/initiative.node.component"
 import { NgbModal, NgbTabset, NgbTabChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 import { LoaderService } from "../../../../../shared/components/loading/loader.service";
 import { Tag } from "../../../../../shared/model/tag.data";
+import { Role } from "../../../../../shared/model/role.data";
 import { DataSet } from "../../../../../shared/model/dataset.data";
-import { UserService } from "../../../../../shared/services/user/user.service";
+import { RoleLibraryService } from "../../../services/role-library.service";
 import { intersectionBy } from "lodash";
-import { Subject } from "rxjs";
+import { Subject, Subscription } from "rxjs";
+import { environment } from "../../../../../config/environment";
 
 @Component({
     selector: "building",
@@ -25,7 +28,7 @@ import { Subject } from "rxjs";
     styleUrls: ["./building.component.css"],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BuildingComponent {
+export class BuildingComponent implements OnDestroy {
 
     searched: string;
     nodes: Array<Initiative>;
@@ -88,6 +91,8 @@ export class BuildingComponent {
 
     SAVING_FREQUENCY: number = 10;
 
+    KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
+    Permissions = Permissions;
 
     @ViewChild("tree") public tree: TreeComponent;
     @ViewChild("tabs") public tabs: NgbTabset;
@@ -114,9 +119,27 @@ export class BuildingComponent {
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
     @Output("forceEdit") forceEdit = new EventEmitter<void>();
 
+    private roleEditedSubscription: Subscription;
+    private roleDeletedSubscription: Subscription;
+
     constructor(private dataService: DataService, private datasetFactory: DatasetFactory,
-        private modalService: NgbModal, private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private loaderService: LoaderService) {
+        private modalService: NgbModal, private analytics: Angulartics2Mixpanel,
+        private roleLibrary: RoleLibraryService, private cd: ChangeDetectorRef,
+        private loaderService: LoaderService) {
         // this.nodes = [];
+
+        this.roleEditedSubscription = this.roleLibrary.roleEdited.subscribe((editedRole) => {
+            this.onLibraryRoleEdit(editedRole);
+        });
+
+        this.roleDeletedSubscription = this.roleLibrary.roleDeleted.subscribe((deletedRole) => {
+            this.onLibraryRoleDelete(deletedRole);
+        });
+    }
+
+    ngOnDestroy() {
+        if (this.roleEditedSubscription) this.roleEditedSubscription.unsubscribe();
+        if (this.roleDeletedSubscription) this.roleDeletedSubscription.unsubscribe();
     }
 
     ngAfterViewChecked() {
@@ -166,6 +189,40 @@ export class BuildingComponent {
         this.nodes[0].traverse((node: Initiative) => {
             node.tags = intersectionBy(tags, node.tags, (t: Tag) => t.shortid);
         })
+        this.saveChanges();
+    }
+
+    onLibraryRoleEdit(libraryRole: Role) {
+        this.nodes[0].traverse((node: Initiative) => {
+            // Select both helpers and the person accountable for the initiative
+            const people = node.accountable ? node.helpers.concat([node.accountable]) : node.helpers;
+
+            // Update the role for each person that has it assigned
+            people.forEach((helper) => {
+                const matchingRole = helper.roles.find((role) => role && (role.shortid === libraryRole.shortid));
+                if (matchingRole) {
+                    matchingRole.copyContentFrom(libraryRole);
+                }
+            });
+        });
+
+        this.saveChanges();
+    }
+
+    onLibraryRoleDelete(libraryRole: Role) {
+        this.nodes[0].traverse((node: Initiative) => {
+            // Select both helpers and the person accountable for the initiative
+            const people = node.accountable ? node.helpers.concat([node.accountable]) : node.helpers;
+
+            // Remove the role for each person that has it assigned
+            people.forEach((person) => {
+                const matchingRoleIndex = person.roles.findIndex((role) => role && (role.shortid === libraryRole.shortid));
+                if (matchingRoleIndex > -1) {
+                    person.roles.splice(matchingRoleIndex, 1);
+                }
+            });
+        });
+
         this.saveChanges();
     }
 
@@ -269,11 +326,15 @@ export class BuildingComponent {
             .then(dataset => {
                 this.nodes = [];
                 this.nodes.push(dataset.initiative);
+
+                // Ensure roles within the dataset are synchronised with team roles that might have been updated while
+                // editing another dataset
+                this.roleLibrary.setRoles(team.roles);
+                this.roleLibrary.syncDatasetRoles(dataset.roles, this.nodes[0]);
+                dataset.roles = team.roles;
             })
             .then(() => {
                 this.loaderService.hide();
             })
     }
 }
-
-

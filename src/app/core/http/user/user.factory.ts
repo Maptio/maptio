@@ -5,104 +5,118 @@ import { Response } from "@angular/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import * as shortid from "shortid";
+import { chunk, flattenDeep } from "lodash-es";
 
 @Injectable()
 export class UserFactory {
+  private _http: AuthHttp;
+  constructor(private http: AuthHttp) {
+    this._http = http;
+  }
 
-    private _http: AuthHttp;
-    constructor(private http: AuthHttp) {
-        this._http = http;
+  /** Gets all users
+   *
+   */
+  getAll(pattern: string): Promise<User[]> {
+    if (!pattern || pattern === "") {
+      return Promise.reject("You cannot make a search for all users !");
     }
-
-    /** Gets all users
-     *
-     */
-    getAll(pattern: string): Promise<User[]> {
-        if (!pattern || pattern === "") {
-            return Promise.reject("You cannot make a search for all users !")
+    return this.http
+      .get("/api/v1/user/all/" + pattern)
+      .map(responseData => {
+        return responseData.json();
+      })
+      .map((inputs: Array<any>) => {
+        let result: Array<User> = [];
+        if (inputs) {
+          inputs.forEach(input => {
+            result.push(User.create().deserialize(input));
+          });
         }
-        return this.http.get("/api/v1/user/all/" + pattern)
-            .map((responseData) => {
-                return responseData.json();
-            })
-            .map((inputs: Array<any>) => {
-                let result: Array<User> = [];
-                if (inputs) {
-                    inputs.forEach((input) => {
-                        result.push(User.create().deserialize(input));
-                    });
-                }
-                return result;
-            })
-            .toPromise()
+        return result;
+      })
+      .toPromise();
+  }
 
+  getUsers(usersId: string[]): Promise<User[]> {
+    if (!usersId || usersId.length === 0) {
+      return Promise.reject("You cannot make a search for all users !");
     }
+    let chunks = chunk(usersId, 50);
 
-    getUsers(usersId: string[]): Promise<User[]> {
-        if (!usersId || usersId.length === 0) {
-            return Promise.reject("You cannot make a search for all users !")
-        }
-        return this.http.get("/api/v1/user/in/" + usersId.join(","))
-            .map((responseData) => {
-                return responseData.json();
-            })
-            .map((inputs: Array<any>) => {
-                let result: Array<User> = [];
-                if (inputs) {
-                    inputs.forEach((input) => {
-                        result.push(User.create().deserialize(input));
-                    });
-                }
-                return result;
-            })
-            .toPromise()
-    }
+    return Promise.all(
+      chunks.map(chunkusersId =>
+        this.http
+          .get("/api/v1/user/in/" + chunkusersId.join(","))
+          .map(responseData => {
+            return responseData.json();
+          })
+          .map((inputs: Array<any>) => {
+            let result: Array<User> = [];
+            if (inputs) {
+              inputs.forEach(input => {
+                result.push(User.create().deserialize(input));
+              });
+            }
+            return result;
+          })
+          .toPromise()
+      )
+    ).then(array => {
+      return <User[]>flattenDeep(array);
+    });
+  }
 
-    /** Gets a user using its uniquerId
-     *  Returns undefined if no user is found
-     */
-    get(uniqueId: string): Promise<User> {
-        return this.http.get("/api/v1/user/" + uniqueId)
-            .map((response: Response) => {
-                return User.create().deserialize(response.json());
-            })
-            .toPromise()
-    }
+  /** Gets a user using its uniquerId
+   *  Returns undefined if no user is found
+   */
+  get(uniqueId: string): Promise<User> {
+    return this.http
+      .get("/api/v1/user/" + uniqueId)
+      .map((response: Response) => {
+        return User.create().deserialize(response.json());
+      })
+      .toPromise();
+  }
 
-    // getByShortId(shortid: string): Promise<User> {
-    //     return this.http.get("/api/v1/user/" + shortid)
-    //         .map((response: Response) => {
-    //             return User.create().deserialize(response.json());
-    //         })
-    //         .toPromise()
-    // }
+  // getByShortId(shortid: string): Promise<User> {
+  //     return this.http.get("/api/v1/user/" + shortid)
+  //         .map((response: Response) => {
+  //             return User.create().deserialize(response.json());
+  //         })
+  //         .toPromise()
+  // }
 
-    /**
-     * Creates a new user
-     */
-    create(input: User): Promise<User> {
-        input.shortid = shortid.generate();
-        return this.http.post("/api/v1/user", input)
-            .map((responseData) => {
-                return responseData.json();
-            })
-            .map((input: any) => {
-                return User.create().deserialize(input);
-            })
-            .toPromise()
-    }
+  /**
+   * Creates a new user
+   */
+  create(input: User): Promise<User> {
+    input.shortid = shortid.generate();
+    return this.http
+      .post("/api/v1/user", input)
+      .map(responseData => {
+        return responseData.json();
+      })
+      .map((input: any) => {
+        return User.create().deserialize(input);
+      })
+      .toPromise();
+  }
 
-    /**
-     * Upsert a user
-     * @param   user    User to update or insert
-     * @returns         True if upsert has succeded, false otherwise
-     */
-    upsert(user: User): Promise<boolean> {
-        return this.http.put("/api/v1/user/" + user.user_id, user)
-            .map((responseData) => {
-                return responseData.json();
-            })
-            .toPromise()
-            .then(r => { return true });
-    }
+  /**
+   * Upsert a user
+   * @param   user    User to update or insert
+   * @returns         True if upsert has succeded, false otherwise
+   */
+  upsert(user: User): Promise<boolean> {
+    return this.http
+      .put("/api/v1/user/" + user.user_id, user)
+      .map(responseData => {
+        return responseData.json();
+      })
+      .toPromise()
+      .then(r => {
+        return true;
+      });
+  }
 }

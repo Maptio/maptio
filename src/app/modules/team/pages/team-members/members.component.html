@@ -13,7 +13,7 @@
                 </div>
                 <div class="form-group">
                     <div class="form-inline">
-                        <input #inputNewMember class="form-control col-12 col-md-5" type="text"
+                        <input #inputNewMember class="form-control col-12 col-md-5" type="text" placeholder="Email address"
                             (keyup)="onKeyUp(inputNewMember.value)" email>
                         <span class="text-green" *ngIf="isSearching">
                             <i class="fas fa-circle-notch fa-spin mx-1"></i>Searching
@@ -107,7 +107,7 @@
                     </a>
 
                 </div>
-                <div class="ml-auto">
+                <div *permissionsOnly="Permissions.canInviteUser" class="ml-auto">
                     <button class="btn btn-outline-secondary pull-right nowrap" mwlConfirmationPopover
                         [popoverMessage]="inviteAllUsersMessage" placement="top" focusButton="cancel"
                         appendToBody="true" (confirm)="inviteAll()" (cancel)="cancelClicked = true">Invite/resend

@@ -1,10 +1,22 @@
+<ng-template #editTipContent>
+	<span class="text-orange">You don't have permission to edit this.
+		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+	</span>
+</ng-template>
+<ng-template #deleteTipContent>
+	<span class="text-orange">You don't have permission to delete this.
+		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+	</span>
+</ng-template>
+
 <div class="">
-    <div class="text-muted mt-1 small">Use tags to map strategic themes, progress and other information which might be
-        relevant to multiple circles across the
-        map.
+    <div class="text-muted mt-1 small">
+        Use tags to map strategic themes, progress and other information which might be
+        relevant to multiple circles across the map.
     </div>
+
     <div class="w-100 mt-3">
-        <div class=" d-flex flex-column bg-light rounded p-3 ">
+        <div *permissionsOnly="Permissions.canEditTags" class=" d-flex flex-column bg-light rounded p-3 ">
             <h6>Create a new tag</h6>
 
             <form class="form-group  form-inline d-flex" [formGroup]="newTagForm" (submit)="addTag()">
@@ -18,8 +30,8 @@
                 <button type="submit" class="btn btn-success col-auto">
                     <i class="fas fa-plus"></i>
                 </button>
-
             </form>
+
             <small class="invalid-feedback"
                 *ngIf="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)">
                 Required
@@ -27,27 +39,37 @@
         </div>
 
         <div class="p-3">
+            <div class="form-group form-inline d-flex" *ngFor="let tag of tags; let i=index">
+                <ng-container *permissionsOnly="Permissions.canEditTags; else elseTagsBlock; then thenTagsBlock">main</ng-container>
+                <ng-template #thenTagsBlock>
+                    <input type="text" class="flex-grow-1 form-control" name="inputTagName"
+                        [ngModelOptions]="{standalone: true}" [ngModel]="tag.name"
+                        (ngModelChange)="saveTagName(tag, $event)" (blur)="saveTagChanges()" />
+                    <div class="mx-1">
+                        <common-color-picker [color]="tag.color" [isMinimal]="false" (change)="saveColor(tag, $event)">
+                        </common-color-picker>
+                    </div>
+                    <button placement="top" container="body" mwlConfirmationPopover
+                        popoverMessage="This cannot be undone! This tag will be removed from all circles."
+                        focusbutton="cancel" appendToBody="false" (confirm)="removeTag(tag)" (cancel)="cancelClicked = true"
+                        class="btn btn-outline-secondary remove col-auto">
+                    </button>
+                </ng-template>
 
-            <div class="form-group  form-inline d-flex" *ngFor="let tag of tags; let i=index">
-                <input type="text" class="flex-grow-1 form-control" name="inputTagName"
-                    [ngModelOptions]="{standalone: true}" [ngModel]="tag.name"
-                    (ngModelChange)="saveTagName(tag, $event)" (blur)="saveTagChanges()" />
-                <div class="mx-1">
-                    <common-color-picker [color]="tag.color" [isMinimal]="false" (change)="saveColor(tag, $event)">
-                    </common-color-picker>
-                </div>
-                <button placement="top" container="body" mwlConfirmationPopover
-                    popoverMessage="This cannot be undone! This tag will be removed from all circles."
-                    focusbutton="cancel" appendToBody="false" (confirm)="removeTag(tag)" (cancel)="cancelClicked = true"
-                    class="btn btn-outline-secondary remove col-auto">
-                    <!-- <i class="fas fa-trash"></i> -->
-                </button>
-
+                <ng-template #elseTagsBlock>
+                    <div class="flex-grow-1 d-flex" [stickyPopover]="editTipContent">
+                        <input type="text" class="flex-grow-1 form-control cursor-not-allowed" name="inputTagName"
+                            [ngModel]="tag.name" disabled />
+                    </div>
+                    <div class="mx-1">
+                        <common-color-picker [color]="tag.color" [isDisabled]="true" (change)="saveColor(tag, $event)">
+                        </common-color-picker>
+                    </div>
+                    <button placement="top" container="body" appendToBody="false" [stickyPopover]="deleteTipContent"
+                        class="btn btn-outline-secondary remove col-auto disabled cursor-not-allowed">
+                    </button>
+                </ng-template>
             </div>
         </div>
     </div>
-
-
-
-
 </div>

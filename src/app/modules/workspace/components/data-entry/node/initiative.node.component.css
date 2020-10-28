@@ -134,8 +134,3 @@ display: flex;
 .disabled{
    pointer-events: auto !important;
 }
-
-
-.not-allowed{
-    cursor: not-allowed;
-}

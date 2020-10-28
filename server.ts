@@ -78,6 +78,12 @@ if (!isDevelopment) {
         'https://*.logrocket.io',
         'https://slack.com/api/'
       ],
+      frameSrc:[
+        'https://www.termsfeed.com',
+        'https://termsfeed.com',
+        'https://login.maptio.com',
+        'https://maptio.chargebee.com'
+      ],
       childSrc: [
         "'self'", 'blob:',
         'https://share.intercom.io',

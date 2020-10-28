@@ -1,0 +1,14 @@
+.edit {
+    border: none;
+}
+
+.edit:hover {
+    background:initial;
+    color: var(--maptio-green);
+}
+
+.edit:before {
+    content: "\f304";
+    font-family: "Font Awesome 5 Free";
+    font-weight: bold;
+}

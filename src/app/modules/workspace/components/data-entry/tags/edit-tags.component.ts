@@ -1,8 +1,10 @@
+import { environment } from "../../../../../config/environment";
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { Tag, SelectableTag } from '../../../../../shared/model/tag.data';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Team } from '../../../../../shared/model/team.data';
+import { Permissions } from "../../../../../shared/model/permission.data";
 
 @Component({
     selector: 'edit-tags',
@@ -14,6 +16,10 @@ export class EditTagsComponent implements OnInit {
     @Input() tags: SelectableTag[];
     @Input() team: Team;
     @Output("edit") edit: EventEmitter<SelectableTag[]> = new EventEmitter<SelectableTag[]>()
+
+    Permissions = Permissions;
+
+    KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
 
     public newTagForm: FormGroup;
     public newTagColor = "#aaa";

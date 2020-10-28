@@ -43,11 +43,30 @@
 
 <div *ngIf="isEmptyMap" class="instructions h2 d-none d-md-block">
   Click
-  <button type="button" class="btn  btn-success" (click)="addFirstNode()">
-    <i class="fa fa-plus"></i>
-  </button> to create your first circle
+
+  <ng-container *permissionsOnly="Permissions.canCreateRootInitiative; else elseFirstNodeBlock; then thenFirstNodeBlock">main</ng-container>
+
+  <ng-template #thenFirstNodeBlock>
+    <button type="button" class="btn  btn-success" (click)="addFirstNode()">
+      <i class="fa fa-plus"></i>
+    </button>
+  </ng-template>
+
+  <ng-template #editTipContent>
+    <span class="text-orange">You don't have permission to do this.
+      <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+    </span>
+  </ng-template>
+
+  <ng-template #elseFirstNodeBlock>
+    <button type="button" class="btn  btn-success disabled cursor-not-allowed" [stickyPopover]="editTipContent">
+      <i class="fa fa-plus"></i>
+    </button>
+  </ng-template>
+  
+  to create your first circle
 </div>
 <div *ngIf="isEmptyMap" class="px-4 d-flex flex-column position-absolute center-center d-md-none w-100 text-center">
-  <b>Map editing is disable on mobile.</b>
+  <b>Map editing is disabled on mobile.</b>
   <span class="text-muted">Open Maptio on a desktop to start adding circles</span>
 </div>
