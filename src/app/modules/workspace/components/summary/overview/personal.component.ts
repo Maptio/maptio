@@ -102,12 +102,18 @@ export class PersonalSummaryComponent implements OnInit {
      * the user accountable for the initiative. In that case we need to return
      * false.
      *
-     * @param helper        helper from the initiative
-     * @param initiative    the initiative  
+     * @param initiative    the initiative to perform check on
      */
-    isHelperButNotAccountable(initiative: Initiative) {
-        // Incorrect code according to the intention!
-        return initiative.helpers.find(helper => helper.user_id === this._user.user_id && initiative.accountable && initiative.accountable.user_id !== helper.user_id);
+    isHelperButNotAccountable(initiative: Initiative): boolean {
+        const matchingHelpers = initiative.helpers.find(helper => {
+            if (initiative.accountable && initiative.accountable.user_id === helper.user_id) {
+                return false;
+            } else {
+                return helper.user_id === this._user.user_id;
+            }
+        });
+
+        return matchingHelpers ? true : false;
     }
 
     toggleAuthorityView(i: number) {
