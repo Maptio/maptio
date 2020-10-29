@@ -117,10 +117,7 @@ export class User implements Serializable<User> {
       (input.user_metadata
         ? input.user_metadata.family_name
         : input.family_name) || input.lastname;
-    deserialized.name =
-      deserialized.firstname && deserialized.lastname
-        ? `${deserialized.firstname || ""} ${deserialized.lastname || ""}`
-        : input.name;
+    deserialized.name = this.createNameFromFirstAndLastNames(deserialized.firstname, deserialized.lastname, input.name);
     deserialized.isActivationPending =
       input.app_metadata && input.app_metadata.activation_pending
         ? input.app_metadata.activation_pending
@@ -188,6 +185,16 @@ export class User implements Serializable<User> {
     // support for non latin character is lackign for now
     // HACK : is slug is empty, return "user"
     return slug(this.name || this.nickname || "", { lower: true }) || "user";
+  }
+
+  createNameFromFirstAndLastNames(firstname: string, lastname: string, name: string) {
+    if (firstname && lastname) {
+      return `${firstname} ${lastname}`;
+    } else if (firstname) {
+      return firstname;
+    } else {
+      return name;
+    }
   }
 }
 
