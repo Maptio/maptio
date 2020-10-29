@@ -339,21 +339,22 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
+            const userMetadata = {
+                "user_metadata":
                 {
-                    "user_metadata":
-                    {
-                        "given_name": firstname,
-                        "family_name": lastname
-                    },
-                    "connection": environment.CONNECTION_NAME
-                }
-                ,
-                { headers: headers })
+                    "given_name": firstname,
+                    "family_name": lastname
+                },
+                "connection": this.getConnection()
+            };
+
+            return this.http.patch(`${environment.USERS_API_URL}/${user_id}`, userMetadata, { headers: headers })
                 .toPromise()
                 .then((response) => {
-                    return true
-                }, (error) => { return Promise.reject(error) })
+                    return true;
+                }, (error) => {
+                    return Promise.reject(error);
+                })
         });
     }
 
@@ -401,7 +402,7 @@ export class UserService {
                     {
                         "picture": pictureUrl,
                     },
-                    "connection": environment.CONNECTION_NAME
+                    "connection": this.getConnection()
                 }
                 ,
                 { headers: headers })
@@ -492,5 +493,43 @@ export class UserService {
                 })
                 .toPromise()
         });
+    }
+
+    /**
+     * Get name of Auth0 connection for currently logged in user
+     *
+     * Every user in Auth0 has at least one identity, each with it's own
+     * connection. When updating user information we need to provide the name of
+     * the connection. For users who don't have the default connection stored in
+     * the CONNECTION_NAME environment variable, we need to return the name of
+     * the google OAuth 2 connection to update user information.
+     *
+     * For more information, see: https://auth0.com/docs/identityproviders
+     */
+    getConnection() {
+        const profileString = localStorage.getItem("profile");
+
+        let profile;
+        try {
+            profile = JSON.parse(profileString);
+        }
+        catch (err) {
+            console.error("Error while parsing profile json: ");
+            console.error(err);
+        }
+
+        // Regardless what happens with the profile, try the default connection
+        if (!profile) {
+            return environment.CONNECTION_NAME;
+        }
+
+        const numberOfIdentities = profile.identities.length;
+        const googleIdentity = profile.identities.find((identity: any) => identity.provider === "google-oauth2");
+
+        if (numberOfIdentities === 1 && googleIdentity) {
+            return "google-oauth2";
+        } else {
+            return environment.CONNECTION_NAME;
+        }
     }
 }
