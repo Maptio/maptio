@@ -404,7 +404,7 @@ export class UserService {
                     {
                         "picture": pictureUrl,
                     },
-                    "connection": environment.CONNECTION_NAME
+                    "connection": this.authService.getConnection()
                 }
                 ,
                 { headers: headers })
