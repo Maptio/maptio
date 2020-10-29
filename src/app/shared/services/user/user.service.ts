@@ -339,21 +339,22 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
+            const userMetadata = {
+                "user_metadata":
                 {
-                    "user_metadata":
-                    {
-                        "given_name": firstname,
-                        "family_name": lastname
-                    },
-                    "connection": environment.CONNECTION_NAME
-                }
-                ,
-                { headers: headers })
+                    "given_name": firstname,
+                    "family_name": lastname
+                },
+                "connection": environment.CONNECTION_NAME
+            };
+
+            return this.http.patch(`${environment.USERS_API_URL}/${user_id}`, userMetadata, { headers: headers })
                 .toPromise()
                 .then((response) => {
-                    return true
-                }, (error) => { return Promise.reject(error) })
+                    return true;
+                }, (error) => {
+                    return Promise.reject(error);
+                })
         });
     }
 
