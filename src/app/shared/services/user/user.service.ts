@@ -4,6 +4,7 @@ import { environment } from "../../../config/environment";
 import { Http, Headers } from "@angular/http";
 import { Injectable } from "@angular/core";
 import { AuthConfiguration } from "../../../core/authentication/auth.config";
+import { Auth } from "../../../core/authentication/auth.service";
 import { JwtEncoder } from "../encoding/jwt.service";
 import { MailingService } from "../mailing/mailing.service";
 import { UUID } from "angular2-uuid/index";
@@ -20,7 +21,8 @@ export class UserService {
         private configuration: AuthConfiguration,
         private encodingService: JwtEncoder,
         private mailing: MailingService,
-        private userFactory: UserFactory) { }
+        private userFactory: UserFactory,
+        private authService: Auth) { }
 
 
     public sendInvite(email: string, userId: string, firstname: string, lastname: string, name: string, teamName: string, invitedBy: string): Promise<boolean> {
@@ -345,7 +347,7 @@ export class UserService {
                     "given_name": firstname,
                     "family_name": lastname
                 },
-                "connection": environment.CONNECTION_NAME
+                "connection": this.authService.getConnection()
             };
 
             return this.http.patch(`${environment.USERS_API_URL}/${user_id}`, userMetadata, { headers: headers })
