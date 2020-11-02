@@ -322,6 +322,7 @@ export class BuildingComponent implements OnDestroy {
         this.datasetId = dataset.datasetId;
         this.team = team;
         this.tags = dataset.tags;
+        this.roleLibrary.setRoles(team.roles);
         return this.datasetFactory.getWithUsers(dataset.datasetId, members)
             .then(dataset => {
                 this.nodes = [];
@@ -329,7 +330,6 @@ export class BuildingComponent implements OnDestroy {
 
                 // Ensure roles within the dataset are synchronised with team roles that might have been updated while
                 // editing another dataset
-                this.roleLibrary.setRoles(team.roles);
                 this.roleLibrary.syncDatasetRoles(dataset.roles, this.nodes[0]);
                 dataset.roles = team.roles;
             })
