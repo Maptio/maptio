@@ -20,7 +20,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "heroku-prebuild": "npm install",
-    "heroku-postbuild": "rimraf ./dist && webpack --config config/webpack.prod.js --profile --bail --color --debug --verbose"
+    "heroku-postbuild": "rimraf ./dist && webpack --config config/webpack.prod.js --profile --bail --color"
   },
   "licenses": [
     {
