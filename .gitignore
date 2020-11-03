@@ -24,3 +24,4 @@ mongo*.json
 local_data/*
 local_data_backup/*
 prod_db_backup/*
+prod_db_backup_archive/*
