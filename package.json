@@ -11,6 +11,7 @@
     "npm": "5.6.0"
   },
   "main": "server.js",
+  "cacheDirectories": [],
   "scripts": {
     "start": "ts-node server.ts",
     "start:debug": "ts-node --inspect server.ts",
