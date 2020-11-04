@@ -113,13 +113,18 @@
     <div class="d-flex flex-column mt-2">
 
         <span class="text-uppercase text-muted small  opacity-50">Organization</span>
-        <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/people">{{team.name}}</a>
-        <span *ngIf="!team?.isPaying && !team.isExample" class="small text-green">{{team?.getRemainingTrialDays()}}
-            days left on your
-            free trial.
-            <a class="text-bold" routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/billing">Subscribe
-                now</a>
-        </span>
+        <ng-container *featureFlag="'enableEditing'">
+            <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/people">{{team.name}}</a>
+            <span *ngIf="!team?.isPaying && !team.isExample" class="small text-green">{{team?.getRemainingTrialDays()}}
+                days left on your
+                free trial.
+                <a class="text-bold" routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/billing">Subscribe
+                    now</a>
+            </span>
+        </ng-container>
+        <ng-container *featureFlag="'!enableEditing'">
+            <a>{{team.name}}</a>
+        </ng-container>
     </div>
 </div>
 
