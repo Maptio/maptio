@@ -100,7 +100,7 @@
     "ng-intercom": "^6.0.0-beta.3",
     "ng2-file-upload": "^1.2.1",
     "ngx-color": "^3.0.3",
-    "ngx-device-detector": "^1.3.4",
+    "ngx-device-detector": "1.3.4",
     "ngx-markdown": "^7.1.3",
     "null-loader": "^0.1.1",
     "path": "^0.12.7",
