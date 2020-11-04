@@ -23,7 +23,7 @@
                 <i class="fa fa-minus"></i>
               </button>
             </div>
-            <div class=" box-shadow rounded btn-group-vertical my-3 d-none d-md-block" >
+            <div *featureFlag="'enableEditing'" class=" box-shadow rounded btn-group-vertical my-3 d-none d-md-block" >
               <button ngbTooltip="Share" placement="left"
               container="body" class="btn bg-white "
                  (click)="openShare()">

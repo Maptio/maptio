@@ -33,12 +33,20 @@
 
 <nav class="d-flex header navbar navbar-expand-md navbar-light bg-transparent justify-content-between align-items-baseline pr-3"
     [class.grayscale]="loaderService.isLoading">
+    <a class="no-underline navbar-brand ">
+        <img width="32" height="32" class="d-inline-block align-center" src="/assets/images/logo-full.png" alt="Home">
+    </a>
+    <!-- Instead of commenting out, it'd be best to add the feature flag to a module shared by both
+            core and, well, shared modules. -->
+    <!-- <ng-container *featureFlag="'enableEditing'"> -->
+    <!-- 
     <a routerLink="home" class="no-underline navbar-brand ">
         <img width="32" height="32" class="d-inline-block align-center" src="/assets/images/logo-full.png" alt="Home">
     </a>
     <div *ngIf="auth.allAuthenticated()" class="d-none d-md-flex nav-item col-auto px-0 flex-row justify-content-end">
         <lib-breadcrumbs></lib-breadcrumbs>
     </div>
+    -->
     <button class="navbar-toggler d-block d-md-none btn border-0 px-0" type="button" data-toggle="collapse"
         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
         aria-label="Toggle navigation" (click)="isMenuOpened=!isMenuOpened">
@@ -89,6 +97,10 @@
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdownLink">
+                    <!-- Instead of commenting out, it'd be best to add the feature flag to a module shared by both
+                         core and, well, shared modules. -->
+                    <!-- <ng-container *featureFlag="'enableEditing'"> -->
+                    <!-- 
                     <div class="dropdown-item">
                         <ng-container *ngTemplateOutlet="profile"></ng-container>
                     </div>
@@ -107,7 +119,9 @@
                     <a class="dropdown-item" *ngIf="teams?.length === 1"
                         routerLink="/teams/{{teams[0]?.team_id}}/{{teams[0]?.getSlug()}}">{{teams[0]?.name}}</a>
 
-                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-divider"></div> -->
+                    <!-- </ng-container> -->
+
                     <div class="dropdown-item d-flex align-items-center">
                         <ng-container *ngTemplateOutlet="logout">
                         </ng-container>
