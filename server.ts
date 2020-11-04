@@ -183,9 +183,10 @@ if (isDevelopment) {
   )
 }
 
-app.listen(app.get("port"), '0.0.0.0', function onStart(err:any) {
+app.listen(app.get("port"), '0.0.0.0', function onStart() {
+  console.info('==> 🌎 Listening on port %s. Open up http://localhost:%s/ in your browser.', app.get("port"), app.get("port"));
+}).on('error', function onError(err: any) {
   if (err) {
     console.error(err);
   }
-  console.info('==> 🌎 Listening on port %s. Open up http://localhost:%s/ in your browser.', app.get("port"), app.get("port"));
 });
