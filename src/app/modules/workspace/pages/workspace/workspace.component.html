@@ -86,43 +86,44 @@
                                                     (edited)="saveDetailChanges($event)"
                                                     (selectMember)="onSelectMembers([$event])" [isEditMode]="isEditMode"
                                                     (editTags)="onEditTags()">
-                                                    <div *ngIf="!isDetailsPanelCollapsed && openedNode"
-                                                        class="bg-transparent border border-left-0 border-right-0 px-3 py-4">
-                                                        <button *ngIf="isBackToBuildingVisible"
-                                                            class="btn btn-link pl-0"
-                                                            (click)="openBuildingPanel()">
-                                                            <i class="fas fa-caret-left  mx-1"></i>
-                                                            Back
-                                                        </button>
-                                                        <div class="d-flex justify-content-start">
-                                                            <button (click)="addInitiativeTo(openedNode)"
-                                                                class="btn btn-outline-secondary btn-sm mr-2">
-                                                                <i class="fas fa-plus  mx-1"></i>
-                                                                Add sub-circle
+                                                    <ng-container  *featureFlag="'enableEditing'">
+                                                        <div *ngIf="!isDetailsPanelCollapsed && openedNode"
+                                                            class="bg-transparent border border-left-0 border-right-0 px-3 py-4">
+                                                            <button *ngIf="isBackToBuildingVisible"
+                                                                class="btn btn-link pl-0"
+                                                                (click)="openBuildingPanel()">
+                                                                <i class="fas fa-caret-left  mx-1"></i>
+                                                                Back
                                                             </button>
-                                                            <button (click)="isEditMode=!isEditMode" class="btn btn-outline-secondary btn-sm mr-2">
-                                                                <span *ngIf="isEditMode"><i
-                                                                        class="fas fa-save mx-1"></i>Save</span>
-                                                                <span *ngIf="!isEditMode"><i
-                                                                        class="fas fa-pen mx-1"></i>Edit circle</span>
-                                                            </button>
+                                                            <div class="d-flex justify-content-start">
+                                                                <button (click)="addInitiativeTo(openedNode)"
+                                                                    class="btn btn-outline-secondary btn-sm mr-2">
+                                                                    <i class="fas fa-plus  mx-1"></i>
+                                                                    Add sub-circle
+                                                                </button>
+                                                                <button (click)="isEditMode=!isEditMode" class="btn btn-outline-secondary btn-sm mr-2">
+                                                                    <span *ngIf="isEditMode"><i
+                                                                            class="fas fa-save mx-1"></i>Save</span>
+                                                                    <span *ngIf="!isEditMode"><i
+                                                                            class="fas fa-pen mx-1"></i>Edit circle</span>
+                                                                </button>
 
-                                                            <button [class.invisible]="isRoot(openedNode)"
-                                                                *permissionsOnly="Permissions.canDeleteInitiative; initiative openedNode;"
-                                                                class="btn btn-danger btn-sm ml-auto" placement="top"
-                                                                container="body" mwlConfirmationPopover
-                                                                [popoverMessage]="'Remove circle and sub-circles ?'"
-                                                                focusbutton="cancel" appendToBody="false"
-                                                                (confirm)="removeInitiative(openedNode);"
-                                                                (cancel)="cancelClicked = true">
-                                                                <i class="fas fa-trash  mx-1">
-                                                                </i>Delete
-                                                            </button>
+                                                                <button [class.invisible]="isRoot(openedNode)"
+                                                                    *permissionsOnly="Permissions.canDeleteInitiative; initiative openedNode;"
+                                                                    class="btn btn-danger btn-sm ml-auto" placement="top"
+                                                                    container="body" mwlConfirmationPopover
+                                                                    [popoverMessage]="'Remove circle and sub-circles ?'"
+                                                                    focusbutton="cancel" appendToBody="false"
+                                                                    (confirm)="removeInitiative(openedNode);"
+                                                                    (cancel)="cancelClicked = true">
+                                                                    <i class="fas fa-trash  mx-1">
+                                                                    </i>Delete
+                                                                </button>
+                                                            </div>
+
+
                                                         </div>
-
-
-                                                    </div>
-
+                                                    </ng-container>
                                                 </initiative>
                                                 <summary-personal *ngIf="openedUser" [member]="openedUser"
                                                     [initiative]="dataset.initiative" [team]="team" [dataset]="dataset"
