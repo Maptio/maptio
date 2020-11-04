@@ -37,6 +37,10 @@ export class FeatureFlagDirective {
     }
 
     hasFlag(featureFlag: string) {
-        return this.flags[featureFlag];
+        if (featureFlag.charAt(0) === "!") {
+            return !this.flags[featureFlag.slice(1)];
+        } else {
+            return this.flags[featureFlag];
+        }
     }
   }
