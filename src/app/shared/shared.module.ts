@@ -20,6 +20,7 @@ import { UserService } from './services/user/user.service';
 import { BillingService } from './services/billing/billing.service';
 import { TeamService } from './services/team/team.service';
 import { FocusIfDirective } from './directives/focusif.directive';
+import { FeatureFlagDirective } from "./directives/featureFlag.directive";
 
 
 @NgModule({
@@ -33,13 +34,14 @@ import { FocusIfDirective } from './directives/focusif.directive';
     declarations: [
         DebounceDirective,
         ClosableDirective,
-        FocusIfDirective
+        FocusIfDirective,
+        FeatureFlagDirective
     ],
     exports: [
         DebounceDirective,
         ClosableDirective,
-        FocusIfDirective
-
+        FocusIfDirective,
+        FeatureFlagDirective
     ]
 })
 export class SharedModule {
