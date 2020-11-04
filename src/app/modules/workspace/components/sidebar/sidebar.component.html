@@ -37,7 +37,7 @@
                     <span> By tags</span>
                 </small>
 
-                <button class="btn btn-link btn-sm" (click)="onOpenTagsPanel()">(Edit)</button>
+                <button *featureFlag="'enableEditing'" class="btn btn-link btn-sm" (click)="onOpenTagsPanel()">(Edit)</button>
             </span>
             <div class="collapse show" id="tags-box">
                 <div class="d-flex flex-wrap align-items-baseline ">
