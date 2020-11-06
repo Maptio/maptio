@@ -1,30 +1,35 @@
+import { Router, ActivatedRoute } from "@angular/router";
+
+import { Initiative } from "../../../../shared/model/initiative.data";
+
 import { MappingZoomableComponent, d3 } from "./mapping.zoomable.component";
+
 
 export function hydrate(root: any, nodes: any[], component: MappingZoomableComponent) {
     const svg = d3.select("svg");
     const g = d3.select("svg > g");
     const margin = 20;
-    const height = this.height;
-    const width = this.width;
-    const TRANSITION_DURATION = this.TRANSITION_DURATION;
-    const showToolipOf$ = this.showToolipOf$;
-    const showContextMenuOf$ = this.showContextMenuOf$;
-    const canOpenInitiativeContextMenu = this.permissionsService.canOpenInitiativeContextMenu();
-    const toggleDetailsPanel$ = this.toggleDetailsPanel$;
-    const selectableUsers$ = this.selectableUsers$;
-    const zoom$ = this.zoom$;
-    const uiService = this.uiService;
-    const router: Router = this.router;
-    const route: ActivatedRoute = this.route;
-    let zoomInitiativeSubscription = this.zoomInitiativeSubscription;
-    let manualZoomSubscription = this.manualZoomSubscription;
+    const height = component.height;
+    const width = component.width;
+    const TRANSITION_DURATION = component.TRANSITION_DURATION;
+    const showToolipOf$ = component.showToolipOf$;
+    const showContextMenuOf$ = component.showContextMenuOf$;
+    const canOpenInitiativeContextMenu = component.permissionsService.canOpenInitiativeContextMenu();
+    const toggleDetailsPanel$ = component.toggleDetailsPanel$;
+    const selectableUsers$ = component.selectableUsers$;
+    const zoom$ = component.zoom$;
+    const uiService = component.uiService;
+    const router: Router = component.router;
+    const route: ActivatedRoute = component.route;
+    let zoomInitiativeSubscription = component.zoomInitiativeSubscription;
+    let manualZoomSubscription = component.manualZoomSubscription;
     let view: any;
-    let lastZoomCircle = this.lastZoomCircle;
-    let setIsShowMission = this.setIsShowMission.bind(this);
+    let lastZoomCircle = component.lastZoomCircle;
+    let setIsShowMission = component.setIsShowMission.bind(component);
     const node = g.selectAll("g.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });
     const circle = g.selectAll("circle.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
     const text = g.selectAll("foreignObject.name").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
-    // const memberImages = g.selectAll("foreignObject.name span.member-picture").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
+    // const memberImages = g.selectAll("foreignObject.name span.member-picture").data(nodes, function (d: any) { return d ? d.data.id : d3.select(component).attr("id") || null });;
 
     d3.select("body").select("div.tooltip.member").remove();
     let tooltipUser = d3.select("body").append("div");
@@ -81,7 +86,7 @@ export function hydrate(root: any, nodes: any[], component: MappingZoomableCompo
     })
 
     svg.style("position", "relative")
-    // svg.style("padding-left", `calc(65% - ${this.height / 2}px)`);
+    // svg.style("padding-left", `calc(65% - ${component.height / 2}px)`);
 
     const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 10.5;
     const zooming = d3
@@ -283,7 +288,7 @@ export function hydrate(root: any, nodes: any[], component: MappingZoomableCompo
         } else { //zoom in
           lastZoomCircle = d;
           localStorage.setItem("node_id", d.data.id)
-          zoom(d, (<any>this).parentElement);
+          zoom(d, (<any>component).parentElement);
           // setIsShowMission(false);
 
         }
@@ -294,7 +299,7 @@ export function hydrate(root: any, nodes: any[], component: MappingZoomableCompo
         if (!canOpenInitiativeContextMenu) return;
 
         d3.getEvent().preventDefault();
-        const that = <any>this;
+        const that = <any>component;
         let mousePosition;
 
         if (Number.isNaN(d3.mouse(that)[0]) || Number.isNaN(d3.mouse[1])) {
@@ -411,7 +416,7 @@ export function hydrate(root: any, nodes: any[], component: MappingZoomableCompo
 
 
 
-    zoomInitiativeSubscription = this.zoomInitiative$.asObservable().subscribe(zoomedNode => {
+    zoomInitiativeSubscription = component.zoomInitiative$.asObservable().subscribe(zoomedNode => {
 
       if (!zoomedNode) {
         svg.dispatch("click");
@@ -438,7 +443,7 @@ export function hydrate(root: any, nodes: any[], component: MappingZoomableCompo
 
     });
 
-    manualZoomSubscription = this.zoom$.subscribe((factor: number) => {
+    manualZoomSubscription = component.zoom$.subscribe((factor: number) => {
       zooming.scaleBy(<any>svg.transition().duration(TRANSITION_DURATION / 2), factor);
     });
 }

@@ -90,8 +90,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public toggleDetailsPanel$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isNoMatchingCircles$: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
-  private zoomInitiativeSubscription: Subscription;
-  private manualZoomSubscription: Subscription;
+  public zoomInitiativeSubscription: Subscription;
+  public manualZoomSubscription: Subscription;
   private dataSubscription: Subscription;
   private resetSubscription: Subscription;
 
@@ -133,14 +133,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
   constructor(
     public uiService: UIService,
     public router: Router,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     private cd: ChangeDetectorRef,
     private dataService: DataService,
     private loaderService: LoaderService,
     private http: AuthHttp,
     private sanitizer: DomSanitizer,
     private element: ElementRef,
-    private permissionsService: PermissionsService
+    public permissionsService: PermissionsService
   ) {
 
 
