@@ -41,6 +41,9 @@ import { join } from "bluebird";
 
 import { hydrate } from "./hydrate-map";
 
+// TODO: Remove once refactoring is over
+import { hydrateOld } from "./hydrate-map-old";
+
 export const d3 = Object.assign(
   {},
   {
@@ -368,7 +371,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
   hydrate(root: any, nodes: any[]) {
-    hydrate(root, nodes, this);
+    // hydrate(root, nodes, this);
+
+    // TODO: Remove once refactoring is over
+    hydrateOld(root, nodes, this);
   }
 
   ngOnDestroy() {
