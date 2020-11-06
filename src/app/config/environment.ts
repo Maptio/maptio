@@ -45,8 +45,8 @@ export const environment = {
     DEFAULT_MAP_TEXT_COLOR: "#242c2e",
     DEFAULT_PRESETS_COLORS: ['#ff9000', '#FCB900', '#00D084', '#7BDCB5', "#3599af",'#0693E3',  '#ea8df7', "#CD5C5C"],
     DEFAULT_PRESETS_LABEL: " ",
-    SCREENSHOT_URL:"/assets/images/screenshot-light.webp",
-    SCREENSHOT_URL_FALLBACK:"/assets/images/screenshot-light.jpg"
+    SCREENSHOT_URL:"/assets/images/screenshot.webp",
+    SCREENSHOT_URL_FALLBACK:"/assets/images/screenshot.jpg"
 
 
 
