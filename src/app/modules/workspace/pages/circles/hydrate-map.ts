@@ -6,8 +6,26 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
   const nodes = selectNodesAndAssociateWithData();
 
   const selectedNodeId = getSelectedNodeId();
+  let selectedNode: any;
+  let childrenOfSelectedNode: any;
 
-  highlightRootNodeIfNoNodeSelected();
+  chooseSelectedNode();
+
+  nodes.on("mouseenter", function(d: any) {
+    if (isSelectedNode(d)) {
+      highlightChildrenOfSelectedNode(this);
+    }
+
+    if (isChildOfSelectedNode(d)) {
+      highlightOneChildOfSelectedNode(this);
+    }
+  });
+
+  nodes.on("mouseleave", function(d: any) {
+    if (isSelectedNode(d)) {
+      highlightSelectedNode(this);
+    }
+  });
 
 
   //
@@ -20,22 +38,50 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
     });
   }
 
-  function highlightRootNodeIfNoNodeSelected() {
-    if (!selectedNodeId) {
-      rootNode.classed("selected-node", true);
+  function isSelectedNode(d: any) {
+    return getNodeId(d) === selectedNodeId;
+  }
 
-      nodes.classed("child-of-selected-node", function (d: any) {
-        return  d.parent && d.parent.data.id.toString() === root.data.id.toString();
-      });
-    }
+  function isChildOfSelectedNode(d: any) {
+    return d.parent && getParentId(d) === selectedNodeId;
+  }
+
+  function chooseSelectedNode() {
+    nodes.classed("selected-node", d => isSelectedNode(d));
+    nodes.classed("child-of-selected-node", d => isChildOfSelectedNode(d));
+
+    selectedNode = d3.select("g.selected-node");
+    childrenOfSelectedNode = d3.selectAll("g.child-of-selected-node");
+  }
+
+  function highlightSelectedNode(node: any) {
+    selectedNode.classed("selected-node--dimmed", false);
+    childrenOfSelectedNode.classed("child-of-selected-node--highlighted", false);
+  }
+
+  function highlightChildrenOfSelectedNode(node: any) {
+    selectedNode.classed("selected-node--dimmed", true);
+    childrenOfSelectedNode.classed("child-of-selected-node--highlighted", true);
+  }
+
+  function highlightOneChildOfSelectedNode(node: any) {
+    selectedNode.classed("selected-node--dimmed", true);
+    d3.select(node).classed("child-of-selected-node--highlighted", true);
   }
 
   function getSelectedNodeId(): string {
-    return localStorage.getItem("node_id");
+    const selectedNodeId = localStorage.getItem("node_id");
+    return (selectedNodeId || root.data.id).toString();
+  }
+
+  function getNodeId(d: any): string {
+    return d.data.id.toString();
+  }
+
+  function getParentId(d: any): string | undefined {
+    return d.parent && d.parent.data.id.toString();
   }
 }
-
-
 
 
 
