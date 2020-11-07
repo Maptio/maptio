@@ -98,13 +98,13 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
 
 
     let initiativeWithChildren: any = g
-        .selectAll("g.node.initiative-map.with-children")
+        .selectAll("g.node.with-children")
         .data(nodes.filter(d => d.children), function (d: any) {
             return `${d.data.id}`;
         });
 
     let initiativeNoChildren: any = g
-        .selectAll("g.node.initiative-map.no-children")
+        .selectAll("g.node.no-children")
         .data(nodes.filter(d => !d.children), function (d: any) {
             return `${d.data.id}`;
         });
@@ -119,8 +119,8 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
     enterWithAnimations(initiativeWithChildrenEnter, "with-children");
     enterWithAnimations(initiativeNoChildrenEnter, "no-children");
 
-    initiativeNoChildrenEnter.append("foreignObject").attr("class", "name no-children").classed("initiative-map", true);
-    initiativeWithChildrenEnter.append("foreignObject").attr("class", "name with-children").classed("initiative-map", true);
+    initiativeNoChildrenEnter.append("foreignObject").attr("class", "node__details no-children");
+    initiativeWithChildrenEnter.append("foreignObject").attr("class", "node__details with-children");
 
 
     initiativeWithChildren = initiativeWithChildrenEnter.merge(initiativeWithChildren);
@@ -134,13 +134,12 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
     addCircle(initiativeNoChildren)
 
     let node = g.selectAll("g.node");
-    let circle = g.selectAll("circle.node");
+    let circle = g.selectAll("circle.node__circle");
 
-    initiativeWithChildren.select("foreignObject.name.with-children")
+    initiativeWithChildren.select("foreignObject.node__details.with-children")
         .attr("id", function (d: any) {
             return `${d.data.id}`;
         })
-        .classed("initiative-map", true)
         .attr("x", function (d: any) {
             return -d.r * POSITION_INITIATIVE_NAME.x;
         })
@@ -152,11 +151,10 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
         .style("overflow", "visible")
         .html(getForeignObjectHTML)
 
-    initiativeNoChildren.select("foreignObject.name.no-children")
+    initiativeNoChildren.select("foreignObject.node__details.no-children")
         .attr("id", function (d: any) {
             return `${d.data.id}`;
         })
-        .classed("initiative-map", true)
         .attr("x", function (d: any) {
             return -d.r * POSITION_INITIATIVE_NAME.x;
         })
@@ -229,7 +227,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
         // .attr("p", (d:any) => d.parent ? d.parent.data.id : "" )
         // .attr("c", (d:any) => d.children ? d.children.length : 0 )
 
-        g.selectAll("circle.node")
+        g.selectAll("circle.node__circle")
             .attr("zf", zoomFactor)
             .each((d: any) => (d.zf = zoomFactor))
 
@@ -260,7 +258,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
                 // .style("line-height", 1.3)
             });
 
-        // g.selectAll("text.name.with-children")
+        // g.selectAll("text.node__name.with-children")
         //     .style("font-size", `${outerFontSize * 0.75}px`)
 
 
@@ -320,7 +318,7 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
             .remove();
         groups.exit().select("circle.accountable")
             .remove();
-        groups.exit().select("circle.node")
+        groups.exit().select("circle.node__circle")
             .classed("node--leaf", false)
             .classed("deleting", true)
             .attr("r", (d: any) => d.r)
@@ -342,7 +340,6 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
                     : "node node--root";
             })
             .classed(className, true)
-            .classed("initiative-map", true)
             .attr("id", (d: any): string => `${d.data.id}`);
 
         groups.append("circle")
@@ -369,17 +366,16 @@ export function makeChart(data: any, seedColor: string, diameter: number, width:
 
     function addCircle(groups: any): void {
         groups.select("circle")
-            .attr("class", (d: any): string => {
-                return d.parent
-                        ? d.children || d.parent === root
-                            ? "node"
-                            : "node node--leaf"
-                        : "node node--root";
-            })
-            .classed("initiative-map", true)
+            .attr("class", "node__circle")
+            // .attr("class", (d: any): string => {
+            //     return d.parent
+            //             ? d.children || d.parent === root
+            //                 ? "node"
+            //                 : "node node--leaf"
+            //             : "node node--root";
+            // })
             .each((d: any) => d.k = 1)
             .attr("id", (d: any): string => `${d.data.id}`)
             .classed("with-border", (d: any): boolean => !d.children && d.parent === root)
     }
 }
-
