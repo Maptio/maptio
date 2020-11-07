@@ -1,4 +1,46 @@
+/* 
+ * Unfortunately, because we're adding a server-side SVG template via 
+ * `innerHTML` we need to either use ng-deep, global styels or disable view
+ * encapsulation. Going for the first option. Because we're using pure CSS and
+ * can't nest, ng-deep needs to be in front of every single selector.
+ */
 
+::ng-deep .node {
+  opacity: 0.15;
+}
+
+::ng-deep .selected-node ~ .node {
+  pointer-events: none;
+}
+
+::ng-deep .selected-node ~ .child-of-selected-node {
+  pointer-events: all;
+}
+
+::ng-deep .selected-node {
+  opacity: 1;
+}
+
+/* When hovering over a selected node, hide it's title, etc. but show the children */
+::ng-deep .selected-node:hover {
+  opacity: 0.15;
+}
+
+::ng-deep .selected-node:hover ~ .child-of-selected-node {
+  opacity: 1;
+}
+
+::ng-deep .child-of-selected-node:hover ~ .child-of-selected-node {
+  opacity: 0.15;
+}
+
+::ng-deep .child-of-selected-node:hover ~ .selected-node {
+  opacity: 0.15;
+}
+
+
+
+/* 
  .top-left-corner{
      left: 2.5%;
      z-index:1;
@@ -97,7 +139,7 @@
 
 ::ng-deep div.tooltip{
     position: absolute;
-    background: black; /*var(--maptio-black)*/;
+    background: black;
     font-size: small;
     color:var(--maptio-white);
     padding:.5rem;
@@ -119,4 +161,4 @@
 
 ::ng-deep div.tooltip.member::before{
     content: "\f007";
-}
+} */
