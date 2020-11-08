@@ -2,6 +2,8 @@ import { MappingZoomableComponent, d3 } from "./mapping.zoomable.component";
 
 
 export function hydrate(root: any, nodesData: any[], component: MappingZoomableComponent) {
+  const svg = d3.select("svg");
+  const containerGroup = d3.select("svg > g");
   const rootNode = d3.select("g.node--root");
   const nodes = selectNodesAndAssociateWithData();
 
@@ -9,7 +11,26 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
   let selectedNode: any;
   let childrenOfSelectedNode: any;
 
+  let view: any;
+  const margin = 20;
+  const height = component.height;
+  const TRANSITION_DURATION = component.TRANSITION_DURATION;
+  // const node = g.selectAll("g.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });
+  // const circle = g.selectAll("circle.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
+  // const text = g.selectAll("foreignObject.name").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
+  // const memberImages = g.selectAll("foreignObject.name span.member-picture").data(nodes, function (d: any) { return d ? d.data.id : d3.select(component).attr("id") || null });
+
+
+
+
+
+
+
+
+
   chooseSelectedNode();
+
+  // initMapElementsAtPosition([root.x, root.y]);
 
   nodes.on("mouseenter", function(d: any) {
     if (isSelectedNode(d)) {
@@ -29,7 +50,7 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
 
 
   //
-  // Helper functions follow
+  // Helper functions for selecting, highlighting, etc.
   //
 
   function selectNodesAndAssociateWithData() {
@@ -81,7 +102,209 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
   function getParentId(d: any): string | undefined {
     return d.parent && d.parent.data.id.toString();
   }
-}
+
+
+  //
+  // Helper functions for moving, zooming, etc.
+  //
+
+  // function initMapElementsAtPosition(v: any) {
+  //   console.log(v);
+  //   view = v;
+  //   nodes
+  //   .transition()
+  //   .duration(TRANSITION_DURATION)
+  //     .attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`)
+  //   // .style("opacity", 0)
+  //   .transition()
+  //   .duration(TRANSITION_DURATION / 5)
+  //     .each((d: any) => (d.translateX = d.x - v[0]))
+  //     .each((d: any) => (d.translateY = d.y - v[1]))
+  // }
+
+
+
+
+  //
+  // D3 example code
+  // 
+
+  // svg.call(d3.zoom()
+  //   .extent([[0, 0], [width, height]])
+  //   .scaleExtent([1, 8])
+  //   .on("zoom", zoomed));
+
+  // function zoomed({transform}) {
+  //   g.attr("transform", transform);
+  // }
+
+  // svg.call(d3.zoom().on("zoom", function () {
+  //   svg.attr("transform", d3.getEvent().transform)
+  // }));
+
+
+  // All of this fires when you move around or zoom in
+  const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 10.5;
+  console.log("WTF?");
+  const zooming = d3
+    .zoom()
+    .scaleExtent([1, 10])
+    .wheelDelta(wheelDelta)
+    .on("zoom", zoomed);
+
+  // function zoomed() {
+  //   console.log("zoomed");
+  //   nodes.attr("transform", d3.getEvent().transform);
+  // }
+
+  function zoomed() {
+    console.log("zoomed");
+    nodes.attr("transform", d3.getEvent().transform);
+  }
+
+  // function zoomed(boo) {
+  //   console.log("zoomed");
+  //   console.log(boo);
+  //   // nodes.attr("transform", d3.getEvent().transform);
+  //   // nodes.attr("transform", transform);
+  // }
+
+  try {
+    // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
+    svg.call(
+      zooming.transform,
+      d3.zoomIdentity
+        // .translate(width / 2, height / 2 )
+        .scale(1)
+    );
+    svg.call(zooming);
+  } catch (error) { console.error(error); }
+
+
+
+
+
+
+
+  // function getViewScaleForRadius(radius: number): number {
+  //   return (height) / (radius * 2 + margin);
+  // }
+
+  // function getClickedElementCoordinates(clickedElement: any, newScale: number, translateX: number, translateY: number): Array<number> {
+
+  //   let clickedX = 0;
+  //   let clickedY = 0;
+  //   if (
+  //     clickedElement
+  //     && clickedElement.transform
+  //     && (clickedElement.transform.baseVal.length > 0 || clickedElement.transform.baseVal.numberOfItems > 0)
+  //   ) {
+  //     clickedX = clickedElement.transform.baseVal.getItem(0).matrix.e * newScale;
+  //     clickedY = clickedElement.transform.baseVal.getItem(0).matrix.f * newScale;
+  //     clickedX -= margin;
+  //     clickedY -= margin;
+  //   }
+  //   else {
+  //     // in case we are zooming prgramatically and the svg doesnt have the reference to transform
+
+  //     clickedX = translateX * newScale;
+  //     clickedY = translateY * newScale;
+  //     clickedX -= margin;
+  //     clickedY -= margin;
+  //   }
+  //   return [clickedX, clickedY];
+  // }
+
+  // function zoom(focus: any, clickedElement?: any): void {
+  //   console.log("zoom");
+  //   component.lastZoomCircle = focus;
+
+  //   const newScale: number = focus === root /*|| focus.parent === root*/ ? 1 : getViewScaleForRadius(focus.r);
+  //   const coordinates: Array<number> = getClickedElementCoordinates(clickedElement, newScale, focus.translateX, focus.translateY);
+  //   svg.transition().duration(TRANSITION_DURATION).call(
+  //     <any>zooming.transform,
+  //     d3.zoomIdentity.translate(
+  //       view[0] - coordinates[0],
+  //       view[1] - coordinates[1]
+  //     )
+  //       .scale(newScale)
+  //   );
+
+  //   circle
+  //     .transition().duration(TRANSITION_DURATION / 2)
+  //     // .style("opacity", function (d: any) {
+  //     //   if (d === focus || d.parent === focus) return 1;
+  //     //   return 0.15;
+  //     // })
+  //     .attr("k", newScale)
+  // }
+
+  // circle
+  //   .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
+  //     showToolipOf$.next({ initiatives: [d.data], user: null });
+  //     localStorage.removeItem("user_id");
+  //     localStorage.removeItem("keepEditingOpen");
+
+  //     node.classed("highlighted", false);
+  //     if (component.lastZoomCircle.data.id === d.data.id) { //zoom out
+  //       component.lastZoomCircle = root;
+  //       zoom(root);
+
+  //       localStorage.removeItem("node_id");
+  //       setIsShowMission(true);
+
+  //     } else { //zoom in
+  //       component.lastZoomCircle = d;
+  //       localStorage.setItem("node_id", d.data.id)
+  //       zoom(d, (<any>component).parentElement);
+  //       // setIsShowMission(false);
+
+  //     }
+
+  //     d3.getEvent().stopPropagation();
+  //   })
+
+  // component.lastZoomCircle = root;
+  // svg
+  //   .on("click", (): void => {
+  //     zoom(root);
+  //     d3.getEvent().stopPropagation();
+  //   })
+
+  // initMapElementsAtPosition([root.x, root.y])
+
+
+  // component.zoomInitiativeSubscription = component.zoomInitiative$.asObservable().subscribe(zoomedNode => {
+  //   console.log("zoomedInitiativeSubscription");
+  //   if (!zoomedNode) {
+  //     svg.dispatch("click");
+  //     return;
+  //   }
+
+  //   let zoomedId = zoomedNode.id;
+  //   let parent = nodesData.find(n => n.data.id === zoomedId) ? nodes.find(n => n.data.id === zoomedId).parent : root;
+  //   localStorage.setItem("node_id", zoomedId.toString());
+
+  //   if (parent.data.id === root.data.id && isEmpty(zoomedNode.children)) {
+  //     svg.select(`circle.node[id="${zoomedId.toString()}"]`).dispatch("click");
+  //   }
+  //   else {
+  //     if (component.lastZoomCircle.data.id !== parent.data.id) {
+  //       svg.select(`circle.node[id="${parent.data.id}"]`).dispatch("click");
+  //     }
+  //   }
+
+  //   node.classed("highlighted", false);
+  //   svg.select(`g.node[id="${zoomedId}"]`).classed("highlighted", true);
+  //   // showToolipOf$.next({ initiatives: [zoomedNode], user: null });
+  // });
+
+  // component.manualZoomSubscription = component.zoom$.subscribe((factor: number) => {
+  //   console.log("manualZoomSubscription");
+  //   zooming.scaleBy(<any>svg.transition().duration(TRANSITION_DURATION / 2), factor);
+  // });
+
+
 
 
 
@@ -527,3 +750,5 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
 // manualZoomSubscription = component.zoom$.subscribe((factor: number) => {
 //   zooming.scaleBy(<any>svg.transition().duration(TRANSITION_DURATION / 2), factor);
 // });
+
+}

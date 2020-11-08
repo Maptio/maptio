@@ -371,10 +371,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
   hydrate(root: any, nodes: any[]) {
-    // hydrate(root, nodes, this);
+    hydrate(root, nodes, this);
 
     // TODO: Remove once refactoring is over
-    hydrateOld(root, nodes, this);
+    // hydrateOld(root, nodes, this);
   }
 
   ngOnDestroy() {
