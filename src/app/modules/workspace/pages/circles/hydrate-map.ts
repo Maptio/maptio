@@ -160,7 +160,7 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
 
   function zoomed() {
     console.log("zoomed");
-    nodes.attr("transform", d3.getEvent().transform);
+    containerGroup.attr("transform", d3.getEvent().transform);
   }
 
   // function zoomed(boo) {
