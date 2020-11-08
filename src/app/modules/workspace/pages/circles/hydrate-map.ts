@@ -14,6 +14,7 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
   let view: any;
   const margin = 20;
   const height = component.height;
+  const width = component.width;
   const TRANSITION_DURATION = component.TRANSITION_DURATION;
   // const node = g.selectAll("g.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });
   // const circle = g.selectAll("circle.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
@@ -108,19 +109,19 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
   // Helper functions for moving, zooming, etc.
   //
 
-  // function initMapElementsAtPosition(v: any) {
-  //   console.log(v);
-  //   view = v;
-  //   nodes
-  //   .transition()
-  //   .duration(TRANSITION_DURATION)
-  //     .attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`)
-  //   // .style("opacity", 0)
-  //   .transition()
-  //   .duration(TRANSITION_DURATION / 5)
-  //     .each((d: any) => (d.translateX = d.x - v[0]))
-  //     .each((d: any) => (d.translateY = d.y - v[1]))
-  // }
+  function initMapElementsAtPosition(v: any) {
+    console.log(v);
+    view = v;
+    nodes
+    .transition()
+    .duration(TRANSITION_DURATION)
+      .attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`)
+    // .style("opacity", 0)
+    .transition()
+    .duration(TRANSITION_DURATION / 5)
+      .each((d: any) => (d.translateX = d.x - v[0]))
+      .each((d: any) => (d.translateY = d.y - v[1]))
+  }
 
 
 
@@ -142,10 +143,10 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
   //   svg.attr("transform", d3.getEvent().transform)
   // }));
 
+  svg.style("position", "relative");
 
   // All of this fires when you move around or zoom in
   const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 10.5;
-  console.log("WTF?");
   const zooming = d3
     .zoom()
     .scaleExtent([1, 10])
@@ -169,12 +170,14 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
   //   // nodes.attr("transform", transform);
   // }
 
+  initMapElementsAtPosition([root.x, root.y])
+
   try {
     // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
     svg.call(
       zooming.transform,
       d3.zoomIdentity
-        // .translate(width / 2, height / 2 )
+        .translate(width / 2, height / 2 )
         .scale(1)
     );
     svg.call(zooming);
