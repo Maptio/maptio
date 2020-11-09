@@ -17,6 +17,9 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
   const width = component.width;
   const TRANSITION_DURATION = component.TRANSITION_DURATION;
 
+  let zoomInitiativeSubscription;
+  let manualZoomSubscription;
+
   chooseSelectedNode();
 
   // initMapElementsAtPosition([root.x, root.y]);
@@ -44,16 +47,10 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
   nodes.on("click", function(d: any) {
     if (!isSelectedNode(d)) {
       // Clicking on any node other than the selected one selects it
-      unchooseSelectedNode();
-      selectNode(d);
-      chooseSelectedNode();
-      zoom(d);
+      selectNodeAndShowDetails(d);
     } else if (!isRootNode(d)) {
       // Clicking on an already selected node deselects it
-      unchooseSelectedNode();
-      selectNode(root);
-      chooseSelectedNode();
-      zoom(root);
+      selectNodeAndShowDetails(root);
     }
   });
 
@@ -64,6 +61,52 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
   //   chooseSelectedNode();
   //   zoom(root);
   // });
+
+
+  //
+  // Handle communication with other components
+  //
+
+  // TODO: Need to unsubscribe... return subscription to the component and let it unsubscribe?
+  zoomInitiativeSubscription = component.zoomInitiative$.asObservable().subscribe(itemToBeSelected => {
+    console.log("zoomInitiativeSubscription", itemToBeSelected);
+
+    if (!itemToBeSelected) {
+      // "Clear selection" button was clicked
+      console.log("no item to be selected, going back to root");
+      selectNode(root);
+      component.showToolipOf$.next({ initiatives: [null], user: null });
+      return;
+    }
+
+    console.log("selecing item");
+    let zoomedId = itemToBeSelected.id;
+    // let parent = nodesData.find(n => n.data.id === zoomedId) ? nodesData.find(n => n.data.id === zoomedId).parent : root;
+    let node = nodesData.find(n => n.data.id === zoomedId) ? nodesData.find(n => n.data.id === zoomedId) : root;
+    console.log(parent);
+    selectNodeAndShowDetails(node);
+    // localStorage.setItem("node_id", zoomedId.toString());
+
+    // if (parent.data.id === root.data.id && isEmpty(zoomedNode.children)) {
+    //   svg.select(`circle.node[id="${zoomedId.toString()}"]`).dispatch("click");
+    // }
+    // else {
+    //   if (lastZoomCircle.data.id !== parent.data.id) {
+    //     svg.select(`circle.node[id="${parent.data.id}"]`).dispatch("click");
+    //   }
+    // }
+
+
+    // node.classed("highlighted", false);
+    // svg.select(`g.node[id="${zoomedId}"]`).classed("highlighted", true);
+    // component.showToolipOf$.next({ initiatives: [itemToBeSelected], user: null });
+  });
+
+  manualZoomSubscription = component.zoom$.subscribe((factor: number) => {
+    console.log("manualZoomSubscription", factor);
+    zooming.scaleBy(<any>svg.transition().duration(TRANSITION_DURATION / 2), factor);
+  });
+
 
 
   //
@@ -107,7 +150,23 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
   //
 
   function selectNode(node: any) {
+    console.log("selecting node: ", node);
+    unchooseSelectedNode();
+
     selectedNodeId = getNodeId(node);
+
+    chooseSelectedNode();
+    zoom(node);
+  }
+
+  function selectNodeAndShowDetails(node: any) {
+    selectNode(node);
+    showNodeDetails(node);
+  }
+
+  function showNodeDetails(node: any) {
+    console.log("showNodeDetails: ", node);
+    component.showToolipOf$.next({ initiatives: [node.data], user: null });
   }
 
   function chooseSelectedNode() {
@@ -164,16 +223,21 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
   svg.style("position", "relative");
 
   // All of this fires when you move around or zoom in
-  const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 10.5;
+  // const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 10.5;
   const zooming = d3
     .zoom()
     .scaleExtent([1, 10])
-    .wheelDelta(wheelDelta)
+    // .wheelDelta(wheelDelta)
     .on("zoom", zoomed);
 
   function zoomed() {
-    const zoomTransform = d3.getEvent().transform;
-    containerGroup.attr("transform", zoomTransform);
+    const zoomEvent = d3.getEvent();
+    // console.log("zooming with event: ", zoomEvent);
+    const zoomTransform = zoomEvent.transform;
+    // console.log("that contained this transform: ", zoomTransform);
+    if (zoomTransform.k && zoomTransform.x && zoomTransform.y) {
+      containerGroup.attr("transform", zoomTransform);
+    }
   }
 
   initMapElementsAtPosition([root.x, root.y])
@@ -187,7 +251,10 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
         .scale(1)
     );
     svg.call(zooming);
-  } catch (error) { console.error(error); }
+  } catch (error) {
+    console.error("Got following error while setting up zoom:");
+    console.error(error);
+  }
 
 
   function zoom(focus: any, clickedElement?: any): void {
@@ -195,14 +262,23 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
     const newScale: number = focus === root /*|| focus.parent === root*/ ? 1 : getViewScaleForRadius(focus.r);
 
     const coordinates: Array<number> = getClickedElementCoordinates(clickedElement, newScale, focus.translateX, focus.translateY);
-    svg.transition().duration(TRANSITION_DURATION).call(
-      <any>zooming.transform,
-      d3.zoomIdentity.translate(
-        view[0] - coordinates[0],
-        view[1] - coordinates[1]
-      )
-        .scale(newScale)
-    );
+    console.log("clickedElement: ", clickedElement);
+    console.log("focus: ", focus);
+    console.log("focus translate coordinates: ", [focus.translateX, focus.translateY]);
+    console.log("clickedElementCoodrindates: ", coordinates);
+    console.log("zooming: ", zooming);
+    if (zooming) {
+      svg.transition().duration(TRANSITION_DURATION).call(
+        <any>zooming.transform,
+        d3.zoomIdentity.translate(
+          view[0] - coordinates[0],
+          view[1] - coordinates[1]
+        )
+          .scale(newScale)
+      );
+    } else {
+      console.error("zooming was undefined, not zooming");
+    }
   }
 
   zoom(root);
@@ -235,6 +311,13 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
     }
     return [clickedX, clickedY];
   }
+
+
+  //
+  // Han
+  //
+
+
 
   // function zoom(focus: any, clickedElement?: any): void {
   //   console.log("zoom");
@@ -741,32 +824,6 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
 
 
 
-// zoomInitiativeSubscription = component.zoomInitiative$.asObservable().subscribe(zoomedNode => {
-
-//   if (!zoomedNode) {
-//     svg.dispatch("click");
-//     return;
-//   }
-
-//   let zoomedId = zoomedNode.id;
-//   let parent = nodes.find(n => n.data.id === zoomedId) ? nodes.find(n => n.data.id === zoomedId).parent : root;
-//   localStorage.setItem("node_id", zoomedId.toString());
-
-//   if (parent.data.id === root.data.id && isEmpty(zoomedNode.children)) {
-//     svg.select(`circle.node[id="${zoomedId.toString()}"]`).dispatch("click");
-//   }
-//   else {
-//     if (lastZoomCircle.data.id !== parent.data.id) {
-//       svg.select(`circle.node[id="${parent.data.id}"]`).dispatch("click");
-//     }
-//   }
-
-
-//   node.classed("highlighted", false);
-//   svg.select(`g.node[id="${zoomedId}"]`).classed("highlighted", true);
-//   showToolipOf$.next({ initiatives: [zoomedNode], user: null });
-
-// });
 
 // manualZoomSubscription = component.zoom$.subscribe((factor: number) => {
 //   zooming.scaleBy(<any>svg.transition().duration(TRANSITION_DURATION / 2), factor);
