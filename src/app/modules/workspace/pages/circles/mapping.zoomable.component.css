@@ -10,11 +10,22 @@
 
 ::ng-deep .node {
   opacity: 0.15;
+  cursor: pointer;
 }
 
 ::ng-deep .node__details {
     opacity: 0;
     pointer-events: none;
+    color: white;
+}
+
+::ng-deep .node--leaf .node__details {
+    color: black;
+}
+
+::ng-deep .node--leaf .node__circle {
+    fill-opacity: 1;
+    fill: white ;
 }
 
 
