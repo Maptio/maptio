@@ -12,7 +12,23 @@
   opacity: 0.15;
 }
 
+::ng-deep .node__details {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+ /* Selected node and its children */
+
 ::ng-deep .selected-node {
+  opacity: 1;
+}
+
+::ng-deep .selected-node .node__details {
+  opacity: 1;
+}
+
+::ng-deep .child-of-selected-node .node__details {
   opacity: 1;
 }
 
@@ -21,6 +37,11 @@
 
 ::ng-deep .selected-node--dimmed {
   opacity: 0.15;
+}
+
+::ng-deep .selected-node--dimmed .node__details {
+  opacity: 0;
+  pointer-events: none;
 }
 
 ::ng-deep .child-of-selected-node--highlighted {
