@@ -35,6 +35,10 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
     if (isSelectedNode(d)) {
       highlightSelectedNode(this);
     }
+
+    if (isChildOfSelectedNode(d)) {
+      highlightChildrenOfSelectedNode(this);
+    }
   });
 
 
@@ -66,16 +70,18 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
 
   function highlightSelectedNode(node: any) {
     selectedNode.classed("selected-node--dimmed", false);
-    childrenOfSelectedNode.classed("child-of-selected-node--highlighted", false);
+    childrenOfSelectedNode.classed("child-of-selected-node--revealed", false);
   }
 
   function highlightChildrenOfSelectedNode(node: any) {
     selectedNode.classed("selected-node--dimmed", true);
-    childrenOfSelectedNode.classed("child-of-selected-node--highlighted", true);
+    childrenOfSelectedNode.classed("child-of-selected-node--highlighted", false);
+    childrenOfSelectedNode.classed("child-of-selected-node--revealed", true);
   }
 
   function highlightOneChildOfSelectedNode(node: any) {
     selectedNode.classed("selected-node--dimmed", true);
+    d3.select(node).classed("child-of-selected-node--revealed", false);
     d3.select(node).classed("child-of-selected-node--highlighted", true);
   }
 
@@ -101,6 +107,7 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
     selectedNode.classed("selectedNode", false);
     selectedNode.classed("selectedNode--dimmed", false);
     childrenOfSelectedNode.classed("child-of-selected-node", false);
+    childrenOfSelectedNode.classed("child-of-selected-node--revealed", false);
     childrenOfSelectedNode.classed("child-of-selected-node--highlighted", false);
   }
 

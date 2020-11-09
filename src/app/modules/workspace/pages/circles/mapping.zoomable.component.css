@@ -10,22 +10,23 @@
 
 ::ng-deep .node {
   opacity: 0.15;
+  pointer-events: none;
   cursor: pointer;
 }
 
 ::ng-deep .node__details {
-    opacity: 0;
-    pointer-events: none;
-    color: white;
+  opacity: 0;
+  pointer-events: none;
+  color: white;
 }
 
 ::ng-deep .node--leaf .node__details {
-    color: black;
+  color: black;
 }
 
 ::ng-deep .node--leaf .node__circle {
-    fill-opacity: 1;
-    fill: white ;
+  fill-opacity: 1;
+  fill: white ;
 }
 
 
@@ -33,10 +34,18 @@
 
 ::ng-deep .selected-node {
   opacity: 1;
+  pointer-events: all;
+  stroke-width: 2px;
+  stroke-opacity: 1;
+  stroke: white;
 }
 
 ::ng-deep .selected-node .node__details {
   opacity: 1;
+}
+
+::ng-deep .child-of-selected-node {
+  pointer-events: all;
 }
 
 ::ng-deep .child-of-selected-node .node__details {
@@ -50,13 +59,32 @@
   opacity: 0.15;
 }
 
+::ng-deep .node--leaf.selected-node--dimmed {
+  opacity: 1;
+  stroke-width: 2px;
+  stroke-opacity: 1;
+  stroke: white;
+}
+
 ::ng-deep .selected-node--dimmed .node__details {
   opacity: 0;
   pointer-events: none;
 }
 
+::ng-deep .node--leaf.selected-node--dimmed .node__details {
+  opacity: 1;
+  pointer-events: all;
+}
+
+::ng-deep .child-of-selected-node--revealed {
+  opacity: 1;
+}
+
 ::ng-deep .child-of-selected-node--highlighted {
   opacity: 1;
+  stroke-width: 2px;
+  stroke-opacity: 1;
+  stroke: white;
 }
 
 
