@@ -7,7 +7,7 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
   const rootNode = d3.select("g.node--root");
   const nodes = selectNodesAndAssociateWithData();
 
-  const selectedNodeId = getSelectedNodeId();
+  let selectedNodeId = getSelectedNodeId();
   let selectedNode: any;
   let childrenOfSelectedNode: any;
 
@@ -16,18 +16,6 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
   const height = component.height;
   const width = component.width;
   const TRANSITION_DURATION = component.TRANSITION_DURATION;
-  // const node = g.selectAll("g.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });
-  // const circle = g.selectAll("circle.node").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
-  // const text = g.selectAll("foreignObject.name").data(nodes, function (d: any) { return d ? d.data.id : d3.select(this).attr("id") || null });;
-  // const memberImages = g.selectAll("foreignObject.name span.member-picture").data(nodes, function (d: any) { return d ? d.data.id : d3.select(component).attr("id") || null });
-
-
-
-
-
-
-
-
 
   chooseSelectedNode();
 
@@ -106,11 +94,33 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
 
 
   //
+  // Quick and dirty attempt at zooming on circles..
+  //
+
+  function unchooseSelectedNode() {
+    selectedNode.classed("selectedNode", false);
+    selectedNode.classed("selectedNode--dimmed", false);
+    childrenOfSelectedNode.classed("child-of-selected-node", false);
+    childrenOfSelectedNode.classed("child-of-selected-node--highlighted", false);
+  }
+
+  function selectNode(node: any) {
+    selectedNodeId = getNodeId(node);
+  }
+
+  nodes.on("click", function(d: any) {
+    unchooseSelectedNode();
+    selectNode(d);
+    chooseSelectedNode();
+    zoom(d);
+  });
+
+
+  //
   // Helper functions for moving, zooming, etc.
   //
 
   function initMapElementsAtPosition(v: any) {
-    console.log(v);
     view = v;
     nodes
     .transition()
@@ -123,26 +133,6 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
       .each((d: any) => (d.translateY = d.y - v[1]))
   }
 
-
-
-
-  //
-  // D3 example code
-  // 
-
-  // svg.call(d3.zoom()
-  //   .extent([[0, 0], [width, height]])
-  //   .scaleExtent([1, 8])
-  //   .on("zoom", zoomed));
-
-  // function zoomed({transform}) {
-  //   g.attr("transform", transform);
-  // }
-
-  // svg.call(d3.zoom().on("zoom", function () {
-  //   svg.attr("transform", d3.getEvent().transform)
-  // }));
-
   svg.style("position", "relative");
 
   // All of this fires when you move around or zoom in
@@ -153,23 +143,10 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
     .wheelDelta(wheelDelta)
     .on("zoom", zoomed);
 
-  // function zoomed() {
-  //   console.log("zoomed");
-  //   nodes.attr("transform", d3.getEvent().transform);
-  // }
-
   function zoomed() {
     const zoomTransform = d3.getEvent().transform;
-    console.log("zoomed with transform: ", zoomTransform);
     containerGroup.attr("transform", zoomTransform);
   }
-
-  // function zoomed(boo) {
-  //   console.log("zoomed");
-  //   console.log(boo);
-  //   // nodes.attr("transform", d3.getEvent().transform);
-  //   // nodes.attr("transform", transform);
-  // }
 
   initMapElementsAtPosition([root.x, root.y])
 
@@ -178,46 +155,58 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
     svg.call(
       zooming.transform,
       d3.zoomIdentity
-        .translate(width / 2, height / 2 )
+        // .translate(width / 2, height / 2 )
         .scale(1)
     );
     svg.call(zooming);
   } catch (error) { console.error(error); }
 
 
+  function zoom(focus: any, clickedElement?: any): void {
+    component.lastZoomCircle = focus;
+    const newScale: number = focus === root /*|| focus.parent === root*/ ? 1 : getViewScaleForRadius(focus.r);
 
+    const coordinates: Array<number> = getClickedElementCoordinates(clickedElement, newScale, focus.translateX, focus.translateY);
+    svg.transition().duration(TRANSITION_DURATION).call(
+      <any>zooming.transform,
+      d3.zoomIdentity.translate(
+        view[0] - coordinates[0],
+        view[1] - coordinates[1]
+      )
+        .scale(newScale)
+    );
+  }
 
+  zoom(root);
 
+  function getViewScaleForRadius(radius: number): number {
+    return (height) / (radius * 2 + margin);
+  }
 
+  function getClickedElementCoordinates(clickedElement: any, newScale: number, translateX: number, translateY: number): Array<number> {
 
-  // function getViewScaleForRadius(radius: number): number {
-  //   return (height) / (radius * 2 + margin);
-  // }
+    let clickedX = 0;
+    let clickedY = 0;
+    if (
+      clickedElement
+      && clickedElement.transform
+      && (clickedElement.transform.baseVal.length > 0 || clickedElement.transform.baseVal.numberOfItems > 0)
+    ) {
+      clickedX = clickedElement.transform.baseVal.getItem(0).matrix.e * newScale;
+      clickedY = clickedElement.transform.baseVal.getItem(0).matrix.f * newScale;
+      clickedX -= margin;
+      clickedY -= margin;
+    }
+    else {
+      // in case we are zooming prgramatically and the svg doesnt have the reference to transform
 
-  // function getClickedElementCoordinates(clickedElement: any, newScale: number, translateX: number, translateY: number): Array<number> {
-
-  //   let clickedX = 0;
-  //   let clickedY = 0;
-  //   if (
-  //     clickedElement
-  //     && clickedElement.transform
-  //     && (clickedElement.transform.baseVal.length > 0 || clickedElement.transform.baseVal.numberOfItems > 0)
-  //   ) {
-  //     clickedX = clickedElement.transform.baseVal.getItem(0).matrix.e * newScale;
-  //     clickedY = clickedElement.transform.baseVal.getItem(0).matrix.f * newScale;
-  //     clickedX -= margin;
-  //     clickedY -= margin;
-  //   }
-  //   else {
-  //     // in case we are zooming prgramatically and the svg doesnt have the reference to transform
-
-  //     clickedX = translateX * newScale;
-  //     clickedY = translateY * newScale;
-  //     clickedX -= margin;
-  //     clickedY -= margin;
-  //   }
-  //   return [clickedX, clickedY];
-  // }
+      clickedX = translateX * newScale;
+      clickedY = translateY * newScale;
+      clickedX -= margin;
+      clickedY -= margin;
+    }
+    return [clickedX, clickedY];
+  }
 
   // function zoom(focus: any, clickedElement?: any): void {
   //   console.log("zoom");
