@@ -41,15 +41,52 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
     }
   });
 
+  nodes.on("click", function(d: any) {
+    if (!isSelectedNode(d)) {
+      // Clicking on any node other than the selected one selects it
+      unchooseSelectedNode();
+      selectNode(d);
+      chooseSelectedNode();
+      zoom(d);
+    } else if (!isRootNode(d)) {
+      // Clicking on an already selected node deselects it
+      unchooseSelectedNode();
+      selectNode(root);
+      chooseSelectedNode();
+      zoom(root);
+    }
+  });
+
+  // svg.on("click", function(d: any) {
+  //   console.log("click on svg", d);
+  //   unchooseSelectedNode();
+  //   selectNode(root);
+  //   chooseSelectedNode();
+  //   zoom(root);
+  // });
+
 
   //
-  // Helper functions for selecting, highlighting, etc.
+  // Helper functions for d3 selections and working with node data
   //
 
   function selectNodesAndAssociateWithData() {
     return d3.selectAll("g.node").data(nodesData, function (d: any) {
       return d ? d.data.id : d3.select(this).attr("id") || null
     });
+  }
+
+  function getSelectedNodeId(): string {
+    const selectedNodeId = localStorage.getItem("node_id");
+    return (selectedNodeId || root.data.id).toString();
+  }
+
+  function getNodeId(d: any): string {
+    return d.data.id.toString();
+  }
+
+  function getParentId(d: any): string | undefined {
+    return d.parent && d.parent.data.id.toString();
   }
 
   function isSelectedNode(d: any) {
@@ -60,12 +97,33 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
     return d.parent && getParentId(d) === selectedNodeId;
   }
 
+  function isRootNode(d: any) {
+    return d === root;
+  }
+
+
+  //
+  // Helper functions for selecting, highlighting, etc.
+  //
+
+  function selectNode(node: any) {
+    selectedNodeId = getNodeId(node);
+  }
+
   function chooseSelectedNode() {
     nodes.classed("selected-node", d => isSelectedNode(d));
     nodes.classed("child-of-selected-node", d => isChildOfSelectedNode(d));
 
     selectedNode = d3.select("g.selected-node");
     childrenOfSelectedNode = d3.selectAll("g.child-of-selected-node");
+  }
+
+  function unchooseSelectedNode() {
+    selectedNode.classed("selected-node", false);
+    selectedNode.classed("selected-node--dimmed", false);
+    childrenOfSelectedNode.classed("child-of-selected-node", false);
+    childrenOfSelectedNode.classed("child-of-selected-node--revealed", false);
+    childrenOfSelectedNode.classed("child-of-selected-node--highlighted", false);
   }
 
   function highlightSelectedNode(node: any) {
@@ -84,43 +142,6 @@ export function hydrate(root: any, nodesData: any[], component: MappingZoomableC
     d3.select(node).classed("child-of-selected-node--revealed", false);
     d3.select(node).classed("child-of-selected-node--highlighted", true);
   }
-
-  function getSelectedNodeId(): string {
-    const selectedNodeId = localStorage.getItem("node_id");
-    return (selectedNodeId || root.data.id).toString();
-  }
-
-  function getNodeId(d: any): string {
-    return d.data.id.toString();
-  }
-
-  function getParentId(d: any): string | undefined {
-    return d.parent && d.parent.data.id.toString();
-  }
-
-
-  //
-  // Quick and dirty attempt at zooming on circles..
-  //
-
-  function unchooseSelectedNode() {
-    selectedNode.classed("selectedNode", false);
-    selectedNode.classed("selectedNode--dimmed", false);
-    childrenOfSelectedNode.classed("child-of-selected-node", false);
-    childrenOfSelectedNode.classed("child-of-selected-node--revealed", false);
-    childrenOfSelectedNode.classed("child-of-selected-node--highlighted", false);
-  }
-
-  function selectNode(node: any) {
-    selectedNodeId = getNodeId(node);
-  }
-
-  nodes.on("click", function(d: any) {
-    unchooseSelectedNode();
-    selectNode(d);
-    chooseSelectedNode();
-    zoom(d);
-  });
 
 
   //
