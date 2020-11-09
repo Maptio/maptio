@@ -41,9 +41,6 @@ import { join } from "bluebird";
 
 import { hydrate } from "./hydrate-map";
 
-// TODO: Remove once refactoring is over
-import { hydrateOld } from "./hydrate-map-old";
-
 export const d3 = Object.assign(
   {},
   {
