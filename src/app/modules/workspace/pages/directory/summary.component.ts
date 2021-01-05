@@ -30,6 +30,7 @@ import { UserService } from "../../../../shared/services/user/user.service";
 })
 
 export class MappingSummaryComponent implements OnInit, IDataVisualizer {
+    active = 1;
 
     public datasetId: string;
 

@@ -23,6 +23,7 @@ import { BillingGuard } from "../../core/guards/billing.guard";
 import { TooltipComponent } from "./components/tooltip/tooltip.component";
 import { ContextMenuComponent } from "./components/context-menu/context-menu.component";
 import { MappingSummaryComponent } from "./pages/directory/summary.component";
+import { PeopleSummaryComponent } from "./components/summary/overview/people.component";
 import { PersonalSummaryComponent } from "./components/summary/overview/personal.component";
 import { OnboardingComponent } from "../../shared/components/onboarding/onboarding.component";
 import { InstructionsComponent } from "../../shared/components/instructions/instructions.component";
@@ -91,7 +92,10 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
         InitiativeHelperRoleInputComponent,
         InitiativeHelperPrivilegeComponent,
         MappingComponent, MappingZoomableComponent, MappingTreeComponent, MappingNetworkComponent,
-        MappingSummaryComponent, PersonalSummaryComponent, PersonalCardComponent,
+        MappingSummaryComponent,
+        PeopleSummaryComponent,
+        PersonalSummaryComponent,
+        PersonalCardComponent,
 
         SearchComponent, FilterTagsComponent, ShareSlackComponent,
         TooltipComponent, ContextMenuComponent,
