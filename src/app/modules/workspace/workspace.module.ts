@@ -25,6 +25,7 @@ import { ContextMenuComponent } from "./components/context-menu/context-menu.com
 import { MappingSummaryComponent } from "./pages/directory/summary.component";
 import { PeopleSummaryComponent } from "./components/summary/overview/people.component";
 import { PersonalSummaryComponent } from "./components/summary/overview/personal.component";
+import { RolesSummaryComponent } from "./components/summary/overview/roles.component";
 import { OnboardingComponent } from "../../shared/components/onboarding/onboarding.component";
 import { InstructionsComponent } from "../../shared/components/instructions/instructions.component";
 import { StripMarkdownPipe } from "../../shared/pipes/strip-markdown.pipe";
@@ -96,6 +97,7 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
         PeopleSummaryComponent,
         PersonalSummaryComponent,
         PersonalCardComponent,
+        RolesSummaryComponent,
 
         SearchComponent, FilterTagsComponent, ShareSlackComponent,
         TooltipComponent, ContextMenuComponent,
