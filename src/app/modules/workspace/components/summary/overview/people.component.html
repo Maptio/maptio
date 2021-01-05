@@ -29,7 +29,6 @@
         <div *ngIf="!selectedMember && !!initiative">
             <h1 class="">Directory</h1>
             <h6 class="text-muted ">
-
                 This is a directory of organisation
                 <a routerLink="/teams/{{team.team_id}}/{{team.getSlug()}}">{{team.name}}</a>. Select a person to see their circles in map
                 <a routerLink="../circles">{{initiative?.name}}</a>: 

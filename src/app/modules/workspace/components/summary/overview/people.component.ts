@@ -6,25 +6,21 @@ import {
     ChangeDetectorRef,
     ChangeDetectionStrategy
 } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Observable, Subscription, Subject } from "rxjs";
 
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
+
 import { DataService } from "../../../services/data.service";
-import { Router } from "@angular/router";
+import { UserFactory } from "../../../../../core/http/user/user.factory";
+import { UserService } from "../../../../../shared/services/user/user.service";
 import { DataSet } from "../../../../../shared/model/dataset.data";
 import { Team } from "../../../../../shared/model/team.data";
 import { User } from "../../../../../shared/model/user.data";
 import { Permissions } from "../../../../../shared/model/permission.data";
-// import { TeamFactory } from "../../../../../core/http/team/team.factory";
-import { UserFactory } from "../../../../../core/http/user/user.factory";
-// import { DatasetFactory } from "../../../../../core/http/map/dataset.factory";
-// import { Auth } from "../../../../../core/authentication/auth.service";
 import { Initiative } from "../../../../../shared/model/initiative.data";
-// import { SelectableTag, Tag } from "../../../../../shared/model/tag.data";
-
-import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { LoaderService } from "../../../../../shared/components/loading/loader.service";
-import { UserService } from "../../../../../shared/services/user/user.service";
+
 
 @Component({
     selector: "summary-people",
@@ -36,41 +32,13 @@ import { UserService } from "../../../../../shared/services/user/user.service";
 
 export class PeopleSummaryComponent implements OnInit {
     @Output() selectInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
-
-    // public width: number;
-    // public height: number;
-    // public margin: number;
-
-    // public zoom$: Observable<number>;
-    // public fontSize$: Observable<number>;
-    // public fontColor$: Observable<string>;
-    // public mapColor$: Observable<string>;
-
-    // public zoomInitiative$: Subject<Initiative>;
-    // public selectableTags$: Observable<Array<SelectableTag>>;
-    // public isReset$: Observable<boolean>;
-
-
-    // public translateX: number;
-    // public translateY: number;
-    // public scale: number;
-    // public tagsState: Array<SelectableTag>;
-
-    // public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
-    // public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
-    // public showContextMenuOf$: Subject<{
-    //     initiatives: Initiative[], x: Number, y: Number,
-    //     isReadOnlyContextMenu: boolean
-    // }> = new Subject<{
-    //     initiatives: Initiative[], x: Number, y: Number,
-    //     isReadOnlyContextMenu: boolean
-    // }>();
+    @Output() userDataset: EventEmitter<DataSet> = new EventEmitter<DataSet>();
+    @Output() rootInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
 
     members: User[];
     filteredMembers: User[];
     initiative: Initiative;
     team: Team;
-    // datasetId: string;
     dataset: DataSet;
     selectedMember: User;
     dataSubscription: Subscription;
@@ -79,12 +47,9 @@ export class PeopleSummaryComponent implements OnInit {
     Permissions = Permissions;
 
     constructor(
-        // public auth: Auth,
         public route: ActivatedRoute,
-        // public datasetFactory: DatasetFactory,
         public userFactory: UserFactory,
         private userService: UserService,
-        // jpublic teamFactory: TeamFactory,
         private dataService: DataService,
         public loaderService: LoaderService,
         private router: Router,
@@ -94,7 +59,6 @@ export class PeopleSummaryComponent implements OnInit {
 
     ngOnInit(): void {
         this.loaderService.show();
-        // this.init();
         this.dataSubscription = this.dataService
             .get()
             .combineLatest(this.route.queryParams)
@@ -120,7 +84,6 @@ export class PeopleSummaryComponent implements OnInit {
                 console.log(this.members)
                 this.initiative = data.initiative;
                 this.dataset = data.dataset;
-                // this.datasetId = data.dataset.datasetId;
                 this.team = data.team;
                 this.loaderService.hide();
                 this.analytics.eventTrack("Map", {
@@ -132,7 +95,6 @@ export class PeopleSummaryComponent implements OnInit {
                 this.filteredMembers = [].concat(this.members);
                 this.cd.markForCheck();
             });
-        // this.selectableTags$.subscribe(tags => this.tagsState = tags);
 
         this.filterMembers$.asObservable().debounceTime(250).subscribe((search) => {
             this.filteredMembers = (search === '')
@@ -145,12 +107,6 @@ export class PeopleSummaryComponent implements OnInit {
     ngOnDestroy(): void {
         if (this.dataSubscription) this.dataSubscription.unsubscribe();
     }
-
-    // This isn't used anywhere and so likely can be deleted
-    // showSummary(member: User) {
-    //     this.selectedMember = member;
-    //     this.cd.markForCheck();
-    // }
 
     onKeyDown(search: string) {
         this.filterMembers$.next(search);
@@ -172,8 +128,4 @@ export class PeopleSummaryComponent implements OnInit {
     onSelectInitiative(initiative: Initiative){
         this.selectInitiative.emit(initiative);
     }
-
-    // init(): void {
-    //     // throw new Error("Method not implemented.");
-    // }
 }
