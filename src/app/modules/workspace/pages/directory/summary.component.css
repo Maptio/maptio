@@ -1,3 +1,7 @@
+.tab-content > .active {
+    display: flex;
+}
+
 ul.columns{
     -moz-column-count: 4;
     -moz-column-gap: 20px;
