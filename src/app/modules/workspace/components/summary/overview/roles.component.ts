@@ -11,6 +11,8 @@ import {
 
 // import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 
+import { RoleLibraryService } from "../../../services/role-library.service";
+import { Role } from "../../../../../shared/model/role.data";
 // import { DataService } from "../../../services/data.service";
 // import { UserFactory } from "../../../../../core/http/user/user.factory";
 // import { UserService } from "../../../../../shared/services/user/user.service";
@@ -46,7 +48,10 @@ export class RolesSummaryComponent implements OnInit {
     // isOthersPeopleVisible: boolean;
     // Permissions = Permissions;
 
+    public roles: Role[] = [];
+
     constructor(
+        private roleLibrary: RoleLibraryService,
         // public route: ActivatedRoute,
         // public userFactory: UserFactory,
         // private userService: UserService,
@@ -58,6 +63,7 @@ export class RolesSummaryComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.roles = this.roleLibrary.getRoles();
     //     this.loaderService.show();
     //     this.dataSubscription = this.dataService
     //         .get()
