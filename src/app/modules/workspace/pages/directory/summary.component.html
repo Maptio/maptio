@@ -41,7 +41,9 @@
         <div class="tab-content mt-3" id="tab-content">
             <div id="people" role="tabpanel" aria-labelledby="authority-tab"
                 class="tab-pane fade show active card-columns d-flex flex-column">
-                <summary-people></summary-people>
+                <summary-people
+                    (selectInitiative)="onSelectInitiative($event)"
+                ></summary-people>
                 <!-- <div class="w-100 d-flex justify-content-center">
     
                     <span *ngIf="authorities.length===0" class="h3 text-orange">Not a {{authorityName | lowercase }}

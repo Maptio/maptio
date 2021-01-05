@@ -163,8 +163,7 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
         localStorage.setItem("node_id", initiative.id.toString());
                 
         this.router.navigateByUrl(`/map/${this.dataset.datasetId}/${this.initiative.getSlug()}/circles`)
-            .then(() => {
-            })
+            .then(() => {});
     }
 
     init(): void {

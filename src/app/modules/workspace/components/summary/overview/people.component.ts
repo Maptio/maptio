@@ -1,4 +1,11 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
+import {
+    Component,
+    OnInit,
+    Output,
+    EventEmitter,
+    ChangeDetectorRef,
+    ChangeDetectionStrategy
+} from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Observable, Subscription, Subject } from "rxjs";
 
@@ -23,12 +30,12 @@ import { UserService } from "../../../../../shared/services/user/user.service";
     selector: "summary-people",
     templateUrl: "./people.component.html",
     styleUrls: ["./people.component.css"],
-    host: { "class": "w-100" },
-    // changeDetection: ChangeDetectionStrategy.OnPush
+    host: { "class": "d-flex flex-row w-100" },
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class PeopleSummaryComponent implements OnInit {
-    public datasetId: string;
+    @Output() selectInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
 
     // public width: number;
     // public height: number;
@@ -63,11 +70,12 @@ export class PeopleSummaryComponent implements OnInit {
     filteredMembers: User[];
     initiative: Initiative;
     team: Team;
+    // datasetId: string;
     dataset: DataSet;
     selectedMember: User;
     dataSubscription: Subscription;
     filterMembers$: Subject<string> = new Subject<string>();
-    // isOthersPeopleVisible: boolean;
+    isOthersPeopleVisible: boolean;
     Permissions = Permissions;
 
     constructor(
@@ -80,8 +88,8 @@ export class PeopleSummaryComponent implements OnInit {
         private dataService: DataService,
         public loaderService: LoaderService,
         private router: Router,
+        private cd: ChangeDetectorRef,
         private analytics: Angulartics2Mixpanel, 
-        // private cd: ChangeDetectorRef
     ) {}
 
     ngOnInit(): void {
@@ -98,12 +106,12 @@ export class PeopleSummaryComponent implements OnInit {
                         .then((users: User[]) => {
                             console.log(users)
                             this.selectedMember = users[0];
-                            // this.cd.markForCheck();
+                            this.cd.markForCheck();
                             return data[0];
                         });
                 } else {
                     this.selectedMember = null;
-                    // this.cd.markForCheck();
+                    this.cd.markForCheck();
                     return Observable.of(data[0])
                 }
             })
@@ -112,7 +120,7 @@ export class PeopleSummaryComponent implements OnInit {
                 console.log(this.members)
                 this.initiative = data.initiative;
                 this.dataset = data.dataset;
-                this.datasetId = data.dataset.datasetId;
+                // this.datasetId = data.dataset.datasetId;
                 this.team = data.team;
                 this.loaderService.hide();
                 this.analytics.eventTrack("Map", {
@@ -122,7 +130,7 @@ export class PeopleSummaryComponent implements OnInit {
                     teamId: (<Team>data.team).team_id
                 });
                 this.filteredMembers = [].concat(this.members);
-                // this.cd.markForCheck();
+                this.cd.markForCheck();
             });
         // this.selectableTags$.subscribe(tags => this.tagsState = tags);
 
@@ -130,14 +138,15 @@ export class PeopleSummaryComponent implements OnInit {
             this.filteredMembers = (search === '')
                 ? [].concat(this.members)
                 : this.members.filter(m => m.name.toLowerCase().indexOf(search.toLowerCase()) >= 0);
-            // this.cd.markForCheck();
+            this.cd.markForCheck();
         })
     }
 
-    // ngOnDestroy(): void {
-    //     if (this.dataSubscription) this.dataSubscription.unsubscribe();
-    // }
+    ngOnDestroy(): void {
+        if (this.dataSubscription) this.dataSubscription.unsubscribe();
+    }
 
+    // This isn't used anywhere and so likely can be deleted
     // showSummary(member: User) {
     //     this.selectedMember = member;
     //     this.cd.markForCheck();
@@ -153,20 +162,16 @@ export class PeopleSummaryComponent implements OnInit {
 
     onSelectMember(user: User) {
         this.selectedMember = user;
-        // this.cd.markForCheck();
+        this.cd.markForCheck();
         this.router.navigate([], {
             relativeTo: this.route,
             queryParams: { member: user.shortid }
         })
     }
 
-    // onSelectInitiative(initiative: Initiative) {
-    //     localStorage.setItem("node_id", initiative.id.toString());
-                
-    //     this.router.navigateByUrl(`/map/${this.dataset.datasetId}/${this.initiative.getSlug()}/circles`)
-    //         .then(() => {
-    //         })
-    // }
+    onSelectInitiative(initiative: Initiative){
+        this.selectInitiative.emit(initiative);
+    }
 
     // init(): void {
     //     // throw new Error("Method not implemented.");
