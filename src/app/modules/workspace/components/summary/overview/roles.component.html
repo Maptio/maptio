@@ -1,5 +1,16 @@
-<ul>
-    <li *ngFor="let role of roles">
-        {{ role | json }}
-    </li>
-</ul>
+<ng-container *ngFor="let role of roles; let roleIndex = index; let last = last">
+    <initiative-helper-role-input
+        *ngIf="isEditRoleMode && role === roleBeingEdited"
+        [role]="role"
+        [isDirectoryView]="true"
+        (cancel)="onCancelEditingRole()"
+    ></initiative-helper-role-input>
+    <initiative-helper-role
+        *ngIf="role !== roleBeingEdited"
+        [role]="role"
+        [showControls]="true"
+        (edit)="onEditRole($event)"
+    ></initiative-helper-role>
+
+    <hr *ngIf="!last && roles[roleIndex +1]" class="role-divider my-1">
+</ng-container>

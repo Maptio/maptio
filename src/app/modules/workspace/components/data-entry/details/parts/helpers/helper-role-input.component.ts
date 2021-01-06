@@ -32,6 +32,7 @@ const noWhitespaceValidator: ValidatorFn = (control: FormControl): ValidationErr
 export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
     @Input("role") role: Role;
     @Input("helper") helper: Helper;
+    @Input("isDirectoryView") isDirectoryView: boolean = false;
 
     @Output("cancel") cancel = new EventEmitter<void>();
     @Output("save") save = new EventEmitter<void>();

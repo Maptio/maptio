@@ -27,8 +27,8 @@ import { Role } from "../../../../../shared/model/role.data";
 @Component({
     selector: "summary-roles",
     templateUrl: "./roles.component.html",
-    // styleUrls: ["./roles.component.css"],
-    host: { "class": "d-flex flex-row w-100" },
+    styleUrls: ["./roles.component.css"],
+    host: { "class": "d-flex flex-column w-100" },
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -50,6 +50,8 @@ export class RolesSummaryComponent implements OnInit {
 
     public roles: Role[] = [];
 
+    isEditRoleMode = false;
+    roleBeingEdited: Role;
     constructor(
         private roleLibrary: RoleLibraryService,
         // public route: ActivatedRoute,
@@ -64,6 +66,19 @@ export class RolesSummaryComponent implements OnInit {
 
     ngOnInit(): void {
         this.roles = this.roleLibrary.getRoles();
+    }
+    
+    onEditRole(role: Role) {
+        this.roleBeingEdited = role;
+        this.isEditRoleMode = true;
+    }
+
+    onCancelEditingRole() {
+        this.roleBeingEdited = undefined;
+        this.isEditRoleMode = false;
+    }
+
+    // ngOnInit(): void {
     //     this.loaderService.show();
     //     this.dataSubscription = this.dataService
     //         .get()
@@ -108,7 +123,7 @@ export class RolesSummaryComponent implements OnInit {
     //             : this.members.filter(m => m.name.toLowerCase().indexOf(search.toLowerCase()) >= 0);
     //         this.cd.markForCheck();
     //     })
-    }
+    // }
 
     // ngOnDestroy(): void {
     //     if (this.dataSubscription) this.dataSubscription.unsubscribe();
