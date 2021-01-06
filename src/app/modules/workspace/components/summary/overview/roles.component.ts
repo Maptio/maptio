@@ -3,7 +3,7 @@ import {
     OnInit,
     // Output,
     // EventEmitter,
-    // ChangeDetectorRef,
+    ChangeDetectorRef,
     ChangeDetectionStrategy
 } from "@angular/core";
 // import { ActivatedRoute, Params, Router } from "@angular/router";
@@ -52,6 +52,8 @@ export class RolesSummaryComponent implements OnInit {
 
     isEditRoleMode = false;
     roleBeingEdited: Role;
+
+
     constructor(
         private roleLibrary: RoleLibraryService,
         // public route: ActivatedRoute,
@@ -76,6 +78,11 @@ export class RolesSummaryComponent implements OnInit {
     onCancelEditingRole() {
         this.roleBeingEdited = undefined;
         this.isEditRoleMode = false;
+    }
+
+    onChangeRole() {
+        this.onCancelEditingRole();
+        this.cd.markForCheck();
     }
 
     // ngOnInit(): void {

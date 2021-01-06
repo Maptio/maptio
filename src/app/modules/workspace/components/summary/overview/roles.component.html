@@ -4,6 +4,7 @@
         [role]="role"
         [isDirectoryView]="true"
         (cancel)="onCancelEditingRole()"
+        (save)="onChangeRole()"
     ></initiative-helper-role-input>
     <initiative-helper-role
         *ngIf="role !== roleBeingEdited"
