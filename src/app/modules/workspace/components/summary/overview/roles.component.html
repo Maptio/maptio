@@ -1,4 +1,13 @@
 <ng-container *ngFor="let role of roles; let roleIndex = index; let last = last">
+    <initiative-helper-role
+        *ngIf="role !== roleBeingEdited"
+        [role]="role"
+        [showControls]="true"
+        [isDirectoryView]="true"
+        (edit)="onEditRole($event)"
+        (remove)="onDeleteRole($event)"
+    ></initiative-helper-role>
+
     <initiative-helper-role-input
         *ngIf="isEditRoleMode && role === roleBeingEdited"
         [role]="role"
@@ -6,12 +15,6 @@
         (cancel)="onCancelEditingRole()"
         (save)="onChangeRole()"
     ></initiative-helper-role-input>
-    <initiative-helper-role
-        *ngIf="role !== roleBeingEdited"
-        [role]="role"
-        [showControls]="true"
-        (edit)="onEditRole($event)"
-    ></initiative-helper-role>
 
     <hr *ngIf="!last && roles[roleIndex +1]" class="role-divider my-1">
 </ng-container>

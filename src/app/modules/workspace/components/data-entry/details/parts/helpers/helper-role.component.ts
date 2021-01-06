@@ -12,6 +12,7 @@ export class InitiativeHelperRoleComponent {
     @Input("role") role: Role;
     @Input("closed") closed: Role;
     @Input("showControls") showControls: boolean;
+    @Input("isDirectoryView") isDirectoryView: boolean = false;
 
     @Output("edit") edit = new EventEmitter<Role>();
     @Output("remove") remove = new EventEmitter<Role>();
@@ -35,6 +36,15 @@ export class InitiativeHelperRoleComponent {
             this.isDescriptionVisible = false;
         } else {
             this.isDescriptionVisible = titleValue ? false : true;
+        }
+    }
+
+    getRemoveWarning() {
+        if (this.isDirectoryView) {
+            return  'This will remove the role from ALL holders in the organisation and delete it ' + 
+                'from the list of roles. This cannot be undone. Are you sure?';
+        } else {
+            return 'Remove role? (This does not affect other holders of this role)';
         }
     }
 

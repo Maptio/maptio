@@ -62,7 +62,7 @@ export class RolesSummaryComponent implements OnInit {
         // private dataService: DataService,
         // public loaderService: LoaderService,
         // private router: Router,
-        // private cd: ChangeDetectorRef,
+        private cd: ChangeDetectorRef,
         // private analytics: Angulartics2Mixpanel, 
     ) {}
 
@@ -82,6 +82,11 @@ export class RolesSummaryComponent implements OnInit {
 
     onChangeRole() {
         this.onCancelEditingRole();
+        this.cd.markForCheck();
+    }
+
+    onDeleteRole(roleToBeDeleted: Role) {
+        this.roleLibrary.deleteRoleFromLibrary(roleToBeDeleted);
         this.cd.markForCheck();
     }
 

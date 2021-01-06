@@ -38,7 +38,7 @@
         placement="top"
         container="body"
         mwlConfirmationPopover
-        [popoverMessage]="'Remove role? (This does not affect other holders of this role)'"
+        [popoverMessage]="getRemoveWarning()"
         (confirm)="onRemove()"
         (cancel)="cancelClicked = true"
         focusbutton="cancel"
