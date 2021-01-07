@@ -24,7 +24,13 @@ export class RoleLibraryService {
     }
 
     findRoleInList(role: Role, roleList: Role[]): Role {
-        return roleList.find((roleFromList) => roleFromList.shortid === role.shortid);
+        return roleList.find((roleFromList) => {
+            if (roleFromList && roleFromList.shortid && role && role.shortid) {
+                return roleFromList.shortid === role.shortid
+            } else {
+                return false;
+            }
+        });
     }
 
     /**

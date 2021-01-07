@@ -18,13 +18,13 @@
         (save)="onChangeRole()"
     ></initiative-helper-role-input>
 
-    <div *ngIf="isDescriptionVisible.get(role)">
-        <div *ngFor="let initiative of initiativesWithRole.get(role); let index=index" class="">
+    <div *ngIf="areDetailsVisible(role)">
+        <div *ngFor="let initiative of getInitiativesFor(role); let index=index" class="">
             <personal-card
                 [initiative]="initiative"
                 [datasetId]="datasetId"
                 [team]="team"
-                [isWithLeader]="false">
+                [isWithLeader]="true">
             </personal-card>
         </div>
     </div>

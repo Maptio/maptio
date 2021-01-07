@@ -100,28 +100,50 @@ export class RolesSummaryComponent implements OnInit {
         );
 
         this.initiative.traverse(function (initiative: Initiative) {
-            initiative.helpers.forEach((helper) => {
-                helper.roles.forEach((helperRole) => {
-                    if (this.roleLibrary.findRoleInList(helperRole, this.roles)) {
-                        const libraryRole = this.roleLibrary.findRoleInLibrary(helperRole);
-                        if (!this.initiativesWithRole.get(libraryRole).includes(initiative)) {
-                            this.initiativesWithRole.set(
-                                libraryRole,
-                                this.initiativesWithRole.get(libraryRole).concat([initiative])
-                            )
+            const people = initiative.accountable
+                ? initiative.helpers.concat([initiative.accountable])
+                : initiative.helpers;
+            people.forEach((helper) => {
+                if (helper && helper.roles) {
+                    helper.roles.forEach((helperRole) => {
+                        if (this.roleLibrary.findRoleInList(helperRole, this.roles)) {
+                            const libraryRole = this.roleLibrary.findRoleInLibrary(helperRole);
+                            if (!this.getInitiativesFor(libraryRole).includes(initiative)) {
+                                this.initiativesWithRole.set(
+                                    libraryRole,
+                                    this.initiativesWithRole.get(libraryRole).concat([initiative])
+                                )
+                            }
                         }
-                    }
-                })
+                    })
+                }
             });
         }.bind(this))
     }
+
+    getInitiativesFor(role: Role): Initiative[] {
+        if (this.initiativesWithRole && this.initiativesWithRole.has(role)) {
+            return this.initiativesWithRole.get(role);
+        } else {
+            return [];
+        }
+    }
     
     hasInitiatives(role: Role): boolean {
-        const initiativesList = this.initiativesWithRole.get(role);
+        const initiativesList = this.getInitiativesFor(role);
         return initiativesList && initiativesList.length ? true : false;
+    }
+
+    areDetailsVisible(role: Role): boolean {
+        return this.isDescriptionVisible && this.isDescriptionVisible.has(role)
+            ? this.isDescriptionVisible.get(role)
+            : false;
     }
     
     onEditRole(role: Role) {
+        if (this.isDescriptionVisible.get(role)) {
+            this.onToggleDetails(role);
+        }
         this.roleBeingEdited = role;
         this.isEditRoleMode = true;
     }
