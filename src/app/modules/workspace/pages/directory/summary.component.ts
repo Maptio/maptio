@@ -7,7 +7,7 @@ import {
     ElementRef,
 } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
-import { Observable, Subject } from "rxjs";
+import { Observable, Subject, Subscription } from "rxjs";
 
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 
@@ -16,6 +16,8 @@ import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
 import { Auth } from "../../../../core/authentication/auth.service";
+import { DataSet } from "../../../../shared/model/dataset.data";
+import { Team } from "../../../../shared/model/team.data";
 import { UserService } from "../../../../shared/services/user/user.service";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { SelectableTag, Tag } from "../../../../shared/model/tag.data";
@@ -66,6 +68,11 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     }>();
     public analytics: Angulartics2Mixpanel;
 
+    initiative: Initiative;
+    team: Team;
+    dataset: DataSet;
+    dataSubscription: Subscription;
+
     constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory,
         public userFactory: UserFactory, private userService: UserService, public teamFactory: TeamFactory, private dataService: DataService,
         public loaderService: LoaderService, private router: Router,
@@ -75,6 +82,18 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     ngOnInit(): void {
         this.loaderService.show();
         this.init();
+
+        this.dataSubscription = this.dataService
+            .get()
+            .subscribe((data: any) => {
+                this.initiative = data.initiative;
+                this.dataset = data.dataset;
+                this.datasetId = this.dataset.shortid;
+            });
+    }
+
+    ngOnDestroy(): void {
+        if (this.dataSubscription) this.dataSubscription.unsubscribe();
     }
 
     onSelectInitiative(initiative: Initiative) {

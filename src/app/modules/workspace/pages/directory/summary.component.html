@@ -44,7 +44,9 @@
                 role="tabpanel"
                 aria-labelledby="people-tab"
             >
-                <summary-people (selectInitiative)="onSelectInitiative($event)"></summary-people>
+                <summary-people
+                    (selectInitiative)="onSelectInitiative($event)"
+                ></summary-people>
             </div>
 
             <div
@@ -53,7 +55,10 @@
                 role="tabpanel"
                 aria-labelledby="roles-tab"
             >
-                <summary-roles (changeTab)="onChangeTab($event)"></summary-roles>
+                <summary-roles
+                    (changeTab)="onChangeTab($event)"
+                    (selectInitiative)="onSelectInitiative($event)"
+                ></summary-roles>
             </div>
 
             <div

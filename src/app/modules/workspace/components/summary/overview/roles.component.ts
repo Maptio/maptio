@@ -35,7 +35,7 @@ import { LoaderService } from "../../../../../shared/components/loading/loader.s
 
 export class RolesSummaryComponent implements OnInit {
     @Output() changeTab: EventEmitter<string> = new EventEmitter<string>();
-    // @Output() selectInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
+    @Output() selectInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
     // @Output() userDataset: EventEmitter<DataSet> = new EventEmitter<DataSet>();
     // @Output() rootInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
 
@@ -107,6 +107,10 @@ export class RolesSummaryComponent implements OnInit {
                 this.loaderService.hide();
                 this.cd.markForCheck();
             });
+    }
+
+    ngOnDestroy(): void {
+        if (this.dataSubscription) this.dataSubscription.unsubscribe();
     }
 
     getListOfInitiativesForEachRole() {
@@ -192,6 +196,10 @@ export class RolesSummaryComponent implements OnInit {
         this.changeTab.emit('people');
     }
 
+    onSelectInitiative(initiative: Initiative){
+        this.selectInitiative.emit(initiative);
+    }
+
     // ngOnInit(): void {
     //     this.loaderService.show();
     //     this.dataSubscription = this.dataService
@@ -258,9 +266,5 @@ export class RolesSummaryComponent implements OnInit {
     //         relativeTo: this.route,
     //         queryParams: { member: user.shortid }
     //     })
-    // }
-
-    // onSelectInitiative(initiative: Initiative){
-    //     this.selectInitiative.emit(initiative);
     // }
 }
