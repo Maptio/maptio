@@ -3,9 +3,11 @@
         *ngIf="role !== roleBeingEdited"
         [role]="role"
         [showControls]="true"
+        [alwaysShowDetailsToggle]="hasInitiatives(role)"
         [isDirectoryView]="true"
         (edit)="onEditRole($event)"
         (remove)="onDeleteRole($event)"
+        (toggleDetails)="onToggleDetails($event)"
     ></initiative-helper-role>
 
     <initiative-helper-role-input
@@ -15,6 +17,17 @@
         (cancel)="onCancelEditingRole()"
         (save)="onChangeRole()"
     ></initiative-helper-role-input>
+
+    <div *ngIf="isDescriptionVisible.get(role)">
+        <div *ngFor="let initiative of initiativesWithRole.get(role); let index=index" class="">
+            <personal-card
+                [initiative]="initiative"
+                [datasetId]="datasetId"
+                [team]="team"
+                [isWithLeader]="false">
+            </personal-card>
+        </div>
+    </div>
 
     <hr *ngIf="!last && roles[roleIndex +1]" class="role-divider my-1">
 </ng-container>

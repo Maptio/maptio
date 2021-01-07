@@ -13,9 +13,9 @@
     </div>
 
     <button
-      *ngIf="role.description"
+      *ngIf="alwaysShowDetailsToggle || role.description"
       class="btn bg-transparent py-0 border-0"
-      (click)="isDescriptionVisible = !isDescriptionVisible"
+      (click)="onToggleDetails()"
     >
       <i
         [class.fa-caret-right]="!isDescriptionVisible"

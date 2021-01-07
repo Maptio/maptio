@@ -7,21 +7,22 @@ import {
     ChangeDetectionStrategy
 } from "@angular/core";
 // import { ActivatedRoute, Params, Router } from "@angular/router";
+import { Subscription } from "rxjs";
 // import { Observable, Subscription, Subject } from "rxjs";
 
 // import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 
+import { DataService } from "../../../services/data.service";
 import { RoleLibraryService } from "../../../services/role-library.service";
 import { Role } from "../../../../../shared/model/role.data";
-// import { DataService } from "../../../services/data.service";
 // import { UserFactory } from "../../../../../core/http/user/user.factory";
 // import { UserService } from "../../../../../shared/services/user/user.service";
-// import { DataSet } from "../../../../../shared/model/dataset.data";
-// import { Team } from "../../../../../shared/model/team.data";
+import { DataSet } from "../../../../../shared/model/dataset.data";
+import { Team } from "../../../../../shared/model/team.data";
 // import { User } from "../../../../../shared/model/user.data";
 // import { Permissions } from "../../../../../shared/model/permission.data";
-// import { Initiative } from "../../../../../shared/model/initiative.data";
-// import { LoaderService } from "../../../../../shared/components/loading/loader.service";
+import { Initiative } from "../../../../../shared/model/initiative.data";
+import { LoaderService } from "../../../../../shared/components/loading/loader.service";
 
 
 @Component({
@@ -39,16 +40,19 @@ export class RolesSummaryComponent implements OnInit {
 
     // members: User[];
     // filteredMembers: User[];
-    // initiative: Initiative;
-    // team: Team;
-    // dataset: DataSet;
+    initiative: Initiative;
+    team: Team;
+    dataset: DataSet;
+    datasetId: string;
     // selectedMember: User;
-    // dataSubscription: Subscription;
+    dataSubscription: Subscription;
     // filterMembers$: Subject<string> = new Subject<string>();
     // isOthersPeopleVisible: boolean;
     // Permissions = Permissions;
 
-    public roles: Role[] = [];
+    roles: Role[] = [];
+    initiativesWithRole: Map<Role, Initiative[]>;
+    isDescriptionVisible: Map<Role, boolean>;
 
     isEditRoleMode = false;
     roleBeingEdited: Role;
@@ -59,20 +63,72 @@ export class RolesSummaryComponent implements OnInit {
         // public route: ActivatedRoute,
         // public userFactory: UserFactory,
         // private userService: UserService,
-        // private dataService: DataService,
-        // public loaderService: LoaderService,
+        private dataService: DataService,
+        public loaderService: LoaderService,
         // private router: Router,
         private cd: ChangeDetectorRef,
         // private analytics: Angulartics2Mixpanel, 
     ) {}
 
     ngOnInit(): void {
+        this.loaderService.show();
+
         this.roles = this.roleLibrary.getRoles();
+
+        this.dataSubscription = this.dataService
+            .get()
+            .subscribe((data: any) => {
+                this.initiative = data.initiative;
+                this.dataset = data.dataset;
+                this.datasetId = this.dataset.shortid;
+                this.team = data.team;
+
+                this.getListOfInitiativesForEachRole();
+
+                this.isDescriptionVisible = new Map(
+                    this.roles.map((role) => [role, false])
+                );
+
+                this.loaderService.hide();
+                this.cd.markForCheck();
+            });
+    }
+
+    getListOfInitiativesForEachRole() {
+        this.initiativesWithRole = new Map(
+            this.roles.map((role) => [role, []])
+        );
+
+        this.initiative.traverse(function (initiative: Initiative) {
+            initiative.helpers.forEach((helper) => {
+                helper.roles.forEach((helperRole) => {
+                    if (this.roleLibrary.findRoleInList(helperRole, this.roles)) {
+                        const libraryRole = this.roleLibrary.findRoleInLibrary(helperRole);
+                        if (!this.initiativesWithRole.get(libraryRole).includes(initiative)) {
+                            this.initiativesWithRole.set(
+                                libraryRole,
+                                this.initiativesWithRole.get(libraryRole).concat([initiative])
+                            )
+                        }
+                    }
+                })
+            });
+        }.bind(this))
+    }
+    
+    hasInitiatives(role: Role): boolean {
+        const initiativesList = this.initiativesWithRole.get(role);
+        return initiativesList && initiativesList.length ? true : false;
     }
     
     onEditRole(role: Role) {
         this.roleBeingEdited = role;
         this.isEditRoleMode = true;
+    }
+
+    onToggleDetails(role: Role) {
+        const isOpen = this.isDescriptionVisible.get(role);
+        this.isDescriptionVisible.set(role, !isOpen)
     }
 
     onCancelEditingRole() {

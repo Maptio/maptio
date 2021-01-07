@@ -23,7 +23,7 @@ export class RoleLibraryService {
         return this.roles;
     }
 
-    private findRoleInList(role: Role, roleList: Role[]): Role {
+    findRoleInList(role: Role, roleList: Role[]): Role {
         return roleList.find((roleFromList) => roleFromList.shortid === role.shortid);
     }
 

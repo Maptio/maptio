@@ -63,12 +63,10 @@ export class PeopleSummaryComponent implements OnInit {
             .get()
             .combineLatest(this.route.queryParams)
             .switchMap((data: [any, Params]) => {
-                console.log(data)
                 if (data[1].member) {
                     return this.userFactory.get(data[1].member)
                         .then(user => this.userService.getUsersInfo([user]))
                         .then((users: User[]) => {
-                            console.log(users)
                             this.selectedMember = users[0];
                             this.cd.markForCheck();
                             return data[0];
@@ -81,7 +79,6 @@ export class PeopleSummaryComponent implements OnInit {
             })
             .subscribe((data: any) => {
                 this.members = data.members;
-                console.log(this.members)
                 this.initiative = data.initiative;
                 this.dataset = data.dataset;
                 this.team = data.team;

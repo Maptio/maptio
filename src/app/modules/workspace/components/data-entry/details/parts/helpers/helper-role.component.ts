@@ -12,10 +12,12 @@ export class InitiativeHelperRoleComponent {
     @Input("role") role: Role;
     @Input("closed") closed: Role;
     @Input("showControls") showControls: boolean;
+    @Input("alwaysShowDetailsToggle") alwaysShowDetailsToggle: boolean = false;
     @Input("isDirectoryView") isDirectoryView: boolean = false;
 
     @Output("edit") edit = new EventEmitter<Role>();
     @Output("remove") remove = new EventEmitter<Role>();
+    @Output("toggleDetails") toggleDetails = new EventEmitter<Role>();
 
     isDescriptionVisible = false;
 
@@ -46,6 +48,11 @@ export class InitiativeHelperRoleComponent {
         } else {
             return 'Remove role? (This does not affect other holders of this role)';
         }
+    }
+
+    onToggleDetails() {
+        this.isDescriptionVisible = !this.isDescriptionVisible;
+        this.toggleDetails.emit(this.role); 
     }
 
     onEdit() {
