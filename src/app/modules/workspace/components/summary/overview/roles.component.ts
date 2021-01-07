@@ -1,12 +1,12 @@
 import {
     Component,
     OnInit,
-    // Output,
-    // EventEmitter,
+    Output,
+    EventEmitter,
     ChangeDetectorRef,
     ChangeDetectionStrategy
 } from "@angular/core";
-// import { ActivatedRoute, Params, Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 // import { Observable, Subscription, Subject } from "rxjs";
 
@@ -19,7 +19,7 @@ import { Role } from "../../../../../shared/model/role.data";
 // import { UserService } from "../../../../../shared/services/user/user.service";
 import { DataSet } from "../../../../../shared/model/dataset.data";
 import { Team } from "../../../../../shared/model/team.data";
-// import { User } from "../../../../../shared/model/user.data";
+import { User } from "../../../../../shared/model/user.data";
 // import { Permissions } from "../../../../../shared/model/permission.data";
 import { Initiative } from "../../../../../shared/model/initiative.data";
 import { LoaderService } from "../../../../../shared/components/loading/loader.service";
@@ -34,6 +34,7 @@ import { LoaderService } from "../../../../../shared/components/loading/loader.s
 })
 
 export class RolesSummaryComponent implements OnInit {
+    @Output() changeTab: EventEmitter<string> = new EventEmitter<string>();
     // @Output() selectInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
     // @Output() userDataset: EventEmitter<DataSet> = new EventEmitter<DataSet>();
     // @Output() rootInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
@@ -54,18 +55,32 @@ export class RolesSummaryComponent implements OnInit {
     initiativesWithRole: Map<Role, Initiative[]>;
     isDescriptionVisible: Map<Role, boolean>;
 
+    // @Input("helper") helper: Helper;
+    // @Input("team") team: Team;
+    // @Input("summaryUrlRoot") summaryUrlRoot: string;
+    // @Input("isAuthority") isAuthority: boolean;
+    // @Input("isUnauthorized") isUnauthorized: boolean;
+
+    // @Output("remove") remove: EventEmitter<Helper> = new EventEmitter<Helper>();
+    // @Output("save") save: EventEmitter<void> = new EventEmitter<void>();
+
+    // cancelClicked: boolean;
+    // isPickRoleMode = false;
+    // isCreateRoleMode = false;
     isEditRoleMode = false;
+
+    // newRole: Role;
     roleBeingEdited: Role;
 
 
     constructor(
         private roleLibrary: RoleLibraryService,
-        // public route: ActivatedRoute,
+        private router: Router,
+        public route: ActivatedRoute,
         // public userFactory: UserFactory,
         // private userService: UserService,
         private dataService: DataService,
         public loaderService: LoaderService,
-        // private router: Router,
         private cd: ChangeDetectorRef,
         // private analytics: Angulartics2Mixpanel, 
     ) {}
@@ -166,6 +181,15 @@ export class RolesSummaryComponent implements OnInit {
     onDeleteRole(roleToBeDeleted: Role) {
         this.roleLibrary.deleteRoleFromLibrary(roleToBeDeleted);
         this.cd.markForCheck();
+    }
+
+    onSelectMember(user: User) {
+        this.cd.markForCheck();
+        this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { member: user.shortid }
+        });
+        this.changeTab.emit('people');
     }
 
     // ngOnInit(): void {

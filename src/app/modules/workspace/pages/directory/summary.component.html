@@ -5,8 +5,14 @@
         <div class="w-100" role="navigation">
             <ul class="nav nav-tabs my-3" role="tablist">
                 <li class="nav-item mr-1">
-                    <a class="nav-link active d-flex flex-column align-items-center" id="people-tab"
-                        data-toggle="tab" href="#people" role="tab" aria-controls="people"
+                    <a
+                        #peopleTab 
+                        id="people-tab"
+                        class="nav-link active d-flex flex-column align-items-center" 
+                        data-toggle="tab"
+                        href="#people"
+                        role="tab"
+                        aria-controls="people"
                         aria-selected="true">
                         <span>People</span>
                     </a>
@@ -47,7 +53,7 @@
                 role="tabpanel"
                 aria-labelledby="roles-tab"
             >
-                <summary-roles></summary-roles>
+                <summary-roles (changeTab)="onChangeTab($event)"></summary-roles>
             </div>
 
             <div

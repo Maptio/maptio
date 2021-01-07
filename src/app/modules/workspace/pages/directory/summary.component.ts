@@ -1,4 +1,11 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
+import {
+    Component,
+    OnInit,
+    ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ViewChild,
+    ElementRef,
+} from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Observable, Subject } from "rxjs";
 
@@ -26,6 +33,8 @@ import { IDataVisualizer } from "../../components/canvas/mapping.interface";
 })
 
 export class MappingSummaryComponent implements OnInit, IDataVisualizer {
+    @ViewChild('peopleTab') peopleTab: ElementRef;
+
     public datasetId: string;
 
     public width: number;
@@ -73,6 +82,14 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
                 
         this.router.navigateByUrl(`/map/${this.dataset.datasetId}/${this.initiative.getSlug()}/circles`)
             .then(() => {});
+    }
+
+    onChangeTab(tabName: string) {
+        if (tabName === 'people') {
+            this.peopleTab.nativeElement.click();
+        } else {
+            console.error(`Changing to tab ${tabName} is not yet implemented.`);
+        }
     }
 
     init(): void {

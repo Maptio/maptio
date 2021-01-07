@@ -24,7 +24,8 @@
                 [initiative]="initiative"
                 [datasetId]="datasetId"
                 [team]="team"
-                [isWithLeader]="true">
+                [isWithLeader]="true"
+                (selectMember)="onSelectMember($event)">
             </personal-card>
         </div>
     </div>
