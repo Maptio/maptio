@@ -75,7 +75,9 @@ export class RolesSummaryComponent implements OnInit {
 
                 this.getListOfInitiativesForEachRole();
 
-                this.isDescriptionVisible = new Map();
+                if (!this.isDescriptionVisible) {
+                    this.isDescriptionVisible = new Map();
+                }
                 this.roles.forEach((role) => () => {
                     // Make sure previous values are saved even if we change something that will
                     // trigger this code to run
