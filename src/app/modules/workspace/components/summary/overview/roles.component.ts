@@ -108,7 +108,7 @@ export class RolesSummaryComponent implements OnInit {
                         // Make sure previous values are saved even if we change something that will
                         // trigger this code to run
                         const isOpen = this.isDescriptionVisible && this.isDescriptionVisible.has(role)
-                            ? this.isDescriptionVisible.get(role)
+                            ? this.isDescriptionVisible.has(role)
                             : false
                         return [role, isOpen]
                     })
