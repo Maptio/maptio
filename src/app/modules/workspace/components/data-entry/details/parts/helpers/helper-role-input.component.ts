@@ -92,7 +92,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
 
     showTitleFieldError() {
         const isDirtyOrTouched = (this.title.dirty || this.title.touched);
-        return (this.saveAsLibraryRole.value && this.title.invalid && (isDirtyOrTouched || this.isSubmissionAttempted)) ||
+        return ((this.saveAsLibraryRole.value || this.isDirectoryView) && this.title.invalid && (isDirtyOrTouched || this.isSubmissionAttempted)) ||
             this.showNeitherTitleNorDescriptionProvidedError();
     }
 
@@ -101,7 +101,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
     }
 
     setValidatorsDependingOnRoleType(saveAsLibraryRole: boolean) {
-        if (saveAsLibraryRole) {
+        if (saveAsLibraryRole || this.isDirectoryView) {
             // No cross-field validation is necessary for library roles
             this.roleForm.setValidators([]);
 

@@ -9,7 +9,7 @@
       [class.is-invalid]="showTitleFieldError()"
     />
     <small class="invalid-feedback">
-      <ng-container *ngIf="saveAsLibraryRole.value; else titleErrorForCustomRoles">Role titles are required for library roles</ng-container>
+      <ng-container *ngIf="(saveAsLibraryRole.value || isDirectoryView); else titleErrorForCustomRoles">Role titles are required for library roles</ng-container>
       <ng-template #titleErrorForCustomRoles>Please fill out either the title or the description</ng-template>
     </small>
   </div>
