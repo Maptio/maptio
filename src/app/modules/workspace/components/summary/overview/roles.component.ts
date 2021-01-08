@@ -75,16 +75,15 @@ export class RolesSummaryComponent implements OnInit {
 
                 this.getListOfInitiativesForEachRole();
 
-                this.isDescriptionVisible = new Map(
-                    this.roles.map((role) => {
-                        // Make sure previous values are saved even if we change something that will
-                        // trigger this code to run
-                        const isOpen = this.isDescriptionVisible && this.isDescriptionVisible.has(role)
-                            ? this.isDescriptionVisible.has(role)
-                            : false
-                        return [role, isOpen]
-                    })
-                );
+                this.isDescriptionVisible = new Map();
+                this.roles.forEach((role) => () => {
+                    // Make sure previous values are saved even if we change something that will
+                    // trigger this code to run
+                    const isOpen = this.isDescriptionVisible && this.isDescriptionVisible.has(role)
+                        ? this.isDescriptionVisible.get(role)
+                        : false
+                    this.isDescriptionVisible.set(role, isOpen); 
+                });
 
                 this.loaderService.hide();
                 this.cd.markForCheck();
