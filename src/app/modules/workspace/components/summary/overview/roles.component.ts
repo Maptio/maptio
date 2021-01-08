@@ -91,6 +91,7 @@ export class RolesSummaryComponent implements OnInit {
         this.loaderService.show();
 
         this.roles = this.roleLibrary.getRoles();
+        this.roles = this.sortRoles(this.roles);
 
         this.dataSubscription = this.dataService
             .get()
@@ -181,6 +182,7 @@ export class RolesSummaryComponent implements OnInit {
     }
 
     onSaveNewRole() {
+        this.roles = this.sortRoles(this.roles);
         this.isCreateRoleMode = false;
         this.newRole = undefined;
         this.cd.markForCheck();
@@ -205,6 +207,7 @@ export class RolesSummaryComponent implements OnInit {
     }
 
     onChangeRole() {
+        this.roles = this.sortRoles(this.roles);
         this.onCancelEditingRole();
         this.cd.markForCheck();
     }
@@ -231,6 +234,25 @@ export class RolesSummaryComponent implements OnInit {
         return this.permissionsService.canEditLibraryRoles();
     }
 
+    sortRoles(roles: Role[]): Role[] {
+        return roles.sort((a, b) => {
+            // Sort the remaining roles by title
+            if (a.hasTitle() && b.hasTitle()) {
+                const aTitle = a.title.toLowerCase();
+                const bTitle = b.title.toLowerCase();
+
+                if (aTitle > bTitle) {
+                    return 1;
+                }
+
+                if (aTitle < bTitle) {
+                    return -1;
+                }
+            }
+
+            return 0;
+        });
+    }
 
     // ngOnInit(): void {
     //     this.loaderService.show();
