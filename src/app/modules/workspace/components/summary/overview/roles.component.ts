@@ -14,6 +14,7 @@ import { Subscription } from "rxjs";
 
 import { DataService } from "../../../services/data.service";
 import { RoleLibraryService } from "../../../services/role-library.service";
+import { PermissionsService } from "../../../../../shared/services/permissions/permissions.service";
 import { Role } from "../../../../../shared/model/role.data";
 // import { UserFactory } from "../../../../../core/http/user/user.factory";
 // import { UserService } from "../../../../../shared/services/user/user.service";
@@ -66,10 +67,10 @@ export class RolesSummaryComponent implements OnInit {
 
     // cancelClicked: boolean;
     // isPickRoleMode = false;
-    // isCreateRoleMode = false;
+    isCreateRoleMode = false;
     isEditRoleMode = false;
 
-    // newRole: Role;
+    newRole: Role;
     roleBeingEdited: Role;
 
 
@@ -81,6 +82,7 @@ export class RolesSummaryComponent implements OnInit {
         // private userService: UserService,
         private dataService: DataService,
         public loaderService: LoaderService,
+        private permissionsService: PermissionsService,
         private cd: ChangeDetectorRef,
         // private analytics: Angulartics2Mixpanel, 
     ) {}
@@ -101,7 +103,14 @@ export class RolesSummaryComponent implements OnInit {
                 this.getListOfInitiativesForEachRole();
 
                 this.isDescriptionVisible = new Map(
-                    this.roles.map((role) => [role, false])
+                    this.roles.map((role) => {
+                        // Make sure previous values are saved even if we change something that will
+                        // trigger this code to run
+                        const isOpen = this.isDescriptionVisible && this.isDescriptionVisible.has(role)
+                            ? this.isDescriptionVisible.get(role)
+                            : false
+                        return [role, isOpen]
+                    })
                 );
 
                 this.loaderService.hide();
@@ -158,7 +167,25 @@ export class RolesSummaryComponent implements OnInit {
             ? this.isDescriptionVisible.get(role)
             : false;
     }
-    
+
+    onCreateRole() {
+        this.newRole = new Role();
+        this.isCreateRoleMode = true;
+        this.cd.markForCheck();
+    }
+
+    onCancelCreatingNewRole() {
+        this.isCreateRoleMode = false;
+        this.newRole = undefined;
+        this.cd.markForCheck();
+    }
+
+    onSaveNewRole() {
+        this.isCreateRoleMode = false;
+        this.newRole = undefined;
+        this.cd.markForCheck();
+    }
+
     onEditRole(role: Role) {
         if (this.isDescriptionVisible.get(role)) {
             this.onToggleDetails(role);
@@ -199,6 +226,11 @@ export class RolesSummaryComponent implements OnInit {
     onSelectInitiative(initiative: Initiative){
         this.selectInitiative.emit(initiative);
     }
+
+    canEditLibraryRoles() {
+        return this.permissionsService.canEditLibraryRoles();
+    }
+
 
     // ngOnInit(): void {
     //     this.loaderService.show();

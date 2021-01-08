@@ -131,7 +131,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
         this.role.title = this.title.value;
         this.role.description = this.description.value;
 
-        if (this.saveAsLibraryRole.value && this.role.isCustomRole()) {
+        if ((this.saveAsLibraryRole.value || this.isDirectoryView) && this.role.isCustomRole()) {
             this.role.convertToLibraryRole();
             this.roleLibrary.addRoleToLibrary(this.role);
         }
@@ -140,7 +140,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
             this.roleLibrary.editRole(this.role);
         }
 
-        if (!this.saveAsLibraryRole.value && this.role.isLibraryRole()) {
+        if (!(this.saveAsLibraryRole.value || this.isDirectoryView) && this.role.isLibraryRole()) {
             this.role.convertToCustomRole();
         }
 

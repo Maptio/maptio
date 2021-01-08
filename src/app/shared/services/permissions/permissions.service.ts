@@ -100,6 +100,10 @@ export class PermissionsService {
             // (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
     }
 
+    public canEditLibraryRoles(): boolean {
+        return this.userPermissions.includes(Permissions.canEditLibraryRoles);
+    }
+
     public canGiveHelperPrivilege( initiative:Initiative): boolean {
         return this.userPermissions.includes(Permissions.canEditHelper)
             // ||

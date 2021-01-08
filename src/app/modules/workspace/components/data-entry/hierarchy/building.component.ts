@@ -118,6 +118,7 @@ export class BuildingComponent implements OnDestroy {
     @Output("save") save: EventEmitter<{ initiative: Initiative, tags: Tag[] }> = new EventEmitter<{ initiative: Initiative, tags: Tag[] }>();
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
 
+    private roleAddedSubscription: Subscription;
     private roleEditedSubscription: Subscription;
     private roleDeletedSubscription: Subscription;
 
@@ -126,6 +127,10 @@ export class BuildingComponent implements OnDestroy {
         private userFactory: UserFactory, private userService: UserService, private roleLibrary: RoleLibraryService,
         private cd: ChangeDetectorRef, private loaderService: LoaderService) {
         // this.nodes = [];
+
+        this.roleAddedSubscription = this.roleLibrary.roleAdded.subscribe((addedRole) => {
+            this.onLibraryRoleAdd(addedRole);
+        });
 
         this.roleEditedSubscription = this.roleLibrary.roleEdited.subscribe((editedRole) => {
             this.onLibraryRoleEdit(editedRole);
@@ -137,6 +142,7 @@ export class BuildingComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
+        if (this.roleAddedSubscription) this.roleAddedSubscription.unsubscribe();
         if (this.roleEditedSubscription) this.roleEditedSubscription.unsubscribe();
         if (this.roleDeletedSubscription) this.roleDeletedSubscription.unsubscribe();
     }
@@ -186,6 +192,10 @@ export class BuildingComponent implements OnDestroy {
         this.nodes[0].traverse((node: Initiative) => {
             node.tags = intersectionBy(tags, node.tags, (t: Tag) => t.shortid);
         })
+        this.saveChanges();
+    }
+
+    onLibraryRoleAdd(libraryRole: Role) {
         this.saveChanges();
     }
 
