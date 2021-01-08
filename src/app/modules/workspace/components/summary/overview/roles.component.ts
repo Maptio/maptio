@@ -95,9 +95,10 @@ export class RolesSummaryComponent implements OnInit {
     }
 
     getListOfInitiativesForEachRole() {
-        this.initiativesWithRole = new Map(
-            this.roles.map((role) => [role, []])
-        );
+        this.initiativesWithRole = new Map();
+        this.roles.forEach((role) => {
+            this.initiativesWithRole.set(role, []);
+        });
 
         this.initiative.traverse(function (initiative: Initiative) {
             const people = initiative.accountable
