@@ -11,7 +11,7 @@
 
         <div class="card-text">
             <div
-                *ngIf="(initiative.helpers?.length !== 0)"
+                *ngIf="(roleHolders?.length !== 0)"
                 class="row"
                 [class.bg-light]="isShowRoles"
             >
@@ -38,7 +38,7 @@
                         class="collapse {{getMultipleCollapseClass()}} w-100"
                         id="{{getWithDescriptionId()}}"
                     >
-                        <div *ngFor="let h of initiative.helpers">
+                        <div *ngFor="let h of roleHolders">
                             <div class="d-flex my-1 align-items-baseline my-2">
                                 <button
                                     (click)="onSelectMember(h)"
@@ -46,24 +46,28 @@
                                 >
                                     <img
                                         class="rounded-circle participant-picture"
-                                        src="{{h.picture}}"
-                                        alt="{{h.name}}"
-                                        title="{{h.name}}"
+                                        src="{{ h.picture }}"
+                                        alt="{{ h.name }}"
+                                        title="{{ h.name }}"
                                         placement="top"
                                         container="body"
-                                        ngbTooltip="{{h.name}}"
                                     >
                                 </button>
 
-                                <div class="mb-2 ml-2">
-                                    <initiative-helper-role
-                                        *ngFor="let role of h.roles"
-                                        [role]="role"
-                                        [closed]="true"
-                                        [showControls]="false"
-                                        class="d-block mb-1">
-                                    </initiative-helper-role>
-                                </div>
+                                <a
+                                    (click)="onSelectMember(h)"
+                                    class="mb-2 ml-2"
+                                    style="cursor: pointer"
+                                >
+                                    {{ h.name }}
+                                </a>
+
+                                <span
+                                    class="text-muted mx-1"
+                                    *ngIf="h === initiative.accountable"
+                                >
+                                    ({{team?.settings.authority | titlecase }})
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -77,7 +81,7 @@
                             <ul class="list-inline d-flex flex-row-reverse picture-list my-1 flex-wrap">
                                 <li
                                     class="list-inline-item rounded-circle border-thick border-white"
-                                    *ngFor="let h of sortHelpers()"
+                                    *ngFor="let h of roleHolders"
                                 >
                                     <button
                                         (click)="onSelectMember(h)"

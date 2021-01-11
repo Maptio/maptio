@@ -43,6 +43,7 @@
         <div *ngFor="let initiative of getInitiativesFor(role); let index=index" class="">
             <role-holders-in-initiative
                 [initiative]="initiative"
+                [role]="role"
                 [datasetId]="datasetId"
                 [team]="team"
                 (selectMember)="onSelectMember($event)"
