@@ -41,14 +41,14 @@
 
     <div *ngIf="areDetailsVisible(role)">
         <div *ngFor="let initiative of getInitiativesFor(role); let index=index" class="">
-            <personal-card
+            <role-holders-in-initiative
                 [initiative]="initiative"
                 [datasetId]="datasetId"
                 [team]="team"
                 [isWithLeader]="true"
                 (selectMember)="onSelectMember($event)"
                 (selectInitiative)="onSelectInitiative($event)">
-            </personal-card>
+            </role-holders-in-initiative>
         </div>
     </div>
 
