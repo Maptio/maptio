@@ -8,20 +8,19 @@ import { sortBy } from 'lodash';
 
 @Component({
     selector: 'role-holders-in-initiative',
-    templateUrl: 'role-holders-in-initiative.component.html',
+    templateUrl: './role-holders-in-initiative.component.html',
     styleUrls: ['./role-holders-in-initiative.component.css']
 })
 export class RoleHoldersInInitiativeComponent implements OnInit {
-
     @Input("initiative") initiative: Initiative;
     @Input("team") team: Team;
     @Input("datasetId") public datasetId: string;
-    @Input("isWithLeader") isWithLeader: boolean;
-    @Input("selectedMemberId") selectedMemberId: string;
+    // @Input("selectedRoleId") selectedRoleId: string;
     @Output("selectMember") selectMember: EventEmitter<User> = new EventEmitter<User>();
     @Output("selectInitiative") selectInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
 
     isShowRoles: boolean;
+
     constructor(private router: Router) { }
 
     ngOnInit(): void { }
@@ -45,19 +44,6 @@ export class RoleHoldersInInitiativeComponent implements OnInit {
     }
     getMultipleCollapseClass() {
         return `multi-collapse-${this.initiative.id}`
-    }
-
-    getRoles() {
-        let userId;
-        if (this.isWithLeader) {
-            userId = this.selectedMemberId;
-        } else if (this.initiative.accountable) {
-            userId = this.initiative.accountable.user_id;
-        } else {
-            return;
-        }
-
-        return this.initiative.getRoles(userId);
     }
 
     sortHelpers() {
