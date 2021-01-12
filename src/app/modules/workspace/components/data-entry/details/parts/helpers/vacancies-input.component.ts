@@ -12,7 +12,6 @@ export class InitiativeVacanciesInputComponent implements OnInit {
     @Input("summaryUrlRoot") summaryUrlRoot: string;
     @Input("isUnauthorized") isUnauthorized: boolean;
 
-    // @Output("remove") remove: EventEmitter<Helper> = new EventEmitter<Helper>();
     @Output("save") save: EventEmitter<void> = new EventEmitter<void>();
 
     cancelClicked: boolean;
@@ -39,9 +38,17 @@ export class InitiativeVacanciesInputComponent implements OnInit {
         }
     }
 
-    // onRemove() {
-    //     this.remove.emit(this.helper);
-    // }
+    onRemove() {
+        this.initiative.vacancies = [];
+
+        this.isPickRoleMode = false;
+        this.isCreateRoleMode = false;
+        this.newRole = undefined;
+        this.isEditRoleMode = false;
+
+        this.save.emit();
+        this.cd.markForCheck();
+    }
 
     onPickRole(roles: Role[]) {
         this.isPickRoleMode = false;
