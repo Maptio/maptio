@@ -1,20 +1,18 @@
-vacancies-input component works... if empty
-
-<!-- <ng-template #editTipContent>
+<ng-template #editTipContent>
   <ng-content></ng-content>
 </ng-template>
 
 <div class="d-flex align-items-center w-100">
   <div class="d-flex align-items-center w-100">
-      <img src="{{helper.picture}}" class="participant-picture rounded-circle mr-1"> -->
+      <!-- TODO: This should show a nice icon instead -->
+      <!-- <img src="" class="participant-picture rounded-circle mr-1"> -->
       <!-- TODO: This should open up the vacancies tab in the directory -->
-      <!-- <a [routerLink]="summaryUrlRoot">{{helper.name}}</a> -->
-      <!-- Vacancy
+      <a [routerLink]="summaryUrlRoot">Vacancy</a>
   </div>
 
-  <button *ngIf="!isUnauthorized" class="btn btn-outline-secondary remove" mwlConfirmationPopover
+  <!-- <button *ngIf="!isUnauthorized" class="btn btn-outline-secondary remove" mwlConfirmationPopover
       [popoverMessage]="'Remove this helper and associated roles?'" placement="top" container="body"
-      focusbutton="cancel" appendToBody="false" (confirm)="onRemove()" (cancel)="cancelClicked=true"></button>
+      focusbutton="cancel" appendToBody="false" (confirm)="onRemove()" (cancel)="cancelClicked=true"></button> -->
 </div>
 
 <div class="d-flex flex-column mt-2">
@@ -24,7 +22,7 @@ vacancies-input component works... if empty
           <span class="text-uppercase text-bold small">Role</span>
       </span>
 
-      <span *ngIf=" isUnauthorized" class="text-gray-light small" [stickyPopover]="editTipContent" placement='right'>
+       <span *ngIf="isUnauthorized" class="text-gray-light small" [stickyPopover]="editTipContent" placement='right'>
           <i class="fas fa-lock"></i>
       </span>
 
@@ -37,15 +35,15 @@ vacancies-input component works... if empty
       (create)="onCreateRole($event)">
   </initiative-helper-role-select>
 
-  <ng-container *ngIf="isCreateRoleMode"> -->
-      <!-- <initiative-helper-role-input [role]="newRole" [helper]="helper" (cancel)="onCancelCreatingNewRole()"
+  <ng-container *ngIf="isCreateRoleMode">
+      <initiative-helper-role-input [role]="newRole" [isVacancy]="true" (cancel)="onCancelCreatingNewRole()"
           (save)="onSaveNewRole()">
-      </initiative-helper-role-input> -->
-<!-- 
+      </initiative-helper-role-input>
+
       <hr class="role-divider my-1">
   </ng-container>
 
-  <ng-container *ngFor="let role of vacancies; let roleIndex = index; let last = last">
+<!--   <ng-container *ngFor="let role of vacancies; let roleIndex = index; let last = last">
       <initiative-helper-role-input *ngIf="isEditRoleMode && role === roleBeingEdited" [role]="role" [helper]="helper"
           (cancel)="onCancelEditingRole()" (save)="onChangeRole()">
       </initiative-helper-role-input>
@@ -56,5 +54,5 @@ vacancies-input component works... if empty
       </initiative-helper-role>
 
       <hr *ngIf="!last && vacancies[roleIndex +1]" class="role-divider my-1">
-  </ng-container>
-</div> -->
+  </ng-container> -->
+</div>

@@ -72,12 +72,13 @@
 			class="my-2 bg-light p-2 rounded"
 		>
 			<initiative-vacancies-input
+				[vacancies]="node?.vacancies"
+				[isUnauthorized]="!canEditVacancies()"
+				[summaryUrlRoot]="getSummaryUrlRoot()"
 			>
 				<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
 			</initiative-vacancies-input>
 			<!-- <initiative-vacancies-input
-				[vacancies]="node?.vacancies"
-				[summaryUrlRoot]="getSummaryUrlRoot()"
 				(remove)="removeHelper($event)"
 				(save)="saveHelpers()"
 			>
