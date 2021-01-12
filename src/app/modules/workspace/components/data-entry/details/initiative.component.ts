@@ -212,6 +212,10 @@ export class InitiativeComponent implements OnChanges {
         this.onBlur();
     }
 
+    saveVacancies() {
+        this.onBlur();
+    }
+
 
     getSummaryUrlRoot() {
         return `/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}/directory`

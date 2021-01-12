@@ -50,7 +50,11 @@
 
       <label class="custom-control-label" [for]="getCustomRoleInputId()">
         <ng-container *ngIf="isAlreadySavedInLibrary; else radioCustomRoleChoiceTextForCustomRoles">Convert to custom role</ng-container>
-        <ng-template #radioCustomRoleChoiceTextForCustomRoles>Custom role for this person</ng-template>
+        <ng-template #radioCustomRoleChoiceTextForCustomRoles>
+          Custom role for this
+          <ng-container *ngIf="!isVacancy; else vacancy">person</ng-container>
+        </ng-template>
+        <ng-template #vacancy>vacancy</ng-template>
       </label>
     </div>
 

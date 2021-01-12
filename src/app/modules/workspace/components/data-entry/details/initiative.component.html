@@ -75,6 +75,7 @@
 				[vacancies]="node?.vacancies"
 				[isUnauthorized]="!canEditVacancies()"
 				[summaryUrlRoot]="getSummaryUrlRoot()"
+				(save)="saveVacancies()"
 			>
 				<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
 			</initiative-vacancies-input>
