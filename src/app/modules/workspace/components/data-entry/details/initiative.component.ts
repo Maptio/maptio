@@ -141,6 +141,10 @@ export class InitiativeComponent implements OnChanges {
         return this.permissionsService.canGiveHelperPrivilege(this.node);
     }
 
+    canEditVacancies() {
+        return this.permissionsService.canEditVacancies();
+    }
+
     saveName(newName: string) {
         this.node.name = newName;
         this.analytics.eventTrack("Initiative", { action: "change name", team: this.teamName, teamId: this.teamId });
@@ -242,7 +246,3 @@ export class InitiativeComponent implements OnChanges {
     }
 
 }
-
-
-
-

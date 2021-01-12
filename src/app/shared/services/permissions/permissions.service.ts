@@ -100,6 +100,10 @@ export class PermissionsService {
             // (initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
     }
 
+    public canEditVacancies(): boolean {
+        return this.userPermissions.includes(Permissions.canEditVacancies)
+    }
+
     public canEditLibraryRoles(): boolean {
         return this.userPermissions.includes(Permissions.canEditLibraryRoles);
     }
