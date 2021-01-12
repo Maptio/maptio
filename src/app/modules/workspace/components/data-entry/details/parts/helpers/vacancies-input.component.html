@@ -31,7 +31,7 @@
           (click)="!isUnauthorized && isPickRoleMode=true">Add role</button>
   </div>
 
-  <initiative-helper-role-select *ngIf="isPickRoleMode" [roles]="vacancies" (pick)="onPickRole($event)"
+  <initiative-helper-role-select *ngIf="isPickRoleMode" [roles]="initiative?.vacancies" (pick)="onPickRole($event)"
       (create)="onCreateRole($event)">
   </initiative-helper-role-select>
 
@@ -43,7 +43,7 @@
       <hr class="role-divider my-1">
   </ng-container>
 
-  <ng-container *ngFor="let role of vacancies; let roleIndex = index; let last = last">
+  <ng-container *ngFor="let role of initiative?.vacancies; let roleIndex = index; let last = last">
       <initiative-helper-role-input *ngIf="isEditRoleMode && role === roleBeingEdited" [role]="role" [isVacancy]="true"
           (cancel)="onCancelEditingRole()" (save)="onChangeRole()">
       </initiative-helper-role-input>
@@ -53,6 +53,6 @@
           (edit)="onEditRole($event)" (remove)="onRemoveRole($event)">
       </initiative-helper-role>
 
-      <hr *ngIf="!last && vacancies[roleIndex +1]" class="role-divider my-1">
+      <hr *ngIf="!last && initiative?.vacancies[roleIndex +1]" class="role-divider my-1">
   </ng-container>
 </div>

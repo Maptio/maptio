@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, SimpleChanges } from "@angular/core";
+import { Initiative } from "../../../../../../../shared/model/initiative.data";
 import { Role } from "../../../../../../../shared/model/role.data";
 
 @Component({
@@ -7,7 +8,7 @@ import { Role } from "../../../../../../../shared/model/role.data";
     styleUrls: ["./vacancies-input.component.css"],
 })
 export class InitiativeVacanciesInputComponent implements OnInit {
-    @Input("vacancies") vacancies: Role[];
+    @Input("initiative") initiative: Initiative;
     @Input("summaryUrlRoot") summaryUrlRoot: string;
     @Input("isUnauthorized") isUnauthorized: boolean;
 
@@ -27,7 +28,7 @@ export class InitiativeVacanciesInputComponent implements OnInit {
     ngOnInit(): void { }
 
     ngOnChanges(changes: SimpleChanges){
-        if (changes.vacancies && changes.vacancies.currentValue) {
+        if (changes.initiative && changes.initiative.currentValue) {
             this.isPickRoleMode = false;
 
             this.isCreateRoleMode = false;
@@ -44,7 +45,7 @@ export class InitiativeVacanciesInputComponent implements OnInit {
 
     onPickRole(roles: Role[]) {
         this.isPickRoleMode = false;
-        this.vacancies = this.sortRoles(roles);
+        this.initiative.vacancies = this.sortRoles(roles);
         this.save.emit();
         this.cd.markForCheck();
     }
@@ -63,8 +64,8 @@ export class InitiativeVacanciesInputComponent implements OnInit {
     }
 
     onSaveNewRole() {
-        this.vacancies.unshift(this.newRole);
-        this.vacancies = this.sortRoles(this.vacancies);
+        this.initiative.vacancies.unshift(this.newRole);
+        this.initiative.vacancies = this.sortRoles(this.initiative.vacancies);
         this.isCreateRoleMode = false;
         this.newRole = undefined;
         this.save.emit();
@@ -83,13 +84,13 @@ export class InitiativeVacanciesInputComponent implements OnInit {
 
     onChangeRole() {
         this.onCancelEditingRole();
-        this.vacancies = this.sortRoles(this.vacancies);
+        this.initiative.vacancies = this.sortRoles(this.initiative.vacancies);
         this.save.emit();
         this.cd.markForCheck();
     }
 
     onRemoveRole(roleToBeRemoved: Role) {
-        this.vacancies = this.vacancies.filter(role => role !== roleToBeRemoved)
+        this.initiative.vacancies = this.initiative.vacancies.filter(role => role !== roleToBeRemoved)
         this.save.emit();
         this.cd.markForCheck();
     }

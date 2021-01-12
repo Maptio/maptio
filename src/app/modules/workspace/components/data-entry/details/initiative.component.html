@@ -72,7 +72,7 @@
 			class="my-2 bg-light p-2 rounded"
 		>
 			<initiative-vacancies-input
-				[vacancies]="node?.vacancies"
+				[initiative]="node"
 				[isUnauthorized]="!canEditVacancies()"
 				[summaryUrlRoot]="getSummaryUrlRoot()"
 				(save)="saveVacancies()"
