@@ -43,8 +43,8 @@
       <hr class="role-divider my-1">
   </ng-container>
 
-<!--   <ng-container *ngFor="let role of vacancies; let roleIndex = index; let last = last">
-      <initiative-helper-role-input *ngIf="isEditRoleMode && role === roleBeingEdited" [role]="role" [helper]="helper"
+  <ng-container *ngFor="let role of vacancies; let roleIndex = index; let last = last">
+      <initiative-helper-role-input *ngIf="isEditRoleMode && role === roleBeingEdited" [role]="role" [isVacancy]="true"
           (cancel)="onCancelEditingRole()" (save)="onChangeRole()">
       </initiative-helper-role-input>
 
@@ -54,5 +54,5 @@
       </initiative-helper-role>
 
       <hr *ngIf="!last && vacancies[roleIndex +1]" class="role-divider my-1">
-  </ng-container> -->
+  </ng-container>
 </div>

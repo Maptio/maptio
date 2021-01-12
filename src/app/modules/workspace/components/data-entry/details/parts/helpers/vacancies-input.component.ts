@@ -45,12 +45,6 @@ export class InitiativeVacanciesInputComponent implements OnInit {
     //     this.remove.emit(this.helper);
     // }
 
-    // onChangePrivilege(helper: Helper, hasAuthorityPrivileges: boolean) {
-    //     this.helper.hasAuthorityPrivileges = hasAuthorityPrivileges;
-    //     this.save.emit();
-    //     this.cd.markForCheck();
-    // }
-
     onPickRole(roles: Role[]) {
         this.isPickRoleMode = false;
     //     this.vacancies = this.sortRoles(roles);
@@ -80,28 +74,28 @@ export class InitiativeVacanciesInputComponent implements OnInit {
         this.cd.markForCheck();
     }
 
-    // onEditRole(role: Role) {
-    //     this.roleBeingEdited = role;
-    //     this.isEditRoleMode = true;
-    // }
+    onEditRole(role: Role) {
+        this.roleBeingEdited = role;
+        this.isEditRoleMode = true;
+    }
 
-    // onCancelEditingRole() {
-    //     this.roleBeingEdited = undefined;
-    //     this.isEditRoleMode = false;
-    // }
+    onCancelEditingRole() {
+        this.roleBeingEdited = undefined;
+        this.isEditRoleMode = false;
+    }
 
-    // onChangeRole() {
-    //     this.onCancelEditingRole();
-    //     this.vacancies = this.sortRoles(this.vacancies);
+    onChangeRole() {
+        this.onCancelEditingRole();
+        this.vacancies = this.sortRoles(this.vacancies);
+        // this.save.emit();
+        this.cd.markForCheck();
+    }
+
+    onRemoveRole(roleToBeRemoved: Role) {
+        this.vacancies = this.vacancies.filter(role => role !== roleToBeRemoved)
     //     this.save.emit();
-    //     this.cd.markForCheck();
-    // }
-
-    // onRemoveRole(roleToBeRemoved: Role) {
-    //     this.vacancies = this.vacancies.filter(role => role !== roleToBeRemoved)
-    //     this.save.emit();
-    //     this.cd.markForCheck();
-    // }
+        this.cd.markForCheck();
+    }
 
     sortRoles(roles: Role[]): Role[] {
         return roles.sort((a, b) => {
