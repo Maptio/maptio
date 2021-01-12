@@ -23,12 +23,15 @@ import { BillingGuard } from "../../core/guards/billing.guard";
 import { TooltipComponent } from "./components/tooltip/tooltip.component";
 import { ContextMenuComponent } from "./components/context-menu/context-menu.component";
 import { MappingSummaryComponent } from "./pages/directory/summary.component";
+import { PeopleSummaryComponent } from "./components/summary/overview/people.component";
 import { PersonalSummaryComponent } from "./components/summary/overview/personal.component";
+import { RolesSummaryComponent } from "./components/summary/overview/roles.component";
 import { OnboardingComponent } from "../../shared/components/onboarding/onboarding.component";
 import { InstructionsComponent } from "../../shared/components/instructions/instructions.component";
 import { StripMarkdownPipe } from "../../shared/pipes/strip-markdown.pipe";
 import { EllipsisPipe } from "../../shared/pipes/ellipsis.pipe";
 import { PersonalCardComponent } from "./components/summary/tab/card.component";
+import { RoleHoldersInInitiativeComponent } from "./components/summary/tab/role-holders-in-initiative.component";
 import { SlackService } from "./components/sharing/slack.service";
 import { NgbTooltipModule, NgbTypeaheadModule, NgbPopoverModule, NgbTabsetModule } from "@ng-bootstrap/ng-bootstrap";
 import { ColorPickerComponent } from "../../shared/components/color-picker/color-picker.component";
@@ -91,7 +94,12 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
         InitiativeHelperRoleInputComponent,
         InitiativeHelperPrivilegeComponent,
         MappingComponent, MappingZoomableComponent, MappingTreeComponent, MappingNetworkComponent,
-        MappingSummaryComponent, PersonalSummaryComponent, PersonalCardComponent,
+        MappingSummaryComponent,
+        PeopleSummaryComponent,
+        PersonalSummaryComponent,
+        PersonalCardComponent,
+        RolesSummaryComponent,
+        RoleHoldersInInitiativeComponent,
 
         SearchComponent, FilterTagsComponent, ShareSlackComponent,
         TooltipComponent, ContextMenuComponent,

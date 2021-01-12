@@ -32,6 +32,7 @@ const noWhitespaceValidator: ValidatorFn = (control: FormControl): ValidationErr
 export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
     @Input("role") role: Role;
     @Input("helper") helper: Helper;
+    @Input("isDirectoryView") isDirectoryView: boolean = false;
 
     @Output("cancel") cancel = new EventEmitter<void>();
     @Output("save") save = new EventEmitter<void>();
@@ -91,7 +92,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
 
     showTitleFieldError() {
         const isDirtyOrTouched = (this.title.dirty || this.title.touched);
-        return (this.saveAsLibraryRole.value && this.title.invalid && (isDirtyOrTouched || this.isSubmissionAttempted)) ||
+        return ((this.saveAsLibraryRole.value || this.isDirectoryView) && this.title.invalid && (isDirtyOrTouched || this.isSubmissionAttempted)) ||
             this.showNeitherTitleNorDescriptionProvidedError();
     }
 
@@ -100,7 +101,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
     }
 
     setValidatorsDependingOnRoleType(saveAsLibraryRole: boolean) {
-        if (saveAsLibraryRole) {
+        if (saveAsLibraryRole || this.isDirectoryView) {
             // No cross-field validation is necessary for library roles
             this.roleForm.setValidators([]);
 
@@ -130,7 +131,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
         this.role.title = this.title.value;
         this.role.description = this.description.value;
 
-        if (this.saveAsLibraryRole.value && this.role.isCustomRole()) {
+        if ((this.saveAsLibraryRole.value || this.isDirectoryView) && this.role.isCustomRole()) {
             this.role.convertToLibraryRole();
             this.roleLibrary.addRoleToLibrary(this.role);
         }
@@ -139,7 +140,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
             this.roleLibrary.editRole(this.role);
         }
 
-        if (!this.saveAsLibraryRole.value && this.role.isLibraryRole()) {
+        if (!(this.saveAsLibraryRole.value || this.isDirectoryView) && this.role.isLibraryRole()) {
             this.role.convertToCustomRole();
         }
 

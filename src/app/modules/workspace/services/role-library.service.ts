@@ -7,6 +7,7 @@ import { Initiative } from "../../../shared/model/initiative.data";
 export class RoleLibraryService {
     private roles: Role[] = [];
 
+    roleAdded = new Subject<Role>();
     roleEdited = new Subject<Role>();
     roleDeleted = new Subject<Role>();
 
@@ -23,8 +24,14 @@ export class RoleLibraryService {
         return this.roles;
     }
 
-    private findRoleInList(role: Role, roleList: Role[]): Role {
-        return roleList.find((roleFromList) => roleFromList.shortid === role.shortid);
+    findRoleInList(role: Role, roleList: Role[]): Role {
+        return roleList.find((roleFromList) => {
+            if (roleFromList && roleFromList.shortid && role && role.shortid) {
+                return roleFromList.shortid === role.shortid
+            } else {
+                return false;
+            }
+        });
     }
 
     /**
@@ -53,6 +60,8 @@ export class RoleLibraryService {
         }
 
         this.roles.push(role)
+
+        this.roleAdded.next(role);
     }
 
     editRole(role: Role): void {

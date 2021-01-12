@@ -13,9 +13,9 @@
     </div>
 
     <button
-      *ngIf="role.description"
+      *ngIf="alwaysShowDetailsToggle || role.description"
       class="btn bg-transparent py-0 border-0"
-      (click)="isDescriptionVisible = !isDescriptionVisible"
+      (click)="onToggleDetails()"
     >
       <i
         [class.fa-caret-right]="!isDescriptionVisible"
@@ -38,7 +38,7 @@
         placement="top"
         container="body"
         mwlConfirmationPopover
-        [popoverMessage]="'Remove role? (This does not affect other holders of this role)'"
+        [popoverMessage]="getRemoveWarning()"
         (confirm)="onRemove()"
         (cancel)="cancelClicked = true"
         focusbutton="cancel"

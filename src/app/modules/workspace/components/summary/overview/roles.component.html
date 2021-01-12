@@ -1,0 +1,56 @@
+<div *ngIf="canEditLibraryRoles()">
+    <button
+        *ngIf="!isCreateRoleMode"
+        class="btn btn-link btn-sm align-self-start pl-0"
+        (click)="onCreateRole()"
+    >
+        Add new role
+    </button>
+
+    <ng-container *ngIf="isCreateRoleMode">
+        <initiative-helper-role-input
+            [role]="newRole"
+            [isDirectoryView]="true"
+            (cancel)="onCancelCreatingNewRole()"
+            (save)="onSaveNewRole()"
+        ></initiative-helper-role-input>
+
+        <hr class="role-divider my-1">
+    </ng-container>
+</div>
+
+<ng-container *ngFor="let role of roles; let roleIndex = index; let last = last">
+    <initiative-helper-role
+        *ngIf="role !== roleBeingEdited"
+        [role]="role"
+        [showControls]="canEditLibraryRoles()"
+        [alwaysShowDetailsToggle]="hasInitiatives(role)"
+        [isDirectoryView]="true"
+        (edit)="onEditRole($event)"
+        (remove)="onDeleteRole($event)"
+        (toggleDetails)="onToggleDetails($event)"
+    ></initiative-helper-role>
+
+    <initiative-helper-role-input
+        *ngIf="isEditRoleMode && role === roleBeingEdited"
+        [role]="role"
+        [isDirectoryView]="true"
+        (cancel)="onCancelEditingRole()"
+        (save)="onChangeRole()"
+    ></initiative-helper-role-input>
+
+    <div *ngIf="areDetailsVisible(role)">
+        <div *ngFor="let initiative of getInitiativesFor(role); let index=index" class="">
+            <role-holders-in-initiative
+                [initiative]="initiative"
+                [role]="role"
+                [datasetId]="datasetId"
+                [team]="team"
+                (selectMember)="onSelectMember($event)"
+                (selectInitiative)="onSelectInitiative($event)">
+            </role-holders-in-initiative>
+        </div>
+    </div>
+
+    <hr *ngIf="!last && roles[roleIndex +1]" class="role-divider my-1">
+</ng-container>
