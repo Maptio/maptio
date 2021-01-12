@@ -54,6 +54,7 @@ import { InitiativeHelperInputComponent } from "./components/data-entry/details/
 import { InitiativeHelperRoleSelectComponent } from "./components/data-entry/details/parts/helpers/helper-role-select.component";
 import { InitiativeHelperRoleComponent } from "./components/data-entry/details/parts/helpers/helper-role.component";
 import { InitiativeHelperRoleInputComponent } from './components/data-entry/details/parts/helpers/helper-role-input.component';
+import { InitiativeVacanciesInputComponent } from './components/data-entry/details/parts/helpers/vacancies-input.component';
 import { CommonTextareaComponent } from '../../shared/components/textarea/textarea.component';
 import { InitiativeHelperPrivilegeComponent } from './components/data-entry/details/parts/helpers/helper-toggle-privilege.component';
 
@@ -92,6 +93,7 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
         InitiativeHelperRoleSelectComponent,
         InitiativeHelperRoleComponent,
         InitiativeHelperRoleInputComponent,
+        InitiativeVacanciesInputComponent,
         InitiativeHelperPrivilegeComponent,
         MappingComponent, MappingZoomableComponent, MappingTreeComponent, MappingNetworkComponent,
         MappingSummaryComponent,

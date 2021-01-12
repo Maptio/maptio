@@ -43,6 +43,12 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     helpers: Array<Helper> = [];
 
     /**
+     * List of helpers
+     * REFACTOR : this should be a Set<Helper>
+     */
+    vacancies: Array<Role> = [];
+
+    /**
      * List of tags
      */
     tags: Array<Tag> = [];
@@ -122,6 +128,16 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
             helpers = []
         }
 
+        let vacancies = new Array<Role>();
+        if (input.vacancies) {
+            input.vacancies.forEach(function (inputRole: any) {
+                vacancies.push(new Role().deserialize(inputRole));
+            });
+        }
+        else {
+            vacancies = [];
+        }
+
         let tags = new Array<Tag>();
         if (input.tags && input.tags instanceof Array) {
             input.tags.forEach(function (inputTag: any) {
@@ -134,6 +150,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
 
         this.children = children;
         this.helpers = helpers;
+        this.vacancies = vacancies;
         this.tags = tags;
         return this;
     }
