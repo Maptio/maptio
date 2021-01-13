@@ -9,9 +9,20 @@
       <a [routerLink]="summaryUrlRoot">Vacancy</a>
   </div>
 
-  <button *ngIf="!isUnauthorized" class="btn btn-outline-secondary remove" mwlConfirmationPopover
-      [popoverMessage]="'Delete all vacancies from this circle?'" placement="top" container="body"
-      focusbutton="cancel" appendToBody="false" (confirm)="onRemove()" (cancel)="cancelClicked=true"></button>
+  <button
+    *ngIf="showRemoveButton()"
+    class="btn btn-outline-secondary remove"
+
+    mwlConfirmationPopover
+    [popoverMessage]="'Delete all vacancies from this circle?'"
+    placement="top"
+    container="body"
+    focusbutton="cancel"
+    appendToBody="false"
+    
+    (confirm)="onRemove()"
+    (cancel)="cancelClicked=true"
+  ></button>
 </div>
 
 <div class="d-flex flex-column mt-2">

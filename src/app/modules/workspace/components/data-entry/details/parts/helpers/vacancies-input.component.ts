@@ -38,6 +38,13 @@ export class InitiativeVacanciesInputComponent implements OnInit {
         }
     }
 
+    showRemoveButton() {
+        return !this.isUnauthorized &&
+            this.initiative &&
+            Array.isArray(this.initiative.vacancies) &&
+            this.initiative.vacancies.length;
+    }
+
     onRemove() {
         this.initiative.vacancies = [];
 
