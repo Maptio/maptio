@@ -19,6 +19,7 @@ import { URIService } from './services/uri/uri.service';
 import { UserService } from './services/user/user.service';
 import { BillingService } from './services/billing/billing.service';
 import { TeamService } from './services/team/team.service';
+import { MarkdownUtilsService } from './services/markdown/markdown-utils.service';
 import { FocusIfDirective } from './directives/focusif.directive';
 
 
@@ -59,7 +60,8 @@ export class SharedModule {
                 BillingService,
                 TeamService,
                 MapService,
-                IntercomService
+                IntercomService,
+                MarkdownUtilsService,
             ]
         };
     }

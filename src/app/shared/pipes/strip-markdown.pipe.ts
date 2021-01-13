@@ -1,23 +1,13 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { MarkdownService } from "ngx-markdown";
+import { MarkdownUtilsService } from "../services/markdown/markdown-utils.service";
 
 @Pipe({
   name: "stripMarkdown"
 })
 export class StripMarkdownPipe implements PipeTransform {
-
-  constructor(private markdownService: MarkdownService) { }
+  constructor(private markdownUtilsService: MarkdownUtilsService) { }
 
   transform(text: string) {
-    // Convert to HTML
-    const textAsHTML = this.markdownService.compile(text);
-
-    // Convert to plaintext
-    const tempElement = document.createElement("div");
-    tempElement.innerHTML = textAsHTML;
-    const textAsPlainText = tempElement.innerText;
-
-    return textAsPlainText;
+    return this.markdownUtilsService.convertToPlainText(text);
   }
-
 }
