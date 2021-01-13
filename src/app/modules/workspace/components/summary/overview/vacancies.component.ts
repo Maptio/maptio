@@ -38,8 +38,8 @@ export class VacanciesSummaryComponent implements OnInit {
     datasetId: string;
     dataSubscription: Subscription;
 
-    roles: Role[] = [];
-    initiativesWithRole: Map<Role, Initiative[]>;
+    vacancies: Role[] = [];
+    initiativesWithVacancy: Map<Role, Initiative[]>;
     isDescriptionVisible: Map<Role, boolean>;
 
 
@@ -56,9 +56,6 @@ export class VacanciesSummaryComponent implements OnInit {
     ngOnInit(): void {
         this.loaderService.show();
 
-        this.roles = this.roleLibrary.getRoles();
-        this.roles = this.sortRoles(this.roles);
-
         this.dataSubscription = this.dataService
             .get()
             .subscribe((data: any) => {
@@ -67,12 +64,14 @@ export class VacanciesSummaryComponent implements OnInit {
                 this.datasetId = this.dataset.shortid;
                 this.team = data.team;
 
-                this.getListOfInitiativesForEachRole();
+                this.getVacanciesFromInitiatives();
+
+                this.vacancies = this.sortRoles(this.vacancies);
 
                 if (!this.isDescriptionVisible) {
                     this.isDescriptionVisible = new Map();
                 }
-                this.roles.forEach((role) => () => {
+                this.vacancies.forEach((role) => () => {
                     // Make sure previous values are saved even if we change something that will
                     // trigger this code to run
                     const isOpen = this.isDescriptionVisible && this.isDescriptionVisible.has(role)
@@ -90,37 +89,44 @@ export class VacanciesSummaryComponent implements OnInit {
         if (this.dataSubscription) this.dataSubscription.unsubscribe();
     }
 
-    getListOfInitiativesForEachRole() {
-        this.initiativesWithRole = new Map();
-        this.roles.forEach((role) => {
-            this.initiativesWithRole.set(role, []);
-        });
+    getVacanciesFromInitiatives() {
+        this.vacancies = [];
+        this.initiativesWithVacancy = new Map();
 
         this.initiative.traverse(function (initiative: Initiative) {
-            const people = initiative.accountable
-                ? initiative.helpers.concat([initiative.accountable])
-                : initiative.helpers;
-            people.forEach((helper) => {
-                if (helper && helper.roles) {
-                    helper.roles.forEach((helperRole) => {
-                        if (this.roleLibrary.findRoleInList(helperRole, this.roles)) {
-                            const libraryRole = this.roleLibrary.findRoleInLibrary(helperRole);
-                            if (!this.getInitiativesFor(libraryRole).includes(initiative)) {
-                                this.initiativesWithRole.set(
-                                    libraryRole,
-                                    this.initiativesWithRole.get(libraryRole).concat([initiative])
-                                )
-                            }
-                        }
-                    })
+            initiative.vacancies.forEach((vacancy) => {
+                const matchingVacancy = this.roleLibrary.findRoleInList(vacancy, this.vacancies);
+
+                if (matchingVacancy && !this.initiativesWithVacancy.has(matchingVacancy)) {
+                    console.error(
+                        `Found vacancy (${matchingVacancy.title}) on internal list of vacancies, but ` +
+                        `there are no initatives associated with it yet.`
+                    );
                 }
+
+                if (!matchingVacancy) {
+                    // Vacancy from initiative isn't yet in our list of vacancies, let's add it there
+                    this.vacancies.push(vacancy);
+                    this.initiativesWithVacancy.set(vacancy, [initiative]);
+                    return;
+                } else if (!this.initiativesWithVacancy.get(matchingVacancy).includes(initiative)) {
+                    // Vacancy is on our list already, but initiative isn't on list of initiatives associated with the
+                    // vacancy, so let's add it there
+                    this.initiativesWithVacancy.set(
+                        matchingVacancy,
+                        this.initiativesWithVacancy.get(matchingVacancy).concat([initiative])
+                    );
+                }
+
+                // If we get here, the vacancy was on our list already (first if statement) and the initiative was
+                // already associated with the vacancy too (second if statement), our work here is done
             });
-        }.bind(this))
+        }.bind(this));
     }
 
     getInitiativesFor(role: Role): Initiative[] {
-        if (this.initiativesWithRole && this.initiativesWithRole.has(role)) {
-            return this.initiativesWithRole.get(role);
+        if (this.initiativesWithVacancy && this.initiativesWithVacancy.has(role)) {
+            return this.initiativesWithVacancy.get(role);
         } else {
             return [];
         }

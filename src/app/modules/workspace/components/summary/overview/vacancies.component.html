@@ -1,13 +1,17 @@
-<ng-container *ngFor="let role of roles; let roleIndex = index; let last = last">
+<ng-container *ngFor="let role of vacancies; let roleIndex = index; let last = last">
     <initiative-helper-role
         [role]="role"
         [showControls]="false"
+        [closed]="true"
         [alwaysShowDetailsToggle]="hasInitiatives(role)"
         [isDirectoryView]="true"
         (toggleDetails)="onToggleDetails($event)"
     ></initiative-helper-role>
 
-    <div *ngIf="areDetailsVisible(role)">
+    <div
+        *ngIf="areDetailsVisible(role)"
+        [class.mt-2]="!role?.description"
+    >
         <div *ngFor="let initiative of getInitiativesFor(role); let index=index" class="">
             <role-holders-in-initiative
                 [initiative]="initiative"
@@ -20,5 +24,5 @@
         </div>
     </div>
 
-    <hr *ngIf="!last && roles[roleIndex +1]" class="role-divider my-1">
+    <hr *ngIf="!last && vacancies[roleIndex +1]" class="role-divider my-1">
 </ng-container>
