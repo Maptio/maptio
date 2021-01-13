@@ -1,0 +1,24 @@
+<ng-container *ngFor="let role of roles; let roleIndex = index; let last = last">
+    <initiative-helper-role
+        [role]="role"
+        [showControls]="false"
+        [alwaysShowDetailsToggle]="hasInitiatives(role)"
+        [isDirectoryView]="true"
+        (toggleDetails)="onToggleDetails($event)"
+    ></initiative-helper-role>
+
+    <div *ngIf="areDetailsVisible(role)">
+        <div *ngFor="let initiative of getInitiativesFor(role); let index=index" class="">
+            <role-holders-in-initiative
+                [initiative]="initiative"
+                [role]="role"
+                [datasetId]="datasetId"
+                [team]="team"
+                (selectMember)="onSelectMember($event)"
+                (selectInitiative)="onSelectInitiative($event)">
+            </role-holders-in-initiative>
+        </div>
+    </div>
+
+    <hr *ngIf="!last && roles[roleIndex +1]" class="role-divider my-1">
+</ng-container>
