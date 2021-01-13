@@ -18,6 +18,7 @@ import { Team } from "../../../../../shared/model/team.data";
 import { User } from "../../../../../shared/model/user.data";
 import { Initiative } from "../../../../../shared/model/initiative.data";
 import { LoaderService } from "../../../../../shared/components/loading/loader.service";
+import { MarkdownUtilsService } from "../../../../../shared/services/markdown/markdown-utils.service";
 
 
 @Component({
@@ -48,6 +49,7 @@ export class VacanciesSummaryComponent implements OnInit {
         public route: ActivatedRoute,
         private dataService: DataService,
         public loaderService: LoaderService,
+        private markdownUtilsService: MarkdownUtilsService,
         private cd: ChangeDetectorRef,
     ) {}
 
@@ -146,21 +148,24 @@ export class VacanciesSummaryComponent implements OnInit {
 
     sortRoles(roles: Role[]): Role[] {
         return roles.sort((a, b) => {
-            // Sort the remaining roles by title
-            if (a.hasTitle() && b.hasTitle()) {
-                const aTitle = a.title.toLowerCase();
-                const bTitle = b.title.toLowerCase();
+            const aTitle = this.getDisplayTitle(a).toLowerCase();
+            const bTitle = this.getDisplayTitle(b).toLowerCase();
 
-                if (aTitle > bTitle) {
-                    return 1;
-                }
+            if (aTitle > bTitle) {
+                return 1;
+            }
 
-                if (aTitle < bTitle) {
-                    return -1;
-                }
+            if (aTitle < bTitle) {
+                return -1;
             }
 
             return 0;
         });
+    }
+
+    getDisplayTitle(role: Role): string {
+        return role.hasTitle()
+            ? role.title.toLowerCase()
+            : this.markdownUtilsService.convertToPlainText(role.description);
     }
 }
