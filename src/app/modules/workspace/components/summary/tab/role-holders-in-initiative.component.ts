@@ -19,6 +19,8 @@ export class RoleHoldersInInitiativeComponent implements OnInit {
     @Input("role") role: Role;
     @Input("team") team: Team;
     @Input("datasetId") public datasetId: string;
+    @Input("hideMembers") public hideMembers: string;
+
     @Output("selectMember") selectMember: EventEmitter<User> = new EventEmitter<User>();
     @Output("selectInitiative") selectInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
 
@@ -50,6 +52,10 @@ export class RoleHoldersInInitiativeComponent implements OnInit {
     getRoleHolders() {
         const accountable = this.initiative.accountable;
         this.roleHolders = [];
+
+        if (this.hideMembers) {
+            return;
+        }
 
         this.roleHolders = this.sortHelpers()
             .map((helper) => {

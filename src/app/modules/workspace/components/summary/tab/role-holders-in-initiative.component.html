@@ -1,6 +1,9 @@
 <div class="card">
     <div class="card-body">
-        <div class="card-title d-flex justify-content-between align-items-baseline">
+        <div 
+            class="card-title d-flex justify-content-between align-items-baseline"
+            [class.mb-0]="hideMembers"
+        >
             <span
                 class="btn-link cursor-pointer"
                 (click)="openInitiative(initiative)"
@@ -9,7 +12,10 @@
             </span>
         </div>
 
-        <div class="card-text">
+        <div 
+            class="card-text"
+            *ngIf="!hideMembers"
+        >
             <div
                 *ngIf="(roleHolders?.length !== 0)"
                 class="row"
