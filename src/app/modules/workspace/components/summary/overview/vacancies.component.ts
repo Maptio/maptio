@@ -140,15 +140,6 @@ export class VacanciesSummaryComponent implements OnInit {
         this.isDescriptionVisible.set(role, !isOpen)
     }
 
-    onSelectMember(user: User) {
-        this.cd.markForCheck();
-        this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { member: user.shortid }
-        });
-        this.changeTab.emit('people');
-    }
-
     onSelectInitiative(initiative: Initiative){
         this.selectInitiative.emit(initiative);
     }
