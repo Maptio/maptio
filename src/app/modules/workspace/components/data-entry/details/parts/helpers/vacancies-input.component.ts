@@ -38,6 +38,12 @@ export class InitiativeVacanciesInputComponent implements OnInit {
         }
     }
 
+    showVacanciesList() {
+        return this.initiative &&
+            Array.isArray(this.initiative.vacancies) &&
+            this.initiative.vacancies.length;
+    }
+
     onPickRole(roles: Role[]) {
         this.isPickRoleMode = false;
         this.initiative.vacancies = this.sortRoles(roles);
