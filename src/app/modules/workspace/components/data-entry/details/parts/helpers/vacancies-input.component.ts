@@ -38,25 +38,6 @@ export class InitiativeVacanciesInputComponent implements OnInit {
         }
     }
 
-    showRemoveButton() {
-        return !this.isUnauthorized &&
-            this.initiative &&
-            Array.isArray(this.initiative.vacancies) &&
-            this.initiative.vacancies.length;
-    }
-
-    onRemove() {
-        this.initiative.vacancies = [];
-
-        this.isPickRoleMode = false;
-        this.isCreateRoleMode = false;
-        this.newRole = undefined;
-        this.isEditRoleMode = false;
-
-        this.save.emit();
-        this.cd.markForCheck();
-    }
-
     onPickRole(roles: Role[]) {
         this.isPickRoleMode = false;
         this.initiative.vacancies = this.sortRoles(roles);
