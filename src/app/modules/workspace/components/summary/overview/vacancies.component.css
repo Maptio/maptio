@@ -1,0 +1,9 @@
+.role-divider {
+    margin: 0;
+    width: 100%;
+    border-width: 2px;
+
+    /* Color chosen to have again the same amount of contrast (1.05:1) as the background for the roles
+    (.bg-light, i.e. #f8f9fa) has to the initiative background (white) */
+    border-color: #f2f3f3;
+}

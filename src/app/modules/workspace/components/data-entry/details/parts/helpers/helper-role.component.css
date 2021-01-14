@@ -1,3 +1,7 @@
+.helper-role__title {
+    padding: 0.375rem 0;
+}
+
 .edit {
     border: none;
 }

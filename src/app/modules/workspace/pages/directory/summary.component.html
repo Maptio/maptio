@@ -68,7 +68,11 @@
                 role="tabpanel"
                 aria-labelledby="vacancies-tab"
             >
-                <p>Coming January 2021: You will be abled to add unfilled roles to circles and view all of these vacancies on this page.</p>
+                <summary-vacancies
+                    (changeTab)="onChangeTab($event)"
+                    (selectInitiative)="onSelectInitiative($event)"
+                    class="pb-3"
+                ></summary-vacancies>
             </div>
         </div>
     </div>

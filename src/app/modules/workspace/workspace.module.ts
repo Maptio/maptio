@@ -26,6 +26,7 @@ import { MappingSummaryComponent } from "./pages/directory/summary.component";
 import { PeopleSummaryComponent } from "./components/summary/overview/people.component";
 import { PersonalSummaryComponent } from "./components/summary/overview/personal.component";
 import { RolesSummaryComponent } from "./components/summary/overview/roles.component";
+import { VacanciesSummaryComponent } from "./components/summary/overview/vacancies.component";
 import { OnboardingComponent } from "../../shared/components/onboarding/onboarding.component";
 import { InstructionsComponent } from "../../shared/components/instructions/instructions.component";
 import { StripMarkdownPipe } from "../../shared/pipes/strip-markdown.pipe";
@@ -54,6 +55,7 @@ import { InitiativeHelperInputComponent } from "./components/data-entry/details/
 import { InitiativeHelperRoleSelectComponent } from "./components/data-entry/details/parts/helpers/helper-role-select.component";
 import { InitiativeHelperRoleComponent } from "./components/data-entry/details/parts/helpers/helper-role.component";
 import { InitiativeHelperRoleInputComponent } from './components/data-entry/details/parts/helpers/helper-role-input.component';
+import { InitiativeVacanciesInputComponent } from './components/data-entry/details/parts/helpers/vacancies-input.component';
 import { CommonTextareaComponent } from '../../shared/components/textarea/textarea.component';
 import { InitiativeHelperPrivilegeComponent } from './components/data-entry/details/parts/helpers/helper-toggle-privilege.component';
 
@@ -92,6 +94,7 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
         InitiativeHelperRoleSelectComponent,
         InitiativeHelperRoleComponent,
         InitiativeHelperRoleInputComponent,
+        InitiativeVacanciesInputComponent,
         InitiativeHelperPrivilegeComponent,
         MappingComponent, MappingZoomableComponent, MappingTreeComponent, MappingNetworkComponent,
         MappingSummaryComponent,
@@ -99,6 +102,7 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
         PersonalSummaryComponent,
         PersonalCardComponent,
         RolesSummaryComponent,
+        VacanciesSummaryComponent,
         RoleHoldersInInitiativeComponent,
 
         SearchComponent, FilterTagsComponent, ShareSlackComponent,

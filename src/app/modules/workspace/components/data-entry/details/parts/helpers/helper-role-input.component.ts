@@ -32,6 +32,7 @@ const noWhitespaceValidator: ValidatorFn = (control: FormControl): ValidationErr
 export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
     @Input("role") role: Role;
     @Input("helper") helper: Helper;
+    @Input("isVacancy") isVacancy: boolean = false;
     @Input("isDirectoryView") isDirectoryView: boolean = false;
 
     @Output("cancel") cancel = new EventEmitter<void>();
@@ -98,6 +99,17 @@ export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
 
     showDescriptionFieldError() {
         return this.showNeitherTitleNorDescriptionProvidedError();
+    }
+
+    getCustomRoleInputId() {
+        const suffix = this.isVacancy ? 'vacancy' : this.helper.shortid;
+        return 'customRoleRadio-' + suffix;
+
+    }
+
+    getLibraryRoleInputId() {
+        const suffix = this.isVacancy ? 'vacancy' : this.helper.shortid;
+        return 'libraryRoleRadio-' + suffix;
     }
 
     setValidatorsDependingOnRoleType(saveAsLibraryRole: boolean) {
