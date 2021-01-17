@@ -44,4 +44,9 @@
         <hr *ngIf="!last && initiative?.vacancies[roleIndex +1]" class="role-divider my-1">
     </ng-container>
   </div> 
+
+  <p class="text-muted small my-2">
+    See all vacancies in the
+    <a [routerLink]="summaryUrlRoot">Directory</a>
+  </p>
 </div>
