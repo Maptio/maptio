@@ -30,3 +30,10 @@
 
     <hr *ngIf="!last && vacancies[roleIndex +1]" class="role-divider my-1">
 </ng-container>
+
+<div
+    *ngIf="vacancies?.length === 0"
+    class="h4 text-orange my-2"
+>
+    No vacancies found
+</div>

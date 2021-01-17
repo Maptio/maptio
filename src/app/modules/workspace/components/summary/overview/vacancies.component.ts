@@ -131,7 +131,7 @@ export class VacanciesSummaryComponent implements OnInit {
             return [];
         }
     }
-    
+
     hasInitiatives(role: Role): boolean {
         const initiativesList = this.getInitiativesFor(role);
         return initiativesList && initiativesList.length ? true : false;
