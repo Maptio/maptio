@@ -29,9 +29,6 @@ import { MarkdownUtilsService } from "../../../../../shared/services/markdown/ma
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VacanciesSummaryComponent implements OnInit {
-    @Output() changeTab: EventEmitter<string> = new EventEmitter<string>();
-    @Output() selectInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
-
     initiative: Initiative;
     team: Team;
     dataset: DataSet;
@@ -149,7 +146,8 @@ export class VacanciesSummaryComponent implements OnInit {
     }
 
     onSelectInitiative(initiative: Initiative){
-        this.selectInitiative.emit(initiative);
+        localStorage.setItem("node_id", initiative.id.toString());
+        this.router.navigate(['../../'], { relativeTo: this.route });
     }
 
     sortRoles(roles: Role[]): Role[] {

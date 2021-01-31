@@ -29,9 +29,6 @@ import { LoaderService } from "../../../../../shared/components/loading/loader.s
 })
 
 export class RolesSummaryComponent implements OnInit {
-    @Output() changeTab: EventEmitter<string> = new EventEmitter<string>();
-    @Output() selectInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
-
     initiative: Initiative;
     team: Team;
     dataset: DataSet;
@@ -193,15 +190,15 @@ export class RolesSummaryComponent implements OnInit {
 
     onSelectMember(user: User) {
         this.cd.markForCheck();
-        this.router.navigate([], {
+        this.router.navigate(['../people'], {
             relativeTo: this.route,
             queryParams: { member: user.shortid }
         });
-        this.changeTab.emit('people');
     }
 
     onSelectInitiative(initiative: Initiative){
-        this.selectInitiative.emit(initiative);
+        localStorage.setItem("node_id", initiative.id.toString());
+        this.router.navigate(['../../'], { relativeTo: this.route });
     }
 
     canEditLibraryRoles() {
