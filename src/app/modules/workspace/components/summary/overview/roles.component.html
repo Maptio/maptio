@@ -1,3 +1,7 @@
+<p class="text-muted mb-4">
+    Viewing the role library. Custom roles for individual circles are not shown here.
+</p>
+
 <div *ngIf="canEditLibraryRoles()">
     <button
         *ngIf="!isCreateRoleMode"
@@ -15,7 +19,10 @@
             (save)="onSaveNewRole()"
         ></initiative-helper-role-input>
 
-        <hr class="role-divider my-1">
+        <hr 
+            *ngIf="roles?.length !== 0"
+            class="role-divider my-1"
+        >
     </ng-container>
 </div>
 
@@ -54,3 +61,10 @@
 
     <hr *ngIf="!last && roles[roleIndex +1]" class="role-divider my-1">
 </ng-container>
+
+<div
+    *ngIf="roles?.length === 0 && !isCreateRoleMode"
+    class="h4 text-orange my-2"
+>
+    No library roles found
+</div>

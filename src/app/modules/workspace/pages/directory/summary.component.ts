@@ -1,12 +1,11 @@
 import {
     Component,
     OnInit,
-    ChangeDetectorRef,
     ChangeDetectionStrategy,
     ViewChild,
     ElementRef,
 } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { Observable, Subject, Subscription } from "rxjs";
 
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
@@ -18,7 +17,6 @@ import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
 import { Auth } from "../../../../core/authentication/auth.service";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Team } from "../../../../shared/model/team.data";
-import { UserService } from "../../../../shared/services/user/user.service";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { SelectableTag, Tag } from "../../../../shared/model/tag.data";
 import { LoaderService } from "../../../../shared/components/loading/loader.service";
@@ -35,8 +33,6 @@ import { IDataVisualizer } from "../../components/canvas/mapping.interface";
 })
 
 export class MappingSummaryComponent implements OnInit, IDataVisualizer {
-    @ViewChild('peopleTab') peopleTab: ElementRef;
-
     public datasetId: string;
 
     public width: number;
@@ -73,11 +69,15 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     dataset: DataSet;
     dataSubscription: Subscription;
 
-    constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory,
-        public userFactory: UserFactory, private userService: UserService, public teamFactory: TeamFactory, private dataService: DataService,
-        public loaderService: LoaderService, private router: Router,
-        private cd: ChangeDetectorRef) {
-    }
+    constructor(
+        public auth: Auth,
+        public route: ActivatedRoute,
+        public datasetFactory: DatasetFactory,
+        public userFactory: UserFactory,
+        public teamFactory: TeamFactory,
+        private dataService: DataService,
+        public loaderService: LoaderService,
+    ) {}
 
     ngOnInit(): void {
         this.loaderService.show();
@@ -94,21 +94,6 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
 
     ngOnDestroy(): void {
         if (this.dataSubscription) this.dataSubscription.unsubscribe();
-    }
-
-    onSelectInitiative(initiative: Initiative) {
-        localStorage.setItem("node_id", initiative.id.toString());
-                
-        this.router.navigateByUrl(`/map/${this.dataset.datasetId}/${this.initiative.getSlug()}/circles`)
-            .then(() => {});
-    }
-
-    onChangeTab(tabName: string) {
-        if (tabName === 'people') {
-            this.peopleTab.nativeElement.click();
-        } else {
-            console.error(`Changing to tab ${tabName} is not yet implemented.`);
-        }
     }
 
     init(): void {

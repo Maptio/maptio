@@ -6,11 +6,10 @@
             <ul class="nav nav-tabs my-3" role="tablist">
                 <li class="nav-item mr-1">
                     <a
-                        #peopleTab 
+                        routerLink="./people"
+                        routerLinkActive="active"
                         id="people-tab"
-                        class="nav-link active d-flex flex-column align-items-center" 
-                        data-toggle="tab"
-                        href="#people"
+                        class="nav-link d-flex flex-column align-items-center" 
                         role="tab"
                         aria-controls="people"
                         aria-selected="true">
@@ -19,15 +18,29 @@
                 </li>
 
                 <li class="nav-item d-flex flex-column align-items-center">
-                    <a class="nav-link d-flex flex-column align-items-center" id="roles-tab" data-toggle="tab"
-                        role="tab" aria-controls="roles" aria-selected="false" href="#roles">
+                    <a 
+                        routerLink="./roles"
+                        routerLinkActive="active"
+                        id="roles-tab"
+                        class="nav-link d-flex flex-column align-items-center"
+                        role="tab"
+                        aria-controls="roles"
+                        aria-selected="false"
+                    >
                         <span>Roles</span>
                     </a>
                 </li>
 
                 <li class="nav-item d-flex flex-column align-items-center">
-                    <a class="nav-link d-flex flex-column align-items-center" id="vacancies-tab" data-toggle="tab"
-                        role="tab" aria-controls="vacancies" aria-selected="false" href="#vacancies">
+                    <a 
+                        routerLink="./vacancies"
+                        routerLinkActive="active"
+                        id="vacancies-tab" 
+                        class="nav-link d-flex flex-column align-items-center"
+                        role="tab"
+                        aria-controls="vacancies"
+                        aria-selected="false"
+                    >
                         <span>Vacancies</span>
                     </a>
                 </li>
@@ -38,41 +51,8 @@
             id="tab-content"
             class="tab-content mt-3"
         >
-            <div
-                id="people"
-                class="tab-pane fade show active flex-column"
-                role="tabpanel"
-                aria-labelledby="people-tab"
-            >
-                <summary-people
-                    (selectInitiative)="onSelectInitiative($event)"
-                ></summary-people>
-            </div>
-
-            <div
-                id="roles"
-                class="tab-pane fade card-columns flex-column"
-                role="tabpanel"
-                aria-labelledby="roles-tab"
-            >
-                <summary-roles
-                    (changeTab)="onChangeTab($event)"
-                    (selectInitiative)="onSelectInitiative($event)"
-                    class="pb-3"
-                ></summary-roles>
-            </div>
-
-            <div
-                id="vacancies"
-                class="tab-pane fade card-columns flex-column"
-                role="tabpanel"
-                aria-labelledby="vacancies-tab"
-            >
-                <summary-vacancies
-                    (changeTab)="onChangeTab($event)"
-                    (selectInitiative)="onSelectInitiative($event)"
-                    class="pb-3"
-                ></summary-vacancies>
+            <div class="pb-3">
+                <router-outlet></router-outlet>
             </div>
         </div>
     </div>

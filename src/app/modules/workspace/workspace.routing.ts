@@ -11,6 +11,9 @@ import { MappingTreeComponent } from './pages/tree/mapping.tree.component';
 import { MappingNetworkComponent } from './pages/network/mapping.network.component';
 import { MappingSummaryComponent } from './pages/directory/summary.component';
 import { MappingSummaryBreadcrumbs } from '../../core/breadcrumbs/summary.breadcrumb';
+import { PeopleSummaryComponent } from './components/summary/overview/people.component';
+import { RolesSummaryComponent } from './components/summary/overview/roles.component';
+import { VacanciesSummaryComponent } from './components/summary/overview/vacancies.component';
 
 const routes: Routes = [{
     path: "",
@@ -26,9 +29,18 @@ const routes: Routes = [{
         { path: "tree", component: MappingTreeComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Tree" } },
         { path: "network", component: MappingNetworkComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Network" } },
         {
-            path: "directory", component: MappingSummaryComponent, canActivate: [WorkspaceGuard], data: {
+            path: "directory",
+            component: MappingSummaryComponent,
+            canActivate: [WorkspaceGuard],
+            data: {
                 breadcrumbs: MappingSummaryBreadcrumbs
-            }
+            },
+            children: [
+                { path: "", redirectTo: "people", pathMatch: "full" },
+                { path: "people", component: PeopleSummaryComponent, data: { breadcrumbs: true, text: "People" } },
+                { path: "roles", component: RolesSummaryComponent, data: { breadcrumbs: true, text: "Roles" } },
+                { path: "vacancies", component: VacanciesSummaryComponent, data: { breadcrumbs: true, text: "Vacancies" } },
+            ]
         }
 
     ]

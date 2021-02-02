@@ -31,10 +31,6 @@ import { LoaderService } from "../../../../../shared/components/loading/loader.s
 })
 
 export class PeopleSummaryComponent implements OnInit {
-    @Output() selectInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
-    @Output() userDataset: EventEmitter<DataSet> = new EventEmitter<DataSet>();
-    @Output() rootInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
-
     members: User[];
     filteredMembers: User[];
     initiative: Initiative;
@@ -123,6 +119,7 @@ export class PeopleSummaryComponent implements OnInit {
     }
 
     onSelectInitiative(initiative: Initiative){
-        this.selectInitiative.emit(initiative);
+        localStorage.setItem("node_id", initiative.id.toString());
+        this.router.navigate(['../../'], { relativeTo: this.route });
     }
 }

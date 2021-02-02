@@ -24,6 +24,10 @@ export class MappingSummaryBreadcrumbs extends BreadcrumbsResolver {
                             path: super.getFullPath(route)
                         },
                         {
+                            text: "People",
+                            path: super.getFullPath(route)
+                        },
+                        {
                             text: user.name,
                             path: super.getFullPath(route)
                         }
