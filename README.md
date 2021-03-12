@@ -1,8 +1,20 @@
-
-
 # Maptio
 
-This project was generated using [Nx](https://nx.dev).
+This is a monorepo generated using [Nx](https://nx.dev).
+
+The app that is currently deployed to production lives under `apps/current`.
+It's not strictly a part of the monorepo as it retains it's separate webpack config, package.json, etc.
+Circle CI test and Heroku deployment work as before, with configuration changed to build from the folder with current code.
+
+Please see `apps/current/README.md` for details about working on the current codebase
+
+A new app has been scaffolded and resides under `apps/maptio`.
+This is a new Angular app (just Angular, no server) that is intended to be the future codebase for Maptio.
+
+The instructions below - scaffolded by Nx CLI - can be used for working on the new app.
+
+
+# Nx
 
 <p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
 
@@ -86,10 +98,6 @@ Run `nx dep-graph` to see a diagram of the dependencies of your projects.
 ## Further help
 
 Visit the [Nx Documentation](https://nx.dev/angular) to learn more.
-
-
-
-
 
 
 ## ☁ Nx Cloud
