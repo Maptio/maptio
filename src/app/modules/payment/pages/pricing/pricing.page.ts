@@ -9,8 +9,10 @@ import { Auth } from '../../../../core/authentication/auth.service';
 })
 export class PricingComponent implements OnInit {
 
+    public BILLING_TINY_PLAN = environment.BILLING_TINY_PLAN;
     public BILLING_SMALL_PLAN = environment.BILLING_SMALL_PLAN;
     public BILLING_MEDIUM_PLAN = environment.BILLING_MEDIUM_PLAN;
+    public BILLING_LARGE_PLAN = environment.BILLING_LARGE_PLAN;
     public BILLING_PORTAL = environment.BILLING_PORTAL;
 
     constructor(public auth: Auth) { }

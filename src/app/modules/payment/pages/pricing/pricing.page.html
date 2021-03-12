@@ -37,8 +37,36 @@
 
         <div class="d-flex flex-column flex-md-row justify-content-center align-items-center">
 
+                <div class="col-12 col-md-3 accent-blue rounded-bottom box-shadow mx-2 my-3">
+                    <div class="card border-0">
+                        <div class="card-body border-0 bg-white text-center">
+                            <div class="card-title border-bottom h4 py-4">
+                                Tiny
+                            </div>
+                            <div class="card-text ">
+                                <span class="display-4">$20 </span>
+                                <sup class="text-top">per month</sup>
+                            </div>
+                            <div class="card-text text-muted">
+                                1 - 12 people per organisation
+                            </div>
+                            <div class="card-text">
+                                <div class="card-text" *ngIf="!auth.allAuthenticated()">
+                                    <button class="btn btn-success btn-lg my-3" routerLink="/signup">Sign up</button>
+                                </div>
+                                <div class="card-text" *ngIf="auth.allAuthenticated()">
+                                    <a class="btn btn-success text-white btn-lg my-3"
+                                        href="{{BILLING_TINY_PLAN}}">Subscribe</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="card-footer border-0 bg-light text-muted">
+                            <ng-container *ngTemplateOutlet="features"></ng-container>
+                        </div> -->
+                    </div>
+                </div>
 
-                <div class="col-12 col-md-4 accent-blue rounded-bottom box-shadow mx-2 my-3">
+                <div class="col-12 col-md-3 accent-blue rounded-bottom box-shadow mx-2 my-3">
                     <div class="card border-0">
                         <div class="card-body border-0 bg-white text-center">
                             <div class="card-title border-bottom h4 py-4">
@@ -49,7 +77,7 @@
                                 <sup class="text-top">per month</sup>
                             </div>
                             <div class="card-text text-muted">
-                                0 - 35 people per organisation
+                                13 - 35 people per organisation
                             </div>
                             <div class="card-text">
                                 <div class="card-text" *ngIf="!auth.allAuthenticated()">
@@ -66,18 +94,18 @@
                         </div> -->
                     </div>
                 </div>
-                <div class="col-12 col-md-4 accent-blue rounded-bottom box-shadow mx-2 my-3">
+                <div class="col-12 col-md-3 accent-blue rounded-bottom box-shadow mx-2 my-3">
                     <div class="card border-0">
                         <div class="card-body border-0 bg-white text-center">
                             <div class="card-title border-bottom h4 py-4">
                                 Medium
                             </div>
                             <div class="card-text">
-                                <span class="display-4">$99 </span>
+                                <span class="display-4">$150 </span>
                                 <sup class="text-top">per month</sup>
                             </div>
                             <div class="card-text text-muted">
-                                35 - 200 people per organisation
+                                36 - 100 people per organisation
                             </div>
                             <div class="card-text">
                                 <div class="card-text" *ngIf="!auth.allAuthenticated()">
@@ -94,26 +122,27 @@
                         </div> -->
                     </div>
                 </div>
-                <div class="col-12 col-md-4 accent-blue rounded-bottom box-shadow  mx-2 my-3">
+                <div class="col-12 col-md-3 accent-blue rounded-bottom box-shadow  mx-2 my-3">
                     <div class="card border-0">
                         <div class="card-body border-0 bg-white text-center">
                             <div class="card-title border-bottom h4 py-4">
                                 Large
                             </div>
-                            <div class="card-text display-4 invisible">
-
-                                <a class="btn btn-success text-white"
-                                    href="mailto:support@maptio.com?subject=Bespoke pricing request">Contact us</a>
+                            <div class="card-text">
+                                <span class="display-4">$250 </span>
+                                <sup class="text-top">per month</sup>
                             </div>
-                            <!-- <div class="card-text text-muted invisible">
-                                per month
-                            </div> -->
                             <div class="card-text text-muted">
-                                200+ people per organisation
+                                101 - 300 people per organisation
                             </div>
-                            <div class="card-text ">
-                                <a class="btn btn-success btn-lg text-white my-3"
-                                    href="mailto:support@maptio.com?subject=Bespoke pricing request">Contact us</a>
+                            <div class="card-text">
+                                <div class="card-text" *ngIf="!auth.allAuthenticated()">
+                                    <button class="btn btn-success btn-lg my-3" routerLink="/signup">Sign up</button>
+                                </div>
+                                <div class="card-text" *ngIf="auth.allAuthenticated()">
+                                    <a class="btn btn-success text-white btn-lg my-3"
+                                        href="{{BILLING_LARGE_PLAN}}">Subscribe</a>
+                                </div>
                             </div>
                         </div>
                         <!-- <div class="card-footer border-0 bg-light text-muted">

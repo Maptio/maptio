@@ -36,8 +36,10 @@ export const environment = {
     DEFAULT_AUTHORITY_TERMINOLOGY: "Lead",
     DEFAULT_HELPER_TERMINOLOGY: "Contributor",
 
+    BILLING_TINY_PLAN: "https://maptio.chargebee.com/hosted_pages/plans/standard-plan12",
     BILLING_SMALL_PLAN: "https://maptio.chargebee.com/hosted_pages/plans/standard-plan50",
-    BILLING_MEDIUM_PLAN: "https://maptio.chargebee.com/hosted_pages/plans/standard-plan",
+    BILLING_MEDIUM_PLAN: "https://maptio.chargebee.com/hosted_pages/plans/standard-plan100",
+    BILLING_LARGE_PLAN: "https://maptio.chargebee.com/hosted_pages/plans/standard-plan300",
     BILLING_TEST_PLAN: "https://maptio-test.chargebee.com/hosted_pages/plans/standard-plan",
 
     BILLING_PORTAL: "https://maptio.chargebeeportal.com/portal/login",
