@@ -1,26 +1,39 @@
-stats.json
-node_modules/
-dist/
-coverage/**/*.*
-tslint.json
-.vscode/*.*
-TODO.md
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/dist
+/tmp
+/out-tsc
+
+# dependencies
+/node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
 npm-debug.log
-newrelic_agent.log
-tokeep.txt
-public/*.js
-public/*.css
-public/images/sources/*.*
+yarn-error.log
+testem.log
+/typings
 
-# Environment variables and keys
-.env
-id_rsa
-id_rsa.pub
-rsa.pub
-
-# MongoDB
-mongo*.json
-local_data/*
-local_data_backup/*
-prod_db_backup/*
-prod_db_backup_archive/*
+# System Files
+.DS_Store
+Thumbs.db

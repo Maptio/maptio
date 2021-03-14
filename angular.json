@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "defaultProject": "maptio",
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "projects": {
+    "maptio": {
+      "projectType": "application",
+      "root": "apps/maptio",
+      "sourceRoot": "apps/maptio/src",
+      "prefix": "maptio",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/maptio",
+            "index": "apps/maptio/src/index.html",
+            "main": "apps/maptio/src/main.ts",
+            "polyfills": "apps/maptio/src/polyfills.ts",
+            "tsConfig": "apps/maptio/tsconfig.app.json",
+            "aot": true,
+            "assets": ["apps/maptio/src/favicon.ico", "apps/maptio/src/assets"],
+            "styles": ["apps/maptio/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/maptio/src/environments/environment.ts",
+                  "with": "apps/maptio/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "maptio:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "maptio:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "maptio:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/maptio/src/**/*.ts",
+              "apps/maptio/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/maptio"],
+          "options": {
+            "jestConfig": "apps/maptio/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "maptio-e2e": {
+      "root": "apps/maptio-e2e",
+      "sourceRoot": "apps/maptio-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/maptio-e2e/cypress.json",
+            "tsConfig": "apps/maptio-e2e/tsconfig.e2e.json",
+            "devServerTarget": "maptio:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "maptio:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/maptio-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  }
+}

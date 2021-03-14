@@ -1,0 +1,26 @@
+stats.json
+node_modules/
+dist/
+coverage/**/*.*
+tslint.json
+.vscode/*.*
+TODO.md
+npm-debug.log
+newrelic_agent.log
+tokeep.txt
+public/*.js
+public/*.css
+public/images/sources/*.*
+
+# Environment variables and keys
+.env
+id_rsa
+id_rsa.pub
+rsa.pub
+
+# MongoDB
+mongo*.json
+local_data/*
+local_data_backup/*
+prod_db_backup/*
+prod_db_backup_archive/*
