@@ -1,0 +1,24 @@
+<svg:g
+  class="initiative"
+>
+  <circle
+    class="circle"
+    [attr.cx]="circle.x"
+    [attr.cy]="circle.y"
+    [attr.r]="circle.r"
+    [attr.fill]="circle.data.colour || '#e9c46a'"
+    opacity="0.8"
+  />
+
+  <foreignObject
+    class="info-container"
+    [attr.x]="circle.x - circle.r / math.sqrt(2)"
+    [attr.y]="circle.y - circle.r / math.sqrt(2)"
+    [attr.width]="circle.r * 2 / math.sqrt(2)"
+    [attr.height]="circle.r * 2 / math.sqrt(2)"
+  >
+    <g maptioCircleInfo
+      [circleInfo]="circle.data"
+    ></g>
+  </foreignObject>
+</svg:g>
