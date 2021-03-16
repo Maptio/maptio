@@ -8,6 +8,7 @@
   "id": 5770067817162,
   "name": "Markhof - The village in the City [DEBUG]",
   "team_id": "59bed8e434a28352f6b9a0a8",
+  "colour": "#264653",
   "children": [
     {
       "description": "Where people of all ages can learn, work, create, celebrate and experience life together.\nhttp://www.markhof.wien",
@@ -28,6 +29,7 @@
       "id": 568897744103,
       "name": "Creating the village in the city",
       "team_id": "59bed8e434a28352f6b9a0a8",
+      "colour": "#2a9d8f",
       "children": [
         {
           "description": "",
@@ -920,6 +922,7 @@
           "id": 9149501839422,
           "name": "In Markhof, the Facility that fits our Purpose",
           "team_id": "59bed8e434a28352f6b9a0a8",
+          "colour": "#f4a261",
           "accountable": {
             "isActivationPending": false,
             "isInvitationSent": false,
@@ -1033,6 +1036,7 @@
               "id": 266410684986,
               "name": "Ensuring a well-designed furnishing and decoration",
               "team_id": "59bed8e434a28352f6b9a0a8",
+              "colour": "#e76f51",
               "accountable": {
                 "isActivationPending": false,
                 "isInvitationSent": false,
@@ -1091,6 +1095,7 @@
               "id": 8373571952711,
               "name": "Maintaining Markhof clean, ordered and functional",
               "team_id": "59bed8e434a28352f6b9a0a8",
+              "colour": "#e76f51",
               "accountable": {
                 "isActivationPending": false,
                 "isInvitationSent": false,
@@ -1394,6 +1399,7 @@
               "id": 9354251581724,
               "name": "Improving and developing Markhof",
               "team_id": "59bed8e434a28352f6b9a0a8",
+              "colour": "#e76f51",
               "accountable": {
                 "isActivationPending": false,
                 "isInvitationSent": false,
