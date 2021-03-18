@@ -3,8 +3,8 @@ export interface Initiative {
   colour: string;
   accountable?: {
     picture: string;
-  }
+  };
   helpers?: {
     picture: string;
-  }
+  }[];
 }
