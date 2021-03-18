@@ -1,3 +1,20 @@
 <div class="info">
+  <div class="upper-row">
+    <img
+      class="picture"
+      [src]="circleInfo.accountable?.picture"
+      alt=""
+    >
+  </div>
+
   <div class="name">{{ circleInfo.name }}</div>
+
+  <div class="lower-row">
+    <img
+      class="picture"
+      *ngFor="let helper of circleInfo.helpers"
+      [src]="helper.picture"
+      alt=""
+    >
+  </div>
 </div>

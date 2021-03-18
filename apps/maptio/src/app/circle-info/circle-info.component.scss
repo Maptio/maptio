@@ -1,5 +1,6 @@
 .info {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
@@ -7,4 +8,10 @@
 
 .name {
   font-family: sans-serif;
+}
+
+.picture {
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 0.75rem;
 }
