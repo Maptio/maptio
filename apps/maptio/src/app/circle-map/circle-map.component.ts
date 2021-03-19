@@ -137,7 +137,7 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
 
     const options = {
       zoomEnabled: true,
-      controlIconsEnabled: true,
+      controlIconsEnabled: false,
       fit: true,
       center: true,
       customEventsHandler: eventsHandler,
@@ -146,6 +146,38 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
     this.scheme = svgPanZoom.default(this.map?.nativeElement, options);
     // svgPanZoom()
 
-    this.scheme.zoomAtPoint(2, {x: 50, y: 50})
+    // this.scheme.zoomAtPoint(20, {x: 288, y: 183})
+    this.scheme.zoomAtPoint(1, {x: 948, y: 492})
+    this.zoomToCircle();
+  }
+
+
+  zoomToCircle(){
+    this.scheme?.reset();
+
+    //REM: Apparently the values need some times to adjust after reset() is called, yet is seems to have no callback.
+    setTimeout(() => {
+        const tViewport: SVGAElement | null = document.querySelector('g.svg-pan-zoom_viewport');
+        const circle: SVGAElement | null = document.querySelector('#maptio-circle-4');
+        const tBBox = circle?.getBBox();
+
+        if (tViewport && tBBox) {
+          // const style = window.getComputedStyle(tViewport)
+          // console.log(tViewport);
+          // console.log(style.transform);
+          // console.log(style.transform);
+          const tMatrix = tViewport.transform.baseVal.getItem(0).matrix;
+          // console.log(tViewport.transform.baseVal.consolidate().matrix);
+          // const tBBox = document.getElementById(id)?.getBBox();
+          const tPoint = {
+            x: (tBBox.x + tBBox.width / 2) * tMatrix.a + tMatrix.e,
+            y: (tBBox.y + tBBox.height / 2) * tMatrix.d + tMatrix.f
+          }
+
+          // //REM: Approximate values, I leave the exact calculation up to you.
+          this.scheme?.zoomAtPoint(2, tPoint);
+        }
+
+    }, 500);
   }
 }

@@ -6,7 +6,8 @@
   height="97.5vh"
 >
   <g maptioCircle
-    *ngFor="let circle of circles"
+    *ngFor="let circle of circles; let i = index"
     [circle]="circle"
+    [attr.id]="'maptio-circle-' + i"
   ></g>
 </svg>
