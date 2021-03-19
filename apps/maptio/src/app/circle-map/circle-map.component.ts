@@ -147,26 +147,29 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
     // svgPanZoom()
 
     // this.scheme.zoomAtPoint(20, {x: 288, y: 183})
-    this.scheme.zoomAtPoint(1, {x: 948, y: 492})
-    this.zoomToCircle();
+    // this.scheme.zoomAtPoint(1, {x: 948, y: 492})
+    // this.zoomToCircle();
   }
 
 
-  zoomToCircle(){
+  zoomToCircle(circleId: string) {
     this.scheme?.reset();
 
     //REM: Apparently the values need some times to adjust after reset() is called, yet is seems to have no callback.
     setTimeout(() => {
         const tViewport: SVGAElement | null = document.querySelector('g.svg-pan-zoom_viewport');
-        const circle: SVGAElement | null = document.querySelector('#maptio-circle-4');
+        const circle: SVGAElement | null = document.querySelector(`#${circleId}`);
         const tBBox = circle?.getBBox();
+        const viewportBoundingBox = tViewport?.getBBox();
 
-        if (tViewport && tBBox) {
+        if (tViewport && tBBox && viewportBoundingBox) {
           // const style = window.getComputedStyle(tViewport)
           // console.log(tViewport);
           // console.log(style.transform);
           // console.log(style.transform);
           const tMatrix = tViewport.transform.baseVal.getItem(0).matrix;
+          console.log(viewportBoundingBox);
+          console.log(tBBox);
           // console.log(tViewport.transform.baseVal.consolidate().matrix);
           // const tBBox = document.getElementById(id)?.getBBox();
           const tPoint = {
@@ -174,10 +177,22 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
             y: (tBBox.y + tBBox.height / 2) * tMatrix.d + tMatrix.f
           }
 
+          const scale = viewportBoundingBox.height / tBBox.height / 2;
+
           // //REM: Approximate values, I leave the exact calculation up to you.
-          this.scheme?.zoomAtPoint(2, tPoint);
+          this.scheme?.zoomAtPoint(scale, tPoint);
         }
 
     }, 500);
+  }
+
+  getCircleId(circleIndex: number) {
+    return 'maptio-circle-' + circleIndex;
+  }
+
+  onCircleClick(circleIndex: number) {
+    const circleId = this.getCircleId(circleIndex);
+    this.zoomToCircle(circleId);
+    console.log(circleId);
   }
 }

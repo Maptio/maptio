@@ -8,6 +8,7 @@
   <g maptioCircle
     *ngFor="let circle of circles; let i = index"
     [circle]="circle"
-    [attr.id]="'maptio-circle-' + i"
+    [attr.id]="getCircleId(i)"
+    (click)="onCircleClick(i)"
   ></g>
 </svg>
