@@ -243,12 +243,12 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
 
   onCircleMouseEnter(circle: HierarchyCircularNode<Initiative>) {
     console.log('Entering...', circle.data.name);
+
+    if (this.lastLeftCircle && circle.parent === this.lastLeftCircle) {
+      this.hoverOverSelectedCircle(this.lastLeftCircle);
+    }
+
     const circleState = this.getCircleState(circle);
-
-    // if (this.lastLeftCircle && circle.parent === this.lastLeftCircle) {
-    //   this.hoverOverSelectedCircle(this.lastLeftCircle);
-    // }
-
     switch (circleState) {
       case CircleState.selected:
         this.hoverOverSelectedCircle(circle)
@@ -269,13 +269,14 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
 
   onCircleMouseLeave(circle: HierarchyCircularNode<Initiative>) {
     console.log('Leaving...', circle.data.name);
-    // this.lastLeftCircle = circle;
 
-    // const circleState = this.getCircleState(circle);
+    this.lastLeftCircle = circle;
 
-    // if (circleState === CircleState.selectedAndHovered) {
-    //   this.stopHoveringOverSelectedCircle(circle)
-    // }
+    const circleState = this.getCircleState(circle);
+
+    if (circleState === CircleState.selectedAndHovered) {
+      this.stopHoveringOverSelectedCircle(circle)
+    }
   }
 
   onCircleClick(circle: HierarchyCircularNode<Initiative>, circleIndex: number) {
