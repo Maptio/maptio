@@ -1,7 +1,7 @@
 <svg:g
   class="circle"
-  [class.selected]="selected"
   [ngClass]="'circle--state-' + circle.data.state"
+  [class.root-circle]="isRoot"
 >
   <circle
     class="circle__circle"

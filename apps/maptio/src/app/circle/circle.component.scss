@@ -6,6 +6,10 @@
 //   overflow: visible;
 // }
 
+.root-circle {
+  opacity: 0 !important;
+}
+
 .circle--state-hidden {
   opacity: 0.3;
   pointer-events: none;

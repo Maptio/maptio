@@ -8,7 +8,7 @@
   <g maptioCircle
     *ngFor="let circle of circles; let i = index"
     [circle]="circle"
-    [selected]="circle == selectedCircle"
+    [isRoot]="i === 0"
     [attr.id]="getCircleId(i)"
     (mouseenter)="onCircleMouseEnter(circle)"
     (mouseleave)="onCircleMouseLeave(circle)"
