@@ -215,6 +215,11 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
   }
 
   selectCircle(circle: HierarchyCircularNode<Initiative>) {
+    if (this.selectedCircle) {
+      this.setCircleState(this.selectedCircle, CircleState.hidden);
+      this.setCircleStateForChildren(this.selectedCircle, CircleState.hidden);
+    }
+
     this.selectedCircle = circle;
     this.setCircleState(circle, CircleState.selected);
     this.setCircleStateForChildren(circle, CircleState.childOfSelected);
@@ -283,5 +288,6 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
     // const circleId = this.getCircleId(circleIndex);
     // this.zoomToCircle(circleId);
     console.log(circle, circleIndex);
+    this.selectCircle(circle);
   }
 }
