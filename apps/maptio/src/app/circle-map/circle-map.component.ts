@@ -24,6 +24,7 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
 
   circles: HierarchyCircularNode<Initiative>[] = [];
   selectedCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
+  lastLeftCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
 
   ngOnInit(): void {
     console.log(data);
@@ -65,9 +66,6 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
     this.circles.forEach((circle) => {
       circle.data.state = CircleState.hidden;
     });
-
-    this.selectedCircle = this.circles[1];
-    this.circles[1].data.state = CircleState.selected;
 
     console.log('Selected circle');
     console.log(this.selectedCircle);
@@ -157,6 +155,10 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
     // this.scheme.zoomAtPoint(20, {x: 288, y: 183})
     // this.scheme.zoomAtPoint(1, {x: 948, y: 492})
     // this.zoomToCircle();
+
+    setTimeout(() => {
+      this.selectCircle(this.circles[1])
+    });
   }
 
   zoomToCircle(circleId: string) {
@@ -203,30 +205,77 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
 
   setCircleState(circle: HierarchyCircularNode<Initiative>, state: CircleState) {
     circle.data.state = state;
+    console.log(`Setting state of "${circle.data.name}" to "${state}"`);
+  }
+
+  setCircleStateForChildren(circle: HierarchyCircularNode<Initiative>, state: CircleState) {
+    circle.children?.forEach(childCircle => {
+      this.setCircleState(childCircle, state);
+    })
   }
 
   selectCircle(circle: HierarchyCircularNode<Initiative>) {
-    // const circleChildren = this.circles[circleIndex].children;
-
+    this.selectedCircle = circle;
     this.setCircleState(circle, CircleState.selected);
+    this.setCircleStateForChildren(circle, CircleState.childOfSelected);
+  }
 
-    // circleChildren?.forEach(childCircle => this.setCircleState())
+  hoverOverSelectedCircle(circle: HierarchyCircularNode<Initiative>) {
+    this.setCircleState(circle, CircleState.selectedAndHovered);
+    this.setCircleStateForChildren(circle, CircleState.childOfSelectedAndHovered);
+  }
+
+  stopHoveringOverSelectedCircle(circle: HierarchyCircularNode<Initiative>) {
+    this.setCircleState(circle, CircleState.selected);
+    this.setCircleStateForChildren(circle, CircleState.childOfSelected);
+  }
+
+  highlightChildOfSelectedCircle(circle: HierarchyCircularNode<Initiative>) {
+    if (this.selectedCircle) {
+      this.setCircleStateForChildren(this.selectedCircle, CircleState.childOfSelected);
+      // this.setCircleState(this.selectedCircle, CircleState.selectedAndHovered);
+    } else {
+      console.error('highlightChildOfSelectedCircle() should never have been called without a selected circle!');
+    }
+
+    this.setCircleState(circle, CircleState.highlightedChildOfSelectedAndHovered);
   }
 
   onCircleMouseEnter(circle: HierarchyCircularNode<Initiative>) {
+    console.log('Entering...', circle.data.name);
     const circleState = this.getCircleState(circle);
 
-    if (circleState === CircleState.selected) {
-      this.setCircleState(circle, CircleState.selectedAndHovered);
+    // if (this.lastLeftCircle && circle.parent === this.lastLeftCircle) {
+    //   this.hoverOverSelectedCircle(this.lastLeftCircle);
+    // }
+
+    switch (circleState) {
+      case CircleState.selected:
+        this.hoverOverSelectedCircle(circle)
+        break;
+
+      case CircleState.childOfSelectedAndHovered:
+        this.highlightChildOfSelectedCircle(circle);
+        break;
+
+      case CircleState.selectedAndHovered:
+        this.hoverOverSelectedCircle(circle);
+        break;
+
+      default:
+        break;
     }
   }
 
   onCircleMouseLeave(circle: HierarchyCircularNode<Initiative>) {
-    const circleState = this.getCircleState(circle);
+    console.log('Leaving...', circle.data.name);
+    // this.lastLeftCircle = circle;
 
-    if (circleState === CircleState.selectedAndHovered) {
-      this.setCircleState(circle, CircleState.selected);
-    }
+    // const circleState = this.getCircleState(circle);
+
+    // if (circleState === CircleState.selectedAndHovered) {
+    //   this.stopHoveringOverSelectedCircle(circle)
+    // }
   }
 
   onCircleClick(circle: HierarchyCircularNode<Initiative>, circleIndex: number) {

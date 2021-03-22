@@ -22,7 +22,11 @@
 }
 
 .circle--state-child-of-selected {
-  opacity: 1;
+  opacity: 0.3;
+
+  .circle__info {
+    opacity: 1;
+  }
 }
 
 .circle--state-child-of-hovered-selected {
