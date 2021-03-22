@@ -1,3 +1,5 @@
+import { CircleState } from './circle-state.enum';
+
 export interface Initiative {
   name: string;
   colour: string;
@@ -7,4 +9,5 @@ export interface Initiative {
   helpers?: {
     picture: string;
   }[];
+  state: CircleState;
 }

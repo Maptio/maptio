@@ -7,12 +7,10 @@ import 'hammerjs';
 // import { Hammer } from 'hammerjs';
 // import * as Hammer from 'hammerjs';
 
-import data from '../markhof.data.json';
+import { CircleState } from '../shared/circle-state.enum';
+import { Initiative } from '../shared/initiative.model';
 
-interface Initiative {
-  name: string;
-  colour: string;
-}
+import data from '../markhof.data.json';
 
 @Component({
   selector: 'maptio-circle-map',
@@ -20,12 +18,12 @@ interface Initiative {
   styleUrls: ['./circle-map.component.scss']
 })
 export class CircleMapComponent implements OnInit, AfterViewInit {
-  circles: HierarchyCircularNode<Initiative>[] = [];
-
   @ViewChild('map', { static: false }) map?: ElementRef;
 
-  public scheme?: SvgPanZoom.Instance;
+  scheme?: SvgPanZoom.Instance;
 
+  circles: HierarchyCircularNode<Initiative>[] = [];
+  selectedCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
 
   ngOnInit(): void {
     console.log(data);
@@ -63,6 +61,16 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
     console.log('data after running circle packing:');
     this.circles = boo(root).descendants();
     console.log(this.circles);
+
+    this.circles.forEach((circle) => {
+      circle.data.state = CircleState.hidden;
+    });
+
+    this.selectedCircle = this.circles[1];
+    this.circles[1].data.state = CircleState.selected;
+
+    console.log('Selected circle');
+    console.log(this.selectedCircle);
   }
 
   ngAfterViewInit() {
@@ -151,7 +159,6 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
     // this.zoomToCircle();
   }
 
-
   zoomToCircle(circleId: string) {
     this.scheme?.reset();
 
@@ -190,9 +197,42 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
     return 'maptio-circle-' + circleIndex;
   }
 
+  getCircleState(circleIndex: number): CircleState {
+    return this.circles[circleIndex].data.state;
+  }
+
+  setCircleState(circleIndex: number, state: CircleState) {
+    this.circles[circleIndex].data.state = state;
+  }
+
+  selectCircle(circleIndex: number) {
+    // const circleChildren = this.circles[circleIndex].children;
+
+    this.setCircleState(circleIndex, CircleState.selected);
+
+    // circleChildren?.forEach(childCircle => this.setCircleState())
+  }
+
+  onCircleMouseEnter(circleIndex: number) {
+    const circleState = this.getCircleState(circleIndex);
+
+    if (circleState === CircleState.selected) {
+      this.setCircleState(circleIndex, CircleState.selectedAndHovered);
+    }
+  }
+
+  onCircleMouseLeave(circleIndex: number) {
+    const circleState = this.getCircleState(circleIndex);
+
+    if (circleState === CircleState.selectedAndHovered) {
+      this.setCircleState(circleIndex, CircleState.selected);
+    }
+  }
+
   onCircleClick(circleIndex: number) {
     const circleId = this.getCircleId(circleIndex);
-    this.zoomToCircle(circleId);
+    // this.zoomToCircle(circleId);
     console.log(circleId);
   }
+
 }

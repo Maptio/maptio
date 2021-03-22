@@ -1,8 +1,10 @@
 <svg:g
-  class="initiative"
+  class="circle"
+  [class.selected]="selected"
+  [ngClass]="'circle--state-' + circle.data.state"
 >
   <circle
-    class="circle"
+    class="circle__circle"
     [attr.cx]="circle.x"
     [attr.cy]="circle.y"
     [attr.r]="circle.r"
@@ -11,7 +13,8 @@
   />
 
   <foreignObject
-    class="info-container"
+    class="circle__info"
+    *ngIf="circle.data.state !== 'hidden'"
     [attr.x]="circle.x - circle.r / math.sqrt(2)"
     [attr.y]="circle.y - circle.r / math.sqrt(2)"
     [attr.width]="circle.r * 2 / math.sqrt(2)"
