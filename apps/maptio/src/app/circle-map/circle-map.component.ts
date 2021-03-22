@@ -197,42 +197,41 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
     return 'maptio-circle-' + circleIndex;
   }
 
-  getCircleState(circleIndex: number): CircleState {
-    return this.circles[circleIndex].data.state;
+  getCircleState(circle: HierarchyCircularNode<Initiative>): CircleState {
+    return circle.data.state;
   }
 
-  setCircleState(circleIndex: number, state: CircleState) {
-    this.circles[circleIndex].data.state = state;
+  setCircleState(circle: HierarchyCircularNode<Initiative>, state: CircleState) {
+    circle.data.state = state;
   }
 
-  selectCircle(circleIndex: number) {
+  selectCircle(circle: HierarchyCircularNode<Initiative>) {
     // const circleChildren = this.circles[circleIndex].children;
 
-    this.setCircleState(circleIndex, CircleState.selected);
+    this.setCircleState(circle, CircleState.selected);
 
     // circleChildren?.forEach(childCircle => this.setCircleState())
   }
 
-  onCircleMouseEnter(circleIndex: number) {
-    const circleState = this.getCircleState(circleIndex);
+  onCircleMouseEnter(circle: HierarchyCircularNode<Initiative>) {
+    const circleState = this.getCircleState(circle);
 
     if (circleState === CircleState.selected) {
-      this.setCircleState(circleIndex, CircleState.selectedAndHovered);
+      this.setCircleState(circle, CircleState.selectedAndHovered);
     }
   }
 
-  onCircleMouseLeave(circleIndex: number) {
-    const circleState = this.getCircleState(circleIndex);
+  onCircleMouseLeave(circle: HierarchyCircularNode<Initiative>) {
+    const circleState = this.getCircleState(circle);
 
     if (circleState === CircleState.selectedAndHovered) {
-      this.setCircleState(circleIndex, CircleState.selected);
+      this.setCircleState(circle, CircleState.selected);
     }
   }
 
-  onCircleClick(circleIndex: number) {
-    const circleId = this.getCircleId(circleIndex);
+  onCircleClick(circle: HierarchyCircularNode<Initiative>, circleIndex: number) {
+    // const circleId = this.getCircleId(circleIndex);
     // this.zoomToCircle(circleId);
-    console.log(circleId);
+    console.log(circle, circleIndex);
   }
-
 }
