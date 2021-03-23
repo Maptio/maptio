@@ -225,6 +225,17 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
     this.setCircleStateForChildren(circle, CircleState.childOfSelected);
   }
 
+  deselectSelectedCircle() {
+    console.log('DESELECTING!');
+    if (this.selectedCircle) {
+      this.setCircleState(this.selectedCircle, CircleState.hidden);
+      this.setCircleStateForChildren(this.selectedCircle, CircleState.hidden);
+      this.selectedCircle = undefined;
+    }
+
+    this.selectCircle(this.circles[1]);
+  }
+
   hoverOverSelectedCircle(circle: HierarchyCircularNode<Initiative>) {
     this.setCircleState(circle, CircleState.selectedAndHovered);
     this.setCircleStateForChildren(circle, CircleState.childOfSelectedAndHovered);
@@ -288,6 +299,25 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
     // const circleId = this.getCircleId(circleIndex);
     // this.zoomToCircle(circleId);
     console.log(circle, circleIndex);
-    this.selectCircle(circle);
+    // this.selectCircle(circle);
+
+    const circleState = this.getCircleState(circle);
+    switch (circleState) {
+      case CircleState.highlightedChildOfSelectedAndHovered:
+        this.selectCircle(circle);
+        break;
+
+      // case CircleState.selectedAndHovered || CircleState.selected:
+      //   this.deselectSelectedCircle();
+      //   break;
+
+      default:
+        break;
+    }
+  }
+
+  onBackdropClick() {
+    console.log('ON BACKDROP CLICK!!!');
+    this.deselectSelectedCircle();
   }
 }

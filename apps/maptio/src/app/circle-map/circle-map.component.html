@@ -5,6 +5,14 @@
   width="100%"
   height="97.5vh"
 >
+  <rect
+    class="circle-map__backdrop"
+    (click)="onBackdropClick()"
+    height="1000"
+    width="1000"
+  >
+
+  </rect>
   <g maptioCircle
     *ngFor="let circle of circles; let i = index"
     [circle]="circle"
