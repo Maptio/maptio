@@ -307,9 +307,10 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
         this.selectCircle(circle);
         break;
 
-      // case CircleState.selectedAndHovered || CircleState.selected:
-      //   this.deselectSelectedCircle();
-      //   break;
+      case CircleState.selectedAndHovered:
+      case CircleState.selected:
+        this.deselectSelectedCircle();
+        break;
 
       default:
         break;
