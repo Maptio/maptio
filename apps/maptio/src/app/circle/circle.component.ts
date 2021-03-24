@@ -11,7 +11,6 @@ import { Initiative } from '../shared/initiative.model';
 })
 export class CircleComponent implements OnInit {
   @Input() circle!: HierarchyCircularNode<Initiative>;
-  @Input() isRoot = false;
 
   // TODO: Move calculations into typescript code
   math = Math;

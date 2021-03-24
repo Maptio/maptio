@@ -1,7 +1,10 @@
 <svg:g
   class="circle"
-  [ngClass]="'circle--state-' + circle.data.state"
-  [class.root-circle]="isRoot"
+  [ngClass]="circle.data.state ? 'circle--state-' + circle.data.state : ''"
+  [class.circle--type-root]="circle.data.isRoot"
+  [class.circle--type-primary]="circle.data.isPrimary"
+  [class.circle--type-secondary]="circle.data.isSecondary"
+  [class.circle--type-leaf]="circle.data.isLeaf"
 >
   <circle
     class="circle__circle"

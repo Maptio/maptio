@@ -9,5 +9,9 @@ export interface Initiative {
   helpers?: {
     picture: string;
   }[];
-  state: CircleState;
+  state?: CircleState;
+  isRoot: boolean;
+  isPrimary: boolean;
+  isSecondary: boolean;
+  isLeaf: boolean;
 }

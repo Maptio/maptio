@@ -4,8 +4,6 @@ import { hierarchy, pack, HierarchyCircularNode } from 'd3-hierarchy';
 
 import * as svgPanZoom from 'svg-pan-zoom';
 import 'hammerjs';
-// import { Hammer } from 'hammerjs';
-// import * as Hammer from 'hammerjs';
 
 import { CircleState } from '../shared/circle-state.enum';
 import { Initiative } from '../shared/initiative.model';
@@ -36,6 +34,8 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
 
     console.log('Selected circle');
     console.log(this.selectedCircle);
+
+    this.setCircleTypes();
   }
 
   ngAfterViewInit() {
@@ -204,11 +204,30 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
     }, 500);
   }
 
+  setCircleTypes() {
+    this.circles.forEach((circle) => {
+      circle.data.isLeaf = circle.children ? false : true;
+      circle.data.isRoot = false;
+      circle.data.isPrimary = false;
+      circle.data.isSecondary = false;
+    });
+
+    this.circles[0].data.isRoot = true;
+
+    this.circles[0].children?.forEach(primaryCircle => {
+      primaryCircle.data.isPrimary = true;
+
+      primaryCircle.children?.forEach(secondaryCircle => {
+        secondaryCircle.data.isSecondary = true;
+      });
+    });
+  }
+
   getCircleId(circleIndex: number) {
     return 'maptio-circle-' + circleIndex;
   }
 
-  getCircleState(circle: HierarchyCircularNode<Initiative>): CircleState {
+  getCircleState(circle: HierarchyCircularNode<Initiative>): CircleState | undefined {
     return circle.data.state;
   }
 
