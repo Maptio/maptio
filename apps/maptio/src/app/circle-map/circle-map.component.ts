@@ -99,7 +99,7 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
         hammer.get('pinch').set({enable: true})
 
         // Handle double tap
-        hammer.on('doubletap', function(ev){
+        hammer.on('doubletap', function(){
           instance.zoomIn()
         })
 
