@@ -25,6 +25,7 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
   circles: HierarchyCircularNode<Initiative>[] = [];
   selectedCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
   lastLeftCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
+  currentlyHoveredCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
 
   ngOnInit(): void {
     console.log(data);
@@ -259,6 +260,7 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
 
   onCircleMouseEnter(circle: HierarchyCircularNode<Initiative>) {
     console.log('Entering...', circle.data.name);
+    this.currentlyHoveredCircle = circle;
 
     if (this.lastLeftCircle && circle.parent === this.lastLeftCircle) {
       this.hoverOverSelectedCircle(this.lastLeftCircle);
@@ -287,6 +289,7 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
     console.log('Leaving...', circle.data.name);
 
     this.lastLeftCircle = circle;
+    this.currentlyHoveredCircle = undefined;
 
     const circleState = this.getCircleState(circle);
 
@@ -305,6 +308,7 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
     switch (circleState) {
       case CircleState.highlightedChildOfSelectedAndHovered:
         this.selectCircle(circle);
+        this.hoverOverSelectedCircle(circle)
         break;
 
       case CircleState.selectedAndHovered:
