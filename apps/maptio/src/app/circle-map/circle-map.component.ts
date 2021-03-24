@@ -28,6 +28,25 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
   currentlyHoveredCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
 
   ngOnInit(): void {
+    this.prepareLayout();
+
+    this.circles.forEach((circle) => {
+      circle.data.state = CircleState.hidden;
+    });
+
+    console.log('Selected circle');
+    console.log(this.selectedCircle);
+  }
+
+  ngAfterViewInit() {
+    this.initialiseZoomAndPanLibrary();
+
+    setTimeout(() => {
+      this.selectCircle(this.circles[1])
+    });
+  }
+
+  prepareLayout() {
     console.log(data);
     console.log(pack);
 
@@ -63,16 +82,9 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
     console.log('data after running circle packing:');
     this.circles = boo(root).descendants();
     console.log(this.circles);
-
-    this.circles.forEach((circle) => {
-      circle.data.state = CircleState.hidden;
-    });
-
-    console.log('Selected circle');
-    console.log(this.selectedCircle);
   }
 
-  ngAfterViewInit() {
+  initialiseZoomAndPanLibrary() {
     // const SUPPORT_POINTER_EVENTS = true;
 
     const hammer = new Hammer(this.map?.nativeElement, {
@@ -156,10 +168,6 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
     // this.scheme.zoomAtPoint(20, {x: 288, y: 183})
     // this.scheme.zoomAtPoint(1, {x: 948, y: 492})
     // this.zoomToCircle();
-
-    setTimeout(() => {
-      this.selectCircle(this.circles[1])
-    });
   }
 
   zoomToCircle(circleId: string) {
