@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 
 import { SubSink } from 'subsink';
-import { hierarchy, pack, HierarchyCircularNode } from 'd3-hierarchy';
+import { hierarchy, pack } from 'd3-hierarchy';
 
 import * as svgPanZoom from 'svg-pan-zoom';
 import 'hammerjs';
@@ -24,9 +24,9 @@ export class CircleMapComponent implements OnInit, AfterViewInit, OnDestroy  {
 
   scheme?: SvgPanZoom.Instance;
 
-  circles: HierarchyCircularNode<Initiative>[] = [];
-  rootCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
-  primaryCircles: HierarchyCircularNode<Initiative>[] = [];
+  circles: InitiativeNode[] = [];
+  rootCircle: InitiativeNode | undefined = undefined;
+  primaryCircles: InitiativeNode[] = [];
 
   constructor(private circleMapService: CircleMapService) {}
 

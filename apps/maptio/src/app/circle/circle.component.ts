@@ -1,9 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-import { HierarchyCircularNode } from 'd3-hierarchy';
 import { CircleMapService } from '../shared/circle-map.service';
-
-import { Initiative } from '../shared/initiative.model';
+import { InitiativeNode } from '../shared/initiative.model';
 
 
 @Component({
@@ -12,7 +10,7 @@ import { Initiative } from '../shared/initiative.model';
   styleUrls: ['./circle.component.scss'],
 })
 export class CircleComponent {
-  @Input() circle!: HierarchyCircularNode<Initiative>;
+  @Input() circle!: InitiativeNode;
 
   // TODO: Move calculations into typescript code
   math = Math;
