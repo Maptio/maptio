@@ -14,4 +14,5 @@ export interface Initiative {
   isPrimary: boolean;
   isSecondary: boolean;
   isLeaf: boolean;
+  isSelected: boolean;
 }

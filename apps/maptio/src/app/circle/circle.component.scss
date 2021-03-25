@@ -17,7 +17,6 @@
 }
 
 .circle--type-primary {
-  // opacity: 1;
   fill-opacity: 1;
   pointer-events: auto;
 
@@ -32,38 +31,93 @@
   }
 }
 
-.circle--type-primary:hover > .circle__children > g > .circle {
-  fill-opacity: 0.8;
-  pointer-events: auto;
+// :not(.circle-map--state-circle-selected) {
+//   .circle--type-primary:hover > .circle__children > g > .circle {
+//   // .circle--type-primary:hover > .circle__children > g > .circle {
+//     fill-opacity: 0.8;
+//     pointer-events: auto;
 
-  > .circle__info {
+//     > .circle__info {
+//       opacity: 1;
+//     }
+//   }
+
+//   // https://codepen.io/shshaw/pen/wWQZEB
+
+//   .circle--type-primary:hover > .circle__children {
+//     visibility: hidden;
+//   }
+
+//   .circle--type-primary:hover > .circle__children > g {
+//     visibility: visible;
+//   }
+
+//   // .circle-map:not(.circle-map--state-circle-selected) .circle--type-primary:hover > .circle__children:hover > g {
+//   .circle--type-primary:hover > .circle__children:hover > g > .circle {
+//     opacity: 0.4;
+//   }
+
+//   // .circle-map:not(.circle-map--state-circle-selected) .circle--type-primary:hover > .circle__children:hover > g:hover {
+//   .circle--type-primary:hover > .circle__children:hover > g:hover > .circle {
+//     opacity: 1;
+//   }
+// }
+
+
+
+
+
+
+.circle-map--state-circle-selected {
+  .circle {
+    fill-opacity: 0.3;
+
+    .circle__info {
+      opacity: 0;
+    }
+  }
+
+  .circle--state-selected {
+    fill-opacity: 1;
+    pointer-events: auto;
+
+    > .circle__info {
+      opacity: 1;
+    }
+  }
+
+  .circle--state-selected:hover {
+    > .circle__info {
+      opacity: 0;
+    }
+  }
+
+  .circle--state-selected:hover > .circle__children > g > .circle {
+    fill-opacity: 0.8;
+    pointer-events: auto;
+
+    > .circle__info {
+      opacity: 1;
+    }
+  }
+
+
+  .circle--state-selected:hover > .circle__children {
+    visibility: hidden;
+  }
+
+  .circle--state-selected:hover > .circle__children > g {
+    visibility: visible;
+  }
+
+  .circle--state-selected:hover > .circle__children:hover > g > .circle {
+    opacity: 0.4;
+  }
+
+  .circle--state-selected:hover > .circle__children:hover > g:hover > .circle {
     opacity: 1;
   }
 }
-
-
-
-
-// https://codepen.io/shshaw/pen/wWQZEB
-
-.circle--type-primary:hover > .circle__children {
-  visibility: hidden;
-}
-
-.circle--type-primary:hover > .circle__children > g {
-  visibility: visible;
-}
-
-.circle--type-primary:hover > .circle__children:hover > g {
-  opacity: 0.4;
-}
-
-.circle--type-primary:hover > .circle__children:hover > g:hover {
-  opacity: 1;
-}
-
-
-
 
 
 

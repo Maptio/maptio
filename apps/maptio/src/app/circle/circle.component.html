@@ -1,11 +1,16 @@
 <svg:g
   class="circle"
-  [ngClass]="circle.data.state ? 'circle--state-' + circle.data.state : ''"
-  [class.circle--type-root]="circle.data.isRoot"
   [class.circle--type-primary]="circle.data.isPrimary"
   [class.circle--type-secondary]="circle.data.isSecondary"
-  [class.circle--type-leaf]="circle.data.isLeaf"
+  [class.circle--state-selected]="circle.data.isSelected"
+  (click)="onClick($event)"
 >
+<!--
+  [ngClass]="circle.data.state ? 'circle--state-' + circle.data.state : ''"
+  [class.circle--type-root]="circle.data.isRoot"
+  [class.circle--type-leaf]="circle.data.isLeaf"
+ -->
+
   <circle
     class="circle__circle"
     [attr.cx]="circle.x"

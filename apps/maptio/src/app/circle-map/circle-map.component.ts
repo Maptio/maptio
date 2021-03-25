@@ -1,10 +1,12 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 
+import { SubSink } from 'subsink';
 import { hierarchy, pack, HierarchyCircularNode } from 'd3-hierarchy';
 
 import * as svgPanZoom from 'svg-pan-zoom';
 import 'hammerjs';
 
+import { CircleMapService } from '../shared/circle-map.service';
 import { CircleState } from '../shared/circle-state.enum';
 import { Initiative } from '../shared/initiative.model';
 
@@ -15,16 +17,23 @@ import data from '../markhof.data.json';
   templateUrl: './circle-map.component.html',
   styleUrls: ['./circle-map.component.scss']
 })
-export class CircleMapComponent implements OnInit, AfterViewInit {
+export class CircleMapComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('map', { static: false }) map?: ElementRef;
 
+  private subs = new SubSink();
+
   scheme?: SvgPanZoom.Instance;
+
+  isCircleSelected = true;
 
   circles: HierarchyCircularNode<Initiative>[] = [];
   rootCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
   selectedCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
   lastLeftCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
   currentlyHoveredCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
+
+  constructor(private circleMapService: CircleMapService) {
+  }
 
   ngOnInit(): void {
     this.prepareLayout();
@@ -41,6 +50,37 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
     console.log(this.selectedCircle);
 
     this.setCircleTypes();
+
+    this.subs.sink = this.circleMapService.selectedCircle.subscribe(
+      (selectedCircle?: HierarchyCircularNode<Initiative>) => {
+        console.log('Got selected circle in the map component:');
+        console.log(selectedCircle);
+
+        if (selectedCircle) {
+          if (this.selectedCircle) {
+            this.selectedCircle.data.isSelected = false;
+          }
+
+          this.rootCircle?.children?.forEach(primaryCircle => {
+            primaryCircle.data.isSelected = false;
+          });
+
+          this.isCircleSelected = true;
+
+          this.selectedCircle = selectedCircle;
+          this.selectedCircle.data.isSelected = true;
+        } else {
+          this.isCircleSelected = false;
+
+          this.rootCircle?.children?.forEach(primaryCircle => {
+            primaryCircle.data.isSelected = true;
+          });
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -227,6 +267,22 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
       });
     });
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   getCircleId(circleIndex: number) {
     return 'maptio-circle-' + circleIndex;
