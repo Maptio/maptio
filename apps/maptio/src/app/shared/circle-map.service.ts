@@ -10,6 +10,14 @@ import { InitiativeNode } from './initiative.model';
 export class CircleMapService {
   public selectedCircle = new BehaviorSubject<InitiativeNode | undefined>(undefined);
 
+  onCircleClick(circle: InitiativeNode) {
+    if (circle === this.selectedCircle.value && circle.parent && circle.parent.parent) {
+      this.selectCircle(circle.parent);
+    } else {
+      this.selectCircle(circle);
+    }
+  }
+
   selectCircle(circle: InitiativeNode) {
     console.log('CircleMapService.selectCircle: ', circle.data.name);
 

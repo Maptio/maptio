@@ -22,8 +22,7 @@ export class CircleComponent {
   onClick($event: MouseEvent) {
     console.log(`CircleComponent.onClick fired for: ${this.circle.data.name}`);
 
-    this.circle.data.isSelected = true;
-    this.circleMapService.selectCircle(this.circle);
+    this.circleMapService.onCircleClick(this.circle);
 
     // Avoid triggering click events for circles underneath this one
     $event.stopPropagation();
