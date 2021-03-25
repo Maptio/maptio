@@ -1,5 +1,5 @@
 // .circle {
-//   opacity: 0.3;
+//   fill-opacity: 0.3;
 // }
 
 // foreignObject {
@@ -7,7 +7,8 @@
 // }
 
 .circle {
-  opacity: 0.3;
+  // opacity: 0.3;
+  fill-opacity: 0.3;
   pointer-events: none;
 }
 
@@ -15,62 +16,90 @@
   opacity: 0;
 }
 
-.circle--type-root {
-  opacity: 0 !important;
-}
-
 .circle--type-primary {
-  opacity: 1;
+  // opacity: 1;
+  fill-opacity: 1;
   pointer-events: auto;
 
-  .circle__info {
+  > .circle__info {
     opacity: 1;
   }
 }
 
 .circle--type-primary:hover {
-  .circle__info {
+  > .circle__info {
     opacity: 0;
   }
 }
 
-.circle--type-primary:hover ~ .circle--type-secondary {
-  opacity: 1;
+.circle--type-primary:hover > .circle__children > g > .circle {
+  fill-opacity: 0.8;
   pointer-events: auto;
 
-  .circle__info {
+  > .circle__info {
     opacity: 1;
   }
 }
 
-.circle--state-hidden {
-  opacity: 0.3;
-  pointer-events: none;
+
+
+
+// https://codepen.io/shshaw/pen/wWQZEB
+
+.circle--type-primary:hover > .circle__children {
+  visibility: hidden;
 }
 
-.circle--state-selected {
+.circle--type-primary:hover > .circle__children > g {
+  visibility: visible;
+}
+
+.circle--type-primary:hover > .circle__children:hover > g {
+  opacity: 0.4;
+}
+
+.circle--type-primary:hover > .circle__children:hover > g:hover {
   opacity: 1;
 }
 
-.circle--state-selected-and-hovered {
-  .circle__info {
-    opacity: 0;
-  }
-}
 
-.circle--state-child-of-selected {
-  opacity: 0.3;
 
-  .circle__info {
-    opacity: 1;
-  }
-}
 
-.circle--state-child-of-hovered-selected {
-  opacity: 1;
-}
 
-.circle--state-highlighted-child-of-selected-and-hovered {
-  opacity: 1;
-  cursor: pointer;
-}
+
+
+
+// .circle--type-primary:hover .circle--type-secondary {
+// }
+
+// .circle--state-hidden {
+//   fill-opacity: 0.3;
+//   pointer-events: none;
+// }
+
+// .circle--state-selected {
+//   fill-opacity: 1;
+// }
+
+// .circle--state-selected-and-hovered {
+//   .circle__info {
+//     opacity: 0;
+//   }
+// }
+
+// .circle--state-child-of-selected {
+//   fill-opacity: 0.3;
+
+//   .circle__info {
+//     opacity: 1;
+//   }
+// }
+
+// .circle--state-child-of-hovered-selected {
+//   fill-opacity: 1;
+// }
+
+// .circle--state-highlighted-child-of-selected-and-hovered {
+//   fill-opacity: 1;
+//   cursor: pointer;
+// }

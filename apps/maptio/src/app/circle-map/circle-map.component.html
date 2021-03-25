@@ -13,12 +13,12 @@
   >
   </rect>
 
+  <!-- <g maptioCircle
+    *ngIf="rootCircle"
+    [circle]="rootCircle"
+  ></g> -->
   <g maptioCircle
-    *ngFor="let circle of circles; let i = index"
-    [circle]="circle"
-    [attr.id]="getCircleId(i)"
-    (mouseenter)="onCircleMouseEnter(circle)"
-    (mouseleave)="onCircleMouseLeave(circle)"
-    (click)="onCircleClick(circle, i)"
+    *ngFor="let child of rootCircle?.children"
+    [circle]="child"
   ></g>
 </svg>

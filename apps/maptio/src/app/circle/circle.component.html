@@ -12,7 +12,6 @@
     [attr.cy]="circle.y"
     [attr.r]="circle.r"
     [attr.fill]="circle.data.colour || '#e9c46a'"
-    opacity="0.8"
   />
 
   <foreignObject
@@ -27,4 +26,11 @@
       [circleInfo]="circle.data"
     ></g>
   </foreignObject>
+
+  <g class="circle__children">
+    <g maptioCircle
+      *ngFor="let child of circle.children"
+      [circle]="child"
+    ></g>
+  </g>
 </svg:g>

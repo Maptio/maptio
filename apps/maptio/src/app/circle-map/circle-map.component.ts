@@ -21,6 +21,7 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
   scheme?: SvgPanZoom.Instance;
 
   circles: HierarchyCircularNode<Initiative>[] = [];
+  rootCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
   selectedCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
   lastLeftCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
   currentlyHoveredCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
@@ -31,6 +32,10 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
     // this.circles.forEach((circle) => {
     //   circle.data.state = CircleState.hidden;
     // });
+
+    if (this.circles) {
+      this.rootCircle = this.circles[0];
+    }
 
     console.log('Selected circle');
     console.log(this.selectedCircle);
