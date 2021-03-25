@@ -6,8 +6,41 @@
 //   overflow: visible;
 // }
 
+.circle {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.circle__info {
+  opacity: 0;
+}
+
 .circle--type-root {
   opacity: 0 !important;
+}
+
+.circle--type-primary {
+  opacity: 1;
+  pointer-events: auto;
+
+  .circle__info {
+    opacity: 1;
+  }
+}
+
+.circle--type-primary:hover {
+  .circle__info {
+    opacity: 0;
+  }
+}
+
+.circle--type-primary:hover ~ .circle--type-secondary {
+  opacity: 1;
+  pointer-events: auto;
+
+  .circle__info {
+    opacity: 1;
+  }
 }
 
 .circle--state-hidden {

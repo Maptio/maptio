@@ -28,9 +28,9 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.prepareLayout();
 
-    this.circles.forEach((circle) => {
-      circle.data.state = CircleState.hidden;
-    });
+    // this.circles.forEach((circle) => {
+    //   circle.data.state = CircleState.hidden;
+    // });
 
     console.log('Selected circle');
     console.log(this.selectedCircle);
@@ -41,9 +41,9 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.initialiseZoomAndPanLibrary();
 
-    setTimeout(() => {
-      this.selectCircle(this.circles[1])
-    });
+    // setTimeout(() => {
+    //   this.selectCircle(this.circles[1])
+    // });
   }
 
   prepareLayout() {
@@ -261,7 +261,7 @@ export class CircleMapComponent implements OnInit, AfterViewInit {
       this.selectedCircle = undefined;
     }
 
-    this.selectCircle(this.circles[1]);
+    // this.selectCircle(this.circles[1]);
   }
 
   hoverOverSelectedCircle(circle: HierarchyCircularNode<Initiative>) {
