@@ -239,7 +239,8 @@ export class CircleMapComponent implements OnInit, AfterViewInit, OnDestroy  {
   }
 
   onBackdropClick() {
-    console.log('ON BACKDROP CLICK!!!');
-    // this.deselectSelectedCircle();
+    console.log('CircleMap.onBackdropClick()');
+
+    this.circleMapService.deselectSelectedCircle();
   }
 }

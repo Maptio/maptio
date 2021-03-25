@@ -13,13 +13,17 @@ export class CircleMapService {
   selectCircle(circle: InitiativeNode) {
     console.log('CircleMapService.selectCircle: ', circle.data.name);
 
-    // Deselect previously selected circle
+    this.deselectSelectedCircle();
+    this.markCircleAsSelected(circle);
+
+    this.selectedCircle.next(circle);
+  }
+
+  deselectSelectedCircle() {
     if (this.selectedCircle.value) {
       this.markCircleAsNotSelected(this.selectedCircle.value);
     }
-
-    this.markCircleAsSelected(circle);
-    this.selectedCircle.next(circle);
+    this.selectedCircle.next(undefined);
   }
 
   markCircleAsSelected(circle: InitiativeNode) {
