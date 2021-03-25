@@ -1,16 +1,9 @@
 <svg:g
   class="circle"
-  [class.circle--type-primary]="circle.data.isPrimary"
-  [class.circle--type-secondary]="circle.data.isSecondary"
   [class.circle--state-selected]="circle.data.isSelected"
+  [class.circle--type-leaf]="circle.data.isLeaf"
   (click)="onClick($event)"
 >
-<!--
-  [ngClass]="circle.data.state ? 'circle--state-' + circle.data.state : ''"
-  [class.circle--type-root]="circle.data.isRoot"
-  [class.circle--type-leaf]="circle.data.isLeaf"
- -->
-
   <circle
     class="circle__circle"
     [attr.cx]="circle.x"
@@ -21,7 +14,6 @@
 
   <foreignObject
     class="circle__info"
-    *ngIf="circle.data.state !== 'hidden'"
     [attr.x]="circle.x - circle.r / math.sqrt(2)"
     [attr.y]="circle.y - circle.r / math.sqrt(2)"
     [attr.width]="circle.r * 2 / math.sqrt(2)"

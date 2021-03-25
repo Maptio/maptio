@@ -1,7 +1,6 @@
 <svg
   #map
   class="circle-map"
-  [class.circle-map--state-circle-selected]="isCircleSelected"
   xmlns="http://www.w3.org/2000/svg"
   viewBox="0 0 1000 1000"
   width="100%"
@@ -15,13 +14,9 @@
   >
   </rect>
 
-  <!-- <g maptioCircle
-    *ngIf="rootCircle"
-    [circle]="rootCircle"
-  ></g> -->
   <g
     maptioCircle
-    *ngFor="let child of rootCircle?.children"
-    [circle]="child"
+    *ngFor="let primaryCircle of rootCircle?.children"
+    [circle]="primaryCircle"
   ></g>
 </svg>

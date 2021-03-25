@@ -1,17 +1,17 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { HierarchyCircularNode } from 'd3-hierarchy';
 import { CircleMapService } from '../shared/circle-map.service';
 
 import { Initiative } from '../shared/initiative.model';
 
+
 @Component({
   selector: 'g[maptioCircle]', // eslint-disable-line @angular-eslint/component-selector
   templateUrl: './circle.component.html',
   styleUrls: ['./circle.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
-export class CircleComponent implements OnInit {
+export class CircleComponent {
   @Input() circle!: HierarchyCircularNode<Initiative>;
 
   // TODO: Move calculations into typescript code
@@ -19,18 +19,13 @@ export class CircleComponent implements OnInit {
 
   constructor(private circleMapService: CircleMapService) {}
 
-  ngOnInit(): void {
-    console.log('remove me');
-  }
+  onClick($event: MouseEvent) {
+    console.log(`CircleComponent.onClick fired for: ${this.circle.data.name}`);
 
-  selectCircle() {
     this.circle.data.isSelected = true;
     this.circleMapService.selectCircle(this.circle);
-  }
 
-  onClick($event: MouseEvent) {
-    console.log(`onClick from: ${this.circle.data.name}`);
-    this.selectCircle();
+    // Avoid triggering click events for circles underneath this one
     $event.stopPropagation();
   }
 }

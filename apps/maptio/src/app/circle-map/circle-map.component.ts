@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 
 import { SubSink } from 'subsink';
 import { hierarchy, pack, HierarchyCircularNode } from 'd3-hierarchy';
@@ -6,89 +6,42 @@ import { hierarchy, pack, HierarchyCircularNode } from 'd3-hierarchy';
 import * as svgPanZoom from 'svg-pan-zoom';
 import 'hammerjs';
 
+import { Initiative, InitiativeNode } from '../shared/initiative.model';
 import { CircleMapService } from '../shared/circle-map.service';
-import { CircleState } from '../shared/circle-state.enum';
-import { Initiative } from '../shared/initiative.model';
 
 import data from '../markhof.data.json';
+
 
 @Component({
   selector: 'maptio-circle-map',
   templateUrl: './circle-map.component.html',
   styleUrls: ['./circle-map.component.scss']
 })
-export class CircleMapComponent implements OnInit, OnDestroy, AfterViewInit {
+export class CircleMapComponent implements OnInit, AfterViewInit, OnDestroy  {
   @ViewChild('map', { static: false }) map?: ElementRef;
 
   private subs = new SubSink();
 
   scheme?: SvgPanZoom.Instance;
 
-  isCircleSelected = true;
-
   circles: HierarchyCircularNode<Initiative>[] = [];
   rootCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
-  selectedCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
-  lastLeftCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
-  currentlyHoveredCircle: HierarchyCircularNode<Initiative> | undefined = undefined;
+  primaryCircles: HierarchyCircularNode<Initiative>[] = [];
 
-  constructor(private circleMapService: CircleMapService) {
-  }
+  constructor(private circleMapService: CircleMapService) {}
 
   ngOnInit(): void {
     this.prepareLayout();
-
-    // this.circles.forEach((circle) => {
-    //   circle.data.state = CircleState.hidden;
-    // });
-
-    if (this.circles) {
-      this.rootCircle = this.circles[0];
-    }
-
-    console.log('Selected circle');
-    console.log(this.selectedCircle);
-
-    this.setCircleTypes();
-
-    this.subs.sink = this.circleMapService.selectedCircle.subscribe(
-      (selectedCircle?: HierarchyCircularNode<Initiative>) => {
-        console.log('Got selected circle in the map component:');
-        console.log(selectedCircle);
-
-        if (selectedCircle) {
-          if (this.selectedCircle) {
-            this.selectedCircle.data.isSelected = false;
-          }
-
-          this.rootCircle?.children?.forEach(primaryCircle => {
-            primaryCircle.data.isSelected = false;
-          });
-
-          this.isCircleSelected = true;
-
-          this.selectedCircle = selectedCircle;
-          this.selectedCircle.data.isSelected = true;
-        } else {
-          this.isCircleSelected = false;
-
-          this.rootCircle?.children?.forEach(primaryCircle => {
-            primaryCircle.data.isSelected = true;
-          });
-        }
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
+    this.identifyCircleTypes();
+    this.onCircleSelectionAdjustPrimaryCircleSelection();
   }
 
   ngAfterViewInit() {
     this.initialiseZoomAndPanLibrary();
+  }
 
-    // setTimeout(() => {
-    //   this.selectCircle(this.circles[1])
-    // });
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 
   prepareLayout() {
@@ -127,6 +80,42 @@ export class CircleMapComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('data after running circle packing:');
     this.circles = boo(root).descendants();
     console.log(this.circles);
+  }
+
+  identifyCircleTypes() {
+    if (this.circles) {
+      this.rootCircle = this.circles[0];
+      this.primaryCircles = this.rootCircle.children ? this.rootCircle.children : [];
+    }
+
+    this.circles.forEach((circle) => {
+      circle.data.isLeaf = circle.children ? false : true;
+    });
+  }
+
+  onCircleSelectionAdjustPrimaryCircleSelection() {
+    this.subs.sink = this.circleMapService.selectedCircle.subscribe((selectedCircle?: InitiativeNode) => {
+        console.log('CircleMap.onCircleSelectionAdjustPrimaryCircleSelection: ', selectedCircle?.data.name);
+
+        if (selectedCircle && !this.primaryCircles.includes(selectedCircle)) {
+          this.markPrimaryCirclesAsNotSelected();
+        } else {
+          this.markPrimaryCirclesAsSelected();
+        }
+      }
+    );
+  }
+
+  markPrimaryCirclesAsSelected() {
+    this.primaryCircles.forEach(primaryCircle => {
+      this.circleMapService.markCircleAsSelected(primaryCircle);
+    });
+  }
+
+  markPrimaryCirclesAsNotSelected() {
+    this.primaryCircles.forEach(primaryCircle => {
+      this.circleMapService.markCircleAsNotSelected(primaryCircle);
+    });
   }
 
   initialiseZoomAndPanLibrary() {
@@ -249,168 +238,8 @@ export class CircleMapComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 500);
   }
 
-  setCircleTypes() {
-    this.circles.forEach((circle) => {
-      circle.data.isLeaf = circle.children ? false : true;
-      circle.data.isRoot = false;
-      circle.data.isPrimary = false;
-      circle.data.isSecondary = false;
-    });
-
-    this.circles[0].data.isRoot = true;
-
-    this.circles[0].children?.forEach(primaryCircle => {
-      primaryCircle.data.isPrimary = true;
-
-      primaryCircle.children?.forEach(secondaryCircle => {
-        secondaryCircle.data.isSecondary = true;
-      });
-    });
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  getCircleId(circleIndex: number) {
-    return 'maptio-circle-' + circleIndex;
-  }
-
-  getCircleState(circle: HierarchyCircularNode<Initiative>): CircleState | undefined {
-    return circle.data.state;
-  }
-
-  setCircleState(circle: HierarchyCircularNode<Initiative>, state: CircleState) {
-    circle.data.state = state;
-    console.log(`Setting state of "${circle.data.name}" to "${state}"`);
-  }
-
-  setCircleStateForChildren(circle: HierarchyCircularNode<Initiative>, state: CircleState) {
-    circle.children?.forEach(childCircle => {
-      this.setCircleState(childCircle, state);
-    })
-  }
-
-  selectCircle(circle: HierarchyCircularNode<Initiative>) {
-    if (this.selectedCircle) {
-      this.setCircleState(this.selectedCircle, CircleState.hidden);
-      this.setCircleStateForChildren(this.selectedCircle, CircleState.hidden);
-    }
-
-    this.selectedCircle = circle;
-    this.setCircleState(circle, CircleState.selected);
-    this.setCircleStateForChildren(circle, CircleState.childOfSelected);
-  }
-
-  deselectSelectedCircle() {
-    console.log('DESELECTING!');
-    if (this.selectedCircle) {
-      this.setCircleState(this.selectedCircle, CircleState.hidden);
-      this.setCircleStateForChildren(this.selectedCircle, CircleState.hidden);
-      this.selectedCircle = undefined;
-    }
-
-    // this.selectCircle(this.circles[1]);
-  }
-
-  hoverOverSelectedCircle(circle: HierarchyCircularNode<Initiative>) {
-    this.setCircleState(circle, CircleState.selectedAndHovered);
-    this.setCircleStateForChildren(circle, CircleState.childOfSelectedAndHovered);
-  }
-
-  stopHoveringOverSelectedCircle(circle: HierarchyCircularNode<Initiative>) {
-    this.setCircleState(circle, CircleState.selected);
-    this.setCircleStateForChildren(circle, CircleState.childOfSelected);
-  }
-
-  highlightChildOfSelectedCircle(circle: HierarchyCircularNode<Initiative>) {
-    if (this.selectedCircle) {
-      this.setCircleStateForChildren(this.selectedCircle, CircleState.childOfSelected);
-      // this.setCircleState(this.selectedCircle, CircleState.selectedAndHovered);
-    } else {
-      console.error('highlightChildOfSelectedCircle() should never have been called without a selected circle!');
-    }
-
-    this.setCircleState(circle, CircleState.highlightedChildOfSelectedAndHovered);
-  }
-
-  onCircleMouseEnter(circle: HierarchyCircularNode<Initiative>) {
-    console.log('Entering...', circle.data.name);
-    this.currentlyHoveredCircle = circle;
-
-    if (this.lastLeftCircle && circle.parent === this.lastLeftCircle) {
-      this.hoverOverSelectedCircle(this.lastLeftCircle);
-    }
-
-    const circleState = this.getCircleState(circle);
-    switch (circleState) {
-      case CircleState.selected:
-        this.hoverOverSelectedCircle(circle)
-        break;
-
-      case CircleState.childOfSelectedAndHovered:
-        this.highlightChildOfSelectedCircle(circle);
-        break;
-
-      case CircleState.selectedAndHovered:
-        this.hoverOverSelectedCircle(circle);
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  onCircleMouseLeave(circle: HierarchyCircularNode<Initiative>) {
-    console.log('Leaving...', circle.data.name);
-
-    this.lastLeftCircle = circle;
-    this.currentlyHoveredCircle = undefined;
-
-    const circleState = this.getCircleState(circle);
-
-    if (circleState === CircleState.selectedAndHovered) {
-      this.stopHoveringOverSelectedCircle(circle)
-    }
-  }
-
-  onCircleClick(circle: HierarchyCircularNode<Initiative>, circleIndex: number) {
-    // const circleId = this.getCircleId(circleIndex);
-    // this.zoomToCircle(circleId);
-    console.log(circle, circleIndex);
-    // this.selectCircle(circle);
-
-    const circleState = this.getCircleState(circle);
-    switch (circleState) {
-      case CircleState.highlightedChildOfSelectedAndHovered:
-        this.selectCircle(circle);
-        this.hoverOverSelectedCircle(circle)
-        break;
-
-      case CircleState.selectedAndHovered:
-      case CircleState.selected:
-        this.deselectSelectedCircle();
-        break;
-
-      default:
-        break;
-    }
-  }
-
   onBackdropClick() {
     console.log('ON BACKDROP CLICK!!!');
-    this.deselectSelectedCircle();
+    // this.deselectSelectedCircle();
   }
 }
