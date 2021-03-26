@@ -47,8 +47,13 @@
             "polyfills": "apps/maptio/src/polyfills.ts",
             "tsConfig": "apps/maptio/tsconfig.app.json",
             "aot": true,
-            "assets": ["apps/maptio/src/favicon.ico", "apps/maptio/src/assets"],
-            "styles": ["apps/maptio/src/styles.scss"],
+            "assets": [
+              "apps/maptio/src/favicon.ico",
+              "apps/maptio/src/assets"
+            ],
+            "styles": [
+              "apps/maptio/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -109,11 +114,17 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/maptio"],
+          "outputs": [
+            "coverage/apps/maptio"
+          ],
           "options": {
             "jestConfig": "apps/maptio/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     },
@@ -138,7 +149,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/maptio-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/maptio-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }

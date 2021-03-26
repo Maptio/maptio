@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "maptio-preview": {
+      "hosting": {
+        "maptio": [
+          "maptio-preview"
+        ]
+      }
+    }
+  }
+}
