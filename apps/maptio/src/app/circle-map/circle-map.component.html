@@ -1,4 +1,6 @@
-<maptio-svg-zoom-pan>
+<maptio-svg-zoom-pan
+  *ngIf="dataset"
+>
   <svg:rect
     class="circle-map__backdrop"
     (click)="onBackdropClick()"
