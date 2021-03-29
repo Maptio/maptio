@@ -54,7 +54,7 @@ if (!isDevelopment) {
   app.use(helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", 'maxcdn.bootstrapcdn.com', 
+      styleSrc: ["'self'", "'unsafe-inline'", 'maxcdn.bootstrapcdn.com',
       'cdnjs.cloudflare.com', 'api.mixpanel.com','fonts.googleapis.com'],
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'",
         'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'cdn.auth0.com', 'api.mixpanel.com',
@@ -114,6 +114,7 @@ app.use(compression())
 // app.use(jwtCheck.unless({ path: ['/','/api/v1/mail/confirm', "/api/v1/jwt/encode", "/api/v1/jwt/decode"] }));
 
 var datasets = require('./routes/datasets');
+var embeddableDatasets = require('./routes/embeddable-datasets');
 var users = require('./routes/users');
 var teams = require('./routes/teams');
 var inviting = require('./routes/invite-mail');
@@ -135,6 +136,9 @@ app.use('/api/v1/dataset/', jwtCheck, check_scopes(["api"]), datasets);
 app.use('/api/v1/user', jwtCheck, check_scopes(["api"]), users);
 app.use('/api/v1/team', jwtCheck, check_scopes(["api"]), teams);
 app.use('/api/v1/intercom', jwtCheck, check_scopes(["api"]), intercom);
+
+// Unprotected endpoint for use for publicly shared embeddable maps
+app.use('/api/v1/embeddable-dataset/', embeddableDatasets);
 
 app.set("port", process.env.PORT || DEFAULT_PORT);
 app.get(cache('5 seconds'))
