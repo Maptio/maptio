@@ -1,4 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input
+} from '@angular/core';
 
 import { SubSink } from 'subsink';
 import { hierarchy, pack } from 'd3-hierarchy';
@@ -9,8 +14,6 @@ import { interpolateHcl } from 'd3-interpolate';
 import { Initiative, InitiativeNode } from '../shared/initiative.model';
 import { CircleMapService } from '../shared/circle-map.service';
 
-import data from '../markhof.data.json';
-
 
 @Component({
   selector: 'maptio-circle-map',
@@ -19,6 +22,18 @@ import data from '../markhof.data.json';
 })
 export class CircleMapComponent implements OnInit, OnDestroy  {
   private subs = new SubSink();
+
+  @Input()
+  get dataset(): any { return this._dataset; } // eslint-disable-line @typescript-eslint/no-explicit-any
+  set dataset(dataset: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
+    this._dataset = dataset;
+
+    if(dataset) {
+      this.prepareLayout();
+      this.identifyCircleTypes();
+    }
+  }
+  private _dataset: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   circles: InitiativeNode[] = [];
   rootCircle: InitiativeNode | undefined = undefined;
@@ -40,9 +55,6 @@ export class CircleMapComponent implements OnInit, OnDestroy  {
   }
 
   prepareLayout() {
-    console.log(data);
-    console.log(pack);
-
     const diameter = 1000;
     const margin = 15;
     const PADDING_CIRCLE = 20;
@@ -53,10 +65,7 @@ export class CircleMapComponent implements OnInit, OnDestroy  {
         return PADDING_CIRCLE;
       });
 
-    console.log('data before running hierarchy:');
-    console.log(data);
-
-    const root: any = hierarchy(data) // eslint-disable-line @typescript-eslint/no-explicit-any
+    const root: any = hierarchy(this.dataset) // eslint-disable-line @typescript-eslint/no-explicit-any
       .sum(function (d) {
         return (Object.prototype.hasOwnProperty.call(d, 'accountable')? 1 : 0) +
           (Object.prototype.hasOwnProperty.call(d, 'helpers') ? d.helpers.length : 0) + 1;
