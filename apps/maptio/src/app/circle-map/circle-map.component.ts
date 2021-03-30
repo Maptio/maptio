@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   OnDestroy,
   Input
 } from '@angular/core';
@@ -20,7 +19,7 @@ import { CircleMapService } from '../shared/circle-map.service';
   templateUrl: './circle-map.component.html',
   styleUrls: ['./circle-map.component.scss']
 })
-export class CircleMapComponent implements OnInit, OnDestroy  {
+export class CircleMapComponent implements OnDestroy  {
   private subs = new SubSink();
 
   @Input()
@@ -31,6 +30,7 @@ export class CircleMapComponent implements OnInit, OnDestroy  {
     if(dataset) {
       this.prepareLayout();
       this.identifyCircleTypes();
+      this.onCircleSelectionAdjustPrimaryCircleSelection();
     }
   }
   private _dataset: any; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -42,13 +42,6 @@ export class CircleMapComponent implements OnInit, OnDestroy  {
   constructor(
     private circleMapService: CircleMapService,
   ) {}
-
-  ngOnInit(): void {
-    this.prepareLayout();
-    this.identifyCircleTypes();
-    this.assignColorsToCircles();
-    this.onCircleSelectionAdjustPrimaryCircleSelection();
-  }
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
