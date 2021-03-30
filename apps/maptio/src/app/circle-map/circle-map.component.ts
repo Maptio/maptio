@@ -1,7 +1,7 @@
 import {
   Component,
   OnDestroy,
-  Input
+  Input,
 } from '@angular/core';
 
 import { SubSink } from 'subsink';
