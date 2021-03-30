@@ -1,13 +1,17 @@
 var express = require('express');
 var router = express.Router();
+var cors = require('cors');
 var mongojs = require('mongojs');
 const getDepth = require("./traverse");
 require('dotenv').config()
 var db = mongojs(process.env.MONGODB_URI, ['datasets']);
 
+const corsOptions = {
+  origin: process.env.CORS_WHITELIST_EMBEDABBLE_APP_URL,
+}
 
 /* GET One dataset with the provided ID as long as it is marked as embeddable */
-router.get('/:id', function (req, res, next) {
+router.get('/:id', cors(corsOptions), function (req, res, next) {
     db.datasets.findOne(
         { _id: mongojs.ObjectId(req.params.id) },
         function (err, datasets) {
