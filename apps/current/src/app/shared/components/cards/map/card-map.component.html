@@ -36,7 +36,7 @@
                     <div class="d-flex justify-content-between">
                         <span *ngIf="dataset?.initiative.children">
                             <div *ngIf="dataset?.initiative.children[0]?.accountable" class="text-muted d-flex align-items-center">
-                                <span class="">Led by</span>    
+                                <span class="">Led by</span>
                                 <img class="rounded-circle mx-1 participant-picture"  src="{{dataset?.initiative.children[0]?.accountable?.picture}}" alt="{{dataset?.initiative.children[0]?.accountable?.name}}">
                                 <a class="text-muted" routerLink="/map/{{dataset?.datasetId}}/{{dataset?.initiative.getSlug()}}/directory" [queryParams]="{member: dataset?.initiative.children[0]?.accountable?.shortid}">
                                     <span> {{dataset?.initiative.children[0]?.accountable?.name}}</span>
@@ -67,10 +67,46 @@
                 <span class="text-muted d-none d-md-block" *ngIf="isExporting">Exporting</span>
             </button>
             <ng-container *permissionsOnly="Permissions.canEditMapName">
+                <button
+                  *ngIf="!dataset.isEmbeddable && isEditAvailable && !dataset?.team?.isExample"
+                  class="btn btn-link btn-sm pr-0 underline-on-hover"
+                  [class.invisible]="isEditing"
+                  mwlConfirmationPopover
+                  [popoverTitle]="'Enable public read-only embeddable map?'"
+                  [popoverMessage]="embeddingIntroduction"
+                  [confirmText]="'Enable'"
+                  placement="bottom"
+                  focusButton="cancel"
+                  appendToBody="true"
+                  (confirm)="enableEmbedding()"
+                  (cancel)="cancelClicked = true"
+                >
+                    <i class="fas fa-code mr-1"></i>
+                    <span class="d-none d-md-block">Embed</span>
+                </button>
+
+                <button
+                  *ngIf="dataset.isEmbeddable && isEditAvailable && !dataset?.team?.isExample"
+                  class="btn btn-link btn-sm pr-0 underline-on-hover"
+                  [class.invisible]="isEditing"
+                  mwlConfirmationPopover
+                  [isOpen]="isEmbedInstructionsPopoverOpen"
+                  [popoverTitle]="'Public read-only embeddable map is enabled'"
+                  [popoverMessage]="embeddingInstructions"
+                  [confirmText]="'Disable'"
+                  placement="bottom"
+                  focusButton="cancel"
+                  appendToBody="true"
+                  (confirm)="disableEmbedding()"
+                  (cancel)="cancelClicked = true"
+                >
+                    <i class="fas fa-code mr-1"></i>
+                    <span class="d-none d-md-block">Embed</span>
+                </button>
 
                 <button *ngIf="isEditAvailable && !dataset?.team?.isExample" [class.invisible]="dataset.isArchived" class="btn btn-link btn-sm underline-on-hover" [class.invisible]="isEditing"
                     (click)="isEditing=true">
-                    <i class="fas fa-pen mr-1"></i><span class="d-none d-md-block">Edit name</span> 
+                    <i class="fas fa-pen mr-1"></i><span class="d-none d-md-block">Edit name</span>
                 </button>
                 <button *ngIf="isEditAvailable && !dataset?.team?.isExample" [class.invisible]="dataset.isArchived" class="btn btn-link btn-sm underline-on-hover"
                     [class.d-none]="isEditing" (click)="duplicate()">
@@ -81,11 +117,11 @@
                 <button *ngIf="!dataset.isArchived && isEditAvailable && !dataset?.team?.isExample" class="btn btn-link btn-sm pr-0 underline-on-hover" [class.invisible]="isEditing"
                     mwlConfirmationPopover [popoverTitle]="'Archive this map?'" [popoverMessage]="'You can retrived archived maps on the Maps section of the team page'"
                     placement="bottom" focusButton="cancel" appendToBody="true" (confirm)="archive()" (cancel)="cancelClicked = true">
-                    <i class="fas fa-archive mr-1"></i> <span class="d-none d-md-block">Archive</span>    
+                    <i class="fas fa-archive mr-1"></i> <span class="d-none d-md-block">Archive</span>
                 </button>
                 <button *ngIf="dataset.isArchived && !dataset?.team?.isExample" class="btn btn-link btn-sm pr-0 underline-on-hover" [class.invisible]="isEditing"
                     (click)="restore()">
-                    <i class="fas fa-undo mr-1"></i><span class="d-none d-md-block">Restore</span>    
+                    <i class="fas fa-undo mr-1"></i><span class="d-none d-md-block">Restore</span>
                 </button>
             </ng-container>
         </div>
