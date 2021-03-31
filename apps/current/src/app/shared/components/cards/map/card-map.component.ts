@@ -4,7 +4,7 @@ import { ExportService } from '../../../services/export/export.service';
 import { saveAs } from "file-saver"
 import { DatasetFactory } from '../../../../core/http/map/dataset.factory';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { cloneDeep } from "lodash-es"
+import { cloneDeep, escape } from "lodash-es"
 import { Permissions } from '../../../model/permission.data';
 
 @Component({
@@ -26,6 +26,9 @@ export class CardMapComponent implements OnInit {
 
     isExporting: Boolean;
     isEditing: Boolean;
+    isTogglingEmbedding = false;
+    isTogglingEmbeddingFailed = false;
+    isEmbedInstructionsPopoverOpen = false;
     isCopying: boolean;
     isRestoring: Boolean;
     isArchiving: Boolean;
@@ -33,6 +36,9 @@ export class CardMapComponent implements OnInit {
     form: FormGroup;
     isEditAvailable: Boolean;
     Permissions = Permissions;
+
+    embeddingIntroduction = '';
+    embeddingInstructions = '';
 
     constructor(private exportService: ExportService, private datasetFactory: DatasetFactory, private cd: ChangeDetectorRef) { }
 
@@ -42,7 +48,43 @@ export class CardMapComponent implements OnInit {
                 validators: [Validators.required],
                 updateOn: "submit"
             })
-        })
+        });
+
+        const previewUrl = `https://maptio-preview.web.app/map/${this.dataset.datasetId}`;
+        const embedUrl = `https://maptio-preview.web.app/embed/${this.dataset.datasetId}`;
+        const iframeSnippet = escape(`<iframe src="${embedUrl}"></iframe>`);
+
+        this.embeddingIntroduction = `
+            Enabling this feature will allow you to see a preview of improved
+            map visuals as well as embed this map on your website.
+            The map will be accessible to anyone with the URL.
+            If you only want to see a preview of the new version of the map,
+            you can enable this functionality temporarily and then disable it
+            again here once you are done.
+        `;
+
+        this.embeddingInstructions = `
+            <p>
+              A preview of new map visuals can now be seen
+              <a href="${previewUrl}" target="_blank">here</a>.
+              Your feedback on this new version of the map will be appreciated.
+            </p>
+
+            <p>
+              You can embed this map on your website by using the following code snippet:
+            </p>
+
+            <code>
+              ${iframeSnippet}
+            </code>
+            <br>
+            <br>
+
+            <p>
+              To stop sharing the map, click "Disable" below.
+              Please make sure you remove the code snippet from your webiste before you do this.
+            </p>
+        `;
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -63,6 +105,41 @@ export class CardMapComponent implements OnInit {
                 this.isExporting = false;
             }
         )
+    }
+
+    enableEmbedding() {
+        this.toggleEmbedding(true, () => {
+            this.isEmbedInstructionsPopoverOpen = true;
+        });
+    }
+
+    disableEmbedding() {
+        this.toggleEmbedding(false);
+    }
+
+    toggleEmbedding(isEmbeddable: boolean, successCallback?: Function) {
+        if (this.isTogglingEmbedding) return;
+
+        this.isTogglingEmbedding = true;
+        this.isTogglingEmbeddingFailed = false;
+        this.cd.markForCheck();
+
+        this.dataset.isEmbeddable = isEmbeddable;
+        return this.datasetFactory.upsert(this.dataset)
+            .then(result => {
+                if (result) {
+                    this.isTogglingEmbedding = false;
+                    successCallback();
+                    this.cd.markForCheck();
+                } else {
+                    this.isTogglingEmbeddingFailed = true;
+                    this.cd.markForCheck();
+                }
+            })
+            .catch(() => {
+                this.isTogglingEmbeddingFailed = true;
+                this.cd.markForCheck();
+            });
     }
 
     save() {
