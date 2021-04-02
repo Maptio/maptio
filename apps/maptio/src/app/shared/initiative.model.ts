@@ -11,7 +11,9 @@ export interface Initiative {
     picture: string;
   }[];
 
-  // TODO: Consider moving these additions for state elsewhere
+  // TODO: Consider moving these additions for state and type elsewhere
+  isPrimary: boolean;
+  isChildOfPrimary: boolean;
   isLeaf: boolean;
   isSelected: boolean;
 }

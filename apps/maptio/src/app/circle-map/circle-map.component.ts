@@ -94,7 +94,17 @@ export class CircleMapComponent implements OnInit, AfterViewInit, OnDestroy  {
 
     this.circles.forEach((circle) => {
       circle.data.isLeaf = circle.children ? false : true;
+      circle.data.isPrimary = false;
+      circle.data.isChildOfPrimary = false;
     });
+
+    this.primaryCircles.forEach((primaryCircle) => {
+      primaryCircle.data.isPrimary = true;
+
+      primaryCircle.children?.forEach((childOfPrimaryCircle) => {
+        childOfPrimaryCircle.data.isChildOfPrimary = true;
+      })
+    })
   }
 
   getColorRange(depth: number, seedColor: string): ScaleLinear<HSLColor, string> {
