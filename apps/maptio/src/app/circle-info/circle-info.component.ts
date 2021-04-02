@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
-import { Initiative } from '../shared/initiative.model';
+import { InitiativeNode } from '../shared/initiative.model';
 
 
 @Component({
@@ -9,6 +9,19 @@ import { Initiative } from '../shared/initiative.model';
   styleUrls: ['./circle-info.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CircleInfoComponent {
-  @Input() circleInfo!: Initiative;
+export class CircleInfoComponent implements OnInit {
+  @Input() circle!: InitiativeNode;
+
+  fontSizeInitial = 4.5;
+  fontSizeUnit = 'rem';
+  fontSizeScalingFactor = 4;
+  fontSize: string;
+
+  constructor() {
+    this.fontSize = this.fontSizeInitial + this.fontSizeUnit;
+  }
+
+  ngOnInit(): void {
+    this.fontSize = this.fontSizeInitial * this.circle.r / 500 + this.fontSizeUnit;
+  }
 }
