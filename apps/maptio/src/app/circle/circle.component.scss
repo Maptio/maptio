@@ -1,5 +1,5 @@
 .circle {
-  fill-opacity: 0.3;
+  fill-opacity: 0.15;
   cursor: pointer;
   pointer-events: none;
 }
@@ -18,13 +18,15 @@
 }
 
 .circle--state-selected:not(.circle--type-leaf):hover {
+  fill-opacity: 0.15;
+
   > .circle__info {
     opacity: 0;
   }
 }
 
 .circle--state-selected:hover > .circle__children > g > .circle {
-  fill-opacity: 0.8;
+  fill-opacity: 1;
   pointer-events: auto;
 
   > .circle__info {
