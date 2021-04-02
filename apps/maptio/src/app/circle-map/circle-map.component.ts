@@ -2,6 +2,9 @@ import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } fr
 
 import { SubSink } from 'subsink';
 import { hierarchy, pack } from 'd3-hierarchy';
+import { hsl, HSLColor } from 'd3-color';
+import { scaleLinear, ScaleLinear } from 'd3-scale';
+import { interpolateHcl } from "d3-interpolate";
 
 import * as svgPanZoom from 'svg-pan-zoom';
 import 'hammerjs';
@@ -33,6 +36,7 @@ export class CircleMapComponent implements OnInit, AfterViewInit, OnDestroy  {
   ngOnInit(): void {
     this.prepareLayout();
     this.identifyCircleTypes();
+    this.assignColorsToCircles();
     this.onCircleSelectionAdjustPrimaryCircleSelection();
   }
 
@@ -90,6 +94,42 @@ export class CircleMapComponent implements OnInit, AfterViewInit, OnDestroy  {
 
     this.circles.forEach((circle) => {
       circle.data.isLeaf = circle.children ? false : true;
+    });
+  }
+
+  getColorRange(depth: number, seedColor: string): ScaleLinear<HSLColor, string> {
+    const seedColorHsl = hsl(seedColor);
+    const endColorHsl = hsl(seedColor);
+    endColorHsl.l = .25;
+    endColorHsl.h = 0;
+
+    return scaleLinear<HSLColor, HSLColor>()
+      .domain([0, depth])
+      .interpolate(interpolateHcl)
+      .range([seedColorHsl, endColorHsl]);
+  }
+
+  calculateMaxDepth() {
+    let maxDepth = 0;
+    this.rootCircle?.eachAfter((node): void => {
+        maxDepth = maxDepth > node.depth ? maxDepth : node.depth;
+    });
+    return maxDepth;
+  }
+
+  assignColorsToCircles() {
+    const maxDepth = this.calculateMaxDepth();
+    const colorRange = this.getColorRange(maxDepth, '#3599af');
+
+    this.circles.forEach((circle) => {
+      const isPrimaryCircle = this.primaryCircles.includes(circle);
+      const isChildOfPrimaryCircle = circle.parent ? this.primaryCircles.includes(circle.parent) : false;
+
+      if (circle.data.isLeaf && !isPrimaryCircle && !isChildOfPrimaryCircle) {
+        circle.data.color = '#ffffff';
+      } else {
+        circle.data.color = colorRange(circle.depth - 1);
+      }
     });
   }
 

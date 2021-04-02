@@ -3,7 +3,7 @@ import { HierarchyCircularNode } from 'd3-hierarchy';
 
 export interface Initiative {
   name: string;
-  colour: string;
+  color: string;
   accountable?: {
     picture: string;
   };
