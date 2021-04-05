@@ -1,7 +1,18 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ViewChild,
+  ElementRef,
+  OnDestroy
+} from '@angular/core';
 
+import { SubSink } from 'subsink';
 import * as svgPanZoom from 'svg-pan-zoom';
 import 'hammerjs';
+
+import { SvgZoomPanService } from './svg-zoom-pan.service';
+import { InitiativeNode } from '../shared/initiative.model';
 
 
 @Component({
@@ -9,10 +20,24 @@ import 'hammerjs';
   templateUrl: './svg-zoom-pan.component.html',
   styleUrls: ['./svg-zoom-pan.component.scss']
 })
-export class SvgZoomPanComponent implements AfterViewInit {
+export class SvgZoomPanComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('map', { static: false }) map?: ElementRef;
 
+  private subs = new SubSink();
+
   scheme?: SvgPanZoom.Instance;
+
+  constructor(private svgZoomPanService: SvgZoomPanService) {}
+
+  ngOnInit() {
+    this.subs.sink = this.svgZoomPanService.zoomedInitiativeNode.subscribe((node: InitiativeNode) => {
+      console.log(node);
+    });
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
 
   ngAfterViewInit() {
     this.initialiseZoomAndPanLibrary();

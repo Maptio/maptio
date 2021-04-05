@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { InitiativeNode } from './initiative.model';
+import { SvgZoomPanService } from '../svg-zoom-pan/svg-zoom-pan.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +11,18 @@ import { InitiativeNode } from './initiative.model';
 export class CircleMapService {
   public selectedCircle = new BehaviorSubject<InitiativeNode | undefined>(undefined);
 
+  constructor(
+    private svgZoomPanService: SvgZoomPanService,
+  ) {}
+
   onCircleClick(circle: InitiativeNode) {
     if (circle === this.selectedCircle.value && circle.parent && circle.parent.parent) {
       this.selectCircle(circle.parent);
     } else {
       this.selectCircle(circle);
     }
+
+    this.zoomToCircle(circle);
   }
 
   selectCircle(circle: InitiativeNode) {
@@ -40,5 +47,9 @@ export class CircleMapService {
 
   markCircleAsNotSelected(circle: InitiativeNode) {
     circle.data.isSelected = false;
+  }
+
+  zoomToCircle(circle: InitiativeNode) {
+    this.svgZoomPanService.zoomToInitiativeNode(circle);
   }
 }

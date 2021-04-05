@@ -4,7 +4,7 @@ import { SubSink } from 'subsink';
 import { hierarchy, pack } from 'd3-hierarchy';
 import { hsl, HSLColor } from 'd3-color';
 import { scaleLinear, ScaleLinear } from 'd3-scale';
-import { interpolateHcl } from "d3-interpolate";
+import { interpolateHcl } from 'd3-interpolate';
 
 import { Initiative, InitiativeNode } from '../shared/initiative.model';
 import { CircleMapService } from '../shared/circle-map.service';
@@ -24,7 +24,9 @@ export class CircleMapComponent implements OnInit, OnDestroy  {
   rootCircle: InitiativeNode | undefined = undefined;
   primaryCircles: InitiativeNode[] = [];
 
-  constructor(private circleMapService: CircleMapService) {}
+  constructor(
+    private circleMapService: CircleMapService,
+  ) {}
 
   ngOnInit(): void {
     this.prepareLayout();
