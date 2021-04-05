@@ -42,7 +42,7 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy, AfterViewInit {
   zoomToCircle(x: number, y: number, r: number) {
     console.log(x, y, r);
 
-    this.scale = 1000 / (2 * r);
+    this.scale = (1000 - 100) / (2 * r);
     this.translateX = -x + 500;
     this.translateY = -y + 500;
 
