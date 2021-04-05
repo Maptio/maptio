@@ -30,6 +30,7 @@ export class CircleMapComponent implements OnDestroy  {
     if(dataset) {
       this.prepareLayout();
       this.identifyCircleTypes();
+      this.assignColorsToCircles();
       this.onCircleSelectionAdjustPrimaryCircleSelection();
     }
   }
