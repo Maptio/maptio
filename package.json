@@ -42,10 +42,8 @@
     "d3-hierarchy": "^2.0.0",
     "d3-interpolate": "^2.0.1",
     "d3-scale": "^3.2.4",
-    "hammerjs": "^2.0.8",
     "rxjs": "~6.6.3",
     "subsink": "^1.0.2",
-    "svg-pan-zoom": "^3.6.1",
     "tslib": "^2.0.0",
     "zone.js": "^0.10.2"
   },
@@ -69,7 +67,6 @@
     "@types/d3-hierarchy": "^2.0.0",
     "@types/d3-interpolate": "^2.0.0",
     "@types/d3-scale": "^3.2.2",
-    "@types/hammerjs": "^2.0.39",
     "@types/jest": "26.0.8",
     "@types/node": "12.12.38",
     "@typescript-eslint/eslint-plugin": "4.3.0",
