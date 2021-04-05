@@ -8,28 +8,9 @@
 >
   <g
     class="svg-zoom-pan__virtual-viewport"
-    [style.transform]="'translate(' + 100 * scale * translateX / 1000 + '%, ' + 100 * scale * translateY / 1000 + '%) scale(' + scale + ')'"
+    [style.transform]="'translate(' + translateX + '%, ' + translateY + '%) scale(' + scale + ')'"
     [style.transform-origin]="'50% 50%'"
   >
-
-    <!-- Alternative that also works great across all browsers! -->
-    <!-- [style.transform]="'scale(' + scale + ') translate(' + 100 * translateX / 1000 + '%, ' + 100 * translateY / 1000 + '%)'"
-    [style.transform-origin]="'50% 50%'" -->
-
-    <!-- This works in Chrome and in Firefox, though without animations... -->
-    <!-- [attr.transform]="'scale(' + scale + ') translate(' + translateX + ' ' + translateY + ')'"
-    [attr.transform-origin]="'500 500'" -->
-
-    <!-- Some other alternatives that don't work as well -->
-    <!-- [style.transform]="'scale(2) translate(100px, 100px)'"
-    [style.transform-origin]="'50% 50%'" -->
-
-    <!-- [style.transform]="'scale(' + scale + ') translate(' + translateX + ' ' + translateY + ')'" -->
-    <!-- [style.transform-origin]="'500 500'" -->
-
-    <!-- [attr.transform]="'translate(' + -translateX + ' ' + -translateY + ') translate(' + scale * translateX + ' ' + scale * translateY + ') scale(' + scale + ') '" -->
-    <!-- [attr.transform]="'translate(' + translateX + ' ' + translateY + ') scale(' + scale + ')'" -->
-
     <ng-content></ng-content>
   </g>
 </svg>
