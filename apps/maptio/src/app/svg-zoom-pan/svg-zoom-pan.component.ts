@@ -19,11 +19,15 @@ import { InitiativeNode } from '../shared/initiative.model';
 export class SvgZoomPanComponent implements OnInit, OnDestroy, AfterViewInit {
   private subs = new SubSink();
 
+  scale = 1;
+  translateX = 0;
+  translateY = 0;
+
   constructor(private svgZoomPanService: SvgZoomPanService) {}
 
   ngOnInit() {
     this.subs.sink = this.svgZoomPanService.zoomedInitiativeNode.subscribe((node: InitiativeNode) => {
-      console.log(node);
+      this.zoomToCircle(node.x, node.y, node.r);
     });
   }
 
@@ -33,5 +37,19 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     console.log('Coming soon to an SVG near you!');
+  }
+
+  zoomToCircle(x: number, y: number, r: number) {
+    console.log(x, y, r);
+
+    this.scale = 1000 / (2 * r);
+    this.translateX = -x + 500;
+    this.translateY = -y + 500;
+
+    setTimeout(() => {
+      this.scale = 1;
+      this.translateX = 0;
+      this.translateY = 0;
+    }, 2000)
   }
 }
