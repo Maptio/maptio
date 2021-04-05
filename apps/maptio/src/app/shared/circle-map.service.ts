@@ -18,11 +18,11 @@ export class CircleMapService {
   onCircleClick(circle: InitiativeNode) {
     if (circle === this.selectedCircle.value && circle.parent && circle.parent.parent) {
       this.selectCircle(circle.parent);
+      this.zoomToCircle(circle.parent);
     } else {
       this.selectCircle(circle);
+      this.zoomToCircle(circle);
     }
-
-    this.zoomToCircle(circle);
   }
 
   selectCircle(circle: InitiativeNode) {
@@ -49,7 +49,7 @@ export class CircleMapService {
     circle.data.isSelected = false;
   }
 
-  zoomToCircle(circle: InitiativeNode) {
+  zoomToCircle(circle?: InitiativeNode) {
     this.svgZoomPanService.zoomToInitiativeNode(circle);
   }
 }

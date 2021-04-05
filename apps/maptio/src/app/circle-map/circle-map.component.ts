@@ -163,5 +163,6 @@ export class CircleMapComponent implements OnInit, OnDestroy  {
     console.log('CircleMap.onBackdropClick()');
 
     this.circleMapService.deselectSelectedCircle();
+    this.circleMapService.zoomToCircle(undefined);
   }
 }

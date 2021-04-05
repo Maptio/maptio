@@ -26,8 +26,12 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private svgZoomPanService: SvgZoomPanService) {}
 
   ngOnInit() {
-    this.subs.sink = this.svgZoomPanService.zoomedInitiativeNode.subscribe((node: InitiativeNode) => {
-      this.zoomToCircle(node.x, node.y, node.r);
+    this.subs.sink = this.svgZoomPanService.zoomedInitiativeNode.subscribe((node?: InitiativeNode) => {
+      if (node) {
+        this.zoomToCircle(node.x, node.y, node.r);
+      } else {
+        this.zoomToCircle(500, 500, 450);
+      }
     });
   }
 
@@ -46,10 +50,10 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy, AfterViewInit {
     this.translateX = -x + 500;
     this.translateY = -y + 500;
 
-    setTimeout(() => {
-      this.scale = 1;
-      this.translateX = 0;
-      this.translateY = 0;
-    }, 2000)
+    // setTimeout(() => {
+    //   this.scale = 1;
+    //   this.translateX = 0;
+    //   this.translateY = 0;
+    // }, 2000)
   }
 }

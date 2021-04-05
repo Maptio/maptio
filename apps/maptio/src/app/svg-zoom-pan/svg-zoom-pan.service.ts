@@ -8,9 +8,9 @@ import { InitiativeNode } from '../shared/initiative.model';
   providedIn: 'root'
 })
 export class SvgZoomPanService {
-  zoomedInitiativeNode = new Subject<InitiativeNode>();
+  zoomedInitiativeNode = new Subject<InitiativeNode | undefined>();
 
-  zoomToInitiativeNode(node: InitiativeNode) {
+  zoomToInitiativeNode(node: InitiativeNode | undefined) {
     this.zoomedInitiativeNode.next(node);
   }
 }
