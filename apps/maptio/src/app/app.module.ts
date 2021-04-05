@@ -3,13 +3,20 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 
+import { SvgZoomPanComponent } from './svg-zoom-pan/svg-zoom-pan.component';
 import { CircleMapComponent } from './circle-map/circle-map.component';
 import { CircleComponent } from './circle/circle.component';
 import { CircleInfoComponent } from './circle-info/circle-info.component';
 
 
 @NgModule({
-  declarations: [AppComponent, CircleMapComponent, CircleComponent, CircleInfoComponent],
+  declarations: [
+    AppComponent,
+    SvgZoomPanComponent,
+    CircleMapComponent,
+    CircleComponent,
+    CircleInfoComponent,
+  ],
   imports: [BrowserModule],
   providers: [],
   bootstrap: [AppComponent],

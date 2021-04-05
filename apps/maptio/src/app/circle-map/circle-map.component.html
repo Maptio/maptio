@@ -1,22 +1,15 @@
-<svg
-  #map
-  class="circle-map"
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 1000 1000"
-  width="100%"
-  height="97.5vh"
->
-  <rect
+<maptio-svg-zoom-pan>
+  <svg:rect
     class="circle-map__backdrop"
     (click)="onBackdropClick()"
     height="1000"
     width="1000"
   >
-  </rect>
+  </svg:rect>
 
-  <g
+  <svg:g
     maptioCircle
     *ngFor="let primaryCircle of rootCircle?.children"
     [circle]="primaryCircle"
-  ></g>
-</svg>
+  ></svg:g>
+</maptio-svg-zoom-pan>
