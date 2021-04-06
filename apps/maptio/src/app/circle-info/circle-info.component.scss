@@ -10,6 +10,7 @@
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
   color: white;
+  word-break: break-word;
 
   .circle--type-leaf:not(.circle--type-primary):not(.circle--type-child-of-primary) & {
     color: black;
