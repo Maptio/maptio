@@ -16,10 +16,10 @@
 
   <foreignObject
     class="circle__info"
-    [attr.x]="circle.x - circle.r / math.sqrt(2)"
-    [attr.y]="circle.y - circle.r / math.sqrt(2)"
-    [attr.width]="circle.r * 2 / math.sqrt(2)"
-    [attr.height]="circle.r * 2 / math.sqrt(2)"
+    [attr.x]="x"
+    [attr.y]="y"
+    [attr.width]="diameter"
+    [attr.height]="diameter"
   >
     <g maptioCircleInfo
       [circle]="circle"
