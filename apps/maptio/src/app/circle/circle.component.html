@@ -5,19 +5,8 @@
   [class.circle--type-child-of-primary]="circle.data.isChildOfPrimary"
   [class.circle--type-leaf]="circle.data.isLeaf"
   [style.transform]="'translate(' + x + '%, ' + y + '%) scale(' + scale + ')'"
-  [style.transform-origin]="transformOrigin"
   (click)="onClick($event)"
 >
-  <!-- [attr.transform]="'translate(' + x + ' ' + y + ') scale(' + scale + ')'"
-  [attr.transform-origin]="parentX + ' ' + parentY" -->
-
-  <!-- [style.transform]="'translate(' + x + '%, ' + y + '%) scale(' + scale + ')'"
-  [style.transform-origin]="x + '% ' + y + '%'"
-    // this.x = this.circle.x / 10;
-    // this.y = this.circle.y / 10;
-  -->
-
-
   <circle
     class="circle__circle"
     [attr.cx]="0"
