@@ -22,6 +22,7 @@ export class CircleInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fontSize = this.fontSizeInitial * this.circle.r / 500 + this.fontSizeUnit;
+    // this.fontSize = this.fontSizeInitial * this.circle.r / 500 + this.fontSizeUnit;
+    this.fontSize = this.fontSizeInitial + this.fontSizeUnit;
   }
 }

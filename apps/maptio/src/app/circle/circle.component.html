@@ -4,22 +4,33 @@
   [class.circle--type-primary]="circle.data.isPrimary"
   [class.circle--type-child-of-primary]="circle.data.isChildOfPrimary"
   [class.circle--type-leaf]="circle.data.isLeaf"
+  [attr.transform]="'translate(' + x + ' ' + y + ') scale(' + scale + ')'"
   (click)="onClick($event)"
 >
+  <!-- [attr.transform]="'translate(' + x + ' ' + y + ') scale(' + scale + ')'"
+  [attr.transform-origin]="parentX + ' ' + parentY" -->
+
+  <!-- [style.transform]="'translate(' + x + '%, ' + y + '%) scale(' + scale + ')'"
+  [style.transform-origin]="x + '% ' + y + '%'"
+    // this.x = this.circle.x / 10;
+    // this.y = this.circle.y / 10;
+  -->
+
+
   <circle
     class="circle__circle"
-    [attr.cx]="circle.x"
-    [attr.cy]="circle.y"
-    [attr.r]="circle.r"
+    [attr.cx]="0"
+    [attr.cy]="0"
+    [attr.r]="defaultRadius"
     [attr.fill]="circle.data.color"
   />
 
   <foreignObject
     class="circle__info"
-    [attr.x]="x"
-    [attr.y]="y"
-    [attr.width]="diameter"
-    [attr.height]="diameter"
+    [attr.x]="infoX"
+    [attr.y]="infoY"
+    [attr.width]="infoSize"
+    [attr.height]="infoSize"
   >
     <g maptioCircleInfo
       [circle]="circle"
