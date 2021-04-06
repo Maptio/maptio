@@ -52,4 +52,15 @@ export class CircleMapService {
   zoomToCircle(circle?: InitiativeNode) {
     this.svgZoomPanService.zoomToInitiativeNode(circle);
   }
+
+  selectAndZoomToParentOfSelectedCircle() {
+    const parentCircle = this.selectedCircle.value?.parent;
+    if (parentCircle && parentCircle.parent) {
+      this.selectCircle(parentCircle);
+      this.zoomToCircle(parentCircle);
+    } else {
+      this.deselectSelectedCircle();
+      this.zoomToCircle(undefined);
+    }
+  }
 }
