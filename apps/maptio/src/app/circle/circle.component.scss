@@ -7,6 +7,9 @@
 
 .circle__info {
   opacity: 0;
+  pointer-events: none;
+  transform: scale(1);
+  transition: all 0.2s ease-in;
 }
 
 .circle--state-selected {
@@ -23,9 +26,7 @@
 
   > .circle__info {
     opacity: 0;
-    // transform: scale(2);
-    // transform-origin: center;
-    transition: all 0.2s ease-in;
+    transform: scale(1.25);
   }
 }
 
