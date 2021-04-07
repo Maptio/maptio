@@ -15,6 +15,13 @@
     [attr.fill]="circle.data.color"
   />
 
+  <g class="circle__children">
+    <g maptioCircle
+      *ngFor="let child of circle.children"
+      [circle]="child"
+    ></g>
+  </g>
+
   <foreignObject
     class="circle__info"
     [attr.x]="infoX"
@@ -26,11 +33,4 @@
       [circle]="circle"
     ></g>
   </foreignObject>
-
-  <g class="circle__children">
-    <g maptioCircle
-      *ngFor="let child of circle.children"
-      [circle]="child"
-    ></g>
-  </g>
 </svg:g>
