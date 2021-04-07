@@ -4,19 +4,33 @@
 >
   <div class="name">{{ circle.data.name }}</div>
 
-  <div class="helpers-list">
-    <img
-      class="picture"
-      *ngIf="circle.data.accountable?.picture"
-      [src]="circle.data.accountable?.picture"
-      alt=""
-    >
+  <div class="tags-list cluster">
+    <div class="cluster__wrapper">
+      <div
+        class="tag"
+        *ngFor="let tag of circle.data.tags"
+        [style.background-color]="tag.color"
+      >
+        {{ tag.name }}
+      </div>
+    </div>
+  </div>
 
-    <img
-      class="picture"
-      *ngFor="let helper of circle.data.helpers"
-      [src]="helper.picture"
-      alt=""
-    >
+  <div class="helpers-list cluster">
+    <div class="cluster__wrapper">
+      <img
+        class="picture"
+        *ngIf="circle.data.accountable?.picture"
+        [src]="circle.data.accountable?.picture"
+        alt=""
+      >
+
+      <img
+        class="picture"
+        *ngFor="let helper of circle.data.helpers"
+        [src]="helper.picture"
+        alt=""
+      >
+    </div>
   </div>
 </div>
