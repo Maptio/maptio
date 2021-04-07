@@ -2,18 +2,16 @@
   class="info"
   [style.font-size]="fontSize"
 >
-  <div class="upper-row">
+  <div class="name">{{ circle.data.name }}</div>
+
+  <div class="helpers-list">
     <img
       class="picture"
       *ngIf="circle.data.accountable?.picture"
       [src]="circle.data.accountable?.picture"
       alt=""
     >
-  </div>
 
-  <div class="name">{{ circle.data.name }}</div>
-
-  <div class="lower-row">
     <img
       class="picture"
       *ngFor="let helper of circle.data.helpers"
