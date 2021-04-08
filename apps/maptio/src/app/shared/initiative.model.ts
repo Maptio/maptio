@@ -5,14 +5,8 @@ export interface Initiative {
   name: string;
   color: string;
 
-  accountable?: {
-    picture: string;
-    name: string;
-  };
-  helpers?: {
-    picture: string;
-    name: string;
-  }[];
+  accountable?: Helper;
+  helpers?: Helper[];
 
   tags?: {
     name: string;
@@ -24,6 +18,17 @@ export interface Initiative {
   isChildOfPrimary: boolean;
   isLeaf: boolean;
   isSelected: boolean;
+}
+
+export interface Helper {
+  picture: string;
+  name: string;
+  roles: Array<Role>;
+}
+
+export interface Role {
+  title?: string;
+  description?: string
 }
 
 export type InitiativeNode = HierarchyCircularNode<Initiative>;

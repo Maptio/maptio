@@ -14,6 +14,7 @@ import { SvgZoomPanComponent } from './svg-zoom-pan/svg-zoom-pan.component';
 import { CircleMapComponent } from './circle-map/circle-map.component';
 import { CircleComponent } from './circle/circle.component';
 import { CircleInfoComponent } from './circle-info/circle-info.component';
+import { HelperAvatarComponent } from './helper-avatar/helper-avatar.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { CircleInfoComponent } from './circle-info/circle-info.component';
     CircleMapComponent,
     CircleComponent,
     CircleInfoComponent,
+    HelperAvatarComponent,
   ],
   imports: [
     BrowserModule,

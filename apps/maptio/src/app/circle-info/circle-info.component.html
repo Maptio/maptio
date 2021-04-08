@@ -18,27 +18,15 @@
 
   <div class="helpers-list cluster">
     <div class="cluster__wrapper">
-      <img
-        class="picture"
-        *ngIf="circle.data.accountable?.picture"
-        [src]="circle.data.accountable?.picture"
-        alt=""
+      <maptio-helper-avatar
+        *ngIf="circle.data.accountable"
+        [helper]="circle.data.accountable"
+      ></maptio-helper-avatar>
 
-        matTooltip="{{ circle.data.accountable?.name }}"
-        [matTooltipShowDelay]="300"
-        matTooltipClass="picture__tooltip"
-      >
-
-      <img
-        class="picture"
+      <maptio-helper-avatar
         *ngFor="let helper of circle.data.helpers"
-        [src]="helper.picture"
-        alt=""
-
-        matTooltip="{{ helper.name }}"
-        [matTooltipShowDelay]="300"
-        matTooltipClass="picture__tooltip"
-      >
+        [helper]="helper"
+      ></maptio-helper-avatar>
     </div>
   </div>
 </div>

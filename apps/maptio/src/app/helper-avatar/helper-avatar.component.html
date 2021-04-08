@@ -1,0 +1,9 @@
+<img
+  class="picture"
+  *ngIf="helper.picture"
+  [src]="helper.picture"
+  alt="{{ helper.name }}"
+  matTooltip="{{ tooltipText }}"
+  [matTooltipShowDelay]="300"
+  matTooltipClass="picture__tooltip"
+>
