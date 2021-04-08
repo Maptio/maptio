@@ -21,6 +21,10 @@
   }
 }
 
+.circle--state-selected.circle--type-leaf > .circle__info {
+  pointer-events: auto;
+}
+
 .circle--state-selected:not(.circle--type-leaf):hover {
   fill-opacity: 0.15;
 
@@ -36,6 +40,7 @@
 
   > .circle__info {
     opacity: 1;
+    pointer-events: auto;
   }
 }
 
