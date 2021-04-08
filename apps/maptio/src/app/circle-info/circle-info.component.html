@@ -21,17 +21,23 @@
       <img
         class="picture"
         *ngIf="circle.data.accountable?.picture"
-        matTooltip="{{ circle.data.accountable?.name }}"
         [src]="circle.data.accountable?.picture"
         alt=""
+
+        matTooltip="{{ circle.data.accountable?.name }}"
+        [matTooltipShowDelay]="300"
+        matTooltipClass="picture__tooltip"
       >
 
       <img
         class="picture"
         *ngFor="let helper of circle.data.helpers"
-        matTooltip="{{ helper.name }}"
         [src]="helper.picture"
         alt=""
+
+        matTooltip="{{ helper.name }}"
+        [matTooltipShowDelay]="300"
+        matTooltipClass="picture__tooltip"
       >
     </div>
   </div>
