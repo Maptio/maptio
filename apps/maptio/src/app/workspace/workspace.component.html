@@ -1,3 +1,16 @@
 <maptio-circle-map
+  *ngIf="dataset; else datasetUnavailableBlock"
   [dataset]="dataset"
 ></maptio-circle-map>
+
+<ng-template #datasetUnavailableBlock>
+  <div class="message">
+    <ng-container *ngIf="isLoading; else errorBlock">
+      Loading Maptio map
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #errorBlock>
+  The requested Maptio map could not be found.
+</ng-template>

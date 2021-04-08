@@ -14,7 +14,7 @@ import data from './markhof.data.json';
   providedIn: 'root'
 })
 export class DatasetService {
-  public dataset = new BehaviorSubject<any | undefined>(undefined); // eslint-disable-line @typescript-eslint/no-explicit-any
+  public dataset = new BehaviorSubject<any | null | undefined>(undefined); // eslint-disable-line @typescript-eslint/no-explicit-any
 
   constructor(private http: HttpClient) {}
 
@@ -31,7 +31,7 @@ export class DatasetService {
           if (dataset) {
             this.dataset.next(dataset.initiative);
           } else {
-            this.dataset.next(data);
+            this.dataset.next(null);
           }
         });
     } else {

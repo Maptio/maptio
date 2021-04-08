@@ -13,6 +13,8 @@ export class WorkspaceComponent implements OnInit {
   datasetId: string | null = null;
   dataset: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
+  isLoading = true;
+
   constructor(
     private route: ActivatedRoute,
     private datasetService: DatasetService,
@@ -25,7 +27,12 @@ export class WorkspaceComponent implements OnInit {
   getDataset(): void {
     this.datasetId = this.route.snapshot.paramMap.get('id');
     this.datasetService.getDataset(this.datasetId)
-      .subscribe((dataset: any) => this.dataset = dataset); // eslint-disable-line @typescript-eslint/no-explicit-any
+      .subscribe((dataset: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+        this.dataset = dataset;
+        if (this.dataset === null) {
+          this.isLoading = false;
+        }
+      });
   }
 
 }
