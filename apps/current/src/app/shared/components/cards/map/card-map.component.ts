@@ -52,7 +52,8 @@ export class CardMapComponent implements OnInit {
 
         const previewUrl = `https://maptio-preview.web.app/map/${this.dataset.datasetId}`;
         const embedUrl = `https://maptio-preview.web.app/embed/${this.dataset.datasetId}`;
-        const iframeSnippet = escape(`<iframe src="${embedUrl}"></iframe>`);
+        const iframeStyle = 'height: 100%; width: 100%; border: none;';
+        const iframeSnippet = escape(`<iframe src="${embedUrl}" style="${iframeStyle}"></iframe>`);
 
         this.embeddingIntroduction = `
             Enabling this feature will allow you to see a preview of improved
