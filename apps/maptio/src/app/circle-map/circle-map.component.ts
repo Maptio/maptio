@@ -53,7 +53,7 @@ export class CircleMapComponent implements OnDestroy  {
     const margin = 15;
     const PADDING_CIRCLE = 20;
 
-    const boo = pack<Initiative>()
+    const packInitiatives = pack<Initiative>()
       .size([diameter - margin, diameter - margin])
       .padding(function () { // eslint-disable-line @typescript-eslint/no-explicit-any
         return PADDING_CIRCLE;
@@ -72,12 +72,7 @@ export class CircleMapComponent implements OnDestroy  {
         }
       });
 
-    console.log('data after running hierarchy:');
-    console.log(root);
-
-    console.log('data after running circle packing:');
-    this.circles = boo(root).descendants();
-    console.log(this.circles);
+    this.circles = packInitiatives(root).descendants();
   }
 
   identifyCircleTypes() {
@@ -139,8 +134,6 @@ export class CircleMapComponent implements OnDestroy  {
 
   onCircleSelectionAdjustPrimaryCircleSelection() {
     this.subs.sink = this.circleMapService.selectedCircle.subscribe((selectedCircle?: InitiativeNode) => {
-        console.log('CircleMap.onCircleSelectionAdjustPrimaryCircleSelection: ', selectedCircle?.data.name);
-
         if (selectedCircle && !this.primaryCircles.includes(selectedCircle)) {
           this.markPrimaryCirclesAsNotSelected();
         } else {

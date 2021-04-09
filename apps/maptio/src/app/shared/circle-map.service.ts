@@ -26,8 +26,6 @@ export class CircleMapService {
   }
 
   selectCircle(circle: InitiativeNode) {
-    console.log('CircleMapService.selectCircle: ', circle.data.name);
-
     this.deselectSelectedCircle();
     this.markCircleAsSelected(circle);
 

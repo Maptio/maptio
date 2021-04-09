@@ -47,8 +47,6 @@ export class CircleComponent implements OnInit {
   }
 
   onClick($event: MouseEvent) {
-    console.log(`CircleComponent.onClick fired for: ${this.circle.data.name}`);
-
     this.circleMapService.onCircleClick(this.circle);
 
     // Avoid triggering click events for circles underneath this one

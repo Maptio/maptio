@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  AfterViewInit,
   OnDestroy
 } from '@angular/core';
 
@@ -16,7 +15,7 @@ import { InitiativeNode } from '../shared/initiative.model';
   templateUrl: './svg-zoom-pan.component.html',
   styleUrls: ['./svg-zoom-pan.component.scss']
 })
-export class SvgZoomPanComponent implements OnInit, OnDestroy, AfterViewInit {
+export class SvgZoomPanComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
 
   scale = 1;
@@ -37,10 +36,6 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy() {
     this.subs.unsubscribe();
-  }
-
-  ngAfterViewInit() {
-    console.log('Coming soon to an SVG near you!');
   }
 
   zoomToCircle(x: number, y: number, r: number) {
