@@ -21,6 +21,12 @@
   }
 }
 
+// .circle--state-selected > .circle__children > g > .circle {
+//   > .circle__info {
+//     opacity: 0.2;
+//   }
+// }
+
 .circle--state-selected.circle--type-leaf > .circle__info {
   pointer-events: auto;
 }
