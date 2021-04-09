@@ -1,0 +1,15 @@
+.message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: calc(100vh - 2rem);
+  width: calc(100vw - 2rem);
+  padding: 1rem;
+
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: grey;
+}

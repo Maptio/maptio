@@ -14,6 +14,13 @@ This is a new Angular app (just Angular, no server) that is intended to be the f
 The instructions below - scaffolded by Nx CLI - can be used for working on the new app.
 
 
+# Deployment
+
+The new version of the app is hosted on Firebase at https://maptio-preview.web.app
+
+To deploy changes, simply run `nx deploy`.
+
+
 # Nx
 
 <p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>

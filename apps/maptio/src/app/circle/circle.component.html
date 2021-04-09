@@ -1,0 +1,36 @@
+<svg:g
+  class="circle"
+  [class.circle--state-selected]="circle.data.isSelected"
+  [class.circle--type-primary]="circle.data.isPrimary"
+  [class.circle--type-child-of-primary]="circle.data.isChildOfPrimary"
+  [class.circle--type-leaf]="circle.data.isLeaf"
+  [style.transform]="'translate(' + x + '%, ' + y + '%) scale(' + scale + ')'"
+  (click)="onClick($event)"
+>
+  <circle
+    class="circle__circle"
+    [attr.cx]="0"
+    [attr.cy]="0"
+    [attr.r]="defaultRadius"
+    [attr.fill]="circle.data.color"
+  />
+
+  <g class="circle__children">
+    <g maptioCircle
+      *ngFor="let child of circle.children"
+      [circle]="child"
+    ></g>
+  </g>
+
+  <foreignObject
+    class="circle__info"
+    [attr.x]="infoX"
+    [attr.y]="infoY"
+    [attr.width]="infoSize"
+    [attr.height]="infoSize"
+  >
+    <g maptioCircleInfo
+      [circle]="circle"
+    ></g>
+  </foreignObject>
+</svg:g>

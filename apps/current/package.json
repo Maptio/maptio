@@ -61,6 +61,7 @@
     "cloudinary-core": "^2.3.0",
     "compression": "^1.7.4",
     "core-js": "^2.6.3",
+    "cors": "^2.8.5",
     "d3-array": "^2.0.3",
     "d3-collection": "^1.0.7",
     "d3-color": "^1.2.3",

@@ -131,7 +131,7 @@ First, you'll need to copy the production `MONGODB_URI` variable from the `.env`
 execute the command:
 
 ```shell
-mongodump --uri "<MONGODB_URI>" --out ./db_backup
+mongodump --uri "<MONGODB_URI>" --out ./prod_db_backup
 ```
 
 The `mongodump` command should be installed with the MongoDB installation (checked with MongoDB Community Edition 4.4 installed via
@@ -139,12 +139,12 @@ homebrew on MacOS).
 
 #### 4. Restore the copy of the production DB to your local MongoDB instance
 
-The previous command should have copied all data from the prod DB to the `db_backup` folder. Now we need to populate our local MongoDB
+The previous command should have copied all data from the prod DB to the `prod_db_backup` folder. Now we need to populate our local MongoDB
 database with that data simply by running (note this will only work if an instance of MongoDB is running locally on the default port as it
 should be after step 2 above):
 
 ```shell
-mongorestore db_backup
+mongorestore prod_db_backup
 ```
 
 You should now be able to see production data locally if you log in to maptio with an account that is part of an existing organisation.
