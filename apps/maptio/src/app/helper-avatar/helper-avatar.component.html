@@ -3,7 +3,24 @@
   *ngIf="helper.picture"
   [src]="helper.picture"
   alt="{{ helper.name }}"
-  matTooltip="{{ tooltipText }}"
-  [matTooltipShowDelay]="300"
-  matTooltipClass="picture__tooltip"
+
+  [satPopoverAnchor]="popover"
+  [satPopoverHover]="300"
 >
+  <!-- matTooltip="{{ tooltipText }}"
+  [matTooltipShowDelay]="300"
+  matTooltipClass="picture__tooltip" -->
+
+<sat-popover
+  #popover
+  verticalAlign="below"
+>
+  <div class="popover">
+    <b>{{ helper.name}}</b>
+    <ul *ngIf="showRoles">
+      <li *ngFor="let role of helper.roles">
+        {{ role?.title }}
+      </li>
+    </ul>
+  </div>
+</sat-popover>
