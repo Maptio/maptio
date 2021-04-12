@@ -3,8 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
-// import { MaterialModule } from './material/material.module';
-
 import { SatPopoverModule } from '@ncstate/sat-popover';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -33,7 +31,6 @@ import { HelperAvatarComponent } from './helper-avatar/helper-avatar.component';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    // MaterialModule,
     SatPopoverModule,
     AppRoutingModule,
   ],
