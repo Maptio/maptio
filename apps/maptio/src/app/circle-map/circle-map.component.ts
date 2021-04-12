@@ -156,6 +156,6 @@ export class CircleMapComponent implements OnDestroy  {
   }
 
   onBackdropClick() {
-    this.circleMapService.selectAndZoomToParentOfSelectedCircle();
+    this.circleMapService.onBackdropClick();
   }
 }
