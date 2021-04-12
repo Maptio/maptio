@@ -4,7 +4,25 @@
   border-radius: 2.5rem;
 }
 
-.mat-tooltip.picture__tooltip {
+.popover {
+  // Styles copied from .mat-tooltip @ 11.2.8
+  $horizontal-padding: 8px;
+  $max-width: 250px;
+  $margin: 14px;
+
+  $handset-horizontal-padding: 16px;
+  $handset-margin: 24px;
+
+  // color: white;
+  border-radius: 4px;
+  margin: $margin;
+  max-width: $max-width;
+  padding-left: $horizontal-padding;
+  padding-right: $horizontal-padding;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  // Our overrides
   color: black;
   background-color: white;
   font-size: 1rem;
