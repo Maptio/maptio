@@ -1,10 +1,10 @@
-.picture {
+.helper-avatar__image {
   height: 5rem;
   width: 5rem;
   border-radius: 2.5rem;
 }
 
-.popover {
+.helper-avatar__details {
   // Styles copied from .mat-tooltip @ 11.2.8
   $horizontal-padding: 8px;
   $max-width: 250px;
@@ -27,4 +27,16 @@
   background-color: white;
   font-size: 1rem;
   white-space: pre;
+}
+
+.helper-avatar__name {
+  font-weight: 600;
+}
+
+.helper-avatar__roles {
+  margin: 0.25rem 0.25rem 0.5rem -1rem;
+}
+
+.helper-avatar__role {
+  margin-left: -0.25rem;
 }

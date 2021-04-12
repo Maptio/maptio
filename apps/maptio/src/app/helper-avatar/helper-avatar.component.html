@@ -1,5 +1,5 @@
 <img
-  class="picture"
+  class="helper-avatar__image"
   *ngIf="helper.picture"
   [src]="helper.picture"
   alt="{{ helper.name }}"
@@ -15,11 +15,17 @@
   #popover
   verticalAlign="below"
 >
-  <div class="popover">
-    <b>{{ helper.name}}</b>
-    <ul *ngIf="showRoles">
+  <div class="helper-avatar__details">
+    <div class="helper-avatar__name">
+      {{ helper.name}}
+    </div>
+
+    <ul
+      class="helper-avatar__roles"
+      *ngIf="showRoles"
+    >
       <li *ngFor="let role of helper.roles">
-        {{ role?.title }}
+        <span class="helper-avatar__role">{{ role?.title }}</span>
       </li>
     </ul>
   </div>
