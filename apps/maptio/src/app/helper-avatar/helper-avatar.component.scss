@@ -23,6 +23,7 @@
   text-overflow: ellipsis;
 
   // Our overrides
+  padding: 0.5rem;
   color: black;
   background-color: white;
   font-size: 1rem;
@@ -34,7 +35,7 @@
 }
 
 .helper-avatar__roles {
-  margin: 0.25rem 0.25rem 0.5rem -1rem;
+  margin: 0.25rem 0.25rem 0.25rem -1rem;
 }
 
 .helper-avatar__role {
