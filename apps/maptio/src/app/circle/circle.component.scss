@@ -16,17 +16,29 @@
   fill-opacity: 1;
   pointer-events: auto;
 
+  > .circle__circle {
+    filter: url(#shadow-1);
+  }
+
   > .circle__info {
     opacity: 1;
     pointer-events: auto;
   }
 }
 
-// .circle--state-selected > .circle__children > g > .circle {
-//   > .circle__info {
-//     opacity: 0.2;
-//   }
-// }
+.circle--state-selected:not(.circle--state-opened):hover > .circle__circle {
+  filter: url(#shadow-2);
+}
+
+.circle--state-opened > .circle__circle {
+  filter: none;
+}
+
+.circle--state-selected > .circle__children > g > .circle {
+  > .circle__info {
+    opacity: 0.2;
+  }
+}
 
 .circle--state-opened:not(.circle--type-leaf) {
   fill-opacity: 0.15;
@@ -41,6 +53,10 @@
 .circle--state-opened > .circle__children > g > .circle {
   fill-opacity: 1;
   pointer-events: auto;
+
+  > .circle__circle {
+    filter: url(#shadow-1);
+  }
 
   > .circle__info {
     opacity: 1;
@@ -60,8 +76,16 @@
 
 .circle--state-opened > .circle__children:hover > g > .circle {
   opacity: 0.4;
+
+  > .circle__circle {
+    filter: none;
+  }
 }
 
 .circle--state-opened > .circle__children:hover > g:hover > .circle {
   opacity: 1;
+
+  > .circle__circle {
+    filter: url(#shadow-2);
+  }
 }

@@ -1,5 +1,6 @@
 <svg:g
   class="circle"
+  id="grrr"
   [class.circle--state-selected]="circle.data.isSelected"
   [class.circle--state-opened]="circle.data.isOpened"
   [class.circle--type-primary]="circle.data.isPrimary"
@@ -8,6 +9,63 @@
   [style.transform]="'translate(' + x + '%, ' + y + '%) scale(' + scale + ')'"
   (click)="onClick($event)"
 >
+  <defs>
+    <filter id="f1" x="0" y="0" width="200%" height="200%">
+      <feOffset result="offOut" in="SourceGraphic" dx="20" dy="20" />
+      <feBlend in="SourceGraphic" in2="offOut" mode="normal" />
+    </filter>
+
+
+    <filter id="f3" x="0" y="0" width="200%" height="200%">
+      <feOffset result="offOut" in="SourceAlpha" dx="20" dy="20" />
+      <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" />
+      <!-- <feBlend in="SourceGraphic" in2="blurOut" mode="normal" /> -->
+      <feBlend in="SourceGraphic" in2="blurOut" mode="exclusion" />
+    </filter>
+
+    <filter id="just-blur">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" />
+    </filter>
+
+    <filter id="shadow-1">
+      <feGaussianBlur id="blur-1" in="SourceAlpha" stdDeviation="5" />
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="shadow-2">
+      <feGaussianBlur id="blur-2" in="SourceAlpha" stdDeviation="10" />
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <animate
+    xlink:href="#blur-2"
+    attributeName="stdDeviation"
+    from="3"
+    to="6"
+    dur="200ms"
+    begin="grrr.mouseover"
+    repeatCount="1"
+  />
+
+  <animate
+    xlink:href="#blur-1"
+    attributeName="stdDeviation"
+    from="6"
+    to="3"
+    dur="200ms"
+    begin="grrr.mouseleave"
+    repeatCount="1"
+  />
+
+
+
   <circle
     class="circle__circle"
     [attr.cx]="0"
