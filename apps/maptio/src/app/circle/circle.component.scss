@@ -34,11 +34,11 @@
   filter: none;
 }
 
-.circle--state-selected > .circle__children > g > .circle {
-  > .circle__info {
-    opacity: 0.2;
-  }
-}
+// .circle--state-selected > .circle__children > g > .circle {
+//   > .circle__info {
+//     opacity: 0.2;
+//   }
+// }
 
 .circle--state-opened:not(.circle--type-leaf) {
   fill-opacity: 0.15;
