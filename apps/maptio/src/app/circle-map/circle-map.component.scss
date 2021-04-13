@@ -1,8 +1,0 @@
-.circle-map__backdrop {
-  // Span full width of the window (works in tandem with x being set via SVG)
-  // TODO: Doesn't work in firefox!
-  width: 100vw;
-  transform: translate(-50vw);
-
-  opacity: 0;
-}
