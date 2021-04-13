@@ -57,6 +57,33 @@
             "scripts": []
           },
           "configurations": {
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/maptio/src/environments/environment.ts",
+                  "with": "apps/maptio/src/environments/environment.staging.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -124,7 +151,16 @@
         },
         "deploy": {
           "builder": "@angular/fire:deploy",
-          "options": {}
+          "options": {
+            "buildTarget": "maptio:build:staging",
+            "firebaseProject": "maptio-preview-staging"
+          },
+          "configurations": {
+            "production": {
+                "buildTarget": "maptio:build:production",
+                "firebaseProject": "maptio-preview"
+            }
+          }
         }
       }
     },

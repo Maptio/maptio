@@ -6,6 +6,16 @@
           "maptio-preview"
         ]
       }
+    },
+    "maptio-preview-staging": {
+      "hosting": {
+        "maptio": [
+          "maptio-preview-staging"
+        ]
+      }
     }
+  },
+  "projects": {
+    "maptio-preview-staging": "maptio-preview-staging"
   }
 }
