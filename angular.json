@@ -61,7 +61,7 @@
               "fileReplacements": [
                 {
                   "replace": "apps/maptio/src/environments/environment.ts",
-                  "with": "apps/maptio/src/environments/environment.prod.ts"
+                  "with": "apps/maptio/src/environments/environment.staging.ts"
                 }
               ],
               "optimization": true,
