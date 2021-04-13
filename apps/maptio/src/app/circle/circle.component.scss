@@ -1,3 +1,9 @@
+$info-scale-selected-not-hovered: 0.975;
+$info-scale-selected: 0.95;
+$stroke-width-selected-not-hovered: 0.25rem;
+$stroke-width-selected: 0.625rem;
+
+
 .circle {
   fill-opacity: 0.15;
   cursor: pointer;
@@ -12,33 +18,54 @@
   transition: all 0.2s ease-in;
 }
 
+.circle__circle {
+  stroke: white;
+  stroke-width: 0;
+  transition: all 0.2s ease-in;
+}
+
 .circle--state-selected {
   fill-opacity: 1;
   pointer-events: auto;
 
   > .circle__circle {
+    stroke: white;
+    stroke-width: $stroke-width-selected-not-hovered;
     filter: url(#shadow-1);
   }
 
   > .circle__info {
     opacity: 1;
     pointer-events: auto;
+    transform: scale($info-scale-selected-not-hovered)
   }
 }
 
-.circle--state-selected:not(.circle--state-opened):hover > .circle__circle {
-  filter: url(#shadow-2);
+.circle--state-selected:not(.circle--state-opened):hover {
+  > .circle__circle {
+    filter: url(#shadow-2);
+    stroke-width: $stroke-width-selected;
+  }
+
+  > .circle__info {
+    transform: scale($info-scale-selected)
+  }
 }
 
 .circle--state-opened > .circle__circle {
+  stroke-width: 0;
   filter: none;
 }
 
-// .circle--state-selected > .circle__children > g > .circle {
-//   > .circle__info {
-//     opacity: 0.2;
-//   }
-// }
+.circle--state-opened > .circle__info {
+  transform: scale(1);
+}
+
+.circle--state-selected > .circle__children > g > .circle {
+  > .circle__info {
+    opacity: 0.1;
+  }
+}
 
 .circle--state-opened:not(.circle--type-leaf) {
   fill-opacity: 0.15;
@@ -86,6 +113,11 @@
   opacity: 1;
 
   > .circle__circle {
+    stroke-width: $stroke-width-selected;
     filter: url(#shadow-2);
+  }
+
+  > .circle__info {
+    transform: scale($info-scale-selected);
   }
 }
