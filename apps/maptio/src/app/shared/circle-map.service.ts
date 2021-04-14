@@ -32,7 +32,9 @@ export class CircleMapService {
         this.closeCircle(this.openedCircle.value);
       }
 
-      this.openCircle(circle);
+      if (!isLeaf) {
+        this.openCircle(circle);
+      }
     } else if (isSelected && !isOpened) {
       // If a selected circle is clicked when the info is shown, open the circle to show its children
       this.openCircle(circle);
