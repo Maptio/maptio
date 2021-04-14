@@ -16,9 +16,13 @@ The instructions below - scaffolded by Nx CLI - can be used for working on the n
 
 # Deployment
 
-The new version of the app is hosted on Firebase at https://maptio-preview.web.app
+The new version of the app is hosted on Firebase at https://maptio-preview.web.app (production).
 
-To deploy changes, simply run `nx deploy`.
+A staging version is hosted at https://maptio-preview-staging.web.app
+
+To deploy changes to staging, simply run `nx deploy`.
+
+To deploy changes to production, run `nx deploy --prod`.
 
 
 # Nx

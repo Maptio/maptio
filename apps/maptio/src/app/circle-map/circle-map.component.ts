@@ -134,8 +134,12 @@ export class CircleMapComponent implements OnDestroy  {
 
   onCircleSelectionAdjustPrimaryCircleSelection() {
     this.subs.sink = this.circleMapService.selectedCircle.subscribe((selectedCircle?: InitiativeNode) => {
-        if (selectedCircle && !this.primaryCircles.includes(selectedCircle)) {
+        if (selectedCircle) {
           this.markPrimaryCirclesAsNotSelected();
+
+          if (this.primaryCircles.includes(selectedCircle)) {
+            this.circleMapService.markCircleAsSelected(selectedCircle);
+          }
         } else {
           this.markPrimaryCirclesAsSelected();
         }
@@ -156,6 +160,6 @@ export class CircleMapComponent implements OnDestroy  {
   }
 
   onBackdropClick() {
-    this.circleMapService.selectAndZoomToParentOfSelectedCircle();
+    this.circleMapService.onBackdropClick();
   }
 }

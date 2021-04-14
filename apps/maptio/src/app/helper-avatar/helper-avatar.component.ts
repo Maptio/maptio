@@ -10,14 +10,21 @@ import { Helper } from '../shared/initiative.model';
 export class HelperAvatarComponent implements OnInit {
   @Input() helper!: Helper;
 
-  tooltipText = '';
+  roles: string[] = [];
+  showRoles = false;
 
   ngOnInit(): void {
-    this.tooltipText = this.helper.name;
     this.helper.roles.forEach((role) => {
       if (role && role.title) {
-        this.tooltipText += '\n' + role.title;
+        this.roles.push(role.title);
       }
     });
+
+    this.showRoles = !!this.roles.length;
+  }
+
+  onClick($event: MouseEvent) {
+    // Avoid triggering click events for the circle when a helper avatar is clicked - especially important on mobile
+    $event.stopPropagation();
   }
 }

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
+import { SubSink } from 'subsink';
 
 import { DatasetService } from '../dataset.service';
 
@@ -9,7 +11,9 @@ import { DatasetService } from '../dataset.service';
   templateUrl: './workspace.component.html',
   styleUrls: ['./workspace.component.scss']
 })
-export class WorkspaceComponent implements OnInit {
+export class WorkspaceComponent implements OnInit, OnDestroy {
+  private subs = new SubSink();
+
   datasetId: string | null = null;
   dataset: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
@@ -26,7 +30,7 @@ export class WorkspaceComponent implements OnInit {
 
   getDataset(): void {
     this.datasetId = this.route.snapshot.paramMap.get('id');
-    this.datasetService.getDataset(this.datasetId)
+    this.subs.sink = this.datasetService.getDataset(this.datasetId)
       .subscribe((dataset: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
         this.dataset = dataset;
         if (this.dataset === null) {
@@ -35,4 +39,7 @@ export class WorkspaceComponent implements OnInit {
       });
   }
 
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
 }

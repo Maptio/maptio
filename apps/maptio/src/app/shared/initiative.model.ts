@@ -18,6 +18,7 @@ export interface Initiative {
   isChildOfPrimary: boolean;
   isLeaf: boolean;
   isSelected: boolean;
+  isOpened: boolean;
 }
 
 export interface Helper {

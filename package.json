@@ -40,6 +40,7 @@
     "@angular/platform-browser": "^11.2.0",
     "@angular/platform-browser-dynamic": "^11.2.0",
     "@angular/router": "^11.2.0",
+    "@ncstate/sat-popover": "^7.1.0",
     "@nrwl/angular": "11.5.1",
     "d3-color": "^2.0.0",
     "d3-hierarchy": "^2.0.0",

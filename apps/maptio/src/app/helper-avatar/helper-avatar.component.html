@@ -1,9 +1,29 @@
 <img
-  class="picture"
+  class="helper-avatar__image"
   *ngIf="helper.picture"
   [src]="helper.picture"
   alt="{{ helper.name }}"
-  matTooltip="{{ tooltipText }}"
-  [matTooltipShowDelay]="300"
-  matTooltipClass="picture__tooltip"
+  [satPopoverAnchor]="popover"
+  [satPopoverHover]="300"
+  (click)="onClick($event)"
 >
+
+<sat-popover
+  #popover
+  verticalAlign="below"
+>
+  <div class="helper-avatar__details">
+    <div class="helper-avatar__name">
+      {{ helper.name}}
+    </div>
+
+    <ul
+      class="helper-avatar__roles"
+      *ngIf="showRoles"
+    >
+      <li *ngFor="let role of helper.roles">
+        <span class="helper-avatar__role">{{ role?.title }}</span>
+      </li>
+    </ul>
+  </div>
+</sat-popover>
