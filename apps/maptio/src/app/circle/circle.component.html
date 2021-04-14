@@ -9,6 +9,14 @@
   (click)="onClick($event)"
 >
   <circle
+    class="circle__shadow"
+    [attr.cx]="0"
+    [attr.cy]="0"
+    [attr.r]="defaultRadius"
+    [attr.fill]="circle.data.color"
+  />
+
+  <circle
     class="circle__circle"
     [attr.cx]="0"
     [attr.cy]="0"
@@ -23,15 +31,16 @@
     ></g>
   </g>
 
-  <foreignObject
-    class="circle__info"
-    [attr.x]="infoX"
-    [attr.y]="infoY"
-    [attr.width]="infoSize"
-    [attr.height]="infoSize"
-  >
-    <g maptioCircleInfo
-      [circle]="circle"
-    ></g>
-  </foreignObject>
+  <g class="circle__info">
+    <foreignObject
+      [attr.x]="infoX"
+      [attr.y]="infoY"
+      [attr.width]="infoSize"
+      [attr.height]="infoSize"
+    >
+      <g maptioCircleInfo
+        [circle]="circle"
+      ></g>
+    </foreignObject>
+  </g>
 </svg:g>
