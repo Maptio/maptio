@@ -1,24 +1,6 @@
 <maptio-svg-zoom-pan
   (click)="onBackdropClick()"
 >
-  <svg:defs>
-    <filter id="shadow-1">
-      <feGaussianBlur id="blur-1" in="SourceAlpha" stdDeviation="5" />
-      <feMerge>
-        <feMergeNode />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
-    </filter>
-
-    <filter id="shadow-2">
-      <feGaussianBlur id="blur-2" in="SourceAlpha" stdDeviation="10" />
-      <feMerge>
-        <feMergeNode />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
-    </filter>
-  </svg:defs>
-
   <svg:g
     maptioCircle
     *ngFor="let primaryCircle of rootCircle?.children"
