@@ -23,15 +23,16 @@
     ></g>
   </g>
 
-  <foreignObject
-    class="circle__info"
-    [attr.x]="infoX"
-    [attr.y]="infoY"
-    [attr.width]="infoSize"
-    [attr.height]="infoSize"
-  >
-    <g maptioCircleInfo
-      [circle]="circle"
-    ></g>
-  </foreignObject>
+  <g class="circle__info">
+    <foreignObject
+      [attr.x]="infoX"
+      [attr.y]="infoY"
+      [attr.width]="infoSize"
+      [attr.height]="infoSize"
+    >
+      <g maptioCircleInfo
+        [circle]="circle"
+      ></g>
+    </foreignObject>
+  </g>
 </svg:g>
