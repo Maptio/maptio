@@ -22,4 +22,9 @@ export class HelperAvatarComponent implements OnInit {
 
     this.showRoles = !!this.roles.length;
   }
+
+  onClick($event: MouseEvent) {
+    // Avoid triggering click events for the circle when a helper avatar is clicked - especially important on mobile
+    $event.stopPropagation();
+  }
 }

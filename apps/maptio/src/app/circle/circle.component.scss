@@ -18,6 +18,7 @@
 
   > .circle__info {
     opacity: 1;
+    pointer-events: auto;
   }
 }
 
@@ -27,20 +28,17 @@
 //   }
 // }
 
-.circle--state-selected.circle--type-leaf > .circle__info {
-  pointer-events: auto;
-}
-
-.circle--state-selected:not(.circle--type-leaf):hover {
+.circle--state-opened:not(.circle--type-leaf) {
   fill-opacity: 0.15;
 
   > .circle__info {
     opacity: 0;
+    pointer-events: none;
     transform: scale(1.25);
   }
 }
 
-.circle--state-selected:hover > .circle__children > g > .circle {
+.circle--state-opened > .circle__children > g > .circle {
   fill-opacity: 1;
   pointer-events: auto;
 
@@ -52,18 +50,18 @@
 
 // https://codepen.io/shshaw/pen/wWQZEB
 
-.circle--state-selected:hover > .circle__children {
+.circle--state-opened > .circle__children {
   visibility: hidden;
 }
 
-.circle--state-selected:hover > .circle__children > g {
+.circle--state-opened > .circle__children > g {
   visibility: visible;
 }
 
-.circle--state-selected:hover > .circle__children:hover > g > .circle {
+.circle--state-opened > .circle__children:hover > g > .circle {
   opacity: 0.4;
 }
 
-.circle--state-selected:hover > .circle__children:hover > g:hover > .circle {
+.circle--state-opened > .circle__children:hover > g:hover > .circle {
   opacity: 1;
 }

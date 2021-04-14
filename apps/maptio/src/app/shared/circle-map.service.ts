@@ -10,19 +10,48 @@ import { SvgZoomPanService } from '../svg-zoom-pan/svg-zoom-pan.service';
 })
 export class CircleMapService {
   public selectedCircle = new BehaviorSubject<InitiativeNode | undefined>(undefined);
+  public openedCircle = new BehaviorSubject<InitiativeNode | undefined>(undefined);
 
   constructor(
     private svgZoomPanService: SvgZoomPanService,
   ) {}
 
   onCircleClick(circle: InitiativeNode) {
-    if (circle === this.selectedCircle.value && circle.parent && circle.parent.parent) {
-      this.selectCircle(circle.parent);
-      this.zoomToCircle(circle.parent);
-    } else {
+    const isSelected = circle === this.selectedCircle.value;
+    const isOpened = circle.data.isOpened;
+    const isPrimary = circle.data.isPrimary;
+    const isLeaf = circle.data.isLeaf;
+
+    if (isLeaf && isSelected) {
+      this.selectAndZoomToParentOfSelectedCircle();
+    } else if (isPrimary && !isOpened) {
       this.selectCircle(circle);
       this.zoomToCircle(circle);
+
+      if (this.openedCircle.value) {
+        this.closeCircle(this.openedCircle.value);
+      }
+
+      this.openCircle(circle);
+    } else if (isSelected && !isOpened) {
+      // If a selected circle is clicked when the info is shown, open the circle to show its children
+      this.openCircle(circle);
+    } else if (isSelected && isOpened) {
+      // Close selected circle if it's curently open
+      this.closeCircle(circle);
+    } else {
+      // If a circle is not selected
+      this.selectCircle(circle);
+      this.zoomToCircle(circle);
+
+      if (circle.parent) {
+        this.closeCircle(circle.parent);
+      }
     }
+  }
+
+  onBackdropClick() {
+    this.selectAndZoomToParentOfSelectedCircle();
   }
 
   selectCircle(circle: InitiativeNode) {
@@ -45,6 +74,24 @@ export class CircleMapService {
 
   markCircleAsNotSelected(circle: InitiativeNode) {
     circle.data.isSelected = false;
+    this.openedCircle.next(circle);
+  }
+
+  openCircle(circle: InitiativeNode) {
+    this.markCircleAsOpened(circle);
+  }
+
+  closeCircle(circle: InitiativeNode) {
+    this.markCircleAsClosed(circle);
+    this.openedCircle.next(undefined);
+  }
+
+  markCircleAsOpened(circle: InitiativeNode) {
+    circle.data.isOpened = true;
+  }
+
+  markCircleAsClosed(circle: InitiativeNode) {
+    circle.data.isOpened = false;
   }
 
   zoomToCircle(circle?: InitiativeNode) {
@@ -53,9 +100,13 @@ export class CircleMapService {
 
   selectAndZoomToParentOfSelectedCircle() {
     const parentCircle = this.selectedCircle.value?.parent;
-    if (parentCircle && parentCircle.parent) {
+
+    if (this.selectedCircle.value && this.selectedCircle.value.data.isOpened) {
+      this.closeCircle(this.selectedCircle.value);
+    } else if (parentCircle && parentCircle.parent) {
       this.selectCircle(parentCircle);
       this.zoomToCircle(parentCircle);
+      this.openCircle(parentCircle);
     } else {
       this.deselectSelectedCircle();
       this.zoomToCircle(undefined);
