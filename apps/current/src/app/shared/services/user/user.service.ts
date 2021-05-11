@@ -519,7 +519,7 @@ export class UserService {
         }
 
         // Regardless what happens with the profile, try the default connection
-        if (!profile) {
+        if (!profile || !profile.identities) {
             return environment.CONNECTION_NAME;
         }
 
