@@ -28,6 +28,7 @@
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
+    "doc": "npx compodoc -p apps/maptio/tsconfig.doc.json -d doc/code-map -s",
     "help": "nx help"
   },
   "private": true,
@@ -72,6 +73,7 @@
     "@angular/cli": "~11.0.0",
     "@angular/compiler-cli": "^11.2.0",
     "@angular/language-service": "^11.2.0",
+    "@compodoc/compodoc": "^1.1.11",
     "@nrwl/cli": "11.5.1",
     "@nrwl/cypress": "11.5.1",
     "@nrwl/eslint-plugin-nx": "11.5.1",
