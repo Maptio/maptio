@@ -1,1 +1,1 @@
-web: ts-node apps/maptio-server/src/main.ts
+web: node dist/apps/maptio-server/main.js
