@@ -11,7 +11,7 @@
     "nx": "nx",
     "start": "node dist/apps/api/main",
     "dev": "nx run-many --target=serve --projects=maptio,maptio-server --parallel",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "nx workspace-lint && ng lint",
     "e2e": "ng e2e",
