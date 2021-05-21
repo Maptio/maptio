@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+/doc/code-map
 
 # dependencies
 /node_modules
@@ -24,6 +25,9 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# Local data
+/data/*
+
 # misc
 /.sass-cache
 /connect.lock
@@ -34,7 +38,6 @@ yarn-error.log
 testem.log
 /typings
 .firebase
-doc/code-map
 
 # System Files
 .DS_Store
