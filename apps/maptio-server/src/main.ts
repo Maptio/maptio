@@ -3,8 +3,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
 import helmet from 'helmet';
-// import jwt from 'express-jwt'; // See TODO on commented out usage below
-// import jwksRsa from 'jwks-rsa'; // ditto
+import jwt from 'express-jwt';
+import jwksRsa from 'jwks-rsa';
 import apicache from 'apicache';
 import sslRedirect from 'heroku-ssl-redirect';
 import compression from 'compression';
@@ -28,35 +28,34 @@ const port = process.env.PORT || DEFAULT_PORT;
 // Security
 //
 // https://auth0.com/blog/node-js-and-typescript-tutorial-secure-an-express-api/
-// TODO: Commented out as it's only used by routes which are commented out too but this is ready to be used
-// const jwtCheck = jwt({
-//   secret: jwksRsa.expressJwtSecret({
-//     cache: true,
-//     rateLimit: true,
-//     jwksRequestsPerMinute: 5,
-//     jwksUri: "https://login.maptio.com/.well-known/jwks.json"
-//   }),
+const jwtCheck = jwt({
+  secret: jwksRsa.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: "https://login.maptio.com/.well-known/jwks.json"
+  }),
 
-//   audience: 'https://app.maptio.com/api/v1',
-//   issuer: "https://login.maptio.com/",
-//   algorithms: ['RS256'],
-//   requestProperty: 'token'
-// });
+  audience: 'https://app.maptio.com/api/v1',
+  issuer: "https://login.maptio.com/",
+  algorithms: ['RS256'],
+  requestProperty: 'token'
+});
 
-// function checkscopes(scopes) {
-//   return function (req, res, next) {
-//     const token = req.token;
-//     const userScopes = token.scope.split(' ');
+function checkscopes(scopes) {
+  return function (req, res, next) {
+    const token = req.token;
+    const userScopes = token.scope.split(' ');
 
-//     for (let i = 0; i < userScopes.length; i++) {
-//       for (let j = 0; j < scopes.length; j++) {
-//         if (scopes[j] === userScopes[i]) return next();
-//       }
-//     }
+    for (let i = 0; i < userScopes.length; i++) {
+      for (let j = 0; j < scopes.length; j++) {
+        if (scopes[j] === userScopes[i]) return next();
+      }
+    }
 
-//     return res.status(401).send(`Insufficient scopes - I need ${scopes}, you got ${userScopes}`);
-//   }
-// }
+    return res.status(401).send(`Insufficient scopes - I need ${scopes}, you got ${userScopes}`);
+  }
+}
 
 if (!isDevelopment) {
   app.use(helmet())
@@ -128,32 +127,32 @@ app.use(compression())
 // API routes
 //
 // TODO: Upgrade all of this to new express version
-// var datasets = require('./routes/datasets');
-// var embeddableDatasets = require('./routes/embeddable-datasets');
-// var users = require('./routes/users');
-// var teams = require('./routes/teams');
-// var inviting = require('./routes/invite-mail');
-// var confirming = require('./routes/confirm-mail');
-// var encoding = require('./routes/encoding');
-// var images = require('./routes/images');
-// var notifications = require('./routes/notifications');
-// var oauth = require('./routes/oauth');
-// var intercom = require("./routes/intercom");
+var datasets = require('./routes/datasets');
+var embeddableDatasets = require('./routes/embeddable-datasets');
+var users = require('./routes/users');
+var teams = require('./routes/teams');
+var inviting = require('./routes/invite-mail');
+var confirming = require('./routes/confirm-mail');
+var encoding = require('./routes/encoding');
+var images = require('./routes/images');
+var notifications = require('./routes/notifications');
+var oauth = require('./routes/oauth');
+var intercom = require("./routes/intercom");
 
-// app.use('/api/v1/jwt/', encoding);
-// app.use('/api/v1/mail/confirm', confirming);
+app.use('/api/v1/jwt/', encoding);
+app.use('/api/v1/mail/confirm', confirming);
 
-// app.use('/api/v1/images/', jwtCheck, checkscopes(["api"]), images)
-// app.use('/api/v1/notifications/', jwtCheck, checkscopes(["api"]), notifications)
-// app.use('/api/v1/oauth', jwtCheck, checkscopes(["api"]), oauth);
-// app.use('/api/v1/mail/invite', jwtCheck, checkscopes(["invite"]), inviting);
-// app.use('/api/v1/dataset/', jwtCheck, checkscopes(["api"]), datasets);
-// app.use('/api/v1/user', jwtCheck, checkscopes(["api"]), users);
-// app.use('/api/v1/team', jwtCheck, checkscopes(["api"]), teams);
-// app.use('/api/v1/intercom', jwtCheck, checkscopes(["api"]), intercom);
+app.use('/api/v1/images/', jwtCheck, checkscopes(["api"]), images)
+app.use('/api/v1/notifications/', jwtCheck, checkscopes(["api"]), notifications)
+app.use('/api/v1/oauth', jwtCheck, checkscopes(["api"]), oauth);
+app.use('/api/v1/mail/invite', jwtCheck, checkscopes(["invite"]), inviting);
+app.use('/api/v1/dataset/', jwtCheck, checkscopes(["api"]), datasets);
+app.use('/api/v1/user', jwtCheck, checkscopes(["api"]), users);
+app.use('/api/v1/team', jwtCheck, checkscopes(["api"]), teams);
+app.use('/api/v1/intercom', jwtCheck, checkscopes(["api"]), intercom);
 
-// // Unprotected endpoint for use for publicly shared embeddable maps
-// app.use('/api/v1/embeddable-dataset/', embeddableDatasets);
+// Unprotected endpoint for use for publicly shared embeddable maps
+app.use('/api/v1/embeddable-dataset/', embeddableDatasets);
 
 
 
@@ -190,16 +189,23 @@ app.get(cache('5 seconds'));
 // See code below up until: `res.sendFile(HTML_FILE);`
 // }
 
-app.use(express.static(DIST_DIR));
+if (isDevelopment) {
+  app.get("*", function (req, res, next) {
+    console.log('hello?');
+    res.json({ hello: 'world' });
+  });
+} else {
+  app.use(express.static(DIST_DIR));
 
-// For any other requests, serve the static Angular bundle
-app.get("*", function (req, res, next) {
-  if (req.header('x-forwarded-proto') !== 'https') {
-    return res.redirect(['https://', req.get('Host'), req.url].join(''));
-  }
+  // For any other requests, serve the static Angular bundle
+  app.get("*", function (req, res, next) {
+    if (req.header('x-forwarded-proto') !== 'https') {
+      return res.redirect(['https://', req.get('Host'), req.url].join(''));
+    }
 
-  res.sendFile(HTML_FILE);
-});
+    res.sendFile(HTML_FILE);
+  });
+}
 
 
 const server = app.listen(port, () => {
