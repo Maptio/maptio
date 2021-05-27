@@ -1,4 +1,3 @@
-
 import {filter, combineLatest, map} from 'rxjs/operators';
 import { Team } from "../../../../shared/model/team.data";
 import { Role } from "../../../../shared/model/role.data";
@@ -12,7 +11,7 @@ import { PermissionsService } from "../../../../shared/services/permissions/perm
 import { Tag, SelectableTag } from "../../../../shared/model/tag.data";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
-import { Subject, BehaviorSubject ,  Subscription ,  Observable } from "rxjs";
+import { Subject, BehaviorSubject ,  Subscription ,  Observable, partition } from "rxjs";
 import {
   Component,
   OnInit,
@@ -22,7 +21,7 @@ import {
 } from "@angular/core";
 import { IDataVisualizer } from "../../components/canvas/mapping.interface";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
-import { flatten, uniqBy, remove, partition, groupBy, map, flattenDeep } from "lodash-es";
+import { flatten, uniqBy, remove, partition as _partition, groupBy, map as _map, flattenDeep } from "lodash-es";
 
 import { transition } from "d3-transition";
 import { select, selectAll, event, mouse } from "d3-selection";
@@ -294,7 +293,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       );
     });
 
-    let [clearSearchInitiative, highlightInitiative] = this.zoomInitiative$.partition(node => node === null);
+    let [clearSearchInitiative, highlightInitiative] = partition(
+      this.zoomInitiative$,
+      node => node === null
+    );
+
     clearSearchInitiative.pipe(
       combineLatest(this.isAuthorityCentricMode$.asObservable()))
       .subscribe((zoomed: [Initiative, boolean]) => {
@@ -338,7 +341,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       let isAuthorityCentricMode = value[1];
       let highlightElement = this.highlightElement;
 
-      let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
+      let [selectedTags, unselectedTags] = _partition(tags, t => t.isSelected);
       let uiService = this.uiService
       let FADED_OPACITY = this.FADED_OPACITY
       g.selectAll("path.edge")
@@ -428,7 +431,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       });
 
 
-    let links = map(
+    let links = _map(
       groupBy(rawlinks, "linkid"),
       (items: Array<any>, linkid: string) => {
         return {
@@ -511,7 +514,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         };
       });
 
-    let links = map(
+    let links = _map(
       groupBy(rawlinks, "linkid"),
       (items: any, linkid: string) => {
         let uniqueItems = uniqBy(items, (i: any) => i.initiative);
@@ -661,7 +664,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       }),
       links = graph.links;
 
-    let [selectedTags, unselectedTags] = partition(getTags(), (t: SelectableTag) => t.isSelected);
+    let [selectedTags, unselectedTags] = _partition(getTags(), (t: SelectableTag) => t.isSelected);
 
     links.forEach(function (link: {
       source: string;

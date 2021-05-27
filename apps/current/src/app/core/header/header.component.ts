@@ -6,7 +6,7 @@ import {
 } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { Subscription ,  from, forkJoin } from "rxjs";
+import { Subscription ,  from, forkJoin, partition } from "rxjs";
 import { map, mergeMap } from 'rxjs/operators';
 
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
@@ -56,7 +56,10 @@ export class HeaderComponent implements OnInit {
         private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private billingService: BillingService,
         private onboarding: OnboardingService) {
 
-        let [teamDefined, teamUndefined] = from(EmitterService.get("currentTeam")).partition((team: Team) => !!team);
+        let [teamDefined, teamUndefined] = partition(
+          from(EmitterService.get("currentTeam")),
+          (team: Team) => !!team
+        );
 
         teamDefined.pipe(mergeMap((team: Team) => {
             return this.billingService.getTeamStatus(team).pipe(map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean }) => {

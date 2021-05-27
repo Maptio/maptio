@@ -11,7 +11,7 @@ import { Initiative } from "../../../../shared/model/initiative.data";
 import { SelectableTag, Tag } from "../../../../shared/model/tag.data";
 import { IDataVisualizer } from "../../components/canvas/mapping.interface";
 import { Router } from "@angular/router";
-import { Subscription ,  Observable ,  Subject ,  BehaviorSubject } from "rxjs";
+import { Subscription ,  Observable ,  Subject ,  BehaviorSubject, partition } from "rxjs";
 import {
   Component,
   OnInit,
@@ -19,7 +19,7 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy
 } from "@angular/core";
-import { partition } from "lodash-es";
+import { partition as _partition } from "lodash-es";
 import { User } from "../../../../shared/model/user.data";
 import { Team } from "../../../../shared/model/team.data";
 import { MapSettingsService, MapSettings } from "../../services/map-settings.service";
@@ -274,7 +274,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       } catch (error) { }
     });
 
-    let [clearSearchInitiative, highlightInitiative] = this.zoomInitiative$.partition(node => node === null);
+    let [clearSearchInitiative, highlightInitiative] = partition(
+      this.zoomInitiative$,
+      node => node === null
+    );
 
     highlightInitiative.pipe(combineLatest(this.mapColor$)).subscribe((zoomed: [any, string]) => {
       let node = zoomed[0];
@@ -513,7 +516,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         })
         .attr("id", (d: any) => d.data.id)
         ;
-      let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
+      let [selectedTags, unselectedTags] = _partition(tags, t => t.isSelected);
 
       g.selectAll("g.node.tree-map").style("opacity", function (d: any) {
         return uiService.filter(
