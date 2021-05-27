@@ -2,7 +2,7 @@ import { DataSet } from '../../../../shared/model/dataset.data';
 import { Permissions } from "../../../../shared/model/permission.data";
 import { ActivatedRoute } from "@angular/router";
 import { Team } from "../../../../shared/model/team.data";
-import { Subscription } from "rxjs/Rx";
+import { Subscription } from "rxjs";
 import { OnInit } from "@angular/core";
 import { Component, ChangeDetectorRef } from "@angular/core";
 import { EmitterService } from '../../../../core/services/emitter.service';

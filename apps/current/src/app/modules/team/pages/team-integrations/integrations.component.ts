@@ -1,3 +1,5 @@
+
+import {mergeMap, filter, map} from 'rxjs/operators';
 import { Permissions } from '../../../../shared/model/permission.data';
 import { Http } from '@angular/http';
 import { TeamFactory } from "../../../../core/http/team/team.factory";
@@ -47,11 +49,11 @@ export class TeamIntegrationsComponent implements OnInit {
                 this.team = data.assets.team;
             });
 
-        this.route.queryParams.map(queryParams => {
+        this.route.queryParams.pipe(map(queryParams => {
             return { code: queryParams["code"], state: queryParams["state"] }
-        })
-            .filter(params => params.code !== undefined && params.code !== "" && params.state !== undefined && params.state !== "")
-            .flatMap(params => {
+        }),
+            filter(params => params.code !== undefined && params.code !== "" && params.state !== undefined && params.state !== ""),
+            mergeMap(params => {
                 if (localStorage.getItem("slack_state") !== params.state) {
                     throw new Error("State mismatch!")
                 }
@@ -61,11 +63,11 @@ export class TeamIntegrationsComponent implements OnInit {
                 return this.secureHttp.post("/api/v1/oauth/slack", {
                     code: params.code,
                     redirect_uri: this.REDIRECT_URL
-                })
-                    .map((responseData) => {
+                }).pipe(
+                    map((responseData) => {
                         return responseData.json();
-                    })
-            })
+                    }))
+            }),)
             .subscribe(slack => {
                 if (slack.ok) {
                     this.updateTeam(slack.access_token, slack.incoming_webhook, slack.team_name, slack.team_id)
@@ -122,8 +124,8 @@ export class TeamIntegrationsComponent implements OnInit {
     revokeToken(token: string) {
         this.isDisplayWaitingForSlackSync = true;
         this.cd.markForCheck();
-        return this.http.get(`https://slack.com/api/auth.revoke?token=${token}`)
-            .map(response => response.json())
+        return this.http.get(`https://slack.com/api/auth.revoke?token=${token}`).pipe(
+            map(response => response.json()))
             .subscribe(response => {
                 let updatedTeam = new Team({
                     team_id: this.team.team_id,

@@ -1,3 +1,5 @@
+
+import {filter, combineLatest, map} from 'rxjs/operators';
 import { Team } from "../../../../shared/model/team.data";
 import { Role } from "../../../../shared/model/role.data";
 import { User } from "../../../../shared/model/user.data";
@@ -10,9 +12,7 @@ import { PermissionsService } from "../../../../shared/services/permissions/perm
 import { Tag, SelectableTag } from "../../../../shared/model/tag.data";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
-import { Subject, BehaviorSubject } from "rxjs/Rx";
-import { Subscription } from "rxjs/Subscription";
-import { Observable } from "rxjs/Observable";
+import { Subject, BehaviorSubject ,  Subscription ,  Observable } from "rxjs";
 import {
   Component,
   OnInit,
@@ -148,14 +148,14 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     this.init();
 
     this.dataSubscription = this.dataService
-      .get()
-      .map(dataset => {
+      .get().pipe(
+      map(dataset => {
         this.datasetId = dataset.dataset.datasetId;
         this.settings = this.mapSettingsService.get(this.datasetId);
         this.isAuthorityCentricMode$.next(this.settings.views.network ? this.settings.views.network.isAuthorityCentricMode : true);
         return dataset;
-      })
-      .combineLatest(this.mapColor$, this.isAuthorityCentricMode$.asObservable())
+      }),
+      combineLatest(this.mapColor$, this.isAuthorityCentricMode$.asObservable()),)
       .subscribe(([dataset, color, authorityCentricMode]) => {
         this.dataset = dataset.dataset;
 
@@ -287,7 +287,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       } catch (error) { }
     });
 
-    this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
+    this.resetSubscription = this.isReset$.pipe(filter(r => r)).subscribe(isReset => {
       svg.transition().duration(this.TRANSITION_DURATION).call(
         zooming.transform,
         d3.zoomIdentity.translate(0, -this.height / 4)
@@ -295,8 +295,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     });
 
     let [clearSearchInitiative, highlightInitiative] = this.zoomInitiative$.partition(node => node === null);
-    clearSearchInitiative
-      .combineLatest(this.isAuthorityCentricMode$.asObservable())
+    clearSearchInitiative.pipe(
+      combineLatest(this.isAuthorityCentricMode$.asObservable()))
       .subscribe((zoomed: [Initiative, boolean]) => {
         let node = zoomed[0];
         let isAuthorityCentricMode = zoomed[1]
@@ -313,8 +313,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
               return "url(#arrow)";
           });
       });
-    highlightInitiative
-      .combineLatest(this.isAuthorityCentricMode$.asObservable())
+    highlightInitiative.pipe(
+      combineLatest(this.isAuthorityCentricMode$.asObservable()))
       .subscribe((zoomed: [Initiative, boolean]) => {
 
         let node = zoomed[0];
@@ -333,7 +333,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
       });
 
-    this.selectableTags$.combineLatest(this.isAuthorityCentricMode$.asObservable()).subscribe(value => {
+    this.selectableTags$.pipe(combineLatest(this.isAuthorityCentricMode$.asObservable())).subscribe(value => {
       let tags = value[0];
       let isAuthorityCentricMode = value[1];
       let highlightElement = this.highlightElement;

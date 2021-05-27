@@ -1,3 +1,5 @@
+
+import {map, mergeMap} from 'rxjs/operators';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { BillingService } from '../../../../shared/services/billing/billing.service';
 import { ActivatedRoute } from '@angular/router';
@@ -30,9 +32,9 @@ export class TeamBillingComponent implements OnInit {
 
     ngOnInit(): void {
         this.loaderService.show();
-        this.route.parent.data
-            .flatMap((data: { assets: { team: Team, datasets: DataSet[] } }) => {
-                return this.billingService.getTeamStatus(data.assets.team).map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean, plan: string, maxMembers: number, price:number }) => {
+        this.route.parent.data.pipe(
+            mergeMap((data: { assets: { team: Team, datasets: DataSet[] } }) => {
+                return this.billingService.getTeamStatus(data.assets.team).pipe(map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean, plan: string, maxMembers: number, price:number }) => {
                     data.assets.team.createdAt = value.created_at;
                     data.assets.team.freeTrialLength = value.freeTrialLength;
                     data.assets.team.isPaying = value.isPaying;
@@ -41,8 +43,8 @@ export class TeamBillingComponent implements OnInit {
                     data.assets.team.planMonthlyPrice = value.price;
 
                     return data.assets.team;
-                })
-            })
+                }))
+            }))
             .subscribe((team: Team) => {
                 this.team = team;
                 this.remaningTrialDays = team.getRemainingTrialDays();

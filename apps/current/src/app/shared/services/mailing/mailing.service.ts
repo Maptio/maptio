@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { AuthHttp } from "angular2-jwt";
 import { Http } from "@angular/http";
 import { Injectable } from "@angular/core";
@@ -20,13 +22,13 @@ export class MailingService {
             team: team
         };
 
-        return this.secureHttp.post("/api/v1/mail/invite", email)
-            .map((responseData) => {
+        return this.secureHttp.post("/api/v1/mail/invite", email).pipe(
+            map((responseData) => {
                 return responseData.json();
-            })
-            .map((input: any) => {
+            }),
+            map((input: any) => {
                 return input.MessageId !== undefined;
-            })
+            }),)
             .toPromise()
     }
 
@@ -38,13 +40,13 @@ export class MailingService {
             to: to
         };
 
-        return this.unsecureHttp.post("/api/v1/mail/confirm", email)
-            .map((responseData) => {
+        return this.unsecureHttp.post("/api/v1/mail/confirm", email).pipe(
+            map((responseData) => {
                 return responseData.json();
-            })
-            .map((input: any) => {
+            }),
+            map((input: any) => {
                 return input.MessageId !== undefined;
-            })
+            }),)
             .toPromise()
     }
 }

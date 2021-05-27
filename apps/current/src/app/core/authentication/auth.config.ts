@@ -2,7 +2,7 @@ import { environment } from "../../config/environment";
 import { Http, Response } from "@angular/http";
 import { WebAuth } from "auth0-js";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
 // declare var Auth0Lock: any;

@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { AnalyticsModule } from '../../../../../core/analytics.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Auth } from '../../../../../core/authentication/auth.service';
@@ -14,7 +16,6 @@ import { LoaderService } from '../../../../../shared/components/loading/loader.s
 import { MockBackend } from '@angular/http/testing';
 import { NavigationStart } from '@angular/router';
 import { NgProgress } from '@ngx-progressbar/core';
-import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '../../../../../shared/shared.module';
@@ -56,7 +57,7 @@ describe("building.component.ts", () => {
                         provide: Auth,
                         useClass: class {
                             getPermissions = jest.fn().mockReturnValue([])
-                            getUser = jest.fn().mockReturnValue(Observable.of(new User({ user_id: "UID" })))
+                            getUser = jest.fn().mockReturnValue(observableOf(new User({ user_id: "UID" })))
                         }
                     },
                     {
@@ -74,7 +75,7 @@ describe("building.component.ts", () => {
                     {
                         provide: Router, useClass: class {
                             navigate = jest.fn();
-                            events = Observable.of(new NavigationStart(0, "/next"))
+                            events = observableOf(new NavigationStart(0, "/next"))
                         }
                     },
                     MockBackend,

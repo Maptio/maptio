@@ -3,7 +3,7 @@ import { environment } from "../../../../config/environment";
 import { UserService } from "../../../../shared/services/user/user.service";
 import { ErrorService } from "../../../../shared/services/error/error.service";
 import { Auth } from "../../../../core/authentication/auth.service";
-import { Subscription } from "rxjs/Rx";
+import { Subscription } from "rxjs";
 import { User } from "../../../../shared/model/user.data";
 import { Component } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";

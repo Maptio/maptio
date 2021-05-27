@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { SignupComponent } from "./signup.page";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
@@ -18,7 +20,6 @@ import { JwtEncoder } from "../../../../shared/services/encoding/jwt.service";
 import { MailingService } from "../../../../shared/services/mailing/mailing.service";
 import { MockBackend } from "@angular/http/testing";
 import { Router, NavigationStart } from "@angular/router";
-import { Observable } from "rxjs";
 import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { UserService } from "../../../../shared/services/user/user.service";
 import { User } from "../../../../shared/model/user.data";
@@ -64,7 +65,7 @@ describe("signup.component.ts", () => {
               provide: Router,
               useClass: class {
                 navigate = jest.fn();
-                events = Observable.of(new NavigationStart(0, "/next"));
+                events = observableOf(new NavigationStart(0, "/next"));
               }
             },
             {

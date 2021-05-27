@@ -1,7 +1,15 @@
-import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
+import {
+   Component,
+   ChangeDetectorRef,
+   ChangeDetectionStrategy,
+   OnInit
+} from "@angular/core";
 import { Router } from "@angular/router";
-import { OnInit, EventEmitter } from "@angular/core";
-import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
+
+import { Subscription ,  from, forkJoin } from "rxjs";
+import { map, mergeMap } from 'rxjs/operators';
+
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { User } from "../../shared/model/user.data";
 import { Team } from "../../shared/model/team.data";
 import { DataSet } from "../../shared/model/dataset.data";
@@ -15,9 +23,6 @@ import { sortBy, isEmpty } from "lodash-es";
 import { BillingService } from "../../shared/services/billing/billing.service";
 import { LoaderService } from "../../shared/components/loading/loader.service";
 import { OnboardingService } from "../../shared/components/onboarding/onboarding.service";
-import { Subscription } from "rxjs/Subscription";
-import { from, forkJoin } from "rxjs";
-import { partition, mergeMap, map } from "rxjs/operators";
 import { environment } from "../../config/environment";
 
 
@@ -53,14 +58,14 @@ export class HeaderComponent implements OnInit {
 
         let [teamDefined, teamUndefined] = from(EmitterService.get("currentTeam")).partition((team: Team) => !!team);
 
-        teamDefined.flatMap((team: Team) => {
-            return this.billingService.getTeamStatus(team).map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean }) => {
+        teamDefined.pipe(mergeMap((team: Team) => {
+            return this.billingService.getTeamStatus(team).pipe(map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean }) => {
                 team.createdAt = value.created_at;
                 team.freeTrialLength = value.freeTrialLength;
                 team.isPaying = value.isPaying;
                 return team;
-            })
-        })
+            }))
+        }))
             .subscribe((value: Team) => {
                 this.team = value;
                 this.cd.markForCheck();

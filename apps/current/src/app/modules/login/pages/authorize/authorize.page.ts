@@ -1,5 +1,8 @@
+
+import {forkJoin as observableForkJoin, of as observableOf, from as observableFrom,  Subscription, Observable } from 'rxjs';
+
+import {switchMap, tap, mergeMap, map} from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
-import { Subscription, Observable } from 'rxjs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { URIService } from '../../../../shared/services/uri/uri.service';
 import { JwtHelper } from 'angular2-jwt';
@@ -31,39 +34,39 @@ export class AuthorizeComponent implements OnInit {
 
     ngOnInit(): void {
         this.loader.show();
-        this.subscription = this.route.fragment
-            .map(fragment => this.uriService.parseFragment(fragment).get("id_token"))
-            .map(token => new JwtHelper().decodeToken(token))
-            .map((profile: string) => {
+        this.subscription = this.route.fragment.pipe(
+            map(fragment => this.uriService.parseFragment(fragment).get("id_token")),
+            map(token => new JwtHelper().decodeToken(token)),
+            map((profile: string) => {
                 localStorage.setItem("profile", JSON.stringify(profile));
                 return profile;
-            })
-            .flatMap(() => {
+            }),
+            mergeMap(() => {
                 this.loader.show();
-                return Observable.fromPromise(this.auth.loginMaptioApiSSO());
-            })
-            .map((tokens: { accessToken: string, idToken: string }) => {
+                return observableFrom(this.auth.loginMaptioApiSSO());
+            }),
+            map((tokens: { accessToken: string, idToken: string }) => {
                 localStorage.setItem("maptio_api_token", tokens.accessToken);
                 localStorage.setItem("id_token", tokens.idToken);
-            })
-            .flatMap(() => {
+            }),
+            mergeMap(() => {
                 this.loader.show();
-                return Observable.fromPromise(this.authConfig.getAccessToken())
-            })
-            .map(accessToken => {
+                return observableFrom(this.authConfig.getAccessToken())
+            }),
+            map(accessToken => {
                 localStorage.setItem("access_token", accessToken);
-            })
-            .flatMap(() => {
+            }),
+            mergeMap(() => {
                 this.loader.show();
                 let profile = JSON.parse(localStorage.getItem("profile"));
                 return this.upsertUser(profile)
-            })
-            .flatMap(() => {
+            }),
+            mergeMap(() => {
                 this.loader.show();
                 let profile = JSON.parse(localStorage.getItem("profile"));
                 return this.updateMetadata(profile)
-            })
-            .do((user: User) => {
+            }),
+            tap((user: User) => {
                 this.intercom.update({
                     app_id: environment.INTERCOM_APP_ID,
                     email: user.email,
@@ -75,8 +78,8 @@ export class AuthorizeComponent implements OnInit {
                     },
                     is_invited: user.isInvitationSent
                 });
-            })
-            .do((user: User) => {
+            }),
+            tap((user: User) => {
                 this.analytics.setSuperProperties({
                     user_id: user.user_id,
                     email: user.email
@@ -86,19 +89,19 @@ export class AuthorizeComponent implements OnInit {
                     firstname: user.firstname,
                     lastname: user.lastname
                 });
-            })
-            .do((user: User) => {
+            }),
+            tap((user: User) => {
                 this.fullstory.identify(user.user_id, {
                     displayName: user.name,
                     email: user.email
                 });
-            })
-            .do((user: User) => {
+            }),
+            tap((user: User) => {
                 LogRocket.identify(user.user_id, {
                     name: user.name,
                     email: user.email,
                 });
-            })
+            }),)
             .subscribe((user: User) => {
                 this.loader.hide();
                 this.router.navigateByUrl("/home");
@@ -119,30 +122,30 @@ export class AuthorizeComponent implements OnInit {
 
         let user = User.create().deserialize(profile);
 
-        return Observable.fromPromise(this.userFactory.getUsers([user.user_id]).then(users => { return users }))
-            .map((users: User[]) => {
+        return observableFrom(this.userFactory.getUsers([user.user_id]).then(users => { return users })).pipe(
+            map((users: User[]) => {
                 return users;
-            })
-            .flatMap((users: User[]) => {
+            }),
+            mergeMap((users: User[]) => {
                 if (users.length === 0) {
                     // this user wasnt in the database before (i.e. not invited) so they are a founder and should have admin rights
                     user.userRole = UserRole.Admin;
-                    return Observable.fromPromise(this.userFactory.create(user))
+                    return observableFrom(this.userFactory.create(user))
                 }
                 else {
-                    return Observable.of(users[0])
+                    return observableOf(users[0])
                 }
-            })
-            .map(u => {
-                return Observable.from(this.userService.updateUserRole(user.user_id, UserRole[user.userRole]))
-            })
-            .map(() => {
-                return Observable.fromPromise(this.userService.updateActivationPendingStatus(user.user_id, false))
-            })
-            .map(() => {
-                return Observable.fromPromise(this.userService.getUsersInfo([user]))
-            })
-            .map(users => users[0])
+            }),
+            map(u => {
+                return observableFrom(this.userService.updateUserRole(user.user_id, UserRole[user.userRole]))
+            }),
+            map(() => {
+                return observableFrom(this.userService.updateActivationPendingStatus(user.user_id, false))
+            }),
+            map(() => {
+                return observableFrom(this.userService.getUsersInfo([user]))
+            }),
+            map(users => users[0]),)
 
     }
 
@@ -172,14 +175,13 @@ export class AuthorizeComponent implements OnInit {
             lastName = googleIdentity.profileData.family_name;
         }
 
-        return Observable
-            .forkJoin(
+        return observableForkJoin(
                 this.userService.updateUserPictureUrl(userId, picture),
-                this.userService.updateUserProfile(userId, firstName, lastName))
-            .switchMap(() => {
-                return Observable.fromPromise(this.userService.getUsersInfo([user]))
-            })
-            .map(users => users[0])
+                this.userService.updateUserProfile(userId, firstName, lastName)).pipe(
+            switchMap(() => {
+                return observableFrom(this.userService.getUsersInfo([user]))
+            }),
+            map(users => users[0]),)
 
     }
 }

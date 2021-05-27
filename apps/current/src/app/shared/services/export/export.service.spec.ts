@@ -1,6 +1,6 @@
 import { SlackIntegration } from "./../../model/integrations.data";
 import { Initiative } from "./../../model/initiative.data";
-import { Observable } from "rxjs/Rx";
+import { Observable } from "rxjs";
 import { AuthHttp } from "angular2-jwt";
 import { BaseRequestOptions, Response } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";

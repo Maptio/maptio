@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { RouterTestingModule } from "@angular/router/testing";
 import { AuthHttp } from "angular2-jwt";
 import { Initiative } from "../../../../shared/model/initiative.data";
@@ -9,7 +11,6 @@ import { NO_ERRORS_SCHEMA } from "@angular/core"
 import { ErrorService } from "../../../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
-import { Observable } from "rxjs/Rx";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { Team } from "../../../../shared/model/team.data";
@@ -31,7 +32,7 @@ export class AuthStub {
     });
 
     public getUser(): Observable<User> {
-        return Observable.of(this.fakeProfile);
+        return observableOf(this.fakeProfile);
     }
 
     authenticated() {
@@ -89,8 +90,8 @@ describe("workspace.component.ts", () => {
                     {
                         provide: ActivatedRoute,
                         useValue: {
-                            params: Observable.of({ mapid: 123, slug: "slug" }),
-                            data: Observable.of({
+                            params: observableOf({ mapid: 123, slug: "slug" }),
+                            data: observableOf({
                                 data: {
                                     dataset:
                                     new DataSet({ datasetId: "123", initiative: new Initiative() }),

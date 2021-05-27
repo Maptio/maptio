@@ -1,7 +1,8 @@
+
+import {tap, combineLatest,  flatMap, map } from 'rxjs/operators';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
-import {Observable} from "rxjs/Observable"
+import { Subscription , Observable,  forkJoin } from 'rxjs';
 import { Intercom } from 'ng-intercom';
 import { Auth } from '../../../../core/authentication/auth.service';
 import { environment } from '../../../../config/environment';
@@ -10,8 +11,6 @@ import { Team } from '../../../../shared/model/team.data';
 import { DataSet } from '../../../../shared/model/dataset.data';
 import { TeamFactory } from '../../../../core/http/team/team.factory';
 import { User } from '../../../../shared/model/user.data';
-import { flatMap, map } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'pricing-checkout',
@@ -31,10 +30,10 @@ export class CheckoutComponent implements OnInit {
         private intercom: Intercom, private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory) { }
 
     ngOnInit(): void {
-        this.subscription = this.route.queryParams
-            .combineLatest(this.auth.getUser())
+        this.subscription = this.route.queryParams.pipe(
+            combineLatest(this.auth.getUser()),
             
-            .do(data => {
+            tap(data => {
                 let params = data[0];
                 let user = data[1];
 
@@ -62,7 +61,7 @@ export class CheckoutComponent implements OnInit {
                     }
                 })
 
-            })
+            }),)
             .pipe(
                 flatMap((data: [Params, User]) => {
                     return forkJoin(

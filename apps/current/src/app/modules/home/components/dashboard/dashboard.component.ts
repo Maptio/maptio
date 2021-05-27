@@ -1,3 +1,5 @@
+
+import {debounceTime} from 'rxjs/operators';
 import { Component, ChangeDetectorRef, SimpleChanges, Input } from "@angular/core";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Team } from '../../../../shared/model/team.data';
@@ -62,7 +64,7 @@ export class DashboardComponent {
         this.cd.markForCheck();
 
         this.filteredMaps = this.breakdown([].concat(this._datasets));
-        this.subscription = this.filterMaps$.asObservable().debounceTime(250).subscribe((search) => {
+        this.subscription = this.filterMaps$.asObservable().pipe(debounceTime(250)).subscribe((search) => {
             let filtered = (search === '')
                 ? [].concat(this._datasets)
                 : this._datasets.filter(

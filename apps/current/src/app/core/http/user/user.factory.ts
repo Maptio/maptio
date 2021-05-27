@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { AuthHttp } from "angular2-jwt";
 import { User } from "../../../shared/model/user.data";
 import { Injectable } from "@angular/core";
@@ -22,11 +24,11 @@ export class UserFactory {
       return Promise.reject("You cannot make a search for all users !");
     }
     return this.http
-      .get("/api/v1/user/all/" + pattern)
-      .map(responseData => {
+      .get("/api/v1/user/all/" + pattern).pipe(
+      map(responseData => {
         return responseData.json();
-      })
-      .map((inputs: Array<any>) => {
+      }),
+      map((inputs: Array<any>) => {
         let result: Array<User> = [];
         if (inputs) {
           inputs.forEach(input => {
@@ -34,7 +36,7 @@ export class UserFactory {
           });
         }
         return result;
-      })
+      }),)
       .toPromise();
   }
 
@@ -47,11 +49,11 @@ export class UserFactory {
     return Promise.all(
       chunks.map(chunkusersId =>
         this.http
-          .get("/api/v1/user/in/" + chunkusersId.join(","))
-          .map(responseData => {
+          .get("/api/v1/user/in/" + chunkusersId.join(",")).pipe(
+          map(responseData => {
             return responseData.json();
-          })
-          .map((inputs: Array<any>) => {
+          }),
+          map((inputs: Array<any>) => {
             let result: Array<User> = [];
             if (inputs) {
               inputs.forEach(input => {
@@ -59,7 +61,7 @@ export class UserFactory {
               });
             }
             return result;
-          })
+          }),)
           .toPromise()
       )
     ).then(array => {
@@ -72,10 +74,10 @@ export class UserFactory {
    */
   get(uniqueId: string): Promise<User> {
     return this.http
-      .get("/api/v1/user/" + uniqueId)
-      .map((response: Response) => {
+      .get("/api/v1/user/" + uniqueId).pipe(
+      map((response: Response) => {
         return User.create().deserialize(response.json());
-      })
+      }))
       .toPromise();
   }
 
@@ -93,13 +95,13 @@ export class UserFactory {
   create(input: User): Promise<User> {
     input.shortid = shortid.generate();
     return this.http
-      .post("/api/v1/user", input)
-      .map(responseData => {
+      .post("/api/v1/user", input).pipe(
+      map(responseData => {
         return responseData.json();
-      })
-      .map((input: any) => {
+      }),
+      map((input: any) => {
         return User.create().deserialize(input);
-      })
+      }),)
       .toPromise();
   }
 
@@ -110,10 +112,10 @@ export class UserFactory {
    */
   upsert(user: User): Promise<boolean> {
     return this.http
-      .put("/api/v1/user/" + user.user_id, user)
-      .map(responseData => {
+      .put("/api/v1/user/" + user.user_id, user).pipe(
+      map(responseData => {
         return responseData.json();
-      })
+      }))
       .toPromise()
       .then(r => {
         return true;

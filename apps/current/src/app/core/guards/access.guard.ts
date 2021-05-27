@@ -1,4 +1,6 @@
-import { Observable } from "rxjs/Rx";
+
+import {map} from 'rxjs/operators';
+import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot } from "@angular/router";
 import {
@@ -27,7 +29,7 @@ export class AccessGuard implements CanActivate, CanActivateChild {
     let dataset = route.params["mapid"];
     let team = route.params["teamid"];
 
-    return this.auth.getUser().map(u => {
+    return this.auth.getUser().pipe(map(u => {
       if (dataset && u.datasets.includes(dataset)) {
         this.updateIntercom(u.teams, u);
         return true;
@@ -38,7 +40,7 @@ export class AccessGuard implements CanActivate, CanActivateChild {
         this.router.navigate(["/unauthorized"]);
         return false;
       }
-    });
+    }));
   }
 
   canActivateChild(

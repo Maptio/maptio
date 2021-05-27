@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { MockBackend } from "@angular/http/testing";
 import { BaseRequestOptions } from "@angular/http";
@@ -11,7 +13,6 @@ import { User } from "./../../../../shared/model/user.data";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { TeamImportComponent } from "./import.component";
 import { ActivatedRouteSnapshot, ActivatedRoute, UrlSegment, ParamMap, Params, Data, Route } from "@angular/router";
-import { Observable } from "rxjs/Observable";
 import { SharedModule } from "../../../../shared/shared.module";
 import { CoreModule } from "../../../../core/core.module";
 import { AnalyticsModule } from "../../../../core/analytics.module";
@@ -25,7 +26,7 @@ class MockActivatedRoute implements ActivatedRoute {
     params: Observable<Params>;
     queryParams: Observable<Params>;
     fragment: Observable<string>;
-    data: Observable<Data> = Observable.of({
+    data: Observable<Data> = observableOf({
         assets: {
             team: new Team({
                 team_id: "123",
@@ -80,7 +81,7 @@ describe("import.component.ts", () => {
                     {
                         provide: ActivatedRoute,
                         useClass: class {
-                            params = Observable.of({ teamid: 123, slug: "slug" })
+                            params = observableOf({ teamid: 123, slug: "slug" })
                             parent = new MockActivatedRoute()
                         }
                     }

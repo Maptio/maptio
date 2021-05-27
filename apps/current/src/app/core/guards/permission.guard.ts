@@ -1,10 +1,9 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  of } from 'rxjs';
 import { Permissions } from '../../shared/model/permission.data';
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot } from "@angular/router";
 import { CanActivate, CanActivateChild, RouterStateSnapshot, Router } from "@angular/router";
 import { Auth } from "../authentication/auth.service";
-import { of } from 'rxjs';
 
 @Injectable()
 export class PermissionGuard implements CanActivate, CanActivateChild {

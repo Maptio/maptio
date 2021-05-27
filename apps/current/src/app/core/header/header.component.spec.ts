@@ -19,7 +19,7 @@ import { Auth } from "../authentication/auth.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions, HttpModule } from "@angular/http";
 import { User } from "../../shared/model/user.data";
-import { Subject } from "rxjs/Rx";
+import { Subject } from "rxjs";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { RouterTestingModule } from "@angular/router/testing";

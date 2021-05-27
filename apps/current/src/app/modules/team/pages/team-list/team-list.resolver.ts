@@ -1,9 +1,11 @@
+
+import {map, mergeMap, first} from 'rxjs/operators';
 import { UserService } from "../../../../shared/services/user/user.service";
 import { User } from "../../../../shared/model/user.data";
 import { Auth } from "../../../../core/authentication/auth.service";
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs/Rx";
+import { Observable } from "rxjs";
 import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { Team } from "../../../../shared/model/team.data";
 import { differenceBy, sortBy, isEmpty } from "lodash-es"
@@ -15,9 +17,9 @@ export class TeamListComponentResolver implements Resolve<Team[]> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Team[]> {
-        return this.auth.getUser().first()
-            .mergeMap(user => {  return isEmpty(user.teams) ? Promise.resolve([]) : this.teamFactory.get(user.teams)} )
-            .map((teams: Team[]) => {
+        return this.auth.getUser().pipe(first(),
+            mergeMap(user => {  return isEmpty(user.teams) ? Promise.resolve([]) : this.teamFactory.get(user.teams)} ),
+            map((teams: Team[]) => {
                 teams.forEach(t => {
                     if (t) {
                         this.userService.getUsersInfo(t.members).then((actualMembers: User[]) => {
@@ -28,10 +30,10 @@ export class TeamListComponentResolver implements Resolve<Team[]> {
                     }
                 })
                 return teams.filter(t => { return t !== undefined });
-            })
-            .map(teams => {
+            }),
+            map(teams => {
                 return sortBy(teams, t => t.name)
-            })
+            }),)
     }
 
 }

@@ -1,3 +1,5 @@
+
+import {filter, tap, combineLatest} from 'rxjs/operators';
 import { URIService } from "../../../../shared/services/uri/uri.service";
 import { DataService } from "../../services/data.service";
 import { UserFactory } from "../../../../core/http/user/user.factory";
@@ -9,9 +11,8 @@ import { Initiative } from "../../../../shared/model/initiative.data";
 import { SelectableUser } from "../../../../shared/model/user.data";
 import { SelectableTag, Tag } from "../../../../shared/model/tag.data";
 import { IDataVisualizer } from "../../components/canvas/mapping.interface";
-import { Observable, Subject, BehaviorSubject } from "rxjs/Rx";
+import { Observable, Subject, BehaviorSubject ,  Subscription } from "rxjs";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { Subscription } from "rxjs/Subscription";
 import {
   Component,
   ViewEncapsulation,
@@ -147,13 +148,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.loaderService.show();
     this.init();
     this.dataSubscription = this.dataService
-      .get()
-      .combineLatest(this.mapColor$, this.selectableTags$)
-      .do((complexData: [any, string, SelectableTag[]]) => {
+      .get().pipe(
+      combineLatest(this.mapColor$, this.selectableTags$),
+      tap((complexData: [any, string, SelectableTag[]]) => {
         if (complexData[0].dataset.datasetId !== this.datasetId) {
           this.counter = 0;
         }
-      })
+      }),)
       .subscribe((complexData: [any, string, SelectableTag[]]) => {
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].dataset.datasetId;
@@ -290,7 +291,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       g.attr("transform", d3.getEvent().transform);
     }
 
-    this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
+    this.resetSubscription = this.isReset$.pipe(filter(r => r)).subscribe(isReset => {
       // innerSvg.attr("x", this.uiService.getCenteredMargin(true))
       innerSvg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
         this.zooming.transform,

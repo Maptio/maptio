@@ -1,10 +1,9 @@
 import { Component, OnInit, Input, Output, ChangeDetectorRef, SimpleChanges, EventEmitter } from '@angular/core';
 import { Team } from '../../../../../../../shared/model/team.data';
 import { Helper } from '../../../../../../../shared/model/helper.data';
-import { of } from 'rxjs/observable/of';
+import { of ,  Subscription, Subject } from 'rxjs';
 import { Auth } from '../../../../../../../core/authentication/auth.service';
 import { User } from '../../../../../../../shared/model/user.data';
-import { Subscription, Subject } from 'rxjs';
 import { cloneDeep } from "lodash-es";
 
 @Component({

@@ -1,3 +1,5 @@
+
+import {filter, combineLatest} from 'rxjs/operators';
 import { URIService } from "../../../../shared/services/uri/uri.service";
 import { DataService } from "../../services/data.service";
 import { UserFactory } from "../../../../core/http/user/user.factory";
@@ -9,7 +11,7 @@ import { Initiative } from "../../../../shared/model/initiative.data";
 import { SelectableTag, Tag } from "../../../../shared/model/tag.data";
 import { IDataVisualizer } from "../../components/canvas/mapping.interface";
 import { Router } from "@angular/router";
-import { Subscription } from "rxjs/Subscription";
+import { Subscription ,  Observable ,  Subject ,  BehaviorSubject } from "rxjs";
 import {
   Component,
   OnInit,
@@ -18,9 +20,6 @@ import {
   ChangeDetectionStrategy
 } from "@angular/core";
 import { partition } from "lodash-es";
-import { Observable } from "rxjs/Observable";
-import { Subject } from "rxjs/Subject";
-import { BehaviorSubject } from "rxjs";
 import { User } from "../../../../shared/model/user.data";
 import { Team } from "../../../../shared/model/team.data";
 import { MapSettingsService, MapSettings } from "../../services/map-settings.service";
@@ -132,8 +131,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     this.isLoading = true;
     this.init();
     this.dataSubscription = this.dataService
-      .get()
-      .combineLatest(this.selectableTags$, this.mapColor$, this.isAllExpanded$.asObservable(), this.isAllCollapsed$.asObservable())
+      .get().pipe(
+      combineLatest(this.selectableTags$, this.mapColor$, this.isAllExpanded$.asObservable(), this.isAllCollapsed$.asObservable()))
       .subscribe((complexData: [any, SelectableTag[], string, boolean, boolean]) => {
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].dataset.datasetId;
@@ -254,7 +253,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       svg.call(zooming);
     } catch (error) { }
 
-    this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
+    this.resetSubscription = this.isReset$.pipe(filter(r => r)).subscribe(isReset => {
       svg.transition().duration(this.TRANSITION_DURATION).call(
         zooming.transform,
         d3.zoomIdentity.translate(document.querySelector("svg#map").clientWidth / 4, this.height / 2)
@@ -277,7 +276,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     let [clearSearchInitiative, highlightInitiative] = this.zoomInitiative$.partition(node => node === null);
 
-    highlightInitiative.combineLatest(this.mapColor$).subscribe((zoomed: [any, string]) => {
+    highlightInitiative.pipe(combineLatest(this.mapColor$)).subscribe((zoomed: [any, string]) => {
       let node = zoomed[0];
       d3.selectAll(`g.node.tree-map`).classed("highlight", false);
       d3.selectAll("path.link").classed("highlight", false);
@@ -293,7 +292,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       d3.select(`path.link[id-links~="${node.id}"]`).classed("highlight", true)
     });
 
-    clearSearchInitiative.combineLatest(this.mapColor$).subscribe(() => {
+    clearSearchInitiative.pipe(combineLatest(this.mapColor$)).subscribe(() => {
       d3.selectAll(`g.node.tree-map`).classed("highlight", false);
       d3.selectAll("path.link").classed("highlight", false);
     })

@@ -1,6 +1,9 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
+
+import {catchError} from 'rxjs/operators';
 import { Http, Request, RequestOptions, RequestOptionsArgs, Response, XHRBackend } from "@angular/http"
 import { Injectable, ErrorHandler, NgModule } from "@angular/core"
-import { Observable } from "rxjs/Rx"
 import "rxjs/add/operator/catch"
 import "rxjs/add/observable/throw"
 import "rxjs/add/operator/map";
@@ -19,8 +22,8 @@ export class HttpLogInterceptor extends Http {
     }
 
     public request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-        return super.request(url, options)
-            .catch(this.handleError)
+        return super.request(url, options).pipe(
+            catchError(this.handleError))
     }
 
     private isUnauthorized(status: number): boolean { 
@@ -32,7 +35,7 @@ export class HttpLogInterceptor extends Http {
             this.router.navigateByUrl("/logout");
         }
         this.errorHandler.handleError(error);
-        return Observable.throw(error)
+        return observableThrowError(error)
     }
 
 }
