@@ -1,25 +1,26 @@
-
-import {map} from 'rxjs/operators';
 import { Injectable } from "@angular/core";
 import { AuthHttp } from "angular2-jwt";
 import { Response } from "@angular/http";
-import { Observable } from "rxjs";
-import { Team } from "../../model/team.data";
 
+import { Observable } from "rxjs";
+import { map } from 'rxjs/operators';
+
+import { IntercomCompany } from "../../interfaces/intercom-company.interface";
+import { TeamStatus } from "../../interfaces/team-status.interface";
+import { Team } from "../../model/team.data";
 
 
 @Injectable()
 export class BillingService {
-
     constructor(private http: AuthHttp) {
     }
 
-    getTeamStatus(team: Team): Observable<{ created_at: Date, freeTrialLength: Number, isPaying: Boolean, plan: string, maxMembers: number, price: number }> {
+    getTeamStatus(team: Team): Observable<TeamStatus> {
         return this.http.get(`/api/v1/intercom/team/${team.team_id}`).pipe(
             map((response: Response) => {
                 return response.json().statusCode == 200 ? response.json().body : null
             }),
-            map(result => {
+            map((result: IntercomCompany | null) => {
                 return result
                     ? {
                         created_at: new Date(result.created_at * 1000),
@@ -39,5 +40,4 @@ export class BillingService {
                     }
             }),)
     }
-
-}   
+}
