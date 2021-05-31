@@ -14,7 +14,7 @@ dotenv.config();
 
 const app = express();
 
-const DIST_DIR = path.join(__dirname, "../maptio/");
+const DIST_DIR = path.join(__dirname, "../current/");
 const HTML_FILE = path.join(DIST_DIR, "index.html");
 const DEFAULT_PORT = 3000;
 
