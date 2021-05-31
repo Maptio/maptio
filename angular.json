@@ -47,13 +47,8 @@
             "polyfills": "apps/maptio/src/polyfills.ts",
             "tsConfig": "apps/maptio/tsconfig.app.json",
             "aot": true,
-            "assets": [
-              "apps/maptio/src/favicon.ico",
-              "apps/maptio/src/assets"
-            ],
-            "styles": [
-              "apps/maptio/src/styles.scss"
-            ],
+            "assets": ["apps/maptio/src/favicon.ico", "apps/maptio/src/assets"],
+            "styles": ["apps/maptio/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -141,9 +136,7 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/maptio"
-          ],
+          "outputs": ["coverage/apps/maptio"],
           "options": {
             "jestConfig": "apps/maptio/jest.config.js",
             "passWithNoTests": true
@@ -157,8 +150,8 @@
           },
           "configurations": {
             "production": {
-                "buildTarget": "maptio:build:production",
-                "firebaseProject": "maptio-preview"
+              "buildTarget": "maptio:build:production",
+              "firebaseProject": "maptio-preview"
             }
           }
         }
@@ -185,9 +178,57 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/maptio-e2e/**/*.{js,ts}"
-            ]
+            "lintFilePatterns": ["apps/maptio-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "maptio-server": {
+      "root": "apps/maptio-server",
+      "sourceRoot": "apps/maptio-server/src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/maptio-server",
+            "main": "apps/maptio-server/src/main.ts",
+            "tsConfig": "apps/maptio-server/tsconfig.app.json",
+            "assets": ["apps/maptio-server/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/maptio-server/src/environments/environment.ts",
+                  "with": "apps/maptio-server/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "maptio-server:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/maptio-server/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/maptio-server"],
+          "options": {
+            "jestConfig": "apps/maptio-server/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }
