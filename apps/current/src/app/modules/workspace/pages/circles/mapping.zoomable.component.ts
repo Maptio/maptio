@@ -1,3 +1,5 @@
+
+import {filter, tap, combineLatest} from 'rxjs/operators';
 import { URIService } from "../../../../shared/services/uri/uri.service";
 import { DataService } from "../../services/data.service";
 import { UserFactory } from "../../../../core/http/user/user.factory";
@@ -9,9 +11,8 @@ import { Initiative } from "../../../../shared/model/initiative.data";
 import { SelectableUser } from "../../../../shared/model/user.data";
 import { SelectableTag, Tag } from "../../../../shared/model/tag.data";
 import { IDataVisualizer } from "../../components/canvas/mapping.interface";
-import { Observable, Subject, BehaviorSubject } from "rxjs/Rx";
+import { Observable, Subject, BehaviorSubject ,  Subscription, partition } from "rxjs";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { Subscription } from "rxjs/Subscription";
 import {
   Component,
   ViewEncapsulation,
@@ -19,7 +20,7 @@ import {
   ChangeDetectionStrategy,
   isDevMode
 } from "@angular/core";
-import { partition } from "lodash-es";
+import { partition as _partition } from "lodash-es";
 import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { Team } from "../../../../shared/model/team.data";
 import * as screenfull from 'screenfull';
@@ -147,13 +148,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.loaderService.show();
     this.init();
     this.dataSubscription = this.dataService
-      .get()
-      .combineLatest(this.mapColor$, this.selectableTags$)
-      .do((complexData: [any, string, SelectableTag[]]) => {
+      .get().pipe(
+      combineLatest(this.mapColor$, this.selectableTags$),
+      tap((complexData: [any, string, SelectableTag[]]) => {
         if (complexData[0].dataset.datasetId !== this.datasetId) {
           this.counter = 0;
         }
-      })
+      }),)
       .subscribe((complexData: [any, string, SelectableTag[]]) => {
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].dataset.datasetId;
@@ -290,12 +291,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
       g.attr("transform", d3.getEvent().transform);
     }
 
-    this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
+    this.resetSubscription = this.isReset$.pipe(filter(r => r)).subscribe(isReset => {
       // innerSvg.attr("x", this.uiService.getCenteredMargin(true))
       innerSvg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
         this.zooming.transform,
         d3.zoomIdentity.translate(
-          
+
 document.querySelector("svg#map").clientWidth / 2,
           diameter / 2
         )
@@ -316,8 +317,11 @@ document.querySelector("svg#map").clientWidth / 2,
       } catch (error) { }
     });
 
+    let [clearSearchInitiative, highlightInitiative] = partition(
+      this.zoomInitiative$,
+      node => node === null
+    );
 
-    let [clearSearchInitiative, highlightInitiative] = this.zoomInitiative$.partition(node => node === null);
     clearSearchInitiative.subscribe(() => {
       innerSvg.select("circle.node--root").dispatch("click");
     })
@@ -329,7 +333,7 @@ document.querySelector("svg#map").clientWidth / 2,
     this.selectableTagsSubscription = this.selectableTags$.subscribe(tags => {
       console.log(tags)
       this.tagsState = tags;
-      let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
+      let [selectedTags, unselectedTags] = _partition(tags, t => t.isSelected);
       let uiService = this.uiService
       let FADED_OPACITY = this.FADED_OPACITY;
       function filterByTags(d: any): number {
@@ -384,7 +388,7 @@ document.querySelector("svg#map").clientWidth / 2,
     const select: Function = d3.select;
     const MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
     const definitions = this.definitions;
-   
+
     g.selectAll("circle.node")
       .each((d: any) => (d.zf = zoomFactor))
 
@@ -547,7 +551,7 @@ document.querySelector("svg#map").clientWidth / 2,
     });
 
     const color = this.colorService.getColorRange(depth, seedColor);
-    const [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
+    const [selectedTags, unselectedTags] = _partition(tags, t => t.isSelected);
 
     const focus = root,
       nodes: Array<any> = pack(root).descendants();
@@ -863,9 +867,9 @@ document.querySelector("svg#map").clientWidth / 2,
 
     }
 
-    
 
-   
+
+
 
     function addCircle(groups: any): void {
       groups.select("circle")

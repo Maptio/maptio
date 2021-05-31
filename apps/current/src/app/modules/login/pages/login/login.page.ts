@@ -1,6 +1,6 @@
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { UserService } from "../../../../shared/services/user/user.service";
-import { Subscription } from "rxjs/Subscription";
+import { Subscription } from "rxjs";
 import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { Params } from "@angular/router";
 import { ActivatedRoute, Router } from "@angular/router";

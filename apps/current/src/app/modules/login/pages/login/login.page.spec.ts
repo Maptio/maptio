@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { AuthHttp } from "angular2-jwt";
 import { AuthConfiguration } from "../../../../core/authentication/auth.config";
@@ -9,7 +11,6 @@ import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { FormBuilder } from "@angular/forms";
 import { JwtEncoder } from "../../../../shared/services/encoding/jwt.service";
-import { Observable } from "rxjs/Rx";
 import { RouterTestingModule } from "@angular/router/testing";
 import { ActivatedRoute, Router, NavigationStart } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -54,7 +55,7 @@ describe("login.component.ts", () => {
               {
                 provide: ActivatedRoute,
                 useValue: {
-                  queryParams: Observable.of({ token: "TOKEN" })
+                  queryParams: observableOf({ token: "TOKEN" })
                 }
               },
               {
@@ -66,7 +67,7 @@ describe("login.component.ts", () => {
                 provide: Router,
                 useClass: class {
                   navigate = jest.fn();
-                  events = Observable.of(new NavigationStart(0, "/next"));
+                  events = observableOf(new NavigationStart(0, "/next"));
                 }
               },
               {

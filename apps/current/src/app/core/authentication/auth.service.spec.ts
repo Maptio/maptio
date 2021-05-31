@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { encodeTestToken } from "angular2-jwt/angular2-jwt-test-helpers";
 import { TestBed, inject, async } from "@angular/core/testing";
 import { AuthConfiguration } from "./auth.config";
@@ -7,7 +9,6 @@ import { DatasetFactory } from "../http/map/dataset.factory";
 import { NgProgress, NgProgressModule } from "@ngx-progressbar/core";
 import { UserRoleService } from "../../shared/model/permission.data";
 import { Router, NavigationStart } from "@angular/router";
-import { Observable } from "rxjs";
 import { Http, Response, BaseRequestOptions, RequestMethod, ResponseOptions } from "@angular/http";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { AuthHttp } from "angular2-jwt";
@@ -43,7 +44,7 @@ describe("auth.service.ts", () => {
                     provide: Router, useClass: class {
                         navigate = jest.fn();
                         navigateByUrl = jest.fn();
-                        events = Observable.of(new NavigationStart(0, "/next"))
+                        events = observableOf(new NavigationStart(0, "/next"))
                     }
                 },
                 {

@@ -1,6 +1,7 @@
+
+import {of as observableOf,  Subject, Observable } from 'rxjs';
 import { TeamListComponent } from "./team-list.component";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
-import { Subject, Observable } from "rxjs";
 import { User } from "../../../../shared/model/user.data";
 import { PermissionsDirective } from "../../../../shared/directives/permission.directive";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
@@ -60,7 +61,7 @@ describe("team-list.component.ts", () => {
                     },
                     {
                         provide: Router, useClass: class {
-                            events = Observable.of(new NavigationStart(0, "/next"))
+                            events = observableOf(new NavigationStart(0, "/next"))
                         }
                     },
                     {
@@ -73,7 +74,7 @@ describe("team-list.component.ts", () => {
                     {
                         provide: ActivatedRoute,
                         useClass: class {
-                            data = Observable.of({
+                            data = observableOf({
                                 teams: []
                             })
 

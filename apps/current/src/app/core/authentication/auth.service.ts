@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { TeamFactory } from "./../http/team/team.factory";
 import {
   UserRoleService,
@@ -6,10 +8,9 @@ import {
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { environment } from "../../config/environment";
 import { LoaderService } from "../../shared/components/loading/loader.service";
-import { Observable } from "rxjs/Rx";
+import { Observable ,  Subject } from "rxjs";
 import { Router } from "@angular/router";
 import { Http, Headers } from "@angular/http";
-import { Subject } from "rxjs/Rx";
 import { Injectable, isDevMode } from "@angular/core";
 import { AuthConfiguration } from "./auth.config";
 import { DatasetFactory } from "../http/map/dataset.factory";
@@ -170,13 +171,13 @@ export class Auth {
       return this.http
         .get(`https://${environment.AUTH0_DOMAIN}/api/v2/users/` + userId, {
           headers: headers
-        })
-        .map(responseData => {
+        }).pipe(
+        map(responseData => {
           return responseData.json();
-        })
-        .map((input: any) => {
+        }),
+        map((input: any) => {
           return User.create().deserialize(input);
-        })
+        }),)
         .toPromise();
     });
   }

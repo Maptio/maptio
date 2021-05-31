@@ -2,8 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, 
 import { User } from '../../../../../../../shared/model/user.data';
 import { Team } from '../../../../../../../shared/model/team.data';
 import { Helper } from '../../../../../../../shared/model/helper.data';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable ,  of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CommonAutocompleteComponent } from '../../../../../../../shared/components/autocomplete/autocomplete.component';
 

@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable, Subject } from 'rxjs';
 import { Initiative } from "./../../../../shared/model/initiative.data";
 import { ErrorService } from "./../../../../shared/services/error/error.service";
 import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
@@ -6,7 +8,6 @@ import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
 import { Router, NavigationStart, ActivatedRoute } from "@angular/router";
-import { Observable, Subject } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -54,13 +55,13 @@ describe("mapping.zoomable.component.ts", () => {
                 {
                     provide: Router, useClass: class {
                         navigate = jest.fn();
-                        events = Observable.of(new NavigationStart(0, "/next"))
+                        events = observableOf(new NavigationStart(0, "/next"))
                     }
                 },
                 {
                     provide: ActivatedRoute,
                     useValue: {
-                        queryParams: Observable.of({ id: 123456})
+                        queryParams: observableOf({ id: 123456})
                     }
                 }
             ],
@@ -82,16 +83,16 @@ describe("mapping.zoomable.component.ts", () => {
         component.translateX = 100
         component.translateY = 100
         component.scale = 1;
-        component.zoom$ = Observable.of(1);
-        component.selectableTags$ = Observable.of([]);
+        component.zoom$ = observableOf(1);
+        component.selectableTags$ = observableOf([]);
         component.isReset$ = new Subject<boolean>();
-        component.mapColor$ = Observable.of("")
-        component.zoomInitiative$ = Observable.of(new Initiative());
-        component.isLocked$ = Observable.of(true);
+        component.mapColor$ = observableOf("")
+        component.zoomInitiative$ = observableOf(new Initiative());
+        component.isLocked$ = observableOf(true);
        
         let data = new Initiative().deserialize(fixtures);
         let mockDataService = target.debugElement.injector.get(DataService);
-        spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, dataset: new DataSet({datasetId:"123"}), team : new Team({}), members : [] }));
+        spyOn(mockDataService, "get").and.returnValue(observableOf({ initiative: data, dataset: new DataSet({datasetId:"123"}), team : new Team({}), members : [] }));
         spyOn(component.uiService, "getCircularPath");
         spyOn(localStorage, "getItem").and.returnValue(`{"fontColor":"#000","mapColor":"#aaa","fontSize":1,"explorationMode":false}`)
 

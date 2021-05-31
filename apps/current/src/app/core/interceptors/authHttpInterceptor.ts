@@ -1,4 +1,7 @@
-import { Observable } from "rxjs/Rx";
+
+import {empty as observableEmpty, throwError as observableThrowError,  Observable } from 'rxjs';
+
+import {catchError} from 'rxjs/operators';
 import { Router } from "@angular/router";
 import { RequestOptions, Response, Request, RequestOptionsArgs, Headers, Http } from "@angular/http";
 import { AuthHttp, AuthConfig } from "angular2-jwt";
@@ -60,22 +63,22 @@ export class AuthHttpInterceptor extends AuthHttp {
 
 
     intercept(observable: Observable<Response>): Observable<Response> {
-        return observable.catch((err, source) => {
+        return observable.pipe(catchError((err, source) => {
             if (this.isUnauthorized(err.status)) {
                 this.router.navigateByUrl("/unauthorized");
 
                 if (err instanceof Response) {
-                    return Observable.throw(err.json().message || "backend server error");
+                    return observableThrowError(err.json().message || "backend server error");
                 }
-                return Observable.empty();
+                return observableEmpty();
             }
             else if (this.isJWTExpired(err.message)) {
                 this.router.navigateByUrl("login?login_message=Your session expired, please log back in.");
-                return Observable.empty();
+                return observableEmpty();
             }
             else {
-                return Observable.throw(err);
+                return observableThrowError(err);
             }
-        });
+        }));
     }
 }

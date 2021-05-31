@@ -10,7 +10,7 @@ import { DataSet } from "../../../../../shared/model/dataset.data";
 import { User } from "../../../../../shared/model/user.data";
 import { Tag } from "../../../../../shared/model/tag.data";
 import { Initiative } from "../../../../../shared/model/initiative.data";
-import { Subject, Subscription } from "rxjs/Rx";
+import { Subject, Subscription } from "rxjs";
 import { Component, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef, ChangeDetectorRef, ChangeDetectionStrategy, TemplateRef, Renderer2 } from "@angular/core";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/merge";

@@ -1,4 +1,7 @@
-import { Subscription } from "rxjs/Subscription";
+
+import {of as observableOf, interval as observableInterval,  Subscription ,  Observable } from 'rxjs';
+
+import {filter, mergeMap, timeInterval} from 'rxjs/operators';
 import { Router} from "@angular/router";
 import {
   Component,
@@ -9,7 +12,6 @@ import {
 import "rxjs/add/operator/map"
 import { Auth } from "./core/authentication/auth.service";
 import { environment } from "./config/environment";
-import { Observable } from "rxjs/Rx";
 import { Intercom } from 'ng-intercom';
 import { NgProgress } from '@ngx-progressbar/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -38,11 +40,10 @@ export class AppComponent {
 
   ngOnInit() {
     
-    this.checkTokenSubscription = Observable
-      .interval(environment.CHECK_TOKEN_EXPIRATION_INTERVAL_IN_MINUTES * 60 * 1000)
-      .timeInterval()
-      .flatMap(() => { return Observable.of(this.auth.allAuthenticated()) })
-      .filter(isExpired => !isExpired)
+    this.checkTokenSubscription = observableInterval(environment.CHECK_TOKEN_EXPIRATION_INTERVAL_IN_MINUTES * 60 * 1000).pipe(
+      timeInterval(),
+      mergeMap(() => { return observableOf(this.auth.allAuthenticated()) }),
+      filter(isExpired => !isExpired),)
       .subscribe((isExpired: boolean) => {
         this.router.navigateByUrl("/logout")
       });

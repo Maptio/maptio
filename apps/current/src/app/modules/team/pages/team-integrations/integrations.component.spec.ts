@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { SlackIntegration } from "./../../../../shared/model/integrations.data";
 import { TeamIntegrationsComponent } from "./integrations.component";
 import { Initiative } from "./../../../../shared/model/initiative.data";
@@ -16,7 +18,6 @@ import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.h
 import { Http, BaseRequestOptions, Response } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
 import { User } from "../../../../shared/model/user.data";
-import { Observable } from "rxjs/Observable";
 import { IntercomModule } from "ng-intercom";
 import { AnalyticsModule } from "../../../../core/analytics.module";
 import { PermissionsModule } from "../../../../shared/permissions.module";
@@ -30,7 +31,7 @@ class MockActivatedRoute implements ActivatedRoute {
     params: Observable<Params>;
     queryParams: Observable<Params>;
     fragment: Observable<string>;
-    data: Observable<Data> = Observable.of({
+    data: Observable<Data> = observableOf({
         assets: {
             team: new Team({
                 team_id: "123",
@@ -89,8 +90,8 @@ describe("integrations.component.ts", () => {
                     {
                         provide: ActivatedRoute,
                         useClass: class {
-                            params = Observable.of({ teamid: 123, slug: "slug" });
-                            queryParams = Observable.of({ code: "code" });
+                            params = observableOf({ teamid: 123, slug: "slug" });
+                            queryParams = observableOf({ code: "code" });
                             parent = new MockActivatedRoute();
                         }
                     }
@@ -118,7 +119,7 @@ describe("integrations.component.ts", () => {
                 settings: { authority: "A", helper: "H" },
             })
             let spyHttpGet = spyOn(target.debugElement.injector.get(Http), "get").and.returnValue(
-                Observable.of(
+                observableOf(
                     new Response({ body: {}, status: 200, headers: null, url: "", merge: null })
                 ));
 

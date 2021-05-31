@@ -1,3 +1,7 @@
+
+import {forkJoin as observableForkJoin,  Observable } from 'rxjs';
+
+import {mergeMap, map} from 'rxjs/operators';
 import { UserRole } from './../../model/permission.data';
 import { User } from "./../../model/user.data";
 import { environment } from "../../../config/environment";
@@ -8,7 +12,6 @@ import { JwtEncoder } from "../encoding/jwt.service";
 import { MailingService } from "../mailing/mailing.service";
 import { UUID } from "angular2-uuid/index";
 import { EmitterService } from "../../../core/services/emitter.service";
-import { Observable } from "rxjs/Rx";
 import { flatten } from "lodash-es"
 import { UserFactory } from '../../../core/http/user/user.factory';
 
@@ -38,10 +41,10 @@ export class UserService {
                     "user_id": userId,
                     "ttl_sec": 30 * 24 * 3600 // valid for 30 days
                 },
-                { headers: headers })
-                .map((responseData) => {
+                { headers: headers }).pipe(
+                map((responseData) => {
                     return <string>responseData.json().ticket;
-                }).toPromise()
+                })).toPromise()
         })
             .then((ticket: string) => {
                 return this.mailing.sendInvitation(environment.SUPPORT_EMAIL, [email], ticket, teamName, invitedBy)
@@ -64,10 +67,10 @@ export class UserService {
                     "result_url": "http://app.maptio.com/login?token=" + userToken,
                     "user_id": userId
                 },
-                { headers: headers })
-                .map((responseData) => {
+                { headers: headers }).pipe(
+                map((responseData) => {
                     return <string>responseData.json().ticket;
-                }).toPromise()
+                })).toPromise()
         })
             .then((ticket: string) => {
                 return this.mailing.sendConfirmation(environment.SUPPORT_EMAIL, [email], ticket)
@@ -99,10 +102,10 @@ export class UserService {
                     "result_url": "http://app.maptio.com/login?token=" + userToken,
                     "user_id": userId
                 },
-                { headers: headers })
-                .map((responseData) => {
+                { headers: headers }).pipe(
+                map((responseData) => {
                     return { ticket: <string>responseData.json().ticket, email: email, userId: userId };
-                }).toPromise()
+                })).toPromise()
         })
             .then((data: { ticket: string, email: string, userId: string }) => {
                 return this.mailing.sendConfirmation(environment.SUPPORT_EMAIL, [data.email], data.ticket)
@@ -189,13 +192,13 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.post(environment.USERS_API_URL, newUser, { headers: headers })
-                .map((responseData) => {
+            return this.http.post(environment.USERS_API_URL, newUser, { headers: headers }).pipe(
+                map((responseData) => {
                     return responseData.json();
-                })
-                .map((input: any) => {
+                }),
+                map((input: any) => {
                     return User.create().deserialize(input);
-                })
+                }),)
                 .toPromise()
         });
     }
@@ -223,11 +226,11 @@ export class UserService {
                     let truncatedQuery = users
                         .slice(index * environment.AUTH0_USERS_PAGE_LIMIT, (index + 1) * environment.AUTH0_USERS_PAGE_LIMIT)
                         .map(u => `user_id:"${u.user_id}"`).join(" OR ");
-                    return this.requestUsersPerPage(truncatedQuery, headers, pageNumber)
-                        .map(single => { return single })
+                    return this.requestUsersPerPage(truncatedQuery, headers, pageNumber).pipe(
+                        map(single => { return single }))
                 });
 
-                return Observable.forkJoin(singleObservables).toPromise().then((result: User[][]) => {
+                return observableForkJoin(singleObservables).toPromise().then((result: User[][]) => {
                     return flatten(result);
                 });
             }
@@ -236,11 +239,11 @@ export class UserService {
     }
 
     private requestUsersPerPage(query: string, headers: Headers, page: number): Observable<User[]> {
-        return this.http.get(`${environment.USERS_API_URL}?q=${encodeURIComponent(query)}&search_engine=v3`, { headers: headers })
-            .map((responseData) => {
+        return this.http.get(`${environment.USERS_API_URL}?q=${encodeURIComponent(query)}&search_engine=v3`, { headers: headers }).pipe(
+            map((responseData) => {
                 return responseData.json();
-            })
-            .map((inputs: Array<any>) => {
+            }),
+            map((inputs: Array<any>) => {
                 let result: Array<User> = [];
                 if (inputs) {
                     inputs.forEach((input) => {
@@ -248,7 +251,7 @@ export class UserService {
                     });
                 }
                 return result;
-            })
+            }),)
     }
 
     public isActivationPendingByUserId(user_id: string): Promise<boolean> {
@@ -257,13 +260,13 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.get(`${environment.USERS_API_URL}/` + user_id, { headers: headers })
-                .map((responseData) => {
+            return this.http.get(`${environment.USERS_API_URL}/` + user_id, { headers: headers }).pipe(
+                map((responseData) => {
                     if (responseData.json().app_metadata) {
                         return responseData.json().app_metadata.activation_pending;
                     }
                     return false;
-                })
+                }))
                 .toPromise()
         });
     }
@@ -274,8 +277,8 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.get(`${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=` + encodeURIComponent(`email:"${email}"`), { headers: headers })
-                .map((responseData) => {
+            return this.http.get(`${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=` + encodeURIComponent(`email:"${email}"`), { headers: headers }).pipe(
+                map((responseData) => {
                     if (responseData.json().total === 0) {
                         return { isActivationPending: false, user_id: undefined }
                     }
@@ -286,7 +289,7 @@ export class UserService {
                             : { isActivationPending: false, user_id: user.user_id }
                     }
                     // return Promise.reject("There is more than one user with this email")
-                })
+                }))
                 .toPromise()
         });
     }
@@ -297,13 +300,13 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.get(`${environment.USERS_API_URL}/${user_id}`, { headers: headers })
-                .map((responseData) => {
+            return this.http.get(`${environment.USERS_API_URL}/${user_id}`, { headers: headers }).pipe(
+                map((responseData) => {
                     if (responseData.json().app_metadata) {
                         return responseData.json().app_metadata.invitation_sent;
                     }
                     return false;
-                })
+                }))
                 .toPromise()
         });
     }
@@ -374,14 +377,14 @@ export class UserService {
                     "connection": environment.CONNECTION_NAME
                 }
                 ,
-                { headers: headers })
-                .flatMap(() => {
+                { headers: headers }).pipe(
+                mergeMap(() => {
                     return this.userFactory.get(user_id)
-                })
-                .flatMap(user => {
+                }),
+                mergeMap(user => {
                     user.email = email;
                     return this.userFactory.upsert(user)
-                })
+                }),)
                 .toPromise()
                 .then((response) => {
                     return true
@@ -440,10 +443,10 @@ export class UserService {
             return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
                 { "app_metadata": { "invitation_sent": isInvitationSent } }
                 ,
-                { headers: headers })
-                .map((responseData) => {
+                { headers: headers }).pipe(
+                map((responseData) => {
                     return true;
-                })
+                }))
                 .toPromise()
         });
     }
@@ -457,10 +460,10 @@ export class UserService {
             return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
                 { "app_metadata": { "role": userRole } }
                 ,
-                { headers: headers })
-                .map((responseData) => {
+                { headers: headers }).pipe(
+                map((responseData) => {
                     return true;
-                })
+                }))
                 .toPromise()
         });
     }
@@ -484,13 +487,13 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.get(`${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=` + encodeURIComponent(`email:"${email}"`), { headers: headers })
-                .map((responseData) => {
+            return this.http.get(`${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=` + encodeURIComponent(`email:"${email}"`), { headers: headers }).pipe(
+                map((responseData) => {
                     if (responseData.json().total) {
                         return responseData.json().total === 1
                     }
                     return false;
-                })
+                }))
                 .toPromise()
         });
     }

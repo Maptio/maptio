@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable, Subject, BehaviorSubject } from 'rxjs';
 import { ErrorService } from "./../../../../shared/services/error/error.service";
 import { Initiative } from "./../../../../shared/model/initiative.data";
 import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
@@ -9,7 +11,6 @@ import { BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
 import { Router, NavigationStart } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Observable, Subject, BehaviorSubject } from "rxjs/Rx";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { MappingTreeComponent } from "./mapping.tree.component";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
@@ -49,7 +50,7 @@ describe("mapping.tree.component.ts", () => {
                 {
                     provide: Router, useClass: class {
                         navigate = jest.fn()
-                        events = Observable.of(new NavigationStart(0, "/next"))
+                        events = observableOf(new NavigationStart(0, "/next"))
                     }
                 }
             ],
@@ -71,11 +72,11 @@ describe("mapping.tree.component.ts", () => {
         component.translateX = 100;
         component.translateY = 100;
         component.scale = 1;
-        component.zoom$ = Observable.of(1)
+        component.zoom$ = observableOf(1)
         component.isReset$ = new Subject<boolean>();
-        component.selectableTags$ = Observable.of([]);
-        component.mapColor$ = Observable.of("#ddd")
-        component.zoomInitiative$ = Observable.of(new Initiative());
+        component.selectableTags$ = observableOf([]);
+        component.mapColor$ = observableOf("#ddd")
+        component.zoomInitiative$ = observableOf(new Initiative());
         component.isAllExpanded$ = new BehaviorSubject<boolean>(false);
         component.isAllCollapsed$ = new BehaviorSubject<boolean>(false);
 
@@ -84,7 +85,7 @@ describe("mapping.tree.component.ts", () => {
         
         let data = new Initiative().deserialize(fixtures);
         let mockDataService = target.debugElement.injector.get(DataService);
-        spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, team: new Team({settings : {authority: "Lead", helper:"Contributor"}}), dataset: new DataSet({}), members: [] }));
+        spyOn(mockDataService, "get").and.returnValue(observableOf({ initiative: data, team: new Team({settings : {authority: "Lead", helper:"Contributor"}}), dataset: new DataSet({}), members: [] }));
 
         let mockSettingsService =target.debugElement.injector.get(MapSettingsService);
         spyOn(mockSettingsService, "get").and.returnValue({

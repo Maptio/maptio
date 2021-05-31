@@ -1,6 +1,7 @@
+
+import {of as observableOf,  Subject, Observable } from 'rxjs';
 import { PersonalSummaryComponent } from "./personal.component";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
-import { Subject, Observable } from "rxjs";
 import { User } from "../../../../../shared/model/user.data";
 import { Params } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -36,7 +37,7 @@ describe("personal.component.ts", () => {
         component = target.componentInstance;
 
         let mockDataService = target.debugElement.injector.get(DataService);
-        jest.spyOn(mockDataService, "get").mockResolvedValue(Observable.of({ initiative: fixtures, datasetId: "ID" }));
+        jest.spyOn(mockDataService, "get").mockResolvedValue(observableOf({ initiative: fixtures, datasetId: "ID" }));
 
         target.detectChanges();
     });

@@ -1,3 +1,5 @@
+
+import {distinct, map, combineLatest, tap} from 'rxjs/operators';
 import "rxjs/add/operator/map";
 
 import {
@@ -265,8 +267,8 @@ export class MappingComponent {
     this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
 
 
-    this.subscription = this.route.params
-      .do((params: Params) => {
+    this.subscription = this.route.params.pipe(
+      tap((params: Params) => {
         if (this.datasetId !== params["mapid"]) {
           this.showTooltip(null, null);
           this.showContextMenu({ initiatives: null, x: 0, y: 0, isReadOnlyContextMenu: null })
@@ -278,10 +280,10 @@ export class MappingComponent {
         this.mapColor$.next(this.settings.mapColor)
 
         this.cd.markForCheck();
-      })
-      .combineLatest(this.dataService.get())
-      .map(data => data[1])
-      .combineLatest(this.route.fragment, this.route.queryParams.distinct()) // PEFORMACE : with latest changes
+      }),
+      combineLatest(this.dataService.get()),
+      map(data => data[1]),
+      combineLatest(this.route.fragment, this.route.queryParams.pipe(distinct())),) // PEFORMACE : with latest changes
       .subscribe(([data, fragment, queryParams]) => {
         if (!data.initiative.children || !data.initiative.children[0] || !data.initiative.children[0].children) {
           this.isFirstEdit = true;

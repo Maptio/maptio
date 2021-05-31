@@ -1,3 +1,5 @@
+
+import {map, tap, distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { Initiative } from "../../../../shared/model/initiative.data";
 import {
   Component,
@@ -9,7 +11,7 @@ import {
 } from "@angular/core";
 
 import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { User } from "../../../../shared/model/user.data";
 import { flatten, uniqBy } from "lodash-es";
 
@@ -104,14 +106,14 @@ export class SearchComponent implements OnInit {
   //         });
 
   search = (text$: Observable<string>) =>
-    text$
-      .debounceTime(200)
-      .distinctUntilChanged()
-      .do((term: string) => {
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      tap((term: string) => {
         this.isSearching = true && term !== "";
         this.cd.markForCheck();
-      })
-      .map(search => {
+      }),
+      map(search => {
         let usersHeader = <SearchResult>{
           type: SearchResultType.User,
           result: null,
@@ -130,11 +132,11 @@ export class SearchComponent implements OnInit {
                 this.addHeader(this.findInitiatives(search), circlesHeader)
               )
               .slice(0, 10);
-      })
-      .do(list => {
+      }),
+      tap(list => {
         this.searchResultsCount = list.length;
         this.cd.markForCheck();
-      });
+      }),);
 
   formatter = (result: Initiative) => {
     return result.name;

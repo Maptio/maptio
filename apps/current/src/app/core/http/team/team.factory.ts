@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { AuthHttp } from "angular2-jwt";
 import { Team } from "../../../shared/model/team.data";
 import { Injectable } from "@angular/core";
@@ -37,10 +39,10 @@ export class TeamFactory {
      */
     private getWithId(uniqueId: string): Promise<Team> {
         if (uniqueId) {
-            return this.http.get("/api/v1/team/" + uniqueId)
-                .map((response: Response) => {
+            return this.http.get("/api/v1/team/" + uniqueId).pipe(
+                map((response: Response) => {
                     return Team.create().deserialize(response.json());
-                })
+                }))
                 .toPromise()
         }
         else {
@@ -53,11 +55,11 @@ export class TeamFactory {
         if (!teamIds || teamIds.length === 0) {
             return Promise.reject("You cannot make a search for all teams !")
         }
-        return this.http.get("/api/v1/team/in/" + teamIds.join(","))
-            .map((responseData) => {
+        return this.http.get("/api/v1/team/in/" + teamIds.join(",")).pipe(
+            map((responseData) => {
                 return responseData.json();
-            })
-            .map((inputs: Array<any>) => {
+            }),
+            map((inputs: Array<any>) => {
                 let result: Array<Team> = [];
                 if (inputs) {
                     inputs.forEach((input) => {
@@ -65,7 +67,7 @@ export class TeamFactory {
                     });
                 }
                 return result;
-            })
+            }),)
             .toPromise()
     }
 
@@ -84,13 +86,13 @@ export class TeamFactory {
             members: input.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id, nickname: m.nickname } })
         };
 
-        return this.http.post("/api/v1/team", transformed)
-            .map((responseData) => {
+        return this.http.post("/api/v1/team", transformed).pipe(
+            map((responseData) => {
                 return responseData.json();
-            })
-            .map((input: any) => {
+            }),
+            map((input: any) => {
                 return Team.create().deserialize(input);
-            })
+            }),)
             .toPromise()
     }
 
@@ -111,10 +113,10 @@ export class TeamFactory {
             roles: team.roles,
             members: team.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id, nickname: m.nickname } })
         };
-        return this.http.put("/api/v1/team/" + team.team_id, transformed)
-            .map((responseData) => {
+        return this.http.put("/api/v1/team/" + team.team_id, transformed).pipe(
+            map((responseData) => {
                 return responseData.json();
-            })
+            }))
             .toPromise()
             .then(r => true)
             .catch(() => false)

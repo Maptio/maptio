@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Subscription ,  Observable } from 'rxjs';
 import { Helper } from "./../model/helper.data";
 import { Initiative } from "./../model/initiative.data";
 import { Permissions } from "./../model/permission.data";
@@ -13,10 +15,8 @@ import {
     ViewContainerRef,
     SimpleChanges
 } from "@angular/core";
-import { Subscription } from "rxjs/Subscription";
 import "rxjs/add/operator/merge";
 import "rxjs/add/operator/skip";
-import { Observable } from "rxjs/Rx";
 import { PermissionsService } from "../services/permissions/permissions.service";
 
 export type StrategyFunction = (templateRef?: TemplateRef<any>) => void;
@@ -126,7 +126,7 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     }
 
     private validateExceptOnlyPermissions(): Subscription {
-        return Observable.of(this.userPermissions)
+        return observableOf(this.userPermissions)
             .subscribe(() => {
                 if (this.permission) {
                     this.validateOnlyPermissions();

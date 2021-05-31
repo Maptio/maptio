@@ -1,10 +1,11 @@
+
+import {filter} from 'rxjs/operators';
 import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
-import { Observable } from "rxjs/Observable";
+import { Observable ,  ReplaySubject, Subject } from "rxjs";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { ErrorService } from "../../../shared/services/error/error.service"
-import { ReplaySubject, Subject } from "rxjs/Rx";
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 
 @Injectable()
@@ -48,7 +49,7 @@ export class CounterService {
     }
 
     get(datasetId: String): Observable<{ datasetId: String, time: any }> {
-        return this._counter$.asObservable().filter(c => c.datasetId === datasetId)
+        return this._counter$.asObservable().pipe(filter(c => c.datasetId === datasetId))
     }
 }
 

@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { TeamComponent } from "./team.component";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
@@ -6,7 +8,6 @@ import { SharedModule } from "../../../../shared/shared.module";
 import { Auth } from "../../../../core/authentication/auth.service";
 import { Permissions } from "../../../../shared/model/permission.data";
 import { ActivatedRoute, ActivatedRouteSnapshot } from "@angular/router";
-import { Observable } from "rxjs";
 import { Team } from "../../../../shared/model/team.data";
 import { User } from "../../../../shared/model/user.data";
 import { AnalyticsModule } from "../../../../core/analytics.module";
@@ -39,9 +40,9 @@ describe("team.component.ts", () => {
                     {
                         provide: ActivatedRoute,
                         useClass: class {
-                            params = Observable.of({ teamid: 123, slug: "slug" })
+                            params = observableOf({ teamid: 123, slug: "slug" })
                             snapshot: ActivatedRouteSnapshot = new ActivatedRouteSnapshot()
-                            data = Observable.of({
+                            data = observableOf({
                                 assets: {
                                     team: new Team({
                                         team_id: "team123",

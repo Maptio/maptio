@@ -1,8 +1,11 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
+
+import {mergeMap, map} from 'rxjs/operators';
 import { Initiative } from './../../model/initiative.data';
 import { SlackIntegration } from './../../model/integrations.data';
 import { RequestMethod, RequestOptions, Request, Headers } from "@angular/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs/Rx";
 import { AuthHttp } from "angular2-jwt/angular2-jwt";
 import { DataSet } from "../../model/dataset.data";
 import { sortBy } from "lodash-es";
@@ -31,7 +34,7 @@ export class ExportService {
             })
 
         });
-        return Observable.of(exportString);
+        return observableOf(exportString);
     }
 
     // getSlackChannels(slack: SlackIntegration) {
@@ -61,15 +64,15 @@ export class ExportService {
             method: RequestMethod.Post,
             headers: headers
         });
-        return this.http.request(req).map((responseData) => {
+        return this.http.request(req).pipe(map((responseData) => {
             return <string>responseData.json().eager[0].secure_url;
-        })
+        }))
     }
 
     sendSlackNotification(svgString: string, datasetId: string, initiative: Initiative, slack: SlackIntegration, message: string) {
-        return this.getSnapshot(svgString, datasetId)
+        return this.getSnapshot(svgString, datasetId).pipe(
 
-            .map((imageUrl: string) => {
+            map((imageUrl: string) => {
                 let attachments = [
                     {
                         color: "#2f81b7",
@@ -95,9 +98,9 @@ export class ExportService {
                     method: RequestMethod.Post,
                     headers: headers
                 })
-            })
-            .mergeMap(req => this.http.request(req))
-            .map(res => res.json())
+            }),
+            mergeMap(req => this.http.request(req)),
+            map(res => res.json()),)
     }
 
 }

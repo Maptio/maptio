@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { SharedModule } from './../../../../shared/shared.module';
 import { NO_ERRORS_SCHEMA, Type } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
@@ -6,7 +8,6 @@ import { MockBackend } from "@angular/http/testing";
 import { ActivatedRoute, ActivatedRouteSnapshot, Data, ParamMap, Params, Route, UrlSegment } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { AuthHttp } from "angular2-jwt";
-import { Observable } from "rxjs/Rx";
 import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { Permissions } from "./../../../../shared/model/permission.data";
 import { Team } from "./../../../../shared/model/team.data";
@@ -31,7 +32,7 @@ class MockActivatedRoute implements ActivatedRoute {
     params: Observable<Params>;
     queryParams: Observable<Params>;
     fragment: Observable<string>;
-    data: Observable<Data> = Observable.of({
+    data: Observable<Data> = observableOf({
         assets: {
             team: new Team({
                 team_id: "123",
@@ -90,7 +91,7 @@ describe("members.component.ts", () => {
                     {
                         provide: Auth,
                         useClass: class {
-                            getUser() { return Observable.of(new User({ user_id: "USER_ID" })) }
+                            getUser() { return observableOf(new User({ user_id: "USER_ID" })) }
                             getPermissions(): Permissions[] {
                                 return []
                             }
@@ -102,7 +103,7 @@ describe("members.component.ts", () => {
                     {
                         provide: ActivatedRoute,
                         useClass: class {
-                            params = Observable.of({ teamid: 123, slug: "slug" })
+                            params = observableOf({ teamid: 123, slug: "slug" })
                             parent = new MockActivatedRoute()
                         }
                     }

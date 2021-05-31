@@ -1,3 +1,5 @@
+
+import {combineLatest} from 'rxjs/operators';
 import { Team } from "../../../../shared/model/team.data";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { ActivatedRoute , Router} from "@angular/router";
@@ -26,8 +28,8 @@ export class TeamMapsComponent implements OnInit {
 
     }
     ngOnInit() {
-        this.route.parent.data
-            .combineLatest(this.auth.getUser())
+        this.route.parent.data.pipe(
+            combineLatest(this.auth.getUser()))
             .subscribe(([data, user] : [{ assets: { team: Team, datasets: DataSet[] } }, User]) => {
                 this.datasets = sortBy(data.assets.datasets, d => !!d.isArchived).map(d => {d.team = data.assets.team; return d});
                 this.teams = [data.assets.team];

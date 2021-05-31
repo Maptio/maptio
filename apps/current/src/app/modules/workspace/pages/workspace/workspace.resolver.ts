@@ -1,3 +1,5 @@
+
+import {first,  map, flatMap } from 'rxjs/operators';
 import { Auth } from "../../../../core/authentication/auth.service";
 import {
   ActivatedRouteSnapshot,
@@ -13,10 +15,8 @@ import { compact, sortBy } from "lodash-es";
 import { Team } from "../../../../shared/model/team.data";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { SelectableTag } from "../../../../shared/model/tag.data";
-import { Observable } from "rxjs/Observable";
+import { Observable ,  from } from "rxjs";
 import { UserService } from "../../../../shared/services/user/user.service";
-import { from } from "rxjs";
-import { map, flatMap } from "rxjs/operators";
 
 @Injectable()
 export class WorkspaceComponentResolver
@@ -91,8 +91,8 @@ export class WorkspaceComponentResolver
       }),
       flatMap(dt => {
         return this.auth
-          .getUser()
-          .first()
+          .getUser().pipe(
+          first())
           .toPromise()
           .then(u => {
             return { user: u, data: dt };

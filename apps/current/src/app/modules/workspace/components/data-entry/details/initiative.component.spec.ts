@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { InitiativeComponent } from "./initiative.component";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { Initiative } from "../../../../../shared/model/initiative.data";
@@ -11,7 +13,6 @@ import { ErrorService } from "../../../../../shared/services/error/error.service
 import { AuthHttp } from "angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../../../core/mocks/authhttp.helper.shared";
 import { Auth } from "../../../../../core/authentication/auth.service";
-import { Observable } from "rxjs";
 import { User } from "../../../../../shared/model/user.data";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { Helper } from "../../../../../shared/model/helper.data";
@@ -54,7 +55,7 @@ describe("initiative.component.ts", () => {
                     provide: Auth,
                     useClass: class {
                         getPermissions = jest.fn().mockReturnValue([])
-                        getUser = jest.fn().mockReturnValue(Observable.of(new User({ user_id: "UID" })))
+                        getUser = jest.fn().mockReturnValue(observableOf(new User({ user_id: "UID" })))
                     }
                 },
                 MarkdownService, MarkedOptions

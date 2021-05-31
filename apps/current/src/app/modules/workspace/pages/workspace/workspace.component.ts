@@ -1,8 +1,10 @@
+
+import {tap} from 'rxjs/operators';
 import { BuildingComponent } from "../../components/data-entry/hierarchy/building.component";
 import { DataService, CounterService } from "../../services/data.service";
 import { RoleLibraryService } from "../../services/role-library.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Subscription, Subject } from "rxjs/Rx";
+import { Subscription, Subject } from "rxjs";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Team } from "../../../../shared/model/team.data";
@@ -85,8 +87,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.isLoading = true;
         this.cd.markForCheck();
-        this.routeSubscription = this.route.data
-            .do((data) => {
+        this.routeSubscription = this.route.data.pipe(
+            tap((data) => {
                 let newDatasetId = data.data.dataset.datasetId;
                 if (newDatasetId !== this.datasetId) {
                     this.isBuildingPanelCollapsed=true;
@@ -95,8 +97,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                     // this.closeBuildingPanel();
                     this.cd.markForCheck()
                 }
-            })
-            .do((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {
+            }),
+            tap((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {
                 this.isLoading = true;
                 this.cd.markForCheck();
                 return this.buildingComponent.loadData(data.data.dataset, data.data.team, data.data.members)
@@ -104,7 +106,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                         this.isLoading = false;
                         this.cd.markForCheck();
                     });
-            })
+            }),)
             .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {
 
                 this.dataset = data.data.dataset;

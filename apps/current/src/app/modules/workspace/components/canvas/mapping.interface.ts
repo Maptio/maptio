@@ -1,7 +1,6 @@
 import { SelectableTag } from "../../../../shared/model/tag.data";
 import { Initiative } from "../../../../shared/model/initiative.data";
-import { Subject } from "rxjs";
-import { Observable } from "rxjs/Observable";
+import { Subject ,  Observable } from "rxjs";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 
 export interface IDataVisualizer {

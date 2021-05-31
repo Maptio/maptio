@@ -1,9 +1,11 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from "@angular/core";
 import { AuthHttp } from "angular2-jwt";
 import { Team } from "../../../shared/model/team.data";
 import { User } from "../../../shared/model/user.data";
 import { Response } from "@angular/http";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { Intercom } from "ng-intercom";
 
 
@@ -25,14 +27,14 @@ export class IntercomService {
                     free_trial_length: 14
                 }
             }
-        })
-            .map((response: Response) => {
+        }).pipe(
+            map((response: Response) => {
                 this.intercom.trackEvent("created a team", { id: team.team_id, name: team.name });
                 return response;
-            })
-            .map((response: Response) => {
+            }),
+            map((response: Response) => {
                 return response.status === 200
-            })
+            }),)
     }
 
     sendEvent(eventName:string, data : any){

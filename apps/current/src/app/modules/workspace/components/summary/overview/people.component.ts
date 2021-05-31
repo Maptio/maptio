@@ -1,3 +1,7 @@
+
+import {of as observableOf,  Observable, Subscription, Subject } from 'rxjs';
+
+import {debounceTime, switchMap, combineLatest} from 'rxjs/operators';
 import {
     Component,
     OnInit,
@@ -7,7 +11,6 @@ import {
     ChangeDetectionStrategy
 } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { Observable, Subscription, Subject } from "rxjs";
 
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 
@@ -56,9 +59,9 @@ export class PeopleSummaryComponent implements OnInit {
     ngOnInit(): void {
         this.loaderService.show();
         this.dataSubscription = this.dataService
-            .get()
-            .combineLatest(this.route.queryParams)
-            .switchMap((data: [any, Params]) => {
+            .get().pipe(
+            combineLatest(this.route.queryParams),
+            switchMap((data: [any, Params]) => {
                 if (data[1].member) {
                     return this.userFactory.get(data[1].member)
                         .then(user => this.userService.getUsersInfo([user]))
@@ -70,9 +73,9 @@ export class PeopleSummaryComponent implements OnInit {
                 } else {
                     this.selectedMember = null;
                     this.cd.markForCheck();
-                    return Observable.of(data[0])
+                    return observableOf(data[0])
                 }
-            })
+            }),)
             .subscribe((data: any) => {
                 this.members = data.members;
                 this.initiative = data.initiative;
@@ -89,7 +92,7 @@ export class PeopleSummaryComponent implements OnInit {
                 this.cd.markForCheck();
             });
 
-        this.filterMembers$.asObservable().debounceTime(250).subscribe((search) => {
+        this.filterMembers$.asObservable().pipe(debounceTime(250)).subscribe((search) => {
             this.filteredMembers = (search === '')
                 ? [].concat(this.members)
                 : this.members.filter(m => m.name.toLowerCase().indexOf(search.toLowerCase()) >= 0);

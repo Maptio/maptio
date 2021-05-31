@@ -1,10 +1,11 @@
+
+import {from as observableFrom,  Observable } from 'rxjs';
 import { sortBy } from "lodash-es";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Auth } from "../../../../core/authentication/auth.service";
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs/Rx";
 import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { Team } from "../../../../shared/model/team.data";
 
@@ -19,7 +20,7 @@ export class TeamComponentResolver implements Resolve<{ team: Team, datasets: Da
         let teamId: string = route.params["teamid"];
         let team = new Team({ team_id: teamId })
 
-        return Observable.fromPromise(
+        return observableFrom(
             Promise.all([this.teamFactory.get(teamId), this.datasetFactory.get(team)])
                 .then(result => {
                   

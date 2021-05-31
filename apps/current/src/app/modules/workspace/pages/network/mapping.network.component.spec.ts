@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable, Subject } from 'rxjs';
 import { Team } from "./../../../../shared/model/team.data";
 import { Helper } from "./../../../../shared/model/helper.data";
 import { Initiative } from "./../../../../shared/model/initiative.data";
@@ -8,7 +10,6 @@ import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
 import { Router, NavigationStart } from "@angular/router";
-import { Observable, Subject } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -47,7 +48,7 @@ describe("mapping.network.component.ts", () => {
                 {
                     provide: Router, useClass: class {
                         navigate = jest.fn();
-                        events = Observable.of(new NavigationStart(0, "/next"))
+                        events = observableOf(new NavigationStart(0, "/next"))
                     }
                 }
             ],
@@ -69,18 +70,18 @@ describe("mapping.network.component.ts", () => {
         component.translateX = 100
         component.translateY = 100
         component.scale = 1;
-        component.zoom$ = Observable.of(1);
+        component.zoom$ = observableOf(1);
         component.isReset$ = new Subject<boolean>();
-        component.selectableTags$ = Observable.of([]);
-        component.mapColor$ = Observable.of("#aaa")
-        component.zoomInitiative$ = Observable.of(new Initiative({ id: 1, accountable: new Helper(), helpers: [] }));
+        component.selectableTags$ = observableOf([]);
+        component.mapColor$ = observableOf("#aaa")
+        component.zoomInitiative$ = observableOf(new Initiative({ id: 1, accountable: new Helper(), helpers: [] }));
 
         component.analytics = {eventTrack : jest.fn()} as any;
 
         let data = new Initiative().deserialize(fixtures);
         let team = new Team({ team_id: "TEAMID", settings: { authority: "King", helper: "Minions" } })
         let mockDataService = target.debugElement.injector.get(DataService);
-        spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, dataset: new DataSet({}), members : [],  team: team }));
+        spyOn(mockDataService, "get").and.returnValue(observableOf({ initiative: data, dataset: new DataSet({}), members : [],  team: team }));
 
         target.detectChanges(); // trigger initial data binding
     });

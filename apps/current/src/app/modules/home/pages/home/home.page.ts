@@ -1,6 +1,7 @@
+
+import {forkJoin as observableForkJoin,  Subscription, Observable } from 'rxjs';
 import { Auth } from "../../../../core/authentication/auth.service";
 import { Component, ChangeDetectorRef } from "@angular/core";
-import { Subscription, Observable } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Team } from "../../../../shared/model/team.data";
@@ -42,7 +43,7 @@ export class HomeComponent {
         this.cd.markForCheck();
         this.routeSubscription = this.auth.getUser().pipe(
             mergeMap((user: User) => {
-                return Observable.forkJoin(
+                return observableForkJoin(
                     isEmpty(user.datasets) ? Promise.resolve([]) : this.datasetFactory.get(user.datasets, false),
                     isEmpty(user.teams) ? Promise.resolve([]) : this.teamFactory.get(user.teams),
                     Promise.resolve(user)

@@ -1,4 +1,5 @@
-import { Observable } from "rxjs/Rx";
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { AccessGuard } from "./access.guard";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { Http, BaseRequestOptions } from "@angular/http";
@@ -73,7 +74,7 @@ describe("access.guard.ts", () => {
         let state = TestBed.get(RouterStateSnapshot);
 
         let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(
-          Observable.of<User>(
+          observableOf<User>(
             new User({
               name: "John Doe",
               datasets: ["id1", "id2"],
@@ -104,7 +105,7 @@ describe("access.guard.ts", () => {
         let state = TestBed.get(RouterStateSnapshot);
 
         let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(
-          Observable.of<User>(
+          observableOf<User>(
             new User({
               name: "John Doe",
               teams: ["team1", "team2"],
@@ -134,7 +135,7 @@ describe("access.guard.ts", () => {
         let state = TestBed.get(RouterStateSnapshot);
 
         let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(
-          Observable.of<User>(
+          observableOf<User>(
             new User({ name: "John Doe", datasets: ["id1", "id2"] })
           )
         );
@@ -161,7 +162,7 @@ describe("access.guard.ts", () => {
         let state = TestBed.get(RouterStateSnapshot);
 
         let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(
-          Observable.of<User>(
+          observableOf<User>(
             new User({
               name: "John Doe",
               teams: ["team1", "team2"],

@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { MappingComponent } from "./mapping.component";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
@@ -7,7 +9,6 @@ import { AuthHttp } from "angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { UIService } from "../../services/ui.service";
 import { ActivatedRoute } from "@angular/router";
-import { Observable } from "rxjs";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { MappingTreeComponent } from "../../pages/tree/mapping.tree.component";
 import { MappingNetworkComponent } from "../../pages/network/mapping.network.component";
@@ -55,10 +56,10 @@ describe("mapping.component.ts", () => {
                 {
                     provide: ActivatedRoute,
                     useValue: {
-                        params: Observable.of({ mapid: 123, layout: "initiatives" }),
-                        fragment: Observable.of(`x=50&y=50&scale=1.2`),
+                        params: observableOf({ mapid: 123, layout: "initiatives" }),
+                        fragment: observableOf(`x=50&y=50&scale=1.2`),
                         snapshot: { fragment: undefined },
-                        queryParams: Observable.of({ id: "123345" })
+                        queryParams: observableOf({ id: "123345" })
                     }
                 }
 

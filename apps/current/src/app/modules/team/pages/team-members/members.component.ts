@@ -1,6 +1,8 @@
+
+import {mergeMap, filter, tap, debounceTime, combineLatest} from 'rxjs/operators';
 import { environment } from '../../../../config/environment';
 import { Auth } from "../../../../core/authentication/auth.service";
-import { Observable, Subject } from "rxjs/Rx";
+import { Observable, Subject ,  Subscription } from "rxjs";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
@@ -9,7 +11,6 @@ import { compact, remove, uniqBy, differenceBy, sortBy, isEmpty } from "lodash-e
 import { UserService } from "../../../../shared/services/user/user.service";
 import { User } from "../../../../shared/model/user.data";
 import { Team } from "../../../../shared/model/team.data";
-import { Subscription } from "rxjs/Subscription";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { FormControl } from "@angular/forms";
 import { Validators } from "@angular/forms";
@@ -96,8 +97,8 @@ export class TeamMembersComponent implements OnInit {
     @ViewChild("inputNewMember") public inputNewMember: ElementRef;
 
     ngOnInit() {
-        this.routeSubscription = this.route.parent.data
-            .combineLatest(this.auth.getUser())
+        this.routeSubscription = this.route.parent.data.pipe(
+            combineLatest(this.auth.getUser()))
             .subscribe((data: [{ assets: { team: Team, datasets: DataSet[] } }, User]) => {
                 this.team = data[0].assets.team;
                 this.user = data[1];
@@ -105,23 +106,23 @@ export class TeamMembersComponent implements OnInit {
 
             });
 
-        this.inputEmailSubscription = this.inputEmail$
-            .debounceTime(250)
-            .do(() => {
+        this.inputEmailSubscription = this.inputEmail$.pipe(
+            debounceTime(250),
+            tap(() => {
                 this.isAlreadyInTeam = false;
                 this.isShowSelectToAdd = false;
                 this.isShowInviteForm = false;
                 this.cd.markForCheck();
-            })
-            .filter(email => this.isEmail(email))
-            .do((email: string) => {
+            }),
+            filter(email => this.isEmail(email)),
+            tap((email: string) => {
                 this.inputEmail = email;
                 this.isSearching = true;
                 this.cd.markForCheck();
-            })
-            .flatMap(email => {
+            }),
+            mergeMap(email => {
                 return this.userFactory.getAll(email)
-            })
+            }),)
             .subscribe((users: User[]) => {
                 if (!isEmpty(users)) {
                     this.foundUser = users[0];
