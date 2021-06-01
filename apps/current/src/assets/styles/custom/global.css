@@ -11,7 +11,7 @@
 
   --maptio-accent-gray: hsla(180, 19%, 75%, 1);
   --maptio-blue-gray: hsla(204, 27%, 75%, 1);
-  
+
   --maptio-gray-light: hsla(0, 0%, 0%, 0.33)
 }
 
@@ -171,8 +171,8 @@ ul.picture-list > .list-inline-item{
 }
 
 
-.accent-blue{
-  border-top:solid 6px var(--maptio-accent)!important;
+.accent-blue {
+  border-top: var(--maptio-accent) solid 6px !important;
 }
 
 .accent-orange{
@@ -258,7 +258,7 @@ ul.picture-list > .list-inline-item{
   color: var(--maptio-accent);
 }
 
-.box-shadow{ 
+.box-shadow{
   box-shadow: 0px 1px 4px 1px hsla(0,0%,0%, 0.1);
 }
 
