@@ -21,8 +21,6 @@ const DEFAULT_PORT = 3000;
 const isDevelopment = process.env.NODE_ENV !== "production";
 const port = process.env.PORT || DEFAULT_PORT;
 
-// compiler = webpack(config);
-
 
 //
 // Security
@@ -126,7 +124,6 @@ app.use(compression())
 //
 // API routes
 //
-// TODO: Upgrade all of this to new express version
 var datasets = require('./routes/datasets');
 var embeddableDatasets = require('./routes/embeddable-datasets');
 var users = require('./routes/users');
@@ -155,46 +152,13 @@ app.use('/api/v1/intercom', jwtCheck, checkscopes(["api"]), intercom);
 app.use('/api/v1/embeddable-dataset/', embeddableDatasets);
 
 
-
 //
 // Server
 //
 app.set("port", port);
 app.get(cache('5 seconds'));
 
-// TODO: No need to do anything special in development, right?
-// if (isDevelopment) {
-//   const middleware = webpackMiddleware(compiler, {
-//     publicPath: config.output.publicPath,
-//     contentBase: 'src',
-//     hot:true,
-//     stats: {
-//       colors: true,
-//       hash: false,
-//       timings: true,
-//       chunks: false,
-//       chunkModules: false,
-//       modules: false
-//     }
-//   });
-
-//   app.use(middleware);
-//   app.use(webpackHotMiddleware(compiler));
-
-//   app.get('*', function response(req, res) {
-//     res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'config/public/build/index.html')));
-//     res.end();
-//   });
-// } else {
-// See code below up until: `res.sendFile(HTML_FILE);`
-// }
-
-if (isDevelopment) {
-  app.get("*", function (req, res, next) {
-    console.log('hello?');
-    res.json({ hello: 'world' });
-  });
-} else {
+if (!isDevelopment) {
   app.use(express.static(DIST_DIR));
 
   // For any other requests, serve the static Angular bundle
@@ -207,63 +171,7 @@ if (isDevelopment) {
   });
 }
 
-
 const server = app.listen(port, () => {
   console.info(`==> 🌎 Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`);
 });
 server.on('error', console.error);
-
-// Old version that seems to be incompatible
-// app.listen(app.get("port"), '0.0.0.0', function onStart(err) {
-//   if (err) {
-//     console.error(err);
-//   }
-
-//   console.info('==> 🌎 Listening on port %s. Open up http://localhost:%s/ in your browser.', app.get("port"), app.get("port"));
-// });
-
-
-
-
-
-
-
-//
-// Nx Express server
-//
-
-//  app.get('/api', (req, res) => {
-//    res.send({ message: 'Welcome to maptio-server!' });
-//  });
-
-//  const port = process.env.port || 3333;
-//  const server = app.listen(port, () => {
-//    console.log(`Listening at http://localhost:${port}/api`);
-//  });
-//  server.on('error', console.error);
-
-
-
-
-
-
-
-//
-// Old Express server
-//
-
-// require('dotenv').config()
-// const bodyParser = require('body-parser');
-// const path = require('path');
-// const express = require('express');
-// const webpack = require('webpack');
-// const webpackMiddleware = require('webpack-dev-middleware');
-// const webpackHotMiddleware = require('webpack-hot-middleware');
-// const config = require('./webpack.config.js');
-// const sslRedirect = require('heroku-ssl-redirect');
-// const compression = require('compression')
-// const apicache = require('apicache')
-// const helmet = require('helmet')
-// const fs = require('fs') // Wasn't used by anything!
-// const jwt = require('express-jwt');
-// const jwks = require('jwks-rsa');
