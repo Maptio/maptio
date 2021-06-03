@@ -1,12 +1,11 @@
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 
 import {of as observableOf,  Observable } from 'rxjs';
 
 import {mergeMap, map} from 'rxjs/operators';
 import { Initiative } from './../../model/initiative.data';
 import { SlackIntegration } from './../../model/integrations.data';
-import { RequestMethod, RequestOptions, Request, Headers } from "@angular/http";
-import { Injectable } from "@angular/core";
-import { AuthHttp } from "angular2-jwt/angular2-jwt";
 import { DataSet } from "../../model/dataset.data";
 import { sortBy } from "lodash-es";
 import { upperFirst, toLower } from "lodash-es"
@@ -14,9 +13,7 @@ import { hierarchy } from 'd3-hierarchy';
 
 @Injectable()
 export class ExportService {
-
-    constructor( private http: AuthHttp) {
-    }
+    constructor(private http: HttpClient) {}
 
     getReport(dataset: DataSet): Observable<string> {
         let list = hierarchy(dataset.initiative).descendants(); // flatten with lodash if possible
@@ -55,23 +52,22 @@ export class ExportService {
     // }
 
     getSnapshot(svgString: string, datasetId: string) {
-        let headers = new Headers();
+        let headers = new HttpHeaders();
         headers.append("Content-Type", "text/html");
         headers.append("Accept", "text/html");
-        let req = new Request({
-            url: `/api/v1/images/upload/${datasetId}`,
-            body: svgString,
-            method: RequestMethod.Post,
-            headers: headers
-        });
+        let req = new HttpRequest(
+          'POST',
+          `/api/v1/images/upload/${datasetId}`,
+          svgString,
+          { headers }
+        )
         return this.http.request(req).pipe(map((responseData) => {
-            return <string>responseData.json().eager[0].secure_url;
+            return <string>responseData['data'].eager[0].secure_url;
         }))
     }
 
     sendSlackNotification(svgString: string, datasetId: string, initiative: Initiative, slack: SlackIntegration, message: string) {
         return this.getSnapshot(svgString, datasetId).pipe(
-
             map((imageUrl: string) => {
                 let attachments = [
                     {
@@ -86,21 +82,21 @@ export class ExportService {
                         // ts: Date.now()
                     }]
 
-                let headers = new Headers();
+                let headers = new HttpHeaders();
                 headers.append("Content-Type", "application/json");
                 headers.append("Accept", "application/json");
-                return new Request({
-                    url: "/api/v1/notifications/send",
-                    body: {
-                        url: slack.incoming_webhook.url,
-                        attachments: attachments
-                    },
-                    method: RequestMethod.Post,
-                    headers: headers
-                })
+                return new HttpRequest(
+                  'POST',
+                  '/api/v1/notifications/send',
+                  {
+                    url: slack.incoming_webhook.url,
+                    attachments: attachments
+                  },
+                  { headers }
+                );
             }),
             mergeMap(req => this.http.request(req)),
-            map(res => res.json()),)
+        );
     }
 
 }

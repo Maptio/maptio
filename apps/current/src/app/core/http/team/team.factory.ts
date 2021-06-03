@@ -1,9 +1,8 @@
+import { Injectable } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
 
 import {map} from 'rxjs/operators';
-import { AuthHttp } from "angular2-jwt";
 import { Team } from "../../../shared/model/team.data";
-import { Injectable } from "@angular/core";
-import { Response } from "@angular/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import * as shortid from "shortid";
@@ -11,8 +10,7 @@ import * as shortid from "shortid";
 @Injectable()
 export class TeamFactory {
 
-    constructor(private http: AuthHttp) {
-    }
+    constructor(private http: HttpClient) {}
 
 
     /**
@@ -41,7 +39,7 @@ export class TeamFactory {
         if (uniqueId) {
             return this.http.get("/api/v1/team/" + uniqueId).pipe(
                 map((response: Response) => {
-                    return Team.create().deserialize(response.json());
+                    return Team.create().deserialize(response);
                 }))
                 .toPromise()
         }
@@ -56,9 +54,6 @@ export class TeamFactory {
             return Promise.reject("You cannot make a search for all teams !")
         }
         return this.http.get("/api/v1/team/in/" + teamIds.join(",")).pipe(
-            map((responseData) => {
-                return responseData.json();
-            }),
             map((inputs: Array<any>) => {
                 let result: Array<Team> = [];
                 if (inputs) {
@@ -87,9 +82,6 @@ export class TeamFactory {
         };
 
         return this.http.post("/api/v1/team", transformed).pipe(
-            map((responseData) => {
-                return responseData.json();
-            }),
             map((input: any) => {
                 return Team.create().deserialize(input);
             }),)
@@ -113,10 +105,7 @@ export class TeamFactory {
             roles: team.roles,
             members: team.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id, nickname: m.nickname } })
         };
-        return this.http.put("/api/v1/team/" + team.team_id, transformed).pipe(
-            map((responseData) => {
-                return responseData.json();
-            }))
+        return this.http.put("/api/v1/team/" + team.team_id, transformed)
             .toPromise()
             .then(r => true)
             .catch(() => false)

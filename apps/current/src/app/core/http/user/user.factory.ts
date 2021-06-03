@@ -1,6 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 
 import {map} from 'rxjs/operators';
-import { AuthHttp } from "angular2-jwt";
 import { User } from "../../../shared/model/user.data";
 import { Injectable } from "@angular/core";
 import { Response } from "@angular/http";
@@ -11,10 +11,7 @@ import { chunk, flattenDeep } from "lodash-es";
 
 @Injectable()
 export class UserFactory {
-  private _http: AuthHttp;
-  constructor(private http: AuthHttp) {
-    this._http = http;
-  }
+  constructor(private http: HttpClient) {}
 
   /** Gets all users
    *
@@ -26,7 +23,7 @@ export class UserFactory {
     return this.http
       .get("/api/v1/user/all/" + pattern).pipe(
       map(responseData => {
-        return responseData.json();
+        return responseData;
       }),
       map((inputs: Array<any>) => {
         let result: Array<User> = [];
@@ -51,7 +48,7 @@ export class UserFactory {
         this.http
           .get("/api/v1/user/in/" + chunkusersId.join(",")).pipe(
           map(responseData => {
-            return responseData.json();
+            return responseData
           }),
           map((inputs: Array<any>) => {
             let result: Array<User> = [];
@@ -76,7 +73,7 @@ export class UserFactory {
     return this.http
       .get("/api/v1/user/" + uniqueId).pipe(
       map((response: Response) => {
-        return User.create().deserialize(response.json());
+        return User.create().deserialize(response);
       }))
       .toPromise();
   }
@@ -97,7 +94,7 @@ export class UserFactory {
     return this.http
       .post("/api/v1/user", input).pipe(
       map(responseData => {
-        return responseData.json();
+        return responseData
       }),
       map((input: any) => {
         return User.create().deserialize(input);
@@ -114,7 +111,7 @@ export class UserFactory {
     return this.http
       .put("/api/v1/user/" + user.user_id, user).pipe(
       map(responseData => {
-        return responseData.json();
+        return responseData
       }))
       .toPromise()
       .then(r => {

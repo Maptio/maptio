@@ -1,10 +1,9 @@
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
 import {map} from 'rxjs/operators';
-import { Injectable } from "@angular/core";
-import { AuthHttp } from "angular2-jwt";
 import { Team } from "../../../shared/model/team.data";
 import { User } from "../../../shared/model/user.data";
-import { Response } from "@angular/http";
 import { Observable } from "rxjs";
 import { Intercom } from "ng-intercom";
 
@@ -12,8 +11,7 @@ import { Intercom } from "ng-intercom";
 @Injectable()
 export class IntercomService {
 
-    constructor(private http: AuthHttp, private intercom: Intercom) {
-    }
+    constructor(private http: HttpClient, private intercom: Intercom) {}
 
     createTeam(user: User, team: Team): Observable<boolean> {
         return this.http.post("/api/v1/intercom/user/update", {
@@ -40,4 +38,4 @@ export class IntercomService {
     sendEvent(eventName:string, data : any){
         this.intercom.trackEvent(eventName, data);
  }
-}   
+}

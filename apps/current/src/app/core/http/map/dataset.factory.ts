@@ -1,10 +1,9 @@
+import { Injectable } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
 
 import {mergeMap, map} from 'rxjs/operators';
-import { AuthHttp } from "angular2-jwt";
 
 import { DataSet } from "../../../shared/model/dataset.data";
-import { Injectable } from "@angular/core";
-import { Response } from "@angular/http";
 import { Subject ,  Observable } from "rxjs"
 import "rxjs/add/operator/map"
 import { User } from "../../../shared/model/user.data";
@@ -16,20 +15,15 @@ import { Initiative } from "../../../shared/model/initiative.data";
 @Injectable()
 export class DatasetFactory {
 
-    private _http: AuthHttp;
     private _data$: Subject<DataSet[]>;
 
-    constructor(http: AuthHttp) {
+    constructor(private http: HttpClient) {
         this._data$ = new Subject<DataSet[]>();
-        this._http = http;
     }
 
 
     upsert(dataset: DataSet, datasetId?: string): Promise<boolean> {
-        return this._http.put("/api/v1/dataset/" + (dataset.datasetId || datasetId), dataset).pipe(
-            map((responseData) => {
-                return responseData.json();
-            }))
+        return this.http.put("/api/v1/dataset/" + (dataset.datasetId || datasetId), dataset)
             .toPromise()
             .then(r => { return true; })
     }
@@ -40,10 +34,7 @@ export class DatasetFactory {
      * @param user
      */
     add(dataset: DataSet, user: User): Promise<boolean> {
-        return this._http.put("/api/v1/user/" + user.user_id + "/dataset/" + dataset.datasetId, null).pipe(
-            map((responseData) => {
-                return responseData.json();
-            }))
+        return this.http.put("/api/v1/user/" + user.user_id + "/dataset/" + dataset.datasetId, null)
             .toPromise()
             .then(r => { return true; })
     }
@@ -55,18 +46,18 @@ export class DatasetFactory {
     create(dataset: DataSet): Promise<DataSet> {
         dataset.shortid = shortid.generate();
         if (!dataset) throw new Error("Parameter missing");
-        return this._http.post("/api/v1/dataset", dataset).pipe(
+        return this.http.post("/api/v1/dataset", dataset).pipe(
             map((response: Response) => {
-                return DataSet.create().deserialize(response.json());
+                return DataSet.create().deserialize(response);
             }))
             .toPromise()
     }
 
 
     createDemo(teamId: string): Observable<DataSet> {
-        return this._http.get(`/api/v1/dataset/template/demo?teamId=${teamId}`).pipe(
+        return this.http.get(`/api/v1/dataset/template/demo?teamId=${teamId}`).pipe(
             map((response: Response) => {
-                return Initiative.create().deserialize(response.json());
+                return Initiative.create().deserialize(response);
             }),
             mergeMap((initiative: Initiative) => {
                 return this.create(new DataSet({
@@ -82,7 +73,7 @@ export class DatasetFactory {
      * @param user User attached to dataset
      */
     // delete(dataset: DataSet, user: User): Promise<boolean> {
-    //     return this._http.delete("/api/v1/user/" + user.user_id + "/dataset/" + dataset._id)
+    //     return this.http.delete("/api/v1/user/" + user.user_id + "/dataset/" + dataset._id)
     //         .map((responseData) => {
     //             return responseData.json();
     //         })
@@ -136,10 +127,13 @@ export class DatasetFactory {
 
 
     private getWithUser(user: User): Promise<string[]> {
-        return this._http.get("/api/v1/user/" + user.user_id + "/datasets").pipe(
+        return this.http.get("/api/v1/user/" + user.user_id + "/datasets").pipe(
             map((responseData) => {
                 try {
-                    return responseData.json().map((d: any) => d._id);
+                    console.log('doing weird mapping')
+                    console.log(responseData)
+                    // return responseData.map((d: any) => d._id);
+                    return responseData;
                 }
                 catch (err) {
                     return []
@@ -152,10 +146,7 @@ export class DatasetFactory {
     }
 
     private getWithTeam(team: Team): Promise<DataSet[]> {
-        return this._http.get("/api/v1/team/" + team.team_id + "/datasets").pipe(
-            map((responseData) => {
-                return responseData.json();
-            }),
+        return this.http.get("/api/v1/team/" + team.team_id + "/datasets").pipe(
             map((inputs: Array<any>) => {
                 let result: Array<DataSet> = [];
                 if (inputs) {
@@ -169,9 +160,9 @@ export class DatasetFactory {
     }
 
     private getWithId(id: string): Promise<DataSet> {
-        return this._http.get("/api/v1/dataset/" + id).pipe(
+        return this.http.get("/api/v1/dataset/" + id).pipe(
             map((response: Response) => {
-                let d = DataSet.create().deserialize(response.json());
+                let d = DataSet.create().deserialize(response);
                 d.datasetId = id; // reassign id
                 return d;
             }))
@@ -182,10 +173,7 @@ export class DatasetFactory {
         if (!datasetIds || datasetIds.length === 0) {
             return Promise.reject("You cannot make a search for all datasets !")
         }
-        return this._http.get(`/api/v1/dataset/in/${datasetIds.join(",")}${isMinimal ? "/minimal" : ""}`).pipe(
-            map((responseData) => {
-                return responseData.json();
-            }),
+        return this.http.get(`/api/v1/dataset/in/${datasetIds.join(",")}${isMinimal ? "/minimal" : ""}`).pipe(
             map((inputs: Array<any>) => {
                 let result: Array<DataSet> = [];
                 if (inputs) {
