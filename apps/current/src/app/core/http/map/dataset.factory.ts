@@ -128,12 +128,9 @@ export class DatasetFactory {
 
     private getWithUser(user: User): Promise<string[]> {
         return this.http.get("/api/v1/user/" + user.user_id + "/datasets").pipe(
-            map((responseData) => {
+            map((responseData: Array<{ _id: string }>) => {
                 try {
-                    console.log('doing weird mapping')
-                    console.log(responseData)
-                    // return responseData.map((d: any) => d._id);
-                    return responseData;
+                    return responseData.map((d: any) => d._id);
                 }
                 catch (err) {
                     return []
