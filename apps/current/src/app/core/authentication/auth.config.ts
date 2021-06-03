@@ -1,11 +1,11 @@
-import { environment } from "../../config/environment";
-import { Http, Response } from "@angular/http";
-import { WebAuth } from "auth0-js";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+
 import { map } from "rxjs/operators";
 
-// declare var Auth0Lock: any;
+import { environment } from "../../config/environment";
+import { WebAuth } from "auth0-js";
+
 
 @Injectable()
 export class AuthConfiguration {
@@ -14,7 +14,7 @@ export class AuthConfiguration {
   public AUTH0_APP_KEY = environment.AUTH0_APP_KEY;
   public AUTH0_DOMAIN = environment.AUTH0_DOMAIN;
 
-  constructor(private http: Http) {}
+  constructor(private http: HttpClient) {}
 
   public getWebAuth(): WebAuth {
     return new WebAuth({
@@ -36,12 +36,15 @@ export class AuthConfiguration {
           grant_type: "client_credentials"
         })
         .pipe(
-          map(responseData => {
+          map(responseData  => {
+            const accessToken = responseData['access_token']
+
             window.localStorage.setItem(
               "access_token",
-              responseData.json().access_token
+              accessToken
             );
-            return responseData.json().access_token;
+
+            return accessToken;
           })
         )
         .toPromise();

@@ -1,57 +1,35 @@
+import { ErrorHandler, Injectable } from '@angular/core';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
-import {throwError as observableThrowError,  Observable } from 'rxjs';
-
-import {catchError} from 'rxjs/operators';
-import { Http, Request, RequestOptions, RequestOptionsArgs, Response, XHRBackend } from "@angular/http"
-import { Injectable, ErrorHandler, NgModule } from "@angular/core"
-import "rxjs/add/operator/catch"
-import "rxjs/add/observable/throw"
-import "rxjs/add/operator/map";
-import { Router } from "@angular/router";
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 
-export class HttpLogInterceptor extends Http {
+@Injectable()
+export class HttpLogInterceptor implements HttpInterceptor {
+  constructor(
+    private errorHandler: ErrorHandler,
+    private router: Router,
+  ) {}
 
-    constructor(
-        backend: XHRBackend,
-        options: RequestOptions,
-        private errorHandler: ErrorHandler,
-        private router: Router
-    ) {
-        super(backend, options)
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next.handle(request).pipe(
+      catchError(response => this.handleError(response))
+    );
+  }
+
+  public handleError = (error: HttpErrorResponse) => {
+    if (this.isUnauthorized(error.status)) {
+      this.router.navigateByUrl("/logout");
     }
 
-    public request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-        return super.request(url, options).pipe(
-            catchError(this.handleError))
-    }
+    this.errorHandler.handleError(error);
 
-    private isUnauthorized(status: number): boolean { 
-        return status === 0 || status === 401;
-    }
+    return throwError(error);
+  }
 
-    public handleError = (error: Response) => {
-        if (this.isUnauthorized(error.status)) {
-            this.router.navigateByUrl("/logout");
-        }
-        this.errorHandler.handleError(error);
-        return observableThrowError(error)
-    }
-
+  private isUnauthorized(status: number): boolean {
+    return status === 0 || status === 401;
+  }
 }
-
-
-export function httpFactory(backend: XHRBackend, options: RequestOptions, errorHandler: ErrorHandler, router: Router) {
-    return new HttpLogInterceptor(backend, options, errorHandler, router);
-}
-
-@NgModule({
-    providers: [
-        {
-            provide: Http,
-            useFactory: httpFactory,
-            deps: [XHRBackend, RequestOptions, ErrorHandler, Router]
-        }
-    ]
-})
-export class HttpFactoryModule { };

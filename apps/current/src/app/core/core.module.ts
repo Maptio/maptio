@@ -1,5 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+// HTTPTODO: Remove me
+import { Http, RequestOptions, HttpModule } from '@angular/http';
+import { HttpClientModule } from "@angular/common/http";
+import { RouterModule } from '@angular/router';
+
+import { httpInterceptorProviders } from './interceptors';
+
+// Unorganised
 import { UnauthorizedComponent } from './401/unauthorized.component';
 import { NotFoundComponent } from './404/not-found.component';
 import { HeaderComponent } from './header/header.component';
@@ -16,18 +24,16 @@ import { TeamFactory } from './http/team/team.factory';
 import { UserFactory } from './http/user/user.factory';
 import { AuthHttp } from 'angular2-jwt';
 import { authHttpServiceFactory } from '../shared/services/auth/auth.module';
-import { Http, RequestOptions, HttpModule } from '@angular/http';
 import { BreadcrumbsModule, Breadcrumb, BreadcrumbsConfig } from '@exalif/ngx-breadcrumbs';
-import { RouterModule } from '@angular/router';
 import { DeviceDetectorModule, DeviceDetectorService } from 'ngx-device-detector';
 import { LoaderComponent } from '../shared/components/loading/loader.component';
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
 import { MappingSummaryBreadcrumbs } from './breadcrumbs/summary.breadcrumb';
-import { HttpFactoryModule } from './interceptors/httpInterceptor';
 import { OnboardingModule } from '../shared/onboarding.module';
 import { InstructionsComponent } from '../shared/components/instructions/instructions.component';
 import { OnboardingComponent } from '../shared/components/onboarding/onboarding.component';
+
 
 @NgModule({
     declarations: [
@@ -41,8 +47,9 @@ import { OnboardingComponent } from '../shared/components/onboarding/onboarding.
     imports: [
         CommonModule,
         RouterModule,
+        // HTTPTODO: Remove me
         HttpModule,
-        HttpFactoryModule,
+        HttpClientModule,
         OnboardingModule,
         BreadcrumbsModule.forRoot(),
         DeviceDetectorModule.forRoot(),
@@ -57,9 +64,17 @@ import { OnboardingComponent } from '../shared/components/onboarding/onboarding.
         OnboardingComponent
     ],
     providers: [
-        Auth, AuthConfiguration,
-        AccessGuard, AuthGuard, BillingGuard, PermissionGuard, WorkspaceGuard,
-        DatasetFactory, TeamFactory, UserFactory,
+        Auth,
+        AuthConfiguration,
+        AccessGuard,
+        AuthGuard,
+        BillingGuard,
+        PermissionGuard,
+        WorkspaceGuard,
+        DatasetFactory,
+        TeamFactory,
+        UserFactory,
+        httpInterceptorProviders,
         {
             provide: AuthHttp,
             useFactory: authHttpServiceFactory,
