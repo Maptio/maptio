@@ -36,7 +36,7 @@ router.get('/in/:query', function (req, res, next) {
                 datasets.forEach(d => {
                     d.depth = getDepth(d)
                 });
-                
+
                 res.json(datasets);
             }
         });
@@ -45,7 +45,7 @@ router.get('/in/:query', function (req, res, next) {
 router.get('/template/:name', function (req, res, next) {
     let name = req.params.name;
     let teamId = req.query.teamId;
-    let template = templating(fs.readFileSync(path.join(__dirname, "..", `src/assets/templates/maps/${name}.json`)));
+    let template = templating(fs.readFileSync(path.join(__dirname, `assets/templates/maps/${name}.json`)));
     let templated = JSON.parse(template({ teamId: teamId }));
     res.json(templated);
 

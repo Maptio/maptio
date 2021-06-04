@@ -24,7 +24,7 @@ router.post('/', function (req, res, next) {
     let url = req.body.url;
     let team = req.body.team;
 
-    let template = templating(fs.readFileSync(path.join(__dirname, "..", "src/assets/templates/email-invitation.html")))
+    let template = templating(fs.readFileSync(path.join(__dirname, "assets/templates/email-invitation.html")))
     let htmlBody = template({ url: url, team: team });
 
     ses.sendEmail({
@@ -52,15 +52,15 @@ router.post('/', function (req, res, next) {
 });
 
 // router.post('/confirm', function (req, res, next) {
-    
+
 //         let from = req.body.from;
 //         let to = isDevelopment ? ["safiyya.babio@gmail.com"] : req.body.to;
 //         let subject = req.body.subject;
 //         let url = req.body.url;
-    
+
 //         let template = _.template(fs.readFileSync(path.join(__dirname, "..", "public/templates/email-confirmation.html")))
 //         let htmlBody = template({ url: url });
-    
+
 //         ses.sendEmail({
 //             Source: from,
 //             Destination: { ToAddresses: to },
@@ -82,7 +82,7 @@ router.post('/', function (req, res, next) {
 //                     res.json(data);
 //                 }
 //             });
-    
+
 //     });
 
 module.exports = router;
