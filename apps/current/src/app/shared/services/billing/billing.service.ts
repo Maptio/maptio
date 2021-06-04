@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AuthHttp } from "angular2-jwt";
-import { Response } from "@angular/http";
+import { HttpClient } from '@angular/common/http';
 
 import { Observable } from "rxjs";
 import { map } from 'rxjs/operators';
@@ -12,13 +11,12 @@ import { Team } from "../../model/team.data";
 
 @Injectable()
 export class BillingService {
-    constructor(private http: AuthHttp) {
-    }
+    constructor(private http: HttpClient) {}
 
     getTeamStatus(team: Team): Observable<TeamStatus> {
         return this.http.get(`/api/v1/intercom/team/${team.team_id}`).pipe(
-            map((response: Response) => {
-                return response.json().statusCode == 200 ? response.json().body : null
+            map((response: any) => {
+                return response.statusCode == 200 ? response.body : null
             }),
             map((result: IntercomCompany | null) => {
                 return result

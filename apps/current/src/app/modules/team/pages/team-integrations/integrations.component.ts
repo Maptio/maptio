@@ -1,15 +1,14 @@
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Router } from "@angular/router";
 
 import {mergeMap, filter, map} from 'rxjs/operators';
 import { Permissions } from '../../../../shared/model/permission.data';
-import { Http } from '@angular/http';
 import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { SlackIntegration } from "../../../../shared/model/integrations.data";
-import { AuthHttp } from "angular2-jwt";
 import { environment } from "../../../../config/environment";
 import { Team } from "../../../../shared/model/team.data";
 import { DataSet } from "../../../../shared/model/dataset.data";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import * as uuid from "angular2-uuid";
 import { Intercom } from 'ng-intercom';
 
@@ -31,9 +30,15 @@ export class TeamIntegrationsComponent implements OnInit {
     public isUpdateTeamFailed: boolean;
     public Permissions = Permissions;
 
-    constructor(private route: ActivatedRoute, private router: Router,
-        private secureHttp: AuthHttp, private http: Http, private teamFactory: TeamFactory,
-        private cd: ChangeDetectorRef, private intercom: Intercom) {
+    constructor(
+      private route: ActivatedRoute,
+      private router: Router,
+      // HTTPTODO:
+      // private secureHttp: AuthHttp,
+      private http: HttpClient,
+      private teamFactory: TeamFactory,
+      private cd: ChangeDetectorRef,
+      private intercom: Intercom) {
     }
 
     ngOnInit() {
@@ -60,15 +65,15 @@ export class TeamIntegrationsComponent implements OnInit {
 
                 this.isDisplayWaitingForSlackSync = true;
                 this.cd.markForCheck();
-                return this.secureHttp.post("/api/v1/oauth/slack", {
+                return this.http.post("/api/v1/oauth/slack", {
                     code: params.code,
                     redirect_uri: this.REDIRECT_URL
                 }).pipe(
                     map((responseData) => {
-                        return responseData.json();
+                        return responseData;
                     }))
             }),)
-            .subscribe(slack => {
+            .subscribe((slack: any) => {
                 if (slack.ok) {
                     this.updateTeam(slack.access_token, slack.incoming_webhook, slack.team_name, slack.team_id)
                         .then(team => {
@@ -124,8 +129,8 @@ export class TeamIntegrationsComponent implements OnInit {
     revokeToken(token: string) {
         this.isDisplayWaitingForSlackSync = true;
         this.cd.markForCheck();
-        return this.http.get(`https://slack.com/api/auth.revoke?token=${token}`).pipe(
-            map(response => response.json()))
+        // HTTPTODO: This needs to not be sent a token, it didn't use authhttp!
+        return this.http.get(`https://slack.com/api/auth.revoke?token=${token}`)
             .subscribe(response => {
                 let updatedTeam = new Team({
                     team_id: this.team.team_id,

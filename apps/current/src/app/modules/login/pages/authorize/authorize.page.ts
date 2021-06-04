@@ -1,11 +1,22 @@
-
-import {forkJoin as observableForkJoin, of as observableOf, from as observableFrom,  Subscription, Observable } from 'rxjs';
-
-import {switchMap, tap, mergeMap, map} from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import {
+  forkJoin as observableForkJoin,
+  of as observableOf,
+  from as observableFrom,
+  Subscription,
+  Observable
+} from 'rxjs';
+import { switchMap, tap, mergeMap, map } from 'rxjs/operators';
+
+import { JwtHelperService } from "@auth0/angular-jwt";
+
+import { Intercom } from 'ng-intercom';
+import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
+import * as LogRocket from "logrocket";
+
 import { URIService } from '../../../../shared/services/uri/uri.service';
-import { JwtHelper } from 'angular2-jwt';
 import { AuthConfiguration } from '../../../../core/authentication/auth.config';
 import { Auth } from '../../../../core/authentication/auth.service';
 import { UserFactory } from '../../../../core/http/user/user.factory';
@@ -13,30 +24,30 @@ import { User } from '../../../../shared/model/user.data';
 import { UserRole } from '../../../../shared/model/permission.data';
 import { UserService } from '../../../../shared/services/user/user.service';
 import { LoaderService } from '../../../../shared/components/loading/loader.service';
-import { Intercom } from 'ng-intercom';
 import { environment } from '../../../../config/environment';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
-import * as LogRocket from "logrocket";
+
 
 @Component({
     selector: 'authorize',
     template: ''
 })
 export class AuthorizeComponent implements OnInit {
-
-    fullstory:any = window["FS"];
+    fullstory: any = window["FS"];
     subscription: Subscription;
+    jwtHelper = new JwtHelperService();
+
     constructor(private route: ActivatedRoute, private router: Router,
         private userFactory: UserFactory, private userService: UserService,
         private uriService: URIService, private auth: Auth,
         private intercom: Intercom, private analytics: Angulartics2Mixpanel,
-        private authConfig: AuthConfiguration, private loader: LoaderService) { }
+        private authConfig: AuthConfiguration, private loader: LoaderService
+    ) {}
 
     ngOnInit(): void {
         this.loader.show();
         this.subscription = this.route.fragment.pipe(
             map(fragment => this.uriService.parseFragment(fragment).get("id_token")),
-            map(token => new JwtHelper().decodeToken(token)),
+            map(token => this.jwtHelper.decodeToken(token)),
             map((profile: string) => {
                 localStorage.setItem("profile", JSON.stringify(profile));
                 return profile;

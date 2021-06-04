@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // HTTPTODO: Remove me
-import { Http, RequestOptions, HttpModule } from '@angular/http';
+import { HttpModule } from '@angular/http';
 import { HttpClientModule } from "@angular/common/http";
 import { RouterModule } from '@angular/router';
 
@@ -22,8 +22,9 @@ import { WorkspaceGuard } from './guards/workspace.guard';
 import { DatasetFactory } from './http/map/dataset.factory';
 import { TeamFactory } from './http/team/team.factory';
 import { UserFactory } from './http/user/user.factory';
-import { AuthHttp } from 'angular2-jwt';
-import { authHttpServiceFactory } from '../shared/services/auth/auth.module';
+// AUTHTODO:
+// import { AuthHttp } from 'angular2-jwt';
+// import { authHttpServiceFactory } from '../shared/services/auth/auth.module';
 import { BreadcrumbsModule, Breadcrumb, BreadcrumbsConfig } from '@exalif/ngx-breadcrumbs';
 import { DeviceDetectorModule, DeviceDetectorService } from 'ngx-device-detector';
 import { LoaderComponent } from '../shared/components/loading/loader.component';
@@ -75,11 +76,12 @@ import { OnboardingComponent } from '../shared/components/onboarding/onboarding.
         TeamFactory,
         UserFactory,
         httpInterceptorProviders,
-        {
-            provide: AuthHttp,
-            useFactory: authHttpServiceFactory,
-            deps: [Http, RequestOptions]
-        },
+        // AUTHTODO:
+        // {
+        //     provide: AuthHttp,
+        //     useFactory: authHttpServiceFactory,
+        //     deps: [Http, RequestOptions]
+        // },
         MappingSummaryBreadcrumbs,
         DeviceDetectorService
 

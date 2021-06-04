@@ -1,16 +1,14 @@
+import { Injectable } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
 
 import {map} from 'rxjs/operators';
-import { AuthHttp } from "angular2-jwt";
-import { Http } from "@angular/http";
-import { Injectable } from "@angular/core";
 
 @Injectable()
 export class MailingService {
 
     public client: any; // nodemailer.Transporter;
 
-    constructor(private secureHttp: AuthHttp, private unsecureHttp: Http) {
-    }
+    constructor(private http: HttpClient) {}
 
     public sendInvitation(from: string, to: string[], url: string, team: string, invitedBy: string): Promise<boolean> {
 
@@ -22,10 +20,7 @@ export class MailingService {
             team: team
         };
 
-        return this.secureHttp.post("/api/v1/mail/invite", email).pipe(
-            map((responseData) => {
-                return responseData.json();
-            }),
+        return this.http.post("/api/v1/mail/invite", email).pipe(
             map((input: any) => {
                 return input.MessageId !== undefined;
             }),)
@@ -40,10 +35,9 @@ export class MailingService {
             to: to
         };
 
-        return this.unsecureHttp.post("/api/v1/mail/confirm", email).pipe(
-            map((responseData) => {
-                return responseData.json();
-            }),
+        // HTTPTODO:
+        // return this.unsecureHttp.post("/api/v1/mail/confirm", email).pipe(
+        return this.http.post("/api/v1/mail/confirm", email).pipe(
             map((input: any) => {
                 return input.MessageId !== undefined;
             }),)
