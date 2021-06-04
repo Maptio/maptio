@@ -17,7 +17,8 @@ import { DatasetFactory } from "../http/map/dataset.factory";
 import { UserFactory } from "../http/user/user.factory";
 import { User } from "../../shared/model/user.data";
 import { EmitterService } from "../services/emitter.service";
-import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
+// AUTHTODO:
+// import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
 import { uniq } from "lodash-es";
 import * as LogRocket from "logrocket";
 import { Intercom } from "ng-intercom";
@@ -91,23 +92,35 @@ export class Auth {
    * Checks if Auth0 Management API is still valid
    */
   public authenticationProviderAuthenticated() {
-    return tokenNotExpired("access_token");
+    // AUTHTODO:
+    // return tokenNotExpired("access_token");
+    // For now, return true as long as we have a token
+    return !!localStorage.getItem("profile");
   }
 
   /**
    * Checks if Maptio API is still valid
    */
   public internalApiAuthenticated() {
-    return tokenNotExpired("maptio_api_token");
+    // AUTHTODO:
+    // return tokenNotExpired("maptio_api_token");
+    // For now, return true as long as we have a token
+    return !!localStorage.getItem("profile");
   }
 
   /**
    * Checks is ID token is still valid
    */
   public authenticated(): boolean {
-    return tokenNotExpired("id_token");
+    // AUTHTODO:
+    // return tokenNotExpired("id_token");
+    // For now, return true as long as we have a token
+    return !!localStorage.getItem("profile");
   }
 
+  // AUTHTODO:
+  // TODO: This gets called hundreds of times every second and it's not an entirely trivial
+  // computation, would be good to refactor this!!!
   public allAuthenticated() {
     return (
       this.authenticated() &&
