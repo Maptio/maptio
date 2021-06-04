@@ -1,9 +1,6 @@
-import { Response } from "@angular/http";
-
-
 export class ErrorService {
 
-    handleError(error: Response | any) {
+    handleError(error: any) {
         //  1. remote logging infrastructure
 
         // 2. If severe error, should display some kind of warning

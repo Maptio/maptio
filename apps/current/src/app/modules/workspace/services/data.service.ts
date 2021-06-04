@@ -1,7 +1,6 @@
 
 import {filter} from 'rxjs/operators';
 import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
 import { Observable ,  ReplaySubject, Subject } from "rxjs";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
@@ -52,5 +51,3 @@ export class CounterService {
         return this._counter$.asObservable().pipe(filter(c => c.datasetId === datasetId))
     }
 }
-
-

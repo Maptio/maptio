@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 import {forkJoin as observableForkJoin,  Observable } from 'rxjs';
 
@@ -5,7 +6,6 @@ import {mergeMap, map} from 'rxjs/operators';
 import { UserRole } from './../../model/permission.data';
 import { User } from "./../../model/user.data";
 import { environment } from "../../../config/environment";
-import { Http, Headers } from "@angular/http";
 import { Injectable } from "@angular/core";
 import { AuthConfiguration } from "../../../core/authentication/auth.config";
 import { JwtEncoder } from "../encoding/jwt.service";
@@ -19,11 +19,12 @@ import { UserFactory } from '../../../core/http/user/user.factory';
 export class UserService {
 
     constructor(
-        private http: Http,
+        private http: HttpClient,
         private configuration: AuthConfiguration,
         private encodingService: JwtEncoder,
         private mailing: MailingService,
-        private userFactory: UserFactory) { }
+        private userFactory: UserFactory
+    ) {}
 
 
     public sendInvite(email: string, userId: string, firstname: string, lastname: string, name: string, teamName: string, invitedBy: string): Promise<boolean> {
@@ -32,8 +33,12 @@ export class UserService {
             this.encodingService.encode({ user_id: userId, email: email, firstname: firstname, lastname: lastname, name: name }),
             this.configuration.getAccessToken()]
         ).then(([userToken, apiToken]: [string, string]) => {
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + apiToken);
+            const httpOptions = {
+              headers: new HttpHeaders({
+                Authorization: 'Bearer ' + apiToken
+              })
+            }
+
             return this.http.post(
                 environment.TICKETS_API_URL,
                 {
@@ -41,10 +46,12 @@ export class UserService {
                     "user_id": userId,
                     "ttl_sec": 30 * 24 * 3600 // valid for 30 days
                 },
-                { headers: headers }).pipe(
-                map((responseData) => {
-                    return <string>responseData.json().ticket;
-                })).toPromise()
+                httpOptions
+            ).pipe(
+                map((responseData: any) => {
+                    return <string>responseData.ticket;
+                })
+            ).toPromise()
         })
             .then((ticket: string) => {
                 return this.mailing.sendInvitation(environment.SUPPORT_EMAIL, [email], ticket, teamName, invitedBy)
@@ -59,18 +66,24 @@ export class UserService {
             this.encodingService.encode({ user_id: userId, email: email, firstname: firstname, lastname: lastname, name: name }),
             this.configuration.getAccessToken()]
         ).then(([userToken, apiToken]: [string, string]) => {
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + apiToken);
+            const httpOptions = {
+              headers: new HttpHeaders({
+                Authorization: 'Bearer ' + apiToken
+              })
+            }
+
             return this.http.post(
                 environment.TICKETS_API_URL,
                 {
                     "result_url": "http://app.maptio.com/login?token=" + userToken,
                     "user_id": userId
                 },
-                { headers: headers }).pipe(
-                map((responseData) => {
-                    return <string>responseData.json().ticket;
-                })).toPromise()
+                httpOptions
+            ).pipe(
+                map((responseData: any) => {
+                    return <string>responseData.ticket;
+                })
+            ).toPromise()
         })
             .then((ticket: string) => {
                 return this.mailing.sendConfirmation(environment.SUPPORT_EMAIL, [email], ticket)
@@ -94,18 +107,24 @@ export class UserService {
             getUserEmail(),
             this.configuration.getAccessToken()]
         ).then(([userId, email, apiToken]: [string, string, string]) => {
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + apiToken);
+            const httpOptions = {
+              headers: new HttpHeaders({
+                Authorization: 'Bearer ' + apiToken
+              })
+            }
+
             return this.http.post(
                 environment.TICKETS_API_URL,
                 {
                     "result_url": "http://app.maptio.com/login?token=" + userToken,
                     "user_id": userId
                 },
-                { headers: headers }).pipe(
-                map((responseData) => {
-                    return { ticket: <string>responseData.json().ticket, email: email, userId: userId };
-                })).toPromise()
+                httpOptions)
+            .pipe(
+                map((responseData: any) => {
+                    return { ticket: <string>responseData.ticket, email: email, userId: userId };
+                })
+            ).toPromise()
         })
             .then((data: { ticket: string, email: string, userId: string }) => {
                 return this.mailing.sendConfirmation(environment.SUPPORT_EMAIL, [data.email], data.ticket)
@@ -164,7 +183,7 @@ export class UserService {
 
     public createUser(email: string, firstname: string, lastname: string, isSignUp?: boolean, isAdmin?: boolean): Promise<User> {
         let color = this.getHexFromHsl(this.getHslFromName(`${firstname} ${lastname}`));
-        
+
         let newUser = {
             "connection": environment.CONNECTION_NAME,
             "email": email,
@@ -181,20 +200,22 @@ export class UserService {
             "user_metadata":
             {
                 "picture": `https://ui-avatars.com/api/?rounded=true&background=${color}&name=${firstname}+${lastname}&font-size=0.35&color=ffffff&size=500`,
- 
+
                 "given_name": firstname,
                 "family_name": lastname
             }
         }
 
         return this.configuration.getAccessToken().then((token: string) => {
+            const httpOptions = {
+              headers: new HttpHeaders({
+                Authorization: 'Bearer ' + token
+              })
+            }
 
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + token);
-
-            return this.http.post(environment.USERS_API_URL, newUser, { headers: headers }).pipe(
+            return this.http.post(environment.USERS_API_URL, newUser, httpOptions).pipe(
                 map((responseData) => {
-                    return responseData.json();
+                    return responseData;
                 }),
                 map((input: any) => {
                     return User.create().deserialize(input);
@@ -210,9 +231,9 @@ export class UserService {
         let query = users.map(u => `user_id:"${u.user_id}"`).join(" OR ");
 
         return this.configuration.getAccessToken().then((token: string) => {
-
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + token);
+            const headers = new HttpHeaders({
+                Authorization: 'Bearer ' + token
+            });
 
             // we can get all users at once
             if (users.length <= environment.AUTH0_USERS_PAGE_LIMIT) {
@@ -238,10 +259,11 @@ export class UserService {
         });
     }
 
-    private requestUsersPerPage(query: string, headers: Headers, page: number): Observable<User[]> {
-        return this.http.get(`${environment.USERS_API_URL}?q=${encodeURIComponent(query)}&search_engine=v3`, { headers: headers }).pipe(
+    private requestUsersPerPage(query: string, headers: HttpHeaders, page: number): Observable<User[]> {
+        const httpOptions = { headers };
+        return this.http.get(`${environment.USERS_API_URL}?q=${encodeURIComponent(query)}&search_engine=v3`, httpOptions).pipe(
             map((responseData) => {
-                return responseData.json();
+                return responseData;
             }),
             map((inputs: Array<any>) => {
                 let result: Array<User> = [];
@@ -256,14 +278,16 @@ export class UserService {
 
     public isActivationPendingByUserId(user_id: string): Promise<boolean> {
         return this.configuration.getAccessToken().then((token: string) => {
+            const httpOptions = {
+              headers: new HttpHeaders({
+                Authorization: 'Bearer ' + token
+              })
+            }
 
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + token);
-
-            return this.http.get(`${environment.USERS_API_URL}/` + user_id, { headers: headers }).pipe(
-                map((responseData) => {
-                    if (responseData.json().app_metadata) {
-                        return responseData.json().app_metadata.activation_pending;
+            return this.http.get(`${environment.USERS_API_URL}/` + user_id, httpOptions).pipe(
+                map((responseData: any) => {
+                    if (responseData.app_metadata) {
+                        return responseData.app_metadata.activation_pending;
                     }
                     return false;
                 }))
@@ -273,17 +297,19 @@ export class UserService {
 
     public isActivationPendingByEmail(email: string): Promise<{ isActivationPending: boolean, user_id: string }> {
         return this.configuration.getAccessToken().then((token: string) => {
+            const httpOptions = {
+              headers: new HttpHeaders({
+                Authorization: 'Bearer ' + token
+              })
+            }
 
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + token);
-
-            return this.http.get(`${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=` + encodeURIComponent(`email:"${email}"`), { headers: headers }).pipe(
-                map((responseData) => {
-                    if (responseData.json().total === 0) {
+            return this.http.get(`${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=` + encodeURIComponent(`email:"${email}"`), httpOptions).pipe(
+                map((responseData: any) => {
+                    if (responseData.total === 0) {
                         return { isActivationPending: false, user_id: undefined }
                     }
-                    if (responseData.json().total === 1) {
-                        let user = responseData.json().users[0];
+                    if (responseData.total === 1) {
+                        let user = responseData.users[0];
                         return (user.app_metadata)
                             ? { isActivationPending: user.app_metadata.activation_pending, user_id: user.user_id }
                             : { isActivationPending: false, user_id: user.user_id }
@@ -296,14 +322,16 @@ export class UserService {
 
     public isInvitationSent(user_id: string): Promise<boolean> {
         return this.configuration.getAccessToken().then((token: string) => {
+            const httpOptions = {
+              headers: new HttpHeaders({
+                Authorization: 'Bearer ' + token
+              })
+            }
 
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + token);
-
-            return this.http.get(`${environment.USERS_API_URL}/${user_id}`, { headers: headers }).pipe(
-                map((responseData) => {
-                    if (responseData.json().app_metadata) {
-                        return responseData.json().app_metadata.invitation_sent;
+            return this.http.get(`${environment.USERS_API_URL}/${user_id}`, httpOptions).pipe(
+                map((responseData: any) => {
+                    if (responseData.app_metadata) {
+                        return responseData.app_metadata.invitation_sent;
                     }
                     return false;
                 }))
@@ -313,9 +341,11 @@ export class UserService {
 
     public updateUserCredentials(user_id: string, password: string, firstname: string, lastname: string): Promise<boolean> {
         return this.configuration.getAccessToken().then((token: string) => {
-
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + token);
+            const httpOptions = {
+              headers: new HttpHeaders({
+                Authorization: 'Bearer ' + token
+              })
+            }
 
             return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
                 {
@@ -328,7 +358,7 @@ export class UserService {
                     "connection": environment.CONNECTION_NAME
                 }
                 ,
-                { headers: headers })
+                httpOptions)
                 .toPromise()
                 .then((response) => {
                     return true
@@ -338,9 +368,11 @@ export class UserService {
 
     public updateUserProfile(user_id: string, firstname: string, lastname: string): Promise<boolean> {
         return this.configuration.getAccessToken().then((token: string) => {
-
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + token);
+            const httpOptions = {
+              headers: new HttpHeaders({
+                Authorization: 'Bearer ' + token
+              })
+            };
 
             const userMetadata = {
                 "user_metadata":
@@ -351,7 +383,7 @@ export class UserService {
                 "connection": this.getConnection()
             };
 
-            return this.http.patch(`${environment.USERS_API_URL}/${user_id}`, userMetadata, { headers: headers })
+            return this.http.patch(`${environment.USERS_API_URL}/${user_id}`, userMetadata, httpOptions)
                 .toPromise()
                 .then((response) => {
                     return true;
@@ -363,21 +395,23 @@ export class UserService {
 
     public updateUserEmail(user_id: string, email: string): Promise<boolean> {
         return this.configuration.getAccessToken().then((token: string) => {
-
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + token);
+            const httpOptions = {
+              headers: new HttpHeaders({
+                Authorization: 'Bearer ' + token
+              })
+            };
 
             return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
                 {
                     "email": email,
-                    /* this can only be called if the user is "Not invited" 
+                    /* this can only be called if the user is "Not invited"
                     so changing their email shoudnt retrigger a verification
                     */
                     "email_verified": true,
                     "connection": environment.CONNECTION_NAME
                 }
                 ,
-                { headers: headers }).pipe(
+                httpOptions).pipe(
                 mergeMap(() => {
                     return this.userFactory.get(user_id)
                 }),
@@ -395,9 +429,11 @@ export class UserService {
 
     public updateUserPictureUrl(user_id: string, pictureUrl: string): Promise<boolean> {
         return this.configuration.getAccessToken().then((token: string) => {
-
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + token);
+            const httpOptions = {
+              headers: new HttpHeaders({
+                Authorization: 'Bearer ' + token
+              })
+            };
 
             return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
                 {
@@ -408,7 +444,7 @@ export class UserService {
                     "connection": this.getConnection()
                 }
                 ,
-                { headers: headers })
+                httpOptions)
                 .toPromise()
                 .then((response) => {
                     return true
@@ -419,14 +455,16 @@ export class UserService {
 
     public updateActivationPendingStatus(user_id: string, isActivationPending: boolean): Promise<boolean> {
         return this.configuration.getAccessToken().then((token: string) => {
-
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + token);
+            const httpOptions = {
+              headers: new HttpHeaders({
+                Authorization: 'Bearer ' + token
+              })
+            }
 
             return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
                 { "app_metadata": { "activation_pending": isActivationPending } }
                 ,
-                { headers: headers })
+                httpOptions)
                 .toPromise()
                 .then((response) => {
                     return true
@@ -436,14 +474,17 @@ export class UserService {
 
     public updateInvitiationSentStatus(user_id: string, isInvitationSent: boolean): Promise<boolean> {
         return this.configuration.getAccessToken().then((token: string) => {
+            const httpOptions = {
+              headers: new HttpHeaders({
+                Authorization: 'Bearer ' + token
+              })
+            }
 
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + token);
 
             return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
                 { "app_metadata": { "invitation_sent": isInvitationSent } }
                 ,
-                { headers: headers }).pipe(
+                httpOptions).pipe(
                 map((responseData) => {
                     return true;
                 }))
@@ -453,14 +494,16 @@ export class UserService {
 
     public updateUserRole(user_id: string, userRole: string): Promise<boolean> {
         return this.configuration.getAccessToken().then((token: string) => {
-
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + token);
+            const httpOptions = {
+              headers: new HttpHeaders({
+                Authorization: 'Bearer ' + token
+              })
+            }
 
             return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
                 { "app_metadata": { "role": userRole } }
                 ,
-                { headers: headers }).pipe(
+                httpOptions).pipe(
                 map((responseData) => {
                     return true;
                 }))
@@ -483,14 +526,16 @@ export class UserService {
 
     public isUserExist(email: string): Promise<boolean> {
         return this.configuration.getAccessToken().then((token: string) => {
+            const httpOptions = {
+              headers: new HttpHeaders({
+                Authorization: 'Bearer ' + token
+              })
+            }
 
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + token);
-
-            return this.http.get(`${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=` + encodeURIComponent(`email:"${email}"`), { headers: headers }).pipe(
-                map((responseData) => {
-                    if (responseData.json().total) {
-                        return responseData.json().total === 1
+            return this.http.get(`${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=` + encodeURIComponent(`email:"${email}"`), httpOptions).pipe(
+                map((responseData: any) => {
+                    if (responseData.total) {
+                        return responseData.total === 1
                     }
                     return false;
                 }))

@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// HTTPTODO: Remove me
-import { HttpModule } from '@angular/http';
 import { HttpClientModule } from "@angular/common/http";
 import { RouterModule } from '@angular/router';
 
@@ -48,8 +46,6 @@ import { OnboardingComponent } from '../shared/components/onboarding/onboarding.
     imports: [
         CommonModule,
         RouterModule,
-        // HTTPTODO: Remove me
-        HttpModule,
         HttpClientModule,
         OnboardingModule,
         BreadcrumbsModule.forRoot(),
