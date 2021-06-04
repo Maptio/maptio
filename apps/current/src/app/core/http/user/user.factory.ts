@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import { User } from "../../../shared/model/user.data";
 import { Injectable } from "@angular/core";
-import { Response } from "@angular/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import * as shortid from "shortid";
@@ -72,7 +71,7 @@ export class UserFactory {
   get(uniqueId: string): Promise<User> {
     return this.http
       .get("/api/v1/user/" + uniqueId).pipe(
-      map((response: Response) => {
+      map((response) => {
         return User.create().deserialize(response);
       }))
       .toPromise();

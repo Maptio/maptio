@@ -23,7 +23,7 @@ router.post('/', function (req, res, next) {
     let subject = req.body.subject;
     let url = req.body.url;
 
-    let template = templating(fs.readFileSync(path.join(__dirname, "..", "src/assets/templates/email-confirmation.html")))
+    let template = templating(fs.readFileSync(path.join(__dirname, "assets/templates/email-confirmation.html")))
     let htmlBody = template({ url: url });
 
     ses.sendEmail({
