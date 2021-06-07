@@ -97,7 +97,6 @@
     "request-promise": "^4.2.2",
     "rimraf": "^2.5.2",
     "rxjs": "^6.3.3",
-    "rxjs-compat": "^6.3.3",
     "screenfull": "^4.0.0",
     "shortid": "^2.2.8",
     "slug": "^0.9.4",

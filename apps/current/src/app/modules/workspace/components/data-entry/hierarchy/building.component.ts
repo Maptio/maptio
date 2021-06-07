@@ -11,7 +11,6 @@ import { EventEmitter, OnDestroy } from "@angular/core";
 import { Component, ViewChild, Output, Input, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { TreeNode, TREE_ACTIONS, TreeComponent } from "angular-tree-component";
 
-import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "../node/initiative.node.component"
 import { NgbModal, NgbTabset, NgbTabChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 import { LoaderService } from "../../../../../shared/components/loading/loader.service";
@@ -179,7 +178,7 @@ export class BuildingComponent implements OnDestroy {
     }
 
     updateTree() {
-        // this will saveChanges() on the callback 
+        // this will saveChanges() on the callback
         this.tree.treeModel.update();
     }
 

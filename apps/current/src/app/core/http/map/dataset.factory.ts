@@ -1,13 +1,11 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 
-import {mergeMap, map} from 'rxjs/operators';
+import { mergeMap, map } from 'rxjs/operators';
 
 import { DataSet } from "../../../shared/model/dataset.data";
 import { Subject ,  Observable } from "rxjs"
-import "rxjs/add/operator/map"
 import { User } from "../../../shared/model/user.data";
-import "rxjs/add/operator/toPromise";
 import { Team } from "../../../shared/model/team.data";
 import * as shortid from "shortid";
 import { Initiative } from "../../../shared/model/initiative.data";

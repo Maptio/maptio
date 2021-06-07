@@ -2,8 +2,6 @@
 import {filter} from 'rxjs/operators';
 import { Injectable } from "@angular/core";
 import { Observable ,  ReplaySubject, Subject } from "rxjs";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/toPromise";
 import { ErrorService } from "../../../shared/services/error/error.service"
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 

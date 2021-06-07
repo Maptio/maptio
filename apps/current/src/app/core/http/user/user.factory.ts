@@ -3,8 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import { User } from "../../../shared/model/user.data";
 import { Injectable } from "@angular/core";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/toPromise";
 import * as shortid from "shortid";
 import { chunk, flattenDeep } from "lodash-es";
 
