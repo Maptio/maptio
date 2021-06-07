@@ -22,6 +22,9 @@ import { TeamService } from './services/team/team.service';
 import { MarkdownUtilsService } from './services/markdown/markdown-utils.service';
 import { FocusIfDirective } from './directives/focusif.directive';
 
+// PROGRESSTODO:
+// import { NgProgressModule } from '@ngx-progressbar/core';
+// import { NgProgressRouterModule } from '@ngx-progressbar/router';
 
 @NgModule({
     imports: [
@@ -29,7 +32,10 @@ import { FocusIfDirective } from './directives/focusif.directive';
         ReactiveFormsModule,
         CommonModule,
         RouterModule,
-        NgbPopoverModule
+        NgbPopoverModule,
+        // PROGRESSTODO:
+        // NgProgressModule,
+        // NgProgressRouterModule
     ],
     declarations: [
         DebounceDirective,
