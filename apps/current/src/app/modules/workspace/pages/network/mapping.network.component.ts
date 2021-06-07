@@ -942,7 +942,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       });
 
 
-    simulation.nodes(graph.nodes).on("tick", ticked);
+    simulation.nodes(graph.nodes as any).on("tick", ticked);
 
     simulation.force<ForceLink<any, any>>("link").links(graph.links);
 
