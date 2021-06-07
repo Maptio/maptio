@@ -15,8 +15,6 @@ import {
     ViewContainerRef,
     SimpleChanges
 } from "@angular/core";
-import "rxjs/add/operator/merge";
-import "rxjs/add/operator/skip";
 import { PermissionsService } from "../services/permissions/permissions.service";
 
 export type StrategyFunction = (templateRef?: TemplateRef<any>) => void;

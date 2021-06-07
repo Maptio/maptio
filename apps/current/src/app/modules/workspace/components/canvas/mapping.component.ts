@@ -1,6 +1,5 @@
 
 import {distinct, map, combineLatest, tap} from 'rxjs/operators';
-import "rxjs/add/operator/map";
 
 import {
   ChangeDetectionStrategy,

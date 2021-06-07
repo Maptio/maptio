@@ -21,7 +21,7 @@ export class ContextMenuComponent implements OnInit {
     @Output() edit: EventEmitter<Initiative> = new EventEmitter<Initiative>();
     @Output() openAccountable: EventEmitter<User> = new EventEmitter<User>();
 
-    @ViewChild("inputNewInitiative") public inputNewInitiative: ElementRef;
+    @ViewChild("inputNewInitiative", { static: false }) public inputNewInitiative: ElementRef;
     isRemovingNode: Boolean;
     isAddingNode: Boolean;
     isClosed:boolean;

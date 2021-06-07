@@ -1,8 +1,26 @@
+import {
+  Component,
+  Input,
+  ViewChild,
+  OnChanges,
+  SimpleChanges,
+  EventEmitter,
+  Output,
+  ElementRef,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
+} from "@angular/core";
+
+import { Subject } from "rxjs";
+
+import { NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
+import { remove } from "lodash-es";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
+
 import { environment } from "../../../../../config/environment";
 import { Auth } from "../../../../../core/authentication/auth.service";
 import { Permissions } from "../../../../../shared/model/permission.data";
 import { Helper } from "../../../../../shared/model/helper.data";
-import { DatasetFactory } from "../../../../../core/http/map/dataset.factory";
 import { UserFactory } from "../../../../../core/http/user/user.factory";
 import { TeamFactory } from "../../../../../core/http/team/team.factory";
 import { Team } from "../../../../../shared/model/team.data";
@@ -10,20 +28,9 @@ import { DataSet } from "../../../../../shared/model/dataset.data";
 import { User } from "../../../../../shared/model/user.data";
 import { Tag } from "../../../../../shared/model/tag.data";
 import { Initiative } from "../../../../../shared/model/initiative.data";
-import { Subject, Subscription } from "rxjs";
-import { Component, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef, ChangeDetectorRef, ChangeDetectionStrategy, TemplateRef, Renderer2 } from "@angular/core";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/merge";
-import "rxjs/add/operator/filter";
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/distinctUntilChanged";
-import { NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
-import { _catch } from "rxjs/operator/catch";
-import { _do } from "rxjs/operator/do";
-import { compact, sortBy, remove } from "lodash-es";
-import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { UserService } from "../../../../../shared/services/user/user.service";
 import { PermissionsService } from "../../../../../shared/services/permissions/permissions.service";
+
 
 @Component({
     selector: "initiative",
@@ -57,10 +64,10 @@ export class InitiativeComponent implements OnChanges {
     teamId: string;
     Permissions = Permissions;
 
-    @ViewChild("inputDescription") public inputDescriptionElement: ElementRef;
-    @ViewChild("inputRole") public inputRoleElement: ElementRef;
-    @ViewChild("inputAuthorityRole") public inputAuthorityRole: ElementRef;
-    @ViewChild("inputTag") public inputTag: NgbTypeahead;
+    @ViewChild("inputDescription", { static: false }) public inputDescriptionElement: ElementRef;
+    @ViewChild("inputRole", { static: false }) public inputRoleElement: ElementRef;
+    @ViewChild("inputAuthorityRole", { static: false }) public inputAuthorityRole: ElementRef;
+    @ViewChild("inputTag", { static: false }) public inputTag: NgbTypeahead;
 
     focus$ = new Subject<string>();
     click$ = new Subject<string>();
@@ -85,7 +92,7 @@ export class InitiativeComponent implements OnChanges {
                         return t
                     },
                         () => { return Promise.reject("No organisation available") })
-                    
+
 
 
                 // this.members$ = this.team$

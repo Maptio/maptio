@@ -3,8 +3,6 @@ import { HttpClient } from '@angular/common/http';
 
 import {map} from 'rxjs/operators';
 import { Team } from "../../../shared/model/team.data";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/toPromise";
 import * as shortid from "shortid";
 
 @Injectable()

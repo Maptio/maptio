@@ -5,10 +5,8 @@ import {
 } from "@angular/core";
 import { Router} from "@angular/router";
 
-import {of as observableOf, interval as observableInterval,  Subscription ,  Observable } from 'rxjs';
-import {filter, mergeMap, timeInterval} from 'rxjs/operators';
-
-import "rxjs/add/operator/map"
+import {of as observableOf, interval as observableInterval,  Subscription } from 'rxjs';
+import { filter, mergeMap, timeInterval } from 'rxjs/operators';
 
 import { Intercom } from 'ng-intercom';
 import { DeviceDetectorService } from 'ngx-device-detector';
