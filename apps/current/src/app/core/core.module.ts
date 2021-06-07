@@ -26,8 +26,7 @@ import { UserFactory } from './http/user/user.factory';
 import { BreadcrumbsModule, Breadcrumb, BreadcrumbsConfig } from '@exalif/ngx-breadcrumbs';
 import { DeviceDetectorModule, DeviceDetectorService } from 'ngx-device-detector';
 import { LoaderComponent } from '../shared/components/loading/loader.component';
-// PROGRESSTODO:
-// import { NgProgressModule } from '@ngx-progressbar/core';
+import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
 import { MappingSummaryBreadcrumbs } from './breadcrumbs/summary.breadcrumb';
 import { OnboardingModule } from '../shared/onboarding.module';
@@ -51,8 +50,7 @@ import { OnboardingComponent } from '../shared/components/onboarding/onboarding.
         OnboardingModule,
         BreadcrumbsModule.forRoot(),
         DeviceDetectorModule.forRoot(),
-        // PROGRESSTODO:
-        // NgProgressModule,
+        NgProgressModule,
         NgProgressRouterModule,
     ],
     exports: [

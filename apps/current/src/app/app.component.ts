@@ -11,11 +11,11 @@ import {filter, mergeMap, timeInterval} from 'rxjs/operators';
 import "rxjs/add/operator/map"
 
 import { Intercom } from 'ng-intercom';
-// import { NgProgress } from '@ngx-progressbar/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { Auth } from "./core/authentication/auth.service";
 import { environment } from "./config/environment";
+import { LoaderService } from "./shared/components/loading/loader.service";
 
 
 @Component({
@@ -37,14 +37,16 @@ export class AppComponent {
   constructor(
     public auth: Auth,
     private router: Router,
-    // public progress: NgProgress,
     public intercom: Intercom,
     private deviceService: DeviceDetectorService,
-    private cd: ChangeDetectorRef) {
+    private cd: ChangeDetectorRef,
+    public loader: LoaderService,
+  ) {
 
   }
 
   ngOnInit() {
+    this.loader.init();
 
     this.checkTokenSubscription = observableInterval(environment.CHECK_TOKEN_EXPIRATION_INTERVAL_IN_MINUTES * 60 * 1000).pipe(
       timeInterval(),

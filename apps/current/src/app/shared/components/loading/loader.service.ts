@@ -1,35 +1,28 @@
 import { Injectable } from "@angular/core";
-// import { NgProgress, NgProgressRef } from '@ngx-progressbar/core';
+import { NgProgress, NgProgressRef } from '@ngx-progressbar/core';
 
 
 @Injectable()
 export class LoaderService {
-  // private progressRef?: NgProgressRef;
+  progressRef?: NgProgressRef;
+  isLoading = false;
 
-  public isLoading = false;
+  constructor(private progress: NgProgress) {}
 
-
-  // constructor(private progress: NgProgress) {}
-  constructor() {}
-
-
-  // init() {
-    // PROGRESSTODO:
-    // if (this.progressRef) return;
-    // this.progressRef = this.progress.ref('loader');
-  // }
+  init() {
+    if (this.progressRef) return;
+    this.progressRef = this.progress.ref('loader');
+  }
 
   show() {
-    // this.init();
-    // this.progressRef.start();
-    // this.isLoading = true;
-    console.log('loader placeholder: show');
+    this.init();
+    this.progressRef.start();
+    this.isLoading = true;
   }
 
   hide() {
-    // this.init();
-    // this.progressRef.complete();
-    // this.isLoading = false;
-    console.log('loader placeholder: hide');
+    this.init();
+    this.progressRef.complete();
+    this.isLoading = false;
   }
 }
