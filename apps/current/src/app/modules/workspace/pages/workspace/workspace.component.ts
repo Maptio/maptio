@@ -34,7 +34,7 @@ import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 
 export class WorkspaceComponent implements OnInit, OnDestroy {
 
-    @ViewChild("building")
+    @ViewChild("building", { static: true })
     buildingComponent: BuildingComponent
 
     public isBuildingPanelCollapsed: boolean = true;
@@ -69,7 +69,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     teamId: string;
     selectableTags: Array<Tag>;
 
-    @ViewChild("dragConfirmation")
+    @ViewChild("dragConfirmation", { static: false })
     dragConfirmationModal: NgbModal;
 
     ngOnDestroy(): void {

@@ -31,7 +31,7 @@ export class InitiativeNodeComponent {
     @Output("open") open = new EventEmitter<Initiative>();
     @Output("add") add = new EventEmitter<Initiative>();
 
-    @ViewChild("initiative") editInitiative: InitiativeComponent;
+    @ViewChild("initiative", { static: false }) editInitiative: InitiativeComponent;
 
     Permissions = Permissions;
     teamName: string;

@@ -13,7 +13,7 @@ export class InitiativeInputNameComponent implements OnInit {
 
     @Output("save") save: EventEmitter<string> = new EventEmitter<string>();
 
-    @ViewChild("inputName") inputName: ElementRef;
+    @ViewChild("inputName", { static: false }) inputName: ElementRef;
 
 
     constructor(private cd: ChangeDetectorRef) { }

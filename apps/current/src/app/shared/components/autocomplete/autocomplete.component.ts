@@ -24,7 +24,7 @@ export class CommonAutocompleteComponent implements OnInit {
 
     @Output("pick") pick: EventEmitter<any> = new EventEmitter<any>();
 
-    @ViewChild("inputAutocomplete") public inputAutocomplete: NgbTypeahead;
+    @ViewChild("inputAutocomplete", { static: false }) public inputAutocomplete: NgbTypeahead;
 
     cancelClicked: boolean;
     searching: boolean;

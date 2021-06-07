@@ -22,7 +22,7 @@ export class InitiativeAuthoritySelectComponent implements OnInit {
 
     placeholder: string;
 
-    @ViewChild("autocomplete") public autocompleteComponent:CommonAutocompleteComponent;
+    @ViewChild("autocomplete", { static: true }) public autocompleteComponent:CommonAutocompleteComponent;
 
     constructor(private cd: ChangeDetectorRef) { }
 

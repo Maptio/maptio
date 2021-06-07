@@ -21,7 +21,7 @@ import { drop } from "lodash-es";
 export class TeamImportComponent implements OnInit {
 
     team: Team;
-    @ViewChild("fileImportInput") fileImportInput: any;
+    @ViewChild("fileImportInput", { static: true }) fileImportInput: any;
 
     csvRecords: any[] = [];
     currentImportedUserIndex: number;

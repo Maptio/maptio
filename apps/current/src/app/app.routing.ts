@@ -11,32 +11,32 @@ const routes: Routes = [
     },
     {
         path: "home",
-        loadChildren: "./modules/home/home.module#HomeModule"
+        loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
     },
     {
         path: "teams",
-        loadChildren: "./modules/team/team.module#TeamModule",
+        loadChildren: () => import('./modules/team/team.module').then(m => m.TeamModule),
         data: { breadcrumbs: "Organisations" }
     },
     {
         path: "",
-        loadChildren: "./modules/login/login.module#LoginModule"
+        loadChildren: () => import('./modules/login/login.module').then(m => m.LoginModule)
     },
     {
         path: "",
-        loadChildren: "./modules/payment/payment.module#PaymentModule"
+        loadChildren: () => import('./modules/payment/payment.module').then(m => m.PaymentModule)
     },
     {
         path: "legal",
-        loadChildren: "./modules/legal/legal.module#LegalModule"
+        loadChildren: () => import('./modules/legal/legal.module').then(m => m.LegalModule)
     },
     {
         path: "help",
-        loadChildren: "./modules/help/help.module#HelpModule"
+        loadChildren: () => import('./modules/help/help.module').then(m => m.HelpModule)
     },
     {
         path: "map/:mapid/:mapslug",
-        loadChildren: "./modules/workspace/workspace.module#WorkspaceModule"
+        loadChildren: () => import('./modules/workspace/workspace.module').then(m => m.WorkspaceModule)
     },
     {
         path: "unauthorized",

@@ -64,10 +64,10 @@ export class InitiativeComponent implements OnChanges {
     teamId: string;
     Permissions = Permissions;
 
-    @ViewChild("inputDescription") public inputDescriptionElement: ElementRef;
-    @ViewChild("inputRole") public inputRoleElement: ElementRef;
-    @ViewChild("inputAuthorityRole") public inputAuthorityRole: ElementRef;
-    @ViewChild("inputTag") public inputTag: NgbTypeahead;
+    @ViewChild("inputDescription", { static: false }) public inputDescriptionElement: ElementRef;
+    @ViewChild("inputRole", { static: false }) public inputRoleElement: ElementRef;
+    @ViewChild("inputAuthorityRole", { static: false }) public inputAuthorityRole: ElementRef;
+    @ViewChild("inputTag", { static: false }) public inputTag: NgbTypeahead;
 
     focus$ = new Subject<string>();
     click$ = new Subject<string>();
