@@ -50,7 +50,7 @@ import { OnboardingComponent } from '../shared/components/onboarding/onboarding.
         OnboardingModule,
         BreadcrumbsModule.forRoot(),
         DeviceDetectorModule.forRoot(),
-        NgProgressModule.forRoot(),
+        NgProgressModule,
         NgProgressRouterModule,
     ],
     exports: [

@@ -1,26 +1,28 @@
 import { Injectable } from "@angular/core";
-import { NgProgress } from '@ngx-progressbar/core';
+import { NgProgress, NgProgressRef } from '@ngx-progressbar/core';
 
 
 @Injectable()
 export class LoaderService {
-    public isLoading: boolean;
+  progressRef?: NgProgressRef;
+  isLoading = false;
 
-    constructor(public progress: NgProgress) {
+  constructor(private progress: NgProgress) {}
 
-    }
+  init() {
+    if (this.progressRef) return;
+    this.progressRef = this.progress.ref('loader');
+  }
 
+  show() {
+    this.init();
+    this.progressRef.start();
+    this.isLoading = true;
+  }
 
-    show() {
-        this.progress.start();
-        this.isLoading = true;
-    }
-    hide() {
-        this.progress.done();
-        this.isLoading = false;
-    }
-    keep() {
-        this.progress.inc();
-        this.isLoading = true;
-    }
+  hide() {
+    this.init();
+    this.progressRef.complete();
+    this.isLoading = false;
+  }
 }

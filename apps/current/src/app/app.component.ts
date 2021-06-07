@@ -1,20 +1,21 @@
-
-import {of as observableOf, interval as observableInterval,  Subscription ,  Observable } from 'rxjs';
-
-import {filter, mergeMap, timeInterval} from 'rxjs/operators';
-import { Router} from "@angular/router";
 import {
   Component,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  isDevMode
 } from "@angular/core";
+import { Router} from "@angular/router";
+
+import {of as observableOf, interval as observableInterval,  Subscription ,  Observable } from 'rxjs';
+import {filter, mergeMap, timeInterval} from 'rxjs/operators';
+
 import "rxjs/add/operator/map"
+
+import { Intercom } from 'ng-intercom';
+import { DeviceDetectorService } from 'ngx-device-detector';
+
 import { Auth } from "./core/authentication/auth.service";
 import { environment } from "./config/environment";
-import { Intercom } from 'ng-intercom';
-import { NgProgress } from '@ngx-progressbar/core';
-import { DeviceDetectorService } from 'ngx-device-detector';
+import { LoaderService } from "./shared/components/loading/loader.service";
 
 
 @Component({
@@ -33,13 +34,20 @@ export class AppComponent {
   public navigationOtherSubscription: Subscription;
   public checkTokenSubscription: Subscription;
 
-  constructor(public auth: Auth, private router: Router, public progress: NgProgress,
-    public intercom: Intercom, private deviceService: DeviceDetectorService, private cd: ChangeDetectorRef) {
+  constructor(
+    public auth: Auth,
+    private router: Router,
+    public intercom: Intercom,
+    private deviceService: DeviceDetectorService,
+    private cd: ChangeDetectorRef,
+    public loader: LoaderService,
+  ) {
 
   }
 
   ngOnInit() {
-    
+    this.loader.init();
+
     this.checkTokenSubscription = observableInterval(environment.CHECK_TOKEN_EXPIRATION_INTERVAL_IN_MINUTES * 60 * 1000).pipe(
       timeInterval(),
       mergeMap(() => { return observableOf(this.auth.allAuthenticated()) }),
@@ -66,5 +74,3 @@ export class AppComponent {
   }
 
 }
-
-
