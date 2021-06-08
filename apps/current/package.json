@@ -21,15 +21,15 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^8.2.14",
-    "@angular/common": "^8.2.14",
-    "@angular/compiler": "^8.2.14",
-    "@angular/core": "^8.2.14",
-    "@angular/forms": "^8.2.14",
-    "@angular/platform-browser": "^8.2.14",
-    "@angular/platform-browser-dynamic": "^8.2.14",
-    "@angular/platform-server": "^8.2.14",
-    "@angular/router": "^8.2.14",
+    "@angular/animations": "^9.1.13",
+    "@angular/common": "^9.1.13",
+    "@angular/compiler": "^9.1.13",
+    "@angular/core": "^9.1.13",
+    "@angular/forms": "^9.1.13",
+    "@angular/platform-browser": "^9.1.13",
+    "@angular/platform-browser-dynamic": "^9.1.13",
+    "@angular/platform-server": "^9.1.13",
+    "@angular/router": "^9.1.13",
     "@auth0/angular-jwt": "^4.2.0",
     "@cloudinary/angular-5.x": "^1.0.0",
     "@exalif/ngx-breadcrumbs": "^7.0.0",
@@ -101,12 +101,12 @@
     "shortid": "^2.2.8",
     "slug": "^0.9.4",
     "tslib": "^1.9.0",
-    "zone.js": "~0.9.1"
+    "zone.js": "~0.10.3"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.803.29",
-    "@angular/cli": "~8.3.29",
-    "@angular/compiler-cli": "^8.2.14",
+    "@angular-devkit/build-angular": "~0.901.15",
+    "@angular/cli": "~9.1.15",
+    "@angular/compiler-cli": "^9.1.13",
     "@types/auth0-js": "^8.11.2",
     "@types/core-js": "^2.5.0",
     "@types/d3-array": "^1.2.4",
@@ -153,7 +153,7 @@
     "toposort": "^2.0.2",
     "ts-loader": "^5.3.3",
     "tslint": "^5.12.1",
-    "typescript": "^3.5.3",
+    "typescript": "^3.8.3",
     "url-loader": "^1.1.2"
   }
 }
