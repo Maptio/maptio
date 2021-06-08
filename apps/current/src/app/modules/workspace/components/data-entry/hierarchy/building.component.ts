@@ -9,7 +9,7 @@ import { Initiative } from "../../../../../shared/model/initiative.data";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { EventEmitter, OnDestroy } from "@angular/core";
 import { Component, ViewChild, Output, Input, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
-import { TreeNode, TREE_ACTIONS, TreeComponent } from "angular-tree-component";
+import { TreeNode, TREE_ACTIONS, TreeComponent } from "@circlon/angular-tree-component";
 
 import { InitiativeNodeComponent } from "../node/initiative.node.component"
 import { NgbModal, NgbTabset, NgbTabChangeEvent } from "@ng-bootstrap/ng-bootstrap";
