@@ -34,7 +34,7 @@
     "@auth0/angular-jwt": "^4.2.0",
     "@circlon/angular-tree-component": "^9.0.3",
     "@cloudinary/angular-5.x": "^1.0.0",
-    "@exalif/ngx-breadcrumbs": "^7.0.0",
+    "@exalif/ngx-breadcrumbs": "^9.2.0",
     "@fortawesome/fontawesome-free": "^5.7.0",
     "@ng-bootstrap/ng-bootstrap": "^6.2.0",
     "@ngx-progressbar/core": "^5.3.2",
