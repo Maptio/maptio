@@ -5,7 +5,7 @@ import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { MarkdownModule, } from "ngx-markdown";
 import { FilterTagsComponent } from "./components/filtering/tags.component";
 import { SearchComponent } from "./components/searching/search.component";
-import { TreeModule } from "angular-tree-component";
+import { TreeModule } from "@circlon/angular-tree-component";
 import { WorkspaceGuard } from "../../core/guards/workspace.guard";
 import { WorkspaceComponent } from "./pages/workspace/workspace.component";
 import { WorkspaceComponentResolver } from "./pages/workspace/workspace.resolver";

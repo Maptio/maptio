@@ -7,7 +7,7 @@ import { InitiativeComponent } from "../details/initiative.component";
 import { Initiative } from "../../../../../shared/model/initiative.data";
 import { ActivatedRouteSnapshot, ActivatedRoute } from "@angular/router";
 import { Component, Input, Output, ViewChild, EventEmitter, ChangeDetectorRef, TemplateRef, Renderer2, ElementRef, SimpleChanges } from "@angular/core";
-import { TreeNode, TreeModel } from "angular-tree-component";
+import { TreeNode, TreeModel } from "@circlon/angular-tree-component";
 
 @Component({
     selector: "initiative-node",
@@ -31,7 +31,7 @@ export class InitiativeNodeComponent {
     @Output("open") open = new EventEmitter<Initiative>();
     @Output("add") add = new EventEmitter<Initiative>();
 
-    @ViewChild("initiative", { static: false }) editInitiative: InitiativeComponent;
+    @ViewChild("initiative") editInitiative: InitiativeComponent;
 
     Permissions = Permissions;
     teamName: string;
@@ -128,4 +128,3 @@ export class InitiativeNodeComponent {
 
 
 }
-

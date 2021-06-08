@@ -69,7 +69,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     teamId: string;
     selectableTags: Array<Tag>;
 
-    @ViewChild("dragConfirmation", { static: false })
+    @ViewChild("dragConfirmation")
     dragConfirmationModal: NgbModal;
 
     ngOnDestroy(): void {
