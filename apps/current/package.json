@@ -80,8 +80,6 @@
     "logrocket": "^0.6.12",
     "marked": "^0.7.0",
     "method-override": "^2.3.10",
-    "mobx": "^3.4.1",
-    "mobx-angular": "^2.0.1",
     "mongojs": "3.1.0",
     "newrelic": "^1.37.2",
     "ng-intercom": "^8.0.2",
