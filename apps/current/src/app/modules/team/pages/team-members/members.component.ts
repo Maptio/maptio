@@ -94,7 +94,7 @@ export class TeamMembersComponent implements OnInit {
     }
 
 
-    @ViewChild("inputNewMember", { static: false }) public inputNewMember: ElementRef;
+    @ViewChild("inputNewMember") public inputNewMember: ElementRef;
 
     ngOnInit() {
         this.routeSubscription = this.route.parent.data.pipe(

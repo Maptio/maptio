@@ -93,10 +93,10 @@ export class BuildingComponent implements OnDestroy {
     KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
     Permissions = Permissions;
 
-    @ViewChild("tree", { static: false }) public tree: TreeComponent;
+    @ViewChild("tree") public tree: TreeComponent;
     @ViewChild("tabs", { static: true }) public tabs: NgbTabset;
 
-    @ViewChild(InitiativeNodeComponent, { static: false })
+    @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
 
     @ViewChild("dragConfirmation", { static: true })
