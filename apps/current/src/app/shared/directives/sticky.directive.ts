@@ -1,15 +1,25 @@
+// For a discussion of this solution, see:
+// https://github.com/ng-bootstrap/ng-bootstrap/issues/2169
+
 import {
     ElementRef,
-    Directive, Input, TemplateRef,
+    Directive,
+    Input,
+    TemplateRef,
     EventEmitter,
     Renderer2,
     Injector,
     ComponentFactoryResolver,
     ViewContainerRef,
-    NgZone, Inject, ChangeDetectorRef
+    NgZone,
+    Inject,
+    ChangeDetectorRef,
+    ApplicationRef
 } from "@angular/core";
-import { NgbPopover, NgbPopoverConfig } from "@ng-bootstrap/ng-bootstrap";
 import { DOCUMENT } from '@angular/common';
+
+import { NgbPopover, NgbPopoverConfig } from "@ng-bootstrap/ng-bootstrap";
+
 
 @Directive({
     selector: "[stickyPopover]",
@@ -28,9 +38,9 @@ export class StickyPopoverDirective extends NgbPopover {
 
     container: string;
 
-    shown: EventEmitter<{}>;
+    shown: EventEmitter<void>;
 
-    hidden: EventEmitter<{}>;
+    hidden: EventEmitter<void>;
 
     toggle(): void {
         super.toggle()
@@ -45,15 +55,24 @@ export class StickyPopoverDirective extends NgbPopover {
     canClosePopover: boolean;
 
 
-    constructor(private _elRef: ElementRef, private _render: Renderer2, injector: Injector,
-        componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef, config: NgbPopoverConfig,
-        ngZone: NgZone, @Inject(DOCUMENT) _document: any, cd: ChangeDetectorRef) {
-        super(_elRef, _render, injector, componentFactoryResolver, viewContainerRef, config, ngZone, _document, cd);
+    constructor(
+      private _elRef: ElementRef,
+      private _render: Renderer2,
+      injector: Injector,
+      componentFactoryResolver: ComponentFactoryResolver,
+      private viewContainerRef: ViewContainerRef,
+      config: NgbPopoverConfig,
+      ngZone: NgZone,
+      @Inject(DOCUMENT) _document: any,
+      changeRef: ChangeDetectorRef,
+      applicationRef: ApplicationRef,
+    ) {
+        super(_elRef, _render, injector, componentFactoryResolver, viewContainerRef, config, ngZone, _document, changeRef, applicationRef);
         this.triggers = "manual"
         this.container = "body";
         this.popoverClass = "permissions"
-
     }
+
     ngOnInit(): void {
         super.ngOnInit();
         this.ngbPopover = this.stickyPopover;
