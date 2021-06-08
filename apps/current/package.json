@@ -99,7 +99,7 @@
     "screenfull": "^4.0.0",
     "shortid": "^2.2.8",
     "slug": "^0.9.4",
-    "tslib": "^1.10.0",
+    "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
@@ -144,7 +144,7 @@
     "jest": "^23.0.0",
     "jest-preset-angular": "^6.0.2",
     "mini-css-extract-plugin": "^0.5.0",
-    "protractor": "^5.4.2",
+    "protractor": "~7.0.0",
     "raw-loader": "^0.5.1",
     "rxjs-tslint": "^0.1.6",
     "style-loader": "^0.13.1",
