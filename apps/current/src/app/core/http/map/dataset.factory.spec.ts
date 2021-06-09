@@ -1,4 +1,4 @@
-import { TestBed, async, inject, fakeAsync } from "@angular/core/testing";
+import { TestBed, inject, fakeAsync, waitForAsync } from "@angular/core/testing";
 import { HttpModule,Response, Http, BaseRequestOptions, RequestMethod, ResponseOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../mocks/authhttp.helper.shared";
@@ -44,7 +44,7 @@ describe("dataset.factory.ts", () => {
 
     describe("get", () => {
 
-        it("should return rejected promise", async(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
+        it("should return rejected promise", waitForAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
             target.get(undefined)
                 .catch((reason: any) => { expect(reason).toBeDefined() })
         })));
@@ -198,7 +198,7 @@ describe("dataset.factory.ts", () => {
     });
 
     describe("create", () => {
-        it("should throw if parameter is undefined", async(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
+        it("should throw if parameter is undefined", waitForAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
             expect(function () { target.create(undefined) }).toThrowError();
         })));
 
@@ -231,11 +231,11 @@ describe("dataset.factory.ts", () => {
     })
 
     describe("add", () => {
-        it("should throw if user is undefined", async(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
+        it("should throw if user is undefined", waitForAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
             expect(function () { target.add(new DataSet(), undefined) }).toThrowError();
         })));
 
-        it("should throw if parameter is undefined", async(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
+        it("should throw if parameter is undefined", waitForAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
             expect(function () { target.add(undefined, new User()) }).toThrowError();
         })));
 
@@ -301,7 +301,7 @@ describe("dataset.factory.ts", () => {
     // })
 
     describe("upsert", () => {
-        it("should throw if dataset is undefined", async(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
+        it("should throw if dataset is undefined", waitForAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
             expect(function () { target.upsert(undefined, "unique_id") }).toThrowError();
         })));
 

@@ -1,7 +1,7 @@
 
 import {of as observableOf,  Observable } from 'rxjs';
 import { MappingComponent } from "./mapping.component";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
@@ -28,7 +28,7 @@ describe("mapping.component.ts", () => {
     let component: MappingComponent;
     let target: ComponentFixture<MappingComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             providers: [
                 {
@@ -86,7 +86,7 @@ describe("mapping.component.ts", () => {
     describe("Controller", () => {
 
         describe("zoomIn", () => {
-            it("should set the zoom factor to 1.2", async(() => {
+            it("should set the zoom factor to 1.2", waitForAsync(() => {
                 let spy = spyOn(component.zoom$, "next");
                 component.zoomIn();
                 expect(spy).toHaveBeenCalledWith(3)
@@ -94,7 +94,7 @@ describe("mapping.component.ts", () => {
         });
 
         describe("zoomOut", () => {
-            it("should set the zoom factor to 0.8", async(() => {
+            it("should set the zoom factor to 0.8", waitForAsync(() => {
                 let spy = spyOn(component.zoom$, "next");
                 component.zoomOut();
                 expect(spy).toHaveBeenCalledWith(1 / 3)

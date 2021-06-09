@@ -1,5 +1,5 @@
 import { HomeComponent } from "./home.page";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { DashboardComponent } from "../../components/dashboard/dashboard.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { SanitizerModule } from "../../../../shared/sanitizer.module";
@@ -26,7 +26,7 @@ describe("home.component.ts", () => {
     let target: ComponentFixture<HomeComponent>;
 
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports : [ReactiveFormsModule,RouterTestingModule,CreateMapModule,
                 CoreModule, SharedModule.forRoot(), AnalyticsModule, PermissionsModule, SanitizerModule],

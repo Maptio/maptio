@@ -11,7 +11,7 @@ import { BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
 import { Router, NavigationStart } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-import { TestBed, async, ComponentFixture } from "@angular/core/testing";
+import { TestBed, ComponentFixture, waitForAsync } from "@angular/core/testing";
 import { MappingTreeComponent } from "./mapping.tree.component";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { Team } from "../../../../shared/model/team.data";
@@ -29,7 +29,7 @@ describe("mapping.tree.component.ts", () => {
     let target: ComponentFixture<MappingTreeComponent>;
     // let data$: Subject<{ initiative: Initiative, datasetId: string }> = new Subject<{ initiative: Initiative, datasetId: string }>();
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             providers: [
                 {

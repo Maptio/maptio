@@ -1,5 +1,5 @@
 import { environment } from "../../config/environment";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FooterComponent } from "./footer.component";
 import { NO_ERRORS_SCHEMA } from "@angular/core"
 
@@ -8,7 +8,7 @@ describe("footer.component.ts", () => {
     let component: FooterComponent;
     let target: ComponentFixture<FooterComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [FooterComponent],

@@ -1,4 +1,4 @@
-import { TestBed, async, inject } from "@angular/core/testing";
+import { TestBed, inject, waitForAsync } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
 import { IntercomModule } from "ng-intercom";
@@ -59,7 +59,7 @@ describe("team.resolver.ts", () => {
         });
     });
 
-    it("resolves when all datasets and teams load", async(inject([TeamComponentResolver, DatasetFactory, TeamFactory], (target: TeamComponentResolver, datasetFactory: DatasetFactory, teamFactory: TeamFactory) => {
+    it("resolves when all datasets and teams load", waitForAsync(inject([TeamComponentResolver, DatasetFactory, TeamFactory], (target: TeamComponentResolver, datasetFactory: DatasetFactory, teamFactory: TeamFactory) => {
         let spyGetDataSet = spyOn(datasetFactory, "get").and.callFake(() => {
             return Promise.resolve([
                 new DataSet({ datasetId: "1", tags: [], initiative: new Initiative({ name: `One`, team_id: `team_id` }) }),

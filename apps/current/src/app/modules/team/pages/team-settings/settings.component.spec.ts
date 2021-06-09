@@ -4,7 +4,7 @@ import { SharedModule } from "./../../../../shared/shared.module";
 import { Permissions } from "./../../../../shared/model/permission.data";
 import { Auth } from "../../../../core/authentication/auth.service";
 import { ActivatedRouteSnapshot, ActivatedRoute, UrlSegment, ParamMap, Params, Data, Route } from "@angular/router";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { TeamSettingsComponent } from "./settings.component";
 import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { NO_ERRORS_SCHEMA, Type } from "@angular/core";
@@ -55,7 +55,7 @@ describe("settings.component.ts", () => {
     let component: TeamSettingsComponent;
     let target: ComponentFixture<TeamSettingsComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [TeamSettingsComponent],
@@ -112,7 +112,7 @@ describe("settings.component.ts", () => {
     });
 
     describe("save", () => {
-        it("should do nothing if form is unvalid", async(() => {
+        it("should do nothing if form is unvalid", waitForAsync(() => {
             component.teamSettingsForm.setValue({
                 name: "s",
                 authority: "King",
@@ -126,7 +126,7 @@ describe("settings.component.ts", () => {
             expect(mockTeamFactory.upsert).not.toHaveBeenCalled();
         }));
 
-        xit("should save team when form is valid and update view when it succeeds", async(() => {
+        xit("should save team when form is valid and update view when it succeeds", waitForAsync(() => {
             component.teamSettingsForm.setValue({
                 name: "More than 2 letters",
                 authority: "King",
@@ -150,7 +150,7 @@ describe("settings.component.ts", () => {
 
         }));
 
-        xit("should save team when form is valid and update view when it fails", async(() => {
+        xit("should save team when form is valid and update view when it fails", waitForAsync(() => {
             component.teamSettingsForm.setValue({
                 name: "More than 2 letters",
                 authority: "King",

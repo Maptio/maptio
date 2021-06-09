@@ -1,5 +1,5 @@
 import { ProfilePage } from "./profile.page";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { Subject } from "rxjs";
 import { User } from "../../../../shared/model/user.data";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
@@ -26,7 +26,7 @@ describe("profile.page.ts", () => {
     let target: ComponentFixture<ProfilePage>;
     let user$: Subject<User> = new Subject<User>();
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [ProfilePage],
@@ -85,7 +85,7 @@ describe("profile.page.ts", () => {
     })
 
     describe("updatePicture", () => {
-        it("should update profile picture", async(() => {
+        it("should update profile picture", waitForAsync(() => {
             component.user = new User({ user_id: "some_new_id" });
 
 
@@ -107,7 +107,7 @@ describe("profile.page.ts", () => {
                 })
         }));
 
-        it("should display error messgae when update profile picture fails", async(() => {
+        it("should display error messgae when update profile picture fails", waitForAsync(() => {
             component.user = new User({ user_id: "some_new_id" });
 
 
@@ -129,7 +129,7 @@ describe("profile.page.ts", () => {
                 })
         }));
 
-        it("should display error messgae when update profile picture fails", async(() => {
+        it("should display error messgae when update profile picture fails", waitForAsync(() => {
             component.user = new User({ user_id: "some_new_id" });
 
 
@@ -154,7 +154,7 @@ describe("profile.page.ts", () => {
     })
 
     describe("save", () => {
-        it("should do nothing if form is invalid", async(() => {
+        it("should do nothing if form is invalid", waitForAsync(() => {
             component.accountForm.setValue({
                 firstname: "something",
                 lastname: ""
@@ -168,7 +168,7 @@ describe("profile.page.ts", () => {
             expect(spy).not.toHaveBeenCalled();
         }));
 
-        it("should display correct confirmation messages  when update user profile succeed", async(() => {
+        it("should display correct confirmation messages  when update user profile succeed", waitForAsync(() => {
 
             component.user = new User({ user_id: "some_new_id" });
 
@@ -196,7 +196,7 @@ describe("profile.page.ts", () => {
                 })
         }));
 
-        it("should display correct error messages when update user profile fails", async(() => {
+        it("should display correct error messages when update user profile fails", waitForAsync(() => {
             component.user = new User({ user_id: "some_new_id" });
 
             component.accountForm.setValue({
@@ -225,7 +225,7 @@ describe("profile.page.ts", () => {
                 })
         }));
 
-        it("should display correct confirmation messages  when sync user profile fails ", async(() => {
+        it("should display correct confirmation messages  when sync user profile fails ", waitForAsync(() => {
             component.user = new User({ user_id: "some_new_id" });
 
             component.accountForm.setValue({

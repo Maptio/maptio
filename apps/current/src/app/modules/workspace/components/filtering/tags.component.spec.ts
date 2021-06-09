@@ -1,5 +1,5 @@
 import { FilterTagsComponent } from "./tags.component";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
@@ -13,7 +13,7 @@ describe("tags.component.ts", () => {
     let component: FilterTagsComponent;
     let target: ComponentFixture<FilterTagsComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [FilterTagsComponent],

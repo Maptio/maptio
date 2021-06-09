@@ -1,7 +1,7 @@
 
 import {of as observableOf,  Subject, Observable } from 'rxjs';
 import { TeamListComponent } from "./team-list.component";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { User } from "../../../../shared/model/user.data";
 import { PermissionsDirective } from "../../../../shared/directives/permission.directive";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
@@ -32,7 +32,7 @@ describe("team-list.component.ts", () => {
     let target: ComponentFixture<TeamListComponent>;
     let user$: Subject<User> = new Subject<User>();
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [TeamListComponent, PermissionsDirective],

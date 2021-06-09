@@ -15,7 +15,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { ActivatedRoute, Router, NavigationStart } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { LoginComponent } from "./login.page";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { Auth } from "../../../../core/authentication/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
@@ -36,7 +36,7 @@ describe("login.component.ts", () => {
   let target: ComponentFixture<LoginComponent>;
 
   beforeEach(
-    async(() => {
+    waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [LoginComponent],
         schemas: [NO_ERRORS_SCHEMA],
@@ -115,7 +115,7 @@ describe("login.component.ts", () => {
 
     it(
       "should login user when login form is valid and user exists",
-      async(() => {
+      waitForAsync(() => {
         component.loginForm.setValue({
           email: "someone@company.com",
           password: "secret"
@@ -151,7 +151,7 @@ describe("login.component.ts", () => {
 
     it(
       "should not login user when login form is valid and user does not exists",
-      async(() => {
+      waitForAsync(() => {
         component.loginForm.setValue({
           email: "someone@company.com",
           password: "secret"
@@ -193,7 +193,7 @@ describe("login.component.ts", () => {
   describe(`activateAccount`, () => {
     it(
       `should do nothing when activate form is invalid`,
-      async(() => {
+      waitForAsync(() => {
         component.activateForm.setValue({
           firstname: "",
           lastname: "",
@@ -210,7 +210,7 @@ describe("login.component.ts", () => {
 
     it(
       `should display error message when activate form is valid but token is missing`,
-      async(() => {
+      waitForAsync(() => {
         component.activateForm.setValue({
           firstname: "Huey",
           lastname: "Freeman",
@@ -237,7 +237,7 @@ describe("login.component.ts", () => {
 
     it(
       `should activate account when activate form is valid and token is present`,
-      async(() => {
+      waitForAsync(() => {
         component.activateForm.setValue({
           firstname: "Huey",
           lastname: "Freeman",

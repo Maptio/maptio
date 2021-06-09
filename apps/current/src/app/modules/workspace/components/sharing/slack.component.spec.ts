@@ -1,5 +1,5 @@
 import { ShareSlackComponent } from "./slack.component";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA, SimpleChange } from "@angular/core";
 import { Team } from "../../../../shared/model/team.data";
 import { SlackIntegration } from "../../../../shared/model/integrations.data";
@@ -9,7 +9,7 @@ describe("slack.component.ts", () => {
     let component: ShareSlackComponent;
     let target: ComponentFixture<ShareSlackComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [ShareSlackComponent],
             schemas: [NO_ERRORS_SCHEMA]

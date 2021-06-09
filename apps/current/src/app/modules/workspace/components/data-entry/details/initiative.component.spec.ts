@@ -1,7 +1,7 @@
 
 import {of as observableOf,  Observable } from 'rxjs';
 import { InitiativeComponent } from "./initiative.component";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { Initiative } from "../../../../../shared/model/initiative.data";
 import { RouterTestingModule } from "@angular/router/testing";
 import { TeamFactory } from "../../../../../core/http/team/team.factory";
@@ -31,7 +31,7 @@ describe("initiative.component.ts", () => {
     let target: ComponentFixture<InitiativeComponent>;
     let inputNode: Initiative;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [RouterTestingModule, AnalyticsModule, SharedModule.forRoot(), WorkspaceModule, CoreModule ],
             declarations: [],

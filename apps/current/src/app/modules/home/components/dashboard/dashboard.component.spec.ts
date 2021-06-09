@@ -1,5 +1,5 @@
 import { DashboardComponent } from "./dashboard.component";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { Subject } from "rxjs";
 import { User } from "../../../../shared/model/user.data";
 import { DataSet } from "../../../../shared/model/dataset.data";
@@ -27,7 +27,7 @@ describe("dashboard.component.ts", () => {
     let user$: Subject<User> = new Subject<User>();
     let datasets$: Subject<DataSet[]> = new Subject<DataSet[]>();
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             imports : [ RouterTestingModule, AnalyticsModule, SharedModule.forRoot(), CoreModule],

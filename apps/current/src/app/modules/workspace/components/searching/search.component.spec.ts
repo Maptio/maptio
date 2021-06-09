@@ -1,5 +1,5 @@
 import { SearchComponent, SearchResultType } from "./search.component";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
@@ -13,7 +13,7 @@ describe("search.component.ts", () => {
     let component: SearchComponent;
     let target: ComponentFixture<SearchComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [SearchComponent],
@@ -108,7 +108,7 @@ describe("search.component.ts", () => {
     });
 
     describe("Search", () => {
-        it("calls correct dependencies", async(() => {
+        it("calls correct dependencies", waitForAsync(() => {
 
             let spyObj = {
                 debounceTime : jest.fn().mockReturnThis(),

@@ -5,7 +5,7 @@ import { AuthHttp } from "angular2-jwt";
 import { BaseRequestOptions, Response } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
 import { Http, RequestMethod, Headers, Request } from "@angular/http";
-import { inject, TestBed, async } from "@angular/core/testing";
+import { inject, TestBed, waitForAsync } from "@angular/core/testing";
 import { DataSet } from "../../model/dataset.data";
 import { Team } from "../../model/team.data";
 import { ExportService } from "./export.service";
@@ -71,7 +71,7 @@ describe("export.service.ts", () => {
 
     describe("getSnapshot", () => {
         it("should upload the svgString and get a image url in return ",
-            async(inject([ExportService,AuthHttp], (target: ExportService,  http: AuthHttp) => {
+            waitForAsync(inject([ExportService,AuthHttp], (target: ExportService,  http: AuthHttp) => {
                 let svg = "<svg></svg>"
                 let spy = spyOn(http, "request").and.returnValue(Observable.of(new Response({
                     status: 200,

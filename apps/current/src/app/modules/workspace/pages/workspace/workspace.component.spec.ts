@@ -6,7 +6,7 @@ import { Initiative } from "../../../../shared/model/initiative.data";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { ActivatedRoute } from "@angular/router";
 import { WorkspaceComponent } from "./workspace.component";
-import { ComponentFixture, TestBed, async } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core"
 import { ErrorService } from "../../../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
@@ -53,7 +53,7 @@ describe("workspace.component.ts", () => {
     let component: WorkspaceComponent;
     let target: ComponentFixture<WorkspaceComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
 
         TestBed.configureTestingModule({
@@ -150,7 +150,7 @@ describe("workspace.component.ts", () => {
         });
 
         describe("openDetails", () => {
-            xit("should call correct dependencies and keep building panel opened", async(() => {
+            xit("should call correct dependencies and keep building panel opened", waitForAsync(() => {
                 component.dataset = new DataSet({ initiative: new Initiative({ id: 1, name: "Name", children: [new Initiative({ id: 2, name: "opening" })] }) });
                 component.team = new Team({ team_id: "1", name: "Team" });
 
@@ -162,7 +162,7 @@ describe("workspace.component.ts", () => {
 
             }));
 
-            xit("should call correct dependencies and keep building panel closed", async(() => {
+            xit("should call correct dependencies and keep building panel closed", waitForAsync(() => {
                 component.dataset = new DataSet({ initiative: new Initiative({ id: 1, name: "Name", children: [new Initiative({ id: 2, name: "opening" })] }) });
                 component.team = new Team({ team_id: "1", name: "Team" });
 

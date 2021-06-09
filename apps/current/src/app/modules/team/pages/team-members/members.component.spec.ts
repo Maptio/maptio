@@ -2,7 +2,7 @@
 import {of as observableOf,  Observable } from 'rxjs';
 import { SharedModule } from './../../../../shared/shared.module';
 import { NO_ERRORS_SCHEMA, Type } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { BaseRequestOptions, Http } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
 import { ActivatedRoute, ActivatedRouteSnapshot, Data, ParamMap, Params, Route, UrlSegment } from "@angular/router";
@@ -60,7 +60,7 @@ describe("members.component.ts", () => {
     let component: TeamMembersComponent;
     let target: ComponentFixture<TeamMembersComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [TeamMembersComponent],
             schemas: [NO_ERRORS_SCHEMA],
@@ -119,7 +119,7 @@ describe("members.component.ts", () => {
     });
 
     describe("getAllMembers", () => {
-        it("should retrieve members information ", async(() => {
+        it("should retrieve members information ", waitForAsync(() => {
             component.team = new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] });
 
             jest.spyOn(target.debugElement.injector.get(UserFactory), "getUsers").mockImplementation((ids: string[]) => {
@@ -140,7 +140,7 @@ describe("members.component.ts", () => {
 
         }));
 
-        it("should retrieve members information when user retrieval fails", async(() => {
+        it("should retrieve members information when user retrieval fails", waitForAsync(() => {
             component.team = new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] });
 
             jest.spyOn(target.debugElement.injector.get(UserFactory), "getUsers").mockImplementation((ids: string[]) => {
@@ -161,7 +161,7 @@ describe("members.component.ts", () => {
 
         }));
 
-        xit("should retrieve members information when invitation status fails ", async(() => {
+        xit("should retrieve members information when invitation status fails ", waitForAsync(() => {
             component.team = new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] });
 
             spyOn(target.debugElement.injector.get(UserService), "getUsersInfo").and.returnValue((users: User[]) => {
@@ -177,7 +177,7 @@ describe("members.component.ts", () => {
 
         }));
 
-        xit("should retrieve members information when activation pending status fails ", async(() => {
+        xit("should retrieve members information when activation pending status fails ", waitForAsync(() => {
             component.team = new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] });
 
             spyOn(target.debugElement.injector.get(UserService), "getUsersInfo").and.returnValue((users: User[]) => {
@@ -196,7 +196,7 @@ describe("members.component.ts", () => {
 
 
     describe("delete", () => {
-        it("should remote user,  update team and refresh page when there is more than one member left", async(() => {
+        it("should remote user,  update team and refresh page when there is more than one member left", waitForAsync(() => {
             component.team = new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] });
             let user = new User({ user_id: "2" })
 
@@ -211,7 +211,7 @@ describe("members.component.ts", () => {
             })
         }));
 
-        it("should not remove member when there is  only one member left", async(() => {
+        it("should not remove member when there is  only one member left", waitForAsync(() => {
             component.team = new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" })] });
             let user = new User({ user_id: "1" })
 

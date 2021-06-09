@@ -1,5 +1,5 @@
 import { ChangePasswordComponent } from "./change-password.page";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { AuthHttp } from "angular2-jwt";
@@ -18,7 +18,7 @@ describe("change-password.component.ts", () => {
     let component: ChangePasswordComponent;
     let target: ComponentFixture<ChangePasswordComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [ChangePasswordComponent],
@@ -68,7 +68,7 @@ describe("change-password.component.ts", () => {
         expect(spy).not.toHaveBeenCalled();
     });
 
-    it("should diplay error message if user has pending activation", async(() => {
+    it("should diplay error message if user has pending activation", waitForAsync(() => {
 
         component.changePasswordForm.setValue({
             email: "someone@else.com"
@@ -90,7 +90,7 @@ describe("change-password.component.ts", () => {
 
     }));
 
-    it("should chnage password and display confirmation message if email is not pending activation", async(() => {
+    it("should chnage password and display confirmation message if email is not pending activation", waitForAsync(() => {
 
         component.changePasswordForm.setValue({
             email: "someone@else.com"
