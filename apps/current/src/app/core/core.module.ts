@@ -80,7 +80,6 @@ import { OnboardingComponent } from '../shared/components/onboarding/onboarding.
         DeviceDetectorService
 
     ],
-    entryComponents : [InstructionsComponent, OnboardingComponent]
 })
 export class CoreModule {
     constructor(breadcrumbsConfig: BreadcrumbsConfig) {

@@ -65,7 +65,6 @@ export function markedOptionsFactory(): MarkedOptions {
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         { provide: APP_BASE_HREF, useValue: '/' }
     ],
-    entryComponents: [AppComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
