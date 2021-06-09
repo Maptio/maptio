@@ -24,7 +24,7 @@ import { UserFactory } from './http/user/user.factory';
 // import { AuthHttp } from 'angular2-jwt';
 // import { authHttpServiceFactory } from '../shared/services/auth/auth.module';
 import { BreadcrumbsModule, Breadcrumb, BreadcrumbsConfig } from '@exalif/ngx-breadcrumbs';
-import { DeviceDetectorModule, DeviceDetectorService } from 'ngx-device-detector';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { LoaderComponent } from '../shared/components/loading/loader.component';
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
@@ -49,7 +49,6 @@ import { OnboardingComponent } from '../shared/components/onboarding/onboarding.
         HttpClientModule,
         OnboardingModule,
         BreadcrumbsModule.forRoot(),
-        DeviceDetectorModule.forRoot(),
         NgProgressModule,
         NgProgressRouterModule,
     ],
@@ -57,7 +56,6 @@ import { OnboardingComponent } from '../shared/components/onboarding/onboarding.
         HeaderComponent,
         FooterComponent,
         LoaderComponent,
-        DeviceDetectorModule,
         OnboardingComponent
     ],
     providers: [
