@@ -36,7 +36,7 @@
     "@cloudinary/angular-5.x": "^1.0.0",
     "@exalif/ngx-breadcrumbs": "^9.2.0",
     "@fortawesome/fontawesome-free": "^5.7.0",
-    "@ng-bootstrap/ng-bootstrap": "^6.2.0",
+    "@ng-bootstrap/ng-bootstrap": "^9.1.2",
     "@ngx-progressbar/core": "^5.3.2",
     "@ngx-progressbar/http": "^5.3.2",
     "@ngx-progressbar/router": "^5.3.2",
