@@ -85,7 +85,7 @@
     "ng-intercom": "^8.0.2",
     "ng2-file-upload": "^1.2.1",
     "ngx-color": "^6.1.0",
-    "ngx-device-detector": "^1.4.1",
+    "ngx-device-detector": "^2.0.3",
     "ngx-markdown": "^10.1.1",
     "null-loader": "^0.1.1",
     "path": "^0.12.7",
