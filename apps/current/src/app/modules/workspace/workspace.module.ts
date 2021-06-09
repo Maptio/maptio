@@ -34,7 +34,7 @@ import { EllipsisPipe } from "../../shared/pipes/ellipsis.pipe";
 import { PersonalCardComponent } from "./components/summary/tab/card.component";
 import { RoleHoldersInInitiativeComponent } from "./components/summary/tab/role-holders-in-initiative.component";
 import { SlackService } from "./components/sharing/slack.service";
-import { NgbTooltipModule, NgbTypeaheadModule, NgbPopoverModule, NgbTabsetModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbTooltipModule, NgbTypeaheadModule, NgbPopoverModule } from "@ng-bootstrap/ng-bootstrap";
 import { ColorPickerComponent } from "../../shared/components/color-picker/color-picker.component";
 import { PermissionsModule } from "../../shared/permissions.module";
 import { DataService } from "./services/data.service";
@@ -78,7 +78,6 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
         NgbTooltipModule,
         NgbTypeaheadModule,
         NgbPopoverModule,
-        NgbTabsetModule,
         ColorHueModule,
         PermissionsModule
     ],
