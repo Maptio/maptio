@@ -11,7 +11,7 @@ import { Http, BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
 import { Router, NavigationStart } from "@angular/router";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { TestBed, async, ComponentFixture } from "@angular/core/testing";
+import { TestBed, ComponentFixture, waitForAsync } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MappingNetworkComponent } from "./mapping.network.component";
 
@@ -27,7 +27,7 @@ describe("mapping.network.component.ts", () => {
     let component: MappingNetworkComponent;
     let target: ComponentFixture<MappingNetworkComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             providers: [
                 {

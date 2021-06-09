@@ -1,7 +1,7 @@
 
 import {of as observableOf,  Observable } from 'rxjs';
 import { TeamComponent } from "./team.component";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
 import { SharedModule } from "../../../../shared/shared.module";
@@ -20,7 +20,7 @@ describe("team.component.ts", () => {
     let component: TeamComponent;
     let target: ComponentFixture<TeamComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [TeamComponent],

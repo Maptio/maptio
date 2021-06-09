@@ -12,7 +12,7 @@ import { Component, ViewChild, Output, Input, ChangeDetectorRef, ChangeDetection
 import { TreeNode, TREE_ACTIONS, TreeComponent } from "@circlon/angular-tree-component";
 
 import { InitiativeNodeComponent } from "../node/initiative.node.component"
-import { NgbModal, NgbTabset, NgbTabChangeEvent } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbNav, NgbNavChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 import { LoaderService } from "../../../../../shared/components/loading/loader.service";
 import { Tag } from "../../../../../shared/model/tag.data";
 import { Role } from "../../../../../shared/model/role.data";
@@ -94,7 +94,7 @@ export class BuildingComponent implements OnDestroy {
     Permissions = Permissions;
 
     @ViewChild("tree") public tree: TreeComponent;
-    @ViewChild("tabs", { static: true }) public tabs: NgbTabset;
+    @ViewChild("nav", { static: true }) public tabs: NgbNav;
 
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
@@ -238,13 +238,6 @@ export class BuildingComponent implements OnDestroy {
         TREE_ACTIONS.MOVE_NODE(this.tree.treeModel, foundToNode, {}, { from: foundTreeNode, to: { parent: foundToNode } })
 
     }
-
-    beforeChange($event: NgbTabChangeEvent) {
-        // Keep this method !
-        // If not present, the change detection doesnt happen on ngbTabSet.select
-
-    }
-
 
     removeNode(node: Initiative) {
 

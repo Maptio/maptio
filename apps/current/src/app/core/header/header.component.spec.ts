@@ -11,7 +11,7 @@ import { Router } from "@angular/router";
 import { EmitterService } from "../services/emitter.service";
 import { UserFactory } from "../http/user/user.factory";
 import { HeaderComponent } from "./header.component";
-import { ComponentFixture, TestBed, async } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { DatasetFactory } from "../http/map/dataset.factory";
 import { ErrorService } from "../../shared/services/error/error.service";
@@ -43,7 +43,7 @@ fdescribe("header.component.ts", () => {
     let target: ComponentFixture<HeaderComponent>;
     let user$: Subject<User> = new Subject<User>();
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [],
@@ -88,7 +88,7 @@ fdescribe("header.component.ts", () => {
         EmitterService.get("currentMembers").emit([]);
     });
 
-    xit("should load user's datasets when all load", async(() => {
+    xit("should load user's datasets when all load", waitForAsync(() => {
 
         let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
         let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
@@ -131,7 +131,7 @@ fdescribe("header.component.ts", () => {
 
     }));
 
-    xit("should load user's datasets when some fail", async(() => {
+    xit("should load user's datasets when some fail", waitForAsync(() => {
         // component.ngOnInit();
         let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
         let mockTeamFactory = target.debugElement.injector.get(TeamFactory);

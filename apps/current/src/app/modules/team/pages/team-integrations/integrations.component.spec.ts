@@ -8,7 +8,7 @@ import { SharedModule } from "./../../../../shared/shared.module";
 import { Permissions } from "./../../../../shared/model/permission.data";
 import { Auth } from "../../../../core/authentication/auth.service";
 import { ActivatedRouteSnapshot, ActivatedRoute, UrlSegment, ParamMap, Params, Data, Route } from "@angular/router";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { NO_ERRORS_SCHEMA, Type } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -63,7 +63,7 @@ describe("integrations.component.ts", () => {
     let component: TeamIntegrationsComponent;
     let target: ComponentFixture<TeamIntegrationsComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [TeamIntegrationsComponent],
@@ -110,7 +110,7 @@ describe("integrations.component.ts", () => {
 
 
     describe("revoke token", () => {
-        it("calls the right dependencies", async(() => {
+        it("calls the right dependencies", waitForAsync(() => {
             component.team = new Team({
                 team_id: "id",
                 name: "Team",

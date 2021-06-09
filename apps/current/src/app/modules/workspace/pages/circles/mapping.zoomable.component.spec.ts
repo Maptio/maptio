@@ -9,7 +9,7 @@ import { Http, BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
 import { Router, NavigationStart, ActivatedRoute } from "@angular/router";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { TestBed, async, ComponentFixture } from "@angular/core/testing";
+import { TestBed, ComponentFixture, waitForAsync } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MappingZoomableComponent } from "./mapping.zoomable.component";
 import { NgProgress } from "@ngx-progressbar/core";
@@ -26,7 +26,7 @@ describe("mapping.zoomable.component.ts", () => {
     let component: MappingZoomableComponent;
     let target: ComponentFixture<MappingZoomableComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             providers: [
                 {

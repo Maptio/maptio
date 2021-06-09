@@ -10,7 +10,7 @@ import { NO_ERRORS_SCHEMA, Type } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Team } from "./../../../../shared/model/team.data";
 import { User } from "./../../../../shared/model/user.data";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { TeamImportComponent } from "./import.component";
 import { ActivatedRouteSnapshot, ActivatedRoute, UrlSegment, ParamMap, Params, Data, Route } from "@angular/router";
 import { SharedModule } from "../../../../shared/shared.module";
@@ -55,7 +55,7 @@ describe("import.component.ts", () => {
     let component: TeamImportComponent;
     let target: ComponentFixture<TeamImportComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
 
         TestBed.configureTestingModule({
             declarations: [TeamImportComponent],
@@ -134,7 +134,7 @@ describe("import.component.ts", () => {
     });
 
     describe("importUsers", () => {
-        it("should call correct dependencies", async(() => {
+        it("should call correct dependencies", waitForAsync(() => {
             component.csvRecords = [
                 ["First name", "Lastname", "email","permission type"],
                 ["one", "Maptio", "one@maptio.com", "admin"],

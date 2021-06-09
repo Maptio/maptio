@@ -1,4 +1,4 @@
-import { TestBed, async, inject, fakeAsync } from "@angular/core/testing";
+import { TestBed, inject, fakeAsync, waitForAsync } from "@angular/core/testing";
 import { HttpModule, Response, Http, BaseRequestOptions, ResponseOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../mocks/authhttp.helper.shared";
@@ -43,7 +43,7 @@ describe("user.factory.ts", () => {
     }
 
     describe("getAll", () => {
-        it("should be rejected when no parameters", async(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
+        it("should be rejected when no parameters", waitForAsync(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
             spyOn(User, "create").and.returnValue(mockUser);
             mockUser.deserialize.mockReturnValue(new User({ name: "Deserialized" }));
 
@@ -71,7 +71,7 @@ describe("user.factory.ts", () => {
             });
         })));
 
-        it("should call correct REST API endpoint when pattern search parameter", async(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
+        it("should call correct REST API endpoint when pattern search parameter", waitForAsync(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
 
             let spyCreate = spyOn(User, "create").and.returnValue(mockUser);
             let spyDeserialize = mockUser.deserialize.mockReturnValue(new User({ name: "Deserialized" }));
@@ -106,7 +106,7 @@ describe("user.factory.ts", () => {
     });
 
     describe("getUsers", () => {
-        it("should be rejected when no parameters", async(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
+        it("should be rejected when no parameters", waitForAsync(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
 
            spyOn(User, "create").and.returnValue(mockUser);
             mockUser.deserialize.mockReturnValue(new User({ name: "Deserialized" }));
@@ -135,7 +135,7 @@ describe("user.factory.ts", () => {
             });
         })));
 
-        it("should call correct REST API endpoint when pattern search parameter", async(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
+        it("should call correct REST API endpoint when pattern search parameter", waitForAsync(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
 
             let spyCreate = spyOn(User, "create").and.returnValue(mockUser);
             let spyDeserialize = mockUser.deserialize.mockReturnValue(new User({ name: "Deserialized" }));

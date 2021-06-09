@@ -1,7 +1,7 @@
 
 import {of as observableOf,  Observable } from 'rxjs';
 import { SignupComponent } from "./signup.page";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
@@ -29,7 +29,7 @@ describe("signup.component.ts", () => {
   let component: SignupComponent;
   let target: ComponentFixture<SignupComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SignupComponent],
       schemas: [NO_ERRORS_SCHEMA],
@@ -93,7 +93,7 @@ describe("signup.component.ts", () => {
   });
 
   describe("createAccount", () => {
-    it("doesnt do anything if the form are not valid", async(() => {
+    it("doesnt do anything if the form are not valid", waitForAsync(() => {
       component.signupForm.setValue({
         firstname: "something",
         lastname: "something",
@@ -112,7 +112,7 @@ describe("signup.component.ts", () => {
       expect(spy).not.toHaveBeenCalled();
     }));
 
-    it("should display 'activate' message if user exits and activtion is pending", async(() => {
+    it("should display 'activate' message if user exits and activtion is pending", waitForAsync(() => {
       component.signupForm.setValue({
         firstname: "something",
         lastname: "something",
@@ -144,7 +144,7 @@ describe("signup.component.ts", () => {
       });
     }));
 
-    it("should display 'login' message if user exits and activtion is not pending", async(() => {
+    it("should display 'login' message if user exits and activtion is not pending", waitForAsync(() => {
       component.signupForm.setValue({
         firstname: "something",
         lastname: "something",
@@ -176,7 +176,7 @@ describe("signup.component.ts", () => {
       });
     }));
 
-    it("should signup user when email doesnt exist and display confirmation message", async(() => {
+    it("should signup user when email doesnt exist and display confirmation message", waitForAsync(() => {
       component.signupForm.setValue({
         firstname: "something",
         lastname: "something",
@@ -226,7 +226,7 @@ describe("signup.component.ts", () => {
       });
     }));
 
-    it("should signup user when email doesnt exist and display error message when user can't be created", async(() => {
+    it("should signup user when email doesnt exist and display error message when user can't be created", waitForAsync(() => {
       component.signupForm.setValue({
         firstname: "something",
         lastname: "something",
@@ -269,7 +269,7 @@ describe("signup.component.ts", () => {
       });
     }));
 
-    it("should signup user when email doesnt exist and display error message when email cannot be sent", async(() => {
+    it("should signup user when email doesnt exist and display error message when email cannot be sent", waitForAsync(() => {
       component.signupForm.setValue({
         firstname: "something",
         lastname: "something",
@@ -321,7 +321,7 @@ describe("signup.component.ts", () => {
   });
 
   describe("isActivationPending", () => {
-    it("returns correct values if user doesnt exist", async(() => {
+    it("returns correct values if user doesnt exist", waitForAsync(() => {
       let mockUserService = target.debugElement.injector.get(UserService);
       let spy = spyOn(
         mockUserService,
@@ -338,7 +338,7 @@ describe("signup.component.ts", () => {
         });
     }));
 
-    it("returns correct values if user exists and activation is pending", async(() => {
+    it("returns correct values if user exists and activation is pending", waitForAsync(() => {
       let mockUserService = target.debugElement.injector.get(UserService);
       let spy = spyOn(
         mockUserService,
@@ -361,7 +361,7 @@ describe("signup.component.ts", () => {
         });
     }));
 
-    it("returns correct values if user exists and activation is pending", async(() => {
+    it("returns correct values if user exists and activation is pending", waitForAsync(() => {
       let mockUserService = target.debugElement.injector.get(UserService);
       let spy = spyOn(
         mockUserService,

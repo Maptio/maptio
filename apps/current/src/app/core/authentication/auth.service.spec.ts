@@ -1,7 +1,7 @@
 
 import {of as observableOf,  Observable } from 'rxjs';
 import { encodeTestToken } from "angular2-jwt/angular2-jwt-test-helpers";
-import { TestBed, inject, async } from "@angular/core/testing";
+import { TestBed, inject, waitForAsync } from "@angular/core/testing";
 import { AuthConfiguration } from "./auth.config";
 import { Auth } from "./auth.service";
 import { UserFactory } from "../http/user/user.factory";
@@ -186,7 +186,7 @@ describe("auth.service.ts", () => {
     });
 
     describe("getUserInfo", () => {
-        it("should return user info", async(inject([Auth, AuthConfiguration, MockBackend], (target: Auth, configuration: AuthConfiguration, mockBackend: MockBackend) => {
+        it("should return user info", waitForAsync(inject([Auth, AuthConfiguration, MockBackend], (target: Auth, configuration: AuthConfiguration, mockBackend: MockBackend) => {
             const mockResponse = { user_id: "FOUND_ID" };
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
@@ -215,7 +215,7 @@ describe("auth.service.ts", () => {
     });
 
     describe("getUser", () => {
-        it("should make calls to build user when profile is in localStorage and return user", async(inject([Auth, Http, AuthConfiguration, MockBackend, UserFactory, DatasetFactory, UserRoleService], (target: Auth, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend, userFactory: UserFactory, datasetFactory: DatasetFactory, permissionsService: UserRoleService) => {
+        it("should make calls to build user when profile is in localStorage and return user", waitForAsync(inject([Auth, Http, AuthConfiguration, MockBackend, UserFactory, DatasetFactory, UserRoleService], (target: Auth, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend, userFactory: UserFactory, datasetFactory: DatasetFactory, permissionsService: UserRoleService) => {
             spyOn(localStorage, "getItem").and.returnValue(`{ "user_id": "ID" }`);
             let spyGetUserInfo = spyOn(target, "getUserInfo").and.returnValue(Promise.resolve(new User({ user_id: "ID", name: "Jane Doe" })))
             let spyGetUserDb = spyOn(userFactory, "get").and.returnValue(Promise.resolve(new User({ user_id: "ID", name: "Jane Doe", teams: ["t1", "t2", "t3"], shortid: "short" })))
@@ -235,7 +235,7 @@ describe("auth.service.ts", () => {
             })
         })));
 
-        it("should do nothing when profile is in localStorage and return undefined", async(inject([Auth, Http, AuthConfiguration, MockBackend, UserFactory, DatasetFactory], (target: Auth, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend, userFactory: UserFactory, datasetFactory: DatasetFactory) => {
+        it("should do nothing when profile is in localStorage and return undefined", waitForAsync(inject([Auth, Http, AuthConfiguration, MockBackend, UserFactory, DatasetFactory], (target: Auth, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend, userFactory: UserFactory, datasetFactory: DatasetFactory) => {
             spyOn(localStorage, "getItem").and.returnValue(undefined);
             spyOn(target, "getUserInfo").and.returnValue(Promise.resolve(new User({ user_id: "ID", name: "Jane Doe" })))
             spyOn(userFactory, "get").and.returnValue(Promise.resolve(new User({ user_id: "ID", name: "Jane Doe", teams: ["t1", "t2", "t3"], shortid: "short" })))

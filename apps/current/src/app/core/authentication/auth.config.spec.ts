@@ -1,4 +1,4 @@
-import { TestBed, inject, async } from "@angular/core/testing";
+import { TestBed, inject, waitForAsync } from "@angular/core/testing";
 import { AuthConfiguration } from "./auth.config";
 import {
   Http,
@@ -45,7 +45,7 @@ describe("auth.config.ts", () => {
     }
   ));
 
-  it("should retrieve access token when it is not in localStorage", async(
+  it("should retrieve access token when it is not in localStorage", waitForAsync(
     inject(
       [AuthConfiguration, Http, MockBackend],
       (target: AuthConfiguration, http: Http, mockBackend: MockBackend) => {
@@ -86,7 +86,7 @@ describe("auth.config.ts", () => {
   ));
 
   // TODO : mock localStorage properly
-  xit("should get access token when it is in localStorage", async(
+  xit("should get access token when it is in localStorage", waitForAsync(
     inject(
       [AuthConfiguration, Http, MockBackend],
       (target: AuthConfiguration, http: Http, mockBackend: MockBackend) => {

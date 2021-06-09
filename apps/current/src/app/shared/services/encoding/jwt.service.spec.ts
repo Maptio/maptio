@@ -1,5 +1,5 @@
 import { Http, BaseRequestOptions, RequestMethod, ResponseOptions, Response } from "@angular/http";
-import { TestBed, inject, async } from "@angular/core/testing";
+import { TestBed, inject, waitForAsync } from "@angular/core/testing";
 import { JwtEncoder } from "./jwt.service";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 
@@ -22,7 +22,7 @@ describe("jwt.service.ts", () => {
         });
     })
 
-    it("encodes", async(inject([JwtEncoder, Http, MockBackend], (target: JwtEncoder, http: Http, mockBackend: MockBackend) => {
+    it("encodes", waitForAsync(inject([JwtEncoder, Http, MockBackend], (target: JwtEncoder, http: Http, mockBackend: MockBackend) => {
         const mockResponse = { token: "abcdefghijklmn" };
 
         mockBackend.connections.subscribe((connection: MockConnection) => {
@@ -43,7 +43,7 @@ describe("jwt.service.ts", () => {
         })
     })))
 
-    it("decodes", async(inject([JwtEncoder, Http, MockBackend], (target: JwtEncoder, http: Http, mockBackend: MockBackend) => {
+    it("decodes", waitForAsync(inject([JwtEncoder, Http, MockBackend], (target: JwtEncoder, http: Http, mockBackend: MockBackend) => {
         const mockResponse = { data: "some randow data" };
 
         mockBackend.connections.subscribe((connection: MockConnection) => {

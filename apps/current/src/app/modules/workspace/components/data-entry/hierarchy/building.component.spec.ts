@@ -1,7 +1,7 @@
 
 import {of as observableOf,  Observable } from 'rxjs';
 import { AnalyticsModule } from '../../../../../core/analytics.module';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Auth } from '../../../../../core/authentication/auth.service';
 import { AuthHttp } from 'angular2-jwt';
 import { authHttpServiceFactoryTesting } from '../../../../../core/mocks/authhttp.helper.shared';
@@ -37,7 +37,7 @@ describe("building.component.ts", () => {
     let component: BuildingComponent;
     let target: ComponentFixture<BuildingComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [RouterTestingModule, AnalyticsModule, CoreModule, SharedModule.forRoot(), WorkspaceModule],
             declarations: [],
@@ -93,7 +93,7 @@ describe("building.component.ts", () => {
 
 
     describe("Loading data", () => {
-        xit("shoud loads data,  initializes tree and saveChanges", async(() => {
+        xit("shoud loads data,  initializes tree and saveChanges", waitForAsync(() => {
             let mockDataService = target.debugElement.injector.get(DatasetFactory);
             let mockUserFactory = target.debugElement.injector.get(UserService);
 
@@ -145,7 +145,7 @@ describe("building.component.ts", () => {
 
         }));
 
-        xit("shoud loads data,  initializes tree,  saveChanges and open node if provided", async(() => {
+        xit("shoud loads data,  initializes tree,  saveChanges and open node if provided", waitForAsync(() => {
             let mockDataService = target.debugElement.injector.get(DatasetFactory);
             let mockUserFactory = target.debugElement.injector.get(UserService);
 

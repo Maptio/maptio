@@ -1,7 +1,7 @@
 
 import {of as observableOf,  Subject, Observable } from 'rxjs';
 import { PersonalSummaryComponent } from "./personal.component";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { User } from "../../../../../shared/model/user.data";
 import { Params } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -18,7 +18,7 @@ describe("personal.component.ts", () => {
     let component: PersonalSummaryComponent;
     let target: ComponentFixture<PersonalSummaryComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             providers: [
 

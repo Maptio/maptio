@@ -43,12 +43,6 @@ import { MapSettingsService, MapSettings } from "../../services/map-settings.ser
   selector: "mapping",
   templateUrl: "./mapping.component.html",
   styleUrls: ["./mapping.component.css"],
-  entryComponents: [
-    MappingTreeComponent,
-    MappingNetworkComponent,
-    MappingSummaryComponent,
-    MappingZoomableComponent
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MappingComponent {

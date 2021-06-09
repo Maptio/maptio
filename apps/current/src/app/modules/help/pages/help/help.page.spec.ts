@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { DebugElement } from "@angular/core"
 import { By } from "@angular/platform-browser";
 import { HelpComponent } from "./help.page";
@@ -14,7 +14,7 @@ describe("help.component.ts", () => {
     let de: DebugElement;
     let el: HTMLElement;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [RouterTestingModule, CoreModule, SharedModule.forRoot(), AnalyticsModule],
             declarations: [HelpComponent]
