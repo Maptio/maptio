@@ -103,7 +103,7 @@
     "slug": "^0.9.4",
     "subsink": "^1.0.2",
     "tslib": "^2.0.0",
-    "zone.js": "0.11.4"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/architect": ">= 0.900 < 0.1200",
