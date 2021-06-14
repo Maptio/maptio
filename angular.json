@@ -48,8 +48,31 @@
             "tsConfig": "apps/maptio/tsconfig.app.json",
             "aot": true,
             "assets": ["apps/maptio/src/favicon.ico", "apps/maptio/src/assets"],
-            "styles": ["apps/maptio/src/styles.scss"],
-            "scripts": []
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "apps/maptio/src/assets/styles/vendor-google-fonts.css",
+              "apps/maptio/src/assets/styles/vendor-font-awesome.css",
+              "apps/maptio/src/assets/styles/custom/animations.css",
+              "apps/maptio/src/assets/styles/custom/global.css",
+              "apps/maptio/src/assets/styles/custom/forms.css",
+              "apps/maptio/src/assets/styles/custom/angular-tree-component.css",
+              "apps/maptio/src/assets/styles/custom/tooltip.css",
+              "apps/maptio/src/assets/styles/custom/tags.css",
+              "apps/maptio/src/assets/styles/custom/markdown.css",
+              "apps/maptio/src/assets/styles/custom/progress-bar.css",
+              "apps/maptio/src/assets/styles/custom/ribbon.css",
+              "apps/maptio/src/assets/styles/custom/popover.css",
+              "apps/maptio/src/assets/styles/custom/color-picker.css",
+              "apps/maptio/src/assets/styles/custom/maps.css",
+              "apps/maptio/src/assets/styles/custom/breadcrumb.css",
+              "apps/maptio/src/assets/styles/custom/typeahead.css",
+              "apps/maptio/src/styles.scss"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
           },
           "configurations": {
             "staging": {
@@ -111,7 +134,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "maptio:build"
+            "browserTarget": "maptio:build",
+            "proxyConfig": "apps/maptio/src/proxy.conf.json"
           },
           "configurations": {
             "production": {
