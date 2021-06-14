@@ -31,6 +31,9 @@
     "@angular/platform-browser-dynamic": "^11.2.14",
     "@angular/platform-server": "^11.2.14",
     "@angular/router": "^11.2.14",
+
+
+
     "@auth0/angular-jwt": "^4.2.0",
     "@circlon/angular-tree-component": "^9.0.3",
     "@cloudinary/angular-5.x": "^1.0.0",
