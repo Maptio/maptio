@@ -1,13 +1,18 @@
 {
   "implicitDependencies": {
     "angular.json": "*",
-    "package.json": { "dependencies": "*", "devDependencies": "*" },
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
     "tsconfig.base.json": "*",
     "tslint.json": "*",
     ".eslintrc.json": "*",
     "nx.json": "*"
   },
-  "affected": { "defaultBase": "master" },
+  "affected": {
+    "defaultBase": "master"
+  },
   "npmScope": "maptio",
   "tasksRunnerOptions": {
     "default": {
@@ -21,10 +26,22 @@
     }
   },
   "projects": {
-    "maptio": { "tags": [] },
-    "maptio-e2e": { "tags": [], "implicitDependencies": ["maptio"] },
-    "maptio-server": { "tags": [] },
-    "new-map-ux": { "tags": [] },
-    "new-map-ux-e2e": { "tags": [], "implicitDependencies": ["new-map-ux"] }
+    "maptio": {
+      "tags": []
+    },
+    "maptio-e2e": {
+      "tags": [],
+      "implicitDependencies": ["maptio"]
+    },
+    "maptio-server": {
+      "tags": []
+    },
+    "new-map-ux": {
+      "tags": []
+    },
+    "new-map-ux-e2e": {
+      "tags": [],
+      "implicitDependencies": ["new-map-ux"]
+    }
   }
 }

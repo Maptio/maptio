@@ -10,7 +10,7 @@
     background-color: var(--maptio-blue) !important;
   }
 
-  /* :host /deep/ button.dropdown-item:nth-child(even) {
+  /* :host ::ng-deep button.dropdown-item:nth-child(even) {
     background: #f8f9fa;
   }
    */
