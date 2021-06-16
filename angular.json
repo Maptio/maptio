@@ -48,8 +48,31 @@
             "tsConfig": "apps/maptio/tsconfig.app.json",
             "aot": true,
             "assets": ["apps/maptio/src/favicon.ico", "apps/maptio/src/assets"],
-            "styles": ["apps/maptio/src/styles.scss"],
-            "scripts": []
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "apps/maptio/src/assets/styles/vendor-google-fonts.css",
+              "apps/maptio/src/assets/styles/vendor-font-awesome.css",
+              "apps/maptio/src/assets/styles/custom/animations.css",
+              "apps/maptio/src/assets/styles/custom/global.css",
+              "apps/maptio/src/assets/styles/custom/forms.css",
+              "apps/maptio/src/assets/styles/custom/angular-tree-component.css",
+              "apps/maptio/src/assets/styles/custom/tooltip.css",
+              "apps/maptio/src/assets/styles/custom/tags.css",
+              "apps/maptio/src/assets/styles/custom/markdown.css",
+              "apps/maptio/src/assets/styles/custom/progress-bar.css",
+              "apps/maptio/src/assets/styles/custom/ribbon.css",
+              "apps/maptio/src/assets/styles/custom/popover.css",
+              "apps/maptio/src/assets/styles/custom/color-picker.css",
+              "apps/maptio/src/assets/styles/custom/maps.css",
+              "apps/maptio/src/assets/styles/custom/breadcrumb.css",
+              "apps/maptio/src/assets/styles/custom/typeahead.css",
+              "apps/maptio/src/styles.scss"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
           },
           "configurations": {
             "staging": {
@@ -111,7 +134,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "maptio:build"
+            "browserTarget": "maptio:build",
+            "proxyConfig": "apps/maptio/src/proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -229,6 +253,120 @@
           "options": {
             "jestConfig": "apps/maptio-server/jest.config.js",
             "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "new-map-ux": {
+      "projectType": "application",
+      "root": "apps/new-map-ux",
+      "sourceRoot": "apps/new-map-ux/src",
+      "prefix": "maptio",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/new-map-ux",
+            "index": "apps/new-map-ux/src/index.html",
+            "main": "apps/new-map-ux/src/main.ts",
+            "polyfills": "apps/new-map-ux/src/polyfills.ts",
+            "tsConfig": "apps/new-map-ux/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/new-map-ux/src/favicon.ico",
+              "apps/new-map-ux/src/assets"
+            ],
+            "styles": ["apps/new-map-ux/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/new-map-ux/src/environments/environment.ts",
+                  "with": "apps/new-map-ux/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "new-map-ux:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "new-map-ux:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "new-map-ux:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/new-map-ux/src/**/*.ts",
+              "apps/new-map-ux/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/new-map-ux"],
+          "options": {
+            "jestConfig": "apps/new-map-ux/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "new-map-ux-e2e": {
+      "root": "apps/new-map-ux-e2e",
+      "sourceRoot": "apps/new-map-ux-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/new-map-ux-e2e/cypress.json",
+            "tsConfig": "apps/new-map-ux-e2e/tsconfig.e2e.json",
+            "devServerTarget": "new-map-ux:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "new-map-ux:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/new-map-ux-e2e/**/*.{js,ts}"]
           }
         }
       }

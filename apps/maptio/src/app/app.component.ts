@@ -1,10 +1,74 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from "@angular/core";
+import { Router} from "@angular/router";
+
+import {of as observableOf, interval as observableInterval,  Subscription } from 'rxjs';
+import { filter, mergeMap, timeInterval } from 'rxjs/operators';
+
+import { Intercom } from 'ng-intercom';
+import { DeviceDetectorService } from 'ngx-device-detector';
+
+import { Auth } from "./core/authentication/auth.service";
+import { environment } from "./config/environment";
+import { LoaderService } from "./shared/components/loading/loader.service";
+
 
 @Component({
-  selector: 'maptio-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  selector: "maptio-app",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class AppComponent {
-  title = 'maptio';
+
+  public isHome: boolean;
+  public isMap: boolean;
+
+  public navigationStartSubscription: Subscription;
+  public navigationOtherSubscription: Subscription;
+  public checkTokenSubscription: Subscription;
+
+  constructor(
+    public auth: Auth,
+    private router: Router,
+    public intercom: Intercom,
+    private deviceService: DeviceDetectorService,
+    private cd: ChangeDetectorRef,
+    public loader: LoaderService,
+  ) {
+
+  }
+
+  ngOnInit() {
+    this.loader.init();
+
+    this.checkTokenSubscription = observableInterval(environment.CHECK_TOKEN_EXPIRATION_INTERVAL_IN_MINUTES * 60 * 1000).pipe(
+      timeInterval(),
+      mergeMap(() => { return observableOf(this.auth.allAuthenticated()) }),
+      filter(isExpired => !isExpired),)
+      .subscribe((isExpired: boolean) => {
+        this.router.navigateByUrl("/logout")
+      });
+
+      this.intercom.boot({ app_id: environment.INTERCOM_APP_ID });
+
+
+    window.onresize = (e: UIEvent) => {
+      this.isMobile();
+      this.cd.markForCheck();
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.checkTokenSubscription) this.checkTokenSubscription.unsubscribe();
+  }
+
+  isMobile() {
+    return this.deviceService.isMobile() || window.innerWidth < 500;
+  }
+
 }
