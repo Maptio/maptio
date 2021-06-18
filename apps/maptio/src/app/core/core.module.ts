@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from "@angular/common/http";
 import { RouterModule } from '@angular/router';
 
+import { JwtModule } from '@auth0/angular-jwt';
+
 import { httpInterceptorProviders } from './interceptors';
 
 // Unorganised
@@ -20,9 +22,6 @@ import { WorkspaceGuard } from './guards/workspace.guard';
 import { DatasetFactory } from './http/map/dataset.factory';
 import { TeamFactory } from './http/team/team.factory';
 import { UserFactory } from './http/user/user.factory';
-// AUTHTODO:
-// import { AuthHttp } from 'angular2-jwt';
-// import { authHttpServiceFactory } from '../shared/services/auth/auth.module';
 import { BreadcrumbsModule, Breadcrumb, BreadcrumbsConfig } from '@exalif/ngx-breadcrumbs';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { LoaderComponent } from '../shared/components/loading/loader.component';
@@ -33,6 +32,9 @@ import { OnboardingModule } from '../shared/onboarding.module';
 import { InstructionsComponent } from '../shared/components/instructions/instructions.component';
 import { OnboardingComponent } from '../shared/components/onboarding/onboarding.component';
 
+export function tokenGetter(): string {
+  return localStorage.getItem("maptio_api_token");
+}
 
 @NgModule({
     declarations: [
@@ -47,6 +49,12 @@ import { OnboardingComponent } from '../shared/components/onboarding/onboarding.
         CommonModule,
         RouterModule,
         HttpClientModule,
+        JwtModule.forRoot({
+          config: {
+            tokenGetter: tokenGetter,
+            allowedDomains: [],
+          },
+        }),
         OnboardingModule,
         BreadcrumbsModule.forRoot(),
         NgProgressModule,
@@ -70,12 +78,6 @@ import { OnboardingComponent } from '../shared/components/onboarding/onboarding.
         TeamFactory,
         UserFactory,
         httpInterceptorProviders,
-        // AUTHTODO:
-        // {
-        //     provide: AuthHttp,
-        //     useFactory: authHttpServiceFactory,
-        //     deps: [Http, RequestOptions]
-        // },
         MappingSummaryBreadcrumbs,
         DeviceDetectorService
 

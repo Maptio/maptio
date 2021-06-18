@@ -3,9 +3,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
 import helmet from 'helmet';
-// AUTHTODO:
-// import jwt from 'express-jwt';
-// import jwksRsa from 'jwks-rsa';
+import jwt from 'express-jwt';
+import jwksRsa from 'jwks-rsa';
 import apicache from 'apicache';
 import sslRedirect from 'heroku-ssl-redirect';
 import compression from 'compression';
@@ -27,45 +26,32 @@ const port = process.env.PORT || DEFAULT_PORT;
 // Security
 //
 // https://auth0.com/blog/node-js-and-typescript-tutorial-secure-an-express-api/
-// AUTHTODO: Bring back checking the token!
-// const jwtCheck = jwt({
-//   secret: jwksRsa.expressJwtSecret({
-//     cache: true,
-//     rateLimit: true,
-//     jwksRequestsPerMinute: 5,
-//     jwksUri: "https://login.maptio.com/.well-known/jwks.json"
-//   }),
+const jwtCheck = jwt({
+  secret: jwksRsa.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: "https://login.maptio.com/.well-known/jwks.json"
+  }),
 
-//   audience: 'https://app.maptio.com/api/v1',
-//   issuer: "https://login.maptio.com/",
-//   algorithms: ['RS256'],
-//   requestProperty: 'token'
-// });
-const jwtCheck = (req, res, next) => {
-  console.warn('Authentication has been disabled, please re-enable before using in production.');
-  next();
-}
+  audience: 'https://app.maptio.com/api/v1',
+  issuer: "https://login.maptio.com/",
+  algorithms: ['RS256'],
+  requestProperty: 'token'
+});
 
-
-// AUTHTODO:
-// function checkscopes(scopes) {
-//   return function (req, res, next) {
-//     const token = req.token;
-//     const userScopes = token.scope.split(' ');
-
-//     for (let i = 0; i < userScopes.length; i++) {
-//       for (let j = 0; j < scopes.length; j++) {
-//         if (scopes[j] === userScopes[i]) return next();
-//       }
-//     }
-
-//     return res.status(401).send(`Insufficient scopes - I need ${scopes}, you got ${userScopes}`);
-//   }
-// }
 function checkscopes(scopes) {
   return function (req, res, next) {
-    console.warn('Checking scopes has been disabled, please re-enable before using in production.');
-    next();
+    const token = req.token;
+    const userScopes = token.scope.split(' ');
+
+    for (let i = 0; i < userScopes.length; i++) {
+      for (let j = 0; j < scopes.length; j++) {
+        if (scopes[j] === userScopes[i]) return next();
+      }
+    }
+
+    return res.status(401).send(`Insufficient scopes - I need ${scopes}, you got ${userScopes}`);
   }
 }
 

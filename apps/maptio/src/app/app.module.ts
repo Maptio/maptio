@@ -1,13 +1,15 @@
-import { Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF } from "@angular/common";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
+
+import { MarkdownModule, MarkedOptions, MarkedRenderer } from "ngx-markdown";
+
 import { AppComponent } from "./app.component";
 import { CoreModule } from "./core/core.module";
-import { AppRoutingModule } from "./app.routing";
 import { AnalyticsModule } from "./core/analytics.module";
 import { SharedModule } from "./shared/shared.module";
-import { MarkdownModule, MarkedOptions, MarkedRenderer } from "ngx-markdown";
+import { AppRoutingModule } from "./app.routing";
 
 
 export function markedOptionsFactory(): MarkedOptions {
@@ -63,7 +65,7 @@ export function markedOptionsFactory(): MarkedOptions {
         // BrowserAnimationsModule,
         Location,
         { provide: LocationStrategy, useClass: PathLocationStrategy },
-        { provide: APP_BASE_HREF, useValue: '/' }
+        { provide: APP_BASE_HREF, useValue: '/' },
     ],
     bootstrap: [AppComponent]
 })

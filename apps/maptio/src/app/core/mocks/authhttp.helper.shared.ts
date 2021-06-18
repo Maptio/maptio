@@ -1,4 +1,4 @@
-// AUTHTODO:
+// TESTSTODO:
 // import { Router } from "@angular/router";
 // import { encodeTestToken } from "angular2-jwt/angular2-jwt-test-helpers";
 // import { RequestOptions, Http } from "@angular/http";
