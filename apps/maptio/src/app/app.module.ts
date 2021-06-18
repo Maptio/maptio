@@ -3,7 +3,6 @@ import { Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF } from 
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 
-import { JwtHelperService, JWT_OPTIONS  } from '@auth0/angular-jwt';
 import { MarkdownModule, MarkedOptions, MarkedRenderer } from "ngx-markdown";
 
 import { AppComponent } from "./app.component";
@@ -67,8 +66,6 @@ export function markedOptionsFactory(): MarkedOptions {
         Location,
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         { provide: APP_BASE_HREF, useValue: '/' },
-        { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
-        JwtHelperService
     ],
     bootstrap: [AppComponent]
 })
