@@ -2,7 +2,10 @@ import { Injectable, isDevMode } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+
+import { JwtHelperService } from '@auth0/angular-jwt';
+
 import { TeamFactory } from "./../http/team/team.factory";
 import {
   UserRoleService,
@@ -17,8 +20,6 @@ import { DatasetFactory } from "../http/map/dataset.factory";
 import { UserFactory } from "../http/user/user.factory";
 import { User } from "../../shared/model/user.data";
 import { EmitterService } from "../services/emitter.service";
-// AUTHTODO:
-// import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
 import { uniq } from "lodash-es";
 import * as LogRocket from "logrocket";
 import { Intercom } from "ng-intercom";
@@ -41,6 +42,7 @@ export class Auth {
 
   constructor(
     private http: HttpClient,
+    private jwtHelper: JwtHelperService,
     private configuration: AuthConfiguration,
     private datasetFactory: DatasetFactory,
     private userFactory: UserFactory,
@@ -89,36 +91,38 @@ export class Auth {
   }
 
   /**
+   * Checks for presence of token and that token hasn't expired.
+   * For use with the @CanActivate router decorator and NgIf
+   *
+   * Copied and adjusted from: https://github.com/auth0/angular2-jwt/blob/0.2.3/angular2-jwt.ts
+   * while patching to use latest versions of auth libraries.
+   */
+  private tokenNotExpired(tokenName: string): boolean {
+    const token: string = localStorage.getItem(tokenName);
+    return token != null && !this.jwtHelper.isTokenExpired(token);
+  }
+
+  /**
    * Checks if Auth0 Management API is still valid
    */
   public authenticationProviderAuthenticated() {
-    // AUTHTODO:
-    // return tokenNotExpired("access_token");
-    // For now, return true as long as we have a token
-    return !!localStorage.getItem("profile");
+    return this.tokenNotExpired("access_token");
   }
 
   /**
    * Checks if Maptio API is still valid
    */
   public internalApiAuthenticated() {
-    // AUTHTODO:
-    // return tokenNotExpired("maptio_api_token");
-    // For now, return true as long as we have a token
-    return !!localStorage.getItem("profile");
+    return this.tokenNotExpired("maptio_api_token");
   }
 
   /**
    * Checks is ID token is still valid
    */
   public authenticated(): boolean {
-    // AUTHTODO:
-    // return tokenNotExpired("id_token");
-    // For now, return true as long as we have a token
-    return !!localStorage.getItem("profile");
+    return this.tokenNotExpired("id_token");
   }
 
-  // AUTHTODO:
   // TODO: This gets called hundreds of times every second and it's not an entirely trivial
   // computation, would be good to refactor this!!!
   public allAuthenticated() {
