@@ -41,7 +41,7 @@ const routes: Routes = [
                         component: TeamImportComponent,
                         canActivate: [PermissionGuard],
                         data: {
-                            permissions: [Permissions.canInviteUser], breadcrumbs: true, text: "Import"
+                            permissions: [Permissions.canInviteUser.valueOf()], breadcrumbs: true, text: "Import"
                         }
                     },
                     { path: "maps", component: TeamMapsComponent, data: { breadcrumbs: true, text: "Maps" } },
