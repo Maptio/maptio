@@ -2,23 +2,27 @@
   <button
     class="btn btn-light toolbar select-view circles text-dark p-1 d-flex flex-column justify-content-end align-items-center"
     #rlaCircles="routerLinkActive" [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/circles">
-    <span class="d-none d-md-block icon-text-label">Circles </span>
+    <span class="d-none d-md-block icon-text-label">Circles</span>
   </button>
+
+  <button
+    class="btn btn-light toolbar select-view circles text-dark p-1 d-flex flex-column justify-content-end align-items-center"
+    #rlaCircles="routerLinkActive" [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/expanded">
+    <span class="d-none d-md-block icon-text-label">Expanded</span>
+  </button>
+
   <!-- <button
     class="btn btn-light toolbar select-view tree text-dark p-1 d-flex flex-column justify-content-end align-items-center"
     routerLink="/map/{{datasetId}}/{{slug}}/tree" [routerLinkActive]="['active']">
     <span class="d-none d-md-block icon-text-label">Tree</span>
   </button> -->
+
   <button
     class="btn btn-light toolbar select-view network text-dark p-1 d-flex flex-column justify-content-end align-items-center"
     #rlaNetwork="routerLinkActive" [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/network">
     <span class="d-none d-md-block icon-text-label">Network</span>
   </button>
-
-
 </ng-template>
-
-
 
 
 <div class="d-flex rounded-right justify-content-center h-100 position-relative bg-white overflow-x-hidden"
@@ -174,10 +178,10 @@
       <i class="fa fa-plus"></i>
     </button>
   </ng-template>
-  
+
   to create your first circle
 </div>
 <div *ngIf="isEmptyMap" class="px-4 d-flex flex-column position-absolute center-center d-md-none w-100 text-center">
-    <b>Map editing is disable on mobile.</b> 
+    <b>Map editing is disable on mobile.</b>
     <span class="text-muted">Open Maptio on a desktop to start adding circles</span>
   </div>
