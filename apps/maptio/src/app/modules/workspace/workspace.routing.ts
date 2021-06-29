@@ -6,6 +6,7 @@ import { AccessGuard } from '../../core/guards/access.guard';
 import { BillingGuard } from '../../core/guards/billing.guard';
 import { WorkspaceComponentResolver } from './pages/workspace/workspace.resolver';
 import { MappingZoomableComponent } from './pages/circles/mapping.zoomable.component';
+import { MappingCirclesGradualRevealComponent } from "./pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component";
 import { WorkspaceGuard } from '../../core/guards/workspace.guard';
 import { MappingTreeComponent } from './pages/tree/mapping.tree.component';
 import { MappingNetworkComponent } from './pages/network/mapping.network.component';
@@ -25,7 +26,7 @@ const routes: Routes = [{
     },
     children: [
         { path: "", redirectTo: "circles", pathMatch: "full" },
-        { path: "circles", component: MappingZoomableComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Circles" } },
+        { path: "circles", component: MappingCirclesGradualRevealComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Circles" } },
         { path: "expanded", component: MappingZoomableComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Expanded Circles" } },
         { path: "tree", component: MappingTreeComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Tree" } },
         { path: "network", component: MappingNetworkComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Network" } },

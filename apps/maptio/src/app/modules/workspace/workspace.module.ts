@@ -12,6 +12,7 @@ import { WorkspaceComponentResolver } from "./pages/workspace/workspace.resolver
 import { MappingNetworkComponent } from "./pages/network/mapping.network.component";
 import { MappingTreeComponent } from "./pages/tree/mapping.tree.component";
 import { MappingZoomableComponent } from "./pages/circles/mapping.zoomable.component";
+import { MappingCirclesGradualRevealComponent } from "./pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component";
 import { MappingComponent } from "./components/canvas/mapping.component";
 import { InitiativeComponent } from "./components/data-entry/details/initiative.component";
 import { InitiativeNodeComponent } from "./components/data-entry/node/initiative.node.component";
@@ -96,7 +97,11 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
         InitiativeHelperRoleInputComponent,
         InitiativeVacanciesInputComponent,
         InitiativeHelperPrivilegeComponent,
-        MappingComponent, MappingZoomableComponent, MappingTreeComponent, MappingNetworkComponent,
+        MappingComponent,
+        MappingZoomableComponent,
+        MappingCirclesGradualRevealComponent,
+        MappingTreeComponent,
+        MappingNetworkComponent,
         MappingSummaryComponent,
         PeopleSummaryComponent,
         PersonalSummaryComponent,
