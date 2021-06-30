@@ -1,3 +1,16 @@
+import { SatPopoverModule } from '@ncstate/sat-popover';
+
+import { MappingComponent } from "./components/canvas/mapping.component";
+import { MappingNetworkComponent } from "./pages/network/mapping.network.component";
+import { MappingTreeComponent } from "./pages/tree/mapping.tree.component";
+import { MappingZoomableComponent } from "./pages/circles/mapping.zoomable.component";
+import { MappingCirclesGradualRevealComponent } from "./pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component";
+import { SvgZoomPanComponent } from './pages/circles-gradual-reveal/svg-zoom-pan/svg-zoom-pan.component';
+import { CircleComponent } from './pages/circles-gradual-reveal/circle/circle.component';
+import { CircleInfoComponent } from './pages/circles-gradual-reveal/circle-info/circle-info.component';
+import { HelperAvatarComponent } from './pages/circles-gradual-reveal/helper-avatar/helper-avatar.component';
+
+
 import { ColorHueModule } from 'ngx-color/hue'; // <color-hue-picker></color-hue-picker>
 import { ShareSlackComponent } from "./components/sharing/slack.component";
 import { SharedModule } from "../../shared/shared.module";
@@ -9,11 +22,6 @@ import { TreeModule } from "@circlon/angular-tree-component";
 import { WorkspaceGuard } from "../../core/guards/workspace.guard";
 import { WorkspaceComponent } from "./pages/workspace/workspace.component";
 import { WorkspaceComponentResolver } from "./pages/workspace/workspace.resolver";
-import { MappingNetworkComponent } from "./pages/network/mapping.network.component";
-import { MappingTreeComponent } from "./pages/tree/mapping.tree.component";
-import { MappingZoomableComponent } from "./pages/circles/mapping.zoomable.component";
-import { MappingCirclesGradualRevealComponent } from "./pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component";
-import { MappingComponent } from "./components/canvas/mapping.component";
 import { InitiativeComponent } from "./components/data-entry/details/initiative.component";
 import { InitiativeNodeComponent } from "./components/data-entry/node/initiative.node.component";
 import { BuildingComponent } from "./components/data-entry/hierarchy/building.component";
@@ -80,6 +88,7 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
         NgbTooltipModule,
         NgbTypeaheadModule,
         NgbPopoverModule,
+        SatPopoverModule,
         ColorHueModule,
         PermissionsModule
     ],
@@ -100,6 +109,10 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
         MappingComponent,
         MappingZoomableComponent,
         MappingCirclesGradualRevealComponent,
+        SvgZoomPanComponent,
+        CircleComponent,
+        CircleInfoComponent,
+        HelperAvatarComponent,
         MappingTreeComponent,
         MappingNetworkComponent,
         MappingSummaryComponent,

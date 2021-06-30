@@ -1,1 +1,9 @@
-<svg id="map"></svg>
+<maptio-svg-zoom-pan
+  (click)="onBackdropClick()"
+>
+  <svg:g
+    maptioCircle
+    *ngFor="let primaryCircle of rootCircle?.children"
+    [circle]="primaryCircle"
+  ></svg:g>
+</maptio-svg-zoom-pan>
