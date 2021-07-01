@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from "@angular/core";
-import {hsl, HSLColor} from "d3-color";
+import { hsl, HSLColor } from "d3-color";
 import { scaleLinear, ScaleLinear } from "d3-scale";
-import { interpolateRgb, interpolateNumber } from "d3-interpolate";
+import { interpolateRgb, interpolateHcl, interpolateNumber } from "d3-interpolate";
 
 
 
@@ -42,6 +42,18 @@ export class ColorService implements OnInit {
       .domain([-1, depth])
       .interpolate(interpolateRgb)
       .range([this.BACK_COLOR, seed]);
+  }
+
+  getColorRangeNew(depth: number, seedColor: string): ScaleLinear<HSLColor, string> {
+    const seedColorHsl = hsl(seedColor);
+    const endColorHsl = hsl(seedColor);
+    endColorHsl.l = .25;
+    endColorHsl.h = 0;
+
+    return scaleLinear<HSLColor, string>()
+      .domain([0, depth])
+      .interpolate(interpolateHcl)
+      .range([seedColorHsl, endColorHsl]);
   }
 
   getFontSizeRange(

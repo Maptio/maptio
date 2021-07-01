@@ -44,11 +44,6 @@ export class CircleComponent implements OnInit {
     this.infoSize = this.defaultRadius * 2 / Math.sqrt(2);
     this.infoX = -this.defaultRadius / Math.sqrt(2);
     this.infoY = -this.defaultRadius / Math.sqrt(2);
-
-    console.log('from circle!');
-    console.log(this.x);
-    console.log(this.y);
-    console.log(this.scale);
   }
 
   onClick($event: MouseEvent) {

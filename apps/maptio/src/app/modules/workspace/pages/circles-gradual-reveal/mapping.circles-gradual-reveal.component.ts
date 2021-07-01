@@ -15,9 +15,6 @@ import { Observable, Subject } from "rxjs";
 import { SubSink } from 'subsink';
 
 import { hierarchy, pack } from 'd3-hierarchy';
-import { hsl, HSLColor } from 'd3-color';
-import { scaleLinear, ScaleLinear } from 'd3-scale';
-import { interpolateHcl } from 'd3-interpolate';
 
 import { URIService } from "../../../../shared/services/uri/uri.service";
 import { DataService } from "../../services/data.service";
@@ -126,6 +123,7 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
   rootCircle: InitiativeNode | undefined = undefined;
   primaryCircles: InitiativeNode[] = [];
 
+  seedColor: string;
 
 
 
@@ -165,11 +163,10 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
           this.tagsState = complexData[2];
           this.slug = data.getSlug();
           this.loaderService.show();
-          console.log('Data from gradual reveal...')
-          console.log(data);
           // this.update(data, complexData[1], this.counter === 0)
 
           this.dataset = data;
+          this.seedColor = complexData[1];
 
           this.prepareLayout();
           this.identifyCircleTypes();
@@ -248,18 +245,6 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
     });
   }
 
-  getColorRange(depth: number, seedColor: string): ScaleLinear<HSLColor, string> {
-    const seedColorHsl = hsl(seedColor);
-    const endColorHsl = hsl(seedColor);
-    endColorHsl.l = .25;
-    endColorHsl.h = 0;
-
-    return scaleLinear<HSLColor, HSLColor>()
-      .domain([0, depth])
-      .interpolate(interpolateHcl)
-      .range([seedColorHsl, endColorHsl]);
-  }
-
   calculateMaxDepth() {
     let maxDepth = 0;
     this.rootCircle?.eachAfter((node): void => {
@@ -270,7 +255,7 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
 
   assignColorsToCircles() {
     const maxDepth = this.calculateMaxDepth();
-    const colorRange = this.getColorRange(maxDepth, '#3599af');
+    const colorRange = this.colorService.getColorRangeNew(maxDepth, this.seedColor);
 
     this.circles.forEach((circle) => {
       const isPrimaryCircle = this.primaryCircles.includes(circle);
