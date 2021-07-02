@@ -1,0 +1,88 @@
+use('maptio');
+
+teamId = '5ac4a285797de70014518d2d'; // Greaterthan
+newRoles = [
+  {
+    "shortid": "rkpoam8cu",
+    "title": "Associate"
+  },
+  {
+    "shortid": "H1l9TXIc_",
+    "title": "Partner"
+  },
+  {
+    "shortid": "rkW3yN-ju",
+    "title": "Biz Dev Team Lead"
+  },
+  {
+    "shortid": "r1pT14Wiu",
+    "title": "Biz Dev Team Contributor"
+  },
+  {
+    "shortid": "HJJyg4-su",
+    "title": "Communications Team Lead"
+  },
+  {
+    "shortid": "Hk2fZsdj_",
+    "title": "Core Budget Steward"
+  },
+  {
+    "shortid": "HJE4Zo_ju",
+    "title": "Ops & Bookkeeping Liason"
+  },
+  {
+    "shortid": "H1lcBpdsu",
+    "title": "Ecosystem call host"
+  },
+  {
+    "shortid": "BkPTrTdj_",
+    "title": "Transition navigator",
+    "description": "Onboarding, offboarding and changes between membership levels"
+  },
+  {
+    "shortid": "BkBRB6_sO",
+    "title": "Offboarding navigator"
+  },
+  {
+    "shortid": "SyCCIaui_",
+    "title": "Transformative justice processor"
+  },
+  {
+    "shortid": "BkeGDT_jd",
+    "title": "Member call host"
+  },
+  {
+    "shortid": "B1tq_Tui_",
+    "title": "Healthchecker",
+    "description": "e.g. wellbeing surveys etc"
+  },
+  {
+    "shortid": "SyZ0uTdiO",
+    "title": "Co-steward of team"
+  },
+  {
+    "title": "Bridger to Comms work stream",
+    "description": "Bridge and creating connections with comms work stream, especially around building the top of the funnel",
+    "shortid": "a8W8IiJmd"
+  },
+  {
+    "title": "Closer",
+    "description": "Support others with proposal making and closing conversations with potential customers, when help is proactively requested.",
+    "shortid": "dd6OSHI_0"
+  },
+  {
+    "title": "Biz dev scrum steward",
+    "description": "Making sure the weekly biz dev scrum session happens and that members of GT are informed about it as a space they can come to for discussing leads and getting feedback on proposals.",
+    "shortid": "aHRjU1j6V"
+  },
+  {
+    "title": "Pipeline Groomer",
+    "description": "Ensuring we have an overview of the health of our pipeline, and that our Airtable is up to date.",
+    "shortid": "VslvIosPE"
+  }
+];
+
+db.teams.update(
+   { _id: ObjectId(teamId) },
+   { $set: { roles: newRoles } }
+)
