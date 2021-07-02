@@ -1,4 +1,4 @@
-.info {
+.circle-info {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6,7 +6,7 @@
   height: 100%;
 }
 
-.name {
+.circle-info__name {
   align-self: flex-start;
   margin-bottom: 1rem;
   font-family: 'Open Sans', sans-serif;
@@ -40,11 +40,11 @@
   }
 }
 
-.tags-list {
+.circle-info__tags-list {
   margin-bottom: 1.5rem;
 }
 
-.tag {
+.circle-info__tag {
   padding: 0.5rem 1.5rem;
   border-radius: 1rem;
   font-family: 'Open Sans', sans-serif;
