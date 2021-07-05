@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { InitiativeNode } from '../shared/initiative.model';
 
@@ -8,7 +8,7 @@ import { InitiativeNode } from '../shared/initiative.model';
   providedIn: 'root'
 })
 export class SvgZoomPanService {
-  zoomedInitiativeNode = new Subject<InitiativeNode | undefined>();
+  zoomedInitiativeNode = new BehaviorSubject<InitiativeNode | undefined>(undefined);
 
   zoomToInitiativeNode(node: InitiativeNode | undefined) {
     this.zoomedInitiativeNode.next(node);

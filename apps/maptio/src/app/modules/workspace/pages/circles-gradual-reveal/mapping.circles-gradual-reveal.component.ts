@@ -180,9 +180,12 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
           } else {
             // Trigger this method not just when a circle is selected but also any time data is updated
             this.adjustPrimaryCircleSelectionBasedOnSelectedCircle();
-            this.circleMapService.markCircleAsSelected(this.circleMapService.selectedCircle.value);
-            this.circleMapService.markCircleAsOpened(this.circleMapService.openedCircle.value);
           }
+
+          const lastSelectedCircle = this.circleMapService.getLastSelectedCircle(this.circles);
+
+          this.circleMapService.selectCircle(lastSelectedCircle);
+          this.circleMapService.zoomToCircle(lastSelectedCircle);
 
           this.isFirstLoad = false;
           this.loaderService.hide();

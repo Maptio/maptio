@@ -59,6 +59,7 @@ export class CircleMapService {
   selectCircle(circle: InitiativeNode) {
     this.deselectSelectedCircle();
     this.markCircleAsSelected(circle);
+    this.rememberSelectedCircle(circle);
 
     this.selectedCircle.next(circle);
   }
@@ -77,6 +78,16 @@ export class CircleMapService {
   markCircleAsNotSelected(circle: InitiativeNode) {
     circle.data.isSelected = false;
     this.openedCircle.next(circle);
+  }
+
+  rememberSelectedCircle(circle: InitiativeNode) {
+    localStorage.setItem('node_id', circle.data.id.toString());
+  }
+
+  getLastSelectedCircle(circles: InitiativeNode[]) {
+    const lastSelectedCircleIdString = localStorage.getItem('node_id');
+    const lastSelectedCircleId = lastSelectedCircleIdString ? parseInt(lastSelectedCircleIdString) : lastSelectedCircleIdString;
+    return circles.find((circle) => circle.data.id === lastSelectedCircleId);
   }
 
   openCircle(circle: InitiativeNode) {
