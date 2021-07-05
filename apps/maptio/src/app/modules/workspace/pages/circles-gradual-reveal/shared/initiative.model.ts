@@ -2,6 +2,8 @@ import { HierarchyCircularNode } from 'd3-hierarchy';
 
 
 export interface InitiativeViewModel {
+  id: number;
+
   name: string;
   color: string; // Not in other initative
 

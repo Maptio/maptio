@@ -125,6 +125,7 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
 
   seedColor: string;
 
+  isFirstLoad = true;
 
 
   constructor(
@@ -163,7 +164,6 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
           this.tagsState = complexData[2];
           this.slug = data.getSlug();
           this.loaderService.show();
-          // this.update(data, complexData[1], this.counter === 0)
 
           this.dataset = data;
           this.seedColor = complexData[1];
@@ -171,9 +171,20 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
           this.prepareLayout();
           this.identifyCircleTypes();
           this.assignColorsToCircles();
-          this.onCircleSelectionAdjustPrimaryCircleSelection();
 
-          // this.counter += 1;
+          if(this.isFirstLoad) {
+            this.subs.sink = this.circleMapService.selectedCircle.subscribe(() => {
+              this.adjustPrimaryCircleSelectionBasedOnSelectedCircle();
+              this.toggleInfoPanelBasedOnSelectedCircle();
+            });
+          } else {
+            // Trigger this method not just when a circle is selected but also any time data is updated
+            this.adjustPrimaryCircleSelectionBasedOnSelectedCircle();
+            this.circleMapService.markCircleAsSelected(this.circleMapService.selectedCircle.value);
+            this.circleMapService.markCircleAsOpened(this.circleMapService.openedCircle.value);
+          }
+
+          this.isFirstLoad = false;
           this.loaderService.hide();
           this.analytics.eventTrack("Map", {
             action: "viewing",
@@ -190,7 +201,6 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
           }
         }
       );
-    // this.selectableTags$.subscribe(tags => this.tagsState = tags)
   }
 
   ngOnDestroy() {
@@ -269,19 +279,28 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
     });
   }
 
-  onCircleSelectionAdjustPrimaryCircleSelection() {
-    this.subs.sink = this.circleMapService.selectedCircle.subscribe((selectedCircle?: InitiativeNode) => {
-        if (selectedCircle) {
-          this.markPrimaryCirclesAsNotSelected();
+  adjustPrimaryCircleSelectionBasedOnSelectedCircle() {
+    const selectedCircle = this.circleMapService.selectedCircle.value;
 
-          if (this.primaryCircles.includes(selectedCircle)) {
-            this.circleMapService.markCircleAsSelected(selectedCircle);
-          }
-        } else {
-          this.markPrimaryCirclesAsSelected();
-        }
+    if (selectedCircle) {
+      this.markPrimaryCirclesAsNotSelected();
+
+      if (this.primaryCircles.includes(selectedCircle)) {
+        this.circleMapService.markCircleAsSelected(selectedCircle);
       }
-    );
+    } else {
+      this.markPrimaryCirclesAsSelected();
+    }
+  }
+
+  toggleInfoPanelBasedOnSelectedCircle() {
+    const selectedCircle = this.circleMapService.selectedCircle.value;
+
+    if (selectedCircle) {
+      this.showInfoPanelFor(selectedCircle);
+    } else {
+      this.hideInfoPanel();
+    }
   }
 
   markPrimaryCirclesAsSelected() {
@@ -296,9 +315,37 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
     });
   }
 
+  showInfoPanelFor(circle: InitiativeNode) {
+    this.showToolipOf$.next({ initiatives: [circle.data as unknown as Initiative], isNameOnly: false });
+  }
+
+  hideInfoPanel() {
+    this.showToolipOf$.next({ initiatives: null, isNameOnly: false });
+  }
+
   onBackdropClick() {
     this.circleMapService.onBackdropClick();
   }
+
+  // TODO: Set last opened when you open a circle and get that when you open the map
+  //       and when switching between the new map and the expanded map
+//       groups.select("circle")
+//         .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
+//           showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
+
+//           if (getLastZoomedCircle().data.id === d.data.id) {
+//             setLastZoomedCircle(root);
+//             zoom(root);
+//             localStorage.setItem("node_id", null)
+
+//           } else {
+//             setLastZoomedCircle(d);
+//             localStorage.setItem("node_id", d.data.id)
+//             zoom(d, this.parentElement);
+//           }
+
+//           d3.getEvent().stopPropagation();
+//         })
 
 
   // Old code
@@ -462,25 +509,6 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
 //     if (isFirstLoad) {
 //       setLastZoomedCircle(root);
 //     }
-
-  // TODO: Open info pane on circle click
-//       groups.select("circle")
-//         .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
-//           showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
-
-//           if (getLastZoomedCircle().data.id === d.data.id) {
-//             setLastZoomedCircle(root);
-//             zoom(root);
-//             localStorage.setItem("node_id", null)
-
-//           } else {
-//             setLastZoomedCircle(d);
-//             localStorage.setItem("node_id", d.data.id)
-//             zoom(d, this.parentElement);
-//           }
-
-//           d3.getEvent().stopPropagation();
-//         })
 
   // TODO: On clicking backdrop also deselect initiative...
 //     svg

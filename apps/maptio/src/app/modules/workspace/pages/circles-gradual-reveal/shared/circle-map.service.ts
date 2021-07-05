@@ -17,7 +17,7 @@ export class CircleMapService {
   ) {}
 
   onCircleClick(circle: InitiativeNode) {
-    const isSelected = circle === this.selectedCircle.value;
+    const isSelected = this.selectedCircle.value ? circle.data.id === this.selectedCircle.value.data.id : false;
     const isOpened = circle.data.isOpened;
     const isPrimary = circle.data.isPrimary;
     const isLeaf = circle.data.isLeaf;
