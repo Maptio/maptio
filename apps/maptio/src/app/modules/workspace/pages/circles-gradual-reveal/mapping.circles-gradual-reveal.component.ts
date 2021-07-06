@@ -169,10 +169,14 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
           this.seedColor = complexData[1];
 
           this.prepareLayout();
+          this.clearCircleStates();
           this.identifyCircleTypes();
           this.assignColorsToCircles();
 
+          const lastSelectedCircle = this.circleMapService.getLastSelectedCircle(this.circles);
+
           if(this.isFirstLoad) {
+            this.circleMapService.resetZoom();
             this.subs.sink = this.circleMapService.selectedCircle.subscribe(() => {
               this.adjustPrimaryCircleSelectionBasedOnSelectedCircle();
               this.toggleInfoPanelBasedOnSelectedCircle();
@@ -182,7 +186,6 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
             this.adjustPrimaryCircleSelectionBasedOnSelectedCircle();
           }
 
-          const lastSelectedCircle = this.circleMapService.getLastSelectedCircle(this.circles);
 
           if(lastSelectedCircle) {
             this.circleMapService.selectCircle(lastSelectedCircle);
@@ -237,6 +240,16 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
       });
 
     this.circles = packInitiatives(root).descendants();
+  }
+
+  clearCircleStates() {
+    this.circles.forEach((circle) => {
+      circle.data.isSelected = false;
+      circle.data.isOpened = false;
+      circle.data.isPrimary = false;
+      circle.data.isChildOfPrimary = false;
+      circle.data.isLeaf = false;
+    });
   }
 
   identifyCircleTypes() {

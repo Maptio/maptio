@@ -87,7 +87,9 @@ export class CircleMapService {
   getLastSelectedCircle(circles: InitiativeNode[]) {
     const lastSelectedCircleIdString = localStorage.getItem('node_id');
     const lastSelectedCircleId = lastSelectedCircleIdString ? parseInt(lastSelectedCircleIdString) : lastSelectedCircleIdString;
-    return circles.find((circle) => circle.data.id === lastSelectedCircleId);
+    const lastSelectedCircle = circles.find((circle) => circle.data.id === lastSelectedCircleId);
+    this.selectedCircle.next(lastSelectedCircle);
+    return lastSelectedCircle;
   }
 
   openCircle(circle: InitiativeNode) {
@@ -109,6 +111,10 @@ export class CircleMapService {
 
   zoomToCircle(circle?: InitiativeNode) {
     this.svgZoomPanService.zoomToInitiativeNode(circle);
+  }
+
+  resetZoom() {
+    this.svgZoomPanService.zoomToInitiativeNode(undefined);
   }
 
   selectAndZoomToParentOfSelectedCircle() {
