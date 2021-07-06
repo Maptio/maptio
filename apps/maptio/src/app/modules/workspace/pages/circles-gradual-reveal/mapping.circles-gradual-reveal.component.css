@@ -1,5 +1,6 @@
 ::ng-deep svg {
     background: transparent;
+    user-select: none;
 }
 
 ::ng-deep .initiative-map.node {
@@ -93,4 +94,3 @@
     font: "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-anchor: start;
 }
-
