@@ -184,8 +184,10 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
 
           const lastSelectedCircle = this.circleMapService.getLastSelectedCircle(this.circles);
 
-          this.circleMapService.selectCircle(lastSelectedCircle);
-          this.circleMapService.zoomToCircle(lastSelectedCircle);
+          if(lastSelectedCircle) {
+            this.circleMapService.selectCircle(lastSelectedCircle);
+            this.circleMapService.zoomToCircle(lastSelectedCircle);
+          }
 
           this.isFirstLoad = false;
           this.loaderService.hide();
