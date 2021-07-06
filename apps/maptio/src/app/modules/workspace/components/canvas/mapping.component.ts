@@ -29,6 +29,7 @@ import { Intercom } from "ng-intercom";
 import { User } from "../../../../shared/model/user.data";
 import { Permissions } from "../../../../shared/model/permission.data";
 import { MappingSummaryComponent } from "../../pages/directory/summary.component";
+import { MappingCirclesGradualRevealComponent } from "../../pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component";
 import { environment } from "../../../../config/environment";
 import * as screenfull from 'screenfull';
 import { SlackService } from "../sharing/slack.service";
@@ -65,9 +66,6 @@ export class MappingComponent {
   public x: number;
   public y: number;
   public scale: number;
-  public isSettingToggled: boolean;
-  public isSearchToggled: boolean;
-  public isMapSettingsDisabled: boolean;
 
   public zoom$: Subject<number>;
   public isReset$: Subject<boolean>;
@@ -93,8 +91,13 @@ export class MappingComponent {
   public instance: IDataVisualizer;
   public settings: MapSettings;
 
-  isFiltersToggled: boolean = false;
-  isSearchDisabled: boolean = false;
+  public isSettingToggled: boolean;
+  public isSearchToggled: boolean;
+  public isFiltersToggled = false;
+  public isMapSettingsDisabled: boolean;
+  public isSearchDisabled = false;
+  public isShareDisabled = false;
+  public isZoomDisabled = false;
 
 
   @Input("tags") selectableTags: Array<SelectableTag>;
@@ -217,9 +220,13 @@ export class MappingComponent {
 
     if (component.constructor === MappingSummaryComponent) {
       this.isMapSettingsDisabled = true;
-      this.toggleEditingPanelsVisibility.emit(false)
-    }
-    else {
+      this.toggleEditingPanelsVisibility.emit(false);
+    } else if (component.constructor === MappingCirclesGradualRevealComponent) {
+      this.toggleEditingPanelsVisibility.emit(true)
+      this.isSearchDisabled = true;
+      this.isZoomDisabled = true;
+      this.isShareDisabled = true;
+    } else {
       this.isSearchDisabled = false;
       this.isMapSettingsDisabled = false;
       this.toggleEditingPanelsVisibility.emit(true)

@@ -58,7 +58,7 @@
               </button>
               <button
                 class="btn btn-light toolbar p-1 text-dark d-flex flex-column justify-content-between align-items-center"
-                [class.disabled]="isMapSettingsDisabled" (click)="isSharingToggled=!isSharingToggled"
+                [class.disabled]="isShareDisabled || isMapSettingsDisabled" (click)="isSharingToggled=!isSharingToggled"
                 data-toggle="collapse" href="#collapseSlack" role="button">
                 <i class="fab fa-slack"></i>
                 <span class="icon-text-label">Share</span>
@@ -82,19 +82,19 @@
             <div class=" btn-group-vertical my-3 d-none d-md-block">
               <button
                 class="btn btn-light toolbar text-dark p-1 d-flex flex-column justify-content-between align-items-center"
-                [class.disabled]="isMapSettingsDisabled" (click)="zoomOut()">
+                [class.disabled]="isZoomDisabled || isMapSettingsDisabled" (click)="zoomOut()">
                 <i class="fa fa-minus py-1"></i>
                 <span class="icon-text-label">Zoom out</span>
               </button>
               <button
                 class="btn btn-light toolbar text-dark p-1 d-flex flex-column justify-content-between align-items-center"
-                [class.disabled]="isMapSettingsDisabled" (click)="zoomIn()">
+                [class.disabled]="isZoomDisabled || isMapSettingsDisabled" (click)="zoomIn()">
                 <i class="fa fa-plus py-1"></i>
                 <span class="icon-text-label">Zoom in</span>
               </button>
               <button
                 class="btn btn-light toolbar text-dark p-1 d-flex flex-column justify-content-between  align-items-center"
-                [class.disabled]="isMapSettingsDisabled" (click)="resetZoom()">
+                [class.disabled]="isZoomDisabled || isMapSettingsDisabled" (click)="resetZoom()">
                 <i class="fa fa-expand-arrows-alt py-1"></i>
                 <span class="icon-text-label">Zoom fit</span>
               </button>
