@@ -51,14 +51,16 @@
               <button
                 class="btn btn-light toolbar p-1 text-dark d-flex flex-column justify-content-between align-items-center"
                 [class.disabled]="isSearchDisabled || isMapSettingsDisabled"
-                (click)="isFiltersToggled=!isFiltersToggled" data-toggle="collapse" href="#collapseFilter"
+                (click)="isFiltersToggled=!isFiltersToggled"
+                data-toggle="collapse" href="#collapseFilter"
                 role="button">
                 <i class="fa fa-filter"></i>
                 <span class="icon-text-label">Filter</span>
               </button>
               <button
                 class="btn btn-light toolbar p-1 text-dark d-flex flex-column justify-content-between align-items-center"
-                [class.disabled]="isShareDisabled || isMapSettingsDisabled" (click)="isSharingToggled=!isSharingToggled"
+                [class.disabled]="isShareDisabled || isMapSettingsDisabled"
+                (click)="isSharingToggled=!isSharingToggled"
                 data-toggle="collapse" href="#collapseSlack" role="button">
                 <i class="fab fa-slack"></i>
                 <span class="icon-text-label">Share</span>

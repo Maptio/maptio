@@ -96,8 +96,8 @@ export class MappingComponent {
   public isFiltersToggled = false;
   public isMapSettingsDisabled: boolean;
   public isSearchDisabled = false;
-  public isShareDisabled = false;
-  public isZoomDisabled = false;
+  public isShareDisabled: boolean;
+  public isZoomDisabled: boolean;
 
 
   @Input("tags") selectableTags: Array<SelectableTag>;
@@ -227,8 +227,10 @@ export class MappingComponent {
       this.isZoomDisabled = true;
       this.isShareDisabled = true;
     } else {
-      this.isSearchDisabled = false;
       this.isMapSettingsDisabled = false;
+      this.isSearchDisabled = false;
+      this.isZoomDisabled = false;
+      this.isShareDisabled = false;
       this.toggleEditingPanelsVisibility.emit(true)
     }
   }
