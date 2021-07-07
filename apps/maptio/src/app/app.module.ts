@@ -1,7 +1,6 @@
 import { NgModule } from "@angular/core";
 import { Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF } from "@angular/common";
 import { BrowserModule } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 
 import { MarkdownModule, MarkedOptions, MarkedRenderer } from "ngx-markdown";
@@ -44,7 +43,6 @@ export function markedOptionsFactory(): MarkedOptions {
     imports: [
         // angular
         BrowserModule,
-        BrowserAnimationsModule,
         // routing
         AppRoutingModule,
         // analytics
