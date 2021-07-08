@@ -43,14 +43,15 @@
             <div class="btn-group-vertical mb-3 d-none d-md-block">
               <button
                 class="btn btn-light toolbar p-1 text-dark d-flex flex-column justify-content-between align-items-center"
-                [class.disabled]="isSearchDisabled || isMapSettingsDisabled" (click)="isSearchToggled=!isSearchToggled"
+                [class.disabled]="isSearchDisabled || isMapSettingsDisabled"
+                (click)="isSearchToggled=!isSearchToggled"
                 data-toggle="collapse" href="#collapseSearch" role="button">
                 <i class="fa fa-search"></i>
                 <span class="icon-text-label">Search</span>
               </button>
               <button
                 class="btn btn-light toolbar p-1 text-dark d-flex flex-column justify-content-between align-items-center"
-                [class.disabled]="isSearchDisabled || isMapSettingsDisabled"
+                [class.disabled]="isFilterDisabled || isMapSettingsDisabled"
                 (click)="isFiltersToggled=!isFiltersToggled"
                 data-toggle="collapse" href="#collapseFilter"
                 role="button">

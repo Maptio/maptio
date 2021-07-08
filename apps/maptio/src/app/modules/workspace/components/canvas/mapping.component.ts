@@ -96,6 +96,7 @@ export class MappingComponent {
   public isFiltersToggled = false;
   public isMapSettingsDisabled: boolean;
   public isSearchDisabled = false;
+  public isFilterDisabled = false;
   public isShareDisabled: boolean;
   public isZoomDisabled: boolean;
 
@@ -222,13 +223,16 @@ export class MappingComponent {
       this.isMapSettingsDisabled = true;
       this.toggleEditingPanelsVisibility.emit(false);
     } else if (component.constructor === MappingCirclesGradualRevealComponent) {
-      this.toggleEditingPanelsVisibility.emit(true)
-      this.isSearchDisabled = true;
+      this.isMapSettingsDisabled = false;
+      this.isSearchDisabled = false;
+      this.isFilterDisabled = true;
       this.isZoomDisabled = true;
       this.isShareDisabled = true;
+      this.toggleEditingPanelsVisibility.emit(true)
     } else {
       this.isMapSettingsDisabled = false;
       this.isSearchDisabled = false;
+      this.isFilterDisabled = false;
       this.isZoomDisabled = false;
       this.isShareDisabled = false;
       this.toggleEditingPanelsVisibility.emit(true)
