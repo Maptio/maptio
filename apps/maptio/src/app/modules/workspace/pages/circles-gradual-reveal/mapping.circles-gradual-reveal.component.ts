@@ -10,7 +10,7 @@ import {
 import { Router } from "@angular/router";
 
 import { tap, combineLatest } from 'rxjs/operators';
-import { Observable, Subject } from "rxjs";
+import { Observable, Subject, partition } from "rxjs";
 
 import { SubSink } from 'subsink';
 
@@ -181,11 +181,34 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
               this.adjustPrimaryCircleSelectionBasedOnSelectedCircle();
               this.toggleInfoPanelBasedOnSelectedCircle();
             });
+
+            const [clearSearchInitiative, highlightInitiative] = partition(
+              this.zoomInitiative$,
+              node => node === null
+            );
+
+            clearSearchInitiative.subscribe(() => {
+              this.clearCircleStates();
+              this.circleMapService.deselectSelectedCircle();
+              this.toggleInfoPanelBasedOnSelectedCircle();
+              this.circleMapService.resetZoom();
+              this.cd.markForCheck();
+            });
+
+            highlightInitiative.subscribe(node => {
+              const highlightedCircle = this.circles.find((circle) => circle.data.id === node.id);
+              if (highlightedCircle) {
+                this.clearCircleStates();
+                this.circleMapService.selectCircle(highlightedCircle);
+                this.circleMapService.resetZoom();
+                this.circleMapService.zoomToCircle(highlightedCircle);
+                this.cd.markForCheck();
+              }
+            });
           } else {
             // Trigger this method not just when a circle is selected but also any time data is updated
             this.adjustPrimaryCircleSelectionBasedOnSelectedCircle();
           }
-
 
           if(lastSelectedCircle) {
             this.circleMapService.selectCircle(lastSelectedCircle);
@@ -246,9 +269,6 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
     this.circles.forEach((circle) => {
       circle.data.isSelected = false;
       circle.data.isOpened = false;
-      circle.data.isPrimary = false;
-      circle.data.isChildOfPrimary = false;
-      circle.data.isLeaf = false;
     });
   }
 
