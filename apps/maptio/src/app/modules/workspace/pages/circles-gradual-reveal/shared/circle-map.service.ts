@@ -87,8 +87,16 @@ export class CircleMapService {
   getLastSelectedCircle(circles: InitiativeNode[]) {
     const lastSelectedCircleIdString = localStorage.getItem('node_id');
     const lastSelectedCircleId = lastSelectedCircleIdString ? parseInt(lastSelectedCircleIdString) : lastSelectedCircleIdString;
-    const lastSelectedCircle = circles.find((circle) => circle.data.id === lastSelectedCircleId);
+    let lastSelectedCircle = circles.find((circle) => circle.data.id === lastSelectedCircleId);
+
+    // If the root circle was selected (e.g. in the old expanded map view by
+    // clicking "reset" in the search box), we should ignore this
+    if (lastSelectedCircle === circles[0]) {
+      lastSelectedCircle = undefined;
+    }
+
     this.selectedCircle.next(lastSelectedCircle);
+
     return lastSelectedCircle;
   }
 
@@ -128,7 +136,7 @@ export class CircleMapService {
       this.openCircle(parentCircle);
     } else {
       this.deselectSelectedCircle();
-      this.zoomToCircle(undefined);
+      this.resetZoom();
     }
   }
 }
