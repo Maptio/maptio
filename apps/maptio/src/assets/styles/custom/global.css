@@ -312,7 +312,7 @@ button.cursor-not-allowed{
 }
 
 .home-background{
-  background-image: url('/assets/images/screenshot-light.png');
+  background-image: url('/assets/images/screenshot.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position-x: right;
