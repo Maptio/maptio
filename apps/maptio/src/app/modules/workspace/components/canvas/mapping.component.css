@@ -3,8 +3,6 @@
 }
 
 
-
-
 .edit-tags .overflow {
   overflow-y: auto;
   max-height: 45vh;
@@ -47,7 +45,6 @@
 }
 
 
-
 .btn.toolbar{
   min-height: 5.75vh;
   width:3vw;
@@ -60,8 +57,7 @@
   background-position: center center;
   padding: 0;
   -webkit-transition: background-image 0.2s ease-in-out;
-transition: background-image 0.2s ease-in-out;
-
+  transition: background-image 0.2s ease-in-out;
 }
 
 .btn.select-view.tree {
@@ -76,10 +72,15 @@ transition: background-image 0.2s ease-in-out;
   background-image: url(/assets/images/network.png) ;
 }
 
+.btn.toolbar.disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
 .summary-list:before{
   content: "\f2c2";
   font-family: "Font Awesome 5 Free";
-
 }
 
 .icon-text-label{
@@ -98,5 +99,3 @@ transition: background-image 0.2s ease-in-out;
 .btn.toolbar.select-view > .icon-text-label{
   position:initial;
 }
-
-
