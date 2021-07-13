@@ -1,6 +1,11 @@
 use('maptio');
 
+userId = '5f36a95bfb8c6a0016da7e80' // Romek Goj
+teamIds = [
+  '594998ef94a981001151011c', // Maptio
+];
+
 db.users.update(
-   { _id: ObjectId('5f36a95bfb8c6a0016da7e80') },
-   { $push: { teams: { $each: ['5ac4a285797de70014518d2d'] } } }
+   { _id: ObjectId(userId) },
+   { $push: { teams: { $each: teamIds } } }
 )

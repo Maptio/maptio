@@ -12,7 +12,7 @@ db.getCollection('teams')
       * Filter
       * fieldA: value or expression
       */
-      name: 'Greaterthan'
+      name: 'Maptio'
     },
     {
       /*

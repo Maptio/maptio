@@ -1,0 +1,20 @@
+// Warning: TODO / WIP
+
+use('maptio');
+
+datasetId = '603367b38caeaa0016a75bc5';
+teamId = '59bed8e434a28352f6b9a0a8'; // Guardians of the Galaxy
+
+datasets = db.datasets.find(
+   { _id: ObjectId(datasetId) },
+);
+
+dataset = datasets[0];
+
+newObjectId = ObjectId();
+dataset['_id']['$oid'] = newObjectId;
+
+// db.users.update(
+//    { _id: ObjectId(userId) },
+//    { $push: { teams: { $each: teamIds } } }
+// )
