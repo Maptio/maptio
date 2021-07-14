@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Team } from "../../../shared/model/team.data";
 import { User } from "../../../shared/model/user.data";
 import { Observable } from "rxjs";
@@ -14,7 +14,7 @@ export class IntercomService {
     constructor(private http: HttpClient, private intercom: Intercom) {}
 
     createTeam(user: User, team: Team): Observable<boolean> {
-        return this.http.post("/api/v1/intercom/user/update", {
+        const userUpdatePayload = {
             email: user.email,
             company: {
                 company_id: team.team_id,
@@ -25,17 +25,20 @@ export class IntercomService {
                     free_trial_length: 14
                 }
             }
-        }).pipe(
-            map((response: Response) => {
+        };
+
+        return this.http.post("/api/v1/intercom/user/update", userUpdatePayload).pipe(
+            map((response: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
                 this.intercom.trackEvent("created a team", { id: team.team_id, name: team.name });
                 return response;
             }),
-            map((response: Response) => {
-                return response.status === 200
-            }),)
+            map((response: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+                return response.statusCode === 200 || response.status === 200;
+            }),
+        );
     }
 
     sendEvent(eventName:string, data : any){
         this.intercom.trackEvent(eventName, data);
- }
+  }
 }
