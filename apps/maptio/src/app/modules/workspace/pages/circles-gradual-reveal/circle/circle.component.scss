@@ -80,11 +80,13 @@ $shadow-scale-selected: 1.008;
 }
 
 .circle--state-opened > .circle__circle {
-  stroke-width: 0;
+  fill-opacity: 0.6;
+  stroke-width: $stroke-width-selected-not-hovered;
 }
 
 .circle--state-opened > .circle__shadow {
-  opacity: $shadow-opacity-default;
+  opacity: $shadow-opacity-selected-not-hovered;
+  fill-opacity: 0.6;
   transform: scale($shadow-scale-default);
 }
 
