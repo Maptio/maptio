@@ -71,7 +71,7 @@
                     <ng-container *ngFor="let dataset of datasets">
                         <ng-container *ngIf="dataset.initiative">
                             <a class="dropdown-item"
-                                routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles">
+                                routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}">
 
                                 {{dataset?.initiative.name}}
                             </a>
@@ -129,7 +129,7 @@
                 <li class="d-md-none dropdown-header px-0  text-uppercase">Maps</li>
                 <li class="nav-item d-md-none" *ngFor="let dataset of datasets | slice:0:2">
                     <a class="btn btn-link px-0"
-                        routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles">
+                        routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}">
                         {{dataset?.initiative.name}}
                     </a>
                 </li>

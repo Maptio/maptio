@@ -74,7 +74,7 @@ export class ExportService {
                         color: "#2f81b7",
                         pretext: message,
                         title: `Changes to ${initiative.name}`,
-                        title_link: `https://app.maptio.com/map/${datasetId}/${initiative.getSlug()}/circles`,
+                        title_link: `https://app.maptio.com/map/${datasetId}/${initiative.getSlug()}`,
                         image_url: imageUrl,
                         thumb_url: imageUrl,
                         footer: "Maptio",

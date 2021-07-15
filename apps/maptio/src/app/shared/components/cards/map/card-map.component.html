@@ -5,7 +5,7 @@
             <div class="d-flex justify-content-between align-items-baseline">
                 <div class="w-100">
                     <div *ngIf="!isEditing" class="lead">
-                        <a routerLink="/map/{{dataset?.datasetId}}/{{dataset?.initiative.getSlug()}}/circles"> {{dataset?.initiative.name}}</a>
+                        <a routerLink="/map/{{dataset?.datasetId}}/{{dataset?.initiative.getSlug()}}"> {{dataset?.initiative.name}}</a>
                     </div>
                     <form *ngIf="isEditing" class="form-group form-inline d-flex align-items-start" [formGroup]="form" (submit)="save()">
 
