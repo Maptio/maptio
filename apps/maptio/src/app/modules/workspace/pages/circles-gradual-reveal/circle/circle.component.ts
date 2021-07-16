@@ -67,7 +67,9 @@ export class CircleComponent implements OnInit {
    */
   onPopoverOpen() {
     const isReadable = this.scale > 0.25;
-    const isSelectedOrOpened = this.circle.data.isOpened || this.circle.data.isSelected;
+    const isSelectedOrOpened =
+      this.circle.data.isOpened
+      || (this.circle.data.isSelected && !this.circle.data.isPrimary); // Primary circles always start selected
 
     if (isReadable || isSelectedOrOpened) {
       this.popover?.close();
