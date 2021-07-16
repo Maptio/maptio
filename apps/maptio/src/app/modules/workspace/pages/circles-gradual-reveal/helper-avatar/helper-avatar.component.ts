@@ -1,5 +1,9 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { Helper } from '../shared/initiative.model';
+import { CircleMapService } from '../shared/circle-map.service';
+
 
 @Component({
   selector: 'maptio-helper-avatar',
@@ -12,6 +16,8 @@ export class HelperAvatarComponent implements OnInit {
 
   roles: string[] = [];
   showRoles = false;
+
+  constructor(private router: Router, private circleMapService: CircleMapService) {};
 
   ngOnInit(): void {
     this.helper.roles.forEach((role) => {
@@ -26,5 +32,12 @@ export class HelperAvatarComponent implements OnInit {
   onClick($event: MouseEvent) {
     // Avoid triggering click events for the circle when a helper avatar is clicked - especially important on mobile
     $event.stopPropagation();
+
+    const summaryUrlRoot = this.circleMapService.getSummaryUrlRoot();
+    if (summaryUrlRoot && this.helper.shortid) {
+      this.router.navigateByUrl(`${summaryUrlRoot}?member=${this.helper.shortid}`);
+    } else {
+      console.error('Helper does not have shortid set or unable to get directory URL');
+    }
   }
 }

@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { InitiativeNode } from './initiative.model';
 import { SvgZoomPanService } from '../svg-zoom-pan/svg-zoom-pan.service';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,9 +13,18 @@ export class CircleMapService {
   public selectedCircle = new BehaviorSubject<InitiativeNode | undefined>(undefined);
   public openedCircle = new BehaviorSubject<InitiativeNode | undefined>(undefined);
 
+  public datasetId?: string;
+  public dataset?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+
+
   constructor(
     private svgZoomPanService: SvgZoomPanService,
   ) {}
+
+  setDataset(datasetId: string, dataset: any) {
+    this.datasetId = datasetId;
+    this.dataset = dataset;
+  }
 
   onCircleClick(circle: InitiativeNode) {
     const isSelected = this.selectedCircle.value ? circle.data.id === this.selectedCircle.value.data.id : false;
@@ -138,5 +148,16 @@ export class CircleMapService {
       this.deselectSelectedCircle();
       this.resetZoom();
     }
+  }
+
+  getSummaryUrlRoot() {
+    const datasetId = this.datasetId;
+    const initiativeSlug = this.dataset ? this.dataset.getSlug() : undefined;
+
+    const summaryUrlRoot = initiativeSlug && datasetId
+      ? `/map/${datasetId}/${initiativeSlug}/directory`
+      : '';
+
+    return summaryUrlRoot;
   }
 }

@@ -24,6 +24,7 @@ export interface InitiativeViewModel {
 }
 
 export interface Helper {
+  shortid: string;
   picture: string;
   name: string;
   roles: Array<Role>;

@@ -166,6 +166,7 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
           this.loaderService.show();
 
           this.dataset = data;
+          this.circleMapService.setDataset(this.datasetId, this.dataset);
           this.seedColor = complexData[1];
 
           this.prepareLayout();
