@@ -10,6 +10,7 @@
         class="circle-info__tag"
         *ngFor="let tag of circle.data.tags"
         [style.background-color]="tag.color"
+        (click)="onTagClick($event)"
       >
         {{ tag.name }}
       </div>

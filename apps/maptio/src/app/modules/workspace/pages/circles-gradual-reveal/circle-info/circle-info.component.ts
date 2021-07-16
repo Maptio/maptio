@@ -24,4 +24,9 @@ export class CircleInfoComponent implements OnInit {
   ngOnInit(): void {
     this.fontSize = this.fontSizeInitial + this.fontSizeUnit;
   }
+
+  onTagClick($event: MouseEvent) {
+    // Avoid triggering click events for the circle when a tag avatar is clicked
+    $event.stopPropagation();
+  }
 }
