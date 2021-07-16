@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+
+import { SatPopover } from '@ncstate/sat-popover';
 
 import { CircleMapService } from '../shared/circle-map.service';
 import { InitiativeNode } from '../shared/initiative.model';
@@ -12,6 +14,8 @@ import { InitiativeNode } from '../shared/initiative.model';
 export class CircleComponent implements OnInit {
   @Input() circle!: InitiativeNode;
 
+  @ViewChild('popover') popover?: SatPopover;
+
   defaultRadius = 500;
 
   x = 0;
@@ -21,6 +25,8 @@ export class CircleComponent implements OnInit {
   infoX = 0;
   infoY = 0;
   infoSize = 0;
+
+  isPopoverHidden = true;
 
   // TODO: Move calculations into typescript code
   math = Math;
@@ -49,7 +55,29 @@ export class CircleComponent implements OnInit {
   onClick($event: MouseEvent) {
     this.circleMapService.onCircleClick(this.circle);
 
+    // Prevent popover from staying open even after a circle was clicked
+    this.popover?.close();
+
     // Avoid triggering click events for circles underneath this one
     $event.stopPropagation();
+  }
+
+  /**
+   * Close popover when circle is opened or is large enough
+   */
+  onPopoverOpen() {
+    const isReadable = this.scale > 0.25;
+    const isSelectedOrOpened = this.circle.data.isOpened || this.circle.data.isSelected;
+
+    if (isReadable || isSelectedOrOpened) {
+      this.popover?.close();
+      this.isPopoverHidden = true;
+    } else {
+      this.isPopoverHidden = false;
+    }
+  }
+
+  onPopoverClose() {
+    this.isPopoverHidden = true;
   }
 }

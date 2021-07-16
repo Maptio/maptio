@@ -161,3 +161,35 @@ $shadow-scale-selected: 1.008;
     transform: scale($info-scale-selected);
   }
 }
+
+
+.circle__popover {
+  // Styles copied from .mat-tooltip @ 11.2.8
+  $horizontal-padding: 8px;
+  $max-width: 250px;
+  $margin: 14px;
+
+  $handset-horizontal-padding: 16px;
+  $handset-margin: 24px;
+
+  border-radius: 4px;
+  margin: $margin;
+  max-width: $max-width;
+  padding-left: $horizontal-padding;
+  padding-right: $horizontal-padding;
+  text-overflow: ellipsis;
+
+  // Our overrides
+  padding: 0.5rem;
+  color: black;
+  background-color: white;
+  font-size: 1rem;
+}
+
+.circle__popover--hidden {
+  display: none;
+}
+
+.circle__popover-name {
+  font-weight: 600;
+}

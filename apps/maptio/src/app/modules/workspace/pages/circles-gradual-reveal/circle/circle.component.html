@@ -6,6 +6,8 @@
   [class.circle--type-child-of-primary]="circle.data.isChildOfPrimary"
   [class.circle--type-leaf]="circle.data.isLeaf"
   [style.transform]="'translate(' + x + '%, ' + y + '%) scale(' + scale + ')'"
+  [satPopoverAnchor]="popover"
+  [satPopoverHover]="300"
   (click)="onClick($event)"
 >
   <circle
@@ -43,4 +45,18 @@
       ></g>
     </foreignObject>
   </g>
+
 </svg:g>
+
+<sat-popover
+  #popover
+  verticalAlign="below"
+  (opened)="onPopoverOpen()"
+  (closed)="onPopoverClose()"
+>
+  <div class="circle__popover" [class.circle__popover--hidden]="isPopoverHidden">
+    <div class="circle__popover-name">
+      {{ circle.data.name }}
+    </div>
+  </div>
+</sat-popover>
