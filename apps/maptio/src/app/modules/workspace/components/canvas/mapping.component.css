@@ -68,6 +68,10 @@
   background-image: url(/assets/images/circles.svg) ;
 }
 
+.btn.select-view.circles-expanded {
+  background-image: url(/assets/images/circles-expanded.svg) ;
+}
+
 .btn.select-view.network {
   background-image: url(/assets/images/network.png) ;
 }
