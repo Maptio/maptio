@@ -45,13 +45,13 @@
 }
 
 
-.btn.toolbar{
+.btn.toolbar-button {
   min-height: 5.75vh;
-  width:3vw;
+  width: 3vw;
 }
 
 
-.btn.toolbar.select-view{
+.btn.toolbar-button.select-view{
   background-repeat:no-repeat;
   background-size: 16px 16px;
   background-position: center center;
@@ -76,11 +76,10 @@
   background-image: url(/assets/images/network.png) ;
 }
 
-.btn.toolbar.disabled {
+.btn.toolbar-button.disabled {
   opacity: 0;
   pointer-events: none;
 }
-
 
 .summary-list:before{
   content: "\f2c2";
@@ -95,11 +94,27 @@
   white-space: normal;
 }
 
-.btn.toolbar > .icon-text-label{
+.btn.toolbar-button> .icon-text-label{
   position:absolute;
   bottom:0
 }
 
-.btn.toolbar.select-view > .icon-text-label{
+.btn.toolbar-button.select-view > .icon-text-label{
   position:initial;
+}
+
+@media all and (max-height: 800px) {
+  .icon-text-label {
+    display: none !important;
+  }
+
+  .btn.toolbar-button {
+    min-height: 4vh;
+  }
+}
+
+@media all and (max-width: 1400px) {
+  .icon-text-label {
+    display: none !important;
+  }
 }

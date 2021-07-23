@@ -1,25 +1,36 @@
 <ng-template #viewsButtonGroup>
   <button
-    class="btn btn-light toolbar select-view circles text-dark p-1 d-flex flex-column justify-content-end align-items-center"
-    #rlaCircles="routerLinkActive" [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/circles">
-    <span class="d-none d-md-block icon-text-label">Circles</span>
+    class="btn btn-light toolbar-button select-view circles text-dark p-1 d-flex flex-column justify-content-end align-items-center"
+    #rlaCircles="routerLinkActive"
+    [routerLinkActive]="['active']"
+    routerLink="/map/{{datasetId}}/{{slug}}/circles"
+  >
+    <span class="toolbar-button__text d-none d-md-block icon-text-label">Circles</span>
   </button>
 
   <button
-    class="btn btn-light toolbar select-view circles-expanded text-dark p-1 d-flex flex-column justify-content-end align-items-center"
-    #rlaCircles="routerLinkActive" [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/expanded">
+    class="btn btn-light toolbar-button select-view circles-expanded text-dark p-1 d-flex flex-column justify-content-end align-items-center"
+    #rlaCircles="routerLinkActive"
+    [routerLinkActive]="['active']"
+    routerLink="/map/{{datasetId}}/{{slug}}/expanded"
+  >
     <span class="d-none d-md-block icon-text-label">Expanded</span>
   </button>
 
   <!-- <button
-    class="btn btn-light toolbar select-view tree text-dark p-1 d-flex flex-column justify-content-end align-items-center"
-    routerLink="/map/{{datasetId}}/{{slug}}/tree" [routerLinkActive]="['active']">
+    class="btn btn-light toolbar-button select-view tree text-dark p-1 d-flex flex-column justify-content-end align-items-center"
+    routerLink="/map/{{datasetId}}/{{slug}}/tree"
+    [routerLinkActive]="['active']"
+  >
     <span class="d-none d-md-block icon-text-label">Tree</span>
   </button> -->
 
   <button
-    class="btn btn-light toolbar select-view network text-dark p-1 d-flex flex-column justify-content-end align-items-center"
-    #rlaNetwork="routerLinkActive" [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/network">
+    class="btn btn-light toolbar-button select-view network text-dark p-1 d-flex flex-column justify-content-end align-items-center"
+    #rlaNetwork="routerLinkActive"
+    [routerLinkActive]="['active']"
+    routerLink="/map/{{datasetId}}/{{slug}}/network"
+  >
     <span class="d-none d-md-block icon-text-label">Network</span>
   </button>
 </ng-template>
@@ -42,7 +53,7 @@
             [class.mr-md-1]="!isFullScreen" [class.mr-md-2]="isFullScreen">
             <div class="btn-group-vertical mb-3 d-none d-md-block">
               <button
-                class="btn btn-light toolbar p-1 text-dark d-flex flex-column justify-content-between align-items-center"
+                class="btn btn-light toolbar-button p-1 text-dark d-flex flex-column justify-content-between align-items-center"
                 [class.disabled]="isSearchDisabled || isMapSettingsDisabled"
                 (click)="isSearchToggled=!isSearchToggled"
                 data-toggle="collapse" href="#collapseSearch" role="button">
@@ -50,7 +61,7 @@
                 <span class="icon-text-label">Search</span>
               </button>
               <button
-                class="btn btn-light toolbar p-1 text-dark d-flex flex-column justify-content-between align-items-center"
+                class="btn btn-light toolbar-button p-1 text-dark d-flex flex-column justify-content-between align-items-center"
                 [class.disabled]="isFilterDisabled || isMapSettingsDisabled"
                 (click)="isFiltersToggled=!isFiltersToggled"
                 data-toggle="collapse" href="#collapseFilter"
@@ -59,7 +70,7 @@
                 <span class="icon-text-label">Filter</span>
               </button>
               <button
-                class="btn btn-light toolbar p-1 text-dark d-flex flex-column justify-content-between align-items-center"
+                class="btn btn-light toolbar-button p-1 text-dark d-flex flex-column justify-content-between align-items-center"
                 [class.disabled]="isShareDisabled || isMapSettingsDisabled"
                 (click)="isSharingToggled=!isSharingToggled"
                 data-toggle="collapse" href="#collapseSlack" role="button">
@@ -72,7 +83,7 @@
             <div class="d-none d-md-block btn-group-vertical my-3">
               <ng-container *ngTemplateOutlet="viewsButtonGroup"></ng-container>
               <button
-                class="d-flex btn btn-light toolbar select-view summary-list text-dark p-1 btn-control flex-column justify-content-end align-items-center"
+                class="d-flex btn btn-light toolbar-button select-view summary-list text-dark p-1 btn-control flex-column justify-content-end align-items-center"
                 #rlaSummary="routerLinkActive" [routerLinkActive]="['active']"
                 routerLink="/map/{{datasetId}}/{{slug}}/directory">
                 <span class="d-none d-md-block icon-text-label">Directory</span>
@@ -84,25 +95,25 @@
 
             <div class=" btn-group-vertical my-3 d-none d-md-block">
               <button
-                class="btn btn-light toolbar text-dark p-1 d-flex flex-column justify-content-between align-items-center"
+                class="btn btn-light toolbar-button text-dark p-1 d-flex flex-column justify-content-between align-items-center"
                 [class.disabled]="isZoomDisabled || isMapSettingsDisabled" (click)="zoomOut()">
                 <i class="fa fa-minus py-1"></i>
                 <span class="icon-text-label">Zoom out</span>
               </button>
               <button
-                class="btn btn-light toolbar text-dark p-1 d-flex flex-column justify-content-between align-items-center"
+                class="btn btn-light toolbar-button text-dark p-1 d-flex flex-column justify-content-between align-items-center"
                 [class.disabled]="isZoomDisabled || isMapSettingsDisabled" (click)="zoomIn()">
                 <i class="fa fa-plus py-1"></i>
                 <span class="icon-text-label">Zoom in</span>
               </button>
               <button
-                class="btn btn-light toolbar text-dark p-1 d-flex flex-column justify-content-between  align-items-center"
+                class="btn btn-light toolbar-button text-dark p-1 d-flex flex-column justify-content-between  align-items-center"
                 [class.disabled]="isZoomDisabled || isMapSettingsDisabled" (click)="resetZoom()">
                 <i class="fa fa-expand-arrows-alt py-1"></i>
                 <span class="icon-text-label">Zoom fit</span>
               </button>
               <button *ngIf="false"
-                class="btn btn-light toolbar text-dark p-1 d-flex flex-column justify-content-between align-items-center"
+                class="btn btn-light toolbar-button text-dark p-1 d-flex flex-column justify-content-between align-items-center"
                 (click)="fullScreen()">
                 <i class="fas  py-1" [class.fa-expand]="!isFullScreen" [class.fa-compress]="isFullScreen"
                   aria-hidden="true"></i>
@@ -111,7 +122,7 @@
             </div>
             <div class=" btn-group-vertical my-3 d-none d-md-block">
               <button
-                class="btn btn-light toolbar text-dark p-1 d-flex flex-column justify-content-between align-items-center"
+                class="btn btn-light toolbar-button text-dark p-1 d-flex flex-column justify-content-between align-items-center"
                 [class.disabled]="isMapSettingsDisabled" (click)="isSettingToggled=!isSettingToggled"
                 data-toggle="collapse" href="#collapseSettings" role="button">
                 <i class="fas fa-palette"></i>
