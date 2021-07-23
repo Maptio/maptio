@@ -608,3 +608,11 @@ a.nav-link.active {
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
   border-color: var(--maptio-accent) var(--maptio-accent) #fff !important;
 }
+
+
+/* Hide toolbar button tooltip until it's necessary */
+@media all and (min-width: 1401px) and (min-height: 801px) {
+  .toolbar-button__tooltip {
+    display: none !important;
+  }
+}
