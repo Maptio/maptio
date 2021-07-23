@@ -103,6 +103,16 @@
   position:initial;
 }
 
+@media all and (max-width: 1400px) {
+  .icon-text-label {
+    display: none !important;
+  }
+
+  .btn.toolbar-button {
+    min-height: 4.75vh;
+  }
+}
+
 @media all and (max-height: 800px) {
   .icon-text-label {
     display: none !important;
@@ -110,11 +120,5 @@
 
   .btn.toolbar-button {
     min-height: 4vh;
-  }
-}
-
-@media all and (max-width: 1400px) {
-  .icon-text-label {
-    display: none !important;
   }
 }
