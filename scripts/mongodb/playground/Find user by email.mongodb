@@ -1,0 +1,7 @@
+use('maptio');
+
+email = 'roman.goj@gmail.com'
+// email = 'hello@tomnixon.co.uk'
+
+// Search for documents in the current collection.
+db.getCollection('users').find({ email });

@@ -1,0 +1,96 @@
+::ng-deep svg {
+    background: transparent;
+    user-select: none;
+}
+
+::ng-deep .initiative-map.node {
+    cursor: pointer;
+}
+
+::ng-deep .initiative-map.node:hover {
+    /* stroke: initial; */
+    /* stroke-width: initial; */
+}
+
+/* ::ng-deep circle.node.initiative-map{
+  box-shadow : inset 0 0 0 1px hsla(0, 0%, 0%, 0.1);
+} */
+
+::ng-deep .initiative-map.node--leaf {
+    fill: white;
+    pointer-events: visible;
+}
+
+::ng-deep .initiative-map.node--leaf text {
+    fill: #000;
+}
+
+::ng-deep .initiative-map.deleting>circle:not(.accountable),.initiative-map.deleting>text{
+    fill: var(--maptio-red) !important;
+}
+
+::ng-deep .initiative-map.adding>circle:not(.accountable),.initiative-map.adding>text{
+    fill: var(--maptio-green) !important;
+}
+
+
+::ng-deep circle.deleting{
+    fill: var(--maptio-red) !important;
+    stroke: var(--maptio-red) !important;
+    stroke-width: 3px !important;
+    stroke-opacity: 1!important;
+}
+
+
+::ng-deep circle.adding{
+    fill: var(--maptio-blue) !important;
+    stroke: var(--maptio-blue) !important;
+    stroke-width: 3px !important;
+    stroke-opacity: 1!important;
+}
+
+::ng-deep circle.updated{
+    fill: var(--maptio-green) ;
+    stroke-width: 3px ;
+    stroke-opacity: 1;
+}
+
+::ng-deep circle.adding.updated{
+    fill: var(--maptio-green) ;
+    stroke: var(--maptio-green) ;
+    stroke-width: 3px ;
+    stroke-opacity: 1;
+}
+
+
+
+::ng-deep .initiative-map.node--root {
+    display: none;
+}
+
+/* ::ng-deep svg circle.initiative-map:hover{
+    stroke: var(--maptio-blue) !important;
+    stroke-width: 3px;
+    fill: var(--maptio-blue) !important;
+} */
+
+/* ::ng-deep svg circle.initiative-map.hovered {
+    stroke: #000;
+} */
+
+::ng-deep svg text.initiative-map.accountable {
+    fill: #555;
+}
+
+::ng-deep .accountable.initiative-map {
+    font-weight: 500;
+}
+
+::ng-deep .name.initiative-map {
+    font-weight: 500;
+}
+
+::ng-deep .label.initiative-map {
+    font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-anchor: start;
+}

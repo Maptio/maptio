@@ -1,0 +1,46 @@
+<svg id="map"></svg>
+<div class="card position-absolute center-center bg-transparent border-0 " *ngIf="isNoNetwork">
+    <h5 class="card-body">
+        <h2>Nothing here yet!</h2>
+        <h5 class="text-muted">Add people to
+            <a routerLink="../">circles</a> to see the connections between them</h5>
+    </h5>
+</div>
+
+<div class="d-none d-md-block control card bg-light top-left position-absolute col-4 p-0 ml-5  border border-light rounded-bottom" *ngIf="!(hideOptions$ | async)">
+    <h6 class="card-header bg-transparent border-0 d-flex justify-content-between align-items-baseline">Network map options
+        <button class="btn btn-link btn-sm pl-0 ml-auto" (click)="isOptionsVisible=!isOptionsVisible">
+            <span class="">
+                <span class="mr-1">{{isOptionsVisible ? "Hide" : "Show"}}</span>
+                <i *ngIf="isOptionsVisible" class="fa fa-caret-down" aria-hidden="true"></i>
+                <i *ngIf="!isOptionsVisible" class="fa fa-caret-left" aria-hidden="true"></i>
+            </span>
+        </button>
+    </h6>
+    <div *ngIf="isOptionsVisible" class="card-body bg-light border-dark rounded">
+
+        <div class="card-text small">Maptio can show connections between people who are contributors in circles where others are the lead, or show connections
+            between people who are contributors in the same circles:
+
+        </div>
+        <div class="card-text" >
+            <form>
+                <div class="form-group my-2">
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="helpModeRadio" name="radioViewMode" class="custom-control-input" [checked]="_isAuthorityCentricMode"
+                            (click)="switch(true)">
+                        <label class="custom-control-label" for="helpModeRadio">Connect leads and contributors</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="participationModeRadio" name="radioViewMode" class="custom-control-input" [checked]="!_isAuthorityCentricMode"
+                            (click)="switch(false)">
+                        <label class="custom-control-label" for="participationModeRadio">Connect all contributors</label>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+
+    </div>
+</div>

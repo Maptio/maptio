@@ -1,0 +1,42 @@
+use('maptio');
+
+teamId = '59bed8e434a28352f6b9a0a8'; // Greaterthan
+newRoles = [
+  {
+    "shortid": "rJqfZtl4O",
+    "title": "XF Circle Customer Journey (Commercial)"
+  },
+  {
+    "shortid": "SJkjKiVQd",
+    "title": "XF Circle Finance"
+  },
+  {
+    "shortid": "By9XbKl4O",
+    "title": "XF Circle Foot-Wear (ops)"
+  },
+  {
+    "shortid": "H1gPAsJVu",
+    "title": "XF Circle LiveBarefoot (mkt)"
+  },
+  {
+    "shortid": "rJduWYeVd",
+    "title": "XF Circle Product & Innovation"
+  },
+  {
+    "shortid": "SySFbYgNu",
+    "title": "XF Circle Regeneration"
+  },
+  {
+    "shortid": "HkZmp2gE_",
+    "title": "XF digital "
+  },
+  {
+    "shortid": "SJN6K3e4u",
+    "title": "XF merchandising"
+  }
+];
+
+db.teams.update(
+   { _id: ObjectId(teamId) },
+   { $push: { roles: { $each: newRoles } } }
+)

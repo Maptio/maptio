@@ -1,0 +1,124 @@
+#collapsible-options{
+  width:35vw;
+}
+
+
+.edit-tags .overflow {
+  overflow-y: auto;
+  max-height: 45vh;
+}
+
+.filter-tags {
+  background-color: transparent;
+  position: absolute;
+  top: 2vh;
+  left: 7vw;
+  min-width: 80vw;
+}
+
+
+.fontSizeOutput{
+  position: absolute;
+  top: 4.5vh;
+  left: 16vw;
+  font-size: small;
+}
+
+#fontSizeInput{
+  background: transparent;
+}
+
+
+.instructions {
+  position: absolute;
+  left: 32%;
+  top: 50%;
+}
+
+.input-group-prepend.options {
+  position: absolute;
+  right: 3vw;
+}
+
+.windows{
+  right:0;
+}
+
+
+.btn.toolbar-button {
+  min-height: 5.75vh;
+  width: 3vw;
+}
+
+
+.btn.toolbar-button.select-view{
+  background-repeat:no-repeat;
+  background-size: 16px 16px;
+  background-position: center center;
+  padding: 0;
+  -webkit-transition: background-image 0.2s ease-in-out;
+  transition: background-image 0.2s ease-in-out;
+}
+
+.btn.select-view.tree {
+  background-image: url(/assets/images/treeview.svg) ;
+}
+
+.btn.select-view.circles{
+  background-image: url(/assets/images/circles.svg) ;
+}
+
+.btn.select-view.circles-expanded {
+  background-image: url(/assets/images/circles-expanded.svg) ;
+}
+
+.btn.select-view.network {
+  background-image: url(/assets/images/network.png) ;
+}
+
+.btn.toolbar-button.disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.summary-list:before{
+  content: "\f2c2";
+  font-family: "Font Awesome 5 Free";
+}
+
+.icon-text-label{
+  font-size: xx-small;
+  width: 3vw;
+  max-width: 3vw;
+  min-height: 1.5vh;
+  white-space: normal;
+}
+
+.btn.toolbar-button> .icon-text-label{
+  position:absolute;
+  bottom:0
+}
+
+.btn.toolbar-button.select-view > .icon-text-label{
+  position:initial;
+}
+
+@media all and (max-width: 1400px) {
+  .icon-text-label {
+    display: none !important;
+  }
+
+  .btn.toolbar-button {
+    min-height: 4.75vh;
+  }
+}
+
+@media all and (max-height: 800px) {
+  .icon-text-label {
+    display: none !important;
+  }
+
+  .btn.toolbar-button {
+    min-height: 4vh;
+  }
+}

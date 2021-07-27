@@ -18,12 +18,7 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ],
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
         "accessToken": "OWY0ZGRiZmEtNjE4Ni00NDJmLTkzZGQtMmI0YWUwNzI5ZmU3fHJlYWQtd3JpdGU=",
         "canTrackAnalytics": false,
         "showUsageWarnings": true
@@ -36,9 +31,17 @@
     },
     "maptio-e2e": {
       "tags": [],
-      "implicitDependencies": [
-        "maptio"
-      ]
+      "implicitDependencies": ["maptio"]
+    },
+    "maptio-server": {
+      "tags": []
+    },
+    "new-map-ux": {
+      "tags": []
+    },
+    "new-map-ux-e2e": {
+      "tags": [],
+      "implicitDependencies": ["new-map-ux"]
     }
   }
 }

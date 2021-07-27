@@ -1,0 +1,33 @@
+<div
+  class="circle-info"
+  [style.font-size]="fontSize"
+>
+  <div class="circle-info__name">{{ circle.data.name }}</div>
+
+  <div class="circle-info__tags-list cluster">
+    <div class="cluster__wrapper">
+      <div
+        class="circle-info__tag"
+        *ngFor="let tag of circle.data.tags"
+        [style.background-color]="tag.color"
+        (click)="onTagClick($event)"
+      >
+        {{ tag.name }}
+      </div>
+    </div>
+  </div>
+
+  <div class="helpers-list cluster">
+    <div class="cluster__wrapper">
+      <maptio-helper-avatar
+        *ngIf="circle.data.accountable"
+        [helper]="circle.data.accountable"
+      ></maptio-helper-avatar>
+
+      <maptio-helper-avatar
+        *ngFor="let helper of circle.data.helpers"
+        [helper]="helper"
+      ></maptio-helper-avatar>
+    </div>
+  </div>
+</div>

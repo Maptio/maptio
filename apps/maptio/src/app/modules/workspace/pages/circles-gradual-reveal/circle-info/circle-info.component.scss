@@ -1,0 +1,56 @@
+.circle-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.circle-info__name {
+  align-self: flex-start;
+  margin-bottom: 1rem;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  word-break: break-word;
+  color: white;
+
+  .circle--type-leaf:not(.circle--type-primary):not(.circle--type-child-of-primary) & {
+    color: black;
+  }
+}
+
+// Styles for resolving spacing issues in the tags and pictures list
+// https://every-layout.dev/layouts/cluster/
+.cluster {
+  --space: 0.5rem;
+  align-self: flex-start;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+
+  .cluster__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin: calc(var(--space) / 2 * -1);
+  }
+
+  .cluster__wrapper > * {
+    margin: calc(var(--space) / 2);
+  }
+}
+
+.circle-info__tags-list {
+  margin-bottom: 1.5rem;
+}
+
+.circle-info__tag {
+  padding: 0.5rem 1.5rem;
+  border-radius: 1rem;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  word-break: break-word;
+  cursor: default;
+}
