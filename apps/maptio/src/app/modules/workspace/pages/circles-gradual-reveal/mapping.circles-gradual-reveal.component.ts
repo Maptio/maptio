@@ -181,6 +181,7 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
             this.subs.sink = this.circleMapService.selectedCircle.subscribe(() => {
               this.adjustPrimaryCircleSelectionBasedOnSelectedCircle();
               this.toggleInfoPanelBasedOnSelectedCircle();
+              this.cd.markForCheck();
             });
 
             const [clearSearchInitiative, highlightInitiative] = partition(
@@ -264,6 +265,7 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
       });
 
     this.circles = packInitiatives(root).descendants();
+    this.circleMapService.setCircles(this.circles);
   }
 
   clearCircleStates() {

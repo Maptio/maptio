@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
+import { Initiative } from '../../../../../shared/model/initiative.data';
 import { InitiativeNode } from './initiative.model';
 import { SvgZoomPanService } from '../svg-zoom-pan/svg-zoom-pan.service';
+
 
 
 @Injectable({
@@ -15,6 +17,7 @@ export class CircleMapService {
 
   public datasetId?: string;
   public dataset?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  circles: InitiativeNode[] = [];
 
 
   constructor(
@@ -24,6 +27,10 @@ export class CircleMapService {
   setDataset(datasetId: string, dataset: any) {
     this.datasetId = datasetId;
     this.dataset = dataset;
+  }
+
+  setCircles(circles: InitiativeNode[]) {
+    this.circles = circles;
   }
 
   onCircleClick(circle: InitiativeNode) {
@@ -60,6 +67,11 @@ export class CircleMapService {
         this.closeCircle(circle.parent);
       }
     }
+  }
+
+  onInitiativeClickInOutline(node: Initiative) {
+    const circle = this.getCircleByInitiative(node);
+    this.onCircleClick(circle);
   }
 
   onBackdropClick() {
@@ -159,5 +171,9 @@ export class CircleMapService {
       : '';
 
     return summaryUrlRoot;
+  }
+
+  getCircleByInitiative(node: Initiative): InitiativeNode {
+    return this.circles.find((circle) => circle.data.id === node.id);
   }
 }
