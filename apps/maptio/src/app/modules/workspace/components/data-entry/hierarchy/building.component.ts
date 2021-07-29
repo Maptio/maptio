@@ -45,7 +45,7 @@ export class BuildingComponent implements OnDestroy {
             return to.parent.parent !== null;
         },
         nodeClass: (node: TreeNode) => {
-            return node.isRoot ? 'node-root' : "";
+            return node.parent && node.isRoot ? 'node-root' : "";
         },
         nodeHeight: 55,
         actionMapping: {

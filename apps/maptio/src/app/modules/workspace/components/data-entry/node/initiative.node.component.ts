@@ -63,7 +63,7 @@ export class InitiativeNodeComponent {
     }
 
     isRoot(): boolean {
-        return this.node.isRoot;
+        return this.node.parent && this.node.isRoot;
     }
 
     isDraggable(){
