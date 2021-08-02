@@ -25,6 +25,12 @@
     "esModuleInterop": false,
 
     "allowSyntheticDefaultImports": false,
+
+    "baseUrl": "src",
+    "paths": {
+      "@maptio-shared/*": ["app/shared/*"],
+      "@maptio-circle-map/*": ["app/modules/circle-map/*"],
+    }
   },
   // TODO: Reenable strict compilation options once the code is fixed
   // "angularCompilerOptions": {

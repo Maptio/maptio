@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-import { InitiativeNode } from '../shared/initiative.model';
+import { InitiativeNode } from '../initiative.model';
 
 
 @Injectable({

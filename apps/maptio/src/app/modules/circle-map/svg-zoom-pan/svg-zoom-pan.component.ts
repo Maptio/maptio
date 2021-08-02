@@ -7,7 +7,7 @@ import {
 import { SubSink } from 'subsink';
 
 import { SvgZoomPanService } from './svg-zoom-pan.service';
-import { InitiativeNode } from '../shared/initiative.model';
+import { InitiativeNode } from '../initiative.model';
 
 
 @Component({

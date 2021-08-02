@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
-import { InitiativeNode } from '../shared/initiative.model';
+import { InitiativeNode } from '../initiative.model';
 
 
 @Component({

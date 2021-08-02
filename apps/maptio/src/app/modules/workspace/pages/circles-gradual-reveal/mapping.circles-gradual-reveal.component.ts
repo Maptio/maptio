@@ -28,8 +28,8 @@ import { IDataVisualizer } from "../../components/canvas/mapping.interface";
 import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { Team } from "../../../../shared/model/team.data";
 
-import { InitiativeViewModel, InitiativeNode } from './shared/initiative.model';
-import { CircleMapService } from './shared/circle-map.service';
+import { InitiativeViewModel, InitiativeNode } from '@maptio-circle-map/initiative.model';
+import { CircleMapService } from "@maptio-circle-map/circle-map.service";
 
 
 @Component({

@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Helper } from '../shared/initiative.model';
-import { CircleMapService } from '../shared/circle-map.service';
+import { Helper } from '../initiative.model';
+import { CircleMapService } from '../circle-map.service';
 
 
 @Component({

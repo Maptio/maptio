@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { Initiative } from '../../../../../shared/model/initiative.data';
-import { InitiativeNode } from './initiative.model';
-import { SvgZoomPanService } from '../svg-zoom-pan/svg-zoom-pan.service';
+import { Initiative } from '@maptio-shared/model/initiative.data';
 
+import { InitiativeNode } from './initiative.model';
+import { SvgZoomPanService } from './svg-zoom-pan/svg-zoom-pan.service';
 
 
 @Injectable({
