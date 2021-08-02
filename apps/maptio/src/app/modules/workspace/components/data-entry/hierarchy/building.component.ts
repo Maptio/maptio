@@ -19,6 +19,7 @@ import { Role } from "../../../../../shared/model/role.data";
 import { DataSet } from "../../../../../shared/model/dataset.data";
 import { UserService } from "../../../../../shared/services/user/user.service";
 import { RoleLibraryService } from "../../../services/role-library.service";
+import { CircleMapService } from "../../../pages/circles-gradual-reveal/shared/circle-map.service";
 import { intersectionBy } from "lodash";
 import { Subject, Subscription } from "rxjs";
 import { environment } from "../../../../../config/environment";
@@ -44,7 +45,7 @@ export class BuildingComponent implements OnDestroy {
             return to.parent.parent !== null;
         },
         nodeClass: (node: TreeNode) => {
-            return node.isRoot ? 'node-root' : "";
+            return node.parent && node.isRoot ? 'node-root' : "";
         },
         nodeHeight: 55,
         actionMapping: {
@@ -121,10 +122,18 @@ export class BuildingComponent implements OnDestroy {
     private roleEditedSubscription: Subscription;
     private roleDeletedSubscription: Subscription;
 
-    constructor(private dataService: DataService, private datasetFactory: DatasetFactory,
-        private modalService: NgbModal, private analytics: Angulartics2Mixpanel,
-        private userFactory: UserFactory, private userService: UserService, private roleLibrary: RoleLibraryService,
-        private cd: ChangeDetectorRef, private loaderService: LoaderService) {
+    constructor(
+        private dataService: DataService,
+        private datasetFactory: DatasetFactory,
+        private modalService: NgbModal,
+        private analytics: Angulartics2Mixpanel,
+        private userFactory: UserFactory,
+        private userService: UserService,
+        private roleLibrary: RoleLibraryService,
+        private cd: ChangeDetectorRef,
+        private loaderService: LoaderService,
+        private circleMapService: CircleMapService,
+    ) {
         // this.nodes = [];
 
         this.roleAddedSubscription = this.roleLibrary.roleAdded.subscribe((addedRole) => {
@@ -184,6 +193,7 @@ export class BuildingComponent implements OnDestroy {
 
     openNodeDetails(node: Initiative) {
         this.openDetails.emit(node)
+        this.circleMapService.onInitiativeClickInOutline(node);
     }
 
     onEditingTags(tags: Tag[]) {

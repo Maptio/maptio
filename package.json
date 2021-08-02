@@ -47,7 +47,7 @@
     "@angular/platform-server": "12.0.4",
     "@angular/router": "12.0.4",
     "@auth0/angular-jwt": "^5.0.2",
-    "@circlon/angular-tree-component": "^9.0.3",
+    "@circlon/angular-tree-component": "^11.0.4",
     "@cloudinary/angular-5.x": "^1.0.0",
     "@exalif/ngx-breadcrumbs": "^9.2.0",
     "@ncstate/sat-popover": "^7.1.0",
