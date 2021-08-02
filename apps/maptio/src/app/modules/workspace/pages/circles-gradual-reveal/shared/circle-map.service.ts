@@ -71,7 +71,14 @@ export class CircleMapService {
 
   onInitiativeClickInOutline(node: Initiative) {
     const circle = this.getCircleByInitiative(node);
-    this.onCircleClick(circle);
+
+    if (circle) {
+      this.deselectSelectedCircle();
+      this.closeOpenedCircle();
+
+      this.selectCircle(circle);
+      this.zoomToCircle(circle);
+    }
   }
 
   onBackdropClick() {
@@ -128,6 +135,13 @@ export class CircleMapService {
 
   closeCircle(circle: InitiativeNode) {
     this.markCircleAsClosed(circle);
+    this.openedCircle.next(undefined);
+  }
+
+  closeOpenedCircle() {
+    if (this.openedCircle.value) {
+      this.markCircleAsClosed(this.openedCircle.value);
+    }
     this.openedCircle.next(undefined);
   }
 
