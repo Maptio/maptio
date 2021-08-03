@@ -50,7 +50,7 @@ export class SearchComponent implements OnInit {
     return this.list
       .filter(
         v =>
-          v.name.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
+          v.name?.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
           (v.description &&
             v.description.toLowerCase().indexOf(term.toLowerCase()) > -1) ||
           (v.accountable &&
