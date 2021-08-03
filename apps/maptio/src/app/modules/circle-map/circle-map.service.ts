@@ -19,7 +19,6 @@ export class CircleMapService {
   public dataset?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   circles: InitiativeNode[] = [];
 
-
   constructor(
     private svgZoomPanService: SvgZoomPanService,
   ) {}
@@ -83,6 +82,22 @@ export class CircleMapService {
 
   onBackdropClick() {
     this.selectAndZoomToParentOfSelectedCircle();
+  }
+
+  onClearSearchInitiative() {
+    this.clearCircleStates();
+    this.deselectSelectedCircle();
+    this.resetZoom();
+  }
+
+  onHighlightInitiative(node: any) {
+    const highlightedCircle = this.circles.find((circle) => circle.data.id === node.id);
+    if (highlightedCircle) {
+      this.clearCircleStates();
+      this.selectCircle(highlightedCircle);
+      this.resetZoom();
+      this.zoomToCircle(highlightedCircle);
+    }
   }
 
   selectCircle(circle: InitiativeNode) {
@@ -151,6 +166,13 @@ export class CircleMapService {
 
   markCircleAsClosed(circle: InitiativeNode) {
     circle.data.isOpened = false;
+  }
+
+  clearCircleStates() {
+    this.circles.forEach((circle) => {
+      circle.data.isSelected = false;
+      circle.data.isOpened = false;
+    });
   }
 
   zoomToCircle(circle?: InitiativeNode) {

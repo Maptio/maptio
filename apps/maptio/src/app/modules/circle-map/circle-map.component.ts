@@ -89,7 +89,6 @@ export class CircleMapComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('ngOnInit');
     this.onInputChanges();
   }
 
@@ -98,16 +97,15 @@ export class CircleMapComponent implements OnInit, OnDestroy {
   }
 
   onInputChanges() {
-    console.log('input to circle map changed');
-
     this.datasetId = this.dataset.datasetId;
     this.slug = this.dataset.getSlug();
     // this.loaderService.show();
+    this.isLoading = true;
 
     this.circleMapService.setDataset(this.datasetId, this.dataset);
 
     this.prepareLayout();
-    this.clearCircleStates();
+    this.circleMapService.clearCircleStates();
     this.identifyCircleTypes();
     this.assignColorsToCircles();
 
@@ -117,33 +115,11 @@ export class CircleMapComponent implements OnInit, OnDestroy {
       this.circleMapService.resetZoom();
       this.subs.sink = this.circleMapService.selectedCircle.subscribe(() => {
         this.adjustPrimaryCircleSelectionBasedOnSelectedCircle();
-        this.toggleInfoPanelBasedOnSelectedCircle();
         this.cd.markForCheck();
       });
 
-      // const [clearSearchInitiative, highlightInitiative] = partition(
-      //   this.zoomInitiative$,
-      //   node => node === null
-      // );
-
-      // clearSearchInitiative.subscribe(() => {
-      //   this.clearCircleStates();
-      //   this.circleMapService.deselectSelectedCircle();
-      //   this.toggleInfoPanelBasedOnSelectedCircle();
-      //   this.circleMapService.resetZoom();
-      //   this.cd.markForCheck();
-      // });
-
-      // highlightInitiative.subscribe(node => {
-      //   const highlightedCircle = this.circles.find((circle) => circle.data.id === node.id);
-      //   if (highlightedCircle) {
-      //     this.clearCircleStates();
-      //     this.circleMapService.selectCircle(highlightedCircle);
-      //     this.circleMapService.resetZoom();
-      //     this.circleMapService.zoomToCircle(highlightedCircle);
-      //     this.cd.markForCheck();
-      //   }
-      // });
+      this.isFirstLoad = false;
+      this.isLoading = false;
     } else {
       // Trigger this method not just when a circle is selected but also any time data is updated
       this.adjustPrimaryCircleSelectionBasedOnSelectedCircle();
@@ -154,25 +130,6 @@ export class CircleMapComponent implements OnInit, OnDestroy {
       this.circleMapService.zoomToCircle(lastSelectedCircle);
     }
 
-    this.isFirstLoad = false;
-    this.loaderService.hide();
-    this.analytics.eventTrack("Map", {
-      action: "viewing",
-      view: "initiatives",
-      // team: (<Team>complexData[0].team).name,
-      // teamId: (<Team>complexData[0].team).team_id
-    });
-    this.isLoading = false;
-
-    //     },
-    //     (err) => {
-    //       if (!isDevMode) {
-    //         console.error(err)
-    //       }
-    //     }
-    //   );
-
-    this.loaderService.hide();
     this.cd.markForCheck();
   }
 
@@ -201,15 +158,7 @@ export class CircleMapComponent implements OnInit, OnDestroy {
       });
 
     this.circles = packInitiatives(root).descendants();
-    console.log(this.circles);
     this.circleMapService.setCircles(this.circles);
-  }
-
-  clearCircleStates() {
-    this.circles.forEach((circle) => {
-      circle.data.isSelected = false;
-      circle.data.isOpened = false;
-    });
   }
 
   identifyCircleTypes() {
@@ -271,16 +220,6 @@ export class CircleMapComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleInfoPanelBasedOnSelectedCircle() {
-    const selectedCircle = this.circleMapService.selectedCircle.value;
-
-    if (selectedCircle) {
-      this.showInfoPanelFor(selectedCircle);
-    } else {
-      this.hideInfoPanel();
-    }
-  }
-
   markPrimaryCirclesAsSelected() {
     this.primaryCircles.forEach(primaryCircle => {
       this.circleMapService.markCircleAsSelected(primaryCircle);
@@ -291,16 +230,6 @@ export class CircleMapComponent implements OnInit, OnDestroy {
     this.primaryCircles.forEach(primaryCircle => {
       this.circleMapService.markCircleAsNotSelected(primaryCircle);
     });
-  }
-
-  showInfoPanelFor(circle: InitiativeNode) {
-    // this.showToolipOf$.next({ initiatives: [circle.data as unknown as Initiative], isNameOnly: false });
-    console.log('TODO: show info panel...');
-  }
-
-  hideInfoPanel() {
-    // this.showToolipOf$.next({ initiatives: null, isNameOnly: false });
-    console.log('TODO: hide info panel...');
   }
 
   onBackdropClick() {
