@@ -42,24 +42,6 @@ import { CircleMapService } from './circle-map.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CircleMapComponent implements OnInit, OnDestroy {
-  // OLD CODE:
-  // private browser: Browsers;
-  // public datasetId: string;
-  // public width: number;
-  // public height: number;
-  // public translateX: number;
-  // public translateY: number;
-  // public scale: number;
-  // public tagsState: Array<SelectableTag>;
-
-  // public margin: number;
-  // public zoom$: Observable<number>;
-  // public selectableTags$: Observable<Array<SelectableTag>>;
-  // public selectableUsers$: Observable<Array<SelectableUser>>;
-  // public isReset$: Observable<boolean>;
-  // public mapColor$: Observable<string>;
-  // public zoomInitiative$: Observable<Initiative>;
-
   public analytics: Angulartics2Mixpanel;
 
   public isLoading: boolean;
@@ -75,6 +57,7 @@ export class CircleMapComponent implements OnInit, OnDestroy {
     this.onInputChanges();
   }
   private _dataset: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  private datasetId: string;
 
   @Input()
   get seedColor(): string { return this._seedColor; }
@@ -106,90 +89,8 @@ export class CircleMapComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loaderService.show();
-
-    // this.subs.sink = this.dataService
-    //   .get()
-    //   .pipe(
-    //     combineLatest(this.mapColor$),
-    //   )
-    //   .subscribe(
-    //     (complexData: [any, string]) => {
-    //       let data = <any>complexData[0].initiative;
-    //       this.datasetId = complexData[0].dataset.datasetId;
-    //       this.tagsState = complexData[2];
-    //       this.slug = data.getSlug();
-    //       this.loaderService.show();
-
-    //       this.dataset = data;
-    //       this.circleMapService.setDataset(this.datasetId, this.dataset);
-    //       this.seedColor = complexData[1];
-
-    //       this.prepareLayout();
-    //       this.clearCircleStates();
-    //       this.identifyCircleTypes();
-    //       this.assignColorsToCircles();
-
-    //       const lastSelectedCircle = this.circleMapService.getLastSelectedCircle(this.circles);
-
-    //       if(this.isFirstLoad) {
-    //         this.circleMapService.resetZoom();
-    //         this.subs.sink = this.circleMapService.selectedCircle.subscribe(() => {
-    //           this.adjustPrimaryCircleSelectionBasedOnSelectedCircle();
-    //           this.toggleInfoPanelBasedOnSelectedCircle();
-    //           this.cd.markForCheck();
-    //         });
-
-    //         const [clearSearchInitiative, highlightInitiative] = partition(
-    //           this.zoomInitiative$,
-    //           node => node === null
-    //         );
-
-    //         clearSearchInitiative.subscribe(() => {
-    //           this.clearCircleStates();
-    //           this.circleMapService.deselectSelectedCircle();
-    //           this.toggleInfoPanelBasedOnSelectedCircle();
-    //           this.circleMapService.resetZoom();
-    //           this.cd.markForCheck();
-    //         });
-
-    //         highlightInitiative.subscribe(node => {
-    //           const highlightedCircle = this.circles.find((circle) => circle.data.id === node.id);
-    //           if (highlightedCircle) {
-    //             this.clearCircleStates();
-    //             this.circleMapService.selectCircle(highlightedCircle);
-    //             this.circleMapService.resetZoom();
-    //             this.circleMapService.zoomToCircle(highlightedCircle);
-    //             this.cd.markForCheck();
-    //           }
-    //         });
-    //       } else {
-    //         // Trigger this method not just when a circle is selected but also any time data is updated
-    //         this.adjustPrimaryCircleSelectionBasedOnSelectedCircle();
-    //       }
-
-    //       if(lastSelectedCircle) {
-    //         this.circleMapService.selectCircle(lastSelectedCircle);
-    //         this.circleMapService.zoomToCircle(lastSelectedCircle);
-    //       }
-
-    //       this.isFirstLoad = false;
-    //       this.loaderService.hide();
-    //       this.analytics.eventTrack("Map", {
-    //         action: "viewing",
-    //         view: "initiatives",
-    //         team: (<Team>complexData[0].team).name,
-    //         teamId: (<Team>complexData[0].team).team_id
-    //       });
-    //       this.isLoading = false;
-    //       this.cd.markForCheck();
-    //     },
-    //     (err) => {
-    //       if (!isDevMode) {
-    //         console.error(err)
-    //       }
-    //     }
-    //   );
+    console.log('ngOnInit');
+    this.onInputChanges();
   }
 
   ngOnDestroy() {
@@ -198,6 +99,81 @@ export class CircleMapComponent implements OnInit, OnDestroy {
 
   onInputChanges() {
     console.log('input to circle map changed');
+
+    this.datasetId = this.dataset.datasetId;
+    this.slug = this.dataset.getSlug();
+    // this.loaderService.show();
+
+    this.circleMapService.setDataset(this.datasetId, this.dataset);
+
+    this.prepareLayout();
+    this.clearCircleStates();
+    this.identifyCircleTypes();
+    this.assignColorsToCircles();
+
+    const lastSelectedCircle = this.circleMapService.getLastSelectedCircle(this.circles);
+
+    if(this.isFirstLoad) {
+      this.circleMapService.resetZoom();
+      this.subs.sink = this.circleMapService.selectedCircle.subscribe(() => {
+        this.adjustPrimaryCircleSelectionBasedOnSelectedCircle();
+        this.toggleInfoPanelBasedOnSelectedCircle();
+        this.cd.markForCheck();
+      });
+
+      // const [clearSearchInitiative, highlightInitiative] = partition(
+      //   this.zoomInitiative$,
+      //   node => node === null
+      // );
+
+      // clearSearchInitiative.subscribe(() => {
+      //   this.clearCircleStates();
+      //   this.circleMapService.deselectSelectedCircle();
+      //   this.toggleInfoPanelBasedOnSelectedCircle();
+      //   this.circleMapService.resetZoom();
+      //   this.cd.markForCheck();
+      // });
+
+      // highlightInitiative.subscribe(node => {
+      //   const highlightedCircle = this.circles.find((circle) => circle.data.id === node.id);
+      //   if (highlightedCircle) {
+      //     this.clearCircleStates();
+      //     this.circleMapService.selectCircle(highlightedCircle);
+      //     this.circleMapService.resetZoom();
+      //     this.circleMapService.zoomToCircle(highlightedCircle);
+      //     this.cd.markForCheck();
+      //   }
+      // });
+    } else {
+      // Trigger this method not just when a circle is selected but also any time data is updated
+      this.adjustPrimaryCircleSelectionBasedOnSelectedCircle();
+    }
+
+    if(lastSelectedCircle) {
+      this.circleMapService.selectCircle(lastSelectedCircle);
+      this.circleMapService.zoomToCircle(lastSelectedCircle);
+    }
+
+    this.isFirstLoad = false;
+    this.loaderService.hide();
+    this.analytics.eventTrack("Map", {
+      action: "viewing",
+      view: "initiatives",
+      // team: (<Team>complexData[0].team).name,
+      // teamId: (<Team>complexData[0].team).team_id
+    });
+    this.isLoading = false;
+
+    //     },
+    //     (err) => {
+    //       if (!isDevMode) {
+    //         console.error(err)
+    //       }
+    //     }
+    //   );
+
+    this.loaderService.hide();
+    this.cd.markForCheck();
   }
 
   prepareLayout() {
@@ -225,6 +201,7 @@ export class CircleMapComponent implements OnInit, OnDestroy {
       });
 
     this.circles = packInitiatives(root).descendants();
+    console.log(this.circles);
     this.circleMapService.setCircles(this.circles);
   }
 
