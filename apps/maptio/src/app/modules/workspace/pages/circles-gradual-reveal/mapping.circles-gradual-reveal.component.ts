@@ -10,7 +10,7 @@ import {
 import { Router } from "@angular/router";
 
 import { tap } from 'rxjs/operators';
-import { Observable, Subject, partition, combineLatest } from "rxjs";
+import { Observable, Subject, partition, combineLatest, BehaviorSubject } from "rxjs";
 
 import { SubSink } from 'subsink';
 
@@ -62,7 +62,8 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
 
   dataset: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   seedColor: string;
-
+  dataset$ = new BehaviorSubject<any>(undefined); // eslint-disable-line @typescript-eslint/no-explicit-any
+  seedColor$ = new BehaviorSubject<string>('');
 
   isFirstLoad = true;
 
@@ -92,9 +93,6 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
     ])
     .subscribe(
       (complexData: [any, string]) => {
-        this.dataset = <any>complexData[0].initiative;
-        this.seedColor = complexData[1];
-
         if(this.isFirstLoad) {
           this.subs.sink = this.circleMapService.selectedCircle.subscribe(() => {
             this.toggleInfoPanelBasedOnSelectedCircle();
@@ -123,6 +121,9 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
           team: (<Team>complexData[0].team).name,
           teamId: (<Team>complexData[0].team).team_id
         });
+
+        this.dataset$.next(<any>complexData[0].initiative); // eslint-disable-line @typescript-eslint/no-explicit-any
+        this.seedColor$.next(complexData[1]);
 
         this.isFirstLoad = false;
         this.loaderService.hide();

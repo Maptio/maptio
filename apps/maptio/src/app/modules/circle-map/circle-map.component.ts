@@ -6,29 +6,15 @@ import {
   ViewEncapsulation,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
-  isDevMode,
 } from "@angular/core";
-import { Router } from "@angular/router";
 
-import { tap, combineLatest } from 'rxjs/operators';
-import { Observable, Subject, partition } from "rxjs";
+import { BehaviorSubject, combineLatest } from "rxjs";
 
 import { SubSink } from 'subsink';
-
 import { hierarchy, pack } from 'd3-hierarchy';
-
-// import { URIService } from "../../../../shared/services/uri/uri.service";
-// import { DataService } from "../../services/data.service";
-// import { UIService } from "../../services/ui.service";
-// import { PermissionsService } from "../../../../shared/services/permissions/permissions.service";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
-// import { SelectableTag } from "../../../../shared/model/tag.data";
-// import { IDataVisualizer } from "../../components/canvas/mapping.interface";
-// import { Team } from "../../../../shared/model/team.data";
 
 import { ColorService } from "@maptio-shared/services/color/color.service";
-import { Initiative } from "@maptio-shared/model/initiative.data";
-import { LoaderService } from "@maptio-shared/components/loading/loader.service";
 
 import { InitiativeViewModel, InitiativeNode } from './initiative.model';
 import { CircleMapService } from './circle-map.service';
@@ -42,54 +28,40 @@ import { CircleMapService } from './circle-map.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CircleMapComponent implements OnInit, OnDestroy {
-  public analytics: Angulartics2Mixpanel;
-
-  public isLoading: boolean;
-
-  public slug: string;
-
-  private subs = new SubSink();
-
-  @Input()
-  get dataset(): any { return this._dataset; } // eslint-disable-line @typescript-eslint/no-explicit-any
-  set dataset(dataset: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
-    this._dataset = dataset;
-    this.onInputChanges();
-  }
-  private _dataset: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  @Input() dataset$: BehaviorSubject<any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   private datasetId: string;
+  slug: string;
 
-  @Input()
-  get seedColor(): string { return this._seedColor; }
-  set seedColor(seedColor: string) {
-    this._seedColor = seedColor;
-    this.onInputChanges();
-  }
-  private _seedColor: string;
+  @Input() seedColor$: BehaviorSubject<string>;
 
   circles: InitiativeNode[] = [];
   rootCircle: InitiativeNode | undefined = undefined;
   primaryCircles: InitiativeNode[] = [];
 
+  isLoading: boolean;
   isFirstLoad = true;
 
+  public analytics: Angulartics2Mixpanel;
+  private subs = new SubSink();
 
   constructor(
     public colorService: ColorService,
-    // public uiService: UIService,
-    // public router: Router,
     private cd: ChangeDetectorRef,
-    // private dataService: DataService,
-    // private uriService: URIService,
-    private loaderService: LoaderService,
-    // private permissionsService: PermissionsService,
     private circleMapService: CircleMapService,
-  ) {
-    // this.T = d3.transition(null).duration(this.TRANSITION_DURATION);
-  }
+  ) {}
 
   ngOnInit() {
     this.onInputChanges();
+
+    this.subs.sink = combineLatest([
+      this.dataset$,
+      this.seedColor$
+    ])
+    .subscribe(
+      () => {
+        this.onInputChanges();
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -97,12 +69,11 @@ export class CircleMapComponent implements OnInit, OnDestroy {
   }
 
   onInputChanges() {
-    this.datasetId = this.dataset.datasetId;
-    this.slug = this.dataset.getSlug();
-    // this.loaderService.show();
+    this.datasetId = this.dataset$.value.datasetId;
+    this.slug = this.dataset$.value.getSlug();
     this.isLoading = true;
 
-    this.circleMapService.setDataset(this.datasetId, this.dataset);
+    this.circleMapService.setDataset(this.datasetId, this.dataset$.value);
 
     this.prepareLayout();
     this.circleMapService.clearCircleStates();
@@ -144,7 +115,7 @@ export class CircleMapComponent implements OnInit, OnDestroy {
         return PADDING_CIRCLE;
       });
 
-    const root: any = hierarchy(this.dataset) // eslint-disable-line @typescript-eslint/no-explicit-any
+    const root: any = hierarchy(this.dataset$.value) // eslint-disable-line @typescript-eslint/no-explicit-any
       .sum(function (d) {
         return (Object.prototype.hasOwnProperty.call(d, 'accountable')? 1 : 0) +
           (Object.prototype.hasOwnProperty.call(d, 'helpers') ? d.helpers.length : 0) + 1;
@@ -192,7 +163,7 @@ export class CircleMapComponent implements OnInit, OnDestroy {
 
   assignColorsToCircles() {
     const maxDepth = this.calculateMaxDepth();
-    const colorRange = this.colorService.getColorRangeNew(maxDepth, this.seedColor);
+    const colorRange = this.colorService.getColorRangeNew(maxDepth, this.seedColor$.value);
 
     this.circles.forEach((circle) => {
       const isPrimaryCircle = this.primaryCircles.includes(circle);
