@@ -4,7 +4,7 @@ import { URIService } from "../../../../shared/services/uri/uri.service";
 import { DataService } from "../../services/data.service";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { Browsers, UIService } from "../../services/ui.service";
-import { ColorService } from "../../services/color.service";
+import { ColorService } from "@maptio-shared/services/color/color.service";
 import { PermissionsService } from "../../../../shared/services/permissions/permissions.service";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { Initiative } from "../../../../shared/model/initiative.data";

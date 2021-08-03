@@ -4,24 +4,19 @@ import { CommonModule } from '@angular/common';
 import { SatPopoverModule } from '@ncstate/sat-popover';
 
 import { SvgZoomPanComponent } from './svg-zoom-pan/svg-zoom-pan.component';
-import { CircleComponent } from './circle/circle.component';
-import { CircleInfoComponent } from './circle-info/circle-info.component';
-import { HelperAvatarComponent } from './helper-avatar/helper-avatar.component';
-
+import { CircleMapComponent } from './circle-map.component';
 
 @NgModule({
   declarations: [
     SvgZoomPanComponent,
-    CircleComponent,
-    CircleInfoComponent,
-    HelperAvatarComponent,
+    CircleMapComponent,
   ],
   imports: [
     CommonModule,
     SatPopoverModule,
   ],
   exports: [
-    SvgZoomPanComponent,
+    CircleMapComponent,
   ]
 })
 export class CircleMapModule { }

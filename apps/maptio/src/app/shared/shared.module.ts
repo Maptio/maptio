@@ -20,6 +20,7 @@ import { UserService } from './services/user/user.service';
 import { BillingService } from './services/billing/billing.service';
 import { TeamService } from './services/team/team.service';
 import { MarkdownUtilsService } from './services/markdown/markdown-utils.service';
+import { ColorService } from './services/color/color.service';
 import { FocusIfDirective } from './directives/focusif.directive';
 
 import { NgProgressModule } from '@ngx-progressbar/core';
@@ -65,6 +66,7 @@ export class SharedModule {
                 BillingService,
                 TeamService,
                 MapService,
+                ColorService,
                 IntercomService,
                 MarkdownUtilsService,
             ]

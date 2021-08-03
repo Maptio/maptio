@@ -44,7 +44,6 @@ import { RoleLibraryService } from "./services/role-library.service";
 import { MapSettingsService } from "./services/map-settings.service";
 import { EditTagsComponent } from "./components/data-entry/tags/edit-tags.component";
 import { UIService } from "./services/ui.service";
-import { ColorService } from "./services/color.service";
 import { WorkspaceRoutingModule } from "./workspace.routing";
 import { AnalyticsModule } from '../../core/analytics.module';
 import { InitiativeInputNameComponent } from './components/data-entry/details/parts/name/input-name.component';
@@ -123,7 +122,7 @@ import { CircleMapModule } from '@maptio-circle-map/circle-map.module';
         StripMarkdownPipe,
         EllipsisPipe
     ],
-    providers: [BillingGuard, WorkspaceGuard, UIService, ColorService,
+    providers: [BillingGuard, WorkspaceGuard, UIService,
         SlackService, DataService, RoleLibraryService, MapSettingsService,
         WorkspaceComponentResolver
     ]
