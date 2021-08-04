@@ -8,7 +8,7 @@ import {
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 
 import {of as observableOf, interval as observableInterval,  Subscription, Observable } from 'rxjs';
-import { map, switchMap, filter, mergeMap, timeInterval } from 'rxjs/operators';
+import { map, switchMap, filter, mergeMap, timeInterval, tap } from 'rxjs/operators';
 
 import { SubSink } from "subsink";
 import { Intercom } from 'ng-intercom';
@@ -59,6 +59,7 @@ export class AppComponent implements OnInit, OnDestroy {
         map(route => route.firstChild),
         switchMap(route => route.data),
         map(data => !data['hideUI']),
+        tap(showUi => this.showIntercomWidget(showUi) )
       )
 
     this.subs.sink = observableInterval(environment.CHECK_TOKEN_EXPIRATION_INTERVAL_IN_MINUTES * 60 * 1000)
@@ -88,4 +89,9 @@ export class AppComponent implements OnInit, OnDestroy {
     return this.deviceService.isMobile() || window.innerWidth < 500;
   }
 
+  showIntercomWidget(showWidget: boolean) {
+    this.intercom.update({
+      'hide_default_launcher': !showWidget
+    });
+  }
 }
