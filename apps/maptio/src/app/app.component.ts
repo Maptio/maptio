@@ -2,12 +2,15 @@ import {
   Component,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  OnInit,
+  OnDestroy,
 } from "@angular/core";
-import { Router} from "@angular/router";
+import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 
-import {of as observableOf, interval as observableInterval,  Subscription } from 'rxjs';
-import { filter, mergeMap, timeInterval } from 'rxjs/operators';
+import {of as observableOf, interval as observableInterval,  Subscription, Observable } from 'rxjs';
+import { map, switchMap, filter, mergeMap, timeInterval } from 'rxjs/operators';
 
+import { SubSink } from "subsink";
 import { Intercom } from 'ng-intercom';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
@@ -23,18 +26,21 @@ import { LoaderService } from "./shared/components/loading/loader.service";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
+  private subs = new SubSink();
 
   public isHome: boolean;
   public isMap: boolean;
 
+  public showUi$: Observable<boolean>;
+
   public navigationStartSubscription: Subscription;
   public navigationOtherSubscription: Subscription;
-  public checkTokenSubscription: Subscription;
 
   constructor(
     public auth: Auth,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     public intercom: Intercom,
     private deviceService: DeviceDetectorService,
     private cd: ChangeDetectorRef,
@@ -46,10 +52,21 @@ export class AppComponent {
   ngOnInit() {
     this.loader.init();
 
-    this.checkTokenSubscription = observableInterval(environment.CHECK_TOKEN_EXPIRATION_INTERVAL_IN_MINUTES * 60 * 1000).pipe(
-      timeInterval(),
-      mergeMap(() => { return observableOf(this.auth.allAuthenticated()) }),
-      filter(isExpired => !isExpired),)
+    this.showUi$ = this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        map(() => this.activatedRoute),
+        map(route => route.firstChild),
+        switchMap(route => route.data),
+        map(data => !data['hideUI']),
+      )
+
+    this.subs.sink = observableInterval(environment.CHECK_TOKEN_EXPIRATION_INTERVAL_IN_MINUTES * 60 * 1000)
+      .pipe(
+        timeInterval(),
+        mergeMap(() => { return observableOf(this.auth.allAuthenticated()) }),
+        filter(isExpired => !isExpired),
+      )
       .subscribe((isExpired: boolean) => {
         this.router.navigateByUrl("/logout")
       });
@@ -64,7 +81,7 @@ export class AppComponent {
   }
 
   ngOnDestroy() {
-    if (this.checkTokenSubscription) this.checkTokenSubscription.unsubscribe();
+    this.subs.unsubscribe();
   }
 
   isMobile() {

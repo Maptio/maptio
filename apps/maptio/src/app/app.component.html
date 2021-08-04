@@ -1,4 +1,5 @@
 <div
+  *ngIf="showUi$ | async"
   class="container-fluid h-100 overflow-auto bg-texture"
   [class.unavailable]="(loader.progressRef?.state | async).active"
 >
@@ -17,6 +18,8 @@
 		<footer [isMobile]="isMobile()"></footer>
 	</div>
 </div>
+
+<router-outlet name="empty"></router-outlet>
 
 
 <!-- <div *ngIf="isMobile()" class="container-fluid h-100 overflow-auto bg-gradient-inverse" [class.unavailable]="(progress.state$ | async).active">

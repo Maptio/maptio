@@ -39,6 +39,16 @@ const routes: Routes = [
         loadChildren: () => import('./modules/workspace/workspace.module').then(m => m.WorkspaceModule)
     },
     {
+      path: 'share/:id',
+      loadChildren: () => import('./modules/embed/embed.module').then(m => m.EmbedModule),
+      data: { 'hideUI': true },
+    },
+    {
+      path: 'embed/:id',
+      loadChildren: () => import('./modules/embed/embed.module').then(m => m.EmbedModule),
+      data: { 'hideUI': true },
+    },
+    {
         path: "unauthorized",
         component: UnauthorizedComponent
     },
