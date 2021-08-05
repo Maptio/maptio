@@ -1,7 +1,8 @@
-<!-- <maptio-circle-map
+<maptio-circle-map
   *ngIf="dataset; else datasetUnavailableBlock"
-  [dataset]="dataset"
-></maptio-circle-map> -->
+  [dataset$]="dataset$"
+  [seedColor$]="seedColor$"
+></maptio-circle-map>
 
 <ng-template #datasetUnavailableBlock>
   <div class="message">
