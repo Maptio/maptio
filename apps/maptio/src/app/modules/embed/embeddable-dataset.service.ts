@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+import { DataSet } from '@maptio-shared/model/dataset.data';
+
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +24,9 @@ export class EmbeddableDatasetService {
             return of(null);
           })
         )
-        .subscribe((dataset: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+        .subscribe((dataset: DataSet) => { // eslint-disable-line @typescript-eslint/no-explicit-any
           if (dataset) {
-            this.dataset.next(dataset.initiative);
+            this.dataset.next(dataset);
           } else {
             this.dataset.next(null);
           }

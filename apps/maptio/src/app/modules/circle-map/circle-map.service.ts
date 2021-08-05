@@ -200,7 +200,7 @@ export class CircleMapService {
 
   getSummaryUrlRoot() {
     const datasetId = this.datasetId;
-    const initiativeSlug = this.dataset ? this.dataset.getSlug() : undefined;
+    const initiativeSlug = this.dataset ? this.dataset?.initiative?.getSlug() : undefined;
 
     const summaryUrlRoot = initiativeSlug && datasetId
       ? `/map/${datasetId}/${initiativeSlug}/directory`

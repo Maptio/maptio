@@ -14,6 +14,8 @@ import { SubSink } from 'subsink';
 import { hierarchy, pack } from 'd3-hierarchy';
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 
+import { DataSet } from "@maptio-shared/model/dataset.data";
+import { Initiative } from "@maptio-shared/model/initiative.data";
 import { ColorService } from "@maptio-shared/services/color/color.service";
 
 import { InitiativeViewModel, InitiativeNode } from './initiative.model';
@@ -28,8 +30,9 @@ import { CircleMapService } from './circle-map.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CircleMapComponent implements OnInit, OnDestroy {
-  @Input() dataset$: BehaviorSubject<any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  @Input() dataset$: BehaviorSubject<DataSet>;
   private datasetId: string;
+  private datasetInitiative: Initiative;
   slug: string;
 
   @Input() seedColor$: BehaviorSubject<string>;
@@ -69,8 +72,12 @@ export class CircleMapComponent implements OnInit, OnDestroy {
   }
 
   onInputChanges() {
+    if (!this.dataset$.value) {
+      return;
+    }
+
     this.datasetId = this.dataset$.value.datasetId;
-    this.slug = this.dataset$.value.getSlug();
+    this.datasetInitiative = this.dataset$.value.initiative;
     this.isLoading = true;
 
     this.circleMapService.setDataset(this.datasetId, this.dataset$.value);
@@ -115,7 +122,7 @@ export class CircleMapComponent implements OnInit, OnDestroy {
         return PADDING_CIRCLE;
       });
 
-    const root: any = hierarchy(this.dataset$.value) // eslint-disable-line @typescript-eslint/no-explicit-any
+    const root: any = hierarchy(this.datasetInitiative) // eslint-disable-line @typescript-eslint/no-explicit-any
       .sum(function (d) {
         return (Object.prototype.hasOwnProperty.call(d, 'accountable')? 1 : 0) +
           (Object.prototype.hasOwnProperty.call(d, 'helpers') ? d.helpers.length : 0) + 1;
