@@ -199,6 +199,10 @@ export class CircleMapService {
   }
 
   getSummaryUrlRoot() {
+    if (!this.dataset?.initiative?.getSlug) {
+      return '';
+    }
+
     const datasetId = this.datasetId;
     const initiativeSlug = this.dataset ? this.dataset?.initiative?.getSlug() : undefined;
 
