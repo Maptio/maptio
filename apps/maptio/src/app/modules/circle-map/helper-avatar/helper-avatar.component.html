@@ -1,8 +1,8 @@
 <img
   class="helper-avatar__image"
+  [class.helper-avatar__image--no-link]="!directoryLink"
   *ngIf="helper.picture"
   [src]="helper.picture"
-  alt="{{ helper.name }}"
   [satPopoverAnchor]="popover"
   [satPopoverHover]="300"
   (click)="onClick($event)"

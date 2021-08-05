@@ -19,7 +19,7 @@ import { Role } from "../../../../../shared/model/role.data";
 import { DataSet } from "../../../../../shared/model/dataset.data";
 import { UserService } from "../../../../../shared/services/user/user.service";
 import { RoleLibraryService } from "../../../services/role-library.service";
-import { CircleMapService } from "../../../pages/circles-gradual-reveal/shared/circle-map.service";
+import { CircleMapService } from "@maptio-circle-map/circle-map.service";
 import { intersectionBy } from "lodash";
 import { Subject, Subscription } from "rxjs";
 import { environment } from "../../../../../config/environment";

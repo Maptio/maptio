@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { Initiative } from '../../../../../shared/model/initiative.data';
-import { InitiativeNode } from './initiative.model';
-import { SvgZoomPanService } from '../svg-zoom-pan/svg-zoom-pan.service';
+import { Initiative } from '@maptio-shared/model/initiative.data';
 
+import { InitiativeNode } from './initiative.model';
+import { SvgZoomPanService } from './svg-zoom-pan/svg-zoom-pan.service';
 
 
 @Injectable({
@@ -18,7 +18,6 @@ export class CircleMapService {
   public datasetId?: string;
   public dataset?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   circles: InitiativeNode[] = [];
-
 
   constructor(
     private svgZoomPanService: SvgZoomPanService,
@@ -83,6 +82,22 @@ export class CircleMapService {
 
   onBackdropClick() {
     this.selectAndZoomToParentOfSelectedCircle();
+  }
+
+  onClearSearchInitiative() {
+    this.clearCircleStates();
+    this.deselectSelectedCircle();
+    this.resetZoom();
+  }
+
+  onHighlightInitiative(node: any) {
+    const highlightedCircle = this.circles.find((circle) => circle.data.id === node.id);
+    if (highlightedCircle) {
+      this.clearCircleStates();
+      this.selectCircle(highlightedCircle);
+      this.resetZoom();
+      this.zoomToCircle(highlightedCircle);
+    }
   }
 
   selectCircle(circle: InitiativeNode) {
@@ -153,6 +168,13 @@ export class CircleMapService {
     circle.data.isOpened = false;
   }
 
+  clearCircleStates() {
+    this.circles.forEach((circle) => {
+      circle.data.isSelected = false;
+      circle.data.isOpened = false;
+    });
+  }
+
   zoomToCircle(circle?: InitiativeNode) {
     this.svgZoomPanService.zoomToInitiativeNode(circle);
   }
@@ -177,8 +199,12 @@ export class CircleMapService {
   }
 
   getSummaryUrlRoot() {
+    if (!this.dataset?.initiative?.getSlug) {
+      return '';
+    }
+
     const datasetId = this.datasetId;
-    const initiativeSlug = this.dataset ? this.dataset.getSlug() : undefined;
+    const initiativeSlug = this.dataset ? this.dataset?.initiative?.getSlug() : undefined;
 
     const summaryUrlRoot = initiativeSlug && datasetId
       ? `/map/${datasetId}/${initiativeSlug}/directory`

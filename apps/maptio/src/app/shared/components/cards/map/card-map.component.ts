@@ -50,31 +50,27 @@ export class CardMapComponent implements OnInit {
             })
         });
 
-        const previewUrl = `https://maptio-preview.web.app/map/${this.dataset.datasetId}`;
-        const embedUrl = `https://maptio-preview.web.app/embed/${this.dataset.datasetId}`;
+        const shareableUrl = `https://app.maptio.com/share/${this.dataset.datasetId}`;
+        const embedUrl = `https://app.maptio.com/embed/${this.dataset.datasetId}`;
         const iframeStyle = 'height: 100%; width: 100%; border: none;';
         const iframeSnippet = escape(`<iframe src="${embedUrl}" style="${iframeStyle}"></iframe>`);
 
         this.embeddingIntroduction = `
-            Enabling this feature will allow you to see a preview of improved
-            map visuals as well as embed this map on your website.
+            Enabling this feature will allow you to embed this map on your
+            website as well as get a publicly-shareable link.
             The map will be accessible to anyone with the URL.
-            If you only want to see a preview of the new version of the map,
-            you can enable this functionality temporarily and then disable it
-            again here once you are done.
         `;
 
         this.embeddingInstructions = `
-            <p>
-              A preview of new map visuals can now be seen
-              <a href="${previewUrl}" target="_blank">here</a>.
-              Your feedback on this new version of the map will be appreciated.
-            </p>
+            This map can be viewed publicly at the follwing URL:
+            <code>
+              ${shareableUrl}
+            </code>
+            <br>
+            <br>
 
-            <p>
-              You can embed this map on your website by using the following code snippet:
-            </p>
-
+            You can embed this map on your website by using the following code snippet:
+            <br>
             <code>
               ${iframeSnippet}
             </code>

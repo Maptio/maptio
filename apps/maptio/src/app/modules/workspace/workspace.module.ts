@@ -1,15 +1,8 @@
-import { SatPopoverModule } from '@ncstate/sat-popover';
-
 import { MappingComponent } from "./components/canvas/mapping.component";
 import { MappingNetworkComponent } from "./pages/network/mapping.network.component";
 import { MappingTreeComponent } from "./pages/tree/mapping.tree.component";
 import { MappingZoomableComponent } from "./pages/circles/mapping.zoomable.component";
 import { MappingCirclesGradualRevealComponent } from "./pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component";
-import { SvgZoomPanComponent } from './pages/circles-gradual-reveal/svg-zoom-pan/svg-zoom-pan.component';
-import { CircleComponent } from './pages/circles-gradual-reveal/circle/circle.component';
-import { CircleInfoComponent } from './pages/circles-gradual-reveal/circle-info/circle-info.component';
-import { HelperAvatarComponent } from './pages/circles-gradual-reveal/helper-avatar/helper-avatar.component';
-
 
 import { ColorHueModule } from 'ngx-color/hue'; // <color-hue-picker></color-hue-picker>
 import { ShareSlackComponent } from "./components/sharing/slack.component";
@@ -51,7 +44,6 @@ import { RoleLibraryService } from "./services/role-library.service";
 import { MapSettingsService } from "./services/map-settings.service";
 import { EditTagsComponent } from "./components/data-entry/tags/edit-tags.component";
 import { UIService } from "./services/ui.service";
-import { ColorService } from "./services/color.service";
 import { WorkspaceRoutingModule } from "./workspace.routing";
 import { AnalyticsModule } from '../../core/analytics.module';
 import { InitiativeInputNameComponent } from './components/data-entry/details/parts/name/input-name.component';
@@ -67,6 +59,7 @@ import { InitiativeHelperRoleInputComponent } from './components/data-entry/deta
 import { InitiativeVacanciesInputComponent } from './components/data-entry/details/parts/helpers/vacancies-input.component';
 import { CommonTextareaComponent } from '../../shared/components/textarea/textarea.component';
 import { InitiativeHelperPrivilegeComponent } from './components/data-entry/details/parts/helpers/helper-toggle-privilege.component';
+import { CircleMapModule } from '@maptio-circle-map/circle-map.module';
 
 
 
@@ -88,9 +81,9 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
         NgbTooltipModule,
         NgbTypeaheadModule,
         NgbPopoverModule,
-        SatPopoverModule,
         ColorHueModule,
-        PermissionsModule
+        PermissionsModule,
+        CircleMapModule,
     ],
     declarations: [
         WorkspaceComponent,
@@ -109,10 +102,6 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
         MappingComponent,
         MappingZoomableComponent,
         MappingCirclesGradualRevealComponent,
-        SvgZoomPanComponent,
-        CircleComponent,
-        CircleInfoComponent,
-        HelperAvatarComponent,
         MappingTreeComponent,
         MappingNetworkComponent,
         MappingSummaryComponent,
@@ -133,7 +122,7 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
         StripMarkdownPipe,
         EllipsisPipe
     ],
-    providers: [BillingGuard, WorkspaceGuard, UIService, ColorService,
+    providers: [BillingGuard, WorkspaceGuard, UIService,
         SlackService, DataService, RoleLibraryService, MapSettingsService,
         WorkspaceComponentResolver
     ]

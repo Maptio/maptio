@@ -1,0 +1,25 @@
+<maptio-circle-map
+  *ngIf="dataset; else datasetUnavailableBlock"
+  [dataset$]="dataset$"
+  [seedColor$]="seedColor$"
+></maptio-circle-map>
+
+<ng-template #datasetUnavailableBlock>
+  <div class="message">
+    <ng-container *ngIf="isLoading; else errorBlock">
+      Loading Maptio map
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #errorBlock>
+  The requested Maptio map could not be found.
+</ng-template>
+
+<a
+  class="credit"
+  href="https://www.maptio.com"
+>
+  <span class="credit__text">Powered by </span>
+  <span class="credit__link" >Maptio</span>
+</a>

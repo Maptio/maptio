@@ -4,6 +4,10 @@
   border-radius: 2.5rem;
 }
 
+.helper-avatar__image--no-link {
+  cursor: default;
+}
+
 .helper-avatar__details {
   // Styles copied from .mat-tooltip @ 11.2.8
   $horizontal-padding: 8px;

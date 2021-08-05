@@ -2,7 +2,7 @@ import {filter, combineLatest, map} from 'rxjs/operators';
 import { Team } from "../../../../shared/model/team.data";
 import { Role } from "../../../../shared/model/role.data";
 import { User } from "../../../../shared/model/user.data";
-import { ColorService } from "../../services/color.service";
+import { ColorService } from "@maptio-shared/services/color/color.service";
 import { UIService } from "../../services/ui.service";
 import { Router } from "@angular/router";
 import { DataService } from "../../services/data.service";

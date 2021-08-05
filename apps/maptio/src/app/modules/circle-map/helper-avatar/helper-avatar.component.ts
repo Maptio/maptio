@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Helper } from '../shared/initiative.model';
-import { CircleMapService } from '../shared/circle-map.service';
+import { Helper } from '../initiative.model';
+import { CircleMapService } from '../circle-map.service';
 
 
 @Component({
@@ -17,6 +17,8 @@ export class HelperAvatarComponent implements OnInit {
   roles: string[] = [];
   showRoles = false;
 
+  directoryLink?: string;
+
   constructor(private router: Router, private circleMapService: CircleMapService) {};
 
   ngOnInit(): void {
@@ -26,6 +28,8 @@ export class HelperAvatarComponent implements OnInit {
       }
     });
 
+    this.directoryLink = this.getDirectoryLink();
+
     this.showRoles = !!this.roles.length;
   }
 
@@ -33,11 +37,19 @@ export class HelperAvatarComponent implements OnInit {
     // Avoid triggering click events for the circle when a helper avatar is clicked - especially important on mobile
     $event.stopPropagation();
 
-    const summaryUrlRoot = this.circleMapService.getSummaryUrlRoot();
-    if (summaryUrlRoot && this.helper.shortid) {
-      this.router.navigateByUrl(`${summaryUrlRoot}?member=${this.helper.shortid}`);
+    if (this.directoryLink) {
+      this.router.navigateByUrl(this.directoryLink);
     } else {
       console.error('Helper does not have shortid set or unable to get directory URL');
+    }
+  }
+
+  private getDirectoryLink() {
+    const summaryUrlRoot = this.circleMapService.getSummaryUrlRoot();
+    if (summaryUrlRoot && this.helper.shortid) {
+      return `${summaryUrlRoot}?member=${this.helper.shortid}`;
+    } else {
+      return undefined;
     }
   }
 }
