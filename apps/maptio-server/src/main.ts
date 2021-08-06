@@ -118,11 +118,11 @@ const cache = apicache.middleware;
 app.use(express.text({ type: "text/html", limit: '5mb' }))
 app.use(express.json({ limit: '1mb' }));
 app.use(sslRedirect());
-app.use(compression())
+app.use(compression());
 
 function removeFrameguard (req, res, next) {
-  req.removeHeader('X-Frame-Options')
-  next()
+  res.removeHeader('X-Frame-Options');
+  next();
 }
 
 // app.use('/specificRoute', removeFrameguard, (req, res) => { /* ... */ })
