@@ -120,12 +120,6 @@ app.use(express.json({ limit: '1mb' }));
 app.use(sslRedirect());
 app.use(compression());
 
-function removeFrameguard (req, res, next) {
-  res.removeHeader('X-Frame-Options');
-  next();
-}
-
-// app.use('/specificRoute', removeFrameguard, (req, res) => { /* ... */ })
 
 //
 // API routes
@@ -166,7 +160,13 @@ app.get(cache('5 seconds'));
 
 if (!isDevelopment) {
   app.use(express.static(DIST_DIR));
-  app.use('/embed/', removeFrameguard);
+
+  // Make it possible to use the /embed/ route in an iframe by removing the
+  // header that blocks this
+  app.use('/embed/', function (req, res, next) {
+    res.removeHeader('X-Frame-Options');
+    next();
+  });
 
   // For any other requests, serve the static Angular bundle
   app.get("*", function (req, res, next) {
