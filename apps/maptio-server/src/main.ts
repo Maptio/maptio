@@ -166,7 +166,7 @@ app.get(cache('5 seconds'));
 
 if (!isDevelopment) {
   app.use(express.static(DIST_DIR));
-  app.use(removeFrameguard);
+  app.use('/embed/', removeFrameguard);
 
   // For any other requests, serve the static Angular bundle
   app.get("*", function (req, res, next) {
