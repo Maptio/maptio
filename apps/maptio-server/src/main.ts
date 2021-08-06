@@ -120,6 +120,12 @@ app.use(express.json({ limit: '1mb' }));
 app.use(sslRedirect());
 app.use(compression())
 
+function removeFrameguard (req, res, next) {
+  req.removeHeader('X-Frame-Options')
+  next()
+}
+
+// app.use('/specificRoute', removeFrameguard, (req, res) => { /* ... */ })
 
 //
 // API routes
@@ -160,6 +166,7 @@ app.get(cache('5 seconds'));
 
 if (!isDevelopment) {
   app.use(express.static(DIST_DIR));
+  app.use(removeFrameguard);
 
   // For any other requests, serve the static Angular bundle
   app.get("*", function (req, res, next) {
