@@ -118,7 +118,7 @@ const cache = apicache.middleware;
 app.use(express.text({ type: "text/html", limit: '5mb' }))
 app.use(express.json({ limit: '1mb' }));
 app.use(sslRedirect());
-app.use(compression())
+app.use(compression());
 
 
 //
@@ -160,6 +160,13 @@ app.get(cache('5 seconds'));
 
 if (!isDevelopment) {
   app.use(express.static(DIST_DIR));
+
+  // Make it possible to use the /embed/ route in an iframe by removing the
+  // header that blocks this
+  app.use('/embed/', function (req, res, next) {
+    res.removeHeader('X-Frame-Options');
+    next();
+  });
 
   // For any other requests, serve the static Angular bundle
   app.get("*", function (req, res, next) {
