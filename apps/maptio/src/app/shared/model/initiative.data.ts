@@ -54,6 +54,11 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     tags: Array<Tag> = [];
 
     /**
+     * Circle size modifier
+     */
+    sizeModifier: number;
+
+    /**
      * Team
      */
     // private _URL = "assets/images/logo.png"
@@ -108,6 +113,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
         if (input.accountable) {
             this.accountable = new Helper().deserialize(input.accountable);
         }
+        this.sizeModifier = input.sizeModifier;
 
         let children = new Array<Initiative>();
         if (input.children) {

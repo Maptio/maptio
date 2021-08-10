@@ -223,6 +223,11 @@ export class InitiativeComponent implements OnChanges {
         this.onBlur();
     }
 
+    saveSize(newSize: number) {
+        this.node.sizeModifier = newSize;
+        this.onBlur();
+        this.cd.markForCheck();
+    }
 
     getSummaryUrlRoot() {
         return `/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}/directory`

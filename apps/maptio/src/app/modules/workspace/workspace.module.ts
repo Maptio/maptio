@@ -59,6 +59,7 @@ import { InitiativeHelperRoleInputComponent } from './components/data-entry/deta
 import { InitiativeVacanciesInputComponent } from './components/data-entry/details/parts/helpers/vacancies-input.component';
 import { CommonTextareaComponent } from '../../shared/components/textarea/textarea.component';
 import { InitiativeHelperPrivilegeComponent } from './components/data-entry/details/parts/helpers/helper-toggle-privilege.component';
+import { InitiativeInputSizeComponent } from './components/data-entry/details/parts/size/input-size.component';
 import { CircleMapModule } from '@maptio-circle-map/circle-map.module';
 
 
@@ -89,7 +90,8 @@ import { CircleMapModule } from '@maptio-circle-map/circle-map.module';
         WorkspaceComponent,
         BuildingComponent, InitiativeNodeComponent,
         InitiativeComponent,
-        InitiativeInputNameComponent, InitiativeListTagsComponent,
+        InitiativeInputNameComponent,
+        InitiativeListTagsComponent,
         InitiativeAuthoritySelectComponent,
         InitiativeDescriptionTextareaComponent,
         InitiativeHelpersSelectComponent,
@@ -111,6 +113,7 @@ import { CircleMapModule } from '@maptio-circle-map/circle-map.module';
         RolesSummaryComponent,
         VacanciesSummaryComponent,
         RoleHoldersInInitiativeComponent,
+        InitiativeInputSizeComponent,
 
         SearchComponent, FilterTagsComponent, ShareSlackComponent,
         TooltipComponent, ContextMenuComponent,

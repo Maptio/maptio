@@ -126,11 +126,17 @@ export class CircleMapComponent implements OnInit, OnDestroy {
 
     const root: any = hierarchy(this.rootInitiative) // eslint-disable-line @typescript-eslint/no-explicit-any
       .sum(function (d) {
-        return (Object.prototype.hasOwnProperty.call(d, 'accountable')? 1 : 0) +
-          (Object.prototype.hasOwnProperty.call(d, 'helpers') ? d.helpers.length : 0) + 1;
+        console.log(d.sizeModifier);
+        const accountableContribution = (Object.prototype.hasOwnProperty.call(d, 'accountable')? 1 : 0);
+        const helpersContribution = (Object.prototype.hasOwnProperty.call(d, 'helpers') ? d.helpers.length : 0);
+        const sizeModifierContribution = d.sizeModifier ? Number(d.sizeModifier) : 0;
+        const size = accountableContribution + helpersContribution + sizeModifierContribution + 1;
+        console.log(size);
+        return size;
       })
       .sort(function (a, b) {
         if (a && a.value && b && b.value) {
+          console.log(b.value - a.value);
           return b.value - a.value;
         } else {
           return 0;
