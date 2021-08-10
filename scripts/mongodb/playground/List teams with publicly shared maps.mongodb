@@ -1,0 +1,17 @@
+use('maptio');
+
+const aggregation = [
+  { $match: { isEmbeddable: true } },
+  { $project: { "team.name": 1, _id: 0 } }
+];
+
+// Run the aggregation and open a cursor to the results.
+// Use toArray() to exhaust the cursor to return the whole result set.
+// You can use hasNext()/next() to iterate through the cursor page by page.
+const listOfTeams = db.datasets
+  .aggregate(aggregation)
+  .toArray()
+  .map(function(teamNameObject) { return teamNameObject.team.name })
+
+const uniqueTeams = [...new Set(listOfTeams)]
+console.log(uniqueTeams)
