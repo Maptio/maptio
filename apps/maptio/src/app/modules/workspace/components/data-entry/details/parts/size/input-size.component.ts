@@ -7,7 +7,7 @@ import { Permissions } from '../../../../../../../shared/model/permission.data';
   // styleUrls: ['./input-size.component.css']
 })
 export class InitiativeInputSizeComponent {
-  @Input() sizeModifier: string;
+  @Input() sizeAdjustment: string;
   @Input() isEditMode: boolean;
   @Input() isUnauthorized: boolean;
 

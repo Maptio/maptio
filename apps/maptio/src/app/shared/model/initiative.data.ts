@@ -56,7 +56,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     /**
      * Circle size modifier
      */
-    sizeModifier: number;
+    sizeAdjustment: number;
 
     /**
      * Team
@@ -113,7 +113,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
         if (input.accountable) {
             this.accountable = new Helper().deserialize(input.accountable);
         }
-        this.sizeModifier = input.sizeModifier;
+        this.sizeAdjustment = input.sizeAdjustment;
 
         let children = new Array<Initiative>();
         if (input.children) {

@@ -224,7 +224,7 @@ export class InitiativeComponent implements OnChanges {
     }
 
     saveSize(newSize: number) {
-        this.node.sizeModifier = newSize;
+        this.node.sizeAdjustment = newSize;
         this.onBlur();
         this.cd.markForCheck();
     }
