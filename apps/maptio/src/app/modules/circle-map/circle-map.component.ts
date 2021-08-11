@@ -11,7 +11,7 @@ import {
 import { BehaviorSubject } from "rxjs";
 
 import { SubSink } from 'subsink';
-import { hierarchy, pack } from 'd3-hierarchy';
+import { hierarchy, HierarchyNode, pack } from 'd3-hierarchy';
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 
 import { CircleMapData } from "@maptio-shared/model/circle-map-data.interface";
@@ -124,24 +124,44 @@ export class CircleMapComponent implements OnInit, OnDestroy {
         return PADDING_CIRCLE;
       });
 
-    const root: any = hierarchy(this.rootInitiative) // eslint-disable-line @typescript-eslint/no-explicit-any
+    function propagateSizeAdjustment(node: HierarchyNode<Initiative>) {
+      if (node.children && node.data.computedSizeAdjustment) {
+        node.children.forEach((child) => {
+          child.data.computedSizeAdjustment += node.data.computedSizeAdjustment / node.children.length
+        });
+      }
+    }
+
+    const root: any = hierarchy(this.rootInitiative); // eslint-disable-line @typescript-eslint/no-explicit-any
+
+    root.each((node) => { node.data.computedSizeAdjustment = node.data.sizeAdjustment ?? 0 });
+    root.each(propagateSizeAdjustment);
+
+    root
       .sum(function (d) {
-        console.log(d.sizeAdjustment);
         const accountableContribution = (Object.prototype.hasOwnProperty.call(d, 'accountable')? 1 : 0);
         const helpersContribution = (Object.prototype.hasOwnProperty.call(d, 'helpers') ? d.helpers.length : 0);
-        const sizeAdjustmentContribution = d.sizeAdjustment ? Number(d.sizeAdjustment) : 0;
+        const sizeAdjustmentContribution = d.computedSizeAdjustment ? Number(d.computedSizeAdjustment) : 0;
         const size = accountableContribution + helpersContribution + sizeAdjustmentContribution + 1;
-        console.log(size);
+        console.log(`Name: "${d.name}, user adjustment:  "${d.sizeAdjustment}", computed adjustment: "${d.computedSizeAdjustment}", final: "${size}"`);
         return size;
       })
       .sort(function (a, b) {
         if (a && a.value && b && b.value) {
-          console.log(b.value - a.value);
+          // console.log(b.value - a.value);
           return b.value - a.value;
         } else {
           return 0;
         }
       });
+
+
+    console.log('Root node (with children):', root);
+    console.log('\nFinal size values:');
+    root.each((d) => {
+      console.log(`Name: "${d.data.name}, final value: "${d.value}"`);
+    });
+    // console.log('root.value', root.value);
 
     this.circles = packInitiatives(root).descendants();
     this.circleMapService.setCircles(this.circles);

@@ -54,9 +54,22 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     tags: Array<Tag> = [];
 
     /**
-     * Circle size modifier
+     * Size adjustment as specified by user through UI
      */
     sizeAdjustment: number;
+
+    /**
+     * Final size adjustment computed from user-defined adjustments
+     *
+     * In the D3 circle-packing algorithm the values assigned to each circle
+     * (depending on number of helpers, etc.) directly correlate to the final
+     * radius only for leaf circles. To adjust the size of a parent circle we
+     * need to distribute its `sizeAdjustment` evenly across the child
+     * nodes.
+     *
+     * TODO: This really shouldn't live on the model!
+     */
+    computedSizeAdjustment  = 0;
 
     /**
      * Team
