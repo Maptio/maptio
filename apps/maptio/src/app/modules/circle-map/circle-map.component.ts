@@ -124,51 +124,13 @@ export class CircleMapComponent implements OnInit, OnDestroy {
         return PADDING_CIRCLE;
       });
 
-    function propagateSizeAdjustment(node: HierarchyNode<Initiative>) {
-      if (node.children && node.data.computedSizeAdjustment) {
-        node.children.forEach((child) => {
-          child.data.computedSizeAdjustment += node.data.computedSizeAdjustment / node.children.length
-        });
-      }
-    }
+    const rootHierarchyNode = this.circleMapService.calculateD3RootHierarchyNode(this.rootInitiative);
 
-    const root: any = hierarchy(this.rootInitiative); // eslint-disable-line @typescript-eslint/no-explicit-any
+    // We perform this type conversion to later populate each node's data with some view-specific properties
+    const rootHierarchyNodeViewModel = rootHierarchyNode as unknown as HierarchyNode<InitiativeViewModel>;
 
-    root.each((node) => { node.data.computedSizeAdjustment = node.data.sizeAdjustment ?? 0 });
-    root.each(propagateSizeAdjustment);
+    this.circles = packInitiatives(rootHierarchyNodeViewModel).descendants();
 
-    root
-      .sum(function (d) {
-        const accountableContribution = (Object.prototype.hasOwnProperty.call(d, 'accountable')? 1 : 0);
-        const helpersContribution = (Object.prototype.hasOwnProperty.call(d, 'helpers') ? d.helpers.length : 0);
-        const sizeAdjustmentContribution = d.computedSizeAdjustment ? Number(d.computedSizeAdjustment) : 0;
-
-        let size = accountableContribution + helpersContribution + sizeAdjustmentContribution + 1;
-
-        // Don't let leaf node size fall below zero, or the circle will disappear altogether
-        size = size <= 0 ? 1 : size;
-
-        console.log(`Name: "${d.name}, user adjustment:  "${d.sizeAdjustment}", computed adjustment: "${d.computedSizeAdjustment}", final: "${size}"`);
-        return size;
-      })
-      .sort(function (a, b) {
-        if (a && a.value && b && b.value) {
-          // console.log(b.value - a.value);
-          return b.value - a.value;
-        } else {
-          return 0;
-        }
-      });
-
-
-    console.log('Root node (with children):', root);
-    console.log('\nFinal size values:');
-    root.each((d) => {
-      console.log(`Name: "${d.data.name}, final value: "${d.value}"`);
-    });
-    // console.log('root.value', root.value);
-
-    this.circles = packInitiatives(root).descendants();
     this.circleMapService.setCircles(this.circles);
   }
 
