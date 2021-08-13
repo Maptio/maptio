@@ -1,5 +1,8 @@
-.input-size {
-  height: calc(1.5em + 0.25rem + 2px);
+.input-size__button {
+  border: none;
+}
+
+.input-size__input {
   border-color: #f8f9fa!important;
   border-style: solid;
   text-align: center;

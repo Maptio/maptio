@@ -52,13 +52,44 @@ data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [attr.rows]=
           (click)="!isUnauthorized && isEditMode=true">Edit</button>-->
     </div>
 
-    <div class="w-100 bg-light p-2 rounded">
+    <div class="w-100 bg-light p-2 rounded d-flex flex-row">
+      <button
+        *ngIf="!isUnauthorized"
+        class="input-size__button btn btn-outline-secondary"
+        (click)="onDecrease()"
+      >
+        <i class="fas fa-minus"></i>
+      </button>
+
       <input
         type="number"
-        [value]="sizeAdjustment || 'Default'"
-        (change)="onChange($event.target.value)"
-        class="input-size form-control bg-light"
+        [value]="size || 'Default'"
+        (change)="onEdit($event.target.value)"
+        class="input-size__input form-control bg-light"
       >
+
+      <button
+        *ngIf="!isUnauthorized"
+        class="input-size__button btn btn-outline-secondary"
+        (click)="onIncrease()"
+      >
+        <i class="fas fa-plus"></i>
+      </button>
+
+      <button
+        *ngIf="!isUnauthorized"
+        class="input-size__button btn btn-outline-secondary"
+        mwlConfirmationPopover
+        [popoverMessage]="'Reset to default size?'"
+        placement="top"
+        container="body"
+        focusbutton="cancel"
+        appendToBody="false"
+        (confirm)="onReset()"
+        (cancel)="cancelClicked=true"
+      >
+        <i class="fas fa-undo"></i>
+      </button>
     </div>
 
     <!-- <div class="w-100 position-relative" *ngIf="isEditMode">
