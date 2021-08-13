@@ -25,6 +25,8 @@ import { LoaderService } from "../../../../shared/components/loading/loader.serv
 import { Team } from "../../../../shared/model/team.data";
 import * as screenfull from 'screenfull';
 
+import { CircleMapService } from '@maptio-circle-map/circle-map.service';
+
 import { transition } from "d3-transition";
 import { select, selectAll, event, mouse } from "d3-selection";
 import { zoom, zoomIdentity } from "d3-zoom";
@@ -139,7 +141,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     private dataService: DataService,
     private uriService: URIService,
     private loaderService: LoaderService,
-    private permissionsService: PermissionsService
+    private permissionsService: PermissionsService,
+    private circleMapService: CircleMapService
   ) {
     this.T = d3.transition(null).duration(this.TRANSITION_DURATION);
   }
@@ -532,14 +535,7 @@ document.querySelector("svg#map").clientWidth / 2,
         return PADDING_CIRCLE;
       });
 
-    const root: any = d3
-      .hierarchy(data)
-      .sum(function (d) {
-        return (d.accountable ? 1 : 0) + (d.helpers ? d.helpers.length : 0) + 1;
-      })
-      .sort(function (a, b) {
-        return b.value - a.value;
-      });
+    const root: any = this.circleMapService.calculateD3RootHierarchyNode(data);
 
     if (isFirstLoad) {
       setLastZoomedCircle(root);
