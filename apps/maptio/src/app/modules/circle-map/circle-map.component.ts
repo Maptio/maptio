@@ -142,7 +142,12 @@ export class CircleMapComponent implements OnInit, OnDestroy {
         const accountableContribution = (Object.prototype.hasOwnProperty.call(d, 'accountable')? 1 : 0);
         const helpersContribution = (Object.prototype.hasOwnProperty.call(d, 'helpers') ? d.helpers.length : 0);
         const sizeAdjustmentContribution = d.computedSizeAdjustment ? Number(d.computedSizeAdjustment) : 0;
-        const size = accountableContribution + helpersContribution + sizeAdjustmentContribution + 1;
+
+        let size = accountableContribution + helpersContribution + sizeAdjustmentContribution + 1;
+
+        // Don't let leaf node size fall below zero, or the circle will disappear altogether
+        size = size <= 0 ? 1 : size;
+
         console.log(`Name: "${d.name}, user adjustment:  "${d.sizeAdjustment}", computed adjustment: "${d.computedSizeAdjustment}", final: "${size}"`);
         return size;
       })
