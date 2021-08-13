@@ -4,7 +4,7 @@ import { Permissions } from '../../../../../../../shared/model/permission.data';
 @Component({
   selector: 'initiative-input-size',
   templateUrl: './input-size.component.html',
-  // styleUrls: ['./input-size.component.css']
+  styleUrls: ['./input-size.component.scss']
 })
 export class InitiativeInputSizeComponent {
   @Input() sizeAdjustment: string;

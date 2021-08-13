@@ -1,0 +1,12 @@
+.input-size {
+  height: calc(1.5em + 0.25rem + 2px);
+  border-color: #f8f9fa!important;
+  border-style: solid;
+  text-align: center;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}

@@ -52,11 +52,14 @@ data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [attr.rows]=
           (click)="!isUnauthorized && isEditMode=true">Edit</button>-->
     </div>
 
-    <input
-      type="number"
-      [value]="sizeAdjustment || 'Default'"
-      (change)="onChange($event.target.value)"
-    >
+    <div class="w-100 bg-light p-2 rounded">
+      <input
+        type="number"
+        [value]="sizeAdjustment || 'Default'"
+        (change)="onChange($event.target.value)"
+        class="input-size form-control bg-light"
+      >
+    </div>
 
     <!-- <div class="w-100 position-relative" *ngIf="isEditMode">
         <small *ngIf="!isHeader" class="my-1 position-absolute bottom-left text-default text-muted ml-auto">
