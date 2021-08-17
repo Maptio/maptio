@@ -360,6 +360,10 @@ export class BuildingComponent implements OnDestroy {
 
             })
             .then((users: User[]) => {
+                // TODO: This is the first place where the initiative and the
+                // initiative in the dataset are no longer the same object
+                // console.log(this.nodes[0] === dataset.initiative); // false
+
                 let queue = this.nodes[0].traversePromise(function (node: Initiative) {
                     let q: any = [];
                     if (node.accountable) {
