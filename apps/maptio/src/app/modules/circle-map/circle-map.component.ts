@@ -61,7 +61,9 @@ export class CircleMapComponent implements OnInit, OnDestroy {
     this.onInputChanges();
 
     this.subs.sink = this.circleMapData$.subscribe(
-      this.onInputChanges
+      () => {
+        this.onInputChanges();
+      }
     );
   }
 
