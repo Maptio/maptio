@@ -8,12 +8,13 @@ import {
   ChangeDetectionStrategy,
 } from "@angular/core";
 
-import { BehaviorSubject, combineLatest } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 
 import { SubSink } from 'subsink';
 import { hierarchy, pack } from 'd3-hierarchy';
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 
+import { CircleMapData } from "@maptio-shared/model/circle-map-data.interface";
 import { DataSet } from "@maptio-shared/model/dataset.data";
 import { Initiative } from "@maptio-shared/model/initiative.data";
 import { ColorService } from "@maptio-shared/services/color/color.service";
@@ -30,13 +31,16 @@ import { CircleMapService } from './circle-map.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CircleMapComponent implements OnInit, OnDestroy {
-  @Input() dataset$: BehaviorSubject<DataSet>;
+  // All the data comes in as a single package
+  @Input() circleMapData$: BehaviorSubject<CircleMapData>;
+
+  // We then extract the individual pieces of the data package
+  private rootInitiative: Initiative;
+  private dataset: DataSet;
   private datasetId: string;
-  private datasetInitiative: Initiative;
-  slug: string;
+  private seedColor: string;
 
-  @Input() seedColor$: BehaviorSubject<string>;
-
+  // Then, the data is transformed into a display format
   circles: InitiativeNode[] = [];
   rootCircle: InitiativeNode | undefined = undefined;
   primaryCircles: InitiativeNode[] = [];
@@ -56,11 +60,7 @@ export class CircleMapComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.onInputChanges();
 
-    this.subs.sink = combineLatest([
-      this.dataset$,
-      this.seedColor$
-    ])
-    .subscribe(
+    this.subs.sink = this.circleMapData$.subscribe(
       () => {
         this.onInputChanges();
       }
@@ -72,15 +72,17 @@ export class CircleMapComponent implements OnInit, OnDestroy {
   }
 
   onInputChanges() {
-    if (!this.dataset$.value) {
+    if (!this.circleMapData$?.value) {
       return;
     }
 
-    this.datasetId = this.dataset$.value.datasetId;
-    this.datasetInitiative = this.dataset$.value.initiative;
+    this.rootInitiative = this.circleMapData$.value.rootInitiative;
+    this.dataset = this.circleMapData$.value.dataset;
+    this.datasetId = this.circleMapData$.value.dataset.datasetId;
+    this.seedColor = this.circleMapData$.value.seedColor;
     this.isLoading = true;
 
-    this.circleMapService.setDataset(this.datasetId, this.dataset$.value);
+    this.circleMapService.setDataset(this.datasetId, this.dataset);
 
     this.prepareLayout();
     this.circleMapService.clearCircleStates();
@@ -122,7 +124,7 @@ export class CircleMapComponent implements OnInit, OnDestroy {
         return PADDING_CIRCLE;
       });
 
-    const root: any = hierarchy(this.datasetInitiative) // eslint-disable-line @typescript-eslint/no-explicit-any
+    const root: any = hierarchy(this.rootInitiative) // eslint-disable-line @typescript-eslint/no-explicit-any
       .sum(function (d) {
         return (Object.prototype.hasOwnProperty.call(d, 'accountable')? 1 : 0) +
           (Object.prototype.hasOwnProperty.call(d, 'helpers') ? d.helpers.length : 0) + 1;
@@ -170,7 +172,7 @@ export class CircleMapComponent implements OnInit, OnDestroy {
 
   assignColorsToCircles() {
     const maxDepth = this.calculateMaxDepth();
-    const colorRange = this.colorService.getColorRangeNew(maxDepth, this.seedColor$.value);
+    const colorRange = this.colorService.getColorRangeNew(maxDepth, this.seedColor);
 
     this.circles.forEach((circle) => {
       const isPrimaryCircle = this.primaryCircles.includes(circle);

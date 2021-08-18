@@ -24,8 +24,8 @@ import { IDataVisualizer } from "../../components/canvas/mapping.interface";
 import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { Team } from "../../../../shared/model/team.data";
 
+import { CircleMapData } from "@maptio-shared/model/circle-map-data.interface";
 import { DataSet } from "@maptio-shared/model/dataset.data";
-
 import { InitiativeNode } from '@maptio-circle-map/initiative.model';
 import { CircleMapService } from "@maptio-circle-map/circle-map.service";
 
@@ -64,8 +64,8 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
 
   dataset: DataSet;
   seedColor: string;
-  dataset$ = new BehaviorSubject<DataSet>(undefined);
-  seedColor$ = new BehaviorSubject<string>('');
+
+  circleMapData$ = new BehaviorSubject<CircleMapData>(undefined);
 
   isFirstLoad = true;
 
@@ -124,8 +124,13 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
           teamId: (<Team>complexData[0].team).team_id
         });
 
-        this.dataset$.next(<DataSet>complexData[0].dataset);
-        this.seedColor$.next(complexData[1]);
+        const circleMapData: CircleMapData = {
+          dataset: complexData[0].dataset,
+          rootInitiative: complexData[0].initiative,
+          seedColor: complexData[1],
+        };
+
+        this.circleMapData$.next(circleMapData);
 
         this.isFirstLoad = false;
         this.loaderService.hide();
