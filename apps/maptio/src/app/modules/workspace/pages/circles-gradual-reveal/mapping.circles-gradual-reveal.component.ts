@@ -124,18 +124,6 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
           teamId: (<Team>complexData[0].team).team_id
         });
 
-        console.log('MappingCirclesGradualRevealComponent.ngOnInit')
-        console.log(complexData[0].dataset);
-        console.log(complexData[0].initiative);
-        console.log(complexData[0].dataset.initiative);
-
-        // THIS IS THE BUG - this should be true... and is false, ouch
-        console.log(complexData[0].initiative === complexData[0].dataset.initiative)
-
-        // this.dataset$.next(complexData[0].dataset);
-        // this.rootInitiative$.next(complexData[0].initiative);
-        // this.seedColor$.next(complexData[1]);
-
         const circleMapData: CircleMapData = {
           dataset: complexData[0].dataset,
           rootInitiative: complexData[0].initiative,
