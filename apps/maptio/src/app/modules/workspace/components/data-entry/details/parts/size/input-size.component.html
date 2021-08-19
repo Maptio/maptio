@@ -1,33 +1,3 @@
-<!-- <div class="d-flex justify-content-start" (click)="onClick()" (blur)="isEditMode=false">
-    <input #inputName *ngIf="isEditMode" class="form-control form-control-lg text-bold" type="text" [value]="name"
-        placeholder="Circle name" (change)="saveName(inputName.value)" (blur)="isEditMode=false" />
-    <span *ngIf="!isEditMode" [class.text-muted]="isUnauthorized"  class="pl-3 text-bold lead">{{name}}</span>
-</div> -->
-
-<!--
-<common-textarea
-  rows="1"
-  label="Circle size"
-  placeholder=""
-  [text]="name"
-  (save)="saveName($event)"
-  [isUnauthorized]="isUnauthorized"
-  [isHeader]="true"
->
-  <ng-content></ng-content>
-</common-textarea> -->
-
-<!-- <textarea #inputDescription class="form-control mb-4" id="inputDescription" [value]="text || ''"
-data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [attr.rows]="rows"
-[attr.placeholder]="placeholder" (change)="onChange($event.target.value)" (blur)="isEditMode=false">
-
-                                </textarea -->
-
-
-<!-- <ng-template #editTipContent>
-  <ng-content></ng-content>
-</ng-template> -->
-
 <ng-template #editTipContent>
 	You don't have permission to edit this.
 	<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
@@ -36,101 +6,69 @@ data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [attr.rows]=
 <div class="input-size d-flex flex-column">
   <div class="input-size__label d-flex align-items-baseline justify-content-start">
     <span class="d-flex align-items-baseline text-gray-light mr-1">
-      <!-- <i class="fas fa-crop mr-1"></i> -->
-      <!-- <i class="fas fa-ruler mr-1"></i> -->
-      <!-- <i class="fas fa-text-height mr-1"></i> -->
       <i class="fas fa-ruler-combined mr-1"></i>
       <span class="text-uppercase text-bold small">Circle size adjustment</span>
     </span>
 
+    <span
+      *ngIf="isUnauthorized"
+      class="text-gray-light small"
+      [stickyPopover]="editTipContent"
+      placement='right'
+    >
+      <i class="fas fa-lock"></i>
+    </span>
+  </div>
+
+  <div class="w-100 bg-light p-2 rounded d-flex flex-row">
+    <button
+      *ngIf="!isUnauthorized"
+      class="input-size__button btn btn-outline-secondary"
+      (click)="onDecrease()"
+    >
+      <i class="fas fa-minus"></i>
+    </button>
+
+    <div
+      class="input-size__input-wrapper w-100"
+    >
+      <input
+        type="number"
+        [readonly]="isUnauthorized"
+        [value]="size || 'Default'"
+        (change)="onEdit($event.target.value)"
+        class="input-size__input form-control bg-light"
+      >
+
       <span
-        *ngIf="isUnauthorized"
-        class="text-gray-light small"
-        [stickyPopover]="editTipContent"
-        placement='right'
+        class="input-size__default-value-placeholder"
+        *ngIf="!size"
       >
-        <i class="fas fa-lock"></i>
+        Default size
       </span>
-
-      <!-- <button *ngIf="isEditMode" class="btn btn-link btn-sm" (click)="isEditMode=false">Save</button>
-      <button [class.invisible]="isEditMode || isUnauthorized" class="btn btn-link btn-sm"
-          (click)="!isUnauthorized && isEditMode=true">Edit</button>-->
     </div>
 
-    <div class="w-100 bg-light p-2 rounded d-flex flex-row">
-      <button
-        *ngIf="!isUnauthorized"
-        class="input-size__button btn btn-outline-secondary"
-        (click)="onDecrease()"
-      >
-        <i class="fas fa-minus"></i>
-      </button>
+    <button
+      *ngIf="!isUnauthorized"
+      class="input-size__button btn btn-outline-secondary"
+      (click)="onIncrease()"
+    >
+      <i class="fas fa-plus"></i>
+    </button>
 
-      <div
-        class="input-size__input-wrapper w-100"
-      >
-        <input
-          type="number"
-          [readonly]="isUnauthorized"
-          [value]="size || 'Default'"
-          (change)="onEdit($event.target.value)"
-          class="input-size__input form-control bg-light"
-        >
-
-        <span
-          class="input-size__default-value-placeholder"
-          *ngIf="!size"
-        >
-          Default size
-        </span>
-      </div>
-
-      <button
-        *ngIf="!isUnauthorized"
-        class="input-size__button btn btn-outline-secondary"
-        (click)="onIncrease()"
-      >
-        <i class="fas fa-plus"></i>
-      </button>
-
-      <button
-        *ngIf="!isUnauthorized"
-        class="input-size__button btn btn-outline-secondary"
-        mwlConfirmationPopover
-        [popoverMessage]="'Reset to default size?'"
-        placement="top"
-        container="body"
-        focusbutton="cancel"
-        appendToBody="false"
-        (confirm)="onReset()"
-        (cancel)="cancelClicked=true"
-      >
-        <i class="fas fa-undo"></i>
-      </button>
-    </div>
-
-    <!-- <div class="w-100 position-relative" *ngIf="isEditMode">
-        <small *ngIf="!isHeader" class="my-1 position-absolute bottom-left text-default text-muted ml-auto">
-            Use
-            <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">markdown</a> to
-            create links and add formatting.
-        </small>
-
-
-        <textarea #inputDescription class="form-control mb-4" id="inputDescription" [value]="text || ''"
-            data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [attr.rows]="rows"
-            [attr.placeholder]="placeholder" (change)="onChange($event.target.value)" (blur)="isEditMode=false">
-
-                                            </textarea>
-
-    </div>
-
-    <div *ngIf="!isEditMode && !isTextEmpty" (click)="!isUnauthorized && isEditMode=true "
-        class="position-relative w-100 bg-light p-2 rounded">
-
-        <markdown class="cursor-text  border-0 w-100 h-100" [ngClass]="{'lead text-bold' : isHeader}" [data]="text">
-        </markdown>
-
-        <span *ngIf="!text" class="text-muted small text-gray-light">{{placeholder}}</span>
-    </div> -->
+    <button
+      *ngIf="!isUnauthorized"
+      class="input-size__button btn btn-outline-secondary"
+      mwlConfirmationPopover
+      [popoverMessage]="'Reset to default size?'"
+      placement="top"
+      container="body"
+      focusbutton="cancel"
+      appendToBody="false"
+      (confirm)="onReset()"
+      (cancel)="cancelClicked=true"
+    >
+      <i class="fas fa-undo"></i>
+    </button>
+  </div>
 </div>
