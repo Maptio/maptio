@@ -28,6 +28,7 @@
 
     "baseUrl": "src",
     "paths": {
+      "@maptio-config/*": ["app/config/*"],
       "@maptio-shared/*": ["app/shared/*"],
       "@maptio-circle-map/*": ["app/modules/circle-map/*"],
     }

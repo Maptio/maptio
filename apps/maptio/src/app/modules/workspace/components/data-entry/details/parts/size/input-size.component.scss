@@ -31,6 +31,12 @@
   }
 }
 
+// Make it impossible to focus into input when it's readonly
+.input-size__input:read-only {
+  pointer-events: none;
+}
+
+// Remove the placeholder showing the default value label on focus
 .input-size__input:focus + .input-size__default-value-placeholder {
   display: none;
 }

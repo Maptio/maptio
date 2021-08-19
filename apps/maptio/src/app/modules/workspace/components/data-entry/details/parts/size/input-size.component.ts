@@ -8,7 +8,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 
-import { Permissions } from '@maptio-shared/model/permission.data';
+import { environment } from "@maptio-config/environment";
 
 
 @Component({
@@ -21,6 +21,8 @@ export class InitiativeInputSizeComponent implements OnChanges {
   @Input() isUnauthorized: boolean;
 
   @Output() save: EventEmitter<number> = new EventEmitter<number>();
+
+  KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
 
   size = 0;
 

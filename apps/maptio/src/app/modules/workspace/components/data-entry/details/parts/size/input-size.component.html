@@ -28,6 +28,11 @@ data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [attr.rows]=
   <ng-content></ng-content>
 </ng-template> -->
 
+<ng-template #editTipContent>
+	You don't have permission to edit this.
+	<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+</ng-template>
+
 <div class="input-size d-flex flex-column">
   <div class="input-size__label d-flex align-items-baseline justify-content-start">
     <span class="d-flex align-items-baseline text-gray-light mr-1">
@@ -35,8 +40,8 @@ data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [attr.rows]=
       <!-- <i class="fas fa-ruler mr-1"></i> -->
       <!-- <i class="fas fa-text-height mr-1"></i> -->
       <i class="fas fa-ruler-combined mr-1"></i>
-        <span class="text-uppercase text-bold small">Circle size adjustment</span>
-      </span>
+      <span class="text-uppercase text-bold small">Circle size adjustment</span>
+    </span>
 
       <span
         *ngIf="isUnauthorized"
@@ -66,6 +71,7 @@ data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [attr.rows]=
       >
         <input
           type="number"
+          [readonly]="isUnauthorized"
           [value]="size || 'Default'"
           (change)="onEdit($event.target.value)"
           class="input-size__input form-control bg-light"
