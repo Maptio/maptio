@@ -29,8 +29,8 @@ export class InitiativeInputSizeComponent implements OnChanges {
   constructor(private cd: ChangeDetectorRef) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.sizeAdjustment && changes.sizeAdjustment.currentValue) {
-      this.size = Number.parseInt(changes.sizeAdjustment.currentValue);
+    if (changes.sizeAdjustment) {
+      this.size = changes.sizeAdjustment.currentValue ? Number.parseInt(changes.sizeAdjustment.currentValue) : 0;
       this.cd.markForCheck();
     }
   }
