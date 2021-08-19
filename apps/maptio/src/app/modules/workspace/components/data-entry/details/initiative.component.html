@@ -81,7 +81,7 @@
 
   <initiative-input-size
 		class="mb-4"
-    [isUnauthorized]="!canEditName()"
+    [isUnauthorized]="!canEditSize()"
     [sizeAdjustment]="node?.sizeAdjustment"
     (save)="saveSize($event)">
     <ng-container *ngTemplateOutlet="editTipContent"></ng-container>

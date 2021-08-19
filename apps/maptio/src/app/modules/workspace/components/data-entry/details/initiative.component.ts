@@ -152,6 +152,10 @@ export class InitiativeComponent implements OnChanges {
         return this.permissionsService.canEditVacancies();
     }
 
+    canEditSize() {
+        return this.permissionsService.canEditSize();
+    }
+
     saveName(newName: string) {
         this.node.name = newName;
         this.analytics.eventTrack("Initiative", { action: "change name", team: this.teamName, teamId: this.teamId });
