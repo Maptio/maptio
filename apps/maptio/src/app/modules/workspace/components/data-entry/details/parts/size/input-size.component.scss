@@ -2,6 +2,19 @@
   border: none;
 }
 
+.input-size__input-wrapper {
+  position: relative;
+}
+
+.input-size__default-value-placeholder {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: .375rem .75rem;
+  text-align: center;
+  pointer-events: none;
+}
+
 .input-size__input {
   border-color: #f8f9fa!important;
   border-style: solid;
@@ -12,4 +25,8 @@
     -webkit-appearance: none;
     margin: 0;
   }
+}
+
+.input-size__input:focus + .input-size__default-value-placeholder {
+  display: none;
 }

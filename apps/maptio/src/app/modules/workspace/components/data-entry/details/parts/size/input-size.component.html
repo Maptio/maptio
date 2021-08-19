@@ -61,12 +61,23 @@ data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [attr.rows]=
         <i class="fas fa-minus"></i>
       </button>
 
-      <input
-        type="number"
-        [value]="size || 'Default'"
-        (change)="onEdit($event.target.value)"
-        class="input-size__input form-control bg-light"
+      <div
+        class="input-size__input-wrapper w-100"
       >
+        <input
+          type="number"
+          [value]="size || 'Default'"
+          (change)="onEdit($event.target.value)"
+          class="input-size__input form-control bg-light"
+        >
+
+        <span
+          class="input-size__default-value-placeholder"
+          *ngIf="!size"
+        >
+          Default size
+        </span>
+      </div>
 
       <button
         *ngIf="!isUnauthorized"
