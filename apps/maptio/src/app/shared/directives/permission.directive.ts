@@ -242,6 +242,8 @@ export class PermissionsDirective implements OnInit, OnDestroy {
                 return this.permissionService.canEditHelper(this.initiative, this.helper);
             case Permissions.canEditVacancies:
                 return this.permissionService.canEditVacancies();
+            case Permissions.canEditSize:
+                return this.permissionService.canEditSize();
             case Permissions.canGiveHelperPrivileges:
                 return this.permissionService.canGiveHelperPrivilege(this.initiative)
             default:

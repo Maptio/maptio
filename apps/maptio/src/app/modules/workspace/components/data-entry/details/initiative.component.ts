@@ -152,6 +152,10 @@ export class InitiativeComponent implements OnChanges {
         return this.permissionsService.canEditVacancies();
     }
 
+    canEditSize() {
+        return this.permissionsService.canEditSize();
+    }
+
     saveName(newName: string) {
         this.node.name = newName;
         this.analytics.eventTrack("Initiative", { action: "change name", team: this.teamName, teamId: this.teamId });
@@ -223,6 +227,11 @@ export class InitiativeComponent implements OnChanges {
         this.onBlur();
     }
 
+    saveSize(newSize: number) {
+        this.node.sizeAdjustment = newSize;
+        this.onBlur();
+        this.cd.markForCheck();
+    }
 
     getSummaryUrlRoot() {
         return `/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}/directory`

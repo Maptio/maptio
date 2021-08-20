@@ -11,7 +11,7 @@ import {
 import { BehaviorSubject } from "rxjs";
 
 import { SubSink } from 'subsink';
-import { hierarchy, pack } from 'd3-hierarchy';
+import { hierarchy, HierarchyNode, pack } from 'd3-hierarchy';
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 
 import { CircleMapData } from "@maptio-shared/model/circle-map-data.interface";
@@ -124,20 +124,13 @@ export class CircleMapComponent implements OnInit, OnDestroy {
         return PADDING_CIRCLE;
       });
 
-    const root: any = hierarchy(this.rootInitiative) // eslint-disable-line @typescript-eslint/no-explicit-any
-      .sum(function (d) {
-        return (Object.prototype.hasOwnProperty.call(d, 'accountable')? 1 : 0) +
-          (Object.prototype.hasOwnProperty.call(d, 'helpers') ? d.helpers.length : 0) + 1;
-      })
-      .sort(function (a, b) {
-        if (a && a.value && b && b.value) {
-          return b.value - a.value;
-        } else {
-          return 0;
-        }
-      });
+    const rootHierarchyNode = this.circleMapService.calculateD3RootHierarchyNode(this.rootInitiative);
 
-    this.circles = packInitiatives(root).descendants();
+    // We perform this type conversion to later populate each node's data with some view-specific properties
+    const rootHierarchyNodeViewModel = rootHierarchyNode as unknown as HierarchyNode<InitiativeViewModel>;
+
+    this.circles = packInitiatives(rootHierarchyNodeViewModel).descendants();
+
     this.circleMapService.setCircles(this.circles);
   }
 

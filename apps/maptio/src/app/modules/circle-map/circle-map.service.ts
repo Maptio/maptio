@@ -2,10 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
+import { hierarchy } from 'd3-hierarchy';
+
 import { Initiative } from '@maptio-shared/model/initiative.data';
 
 import { InitiativeNode } from './initiative.model';
 import { SvgZoomPanService } from './svg-zoom-pan/svg-zoom-pan.service';
+import { HierarchyNode } from 'd3-hierarchy';
 
 
 @Injectable({
@@ -30,6 +33,45 @@ export class CircleMapService {
 
   setCircles(circles: InitiativeNode[]) {
     this.circles = circles;
+  }
+
+  calculateD3RootHierarchyNode(datasetInitiative: Initiative): HierarchyNode<Initiative> {
+    const root = hierarchy(datasetInitiative);
+
+    root.each((node) => { node.data.computedSizeAdjustment = node.data.sizeAdjustment ?? 0 });
+    root.each(this.propagateSizeAdjustment);
+
+    root
+      .sum(function (d) {
+        const accountableContribution = (Object.prototype.hasOwnProperty.call(d, 'accountable')? 1 : 0);
+        const helpersContribution = (Object.prototype.hasOwnProperty.call(d, 'helpers') ? d.helpers.length : 0);
+        const sizeAdjustmentContribution = d.computedSizeAdjustment ? Number(d.computedSizeAdjustment) : 0;
+
+        let size = accountableContribution + helpersContribution + sizeAdjustmentContribution + 1;
+
+        // Don't let leaf node size fall below zero, or the circle will disappear altogether
+        size = size <= 0 ? 1 : size;
+
+        // console.log(`Name: "${d.name}, user adjustment:  "${d.sizeAdjustment}", computed adjustment: "${d.computedSizeAdjustment}", final: "${size}"`);
+        return size;
+      })
+      .sort(function (a, b) {
+        if (a && a.value && b && b.value) {
+          return b.value - a.value;
+        } else {
+          return 0;
+        }
+      });
+
+    return root;
+  }
+
+  private propagateSizeAdjustment(node: HierarchyNode<Initiative>) {
+    if (node.children && node.data.computedSizeAdjustment) {
+      node.children.forEach((child) => {
+        child.data.computedSizeAdjustment += node.data.computedSizeAdjustment / node.children.length
+      });
+    }
   }
 
   onCircleClick(circle: InitiativeNode) {

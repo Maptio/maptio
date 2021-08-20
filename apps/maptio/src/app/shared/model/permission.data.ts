@@ -8,7 +8,7 @@ export enum UserRole {
    */
     Admin,
     /**
-     * Superuser i.e. Maptio people 
+     * Superuser i.e. Maptio people
      */
     Superuser
 }
@@ -38,6 +38,7 @@ export enum Permissions {
     canEditHelper,
     canEditLibraryRoles,
     canEditVacancies,
+    canEditSize,
     canGiveHelperPrivileges,
     canSubscribe
 }
@@ -86,6 +87,7 @@ export class UserRoleService {
             Permissions.canEditHelper,
             Permissions.canEditLibraryRoles,
             Permissions.canEditVacancies,
+            Permissions.canEditSize,
             Permissions.canGiveHelperPrivileges,
             Permissions.canSubscribe
         ]

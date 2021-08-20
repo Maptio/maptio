@@ -8,7 +8,7 @@ import { Auth } from '../../../core/authentication/auth.service';
 export class PermissionsService {
 
     Permission: Permissions;
-    
+
     private userId:string;
     private userPermissions:Permissions[];
 
@@ -102,6 +102,10 @@ export class PermissionsService {
 
     public canEditVacancies(): boolean {
         return this.userPermissions.includes(Permissions.canEditVacancies)
+    }
+
+    public canEditSize(): boolean {
+        return this.userPermissions.includes(Permissions.canEditSize);
     }
 
     public canEditLibraryRoles(): boolean {

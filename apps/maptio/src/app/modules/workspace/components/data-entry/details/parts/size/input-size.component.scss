@@ -1,0 +1,42 @@
+.input-size__label {
+  padding: 0.375rem 0;
+}
+
+.input-size__button {
+  border: none;
+}
+
+.input-size__input-wrapper {
+  position: relative;
+}
+
+.input-size__default-value-placeholder {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: .375rem .75rem;
+  text-align: center;
+  pointer-events: none;
+}
+
+.input-size__input {
+  border-color: #f8f9fa!important;
+  border-style: solid;
+  text-align: center;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+// Make it impossible to focus into input when it's readonly
+.input-size__input:read-only {
+  pointer-events: none;
+}
+
+// Remove the placeholder showing the default value label on focus
+.input-size__input:focus + .input-size__default-value-placeholder {
+  display: none;
+}
