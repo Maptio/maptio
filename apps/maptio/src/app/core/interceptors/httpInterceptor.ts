@@ -49,7 +49,10 @@ export class HttpLogInterceptor implements HttpInterceptor {
   }
 
   private handleApiError(error) {
-    if (this.isUnauthorized(error.status)) {
+    if (!this.authService.internalApiAuthenticated()) {
+      this.router.navigateByUrl("login?login_message=Your session expired, please log back in.");
+      return EMPTY;
+    } else if (this.isUnauthorized(error.status)) {
       this.router.navigateByUrl("/unauthorized");
 
       if (error instanceof HttpErrorResponse) {
