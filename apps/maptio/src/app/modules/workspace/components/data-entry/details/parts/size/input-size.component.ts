@@ -36,14 +36,12 @@ export class InitiativeInputSizeComponent implements OnChanges {
   }
 
   saveSize(newSize: number) {
-    console.log(typeof newSize);
     this.save.emit(newSize);
     this.size = newSize;
     this.cd.markForCheck();
   }
 
   onEdit(newSize: string) {
-    console.log(typeof newSize);
     this.saveSize(Number.parseInt(newSize));
   }
 

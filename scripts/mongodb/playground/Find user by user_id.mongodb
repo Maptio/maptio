@@ -1,0 +1,6 @@
+use('maptio');
+
+userId = 'auth0|5ae2a58168d5b6065519fbe2'
+
+// Search for documents in the current collection.
+db.getCollection('users').find({ user_id: userId });

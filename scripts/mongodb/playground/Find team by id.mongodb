@@ -1,8 +1,10 @@
 use('maptio');
 
+const teamId = '';
+
 db.getCollection('teams')
   .find(
     {
-      name: 'Maptio'
+      _id: ObjectId(teamId)
     },
   );
