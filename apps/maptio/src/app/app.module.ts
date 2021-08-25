@@ -1,6 +1,11 @@
 import { NgModule } from "@angular/core";
 import { Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF } from "@angular/common";
-import { BrowserModule, HammerModule } from "@angular/platform-browser";
+import {
+  BrowserModule,
+  HammerModule,
+  HammerGestureConfig,
+  HAMMER_GESTURE_CONFIG
+} from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 
 import { MarkdownModule, MarkedOptions, MarkedRenderer } from "ngx-markdown";
@@ -11,6 +16,16 @@ import { AnalyticsModule } from "./core/analytics.module";
 import { SharedModule } from "./shared/shared.module";
 import { AppRoutingModule } from "./app.routing";
 
+
+// Override default Hammer.js configuration for SVG zoom and pan gesture support
+export class CustomHammerConfig extends HammerGestureConfig {
+  overrides = {
+    pan: {
+      direction: Hammer.DIRECTION_ALL, // Enable vertical panning too
+      threshold: 0, // Make the smallest movements trigger panning
+    },
+  };
+}
 
 export function markedOptionsFactory(): MarkedOptions {
     const renderer = new MarkedRenderer();
@@ -66,6 +81,7 @@ export function markedOptionsFactory(): MarkedOptions {
         Location,
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         { provide: APP_BASE_HREF, useValue: '/' },
+        { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },
     ],
     bootstrap: [AppComponent]
 })
