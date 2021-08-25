@@ -8,6 +8,7 @@ import { SubSink } from 'subsink';
 
 import { SvgZoomPanService } from './svg-zoom-pan.service';
 import { InitiativeNode } from '../initiative.model';
+import { HammerGestureConfig } from '@angular/platform-browser';
 
 
 @Component({
@@ -38,8 +39,10 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  onPan($event) {
-    console.log($event);
+  onPan($event: HammerInput) {
+    console.log('onPan', $event.deltaX, $event.deltaY);
+    this.translateX = $event.deltaX;
+    this.translateY = $event.deltaY;
   }
 
   zoomToCircle(x: number, y: number, r: number) {
