@@ -60,9 +60,6 @@ export class HttpLogInterceptor implements HttpInterceptor {
       }
 
       return EMPTY;
-    } else if (!this.authService.internalApiAuthenticated()) {
-      this.router.navigateByUrl("login?login_message=Your session expired, please log back in.");
-      return EMPTY;
     } else {
       return throwError(error);
     }
