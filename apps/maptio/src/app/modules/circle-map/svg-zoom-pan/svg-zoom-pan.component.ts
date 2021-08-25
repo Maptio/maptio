@@ -38,6 +38,10 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
+  onPan($event) {
+    console.log($event);
+  }
+
   zoomToCircle(x: number, y: number, r: number) {
     this.scale = (1000 - 100) / (2 * r);
     this.translateX = this.scaleCoordinatesAndConvertToPercentages(500 - x);

@@ -83,6 +83,7 @@
     "express-jwt": "^6.0.0",
     "file-saver": "^1.3.3",
     "firebase": "^7.0 || ^8.0",
+    "hammerjs": "^2.0.8",
     "helmet": "^4.6.0",
     "heroku-ssl-redirect": "^0.1.1",
     "intercom-client": "2.10.2",

@@ -1,3 +1,8 @@
+<div
+  (pan)="onPan($event)"
+  (panstart)="onPan($event)"
+>
+
 <svg
   #map
   class="circle-map"
@@ -14,3 +19,5 @@
     <ng-content></ng-content>
   </g>
 </svg>
+
+</div>
