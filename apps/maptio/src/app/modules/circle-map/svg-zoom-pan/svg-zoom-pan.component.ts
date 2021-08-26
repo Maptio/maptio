@@ -27,7 +27,10 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   translateX = 0;
   translateY = 0;
   transform = '';
+
   isPanning = false;
+  panStartX = 0;
+  panStartY = 0;
 
   constructor(private svgZoomPanService: SvgZoomPanService) {}
 
@@ -49,13 +52,15 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     // console.log('onPanStart');
     this.svgCTM = this.svgElement.nativeElement.getScreenCTM();
     this.isPanning = true;
+    this.panStartX = this.translateX;
+    this.panStartY = this.translateY;
   }
 
   onPan($event: HammerInput) {
     // console.log('onPan', $event.deltaX, $event.deltaY);
 
-    this.translateX = $event.deltaX / this.svgCTM.a / 10;
-    this.translateY = $event.deltaY / this.svgCTM.a / 10;
+    this.translateX = this.panStartX + $event.deltaX / this.svgCTM.a / 10;
+    this.translateY = this.panStartY + $event.deltaY / this.svgCTM.a / 10;
 
     // console.log(this.translateX, this.translateY);
     this.setTransform();
