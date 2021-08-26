@@ -1,7 +1,3 @@
-<div
-  (pan)="onPan($event)"
->
-
 <svg
   #map
   class="circle-map"
@@ -9,14 +5,16 @@
   viewBox="0 0 1000 1000"
   width="100%"
   height="100%"
+  (panstart)="onPanStart()"
+  (pan)="onPan($event)"
+  (panend)="onPanEnd()"
 >
   <g
     class="svg-zoom-pan__virtual-viewport"
-    [style.transform]="'translate(' + translateX + '%, ' + translateY + '%) scale(' + scale + ')'"
+    [class.svg-zoom-pan__virtual-viewport--panning]="isPanning"
+    [style.transform]="transform"
     [style.transform-origin]="'50% 50%'"
   >
     <ng-content></ng-content>
   </g>
 </svg>
-
-</div>

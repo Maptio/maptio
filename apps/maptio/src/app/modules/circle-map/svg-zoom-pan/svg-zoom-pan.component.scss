@@ -1,3 +1,7 @@
 .svg-zoom-pan__virtual-viewport {
   transition: all 0.3s ease-out;
 }
+
+.svg-zoom-pan__virtual-viewport--panning {
+  transition: none;
+}
