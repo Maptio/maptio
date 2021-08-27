@@ -70,6 +70,11 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
 
   onPanEnd() {
     this.isPanning = false;
+
+    // In case click after panning doesn't get immediately caught by a circle
+    // (e.g. when pointer moves onto browser UI at the end of pan), make sure
+    // we reset treating clicks as coming from panning events
+    setTimeout(() => this.svgZoomPanService.isClickFromPanning = false, 100);
   }
 
   zoomToCircle(x: number, y: number, r: number) {
