@@ -77,22 +77,22 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   onPanEnd() {
-    setTimeout(() => {
-      this.isPanning = false;
-      this.changeDetector.markForCheck();
-    }, 100);
+    this.isPanning = false;
 
-    // In case click after panning doesn't get immediately caught by a circle
+    // In case click after panning doesn't get immediately caught by wrapper
     // (e.g. when pointer moves onto browser UI at the end of pan), make sure
     // we reset treating clicks as coming from panning events
     setTimeout(() => {
       this.isClickSideEffectOfPanning = false;
-    }, 100);
+    });
   }
 
+  // This is used for capturing clicks that happen at the end of the pan event
+  // as a bit of a nasty side effect
   onWrapperClick($event: PointerEvent) {
     if (this.isClickSideEffectOfPanning) {
       $event.stopPropagation();
+      this.isClickSideEffectOfPanning = false;
     }
   }
 
