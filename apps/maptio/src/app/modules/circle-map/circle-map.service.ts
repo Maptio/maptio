@@ -135,8 +135,8 @@ export class CircleMapService {
   }
 
   private hasClickResultedFromPanning() {
-    if (this.svgZoomPanService.hasPanningJustStopped) {
-      this.svgZoomPanService.hasPanningJustStopped = false;
+    if (this.svgZoomPanService.isClickFromPanning) {
+      this.svgZoomPanService.isClickFromPanning = false;
       return true;
     } else {
       return false;

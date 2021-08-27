@@ -50,7 +50,6 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   onPanStart() {
-    // console.log('onPanStart');
     this.svgCTM = this.svgElement.nativeElement.getScreenCTM();
     this.isPanning = true;
     this.panStartX = this.translateX;
@@ -58,8 +57,6 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   onPan($event: HammerInput) {
-    // console.log('onPan', $event.deltaX, $event.deltaY);
-
     this.translateX = this.panStartX + $event.deltaX / this.svgCTM.a / 10;
     this.translateY = this.panStartY + $event.deltaY / this.svgCTM.a / 10;
 
@@ -67,14 +64,12 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
 
     const panningThreshold = 4;
     if (Math.abs($event.deltaX) >= panningThreshold || Math.abs($event.deltaY) >= panningThreshold) {
-      this.svgZoomPanService.hasPanningJustStopped = true;
+      this.svgZoomPanService.isClickFromPanning = true;
     }
   }
 
   onPanEnd() {
-    // console.log('onPanEnd');
     this.isPanning = false;
-    this.svgZoomPanService.hasPanningJustStopped = true;
   }
 
   zoomToCircle(x: number, y: number, r: number) {

@@ -9,7 +9,7 @@ import { InitiativeNode } from '../initiative.model';
 })
 export class SvgZoomPanService {
   zoomedInitiativeNode = new BehaviorSubject<InitiativeNode | undefined>(undefined);
-  hasPanningJustStopped = false;
+  isClickFromPanning = false;
 
   zoomToInitiativeNode(node: InitiativeNode | undefined) {
     this.zoomedInitiativeNode.next(node);
