@@ -3,7 +3,8 @@ import {
   OnInit,
   OnDestroy,
   ViewChild,
-  ElementRef
+  ElementRef,
+  ChangeDetectorRef
 } from '@angular/core';
 
 import { SubSink } from 'subsink';
@@ -31,9 +32,12 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   isPanning = false;
   panStartX = 0;
   panStartY = 0;
-  isPanJustStopped = false;
+  isClickSideEffectOfPanning = false;
 
-  constructor(private svgZoomPanService: SvgZoomPanService) {}
+  constructor(
+    private svgZoomPanService: SvgZoomPanService,
+    private changeDetector: ChangeDetectorRef,
+  ) {}
 
   ngOnInit() {
     this.subs.sink = this.svgZoomPanService.zoomedInitiativeNode.subscribe((node?: InitiativeNode) => {
@@ -51,30 +55,45 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
 
   onPanStart() {
     this.svgCTM = this.svgElement.nativeElement.getScreenCTM();
-    this.isPanning = true;
     this.panStartX = this.translateX;
     this.panStartY = this.translateY;
   }
 
   onPan($event: HammerInput) {
+    if (!this.svgCTM) {
+      return;
+    }
+
     this.translateX = this.panStartX + $event.deltaX / this.svgCTM.a / 10;
     this.translateY = this.panStartY + $event.deltaY / this.svgCTM.a / 10;
 
     this.setTransform();
 
-    const panningThreshold = 4;
+    const panningThreshold = 3;
     if (Math.abs($event.deltaX) >= panningThreshold || Math.abs($event.deltaY) >= panningThreshold) {
-      this.svgZoomPanService.isClickFromPanning = true;
+      this.isPanning = true;
+      this.isClickSideEffectOfPanning = true;
     }
   }
 
   onPanEnd() {
-    this.isPanning = false;
+    setTimeout(() => {
+      this.isPanning = false;
+      this.changeDetector.markForCheck();
+    }, 100);
 
     // In case click after panning doesn't get immediately caught by a circle
     // (e.g. when pointer moves onto browser UI at the end of pan), make sure
     // we reset treating clicks as coming from panning events
-    setTimeout(() => this.svgZoomPanService.isClickFromPanning = false, 100);
+    setTimeout(() => {
+      this.isClickSideEffectOfPanning = false;
+    }, 100);
+  }
+
+  onWrapperClick($event: PointerEvent) {
+    if (this.isClickSideEffectOfPanning) {
+      $event.stopPropagation();
+    }
   }
 
   zoomToCircle(x: number, y: number, r: number) {
