@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { Injectable, NgModule } from "@angular/core";
 import { Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF } from "@angular/common";
 import {
   BrowserModule,
@@ -18,6 +18,7 @@ import { AppRoutingModule } from "./app.routing";
 
 
 // Override default Hammer.js configuration for SVG zoom and pan gesture support
+@Injectable()
 export class CustomHammerConfig extends HammerGestureConfig {
   overrides = {
     pan: {
