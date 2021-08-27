@@ -31,6 +31,7 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   isPanning = false;
   panStartX = 0;
   panStartY = 0;
+  isPanJustStopped = false;
 
   constructor(private svgZoomPanService: SvgZoomPanService) {}
 
@@ -69,6 +70,7 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   onPanEnd() {
     // console.log('onPanEnd');
     this.isPanning = false;
+    this.svgZoomPanService.hasPanningJustStopped = true;
   }
 
   zoomToCircle(x: number, y: number, r: number) {

@@ -75,6 +75,10 @@ export class CircleMapService {
   }
 
   onCircleClick(circle: InitiativeNode) {
+    if (this.hasClickResultedFromPanning()) {
+      return;
+    }
+
     const isSelected = this.selectedCircle.value ? circle.data.id === this.selectedCircle.value.data.id : false;
     const isOpened = circle.data.isOpened;
     const isPrimary = circle.data.isPrimary;
@@ -123,7 +127,20 @@ export class CircleMapService {
   }
 
   onBackdropClick() {
+    if (this.hasClickResultedFromPanning()) {
+      return;
+    }
+
     this.selectAndZoomToParentOfSelectedCircle();
+  }
+
+  private hasClickResultedFromPanning() {
+    if (this.svgZoomPanService.hasPanningJustStopped) {
+      this.svgZoomPanService.hasPanningJustStopped = false;
+      return true;
+    } else {
+      return false;
+    }
   }
 
   onClearSearchInitiative() {
