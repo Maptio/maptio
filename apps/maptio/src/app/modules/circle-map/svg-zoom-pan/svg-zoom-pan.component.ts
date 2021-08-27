@@ -63,8 +63,12 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     this.translateX = this.panStartX + $event.deltaX / this.svgCTM.a / 10;
     this.translateY = this.panStartY + $event.deltaY / this.svgCTM.a / 10;
 
-    // console.log(this.translateX, this.translateY);
     this.setTransform();
+
+    const panningThreshold = 4;
+    if (Math.abs($event.deltaX) >= panningThreshold || Math.abs($event.deltaY) >= panningThreshold) {
+      this.svgZoomPanService.hasPanningJustStopped = true;
+    }
   }
 
   onPanEnd() {
