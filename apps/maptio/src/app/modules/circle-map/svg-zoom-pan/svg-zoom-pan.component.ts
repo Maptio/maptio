@@ -34,6 +34,8 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   panStartY = 0;
   isClickSideEffectOfPanning = false;
 
+  zoomCenter?: SVGPoint;
+
   constructor(
     private svgZoomPanService: SvgZoomPanService,
     private changeDetector: ChangeDetectorRef,
@@ -54,7 +56,7 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   onPanStart() {
-    this.svgCTM = this.svgElement.nativeElement.getScreenCTM();
+    this.svgCTM = this.refreshScreenCTM();
     this.panStartX = this.translateX;
     this.panStartY = this.translateY;
   }
@@ -94,6 +96,36 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
       $event.stopPropagation();
       this.isClickSideEffectOfPanning = false;
     }
+  }
+
+  onWheel($event: WheelEvent) {
+    this.zoomCenter = this.findZoomCenter($event);
+
+    console.log($event);
+    console.log(typeof $event);
+    console.log(this.zoomCenter);
+
+    const relativeStep = $event.deltaY / $event.screenY / 2;
+
+    this.scale -= this.scale * relativeStep;
+    // this.zoomToCircle(this.zoomCenter.x, this.zoomCenter.y, 1000);
+    this.setTransform();
+  }
+
+  private refreshScreenCTM() {
+    return this.svgElement.nativeElement.getScreenCTM();
+  }
+
+  private findZoomCenter($event: WheelEvent) {
+    this.svgCTM = this.refreshScreenCTM();
+
+    const zoomCenterInDomCoordinates = this.svgElement.nativeElement.createSVGPoint();
+    zoomCenterInDomCoordinates.x = $event.clientX;
+    zoomCenterInDomCoordinates.y = $event.clientY;
+
+    return zoomCenterInDomCoordinates.matrixTransform(
+      this.svgCTM.inverse()
+    );
   }
 
   zoomToCircle(x: number, y: number, r: number) {
