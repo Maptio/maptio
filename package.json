@@ -10,6 +10,7 @@
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
     "nx": "nx",
     "start": "nx run-many --target=serve --projects=maptio,maptio-server --parallel",
+    "start:db": "mongod --dbpath=./data/local/",
     "build": "nx run-many --target=build --prod --projects=maptio,maptio-server",
     "test": "ng test",
     "lint": "nx workspace-lint && ng lint",
