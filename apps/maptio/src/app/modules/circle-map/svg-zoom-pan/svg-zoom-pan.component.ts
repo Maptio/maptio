@@ -24,17 +24,29 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
 
   private subs = new SubSink();
 
-  scale = 1;
-  translateX = 0;
-  translateY = 0;
   transform = '';
+  private scale = 1;
+  private translateX = 0; // %
+  private translateY = 0; // %
+
+  transformOrigin = '';
+  private transformOriginX = 50; // %
+  private transformOriginY = 50; // %
 
   isPanning = false;
   panStartX = 0;
   panStartY = 0;
   isClickSideEffectOfPanning = false;
 
+  lastTranslateX = 0;
+  lastTranslateY = 0;
+
   zoomCenter?: SVGPoint;
+  lastZoomCenter?: SVGPoint;
+  lastTransformOriginX = 50; // %
+  lastTransformOriginY = 50; // %
+
+  lastZoomEvent?: WheelEvent;
 
   constructor(
     private svgZoomPanService: SvgZoomPanService,
@@ -101,14 +113,19 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   onWheel($event: WheelEvent) {
     this.zoomCenter = this.findZoomCenter($event);
 
-    console.log($event);
-    console.log(typeof $event);
-    console.log(this.zoomCenter);
+    const oldScale = this.scale;
+    const relativeStep = $event.deltaY / $event.screenY;
+    const scaleChange = this.scale * relativeStep;
+    this.scale -= scaleChange;
 
-    const relativeStep = $event.deltaY / $event.screenY / 2;
+    // Location of cursor at the time of zoom relative to the center of the
+    // visible part of the SVG (in percentage of SVG size)
+    const zoomScreenX = this.zoomCenter.x / 10; // %
+    const zoomScreenY = this.zoomCenter.y / 10; // %
 
-    this.scale -= this.scale * relativeStep;
-    // this.zoomToCircle(this.zoomCenter.x, this.zoomCenter.y, 1000);
+    this.translateX = this.translateX / oldScale * this.scale + (zoomScreenX - 50) * relativeStep;
+    this.translateY = this.translateY / oldScale * this.scale + (zoomScreenY - 50) * relativeStep;
+
     this.setTransform();
   }
 
@@ -132,6 +149,13 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     this.scale = (1000 - 100) / (2 * r);
     this.translateX = this.scaleCoordinatesAndConvertToPercentages(500 - x);
     this.translateY = this.scaleCoordinatesAndConvertToPercentages(500 - y);
+
+    this.transformOriginX = 50;
+    this.transformOriginY = 50;
+    this.lastTransformOriginX = 50;
+    this.lastTransformOriginY = 50;
+    this.lastZoomEvent = undefined;
+    this.lastZoomCenter = undefined;
     this.setTransform();
   }
 
@@ -141,5 +165,6 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
 
   setTransform() {
     this.transform = 'translate(' + this.translateX + '%, ' + this.translateY + '%) scale(' + this.scale + ')';
+    this.transformOrigin = `${this.transformOriginX}% ${this.transformOriginY}%`
   }
 }
