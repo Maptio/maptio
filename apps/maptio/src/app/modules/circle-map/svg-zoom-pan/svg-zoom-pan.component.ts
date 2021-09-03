@@ -4,7 +4,6 @@ import {
   OnDestroy,
   ViewChild,
   ElementRef,
-  ChangeDetectorRef
 } from '@angular/core';
 
 import { SubSink } from 'subsink';
@@ -38,7 +37,6 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
 
   constructor(
     private svgZoomPanService: SvgZoomPanService,
-    private changeDetector: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -103,16 +101,13 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     $event.preventDefault();
   }
 
-  onPinchStart($event) {
-    this.zoomEvent = $event;
-    this.zoomEventType = $event.scale.toString();
+  onPinchStart() {
     this.lastPinchScale = 1;
   }
 
   onPinch($event: TouchInput) {
     const stepSize = this.lastPinchScale - $event.scale;
     this.lastPinchScale = $event.scale;
-    this.zoomEventType = $event.scale.toString();
     this.zoomAroundPoint($event.center.x, $event.center.y, stepSize);
   }
 
