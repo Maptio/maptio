@@ -99,7 +99,7 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   onWheel($event: WheelEvent) {
-    this.zoomAroundPoint($event.clientX, $event.clientY, $event.deltaY / $event.screenY);
+    this.zoomAroundPoint($event.clientX, $event.clientY, $event.deltaY / $event.screenY * 2);
     $event.preventDefault();
   }
 
