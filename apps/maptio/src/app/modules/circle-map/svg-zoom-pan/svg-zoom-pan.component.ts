@@ -34,6 +34,8 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   panStartY = 0;
   isClickSideEffectOfPanning = false;
 
+  lastPinchScale = 1;
+
   constructor(
     private svgZoomPanService: SvgZoomPanService,
     private changeDetector: ChangeDetectorRef,
@@ -97,12 +99,29 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   onWheel($event: WheelEvent) {
+    this.zoomAroundPoint($event.clientX, $event.clientY, $event.deltaY / $event.screenY);
+    $event.preventDefault();
+  }
+
+  onPinchStart($event) {
+    this.zoomEvent = $event;
+    this.zoomEventType = $event.scale.toString();
+    this.lastPinchScale = 1;
+  }
+
+  onPinch($event: TouchInput) {
+    const stepSize = this.lastPinchScale - $event.scale;
+    this.lastPinchScale = $event.scale;
+    this.zoomEventType = $event.scale.toString();
+    this.zoomAroundPoint($event.center.x, $event.center.y, stepSize);
+  }
+
+  private zoomAroundPoint(centerX: number, centerY: number, stepSize: number) {
     // Location of cursor at the time of zoom
-    const zoomCenter = this.findZoomCenter($event);
+    const zoomCenter = this.convertZoomCenterToSVGCoordinates(centerX, centerY);
 
     const oldScale = this.scale;
-    const relativeStep = $event.deltaY / $event.screenY;
-    const newScale = this.scale - this.scale * relativeStep;
+    const newScale = this.scale - this.scale * stepSize;
 
     // Prevent scaling down below a threshold
     if (newScale < 0.5) {
@@ -123,8 +142,8 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
 
     // Push center of the SVG away from the cursor by an amount that guarantees
     // that the cursor will stay above the same point within the SVG
-    this.translateX += (zoomScreenX - 50) * relativeStep;
-    this.translateY += (zoomScreenY - 50) * relativeStep;
+    this.translateX += (zoomScreenX - 50) * stepSize;
+    this.translateY += (zoomScreenY - 50) * stepSize;
 
     this.setTransform();
   }
@@ -133,12 +152,12 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     return this.svgElement.nativeElement.getScreenCTM();
   }
 
-  private findZoomCenter($event: WheelEvent) {
+  private convertZoomCenterToSVGCoordinates(clientX: number, clientY: number) {
     this.svgCTM = this.refreshScreenCTM();
 
     const zoomCenterInDomCoordinates = this.svgElement.nativeElement.createSVGPoint();
-    zoomCenterInDomCoordinates.x = $event.clientX;
-    zoomCenterInDomCoordinates.y = $event.clientY;
+    zoomCenterInDomCoordinates.x = clientX;
+    zoomCenterInDomCoordinates.y = clientY;
 
     return zoomCenterInDomCoordinates.matrixTransform(
       this.svgCTM.inverse()
