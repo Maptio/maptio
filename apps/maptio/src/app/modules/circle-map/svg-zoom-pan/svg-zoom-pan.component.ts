@@ -4,6 +4,7 @@ import {
   OnDestroy,
   ViewChild,
   ElementRef,
+  ChangeDetectorRef,
 } from '@angular/core';
 
 import { SubSink } from 'subsink';
@@ -37,6 +38,7 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
 
   constructor(
     private svgZoomPanService: SvgZoomPanService,
+    private changeDetector: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -44,6 +46,14 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
       if (node) {
         this.zoomToCircle(node.x, node.y, node.r);
       } else {
+        this.zoomToCircle(500, 500, 450);
+      }
+    });
+
+    this.subs.sink = this.svgZoomPanService.zoomScaleFactor.subscribe((scaleChange: number) => {
+      if (scaleChange && scaleChange != 1) {
+        this.onZoomButtonPress(scaleChange);
+      } else if (scaleChange === 1) {
         this.zoomToCircle(500, 500, 450);
       }
     });
@@ -96,6 +106,10 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     }
   }
 
+  onZoomButtonPress(scaleChange: number) {
+    this.zoomAroundCentreByFactor(scaleChange);
+  }
+
   onWheel($event: WheelEvent) {
     this.zoomAroundPoint($event.clientX, $event.clientY, $event.deltaY / $event.screenY * 2);
     $event.preventDefault();
@@ -109,6 +123,12 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     const stepSize = this.lastPinchScale - $event.scale;
     this.lastPinchScale = $event.scale;
     this.zoomAroundPoint($event.center.x, $event.center.y, stepSize);
+  }
+
+  private zoomAroundCentreByFactor(scaleFactor: number) {
+    this.scale = this.scale * scaleFactor;
+    this.setTransform();
+    this.changeDetector.markForCheck();
   }
 
   private zoomAroundPoint(centerX: number, centerY: number, stepSize: number) {

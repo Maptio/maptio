@@ -142,6 +142,10 @@ export class CircleMapService {
     }
   }
 
+  onZoomButtonPress(scaleChange: number) {
+    this.svgZoomPanService.zoomByScaleFactor(scaleChange);
+  }
+
   selectCircle(circle: InitiativeNode) {
     this.deselectSelectedCircle();
     this.markCircleAsSelected(circle);

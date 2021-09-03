@@ -226,7 +226,7 @@ export class MappingComponent {
       this.isMapSettingsDisabled = false;
       this.isSearchDisabled = false;
       this.isFilterDisabled = true;
-      this.isZoomDisabled = true;
+      this.isZoomDisabled = false;
       this.isShareDisabled = true;
       this.toggleEditingPanelsVisibility.emit(true)
     } else {
