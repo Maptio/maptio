@@ -29,24 +29,10 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   private translateX = 0; // %
   private translateY = 0; // %
 
-  transformOrigin = '';
-  private transformOriginX = 50; // %
-  private transformOriginY = 50; // %
-
   isPanning = false;
   panStartX = 0;
   panStartY = 0;
   isClickSideEffectOfPanning = false;
-
-  lastTranslateX = 0;
-  lastTranslateY = 0;
-
-  zoomCenter?: SVGPoint;
-  lastZoomCenter?: SVGPoint;
-  lastTransformOriginX = 50; // %
-  lastTransformOriginY = 50; // %
-
-  lastZoomEvent?: WheelEvent;
 
   constructor(
     private svgZoomPanService: SvgZoomPanService,
@@ -111,20 +97,34 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   onWheel($event: WheelEvent) {
-    this.zoomCenter = this.findZoomCenter($event);
+    // Location of cursor at the time of zoom
+    const zoomCenter = this.findZoomCenter($event);
 
     const oldScale = this.scale;
     const relativeStep = $event.deltaY / $event.screenY;
-    const scaleChange = this.scale * relativeStep;
-    this.scale -= scaleChange;
+    const newScale = this.scale - this.scale * relativeStep;
+
+    // Prevent scaling down below a threshold
+    if (newScale < 0.5) {
+      return;
+    }
+
+    this.scale = newScale;
 
     // Location of cursor at the time of zoom relative to the center of the
     // visible part of the SVG (in percentage of SVG size)
-    const zoomScreenX = this.zoomCenter.x / 10; // %
-    const zoomScreenY = this.zoomCenter.y / 10; // %
+    const zoomScreenX = zoomCenter.x / 10; // %
+    const zoomScreenY = zoomCenter.y / 10; // %
 
-    this.translateX = this.translateX / oldScale * this.scale + (zoomScreenX - 50) * relativeStep;
-    this.translateY = this.translateY / oldScale * this.scale + (zoomScreenY - 50) * relativeStep;
+    // Translate values are scaled and so when the scale changes we need to
+    // rescale them
+    this.translateX *= this.scale / oldScale;
+    this.translateY *= this.scale / oldScale;
+
+    // Push center of the SVG away from the cursor by an amount that guarantees
+    // that the cursor will stay above the same point within the SVG
+    this.translateX += (zoomScreenX - 50) * relativeStep;
+    this.translateY += (zoomScreenY - 50) * relativeStep;
 
     this.setTransform();
   }
@@ -150,12 +150,6 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     this.translateX = this.scaleCoordinatesAndConvertToPercentages(500 - x);
     this.translateY = this.scaleCoordinatesAndConvertToPercentages(500 - y);
 
-    this.transformOriginX = 50;
-    this.transformOriginY = 50;
-    this.lastTransformOriginX = 50;
-    this.lastTransformOriginY = 50;
-    this.lastZoomEvent = undefined;
-    this.lastZoomCenter = undefined;
     this.setTransform();
   }
 
@@ -165,6 +159,5 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
 
   setTransform() {
     this.transform = 'translate(' + this.translateX + '%, ' + this.translateY + '%) scale(' + this.scale + ')';
-    this.transformOrigin = `${this.transformOriginX}% ${this.transformOriginY}%`
   }
 }
