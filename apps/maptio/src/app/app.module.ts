@@ -6,6 +6,7 @@ import {
   HammerGestureConfig,
   HAMMER_GESTURE_CONFIG
 } from "@angular/platform-browser";
+// import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 
 import { MarkdownModule, MarkedOptions, MarkedRenderer } from "ngx-markdown";
@@ -59,6 +60,7 @@ export function markedOptionsFactory(): MarkedOptions {
     imports: [
         // angular
         BrowserModule,
+        // BrowserAnimationsModule,
         HammerModule,
         // routing
         AppRoutingModule,
