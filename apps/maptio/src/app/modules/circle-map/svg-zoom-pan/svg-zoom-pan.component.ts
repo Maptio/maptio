@@ -126,7 +126,33 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   private zoomAroundCentreByFactor(scaleFactor: number) {
-    this.scale = this.scale * scaleFactor;
+    const oldScale = this.scale;
+    const newScale = this.scale * scaleFactor;
+    const stepSize = scaleFactor - 1;
+
+    // Prevent scaling down below a threshold
+    if (newScale < 0.25) {
+      console.log('new scale too small:', newScale);
+      return;
+    }
+
+    this.scale = newScale;
+
+    // Location of cursor at the time of zoom relative to the center of the
+    // visible part of the SVG (in percentage of SVG size)
+    const zoomScreenX = 50; // %
+    const zoomScreenY = 50; // %
+
+    // Translate values are scaled and so when the scale changes we need to
+    // rescale them
+    this.translateX *= this.scale / oldScale;
+    this.translateY *= this.scale / oldScale;
+
+    // Push center of the SVG away from the cursor by an amount that guarantees
+    // that the cursor will stay above the same point within the SVG
+    this.translateX += (zoomScreenX - 50) * stepSize;
+    this.translateY += (zoomScreenY - 50) * stepSize;
+
     this.setTransform();
     this.changeDetector.markForCheck();
   }
