@@ -35,6 +35,7 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   isClickSideEffectOfPanning = false;
 
   lastPinchScale = 1;
+  isPanSideEffectOfPinching = false;
 
   constructor(
     private svgZoomPanService: SvgZoomPanService,
@@ -62,13 +63,17 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   onPanStart() {
+    if (this.isPanSideEffectOfPinching) {
+      return;
+    }
+
     this.svgCTM = this.refreshScreenCTM();
     this.panStartX = this.translateX;
     this.panStartY = this.translateY;
   }
 
   onPan($event: HammerInput) {
-    if (!this.svgCTM) {
+    if (this.isPanSideEffectOfPinching || !this.svgCTM) {
       return;
     }
 
@@ -85,6 +90,10 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   onPanEnd() {
+    if (this.isPanSideEffectOfPinching) {
+      return;
+    }
+
     this.isPanning = false;
 
     // In case click after panning doesn't get immediately caught by wrapper
@@ -115,12 +124,19 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
 
   onPinchStart() {
     this.lastPinchScale = 1;
+    this.isPanSideEffectOfPinching = true;
   }
 
   onPinch($event: TouchInput) {
     const stepSize = this.lastPinchScale - $event.scale;
     this.lastPinchScale = $event.scale;
-    this.zoomAroundPoint($event.center.x, $event.center.y, stepSize);
+    this.zoomAndMove($event.center.x, $event.center.y, stepSize);
+  }
+
+  onPinchEnd() {
+    setTimeout(() => {
+      this.isPanSideEffectOfPinching = false;
+    }, 100);
   }
 
   private zoomAroundCentreByFactor(scaleFactor: number) {
@@ -186,6 +202,40 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
 
     this.setTransform();
   }
+
+  private zoomAndMove(centerX: number, centerY: number, stepSize: number) {
+    return;
+    // Location of cursor at the time of zoom
+    // const zoomCenter = this.convertZoomCenterToSVGCoordinates(centerX, centerY);
+
+    const oldScale = this.scale;
+    const newScale = this.scale - this.scale * stepSize;
+
+    // Prevent scaling down below a threshold
+    if (newScale < 0.5) {
+      return;
+    }
+
+    this.scale = newScale;
+
+    // Location of cursor at the time of zoom relative to the center of the
+    // visible part of the SVG (in percentage of SVG size)
+    // const zoomScreenX = zoomCenter.x / 10; // %
+    // const zoomScreenY = zoomCenter.y / 10; // %
+
+    // Translate values are scaled and so when the scale changes we need to
+    // rescale them
+    this.translateX *= this.scale / oldScale;
+    this.translateY *= this.scale / oldScale;
+
+    // Push center of the SVG away from the cursor by an amount that guarantees
+    // that the cursor will stay above the same point within the SVG
+    // this.translateX += (zoomScreenX - 50) * stepSize;
+    // this.translateY += (zoomScreenY - 50) * stepSize;
+
+    this.setTransform();
+  }
+
 
   private refreshScreenCTM() {
     return this.svgElement.nativeElement.getScreenCTM();
