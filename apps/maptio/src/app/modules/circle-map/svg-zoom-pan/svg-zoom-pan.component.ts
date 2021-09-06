@@ -63,24 +63,25 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   onPanStart() {
-    if (this.isPanSideEffectOfPinching) {
-      return;
-    }
-
     this.svgCTM = this.refreshScreenCTM();
     this.panStartX = this.translateX;
     this.panStartY = this.translateY;
   }
 
   onPan($event: HammerInput) {
-    if (this.isPanSideEffectOfPinching || !this.svgCTM) {
+    if (!this.svgCTM) {
       return;
     }
 
-    this.translateX = this.panStartX + $event.deltaX / this.svgCTM.a / 10;
-    this.translateY = this.panStartY + $event.deltaY / this.svgCTM.a / 10;
+    // When pan event is fired at the end of pinching, don't move but still
+    // execute the rest of the code to prevent the click that comes at the end
+    // of panning from firing too, not pretty
+    if (!this.isPanSideEffectOfPinching) {
+      this.translateX = this.panStartX + $event.deltaX / this.svgCTM.a / 10;
+      this.translateY = this.panStartY + $event.deltaY / this.svgCTM.a / 10;
 
-    this.setTransform();
+      this.setTransform();
+    }
 
     const panningThreshold = 3;
     if (Math.abs($event.deltaX) >= panningThreshold || Math.abs($event.deltaY) >= panningThreshold) {
@@ -90,10 +91,6 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   onPanEnd() {
-    if (this.isPanSideEffectOfPinching) {
-      return;
-    }
-
     this.isPanning = false;
 
     // In case click after panning doesn't get immediately caught by wrapper
@@ -101,7 +98,7 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     // we reset treating clicks as coming from panning events
     setTimeout(() => {
       this.isClickSideEffectOfPanning = false;
-    });
+    }, 100);
   }
 
   // This is used for capturing clicks that happen at the end of the pan event
