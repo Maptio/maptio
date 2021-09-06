@@ -120,6 +120,10 @@ export class MappingCirclesGradualRevealComponent implements IDataVisualizer, On
             this.circleMapService.onZoomButtonPress(scaleChange);
             this.cd.markForCheck();
           });
+
+          this.subs.sink = this.isReset$.subscribe(() => {
+            this.circleMapService.onZoomFitButtonPress();
+          });
         }
 
         this.analytics.eventTrack("Map", {
