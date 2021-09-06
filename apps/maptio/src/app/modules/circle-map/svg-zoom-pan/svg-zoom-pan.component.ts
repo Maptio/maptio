@@ -51,10 +51,8 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     });
 
     this.subs.sink = this.svgZoomPanService.zoomScaleFactor.subscribe((scaleChange: number) => {
-      if (scaleChange && scaleChange != 1) {
+      if (scaleChange) {
         this.onZoomButtonPress(scaleChange);
-      } else if (scaleChange === 1) {
-        this.zoomToCircle(500, 500, 450);
       }
     });
   }
