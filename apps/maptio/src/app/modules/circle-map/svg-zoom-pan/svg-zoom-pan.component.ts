@@ -34,7 +34,10 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   panStartY = 0;
   isClickSideEffectOfPanning = false;
 
-  lastPinchScale = 1;
+  pinchStartX = 0;
+  pinchStartY = 0;
+  pinchStartScale = 1;
+  lastRelativePinchScale = 1;
   isPanSideEffectOfPinching = false;
 
   constructor(
@@ -120,13 +123,16 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   onPinchStart() {
-    this.lastPinchScale = 1;
+    this.lastRelativePinchScale = 1;
+    this.pinchStartScale = this.scale;
+    this.pinchStartX = 0;
+    this.pinchStartY = 0;
     this.isPanSideEffectOfPinching = true;
   }
 
   onPinch($event: TouchInput) {
-    const stepSize = this.lastPinchScale - $event.scale;
-    this.lastPinchScale = $event.scale;
+    const stepSize = this.lastRelativePinchScale - $event.scale;
+    this.lastRelativePinchScale = $event.scale;
     this.zoomAndMove($event.center.x, $event.center.y, stepSize);
   }
 
@@ -201,9 +207,8 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   private zoomAndMove(centerX: number, centerY: number, stepSize: number) {
-    return;
     // Location of cursor at the time of zoom
-    // const zoomCenter = this.convertZoomCenterToSVGCoordinates(centerX, centerY);
+    const zoomCenter = this.convertZoomCenterToSVGCoordinates(centerX, centerY);
 
     const oldScale = this.scale;
     const newScale = this.scale - this.scale * stepSize;
@@ -217,18 +222,28 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
 
     // Location of cursor at the time of zoom relative to the center of the
     // visible part of the SVG (in percentage of SVG size)
-    // const zoomScreenX = zoomCenter.x / 10; // %
-    // const zoomScreenY = zoomCenter.y / 10; // %
+    const zoomScreenX = zoomCenter.x / 10; // %
+    const zoomScreenY = zoomCenter.y / 10; // %
 
     // Translate values are scaled and so when the scale changes we need to
     // rescale them
     this.translateX *= this.scale / oldScale;
     this.translateY *= this.scale / oldScale;
 
+    // My best guess... almost but not quite right, let's disentangle the pieces...
+    // this.translateX = (this.pinchStartX / this.pinchStartScale + (zoomScreenX - 50)) * this.scale;
+    // this.translateY = (this.pinchStartY / this.pinchStartScale + (zoomScreenY - 50)) * this.scale;
+
+    const pinchStartXRescaled = this.pinchStartX * this.scale / this.pinchStartScale;
+    const pinchStartYRescaled = this.pinchStartX * this.scale / this.pinchStartScale;
+
+    // this.translateX *= this.scale / this.pinchStartScale;
+    // this.translateY *= this.scale / this.pinchStartScale;
+
     // Push center of the SVG away from the cursor by an amount that guarantees
     // that the cursor will stay above the same point within the SVG
-    // this.translateX += (zoomScreenX - 50) * stepSize;
-    // this.translateY += (zoomScreenY - 50) * stepSize;
+    this.translateX += (zoomScreenX - 50) * stepSize;
+    this.translateY += (zoomScreenY - 50) * stepSize;
 
     this.setTransform();
   }
