@@ -123,6 +123,7 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   onPinchStart() {
+    this.isPanning = true;
     this.lastRelativePinchScale = 1;
     this.pinchStartScale = this.scale;
     this.pinchStartX = this.translateX;
@@ -137,6 +138,8 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   onPinchEnd() {
+    this.isPanning = false;
+
     setTimeout(() => {
       this.isPanSideEffectOfPinching = false;
     }, 100);
