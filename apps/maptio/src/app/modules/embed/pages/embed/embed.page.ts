@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Meta } from '@angular/platform-browser';
 
 import { BehaviorSubject } from "rxjs";
 
@@ -31,10 +32,17 @@ export class EmbedComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
+    private metaTagService: Meta,
     private datasetService: EmbeddableDatasetService,
   ) {}
 
   ngOnInit(): void {
+    // Disable browser zooming because it is then almost impossible to get out
+    // of as we're overriding pinch gestures to offer in-app zooming
+    this.metaTagService.updateTag(
+      { name: 'viewport', content: 'width=device-width, user-scalable=no' }
+    );
+
     this.datasetId = this.route.snapshot.paramMap.get('id');
 
     this.subs.sink = this.datasetService.getDataset(this.datasetId)
@@ -60,5 +68,14 @@ export class EmbedComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subs.unsubscribe();
+  }
+
+  /**
+   * Prevent pinch zooming on credit notice from making page so zoomed out it
+   * becomes unusable. This is necessary on top of `user-scalable=no` because
+   * the latter is not respected by Safari on iOS.
+   */
+  onCreditPinch($event: TouchInput) {
+    $event.preventDefault();
   }
 }
