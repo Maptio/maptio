@@ -152,8 +152,7 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     const stepSize = scaleFactor - 1;
 
     // Prevent scaling down below a threshold
-    if (newScale < 0.25) {
-      console.log('new scale too small:', newScale);
+    if (newScale < 0.25 || newScale > 100) {
       return;
     }
 
@@ -185,8 +184,8 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     const oldScale = this.scale;
     const newScale = this.scale - this.scale * stepSize;
 
-    // Prevent scaling down below a threshold
-    if (newScale < 0.5) {
+    // Prevent scaling down beyond a threshold
+    if (newScale < 0.5 || newScale > 100) {
       return;
     }
 
@@ -221,7 +220,7 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     const newScale = this.scale - this.scale * stepSize;
 
     // Prevent scaling down below a threshold
-    if (newScale < 0.5) {
+    if (newScale < 0.5 || newScale > 100) {
       return;
     }
 
