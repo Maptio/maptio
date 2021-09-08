@@ -123,6 +123,7 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   onPinchStart() {
+    this.svgCTM = this.refreshScreenCTM();
     this.isPanning = true;
     this.lastRelativePinchScale = 1;
     this.pinchStartScale = this.scale;
@@ -210,6 +211,10 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   private zoomAndMove(centerX: number, centerY: number, deltaX: number, deltaY: number, stepSize: number) {
+    if (!this.svgCTM) {
+      return;
+    }
+
     // Location of cursor at the time of zoom
     const zoomCenter = this.convertZoomCenterToSVGCoordinates(centerX, centerY);
 
