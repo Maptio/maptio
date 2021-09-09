@@ -60,11 +60,13 @@ export class CircleMapComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.onInputChanges();
 
-    this.subs.sink = this.circleMapData$.subscribe(
-      () => {
-        this.onInputChanges();
-      }
-    );
+    this.subs.sink = this.circleMapData$.subscribe(() => {
+      this.onInputChanges();
+    });
+
+    this.subs.sink = this.circleMapService.changeDetectionTrigger$.subscribe(() => {
+      this.cd.markForCheck();
+    });
   }
 
   ngOnDestroy() {

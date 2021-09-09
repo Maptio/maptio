@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -21,6 +21,8 @@ export class CircleMapService {
   public datasetId?: string;
   public dataset?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   circles: InitiativeNode[] = [];
+
+  changeDetectionTrigger$ = new EventEmitter();
 
   constructor(
     private svgZoomPanService: SvgZoomPanService,
@@ -140,6 +142,15 @@ export class CircleMapService {
       this.resetZoom();
       this.zoomToCircle(highlightedCircle);
     }
+  }
+
+  onZoomButtonPress(scaleChange: number) {
+    this.svgZoomPanService.zoomByScaleFactor(scaleChange);
+  }
+
+  onZoomFitButtonPress() {
+    this.resetZoom();
+    this.changeDetectionTrigger$.emit();
   }
 
   selectCircle(circle: InitiativeNode) {

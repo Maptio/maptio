@@ -1,16 +1,37 @@
-<svg
-  #map
-  class="circle-map"
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 1000 1000"
-  width="100%"
-  height="100%"
+<div
+  class="svg-zoom-pan__wrapper"
+  (click)="onWrapperClick($event)"
 >
-  <g
-    class="svg-zoom-pan__virtual-viewport"
-    [style.transform]="'translate(' + translateX + '%, ' + translateY + '%) scale(' + scale + ')'"
-    [style.transform-origin]="'50% 50%'"
+  <svg
+    #map
+    class="circle-map"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1000 1000"
+    width="100%"
+    height="100%"
+    (panstart)="onPanStart()"
+    (pan)="onPan($event)"
+    (panend)="onPanEnd()"
+    (pancancel)="onPanEnd()"
+    (wheel)="onWheel($event)"
+    (pinchstart)="onPinchStart()"
+    (pinch)="onPinch($event)"
+    (pinchend)="onPinchEnd()"
+    (pinchcancel)="onPinchEnd()"
   >
-    <ng-content></ng-content>
-  </g>
-</svg>
+    <g
+      class="svg-zoom-pan__virtual-viewport"
+      [class.svg-zoom-pan__virtual-viewport--panning]="isPanning"
+      [style.transform]="transform"
+      [style.transform-origin]="'50% 50%'"
+    >
+      <ng-content></ng-content>
+    </g>
+  </svg>
+
+  <div
+    class="svg-zoom-pan__click-cover"
+    [class.svg-zoom-pan__click-cover--panning]="isPanning"
+  >
+  </div>
+</div>

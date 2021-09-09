@@ -1,3 +1,28 @@
+.svg-zoom-pan__wrapper {
+  height: 100%;
+  width: 100%;
+}
+
 .svg-zoom-pan__virtual-viewport {
   transition: all 0.3s ease-out;
+}
+
+.svg-zoom-pan__virtual-viewport--panning {
+  transition: none;
+}
+
+// The cover will allow us to easily change the cursor while panning, but let's
+// start with it being completely transparent to click events
+.svg-zoom-pan__click-cover {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+}
+
+// Change cursor while panning
+.svg-zoom-pan__click-cover--panning {
+  pointer-events: auto;
+  cursor: grabbing;
 }
