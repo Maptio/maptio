@@ -25,7 +25,7 @@ const routes: Routes = [{
         data: WorkspaceComponentResolver
     },
     children: [
-        { path: "", redirectTo: "expanded", pathMatch: "full" },
+        { path: "", redirectTo: "circles", pathMatch: "full" },
         { path: "circles", component: MappingCirclesGradualRevealComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Circles" } },
         { path: "expanded", component: MappingZoomableComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Expanded Circles" } },
         { path: "tree", component: MappingTreeComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Tree" } },
