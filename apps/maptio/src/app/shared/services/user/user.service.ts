@@ -556,7 +556,7 @@ export class UserService {
     /**
      * Get name of Auth0 connection for currently logged in user
      *
-     * Every user in Auth0 has at least one identity, each with it's own
+     * Every user in Auth0 has at least one identity, each with its own
      * connection. When updating user information we need to provide the name of
      * the connection. For users who don't have the default connection stored in
      * the CONNECTION_NAME environment variable, we need to return the name of
