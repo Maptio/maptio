@@ -19,7 +19,7 @@ let ses = new aws.SES({
 router.post('/', function (req, res, next) {
 
     let from = req.body.from;
-    let to = isDevelopment ? ["safiyya.babio@gmail.com"] : req.body.to;
+    let to = isDevelopment ? ["roman.goj@gmail.com"] : req.body.to;
     let subject = req.body.subject;
     let url = req.body.url;
     let team = req.body.team;
@@ -54,7 +54,7 @@ router.post('/', function (req, res, next) {
 // router.post('/confirm', function (req, res, next) {
 
 //         let from = req.body.from;
-//         let to = isDevelopment ? ["safiyya.babio@gmail.com"] : req.body.to;
+//         let to = isDevelopment ? ["roman.goj@gmail.com"] : req.body.to;
 //         let subject = req.body.subject;
 //         let url = req.body.url;
 

@@ -19,7 +19,7 @@ let ses = new aws.SES({
 router.post('/', function (req, res, next) {
 
     let from = req.body.from;
-    let to = isDevelopment ? ["safiyya.babio@gmail.com"] : req.body.to;
+    let to = isDevelopment ? ["roman.goj@gmail.com"] : req.body.to;
     let subject = req.body.subject;
     let url = req.body.url;
 
@@ -47,7 +47,6 @@ router.post('/', function (req, res, next) {
                 res.json(data);
             }
         });
-
 });
 
 module.exports = router;
