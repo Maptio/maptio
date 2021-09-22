@@ -156,6 +156,7 @@
     "@types/node": "14.14.33",
     "@types/screenfull": "^3.3.2",
     "@types/shortid": "0.0.29",
+    "@types/slug": "^5.0.2",
     "@typescript-eslint/eslint-plugin": "4.19.0",
     "@typescript-eslint/parser": "4.19.0",
     "cypress": "^6.0.1",
