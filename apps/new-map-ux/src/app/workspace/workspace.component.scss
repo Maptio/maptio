@@ -1,0 +1,46 @@
+$color-primary: #3599af;
+
+.message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: calc(100vh - 2rem);
+  width: calc(100vw - 2rem);
+  padding: 1rem;
+
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: grey;
+}
+
+.credit {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  font-weight: 300;
+  color: grey;
+  text-decoration: none;;
+}
+
+.credit__text {
+  opacity: 0.5;
+  transition: opacity 200ms ease-in;
+}
+
+.credit__link {
+  font-weight: 600;
+  color: $color-primary;
+  opacity: 0.5;
+  transition: opacity 200ms ease-in;
+}
+
+.credit:hover .credit__text {
+  opacity: 0.65;
+}
+
+.credit:hover .credit__link {
+  opacity: 1;
+}
