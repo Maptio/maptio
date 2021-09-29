@@ -504,6 +504,56 @@
           }
         }
       }
+    },
+    "maptio-for-slack-server": {
+      "root": "apps/maptio-for-slack-server",
+      "sourceRoot": "apps/maptio-for-slack-server/src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/maptio-for-slack-server",
+            "main": "apps/maptio-for-slack-server/src/main.js",
+            "tsConfig": "apps/maptio-for-slack-server/tsconfig.app.json",
+            "assets": ["apps/maptio-for-slack-server/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/maptio-for-slack-server/src/environments/environment.js",
+                  "with": "apps/maptio-for-slack-server/src/environments/environment.prod.js"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "maptio-for-slack-server:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/maptio-for-slack-server/**/*.js"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/maptio-for-slack-server"],
+          "options": {
+            "jestConfig": "apps/maptio-for-slack-server/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

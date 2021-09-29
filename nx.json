@@ -49,6 +49,9 @@
     "maptio-for-slack-e2e": {
       "tags": [],
       "implicitDependencies": ["maptio-for-slack"]
+    },
+    "maptio-for-slack-server": {
+      "tags": []
     }
   }
 }
