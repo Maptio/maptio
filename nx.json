@@ -42,6 +42,13 @@
     "new-map-ux-e2e": {
       "tags": [],
       "implicitDependencies": ["new-map-ux"]
+    },
+    "maptio-for-slack": {
+      "tags": []
+    },
+    "maptio-for-slack-e2e": {
+      "tags": [],
+      "implicitDependencies": ["maptio-for-slack"]
     }
   }
 }

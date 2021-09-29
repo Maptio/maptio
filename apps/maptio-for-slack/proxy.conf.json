@@ -1,0 +1,6 @@
+{
+  "/maptio-for-slack-server": {
+    "target": "http://localhost:3333",
+    "secure": false
+  }
+}
