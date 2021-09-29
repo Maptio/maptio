@@ -12,6 +12,7 @@
     "start": "nx run-many --target=serve --projects=maptio,maptio-server --parallel",
     "start:db": "mongod --dbpath=./data/local/",
     "start:mobile": "nx run-many --target=serve --projects=maptio,maptio-server --parallel --host 0.0.0.0",
+    "start:new-map-ux": "nx run-many --target=serve --projects=new-map-ux,maptio-server --parallel --host 0.0.0.0",
     "build": "nx run-many --target=build --prod --projects=maptio,maptio-server",
     "test": "ng test",
     "lint": "nx workspace-lint && ng lint",
