@@ -1,168 +1,58 @@
-<ng-template #features>
-    <div>
-        <b>Features</b>
-    </div>
-    <ul class="d-flex flex-column align-items-start p-3">
-        <li>
-            1 organisation
-        </li>
-        <li>
-            Unlimited maps
-        </li>
-        <li>
-            Circles, tree and network views
-        </li>
-        <li>
-            Tagging
-        </li>
-        <li>
-            Slack integration
-        </li>
-    </ul>
-</ng-template>
-
-
-
 <div class="d-flex justify-content-center align-items-center flex-column row">
-    <div class="d-flex flex-column justify-content-center align-items-center col-12">
-        <h1 class="w-100 d-none d-md-block  text-left text-md-center mb-md-0">Choose your plan</h1>
-        <h3 class="w-100 d-block d-md-none text-left text-md-center mb-md-0">Choose your plan</h3>
+  <div class="d-flex flex-column justify-content-center align-items-center col-12">
+    <h1 class="w-100 d-none d-md-block  text-left text-md-center mb-md-0">Choose your plan</h1>
+    <h3 class="w-100 d-block d-md-none text-left text-md-center mb-md-0">Choose your plan</h3>
 
-        <div class="col-12 px-0 col-md-auto">
-                <button *ngIf="!auth.allAuthenticated()" class="btn-block w-100 btn btn-success btn-md-lg my-4"
-                routerLink="/signup">Get
-                started - try Maptio for free</button>
-        </div>
-       
-
-        <div class="d-flex flex-column flex-md-row justify-content-center align-items-center">
-
-                <div class="col-12 col-md-3 accent-blue rounded-bottom box-shadow mx-2 my-3">
-                    <div class="card border-0">
-                        <div class="card-body border-0 bg-white text-center">
-                            <div class="card-title border-bottom h4 py-4">
-                                Tiny
-                            </div>
-                            <div class="card-text ">
-                                <span class="display-4">$20 </span>
-                                <sup class="text-top">per month</sup>
-                            </div>
-                            <div class="card-text text-muted">
-                                1 - 12 people per organisation
-                            </div>
-                            <div class="card-text">
-                                <div class="card-text" *ngIf="!auth.allAuthenticated()">
-                                    <button class="btn btn-success btn-lg my-3" routerLink="/signup">Sign up</button>
-                                </div>
-                                <div class="card-text" *ngIf="auth.allAuthenticated()">
-                                    <a class="btn btn-success text-white btn-lg my-3"
-                                        href="{{BILLING_TINY_PLAN}}">Subscribe</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- <div class="card-footer border-0 bg-light text-muted">
-                            <ng-container *ngTemplateOutlet="features"></ng-container>
-                        </div> -->
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-3 accent-blue rounded-bottom box-shadow mx-2 my-3">
-                    <div class="card border-0">
-                        <div class="card-body border-0 bg-white text-center">
-                            <div class="card-title border-bottom h4 py-4">
-                                Small
-                            </div>
-                            <div class="card-text ">
-                                <span class="display-4">$50 </span>
-                                <sup class="text-top">per month</sup>
-                            </div>
-                            <div class="card-text text-muted">
-                                13 - 35 people per organisation
-                            </div>
-                            <div class="card-text">
-                                <div class="card-text" *ngIf="!auth.allAuthenticated()">
-                                    <button class="btn btn-success btn-lg my-3" routerLink="/signup">Sign up</button>
-                                </div>
-                                <div class="card-text" *ngIf="auth.allAuthenticated()">
-                                    <a class="btn btn-success text-white btn-lg my-3"
-                                        href="{{BILLING_SMALL_PLAN}}">Subscribe</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- <div class="card-footer border-0 bg-light text-muted">
-                            <ng-container *ngTemplateOutlet="features"></ng-container>
-                        </div> -->
-                    </div>
-                </div>
-                <div class="col-12 col-md-3 accent-blue rounded-bottom box-shadow mx-2 my-3">
-                    <div class="card border-0">
-                        <div class="card-body border-0 bg-white text-center">
-                            <div class="card-title border-bottom h4 py-4">
-                                Medium
-                            </div>
-                            <div class="card-text">
-                                <span class="display-4">$150 </span>
-                                <sup class="text-top">per month</sup>
-                            </div>
-                            <div class="card-text text-muted">
-                                36 - 100 people per organisation
-                            </div>
-                            <div class="card-text">
-                                <div class="card-text" *ngIf="!auth.allAuthenticated()">
-                                    <button class="btn btn-success btn-lg my-3" routerLink="/signup">Sign up</button>
-                                </div>
-                                <div class="card-text" *ngIf="auth.allAuthenticated()">
-                                    <a class="btn btn-success text-white btn-lg my-3"
-                                        href="{{BILLING_MEDIUM_PLAN}}">Subscribe</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- <div class="card-footer border-0 bg-light text-muted">
-                            <ng-container *ngTemplateOutlet="features"></ng-container>
-                        </div> -->
-                    </div>
-                </div>
-                <div class="col-12 col-md-3 accent-blue rounded-bottom box-shadow  mx-2 my-3">
-                    <div class="card border-0">
-                        <div class="card-body border-0 bg-white text-center">
-                            <div class="card-title border-bottom h4 py-4">
-                                Large
-                            </div>
-                            <div class="card-text">
-                                <span class="display-4">$250 </span>
-                                <sup class="text-top">per month</sup>
-                            </div>
-                            <div class="card-text text-muted">
-                                101 - 300 people per organisation
-                            </div>
-                            <div class="card-text">
-                                <div class="card-text" *ngIf="!auth.allAuthenticated()">
-                                    <button class="btn btn-success btn-lg my-3" routerLink="/signup">Sign up</button>
-                                </div>
-                                <div class="card-text" *ngIf="auth.allAuthenticated()">
-                                    <a class="btn btn-success text-white btn-lg my-3"
-                                        href="{{BILLING_LARGE_PLAN}}">Subscribe</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- <div class="card-footer border-0 bg-light text-muted">
-                            <ng-container *ngTemplateOutlet="features"></ng-container>
-                        </div> -->
-                    </div>
-                </div>
-
-            <!-- <div class="card-footer border-0 bg-light text-muted">
-                            <ng-container *ngTemplateOutlet="features"></ng-container>
-                        </div> -->
-
-            
-
-        </div>
-        <div class="d-flex justify-content-center align-items-stretch text-muted my-5">
-
-                <a href="mailto:support@maptio.com?subject=Deal request">I want to use Maptio but cannot afford
-                    this.</a>
-
-            </div>
+    <div class="col-12 px-0 col-md-auto">
+      <button
+        *ngIf="!auth.allAuthenticated()"
+        class="btn-block w-100 btn btn-success btn-md-lg my-4"
+        routerLink="/signup"
+      >
+        Get started - try Maptio for free
+      </button>
     </div>
+
+    <p class="text-center text-muted my-5">
+      Pricing in US Dollars. All major credit cards accepted.<br>
+      No minimum contract length.
+    </p>
+
+    <div class="d-flex flex-column flex-md-row justify-content-center align-items-stretch">
+      <maptio-payment-plan
+        [name]="'Small team plan'"
+        [price]="40"
+        [text]="'1 - 30 people'"
+        [billingLink]="BILLING_SMALL_PLAN"
+      >
+      </maptio-payment-plan>
+
+      <maptio-payment-plan
+        [name]="'Standard plan'"
+        [price]="99"
+        [text]="'31 - 200 people'"
+        [billingLink]="BILLING_STANDARD_PLAN"
+      >
+      </maptio-payment-plan>
+
+      <maptio-payment-plan
+        [name]="'Larger organizations'"
+        [text]="'200+ people'"
+        [billingLink]="BILLING_SMALL_PLAN"
+      >
+      </maptio-payment-plan>
+    </div>
+
+    <p class="text-center text-muted my-5">
+      <!-- <div class="d-flex justify-content-center align-items-stretch text-muted my-5"> -->
+      Struggling to afford this? Let's talk and work something out.
+      <a href="mailto:support@maptio.com?subject=Deal request">
+        Contact us.
+      </a>
+      <br>
+      <br>
+      Our mission is to serve the most cause-driven organizations on the planet.
+      Discounts available for non-profits.
+    </p>
+  </div>
 </div>

@@ -1,21 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { environment } from '../../../../config/environment';
-import { Auth } from '../../../../core/authentication/auth.service';
+import { Component } from '@angular/core';
+
+import { environment } from '@maptio-config/environment';
+import { Auth } from '@maptio-core/authentication/auth.service';
+
 
 @Component({
-    selector: 'pricing',
-    templateUrl: './pricing.page.html',
-    styleUrls: ['./pricing.page.css']
+  selector: 'maptio-pricing',
+  templateUrl: './pricing.page.html'
 })
-export class PricingComponent implements OnInit {
+export class PricingComponent {
+  public BILLING_SMALL_PLAN = environment.BILLING_SMALL_PLAN;
+  public BILLING_STANDARD_PLAN = environment.BILLING_STANDARD_PLAN;
+  public BILLING_PORTAL = environment.BILLING_PORTAL;
 
-    public BILLING_TINY_PLAN = environment.BILLING_TINY_PLAN;
-    public BILLING_SMALL_PLAN = environment.BILLING_SMALL_PLAN;
-    public BILLING_MEDIUM_PLAN = environment.BILLING_MEDIUM_PLAN;
-    public BILLING_LARGE_PLAN = environment.BILLING_LARGE_PLAN;
-    public BILLING_PORTAL = environment.BILLING_PORTAL;
-
-    constructor(public auth: Auth) { }
-
-    ngOnInit(): void { }
+  constructor(public auth: Auth) { }
 }
