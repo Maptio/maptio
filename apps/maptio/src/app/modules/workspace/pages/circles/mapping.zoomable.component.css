@@ -87,10 +87,11 @@
 
 ::ng-deep .name.initiative-map {
     font-weight: 500;
+    /* CUSTOM ADJUSTMENTS FOR VIVOBAREFOOT FOR PRINTING */
+    font-size: 22px !important;
 }
 
 ::ng-deep .label.initiative-map {
     font: "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-anchor: start;
 }
-

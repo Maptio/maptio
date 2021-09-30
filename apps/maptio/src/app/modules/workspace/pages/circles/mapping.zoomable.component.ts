@@ -413,7 +413,11 @@ document.querySelector("svg#map").clientWidth / 2,
                 ) {
                   return `${Math.max(d.r / 10, 1)}px`
                 } else {
-                  return `${myInnerFontScale(zoomFactor)}px`
+                  // CUSTOM ADJUSTMENTS FOR VIVOBAREFOOT FOR PRINTING
+                  // Font size for circles without children
+                  const customFontSizeIncreaseForVIVO = 2;
+                  // return '20px';
+                  return `${myInnerFontScale(zoomFactor) * customFontSizeIncreaseForVIVO}px`
                 }
 
               })
@@ -460,13 +464,31 @@ document.querySelector("svg#map").clientWidth / 2,
             return getAccountableRadius(d)  // CIRCLE_RADIUS / accountableZoomFactor;
           })
           .attr("cx", (d: any): number => {
+            // CUSTOM ADJUSTMENTS FOR VIVOBAREFOOT FOR PRINTING
+            let modifier = 0;
+            if (d.data.name === 'Reconnect People With Nature') {
+              modifier = 2;
+            }
+            if (d.data.name === 'Product') {
+              modifier = -6;
+            }
+
             return d.children
-              ? Math.cos(ANGLE) * ((d.r + 1) * accountableZoomFactor) - 6
+              ? Math.cos(ANGLE) * ((d.r + 1) * accountableZoomFactor) - 6 + modifier
               : 0;
           })
           .attr("cy", function (d: any): number {
+            // CUSTOM ADJUSTMENTS FOR VIVOBAREFOOT FOR PRINTING
+            let modifier = 0;
+            if (d.data.name === 'Reconnect People With Nature') {
+              modifier = -15;
+            }
+            if (d.data.name === 'Product') {
+              modifier = -4;
+            }
+
             return d.children
-              ? -Math.sin(ANGLE) * ((d.r + 1) * accountableZoomFactor) + 6
+              ? -Math.sin(ANGLE) * ((d.r + 1) * accountableZoomFactor) + 6 + modifier
               : -d.r * accountableZoomFactor * 0.75;
           })
           .attr("transform", `scale(${1 / accountableZoomFactor})`)
@@ -487,6 +509,16 @@ document.querySelector("svg#map").clientWidth / 2,
   }
 
   update(data: Initiative, seedColor: string, isFirstLoad: boolean): Promise<HierarchyCircularNode<{}>[]> {
+    // CUSTOM ADJUSTMENTS FOR VIVOBAREFOOT FOR PRINTING
+    console.log(data);
+    console.log(seedColor);
+    // seedColor = "#bdbd3d";
+    // seedColor = "#596628";
+    // seedColor = "#aaaaaa";
+    // seedColor = "#aab02d";
+    seedColor = "#595f1d";
+    seedColor = "#818f29";
+
     if (d3.selectAll("g").empty()) {
       this.init();
     }
@@ -546,7 +578,56 @@ document.querySelector("svg#map").clientWidth / 2,
       depth = depth > n.depth ? depth : n.depth;
     });
 
-    const color = this.colorService.getColorRange(depth, seedColor);
+    // CUSTOM ADJUSTMENTS FOR VIVOBAREFOOT FOR PRINTING
+    // const color = this.colorService.getColorRange(depth, seedColor);
+
+    const color = (depth: number) => {
+      // Version Grey;
+      return "#555555";
+
+      // Version 1;
+      // return "#aab02d";
+
+      // Version 2
+      // Version 3
+      // Version 5
+      // switch(depth) {
+      //   case 0:
+      //     return "#000000";
+      //   case 1:
+      //     return "#bec28e";
+      //   case 2:
+      //     return "#abb04c";
+      //   case 3:
+      //     return "#aab02d";
+      //   case 4:
+      //     return "#818f29";
+      //   case 5:
+      //     return "#595f1d";
+      //   default:
+      //     return "#818f29";
+      // }
+
+      // Version 4
+      // switch(depth) {
+      //   case 0:
+      //     return "#000000";
+      //   case 5:
+      //     return "#bec28e";
+      //   case 4:
+      //     return "#abb04c";
+      //   case 3:
+      //     return "#aab02d";
+      //   case 2:
+      //     return "#818f29";
+      //   case 1:
+      //     return "#595f1d";
+      //   default:
+      //     return "#818f29";
+      // }
+    }
+
+    console.log(color);
     const [selectedTags, unselectedTags] = _partition(tags, t => t.isSelected);
 
     const focus = root,
@@ -621,13 +702,57 @@ document.querySelector("svg#map").clientWidth / 2,
       })
       .html(function (d: any) {
         let radius = d.r * d.k + 1;
-        return browser === Browsers.Firefox
-          ? `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
+
+        // CUSTOM ADJUSTMENTS FOR VIVOBAREFOOT FOR PRINTING
+        if(['Reconnect People With Nature', 'Product'].includes(d.data.name)) {
+          return `<textPath
+                    xlink:href="#path${d.data.id}"
+                    startOffset="10%"
+                    dominant-baseline="no-change"
+                  >
+                    <tspan>${d.data.name || ""}</tspan>
+                </textPath>`
+        } else if(['Legal Board'].includes(d.data.name)) {
+          return `<textPath
+                    xlink:href="#path${d.data.id}"
+                    startOffset="10%"
+                    dominant-baseline="ideographic"
+                  >
+                    <tspan>${d.data.name || ""}</tspan>
+                </textPath>`
+        } else if(['Global Advisory '].includes(d.data.name)) {
+          return `<textPath
+                    xlink:href="#path${d.data.id}"
+                    startOffset="10%"
+                    dominant-baseline="central"
+                  >
+                    <tspan>${d.data.name || ""}</tspan>
+                </textPath>`
+        } else if(['Round Table'].includes(d.data.name)) {
+          return `<textPath
+                    xlink:href="#path${d.data.id}"
+                    startOffset="10%"
+                    dominant-baseline="text-before-edge"
+                  >
+                    <tspan>${d.data.name || ""}</tspan>
+                </textPath>`
+        } else {
+          return browser === Browsers.Firefox
+            ? ` <textPath
+                  path="${uiService.getCircularPath(radius, -radius, 0)}"
+                  startOffset="10%"
+                  dominant-baseline="middle"
+                >
                   <tspan>${d.data.name || ""}</tspan>
-                  </textPath>`
-          : `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
+                </textPath>`
+            : ` <textPath
+                  xlink:href="#path${d.data.id}"
+                  startOffset="11%"
+                  dominant-baseline="middle"
+                >
                   <tspan>${d.data.name || ""}</tspan>
-                  </textPath>`;
+                </textPath>`;
+        }
       });
 
 
@@ -640,15 +765,35 @@ document.querySelector("svg#map").clientWidth / 2,
         return -d.r * POSITION_INITIATIVE_NAME.x;
       })
       .attr("y", function (d: any) {
-        return -d.r * POSITION_INITIATIVE_NAME.y;
+        // CUSTOM ADJUSTMENTS FOR VIVOBAREFOOT FOR PRINTING
+        const circlesWithTwoLines = [
+          'Margin Tiger',
+          'Lone Rangers',
+          'Black Eagles',
+          'Bald Eagles',
+          'Bcorp Champs',
+
+          'Business Systems',
+          'Product & Development',
+          'Customer Circle',
+          'Digital Marketing',
+          'Health / Influence',
+        ];
+
+        if (circlesWithTwoLines.includes(d.data.name)) {
+          return -11;
+        } else {
+          return -6;
+        }
       })
       .attr("width", function (d: any) { return d.r * 2 * 0.95 })
-      .attr("height", function (d: any) { return d.r * 2 * 0.5 })
+      .attr("height", function (d: any) { return d.r * 3 * 0.5 })
       .style("display", "inline")
       .style("pointer-events", "none")
       .html((d: any): string => {
-        let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
-        return `<div style="font-size: ${fs}; padding-top: 5%; background: none; display: block; pointer-events: none; overflow: hidden; height:100%; line-height: 100%; text-overflow:ellipsis;">${d.data.name || '(Empty)'}</div>`;
+        // CUSTOM ADJUSTMENTS FOR VIVOBAREFOOT FOR PRINTING
+        let fs = `${toREM(d.r * 5 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
+        return `<div style="font-size: ${fs}; background: none; display: block; pointer-events: none; overflow: hidden; height:100%; line-height: 100%; text-overflow:ellipsis;">${d.data.name || '(Empty)'}</div>`;
       })
 
     let accountablePictureWithChildren = initiativeWithChildren.select("circle.accountable.with-children")
@@ -785,7 +930,13 @@ document.querySelector("svg#map").clientWidth / 2,
         })
         .style("fill-opacity", function (d: any) {
           return d.children
-            ? 0.1
+            // CUSTOM ADJUSTMENTS FOR VIVOBAREFOOT FOR PRINTING
+            // ? 0.3 // Version 1
+            // ? 0.3 // Version 2
+            // ? 1 // Version 3
+            // ? 0.6 // Version 4
+            // ? 0.6 // Version 5
+            ? 0.1 // Version Grey
             : !d.children && d.parent === root ? 0.1 : 1;
         })
         .style("stroke-opacity", 0)
