@@ -12,6 +12,7 @@
     <ng-template #contactUsPrice>
       <a
         class="d-md-block mt-3 mb-2"
+        [class.invisible]="auth.allAuthenticated()"
         style="margin-bottom: 11px !important"
         href="mailto:support@maptio.com"
       >
