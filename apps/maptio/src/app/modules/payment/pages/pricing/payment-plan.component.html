@@ -4,28 +4,51 @@
       {{ name }}
     </div>
 
-    <div *ngIf="price" class="card-text">
-      <span class="display-4">${{ price }}</span>
+    <div *ngIf="price; else contactUsPrice" class="card-text">
+      <span class="display-4">${{ price }} </span>
       <sup class="text-top">per month</sup>
     </div>
+
+    <ng-template #contactUsPrice>
+      <a
+        class="d-md-block mt-3 mb-2"
+        href="mailto:support@maptio.com"
+      >
+        <ng-container *ngIf="!auth.allAuthenticated(); else contactUsPricePlaceholder">
+          Contact us
+        </ng-container>
+        <ng-template #contactUsPricePlaceholder>
+          &nbsp;
+        </ng-template>
+      </a>
+    </ng-template>
 
     <div class="card-text text-muted">{{ text }}</div>
 
     <div class="card-text">
-      <div class="card-text" *ngIf="!auth.allAuthenticated()">
-        <button class="btn btn-success btn-lg my-3" routerLink="/signup">
-          Sign up
-        </button>
-      </div>
+      <button
+        *ngIf="!auth.allAuthenticated()"
+        class="btn btn-success btn-lg my-3"
+        routerLink="/signup"
+      >
+        Sign up
+      </button>
 
-      <div class="card-text" *ngIf="auth.allAuthenticated()">
-        <a
-          class="btn btn-success text-white btn-lg my-3"
-          href="{{ billingLink }}"
-        >
-          Subscribe
-        </a>
-      </div>
+      <a
+        *ngIf="auth.allAuthenticated() && price"
+        class="btn btn-success text-white btn-lg my-3"
+        href="{{ billingLink }}"
+      >
+        Subscribe
+      </a>
+
+      <a
+        *ngIf="auth.allAuthenticated() && !price"
+        class="btn btn-success text-white btn-lg my-3"
+        href="mailto:support@maptio.com"
+      >
+        Contact us
+      </a>
     </div>
   </div>
 </div>

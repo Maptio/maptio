@@ -36,14 +36,14 @@ export const environment = {
     DEFAULT_AUTHORITY_TERMINOLOGY: "Lead",
     DEFAULT_HELPER_TERMINOLOGY: "Contributor",
 
-    BILLING_TINY_PLAN: "https://maptio.chargebee.com/hosted_pages/plans/standard-plan12",
-    BILLING_SMALL_PLAN: "https://maptio.chargebee.com/hosted_pages/plans/standard-plan50",
-    BILLING_MEDIUM_PLAN: "https://maptio.chargebee.com/hosted_pages/plans/standard-plan100",
-    BILLING_LARGE_PLAN: "https://maptio.chargebee.com/hosted_pages/plans/standard-plan300",
+    BILLING_SMALL_PLAN: "https://maptio.chargebee.com/hosted_pages/plans/standard-plan40",
+    BILLING_STANDARD_PLAN: "https://maptio.chargebee.com/hosted_pages/plans/standard-plan",
+
     BILLING_TEST_PLAN: "https://maptio-test.chargebee.com/hosted_pages/plans/standard-plan",
 
     BILLING_PORTAL: "https://maptio.chargebeeportal.com/portal/login",
     BILLING_TEST_PORTAL: "https://maptio-test.chargebeeportal.com/portal/login",
+
     SURVEY_URL: "https://maptio.typeform.com/to/zTvRm6",
 
     DEFAULT_MAP_BACKGOUND_COLOR: "#3599af",
@@ -52,7 +52,4 @@ export const environment = {
     DEFAULT_PRESETS_LABEL: " ",
     SCREENSHOT_URL:"/assets/images/screenshot.webp",
     SCREENSHOT_URL_FALLBACK:"/assets/images/screenshot.png"
-
-
-
 };

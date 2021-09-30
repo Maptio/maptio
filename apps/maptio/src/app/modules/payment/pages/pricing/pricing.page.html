@@ -1,28 +1,3 @@
-<ng-template #features>
-    <div>
-        <b>Features</b>
-    </div>
-    <ul class="d-flex flex-column align-items-start p-3">
-        <li>
-            1 organisation
-        </li>
-        <li>
-            Unlimited maps
-        </li>
-        <li>
-            Circles, tree and network views
-        </li>
-        <li>
-            Tagging
-        </li>
-        <li>
-            Slack integration
-        </li>
-    </ul>
-</ng-template>
-
-
-
 <div class="d-flex justify-content-center align-items-center flex-column row">
   <div class="d-flex flex-column justify-content-center align-items-center col-12">
     <h1 class="w-100 d-none d-md-block  text-left text-md-center mb-md-0">Choose your plan</h1>
@@ -38,37 +13,46 @@
       </button>
     </div>
 
+    <p class="text-center text-muted my-5">
+      Pricing in US Dollars. All major credit cards accepted.<br>
+      No minimum contract length.
+    </p>
 
-    <div class="d-flex flex-column flex-md-row justify-content-center align-items-center">
+    <div class="d-flex flex-column flex-md-row justify-content-center align-items-stretch">
       <maptio-payment-plan
-        [name]="'Tiny'"
-        [price]="20"
-        [text]="'1 - 12 people per organisation'"
-        [billingLink]="BILLING_TINY_PLAN"
-      >
-      </maptio-payment-plan>
-
-      <maptio-payment-plan
-        [name]="'Small'"
-        [price]="50"
-        [text]="'13 - 35 people per organisation'"
+        [name]="'Small team plan'"
+        [price]="40"
+        [text]="'1 - 30 people'"
         [billingLink]="BILLING_SMALL_PLAN"
       >
       </maptio-payment-plan>
 
       <maptio-payment-plan
-        [name]="'Medium'"
-        [price]="150"
-        [text]="'36 - 100 people per organisation'"
+        [name]="'Standard'"
+        [price]="99"
+        [text]="'31 - 200 people'"
+        [billingLink]="BILLING_STANDARD_PLAN"
+      >
+      </maptio-payment-plan>
+
+      <maptio-payment-plan
+        [name]="'Larger organizations'"
+        [text]="'200+ people'"
         [billingLink]="BILLING_SMALL_PLAN"
       >
       </maptio-payment-plan>
     </div>
 
-    <div class="d-flex justify-content-center align-items-stretch text-muted my-5">
+    <p class="text-center text-muted my-5">
+      <!-- <div class="d-flex justify-content-center align-items-stretch text-muted my-5"> -->
+      Struggling to afford this? Let's talk and work something out.
       <a href="mailto:support@maptio.com?subject=Deal request">
-        Struggling to afford this? Let's talk and work something out. Contact us.
+        Contact us.
       </a>
-    </div>
+      <br>
+      <br>
+      Our mission is to serve the most cause-driven organizations on the planet.
+      Discounts available for non-profits.
+    </p>
   </div>
 </div>
