@@ -1,0 +1,31 @@
+<div class="card border-0">
+  <div class="card-body border-0 bg-white text-center">
+    <div class="card-title border-bottom h4 py-4">
+      {{ name }}
+    </div>
+
+    <div *ngIf="price" class="card-text">
+      <span class="display-4">${{ price }}</span>
+      <sup class="text-top">per month</sup>
+    </div>
+
+    <div class="card-text text-muted">{{ text }}</div>
+
+    <div class="card-text">
+      <div class="card-text" *ngIf="!auth.allAuthenticated()">
+        <button class="btn btn-success btn-lg my-3" routerLink="/signup">
+          Sign up
+        </button>
+      </div>
+
+      <div class="card-text" *ngIf="auth.allAuthenticated()">
+        <a
+          class="btn btn-success text-white btn-lg my-3"
+          href="{{ billingLink }}"
+        >
+          Subscribe
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
