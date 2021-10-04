@@ -5,32 +5,20 @@
 // Require the Bolt package (github.com/slackapi/bolt)
 const { App } = require('@slack/bolt');
 
-// // Require the Node Slack SDK package (github.com/slackapi/node-slack-sdk)
-const { WebClient, LogLevel } = require("@slack/web-api");
-
 // Initialize app with tokens
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
   signingSecret: process.env.SLACK_SIGNING_SECRET,
 });
 
+const slackWebClient = app.client;
 
-// WebClient insantiates a client that can call API methods
-// When using Bolt, you can use either `app.client` or the `client` passed to listeners.
-const client = new WebClient(process.env.SLACK_BOT_TOKEN, {
-  // LogLevel can be imported and used to make debugging simpler
-  logLevel: LogLevel.DEBUG
-});
-
-console.log('hello');
-
-// You probably want to use a database to store any conversations information ;)
 let conversationsStore = {};
 
 async function populateConversationStore() {
   try {
     // Call the conversations.list method using the WebClient
-    const result = await client.conversations.list();
+    const result = await slackWebClient.conversations.list();
 
     console.log(result.channels);
     saveConversations(result.channels);
