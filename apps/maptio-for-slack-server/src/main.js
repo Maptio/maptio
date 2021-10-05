@@ -31,9 +31,22 @@ const app = new App({
   clientId: process.env.M4S_SLACK_CLIENT_ID,
   clientSecret: process.env.M4S_SLACK_CLIENT_SECRET,
   stateSecret: 'my-secret',
-  scopes: ['chat:write', 'commands'],
+  scopes: [
+    'channels:read',
+    'groups:read',
+    'mpim:read',
+    'im:read',
+  ],
   installationStore: {
     storeInstallation: async (installation) => {
+      if (!installation?.bot?.token) {
+        throw new Error('Could not find bot token in installation', installation);
+      }
+
+      const channels = new Channels(app, installation.bot.token);
+      await channels.populateConversationStore();
+      console.log(channels.conversationsStore);
+
       // change the lines below so they save to your database
       if (installation.isEnterpriseInstall && installation.enterprise !== undefined) {
         // support for org-wide app installation
@@ -73,11 +86,11 @@ const app = new App({
 });
 
 
-(async () => {
-  const channels = new Channels(app);
-  await channels.populateConversationStore();
-  console.log(channels.conversationsStore);
-})();
+// (async () => {
+//   const channels = new Channels(app);
+//   await channels.populateConversationStore();
+//   console.log(channels.conversationsStore);
+// })();
 
 
 (async () => {

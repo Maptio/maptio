@@ -1,14 +1,15 @@
 export class Channels {
-  constructor(slackApp) {
+  constructor(slackApp, token) {
     this.slackApp = slackApp;
     this.slackWebClient = this.slackApp.client;
+    this.token = token;
     this.conversationsStore = {};
   }
 
   async populateConversationStore() {
     try {
       // Call the conversations.list method using the WebClient
-      const result = await this.slackWebClient.conversations.list();
+      const result = await this.slackWebClient.conversations.list({ token: this.token });
 
       // console.log(result.channels);
       this.saveConversations(result.channels);
