@@ -1,9 +1,17 @@
-//
-// Based on code from https://github.com/slackapi/bolt-js-getting-started-app
-//
+/**
+ * Based on code from https://github.com/slackapi/bolt-js-getting-started-app
+ *
+ * Implemented in JavaScript, not Typescript as at the time of writing TS
+ * was considered incomplete, with users complaining that using TS makes
+ * development with Bolt harder, sigh.
+ */
 
-// Require the Bolt package (github.com/slackapi/bolt)
-const { App } = require('@slack/bolt');
+
+// Using the Bolt package (github.com/slackapi/bolt)
+import { App } from '@slack/bolt';
+
+import { Channels } from './app/channels'
+
 
 // Initialize app with tokens
 const app = new App({
@@ -11,38 +19,12 @@ const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
 });
 
-const slackWebClient = app.client;
 
-let conversationsStore = {};
-
-async function populateConversationStore() {
-  try {
-    // Call the conversations.list method using the WebClient
-    const result = await slackWebClient.conversations.list();
-
-    console.log(result.channels);
-    saveConversations(result.channels);
-  }
-  catch (error) {
-    console.error(error);
-  }
-}
-
-// Put conversations into the JavaScript object
-function saveConversations(conversationsArray) {
-  let conversationId = '';
-
-  conversationsArray.forEach(function(conversation){
-    // Key conversation info on its unique ID
-    conversationId = conversation["id"];
-
-    // Store the entire conversation object (you may not need all of the info)
-    conversationsStore[conversationId] = conversation;
-  });
-}
-
-populateConversationStore();
-console.log(conversationsStore);
+(async () => {
+  const channels = new Channels(app);
+  await channels.populateConversationStore();
+  console.log(channels.conversationsStore);
+})();
 
 
 (async () => {
