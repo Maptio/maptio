@@ -45,7 +45,7 @@ const app = new App({
 
       const channels = new Channels(app, installation.bot.token);
       await channels.populateConversationStore();
-      console.log(channels.conversationsStore);
+      // console.log(channels.conversationsStore);
 
       // change the lines below so they save to your database
       if (installation.isEnterpriseInstall && installation.enterprise !== undefined) {
