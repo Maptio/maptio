@@ -9,7 +9,7 @@ export class Channels {
     this.slackWebClient = this.slackApp.client;
     this.token = token;
     this.conversationsStore = {};
-    this.membersStore = {};
+    this.peopleStore = {};
     this.hardcodedTemporaryTargetTeam = '605a45c943b21b0016b22e62';
   }
 
@@ -18,14 +18,22 @@ export class Channels {
       // Call the conversations.list method using the WebClient
       const channelsList = await this.slackWebClient.conversations.list({ token: this.token });
 
-      let allMembersList = [];
+      let allUsers = [];
       for (const channel of channelsList.channels) {
         const membersList = await this.slackWebClient.conversations.members({ token: this.token, channel: channel.id });
         channel.members = membersList.members;
-        allMembersList = allMembersList.concat(membersList.members);
+        allUsers = allUsers.concat(membersList.members);
       }
-      allMembersList = uniq(allMembersList);
-      console.log(allMembersList);
+      allUsers = uniq(allUsers);
+      console.log(allUsers);
+
+      // let allMembersList = [];
+      for (const userId of allUsers) {
+        const userInfo = await this.slackWebClient.users.info({ token: this.token, user: userId });
+        this.peopleStore[userId] = this.convertSlackUserInfoToMaptioPerson(userInfo.user);
+      }
+      // allMembersList = uniq(allMembersList);
+      // console.log(allMembersList);
 
       // console.log(result.channels);
       this.saveConversations(channelsList.channels);
@@ -50,23 +58,40 @@ export class Channels {
   }
 
   convertConversationsToDataset(conversationsArray) {
-    const visionInitiative = this.createEmtpyInitiative('Imported Slack Channels Vision');
+    const visionInitiative = this.createInitiative('Imported Slack Channels Vision', []);
     conversationsArray.forEach((conversation) => {
-      const childInitiative = this.createEmtpyInitiative(conversation.name);
+      const childInitiative = this.createInitiative(conversation.name, conversation.members);
       visionInitiative.children.push(childInitiative);
     });
 
     const dateTime = new Date();
-    const rootInitiative = this.createEmtpyInitiative('Slack channels imported at ' + dateTime);
+    const rootInitiative = this.createInitiative('Slack channels imported at ' + dateTime, []);
     rootInitiative.children.push(visionInitiative);
 
     const dataset = this.createDataset(rootInitiative);
     this.saveDataset(dataset);
   }
 
-  createEmtpyInitiative(name) {
+  convertSlackUserInfoToMaptioPerson(slackUserInfo) {
+    console.log(slackUserInfo);
     return {
-      "helpers": [],
+      user_id: 'slack|' + slackUserInfo.id,
+      firstname: slackUserInfo.profile.first_name + ' SLACK',
+      lastname: slackUserInfo.profile.last_name + ' SLACK',
+      name: slackUserInfo.real_name + ' SLACK',
+      email: slackUserInfo.profile.email,
+      picture: slackUserInfo.profile.image_192,
+    }
+  }
+
+  createInitiative(name, members) {
+    const helpers = members.map((memberId) => {
+      return this.peopleStore[memberId];
+    });
+    console.log('helpers', helpers);
+
+    return {
+      "helpers": helpers,
       "tags": [],
       "name": name,
       "team_id": `${this.hardcodedTemporaryTargetTeam}`,

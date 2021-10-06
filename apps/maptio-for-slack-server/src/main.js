@@ -33,6 +33,7 @@ const app = new App({
   stateSecret: 'my-secret',
   scopes: [
     'channels:read',
+    'users:read',
     // 'groups:read',
     // 'mpim:read',
     // 'im:read',
