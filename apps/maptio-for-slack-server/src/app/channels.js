@@ -1,23 +1,35 @@
 var mongojs = require('mongojs');
 var db = mongojs(process.env.MONGODB_URI, ['datasets']);
 
+import { uniq } from "lodash";
+
 export class Channels {
   constructor(slackApp, token) {
     this.slackApp = slackApp;
     this.slackWebClient = this.slackApp.client;
     this.token = token;
     this.conversationsStore = {};
+    this.membersStore = {};
     this.hardcodedTemporaryTargetTeam = '605a45c943b21b0016b22e62';
   }
 
   async populateConversationStore() {
     try {
       // Call the conversations.list method using the WebClient
-      const result = await this.slackWebClient.conversations.list({ token: this.token });
+      const channelsList = await this.slackWebClient.conversations.list({ token: this.token });
+
+      let allMembersList = [];
+      for (const channel of channelsList.channels) {
+        const membersList = await this.slackWebClient.conversations.members({ token: this.token, channel: channel.id });
+        channel.members = membersList.members;
+        allMembersList = allMembersList.concat(membersList.members);
+      }
+      allMembersList = uniq(allMembersList);
+      console.log(allMembersList);
 
       // console.log(result.channels);
-      this.saveConversations(result.channels);
-      this.convertConversationsToDataset(result.channels);
+      this.saveConversations(channelsList.channels);
+      this.convertConversationsToDataset(channelsList.channels);
     }
     catch (error) {
       console.error(error);

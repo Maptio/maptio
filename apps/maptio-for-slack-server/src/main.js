@@ -33,9 +33,9 @@ const app = new App({
   stateSecret: 'my-secret',
   scopes: [
     'channels:read',
-    'groups:read',
-    'mpim:read',
-    'im:read',
+    // 'groups:read',
+    // 'mpim:read',
+    // 'im:read',
   ],
   installationStore: {
     storeInstallation: async (installation) => {
