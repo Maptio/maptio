@@ -10,7 +10,7 @@ export class Channels {
     this.token = token;
     this.conversationsStore = {};
     this.peopleStore = {};
-    this.hardcodedTemporaryTargetTeam = '605a45c943b21b0016b22e62';
+    this.hardcodedTemporaryTargetTeam = process.env.M4S_TARGET_TEAM;
   }
 
   async populateConversationStore() {
