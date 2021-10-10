@@ -76,9 +76,9 @@ export class Channels {
     console.log(slackUserInfo);
     return {
       user_id: 'slack|' + slackUserInfo.id,
-      firstname: slackUserInfo.profile.first_name + ' SLACK',
-      lastname: slackUserInfo.profile.last_name + ' SLACK',
-      name: slackUserInfo.real_name + ' SLACK',
+      firstname: slackUserInfo.profile.first_name,
+      lastname: slackUserInfo.profile.last_name,
+      name: slackUserInfo.real_name,
       email: slackUserInfo.profile.email,
       picture: slackUserInfo.profile.image_192,
     }
