@@ -58,7 +58,7 @@ export class Channels {
   }
 
   convertConversationsToDataset(conversationsArray) {
-    const visionInitiative = this.createInitiative('Imported Slack Channels Vision', []);
+    const visionInitiative = this.createInitiative('Imported Slack Channels', []);
     conversationsArray.forEach((conversation) => {
       const childInitiative = this.createInitiative(conversation.name, conversation.members);
       visionInitiative.children.push(childInitiative);
