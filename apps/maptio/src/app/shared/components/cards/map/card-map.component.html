@@ -70,7 +70,7 @@
                 <button
                   *ngIf="!dataset.isEmbeddable && isEditAvailable && !dataset?.team?.isExample"
                   class="btn btn-link btn-sm pr-0 underline-on-hover"
-                  [class.invisible]="isEditing"
+                  [class.invisible]="isEditing || dataset.isArchived"
                   mwlConfirmationPopover
                   [popoverTitle]="'Enable public read-only embeddable map?'"
                   [popoverMessage]="embeddingIntroduction"
@@ -88,7 +88,7 @@
                 <button
                   *ngIf="dataset.isEmbeddable && isEditAvailable && !dataset?.team?.isExample"
                   class="btn btn-link btn-sm pr-0 underline-on-hover"
-                  [class.invisible]="isEditing"
+                  [class.invisible]="isEditing || dataset.isArchived"
                   mwlConfirmationPopover
                   [isOpen]="isEmbedInstructionsPopoverOpen"
                   [popoverTitle]="'Public read-only embeddable map is enabled'"
