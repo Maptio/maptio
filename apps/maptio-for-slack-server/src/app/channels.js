@@ -20,22 +20,22 @@ export class Channels {
 
       let allUsers = [];
       for (const channel of channelsList.channels) {
+        console.log('[INFO] Getting members for channel id: ', channel.id);
         const membersList = await this.slackWebClient.conversations.members({ token: this.token, channel: channel.id });
+        console.log('[INFO] Got the following members: ', membersList.members);
         channel.members = membersList.members;
         allUsers = allUsers.concat(membersList.members);
       }
       allUsers = uniq(allUsers);
-      console.log(allUsers);
+      console.log('[INFO] This is what the list of all users now looks like: ', allUsers);
 
       // let allMembersList = [];
       for (const userId of allUsers) {
+        console.log('[INFO] Getting info about user with id: ', userId);
         const userInfo = await this.slackWebClient.users.info({ token: this.token, user: userId });
         this.peopleStore[userId] = this.convertSlackUserInfoToMaptioPerson(userInfo.user);
       }
-      // allMembersList = uniq(allMembersList);
-      // console.log(allMembersList);
 
-      // console.log(result.channels);
       this.saveConversations(channelsList.channels);
       this.convertConversationsToDataset(channelsList.channels);
     }
@@ -48,6 +48,7 @@ export class Channels {
   saveConversations(conversationsArray) {
     let conversationId = '';
 
+    console.log('[INFO] Saving all channel info in memory');
     conversationsArray.forEach((conversation) => {
       // Key conversation info on its unique ID
       conversationId = conversation["id"];
@@ -58,6 +59,8 @@ export class Channels {
   }
 
   convertConversationsToDataset(conversationsArray) {
+    console.log('[INFO] Converting all channel info to a Maptio dataset');
+
     const visionInitiative = this.createInitiative('Imported Slack Channels', []);
     conversationsArray.forEach((conversation) => {
       const childInitiative = this.createInitiative(conversation.name, conversation.members);
@@ -73,8 +76,8 @@ export class Channels {
   }
 
   convertSlackUserInfoToMaptioPerson(slackUserInfo) {
-    console.log(slackUserInfo);
-    return {
+    console.log('[INFO] Converting the following Slack user info: ', slackUserInfo);
+    const maptioUserObject = {
       user_id: 'slack|' + slackUserInfo.id,
       firstname: slackUserInfo.profile.first_name,
       lastname: slackUserInfo.profile.last_name,
@@ -82,21 +85,32 @@ export class Channels {
       email: slackUserInfo.profile.email,
       picture: slackUserInfo.profile.image_192,
     }
+    console.log('[INFO] Converted to the following Maptio user info:', maptioUserObject);
+    return maptioUserObject
   }
 
   createInitiative(name, members) {
+    console.log('[INFO] Creating initiative with name:', name);
+    console.log('[INFO] And the following members:', members);
+
     const helpers = members.map((memberId) => {
+      console.log('[INFO] Requesting member from store:', memberId);
       return this.peopleStore[memberId];
     });
-    console.log('helpers', helpers);
 
-    return {
+    console.log('[INFO] Got the following helpers in initiative:', helpers);
+
+    const initiative = {
       "helpers": helpers,
       "tags": [],
       "name": name,
       "team_id": `${this.hardcodedTemporaryTargetTeam}`,
       "children": []
     };
+
+    console.log('[INFO] Created the following initiative:', initiative);
+
+    return initiative;
   }
 
   createDataset(rootInitiative) {
@@ -106,11 +120,13 @@ export class Channels {
   }
 
   saveDataset(dataset) {
+    console.log('[INFO] Saving the following dataset to the database:', dataset);
+
     db.datasets.save(dataset, function (err, result) {
       if (err) {
-        console.error(err)
+        console.log('[ERROR] Failed to save dataset with error:', err);
       } else {
-        console.log('successfully saved dataset', result);
+        console.log('[INFO] Successfully saved dataset to database:', result);
       }
     })
   }
