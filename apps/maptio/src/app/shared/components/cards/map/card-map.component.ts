@@ -50,8 +50,9 @@ export class CardMapComponent implements OnInit {
             })
         });
 
-        const shareableUrl = `https://app.maptio.com/share/${this.dataset.datasetId}`;
-        const embedUrl = `https://app.maptio.com/embed/${this.dataset.datasetId}`;
+        const baseUrl = `${window.location.protocol}//${window.location.host}`;
+        const shareableUrl = `${baseUrl}/share/${this.dataset.datasetId}`;
+        const embedUrl = `${baseUrl}/embed/${this.dataset.datasetId}`;
         const iframeStyle = 'height: 100%; width: 100%; border: none;';
         const iframeSnippet = escape(`<iframe src="${embedUrl}" style="${iframeStyle}"></iframe>`);
 
