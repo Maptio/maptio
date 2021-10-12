@@ -34,6 +34,7 @@ const app = new App({
   scopes: [
     'channels:read',
     'users:read',
+    'team:read',
     // 'groups:read',
     // 'mpim:read',
     // 'im:read',

@@ -15,7 +15,12 @@ export class Channels {
 
   async populateConversationStore() {
     try {
+      console.log('[INFO] Getting information about the team');
+      const teamInfo = await this.slackWebClient.team.info({ token: this.token });
+      const teamName = teamInfo?.team?.name;
+
       // Call the conversations.list method using the WebClient
+      console.log('[INFO] Getting list of all channels');
       const channelsList = await this.slackWebClient.conversations.list({ token: this.token });
 
       let allUsers = [];
@@ -37,7 +42,7 @@ export class Channels {
       }
 
       this.saveConversations(channelsList.channels);
-      this.convertConversationsToDataset(channelsList.channels);
+      this.convertConversationsToDataset(channelsList.channels, teamName);
     }
     catch (error) {
       console.error(error);
@@ -58,17 +63,17 @@ export class Channels {
     });
   }
 
-  convertConversationsToDataset(conversationsArray) {
+  convertConversationsToDataset(conversationsArray, teamName) {
     console.log('[INFO] Converting all channel info to a Maptio dataset');
 
-    const visionInitiative = this.createInitiative('Imported Slack Channels', []);
+    const visionInitiative = this.createInitiative(teamName, []);
     conversationsArray.forEach((conversation) => {
       const childInitiative = this.createInitiative(conversation.name, conversation.members);
       visionInitiative.children.push(childInitiative);
     });
 
     const dateTime = new Date();
-    const rootInitiative = this.createInitiative('Slack channels imported at ' + dateTime, []);
+    const rootInitiative = this.createInitiative(`${teamName} - imported at ` + dateTime, []);
     rootInitiative.children.push(visionInitiative);
 
     const dataset = this.createDataset(rootInitiative);
