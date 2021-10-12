@@ -178,7 +178,9 @@ export class CircleMapService {
   }
 
   rememberSelectedCircle(circle: InitiativeNode) {
-    localStorage.setItem('node_id', circle.data.id.toString());
+    if(circle.data.id) {
+      localStorage.setItem('node_id', circle.data.id.toString());
+    }
   }
 
   getLastSelectedCircle(circles: InitiativeNode[]) {
