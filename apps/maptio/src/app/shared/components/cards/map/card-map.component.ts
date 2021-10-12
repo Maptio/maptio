@@ -63,10 +63,10 @@ export class CardMapComponent implements OnInit {
         `;
 
         this.embeddingInstructions = `
-            This map can be viewed publicly at the follwing URL:
-            <code>
+            This map can be viewed publicly at the following URL:
+            <a href="${shareableUrl}">
               ${shareableUrl}
-            </code>
+            </a>
             <br>
             <br>
 
