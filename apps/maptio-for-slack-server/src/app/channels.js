@@ -68,6 +68,12 @@ export class Channels {
 
     const visionInitiative = this.createInitiative(teamName, []);
     conversationsArray.forEach((conversation) => {
+      // Skip archived channels
+      if(conversation.is_archived) {
+        console.log('[INFO] Skipping archived channel:', conversation.name);
+        return;
+      }
+
       const childInitiative = this.createInitiative(conversation.name, conversation.members);
       visionInitiative.children.push(childInitiative);
     });
