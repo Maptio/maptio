@@ -17,6 +17,9 @@ router.get('/:id', cors(corsOptions), function (req, res, next) {
         function (err, datasets) {
             if (err) {
                 res.send(err);
+            } else if (!datasets) {
+                console.error('[ERROR] Could not find dataset with id:', req.params.id);
+                res.status(404).send('The requested map does not exist or it is not shared publicly.');
             } else {
                 if (datasets.isEmbeddable) {
                   datasets.depth = getDepth(datasets)
