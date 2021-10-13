@@ -66,7 +66,7 @@ export class Channels {
   convertConversationsToDataset(conversationsArray, teamName) {
     console.log('[INFO] Converting all channel info to a Maptio dataset');
 
-    const visionInitiative = this.createInitiative(teamName, []);
+    const visionInitiative = this.createInitiative(undefined, teamName, []);
     conversationsArray.forEach((conversation) => {
       // Skip archived channels
       if(conversation.is_archived) {
@@ -74,12 +74,12 @@ export class Channels {
         return;
       }
 
-      const childInitiative = this.createInitiative(conversation.name, conversation.members);
+      const childInitiative = this.createInitiative(conversation.id, conversation.name, conversation.members);
       visionInitiative.children.push(childInitiative);
     });
 
     const dateTime = new Date();
-    const rootInitiative = this.createInitiative(`${teamName} - imported at ` + dateTime, []);
+    const rootInitiative = this.createInitiative(undefined, `${teamName} - imported at ` + dateTime, []);
     rootInitiative.children.push(visionInitiative);
 
     const dataset = this.createDataset(rootInitiative);
@@ -100,9 +100,16 @@ export class Channels {
     return maptioUserObject
   }
 
-  createInitiative(name, members) {
-    console.log('[INFO] Creating initiative with name:', name);
+  createInitiative(id, name, members) {
+    console.log('[INFO] Creating initiative with id:', id);
+    console.log('[INFO] And the following name:', name);
     console.log('[INFO] And the following members:', members);
+
+    if (!id) {
+      id = Math.floor(Math.random() * 10000000000000);
+    } else {
+      id = `slack|${id}`;
+    }
 
     const helpers = members.map((memberId) => {
       console.log('[INFO] Requesting member from store:', memberId);
@@ -112,9 +119,10 @@ export class Channels {
     console.log('[INFO] Got the following helpers in initiative:', helpers);
 
     const initiative = {
-      "helpers": helpers,
+      id,
+      helpers,
       "tags": [],
-      "name": name,
+      name,
       "team_id": `${this.hardcodedTemporaryTargetTeam}`,
       "children": []
     };
