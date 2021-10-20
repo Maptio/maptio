@@ -121,8 +121,8 @@
             *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index">
             <!-- [class.bold]="member.userRole===UserRole.Admin" -->
             <div class="col-12 my-1">
-                <member-single [invite]="invite$.asObservable()" [isOnlyMember]="team.members.length===1" [user]="user"
-                    [member]="member" [team]="team" (delete)="deleteMember(member)"></member-single>
+                <maptio-member-single [invite]="invite$.asObservable()" [isOnlyMember]="team.members.length===1" [user]="user"
+                    [member]="member" [team]="team" (delete)="deleteMember(member)"></maptio-member-single>
                     <hr class="d-md-none">
             </div>
 
