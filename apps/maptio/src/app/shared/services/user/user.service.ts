@@ -366,7 +366,12 @@ export class UserService {
         });
     }
 
-    public updateUserProfile(user_id: string, firstname: string, lastname: string): Promise<boolean> {
+    public updateUserProfile(
+      user_id: string,
+      firstname: string,
+      lastname: string,
+      fromMemberSingleComponent = false
+    ): Promise<boolean> {
         return this.configuration.getAccessToken().then((token: string) => {
             const httpOptions = {
               headers: new HttpHeaders({
@@ -374,13 +379,18 @@ export class UserService {
               })
             };
 
+            // When this is called from MemberSingleComponent, the connection
+            // is not yet known so we set it to what Auth0 sets it to
+            // internally, this should just be a temporary change
+            const connection = fromMemberSingleComponent ? 'Username-Password-Authentication' : this.getConnection();
+
             const userMetadata = {
                 "user_metadata":
                 {
                     "given_name": firstname,
                     "family_name": lastname
                 },
-                "connection": this.getConnection()
+                connection,
             };
 
             return this.http.patch(`${environment.USERS_API_URL}/${user_id}`, userMetadata, httpOptions)

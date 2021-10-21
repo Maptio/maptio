@@ -171,7 +171,7 @@ export class MemberSingleComponent implements OnInit, OnDestroy {
       const email = this.editUserForm.controls['email'].value;
 
       this.userService
-        .updateUserProfile(this.member.user_id, firstname, lastname)
+        .updateUserProfile(this.member.user_id, firstname, lastname, true)
         .then((updated: boolean) => {
           if (updated) {
             this.member.firstname = firstname;

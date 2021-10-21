@@ -80,7 +80,7 @@ export class CardMapComponent implements OnInit {
 
             <p>
               To stop sharing the map, click "Disable" below.
-              Please make sure you remove the code snippet from your webiste before you do this.
+              Please make sure you remove the code snippet from your website before you do this.
             </p>
         `;
     }
