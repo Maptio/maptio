@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  OnDestroy,
   ChangeDetectorRef,
   ViewChild,
   ElementRef,
@@ -47,7 +48,7 @@ import { LoaderService } from '@maptio-shared/components/loading/loader.service'
   templateUrl: './members.component.html',
   styleUrls: ['./members.component.css'],
 })
-export class TeamMembersComponent implements OnInit {
+export class TeamMembersComponent implements OnInit, OnDestroy {
   team: Team;
   user: User;
   UserRole = UserRole;
@@ -260,7 +261,7 @@ export class TeamMembersComponent implements OnInit {
         }
       })
       .then((newTeam: Team) => {
-        return this.teamFactory.upsert(newTeam).then((result) => {
+        return this.teamFactory.upsert(newTeam).then(() => {
           return newTeam;
         });
       })
@@ -322,14 +323,6 @@ export class TeamMembersComponent implements OnInit {
     }
   }
 
-  createUserFullDetailsFake(
-    email: string,
-    firstname: string,
-    lastname: string
-  ) {
-    return new Promise((resolve) => setTimeout(resolve, 3000));
-  }
-
   createUserFullDetails(email: string, firstname: string, lastname: string) {
     // return this.team$.then((team: Team) => {
 
@@ -360,6 +353,7 @@ export class TeamMembersComponent implements OnInit {
             }
           );
         },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (reason: any) => {
           throw JSON.parse(reason._body).message;
         }
@@ -370,7 +364,7 @@ export class TeamMembersComponent implements OnInit {
       })
       .then((user: User) => {
         this.team.members.push(user);
-        this.teamFactory.upsert(this.team).then((result) => {
+        this.teamFactory.upsert(this.team).then(() => {
           this.newMember = undefined;
         });
       })
