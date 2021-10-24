@@ -1,17 +1,22 @@
 import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
+
+import { Subject, Subscription } from 'rxjs';
+import {
   mergeMap,
   filter,
   tap,
   debounceTime,
   combineLatest,
 } from 'rxjs/operators';
-import { environment } from '../../../../config/environment';
-import { Auth } from '../../../../core/authentication/auth.service';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { DataSet } from '../../../../shared/model/dataset.data';
-import { DatasetFactory } from '../../../../core/http/map/dataset.factory';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
-import { TeamFactory } from '../../../../core/http/team/team.factory';
+
 import {
   compact,
   remove,
@@ -20,30 +25,25 @@ import {
   sortBy,
   isEmpty,
 } from 'lodash-es';
-import { UserService } from '../../../../shared/services/user/user.service';
-import { User } from '../../../../shared/model/user.data';
-import { Team } from '../../../../shared/model/team.data';
-import { UserFactory } from '../../../../core/http/user/user.factory';
-import { FormControl } from '@angular/forms';
-import { Validators } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import {
-  Component,
-  OnInit,
-  ChangeDetectorRef,
-  ViewChild,
-  ElementRef,
-} from '@angular/core';
-import {
-  UserRole,
-  Permissions,
-} from '../../../../shared/model/permission.data';
-import { LoaderService } from '../../../../shared/components/loading/loader.service';
 import { Intercom } from 'ng-intercom';
+import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
+
+import { environment } from '@maptio-config/environment';
+import { Auth } from '@maptio-core/authentication/auth.service';
+import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
+import { TeamFactory } from '@maptio-core/http/team/team.factory';
+import { UserFactory } from '@maptio-core/http/user/user.factory';
+
+import { DataSet } from '@maptio-shared/model/dataset.data';
+import { User } from '@maptio-shared/model/user.data';
+import { UserService } from '@maptio-shared/services/user/user.service';
+import { UserRole, Permissions } from '@maptio-shared/model/permission.data';
+import { Team } from '@maptio-shared/model/team.data';
+import { LoaderService } from '@maptio-shared/components/loading/loader.service';
+
 
 @Component({
-  selector: 'team-single-members',
+  selector: 'maptio-members',
   templateUrl: './members.component.html',
   styleUrls: ['./members.component.css'],
 })
@@ -57,7 +57,7 @@ export class TeamMembersComponent implements OnInit {
   public newMember: User;
   private routeSubscription: Subscription;
   private inputEmailSubscription: Subscription;
-  public isAlreadyInTeam: boolean = false;
+  public isAlreadyInTeam = false;
   public errorMessage: string;
 
   public invite$: Subject<void> = new Subject<void>();
@@ -72,13 +72,14 @@ export class TeamMembersComponent implements OnInit {
   cancelClicked: boolean;
 
   inputEmail$: Subject<string> = new Subject();
-  inputEmail: String;
+  inputEmail: string;
   foundUser: User;
-  isShowSelectToAdd: Boolean;
-  isShowInviteForm: Boolean;
-  isSearching: Boolean;
-  isNewUserAdded: Boolean;
+  isShowSelectToAdd: boolean;
+  isShowInviteForm: boolean;
+  isSearching: boolean;
+  isNewUserAdded: boolean;
 
+  // eslint-disable-next-line no-useless-escape
   private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
@@ -184,10 +185,10 @@ export class TeamMembersComponent implements OnInit {
         });
       })
       .then((result) => {
-        let members = result.members;
+        const members = result.members;
 
-        let membersPending = uniqBy(result.membersPending, (m) => m.user_id);
-        let allDeleted = differenceBy(
+        const membersPending = uniqBy(result.membersPending, (m) => m.user_id);
+        const allDeleted = differenceBy(
           members,
           membersPending,
           (m) => m.user_id
@@ -303,8 +304,8 @@ export class TeamMembersComponent implements OnInit {
   createUser(email: string) {
     if (this.inviteForm.dirty && this.inviteForm.valid) {
       this.isCreatingUser = true;
-      let firstname = this.inviteForm.controls['firstname'].value;
-      let lastname = this.inviteForm.controls['lastname'].value;
+      const firstname = this.inviteForm.controls['firstname'].value;
+      const lastname = this.inviteForm.controls['lastname'].value;
 
       this.createUserFullDetails(email, firstname, lastname)
         .then(() => {
@@ -340,7 +341,7 @@ export class TeamMembersComponent implements OnInit {
         (user: User) => {
           return this.datasetFactory.get(this.team).then(
             (datasets: DataSet[]) => {
-              let virtualUser = new User();
+              const virtualUser = new User();
               virtualUser.name = user.name;
               virtualUser.email = user.email;
               virtualUser.firstname = user.firstname;
