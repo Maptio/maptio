@@ -146,6 +146,13 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
     this.invite$.next();
   }
 
+  onAddMember(createdUser?: User) {
+    if (createdUser) {
+      this.createdUser = createdUser;
+    }
+    this.members$ = this.getAllMembers();
+  }
+
   deleteMember(user: User) {
     if (this.team.members.length === 1) return;
     remove(this.team.members, function (m) {

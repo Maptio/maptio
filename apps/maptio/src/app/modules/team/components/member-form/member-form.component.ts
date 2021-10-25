@@ -1,10 +1,13 @@
 import {
   Component,
+  Input,
+  Output,
+  EventEmitter,
   ViewChild,
   ElementRef,
-  ChangeDetectorRef,
   OnInit,
-  OnDestroy
+  OnDestroy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 
@@ -40,7 +43,6 @@ import { TeamFactory } from '@maptio-core/http/team/team.factory';
 })
 export class MemberFormComponent implements OnInit, OnDestroy {
 
-  team: Team;
   user: User;
   Permissions = Permissions;
 
@@ -64,6 +66,9 @@ export class MemberFormComponent implements OnInit, OnDestroy {
 
   // eslint-disable-next-line no-useless-escape
   private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  @Input() team: Team;
+  @Output() addMember = new EventEmitter<User>();
 
   @ViewChild('inputNewMember') public inputNewMember: ElementRef;
 
@@ -135,10 +140,9 @@ export class MemberFormComponent implements OnInit, OnDestroy {
       const lastname = this.inviteForm.controls['lastname'].value;
 
       this.createUserFullDetails(email, firstname, lastname)
-        // TODO:
-        // .then(() => {
-        //   this.members$ = this.getAllMembers();
-        // })
+        .then(() => {
+          this.addMember.emit(this.createdUser);
+        })
         .then(() => {
           this.isCreatingUser = false;
           this.inputNewMember.nativeElement.value = '';
@@ -218,7 +222,7 @@ export class MemberFormComponent implements OnInit, OnDestroy {
     this.inputEmail$.next(searchTextValue);
   }
 
-  addUser(newUser: User) {
+  addExistingUser(newUser: User) {
     if (this.isUserInTeam(newUser)) {
       this.isAlreadyInTeam = true;
       this.cd.markForCheck();
@@ -250,10 +254,9 @@ export class MemberFormComponent implements OnInit, OnDestroy {
           teamId: team.team_id,
         });
       })
-      // TODO:
-      // .then(() => {
-      //   this.members$ = this.getAllMembers();
-      // })
+      .then(() => {
+        this.addMember.emit(undefined);
+      })
       .then(() => {
         this.inputNewMember.nativeElement.value = '';
         this.inputEmail = '';

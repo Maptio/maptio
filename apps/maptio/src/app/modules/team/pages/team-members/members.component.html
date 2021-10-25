@@ -8,6 +8,8 @@
 <div class="">
   <maptio-member-form
     *ngIf="team && !team?.isExample"
+    [team]="team"
+    (addMember)="onAddMember()"
   >
   </maptio-member-form>
 
