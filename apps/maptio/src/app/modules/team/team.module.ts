@@ -21,6 +21,7 @@ import { CardTeamComponent } from "../../shared/components/cards/team/card-team.
 import { CreateTeamComponent } from "../../shared/components/cards/create-team/create-team.component";
 import { CreateMapModule } from "../../shared/create-map.module";
 import { TeamRoutingModule } from "./team.routing";
+import { MemberFormComponent } from './components/member-form/member-form.component';
 
 @NgModule({
     imports: [
@@ -48,7 +49,8 @@ import { TeamRoutingModule } from "./team.routing";
         TeamIntegrationsComponent,
         TeamBillingComponent,
         TeamMapsComponent,
-        KeysPipe
+        KeysPipe,
+        MemberFormComponent
         
     ],
     providers: [TeamComponentResolver, TeamListComponentResolver]
