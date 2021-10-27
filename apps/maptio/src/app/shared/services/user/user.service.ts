@@ -1,19 +1,21 @@
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { forkJoin as observableForkJoin, Observable } from 'rxjs';
-
 import { mergeMap, map } from 'rxjs/operators';
+
+import { flatten } from 'lodash-es';
+import { UUID } from 'angular2-uuid/index';
+
+import { AuthConfiguration } from '@maptio-core/authentication/auth.config';
+import { UserFactory } from '@maptio-core/http/user/user.factory';
+import { EmitterService } from '@maptio-core/services/emitter.service';
+import { environment } from '@maptio-config/environment';
+
 import { UserRole } from './../../model/permission.data';
 import { User } from './../../model/user.data';
-import { environment } from '../../../config/environment';
-import { Injectable } from '@angular/core';
-import { AuthConfiguration } from '../../../core/authentication/auth.config';
 import { JwtEncoder } from '../encoding/jwt.service';
 import { MailingService } from '../mailing/mailing.service';
-import { UUID } from 'angular2-uuid/index';
-import { EmitterService } from '../../../core/services/emitter.service';
-import { flatten } from 'lodash-es';
-import { UserFactory } from '../../../core/http/user/user.factory';
 
 @Injectable()
 export class UserService {
@@ -135,12 +137,12 @@ export class UserService {
   }
 
   public sendConfirmationWithUserToken(userToken: string): Promise<boolean> {
-    let getUserId = () => {
+    const getUserId = () => {
       return this.encodingService
         .decode(userToken)
         .then((decoded) => decoded.user_id);
     };
-    let getUserEmail = () => {
+    const getUserEmail = () => {
       return this.encodingService
         .decode(userToken)
         .then((decoded) => decoded.email);
@@ -208,9 +210,9 @@ export class UserService {
   }
 
   private getHslFromName(name: string): { h: number; s: number; l: number } {
-    let cleaned = name.toLowerCase().replace(/[^a-zA-Z0-9]+/g, '-');
+    const cleaned = name.toLowerCase().replace(/[^a-zA-Z0-9]+/g, '-');
     let hash = 0;
-    for (var i = 0; i < cleaned.length; i++) {
+    for (let i = 0; i < cleaned.length; i++) {
       hash = cleaned.charCodeAt(i) + ((hash << 5) - hash);
     }
 
@@ -218,10 +220,12 @@ export class UserService {
   }
 
   getHexFromHsl(hsl: { h: number; s: number; l: number }) {
-    var h = hsl.h / 360;
-    var s = hsl.s / 100;
-    var l = hsl.l / 100;
-    var r, g, b;
+    const h = hsl.h / 360;
+    const s = hsl.s / 100;
+    const l = hsl.l / 100;
+
+    let r: number, g: number, b: number;
+
     if (s === 0) {
       r = g = b = l; // achromatic
     } else {
@@ -233,16 +237,20 @@ export class UserService {
         if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
         return p;
       };
-      var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-      var p = 2 * l - q;
+
+      const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      const p = 2 * l - q;
+
       r = hue2rgb(p, q, h + 1 / 3);
       g = hue2rgb(p, q, h);
       b = hue2rgb(p, q, h - 1 / 3);
     }
+
     const toHex = (x: number) => {
-      var hex = Math.round(x * 255).toString(16);
+      const hex = Math.round(x * 255).toString(16);
       return hex.length === 1 ? '0' + hex : hex;
     };
+
     return `${toHex(r)}${toHex(g)}${toHex(b)}`.replace('-', '').substr(0, 6);
   }
 
@@ -253,11 +261,11 @@ export class UserService {
     isSignUp?: boolean,
     isAdmin?: boolean
   ): Promise<User> {
-    let color = this.getHexFromHsl(
+    const color = this.getHexFromHsl(
       this.getHslFromName(`${firstname} ${lastname}`)
     );
 
-    let newUser = {
+    const newUser = {
       connection: environment.CONNECTION_NAME,
       email: email,
       name: `${firstname} ${lastname}`,
@@ -302,7 +310,7 @@ export class UserService {
     if (users.length === 0)
       return Promise.reject('You must specify some user ids.');
 
-    let query = users.map((u) => `user_id:"${u.user_id}"`).join(' OR ');
+    const query = users.map((u) => `user_id:"${u.user_id}"`).join(' OR ');
 
     return this.configuration.getAccessToken().then((token: string) => {
       const headers = new HttpHeaders({
@@ -314,14 +322,14 @@ export class UserService {
         return this.requestUsersPerPage(query, headers, 0).toPromise();
       } else {
         // query several times
-        let maxCounter = Math.ceil(
+        const maxCounter = Math.ceil(
           users.length / environment.AUTH0_USERS_PAGE_LIMIT
         );
 
-        let pageArrays = Array.from(Array(maxCounter).keys());
-        let singleObservables = pageArrays.map(
+        const pageArrays = Array.from(Array(maxCounter).keys());
+        const singleObservables = pageArrays.map(
           (pageNumber: number, index: number) => {
-            let truncatedQuery = users
+            const truncatedQuery = users
               .slice(
                 index * environment.AUTH0_USERS_PAGE_LIMIT,
                 (index + 1) * environment.AUTH0_USERS_PAGE_LIMIT
@@ -367,7 +375,7 @@ export class UserService {
           return responseData;
         }),
         map((inputs: Array<any>) => {
-          let result: Array<User> = [];
+          const result: Array<User> = [];
           if (inputs) {
             inputs.forEach((input) => {
               result.push(User.create().deserialize(input));
@@ -422,7 +430,7 @@ export class UserService {
               return { isActivationPending: false, user_id: undefined };
             }
             if (responseData.total === 1) {
-              let user = responseData.users[0];
+              const user = responseData.users[0];
               return user.app_metadata
                 ? {
                     isActivationPending: user.app_metadata.activation_pending,
