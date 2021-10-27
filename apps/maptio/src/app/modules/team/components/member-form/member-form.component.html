@@ -1,4 +1,108 @@
-<div class="w-100">
+<div class="card w-100 mb-3 border" *permissionsOnly="Permissions.canAddUser">
+  <div class="card-body">
+    <div class="card-title lead">Add people</div>
+
+    <!-- class="form-row d-flex justify-content-start my-1" -->
+    <!-- [class.align-items-start]="!isCreatingUser" -->
+    <!-- [class.align-items-center]="isCreatingUser" -->
+    <form
+      [formGroup]="inviteForm"
+      (submit)="createUser()"
+    >
+      <div class="form-group form-inline row">
+        <label
+          class="col-12 col-md-2 d-flex justify-content-start"
+          for="inputFirstname"
+        >
+          First name
+        </label>
+
+        <div class="col-12 col-md-4">
+          <input
+            type="text"
+            id="inputFirstname"
+            formControlName="firstname"
+            class="form-control form-control-warning w-100"
+            [class.is-invalid]="
+              inviteForm.controls['firstname'].invalid &&
+              (inviteForm.controls['firstname'].dirty ||
+                inviteForm.controls['firstname'].touched)
+            "
+            placeholder="First name"
+            required
+            minlength="2"
+          />
+
+          <small class="invalid-feedback">2 characters minimum</small>
+        </div>
+      </div>
+
+      <div class="form-group form-inline row">
+        <label
+          class="col-12 col-md-2 d-flex justify-content-start"
+          for="inputFirstname"
+        >
+          Last name
+        </label>
+
+        <div class="col-12 col-md-4">
+          <input
+            type="text"
+            id="inputLastname"
+            formControlName="lastname"
+            class="form-control form-control-warning w-100"
+            [class.is-invalid]="
+              inviteForm.controls['lastname'].invalid &&
+              (inviteForm.controls['lastname'].dirty ||
+                inviteForm.controls['lastname'].touched)
+            "
+            placeholder="Last name"
+            required
+            minlength="2"
+          />
+
+          <small class="invalid-feedback">2 characters minimum</small>
+        </div>
+      </div>
+
+      <div class="form-group form-inline row">
+        <label
+          class="col-12 col-md-2 d-flex justify-content-start"
+          for="inputEmail"
+        >
+          Email
+        </label>
+
+        <div class="col-12 col-md-4">
+          <input
+            type="text"
+            id="inputEmail"
+            formControlName="email"
+            class="form-control form-control-warning w-100"
+            [class.is-invalid]="
+              inviteForm.controls['email'].invalid &&
+              (inviteForm.controls['email'].dirty ||
+                inviteForm.controls['email'].touched)
+            "
+            placeholder="Email"
+          />
+
+          <small class="invalid-feedback">Please enter a valid email</small>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-success mx-3">Add</button>
+
+      <span class="text-green" *ngIf="isCreatingUser">
+        <i class="fas fa-circle-notch fa-spin mx-1"></i>
+        Creating
+      </span>
+    </form>
+  </div>
+</div>
+
+
+<!-- <div class="w-100">
   <div class="card mb-3 border" *permissionsOnly="Permissions.canAddUser">
     <div class="card-body collapse show" id="collapseAddPeople">
       <div class="card-title lead d-flex justify-content-between">
@@ -128,4 +232,4 @@
   *ngIf="isAlreadyInTeam"
 >
   {{ foundUser.name }} has already been added to {{ team.name }}
-</div>
+</div> -->

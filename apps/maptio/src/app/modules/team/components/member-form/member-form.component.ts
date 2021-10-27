@@ -83,11 +83,17 @@ export class MemberFormComponent implements OnInit, OnDestroy {
   ) {
     this.inviteForm = new FormGroup({
       firstname: new FormControl('', {
-        validators: [Validators.required, Validators.minLength(2)],
+        validators: [ Validators.required, Validators.minLength(2) ],
         updateOn: 'submit',
       }),
+
       lastname: new FormControl('', {
-        validators: [Validators.required, Validators.minLength(2)],
+        validators: [ Validators.required, Validators.minLength(2) ],
+        updateOn: 'submit',
+      }),
+
+      email: new FormControl('', {
+        validators: [ Validators.email ],
         updateOn: 'submit',
       }),
     });
@@ -133,25 +139,27 @@ export class MemberFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  createUser(email: string) {
-    if (this.inviteForm.dirty && this.inviteForm.valid) {
-      this.isCreatingUser = true;
-      const firstname = this.inviteForm.controls['firstname'].value;
-      const lastname = this.inviteForm.controls['lastname'].value;
+  createUser() {
+    console.log(this.inviteForm.value);
 
-      this.createUserFullDetails(email, firstname, lastname)
-        .then(() => {
-          this.addMember.emit(this.createdUser);
-        })
-        .then(() => {
-          this.isCreatingUser = false;
-          this.inputNewMember.nativeElement.value = '';
-          this.inputEmail = '';
-          this.isShowInviteForm = false;
-          this.inviteForm.reset();
-          this.cd.markForCheck();
-        });
-    }
+    // if (this.inviteForm.dirty && this.inviteForm.valid) {
+    //   this.isCreatingUser = true;
+    //   const firstname = this.inviteForm.controls['firstname'].value;
+    //   const lastname = this.inviteForm.controls['lastname'].value;
+
+    //   this.createUserFullDetails(email, firstname, lastname)
+    //     .then(() => {
+    //       this.addMember.emit(this.createdUser);
+    //     })
+    //     .then(() => {
+    //       this.isCreatingUser = false;
+    //       this.inputNewMember.nativeElement.value = '';
+    //       this.inputEmail = '';
+    //       this.isShowInviteForm = false;
+    //       this.inviteForm.reset();
+    //       this.cd.markForCheck();
+    //     });
+    // }
   }
 
   createUserFullDetails(email: string, firstname: string, lastname: string) {
