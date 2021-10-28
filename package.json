@@ -97,6 +97,7 @@
     "logrocket": "^0.6.12",
     "mongodb": "3.3.4",
     "mongojs": "3.1.0",
+    "nanoid": "^3.1.30",
     "ng-intercom": "^8.0.2",
     "ng2-file-upload": "^1.2.1",
     "ngx-color": "^6.1.0",
