@@ -140,59 +140,51 @@ export class MemberFormComponent implements OnInit, OnDestroy {
   }
 
   createUser() {
-    console.log(this.inviteForm.value);
+    if (this.inviteForm.dirty && this.inviteForm.valid) {
+      this.isCreatingUser = true;
+      const firstname = this.inviteForm.controls['firstname'].value;
+      const lastname = this.inviteForm.controls['lastname'].value;
+      const email = this.inviteForm.controls['email'].value;
 
-    // if (this.inviteForm.dirty && this.inviteForm.valid) {
-    //   this.isCreatingUser = true;
-    //   const firstname = this.inviteForm.controls['firstname'].value;
-    //   const lastname = this.inviteForm.controls['lastname'].value;
+      this.createUserFullDetails(email, firstname, lastname)
+        .then(() => {
+          this.addMember.emit(this.createdUser);
+        })
+        .then(() => {
+          this.isCreatingUser = false;
+          // this.inputNewMember.nativeElement.value = '';
+          // this.inputEmail = '';
+          this.isShowInviteForm = false;
+          this.inviteForm.reset();
+          this.cd.markForCheck();
+        });
 
-    //   this.createUserFullDetails(email, firstname, lastname)
-    //     .then(() => {
-    //       this.addMember.emit(this.createdUser);
-    //     })
-    //     .then(() => {
-    //       this.isCreatingUser = false;
-    //       this.inputNewMember.nativeElement.value = '';
-    //       this.inputEmail = '';
-    //       this.isShowInviteForm = false;
-    //       this.inviteForm.reset();
-    //       this.cd.markForCheck();
-    //     });
-    // }
+      this.isCreatingUser = false;
+    }
   }
 
   createUserFullDetails(email: string, firstname: string, lastname: string) {
-    return this.userService
-      .createUser(email, firstname, lastname)
-      .then(
-        (user: User) => {
-          return this.datasetFactory.get(this.team).then(
-            (datasets: DataSet[]) => {
-              const virtualUser = new User();
-              virtualUser.name = user.name;
-              virtualUser.email = user.email;
-              virtualUser.firstname = user.firstname;
-              virtualUser.lastname = user.lastname;
-              virtualUser.nickname = user.nickname;
-              virtualUser.user_id = user.user_id;
-              virtualUser.picture = user.picture;
-              virtualUser.teams = [this.team.team_id];
-              virtualUser.datasets = datasets.map((d) => d.datasetId);
-              this.createdUser = virtualUser;
+    const user =  this.userService.createUserNew(email, firstname, lastname);
 
-              return virtualUser;
-            },
-            (reason) => {
-              return Promise.reject(`Can't create ${email} : ${reason}`);
-            }
-          );
-        },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (reason: any) => {
-          throw JSON.parse(reason._body).message;
-        }
-      )
+    return this.datasetFactory.get(this.team)
+      .then((datasets: DataSet[]) => {
+        const virtualUser = new User();
+        virtualUser.name = user.name;
+        virtualUser.email = user.email;
+        virtualUser.firstname = user.firstname;
+        virtualUser.lastname = user.lastname;
+        virtualUser.nickname = user.nickname;
+        virtualUser.user_id = user.user_id;
+        virtualUser.picture = user.picture;
+        virtualUser.teams = [this.team.team_id];
+        virtualUser.datasets = datasets.map((d) => d.datasetId);
+        this.createdUser = virtualUser;
+
+        return virtualUser;
+      },
+      (reason) => {
+        return Promise.reject(`Can't create ${email} : ${reason}`);
+      })
       .then((virtualUser: User) => {
         this.userFactory.create(virtualUser);
         return virtualUser;

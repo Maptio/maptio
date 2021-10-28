@@ -4,8 +4,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { forkJoin as observableForkJoin, Observable } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
 
-import { flatten } from 'lodash-es';
 import { UUID } from 'angular2-uuid/index';
+import { flatten } from 'lodash-es';
+import { nanoid } from 'nanoid'
 
 import { AuthConfiguration } from '@maptio-core/authentication/auth.config';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
@@ -17,6 +18,7 @@ import { User } from './../../model/user.data';
 import { JwtEncoder } from '../encoding/jwt.service';
 import { MailingService } from '../mailing/mailing.service';
 
+
 @Injectable()
 export class UserService {
   constructor(
@@ -26,6 +28,98 @@ export class UserService {
     private mailing: MailingService,
     private userFactory: UserFactory
   ) {}
+
+  public createUserNew(
+    email: string,
+    firstname: string,
+    lastname: string,
+    isSignUp?: boolean,
+    isAdmin?: boolean
+  ): User {
+    const color = this.getHexFromHsl(
+      this.getHslFromName(`${firstname} ${lastname}`)
+    );
+
+    const newUser = {
+      user_id: 'maptio|' + nanoid(),
+      connection: environment.CONNECTION_NAME,
+      email: email,
+      name: `${firstname} ${lastname}`,
+      password: `${UUID.UUID()}-${UUID.UUID().toUpperCase()}`,
+      email_verified: !isSignUp || true,
+      verify_email: false, // we are always sending our emails (not through Auth0)
+      app_metadata: {
+        activation_pending: true,
+        invitation_sent: false,
+        role: isAdmin ? UserRole[UserRole.Admin] : UserRole[UserRole.Standard],
+      },
+      user_metadata: {
+        picture: `https://ui-avatars.com/api/?rounded=true&background=${color}&name=${firstname}+${lastname}&font-size=0.35&color=ffffff&size=500`,
+
+        given_name: firstname,
+        family_name: lastname,
+      },
+    };
+
+    // const user = User.create();
+    const user = User.create().deserialize(newUser);
+
+    return user;
+  }
+
+  public createUser(
+    email: string,
+    firstname: string,
+    lastname: string,
+    isSignUp?: boolean,
+    isAdmin?: boolean
+  ): Promise<User> {
+    return;
+  }
+
+  public inviteUser() {
+    // TODO
+    // const newUser = {
+    //   connection: environment.CONNECTION_NAME,
+    //   email: email,
+    //   name: `${firstname} ${lastname}`,
+    //   password: `${UUID.UUID()}-${UUID.UUID().toUpperCase()}`,
+    //   email_verified: !isSignUp || true,
+    //   verify_email: false, // we are always sending our emails (not through Auth0)
+    //   app_metadata: {
+    //     activation_pending: true,
+    //     invitation_sent: false,
+    //     role: isAdmin ? UserRole[UserRole.Admin] : UserRole[UserRole.Standard],
+    //   },
+    //   user_metadata: {
+    //     picture: `https://ui-avatars.com/api/?rounded=true&background=${color}&name=${firstname}+${lastname}&font-size=0.35&color=ffffff&size=500`,
+
+    //     given_name: firstname,
+    //     family_name: lastname,
+    //   },
+    // };
+
+    // return this.configuration.getAccessToken()
+    //   .then((token: string) => {
+    //     const httpOptions = {
+    //       headers: new HttpHeaders({
+    //         Authorization: 'Bearer ' + token,
+    //       }),
+    //     };
+
+    //     return this.http
+    //       .post(environment.USERS_API_URL, newUser, httpOptions)
+    //       .pipe(
+    //         map((responseData) => {
+    //           return responseData;
+    //         }),
+    //         map((input: any) => {
+    //           return User.create().deserialize(input);
+    //         })
+    //       )
+    //       .toPromise();
+    // });
+  }
 
   public sendInvite(
     email: string,
@@ -252,58 +346,6 @@ export class UserService {
     };
 
     return `${toHex(r)}${toHex(g)}${toHex(b)}`.replace('-', '').substr(0, 6);
-  }
-
-  public createUser(
-    email: string,
-    firstname: string,
-    lastname: string,
-    isSignUp?: boolean,
-    isAdmin?: boolean
-  ): Promise<User> {
-    const color = this.getHexFromHsl(
-      this.getHslFromName(`${firstname} ${lastname}`)
-    );
-
-    const newUser = {
-      connection: environment.CONNECTION_NAME,
-      email: email,
-      name: `${firstname} ${lastname}`,
-      password: `${UUID.UUID()}-${UUID.UUID().toUpperCase()}`,
-      email_verified: !isSignUp || true,
-      verify_email: false, // we are always sending our emails (not through Auth0)
-      app_metadata: {
-        activation_pending: true,
-        invitation_sent: false,
-        role: isAdmin ? UserRole[UserRole.Admin] : UserRole[UserRole.Standard],
-      },
-      user_metadata: {
-        picture: `https://ui-avatars.com/api/?rounded=true&background=${color}&name=${firstname}+${lastname}&font-size=0.35&color=ffffff&size=500`,
-
-        given_name: firstname,
-        family_name: lastname,
-      },
-    };
-
-    return this.configuration.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .post(environment.USERS_API_URL, newUser, httpOptions)
-        .pipe(
-          map((responseData) => {
-            return responseData;
-          }),
-          map((input: any) => {
-            return User.create().deserialize(input);
-          })
-        )
-        .toPromise();
-    });
   }
 
   public getUsersInfo(users: Array<User>): Promise<Array<User>> {

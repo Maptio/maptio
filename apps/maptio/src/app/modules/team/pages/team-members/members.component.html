@@ -9,7 +9,7 @@
   <maptio-member-form
     *ngIf="team && !team?.isExample"
     [team]="team"
-    (addMember)="onAddMember()"
+    (addMember)="onAddMember($event)"
   >
   </maptio-member-form>
 
