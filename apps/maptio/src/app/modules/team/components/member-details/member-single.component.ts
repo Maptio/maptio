@@ -123,11 +123,7 @@ export class MemberSingleComponent implements OnInit, OnDestroy {
     this.cd.markForCheck();
     return this.userService
       .sendInvite(
-        this.member.email,
-        this.member.user_id,
-        this.member.firstname,
-        this.member.lastname,
-        this.member.name,
+        this.member,
         this.team.name,
         this.user.name
       )
