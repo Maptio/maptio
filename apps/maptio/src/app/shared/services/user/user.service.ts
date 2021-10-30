@@ -77,70 +77,55 @@ export class UserService {
     return;
   }
 
-  public inviteUser() {
-    // TODO
-    // const newUser = {
-    //   connection: environment.CONNECTION_NAME,
-    //   email: email,
-    //   name: `${firstname} ${lastname}`,
-    //   password: `${UUID.UUID()}-${UUID.UUID().toUpperCase()}`,
-    //   email_verified: !isSignUp || true,
-    //   verify_email: false, // we are always sending our emails (not through Auth0)
-    //   app_metadata: {
-    //     activation_pending: true,
-    //     invitation_sent: false,
-    //     role: isAdmin ? UserRole[UserRole.Admin] : UserRole[UserRole.Standard],
-    //   },
-    //   user_metadata: {
-    //     picture: `https://ui-avatars.com/api/?rounded=true&background=${color}&name=${firstname}+${lastname}&font-size=0.35&color=ffffff&size=500`,
+  public createUserInAuth0(user: User): Promise<User> {
+    if (!user.email) {
+      const errorMessage = 'Cannot create Auth0 user without an email address.';
+      console.error(errorMessage);
+      return Promise.reject(errorMessage);
+    }
 
-    //     given_name: firstname,
-    //     family_name: lastname,
-    //   },
-    // };
+    const userDataInAuth0Format = this.convertUserToAuth0Format(user);
 
-    // return this.configuration.getAccessToken()
-    //   .then((token: string) => {
-    //     const httpOptions = {
-    //       headers: new HttpHeaders({
-    //         Authorization: 'Bearer ' + token,
-    //       }),
-    //     };
+    return this.configuration.getAccessToken()
+      .then((token: string) => {
+        const httpOptions = {
+          headers: new HttpHeaders({
+            Authorization: 'Bearer ' + token,
+          }),
+        };
 
-    //     return this.http
-    //       .post(environment.USERS_API_URL, newUser, httpOptions)
-    //       .pipe(
-    //         map((responseData) => {
-    //           return responseData;
-    //         }),
-    //         map((input: any) => {
-    //           return User.create().deserialize(input);
-    //         })
-    //       )
-    //       .toPromise();
-    // });
+        return this.http
+          .post(environment.USERS_API_URL, userDataInAuth0Format, httpOptions)
+          .pipe(
+            map((responseData) => {
+              return responseData;
+            }),
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            map((input: any) => {
+              return User.create().deserialize(input);
+            })
+          )
+          .toPromise();
+    });
   }
 
   public sendInvite(
-    email: string,
-    userId: string,
-    firstname: string,
-    lastname: string,
-    name: string,
+    user: User,
     teamName: string,
     invitedBy: string
   ): Promise<boolean> {
     return Promise.all([
       this.encodingService.encode({
-        user_id: userId,
-        email: email,
-        firstname: firstname,
-        lastname: lastname,
-        name: name,
+        user_id: user.user_id,
+        email: user.email,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        name: user.name,
       }),
       this.configuration.getAccessToken(),
+      this.createUserInAuth0(user),
     ])
-      .then(([userToken, apiToken]: [string, string]) => {
+      .then(([userToken, apiToken, user]: [string, string, User]) => {
         const httpOptions = {
           headers: new HttpHeaders({
             Authorization: 'Bearer ' + apiToken,
@@ -152,7 +137,7 @@ export class UserService {
             environment.TICKETS_API_URL,
             {
               result_url: 'http://app.maptio.com/login?token=' + userToken,
-              user_id: userId,
+              user_id: user.user_id,
               ttl_sec: 30 * 24 * 3600, // valid for 30 days
             },
             httpOptions
@@ -167,14 +152,14 @@ export class UserService {
       .then((ticket: string) => {
         return this.mailing.sendInvitation(
           environment.SUPPORT_EMAIL,
-          [email],
+          [user.email],
           ticket,
           teamName,
           invitedBy
         );
       })
       .then((success: boolean) => {
-        return this.updateInvitiationSentStatus(userId, true);
+        return this.updateInvitiationSentStatus(user.user_id, true);
       });
   }
 
@@ -826,5 +811,29 @@ export class UserService {
     } else {
       return environment.CONNECTION_NAME;
     }
+  }
+
+  private convertUserToAuth0Format(user: User) {
+    const userInAuth0Format = {
+      user_id: user.user_id,
+      connection: environment.CONNECTION_NAME,
+      email: user.email,
+      name: `${user.firstname} ${user.lastname}`,
+      password: `${UUID.UUID()}-${UUID.UUID().toUpperCase()}`,
+      // email_verified: !isSignUp || true,
+      email_verified: false,
+      verify_email: false, // we are always sending our emails (not through Auth0)
+      app_metadata: {
+        activation_pending: true,
+        invitation_sent: false,
+      },
+      user_metadata: {
+        picture: user.picture,
+        given_name: user.firstname,
+        family_name: user.lastname,
+      },
+    }
+
+    return userInAuth0Format;
   }
 }
