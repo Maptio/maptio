@@ -115,13 +115,7 @@ export class UserService {
     invitedBy: string
   ): Promise<boolean> {
     return Promise.all([
-      this.encodingService.encode({
-        user_id: user.user_id,
-        email: user.email,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        name: user.name,
-      }),
+      this.generateDetailedUserToken(user),
       this.configuration.getAccessToken(),
       this.createUserInAuth0(user),
     ])
@@ -272,6 +266,16 @@ export class UserService {
       .then((userId: string) => {
         return this.updateActivationPendingStatus(userId, true);
       });
+  }
+
+  private generateDetailedUserToken(user: User): Promise<string> {
+    return this.encodingService.encode({
+      user_id: user.user_id,
+      email: user.email,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      name: user.name,
+    });
   }
 
   public generateUserToken(
