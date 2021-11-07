@@ -1,10 +1,15 @@
 <ng-template #rt let-r="result" let-t="term">
-  <img
-    src="{{ r.picture }}"
-    class="rounded-circle participant-picture"
-    alt="{{ r.name }}"
-  />
-  {{ r.name }}
+  <span *ngIf="r">
+    <img
+      src="{{ r.picture }}"
+      class="rounded-circle participant-picture"
+      alt="{{ r.name }}"
+    />
+    {{ r.name }}
+  </span>
+
+  <span *ngIf="!r && t">{{t}} (Add a new team member)</span>
+  <span *ngIf="!r && !t">Add a new team member</span>
 </ng-template>
 
 <ng-template #editTipContent>
