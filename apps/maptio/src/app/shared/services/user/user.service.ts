@@ -41,7 +41,8 @@ export class UserService {
     );
 
     const newUser = {
-      user_id: 'maptio|' + nanoid(),
+      isInAuth0: false,
+      user_id: 'auth0|' + nanoid(), // The "auth0|" prefix is necessary - see comment below
       connection: environment.CONNECTION_NAME,
       email: email,
       name: `${firstname} ${lastname}`,
@@ -67,6 +68,8 @@ export class UserService {
     return user;
   }
 
+  // TODO: Temporary placeholder as we work through propagating the changes,
+  // only here for now to make the code compile
   public createUser(
     email: string,
     firstname: string,
@@ -77,7 +80,7 @@ export class UserService {
     return;
   }
 
-  public createUserInAuth0(user: User): Promise<User> {
+  public createUserInAuth0(user: User): Promise<boolean> {
     if (!user.email) {
       const errorMessage = 'Cannot create Auth0 user without an email address.';
       console.error(errorMessage);
@@ -85,6 +88,10 @@ export class UserService {
     }
 
     const userDataInAuth0Format = this.convertUserToAuth0Format(user);
+
+    // Auth0 will add the "auth0|" prefix automatically, so to ensure that our
+    // id matches the Auth0 id, we need to remove the prefix temporarily
+    userDataInAuth0Format.user_id = user.user_id.replace('auth0|', '');
 
     return this.configuration.getAccessToken()
       .then((token: string) => {
@@ -105,6 +112,16 @@ export class UserService {
               return User.create().deserialize(input);
             })
           )
+          // Save to DB
+          .pipe(
+            mergeMap(() => {
+              return this.userFactory.get(user.user_id);
+            }),
+            mergeMap((newUser) => {
+              newUser.isInAuth0 = true;
+              return this.userFactory.upsert(newUser);
+            })
+          )
           .toPromise();
     });
   }
@@ -117,9 +134,21 @@ export class UserService {
     return Promise.all([
       this.generateDetailedUserToken(user),
       this.configuration.getAccessToken(),
-      this.createUserInAuth0(user),
     ])
-      .then(([userToken, apiToken, user]: [string, string, User]) => {
+      .then(([userToken, apiToken]: [string, string]) => {
+        if (user.isInAuth0) {
+          return [userToken, apiToken];
+        } else {
+          return this.createUserInAuth0(user).then((success: boolean) => {
+            if (!success) {
+              // TODO: Deal with this in some better way...
+              console.error('Error creating user in Auth0 or saving the updated user...');
+            }
+            return [userToken, apiToken];
+          });
+        }
+      })
+      .then(([userToken, apiToken]: [string, string]) => {
         const httpOptions = {
           headers: new HttpHeaders({
             Authorization: 'Bearer ' + apiToken,
