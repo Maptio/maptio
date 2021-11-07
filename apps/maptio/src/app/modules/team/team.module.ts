@@ -21,7 +21,9 @@ import { CardTeamComponent } from "../../shared/components/cards/team/card-team.
 import { CreateTeamComponent } from "../../shared/components/cards/create-team/create-team.component";
 import { CreateMapModule } from "../../shared/create-map.module";
 import { TeamRoutingModule } from "./team.routing";
-import { MemberFormComponent } from './components/member-form/member-form.component';
+
+import { MemberFormComponent } from '@maptio-shared/components/member-form/member-form.component';
+
 
 @NgModule({
     imports: [
@@ -51,7 +53,7 @@ import { MemberFormComponent } from './components/member-form/member-form.compon
         TeamMapsComponent,
         KeysPipe,
         MemberFormComponent
-        
+
     ],
     providers: [TeamComponentResolver, TeamListComponentResolver]
 })
