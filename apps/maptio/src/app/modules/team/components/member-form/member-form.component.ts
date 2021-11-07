@@ -175,6 +175,7 @@ export class MemberFormComponent implements OnInit, OnDestroy {
         virtualUser.lastname = user.lastname;
         virtualUser.nickname = user.nickname;
         virtualUser.user_id = user.user_id;
+        virtualUser.isInAuth0 = user.isInAuth0;
         virtualUser.picture = user.picture;
         virtualUser.teams = [this.team.team_id];
         virtualUser.datasets = datasets.map((d) => d.datasetId);

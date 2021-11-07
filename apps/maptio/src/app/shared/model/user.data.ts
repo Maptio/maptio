@@ -8,6 +8,9 @@ import { Serializable } from '../interfaces/serializable.interface';
  * A user
  */
 export class User implements Serializable<User> {
+  /** Is this person a user within Auth0 or just a team member without an account? */
+  public isInAuth0: boolean;
+
   /** Unique Id (specific to Auth0 schema) */
   public user_id: string;
 
@@ -78,6 +81,10 @@ export class User implements Serializable<User> {
 
     const deserialized = new User();
 
+    // If a user was created before this field was added, they can be assumed
+    // to have had an account in Auth0 created for them
+    deserialized.isInAuth0 = input.isInAuth0 ?? true;
+
     deserialized.shortid = input.shortid;
 
     deserialized.firstname =
@@ -99,7 +106,9 @@ export class User implements Serializable<User> {
     deserialized.isActivationPending =
       input.app_metadata && input.app_metadata.activation_pending
         ? input.app_metadata.activation_pending
-        : false;
+        // If user not sent to Auth0, activation is pending, otherwise return
+        // false as before
+        : !deserialized.isInAuth0;
 
     deserialized.isInvitationSent =
       input.app_metadata && input.app_metadata.invitation_sent
