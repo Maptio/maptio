@@ -93,12 +93,21 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
    * See : https://stackoverflow.com/a/54169646/7092722
    */
   filterMembers = (term: string) => {
-    return term.length < 1
+    const filteredTeamMembers = term.length < 1
       ? this.team.members
       : this.team.members.filter(
           (v) =>
             new RegExp(term, 'gi').test(v.name) ||
             new RegExp(term, 'gi').test(v.email)
         );
+
+    const result = [...filteredTeamMembers];
+
+    if (filteredTeamMembers.length >= 4) {
+      result.splice(4, 0, undefined);
+      return result;
+    } else {
+      return [...result, undefined];
+    }
   };
 }
