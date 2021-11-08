@@ -34,6 +34,7 @@
       "@maptio-core/*": ["app/core/*"],
       "@maptio-shared/*": ["app/shared/*"],
       "@maptio-circle-map/*": ["app/modules/circle-map/*"],
+      "@maptio-member-form": ["app/modules/member-form"],
     }
   },
   // TODO: Reenable strict compilation options once the code is fixed

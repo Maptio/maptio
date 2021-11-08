@@ -62,6 +62,7 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
 import { InitiativeInputSizeComponent } from './components/data-entry/details/parts/size/input-size.component';
 import { CircleMapModule } from '@maptio-circle-map/circle-map.module';
 
+import { MemberFormModule } from "@maptio-member-form";
 
 
 @NgModule({
@@ -85,6 +86,7 @@ import { CircleMapModule } from '@maptio-circle-map/circle-map.module';
         ColorHueModule,
         PermissionsModule,
         CircleMapModule,
+        MemberFormModule,
     ],
     declarations: [
         WorkspaceComponent,
