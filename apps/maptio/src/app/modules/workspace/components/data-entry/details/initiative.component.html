@@ -42,11 +42,24 @@
 
 
 	<div class="d-flex w-100 justify-content-end">
-		<maptio-initiative-helpers-select class="w-100" [isUnauthorized]="!canAddHelper()" [team]="team"
-			[helpers]="node?.helpers" [user]="user" [authority]="node?.accountable" (save)="addHelpers($event)">
+		<maptio-initiative-helpers-select
+      *ngIf="!isCreateNewMemberMode"
+      class="w-100"
+      [isUnauthorized]="!canAddHelper()"
+      [team]="team"
+			[helpers]="node?.helpers"
+      [user]="user"
+      [authority]="node?.accountable"
+      (save)="addHelpers($event)"
+      (createNewMember)="onCreateNewMember()"
+    >
 			<ng-container *ngTemplateOutlet="editTipContent"></ng-container>
 		</maptio-initiative-helpers-select>
 
+    <ng-container *ngIf="isCreateNewMemberMode">
+      Placeholder for team member creation form
+      <!-- <maptio-member-form></maptio-member-form> -->
+    </ng-container>
 	</div>
 
 	<div class="mb-4">
