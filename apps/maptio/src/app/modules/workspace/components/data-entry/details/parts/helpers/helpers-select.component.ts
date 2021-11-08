@@ -31,6 +31,7 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
   @Input() isUnauthorized: boolean;
 
   @Output() save: EventEmitter<Array<Helper>> = new EventEmitter<Array<Helper>>();
+  @Output() createNewMember: EventEmitter<boolean> = new EventEmitter();
 
   placeholder: string;
   subscription: Subscription;
@@ -59,6 +60,11 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
   }
 
   onAddingHelper(newHelper: Helper) {
+    if (!newHelper) {
+      this.createNewMember.emit(true);
+      return;
+    }
+
     if (
       (this.authority && newHelper.user_id === this.authority.user_id) ||
       this.helpers.findIndex((user) => user.user_id === newHelper.user_id) > 0
