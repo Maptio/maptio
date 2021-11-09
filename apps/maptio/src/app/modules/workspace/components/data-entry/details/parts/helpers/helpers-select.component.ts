@@ -121,13 +121,6 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
             new RegExp(term, 'gi').test(v.email)
         );
 
-    const result = [...filteredTeamMembers];
-
-    if (filteredTeamMembers.length >= 4) {
-      result.splice(4, 0, undefined);
-      return result;
-    } else {
-      return [...result, undefined];
-    }
+    return [undefined, ...filteredTeamMembers];
   };
 }
