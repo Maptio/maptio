@@ -57,7 +57,6 @@ export class InitiativeComponent implements OnChanges {
     public authority: string;
     public helper: string;
 
-    isCreateNewMemberMode = false;
     isRestrictedAddHelper: boolean;
     hideme: Array<boolean> = [];
     cancelClicked: boolean;
@@ -240,10 +239,6 @@ export class InitiativeComponent implements OnChanges {
 
     openTagsPanel() {
         this.editTags.emit();
-    }
-
-    onCreateNewMember() {
-        this.isCreateNewMemberMode = true;
     }
 
 
