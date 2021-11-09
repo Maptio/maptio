@@ -35,7 +35,9 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
 
   placeholder: string;
   subscription: Subscription;
+
   isLoaded: boolean;
+  isCreateNewMemberMode = false;
 
   constructor(private auth: Auth, private cd: ChangeDetectorRef) {}
 
@@ -61,7 +63,7 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
 
   onAddingHelper(newHelper: Helper) {
     if (!newHelper) {
-      this.createNewMember.emit(true);
+      this.isCreateNewMemberMode = true;
       return;
     }
 
@@ -88,6 +90,18 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
 
   onAddingCurrentUser() {
     this.onAddingHelper(this.user as Helper);
+  }
+
+  onCreateNewMember(user: User) {
+    this.isCreateNewMemberMode = false;
+
+    const teamMember = this.team.members.find(member => member.user_id === user.user_id);
+
+    if (teamMember) {
+      this.onAddingHelper(teamMember as Helper);
+    } else {
+      console.error('Team member corresponding to created user not found');
+    }
   }
 
   formatter = (result: Helper) => {

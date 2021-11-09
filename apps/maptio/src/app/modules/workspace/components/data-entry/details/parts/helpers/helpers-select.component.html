@@ -41,7 +41,10 @@
   </button>
 </div>
 
-<div class="d-flex flex-column align-items-end">
+<div
+  *ngIf="!isCreateNewMemberMode; else newMemberForm"
+  class="d-flex flex-column align-items-end"
+>
   <div class="w-100" *ngIf="!isUnauthorized">
     <common-autocomplete
       [isUnauthorized]="isUnauthorized"
@@ -58,3 +61,11 @@
     </common-autocomplete>
   </div>
 </div>
+
+<ng-template #newMemberForm>
+  <maptio-member-form
+    [team]="team"
+    (addMember)="onCreateNewMember($event)"
+  >
+  </maptio-member-form>
+</ng-template>
