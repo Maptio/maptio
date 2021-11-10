@@ -52,14 +52,15 @@ export class MemberFormComponent implements OnInit, OnDestroy {
   public isAlreadyInTeam = false;
   public errorMessage: string;
 
-  public isCreatingUser: boolean;
-
   public createdUser: User;
   public inviteForm: FormGroup;
 
   inputEmail$: Subject<string> = new Subject();
   inputEmail: string;
   foundUser: User;
+
+  public isCreatingUser: boolean;
+  isSubmissionAttempted = false;
   isShowSelectToAdd: boolean;
   isShowInviteForm: boolean;
   isSearching: boolean;
