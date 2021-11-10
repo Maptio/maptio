@@ -6,12 +6,19 @@
 </ng-template>
 
 <div class="">
-  <maptio-member-form
-    *ngIf="team && !team?.isExample"
-    [team]="team"
-    (addMember)="onAddMember($event)"
-  >
-  </maptio-member-form>
+
+  <div class="card w-100 mb-3 border" *permissionsOnly="Permissions.canAddUser">
+    <div class="card-body">
+      <div class="card-title lead">Add people</div>
+
+      <maptio-member-form
+        *ngIf="team && !team?.isExample"
+        [team]="team"
+        (addMember)="onAddMember($event)"
+      >
+      </maptio-member-form>
+    </div>
+  </div>
 
   <div class="my-4">
     <div class="d-none d-md-block border-bottom py-2 text-muted">
