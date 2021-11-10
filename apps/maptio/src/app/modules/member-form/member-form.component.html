@@ -1,90 +1,119 @@
 <form
+  class="mt-2 mb-3"
   [formGroup]="inviteForm"
   (submit)="createUser()"
 >
-  <div class="form-group form-inline row">
+  <div class="form-group">
     <label
-      class="col-12 col-md-2 d-flex justify-content-start"
+      class="mb-0 text-uppercase text-bold text-gray-light small"
       for="inputFirstname"
     >
       First name
     </label>
 
-    <div class="col-12 col-md-4">
-      <input
-        type="text"
-        id="inputFirstname"
-        formControlName="firstname"
-        class="form-control form-control-warning w-100"
-        [class.is-invalid]="
-          inviteForm.controls['firstname'].invalid &&
-          (inviteForm.controls['firstname'].dirty ||
-            inviteForm.controls['firstname'].touched)
-        "
-        placeholder="First name"
-        required
-        minlength="2"
-      />
+    <input
+      type="text"
+      id="inputFirstname"
+      formControlName="firstname"
+      class="form-control form-control-warning"
+      [class.is-invalid]="
+        inviteForm.controls['firstname'].invalid &&
+        (inviteForm.controls['firstname'].dirty ||
+          inviteForm.controls['firstname'].touched)
+      "
+      placeholder="First name"
+      required
+      minlength="2"
+    />
 
-      <small class="invalid-feedback">2 characters minimum</small>
-    </div>
+    <small class="invalid-feedback">2 characters minimum</small>
   </div>
 
-  <div class="form-group form-inline row">
+  <div class="form-group">
     <label
-      class="col-12 col-md-2 d-flex justify-content-start"
+      class="mb-0 text-uppercase text-bold text-gray-light small"
       for="inputFirstname"
     >
       Last name
     </label>
 
-    <div class="col-12 col-md-4">
-      <input
-        type="text"
-        id="inputLastname"
-        formControlName="lastname"
-        class="form-control form-control-warning w-100"
-        [class.is-invalid]="
-          inviteForm.controls['lastname'].invalid &&
-          (inviteForm.controls['lastname'].dirty ||
-            inviteForm.controls['lastname'].touched)
-        "
-        placeholder="Last name"
-        required
-        minlength="2"
-      />
+    <input
+      type="text"
+      id="inputLastname"
+      formControlName="lastname"
+      class="form-control form-control-warning"
+      [class.is-invalid]="
+        inviteForm.controls['lastname'].invalid &&
+        (inviteForm.controls['lastname'].dirty ||
+          inviteForm.controls['lastname'].touched)
+      "
+      placeholder="Last name"
+      required
+      minlength="2"
+    />
 
-      <small class="invalid-feedback">2 characters minimum</small>
-    </div>
+    <small class="invalid-feedback">2 characters minimum</small>
   </div>
 
-  <div class="form-group form-inline row">
+  <div class="form-group">
     <label
-      class="col-12 col-md-2 d-flex justify-content-start"
+      class="mb-0 text-uppercase text-bold text-gray-light small"
       for="inputEmail"
     >
       Email
     </label>
 
-    <div class="col-12 col-md-4">
-      <input
-        type="text"
-        id="inputEmail"
-        formControlName="email"
-        class="form-control form-control-warning w-100"
-        [class.is-invalid]="
-          inviteForm.controls['email'].invalid &&
-          (inviteForm.controls['email'].dirty ||
-            inviteForm.controls['email'].touched)
-        "
-        placeholder="Email"
-      />
+    <input
+      type="text"
+      id="inputEmail"
+      formControlName="email"
+      class="form-control form-control-warning"
+      [class.is-invalid]="
+        inviteForm.controls['email'].invalid &&
+        (inviteForm.controls['email'].dirty ||
+          inviteForm.controls['email'].touched)
+      "
+      placeholder="Email"
+    />
 
-      <small class="invalid-feedback">Please enter a valid email</small>
-    </div>
+    <small class="invalid-feedback">Please enter a valid email</small>
   </div>
 
-  <button type="submit" class="btn btn-success mx-3">Add</button>
+  <div class="d-flex justify-content-end mt-2">
+    <button
+      *ngIf="!inviteForm.dirty"
+      type="button"
+      class="btn btn-outline-secondary mr-2"
+      (click)="onCancel()"
+    >
+      Cancel
+    </button>
+
+    <button
+      *ngIf="inviteForm.dirty"
+      type="button"
+      class="btn btn-outline-secondary mr-2"
+      placement="top"
+      container="body"
+      mwlConfirmationPopover
+      [popoverTitle]="'Warning'"
+      [popoverMessage]="'Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?'"
+      (confirm)="onCancel()"
+      focusbutton="cancel"
+      appendToBody="false"
+    >
+      Cancel
+    </button>
+
+    <button
+      type="submit"
+      class="btn btn-success"
+      [disabled]="isSubmissionAttempted && !inviteForm.valid"
+    >
+      Save
+    </button>
+  </div>
+
 
   <span class="text-green" *ngIf="isCreatingUser">
     <i class="fas fa-circle-notch fa-spin mx-1"></i>
