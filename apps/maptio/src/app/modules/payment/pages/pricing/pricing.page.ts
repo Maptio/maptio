@@ -9,6 +9,7 @@ import { Auth } from '@maptio-core/authentication/auth.service';
   templateUrl: './pricing.page.html'
 })
 export class PricingComponent {
+  public BILLING_STARTER_PLAN = environment.BILLING_STARTER_PLAN;
   public BILLING_SMALL_PLAN = environment.BILLING_SMALL_PLAN;
   public BILLING_STANDARD_PLAN = environment.BILLING_STANDARD_PLAN;
   public BILLING_PORTAL = environment.BILLING_PORTAL;
