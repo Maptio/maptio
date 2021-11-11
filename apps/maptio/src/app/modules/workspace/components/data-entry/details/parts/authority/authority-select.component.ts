@@ -1,33 +1,33 @@
 import {
   Component,
-  OnInit,
   Input,
   Output,
   EventEmitter,
   ViewChild,
-  ElementRef,
   ChangeDetectorRef,
   SimpleChanges,
+  OnChanges,
 } from '@angular/core';
-import { User } from '../../../../../../../shared/model/user.data';
-import { Team } from '../../../../../../../shared/model/team.data';
-import { Helper } from '../../../../../../../shared/model/helper.data';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { CommonAutocompleteComponent } from '../../../../../../../shared/components/autocomplete/autocomplete.component';
+
+import { User } from '@maptio-shared/model/user.data';
+import { Team } from '@maptio-shared/model/team.data';
+import { Helper } from '@maptio-shared/model/helper.data';
+
+import { CommonAutocompleteComponent } from '@maptio-shared/components/autocomplete/autocomplete.component';
+
 
 @Component({
-  selector: 'initiative-authority-select',
+  selector: 'maptio-initiative-authority-select',
   templateUrl: './authority-select.component.html',
   // styleUrls: ['./authority-select.component.css']
 })
-export class InitiativeAuthoritySelectComponent implements OnInit {
-  @Input('team') team: Team;
-  @Input('authority') authority: Helper;
-  @Input('isEditMode') isEditMode: boolean;
-  @Input('summaryUrlRoot') summaryUrlRoot: string;
-  @Input('isUnauthorized') isUnauthorized: boolean;
-  @Output('save') save: EventEmitter<Helper> = new EventEmitter<Helper>();
+export class InitiativeAuthoritySelectComponent implements OnChanges {
+  @Input() team: Team;
+  @Input() authority: Helper;
+  @Input() isEditMode: boolean;
+  @Input() summaryUrlRoot: string;
+  @Input() isUnauthorized: boolean;
+  @Output() save: EventEmitter<Helper> = new EventEmitter<Helper>();
 
   placeholder: string;
 
@@ -35,8 +35,6 @@ export class InitiativeAuthoritySelectComponent implements OnInit {
   public autocompleteComponent: CommonAutocompleteComponent;
 
   constructor(private cd: ChangeDetectorRef) {}
-
-  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.team && changes.team.currentValue) {
