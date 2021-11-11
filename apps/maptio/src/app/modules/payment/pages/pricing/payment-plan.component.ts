@@ -8,7 +8,7 @@ import { Auth } from '@maptio-core/authentication/auth.service';
   templateUrl: './payment-plan.component.html',
 })
 export class PaymentPlanComponent {
-  @HostBinding('class') classes = 'col-12 col-md-4 accent-blue rounded-bottom box-shadow mx-2 my-3';
+  @HostBinding('class') classes = 'col-12 col-md-3 accent-blue rounded-bottom box-shadow mx-2 my-3';
 
   @Input() name: string;
   @Input() price: number;
