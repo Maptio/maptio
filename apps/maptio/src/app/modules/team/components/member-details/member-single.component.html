@@ -4,6 +4,7 @@
     <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
   </span>
 </ng-template>
+
 <div class="py-2" [class.bg-light]="isEditToggled">
   <div
     class="d-flex flex-column flex-md-row align-items-md-center"
@@ -23,9 +24,11 @@
           class="fas"
         ></i>
       </button>
+
       <ng-container
         *permissionsOnly="Permissions.canDeleteUser; then thenDeleteBlock"
       ></ng-container>
+
       <ng-template #thenDeleteBlock>
         <button
           class="remove btn-outline-secondary btn bg-transparent"
@@ -43,6 +46,7 @@
         ></button>
       </ng-template>
     </div>
+
     <div class="align-middle col-md-3 col-12">
       <div class="d-flex align-items-center">
         <img
@@ -51,9 +55,11 @@
         />{{ member.name }}
       </div>
     </div>
+
     <div class="align-middle pb-0 col-12 col-md-4">
       <div class="d-flex align-items-start flex-column">
         <span>{{ member.email }}</span>
+
         <small
           *ngIf="member.isActivationPending && member.isInvitationSent"
           class="text-accent pull-left"
@@ -62,6 +68,7 @@
           ngbTooltip="{{ member.name }} was sent an invitation."
           >Pending invitation</small
         >
+
         <small
           *ngIf="member.isActivationPending && !member.isInvitationSent"
           class="text-orange pull-left"
@@ -70,6 +77,7 @@
           ngbTooltip="{{ member.name }} cannot view or edit maps."
           >Not yet invited</small
         >
+
         <small
           *ngIf="!member.isActivationPending"
           class="text-green pull-left"
@@ -80,6 +88,7 @@
         >
       </div>
     </div>
+
     <div class="align-middle d-none d-md-block col-md-2">
       <ng-container
         *permissionsOnly="
@@ -89,9 +98,11 @@
         "
         >main</ng-container
       >
+
       <ng-template #elseRoleBlock>
         {{ UserRole[member.userRole] }}
       </ng-template>
+
       <ng-template #thenRoleBlock>
         <select
           class="form-control"
@@ -107,6 +118,7 @@
         </select>
       </ng-template>
     </div>
+
     <div class="align-middle text-right ml-auto">
       <ng-container>
         <ng-container
@@ -122,6 +134,7 @@
                 else elseInviteBlock
               "
             ></ng-container>
+
             <ng-template #thenInviteBlock>
               <button
                 class="pull-right btn btn-outline-secondary"
@@ -133,6 +146,7 @@
                 Invite
               </button>
             </ng-template>
+
             <ng-template #elseInviteBlock>
               <button
                 class="btn btn-outline-secondary disabled pull-right"
@@ -144,6 +158,7 @@
               </button>
             </ng-template>
           </ng-container>
+
           <ng-container *permissionsOnly="Permissions.canInviteUser">
             <button
               *ngIf="member.isActivationPending && member.isInvitationSent"
@@ -157,6 +172,7 @@
             </button>
           </ng-container>
         </ng-container>
+
         <ng-container *ngIf="isDisplaySendingLoader">
           <div
             class="indicator text-green d-flex justify-content-end align-items-center"
@@ -164,6 +180,7 @@
             <i class="fas fa-circle-notch fa-spin text-green mx-1"></i> Sending
           </div>
         </ng-container>
+
         <ng-container *ngIf="isDisplayUpdatingLoader">
           <div
             class="indicator text-green d-flex justify-content-end align-items-center"
@@ -175,6 +192,7 @@
     </div>
   </div>
 </div>
+
 <div class="bg-light py-2" *ngIf="isEditToggled">
   <form
     [formGroup]="editUserForm"
