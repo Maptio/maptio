@@ -31,6 +31,8 @@ export class InitiativeAuthoritySelectComponent implements OnChanges {
 
   placeholder: string;
 
+  isCreateNewMemberMode = false;
+
   @ViewChild('autocomplete', { static: true })
   public autocompleteComponent: CommonAutocompleteComponent;
 
@@ -44,7 +46,13 @@ export class InitiativeAuthoritySelectComponent implements OnChanges {
   }
 
   onSelect(newAccountable: Helper) {
+    if (newAccountable === undefined) {
+      this.isCreateNewMemberMode = true;
+      return;
+    }
+
     if (newAccountable) newAccountable.roles = [];
+
     this.authority = newAccountable;
     this.save.emit(this.authority);
   }
@@ -54,12 +62,24 @@ export class InitiativeAuthoritySelectComponent implements OnChanges {
     this.save.emit(this.authority);
   }
 
+  onCreateNewMember(user: User) {
+    this.isCreateNewMemberMode = false;
+
+    const teamMember = this.team.members.find(member => member.user_id === user.user_id);
+
+    if (teamMember) {
+      this.onSelect(teamMember as Helper);
+    } else {
+      console.error('Team member corresponding to created user not found');
+    }
+  }
+
   /**
    * Leave a fat arrow in order to fixate the this and be able to use in child component
    * See : https://stackoverflow.com/a/54169646/7092722
    */
   filterMembers = (term: string) => {
-    return term.length < 1
+    const filteredTeamMembers = term.length < 1
       ? this.authority
         ? this.team.members.filter((m) => m.user_id !== this.authority.user_id)
         : this.team.members
@@ -73,6 +93,8 @@ export class InitiativeAuthoritySelectComponent implements OnChanges {
             new RegExp(term, 'gi').test(v.name) ||
             new RegExp(term, 'gi').test(v.email)
         );
+
+    return [undefined, ...filteredTeamMembers];
   };
 
   formatter = (result: User) => {
