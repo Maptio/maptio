@@ -33,8 +33,11 @@ export class MemberFormComponent implements OnInit {
   public memberForm: FormGroup;
 
   public isEditingExistingUser = false;
+
+  public isSubmissionAttempted = false;
   public isSaving: boolean;
-  isSubmissionAttempted = false;
+  public savingFailedMessage = null;
+  public isSavingSuccess = false;
 
   @Input() member: User;
   @Input() team: Team;
@@ -158,6 +161,63 @@ export class MemberFormComponent implements OnInit {
         console.error(reason);
         this.errorMessage = reason;
         throw Error(reason);
+      });
+  }
+
+  updateUser() {
+    if (!this.memberForm.valid) {
+      return;
+    }
+
+    this.isSaving = true;
+    this.savingFailedMessage = null;
+    this.isSavingSuccess = false;
+    this.cd.markForCheck();
+
+    const firstname = this.memberForm.controls['firstname'].value;
+    const lastname = this.memberForm.controls['lastname'].value;
+    const email = this.memberForm.controls['email'].value;
+
+    this.userService
+      .updateUserProfile(this.member.user_id, firstname, lastname, true)
+      .then((updated: boolean) => {
+        if (updated) {
+          this.member.firstname = firstname;
+          this.member.lastname = firstname;
+          this.member.name = `${firstname} ${lastname}`;
+        } else {
+          this.savingFailedMessage = 'Cannot update user profile';
+        }
+      })
+      .then(() => {
+        if (
+          this.memberForm.controls['email'].dirty ||
+          this.memberForm.controls['email'].touched
+        ) {
+          return this.userService
+            .updateUserEmail(this.member.user_id, email)
+            .then((updated) => {
+              if (updated) {
+                this.member.email = email;
+                this.isSavingSuccess = true;
+                this.cd.markForCheck();
+              }
+            });
+        } else {
+          this.isSavingSuccess = true;
+          this.cd.markForCheck();
+        }
+      })
+      .then(() => {
+        this.isSaving = false;
+        this.cd.markForCheck();
+      })
+      .catch((err) => {
+        console.error(err);
+        this.isSaving = false;
+        this.isSavingSuccess = false;
+        this.savingFailedMessage = JSON.parse(err._body).message;
+        this.cd.markForCheck();
       });
   }
 }
