@@ -32,7 +32,7 @@ export class MemberFormComponent implements OnInit {
   public createdUser: User;
   public inviteForm: FormGroup;
 
-  public isEditingExistingUser: boolean;
+  public isEditingExistingUser = false;
   public isCreatingUser: boolean;
   isSubmissionAttempted = false;
 
@@ -69,9 +69,18 @@ export class MemberFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.member) {
+      this.isEditingExistingUser = true;
       this.inviteForm.controls['firstname'].setValue(this.member.firstname);
       this.inviteForm.controls['lastname'].setValue(this.member.lastname);
       this.inviteForm.controls['email'].setValue(this.member.email);
+    }
+  }
+
+  save() {
+    if (this.isEditingExistingUser) {
+      console.log('TODO');
+    } else {
+      this.createUser();
     }
   }
 
