@@ -79,6 +79,22 @@
     <small class="invalid-feedback">Please enter a valid email</small>
   </div>
 
+  <span
+    *ngIf="isSavingSuccess"
+    class="text-green mx-1 flash small"
+    [class.show]="isSavingSuccess"
+  >
+    <i class="fas fa-save"></i>
+    Successfully saved!
+  </span>
+
+  <span
+    *ngIf="savingFailedMessage"
+    class="text-danger mx-1 small"
+  >
+    {{ savingFailedMessage }}
+  </span>
+
   <div class="d-flex justify-content-end mt-2">
     <button
       *ngIf="!memberForm.dirty"
