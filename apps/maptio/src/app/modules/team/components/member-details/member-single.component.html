@@ -193,7 +193,17 @@
   </div>
 </div>
 
-<div class="bg-light py-2" *ngIf="isEditToggled">
+<div class="bg-light py-2 px-3" *ngIf="isEditToggled">
+  <maptio-member-form
+    [member]="member"
+    [team]="team"
+  >
+  </maptio-member-form>
+</div>
+
+
+<!-- TODO: Extract the two additional non-form fields from here too -->
+<!-- <div class="bg-light py-2" *ngIf="isEditToggled">
   <form
     [formGroup]="editUserForm"
     (submit)="updateUser()"
@@ -275,4 +285,4 @@
       <button type="submit" class="btn btn-success">Save</button>
     </div>
   </form>
-</div>
+</div> -->
