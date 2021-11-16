@@ -33,7 +33,7 @@ export class MemberFormComponent implements OnInit {
   public memberForm: FormGroup;
 
   public isEditingExistingUser = false;
-  public isCreatingUser: boolean;
+  public isSaving: boolean;
   isSubmissionAttempted = false;
 
   @Input() member: User;
@@ -86,7 +86,7 @@ export class MemberFormComponent implements OnInit {
 
   createUser() {
     if (this.memberForm.dirty && this.memberForm.valid) {
-      this.isCreatingUser = true;
+      this.isSaving = true;
       const firstname = this.memberForm.controls['firstname'].value;
       const lastname = this.memberForm.controls['lastname'].value;
       const email = this.memberForm.controls['email'].value;
@@ -96,12 +96,12 @@ export class MemberFormComponent implements OnInit {
           this.addMember.emit(this.createdUser);
         })
         .then(() => {
-          this.isCreatingUser = false;
+          this.isSaving = false;
           this.memberForm.reset();
           this.cd.markForCheck();
         });
 
-      this.isCreatingUser = false;
+      this.isSaving = false;
     }
   }
 
