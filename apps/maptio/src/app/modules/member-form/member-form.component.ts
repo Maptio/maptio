@@ -3,25 +3,10 @@ import {
   Input,
   Output,
   EventEmitter,
-  ViewChild,
-  ElementRef,
   OnInit,
-  OnDestroy,
   ChangeDetectorRef,
 } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
-
-import { Subject, Subscription } from 'rxjs';
-import {
-  mergeMap,
-  filter,
-  tap,
-  debounceTime,
-} from 'rxjs/operators';
-
-import {
-  isEmpty,
-} from 'lodash-es';
 
 import { Intercom } from 'ng-intercom';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
@@ -29,7 +14,6 @@ import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { DataSet } from '@maptio-shared/model/dataset.data';
 import { User } from '@maptio-shared/model/user.data';
-import { Permissions } from '@maptio-shared/model/permission.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
@@ -41,37 +25,20 @@ import { TeamFactory } from '@maptio-core/http/team/team.factory';
   templateUrl: './member-form.component.html',
   styleUrls: ['./member-form.component.scss']
 })
-export class MemberFormComponent implements OnInit, OnDestroy {
-
-  user: User;
-  Permissions = Permissions;
-
-  public members$: Promise<User[]>;
+export class MemberFormComponent implements OnInit {
   public newMember: User;
-  private inputEmailSubscription: Subscription;
-  public isAlreadyInTeam = false;
   public errorMessage: string;
 
   public createdUser: User;
   public inviteForm: FormGroup;
 
-  inputEmail$: Subject<string> = new Subject();
-  inputEmail: string;
-  foundUser: User;
-
+  public isEditingExistingUser: boolean;
   public isCreatingUser: boolean;
   isSubmissionAttempted = false;
-  isShowSelectToAdd: boolean;
-  isShowInviteForm: boolean;
-  isSearching: boolean;
 
-  // eslint-disable-next-line no-useless-escape
-  private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
+  @Input() member: User;
   @Input() team: Team;
   @Output() addMember = new EventEmitter<User>();
-
-  @ViewChild('inputNewMember') public inputNewMember: ElementRef;
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -101,42 +68,10 @@ export class MemberFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.inputEmailSubscription = this.inputEmail$
-      .pipe(
-        debounceTime(250),
-        tap(() => {
-          this.isAlreadyInTeam = false;
-          this.isShowSelectToAdd = false;
-          this.isShowInviteForm = false;
-          this.cd.markForCheck();
-        }),
-        filter((email) => this.isEmail(email)),
-        tap((email: string) => {
-          this.inputEmail = email;
-          this.isSearching = true;
-          this.cd.markForCheck();
-        }),
-        mergeMap((email) => {
-          return this.userFactory.getAll(email);
-        })
-      )
-      .subscribe((users: User[]) => {
-        if (!isEmpty(users)) {
-          this.foundUser = users[0];
-          this.isShowSelectToAdd = true;
-          this.isShowInviteForm = false;
-        } else {
-          this.isShowSelectToAdd = false;
-          this.isShowInviteForm = true;
-        }
-        this.isSearching = false;
-        this.cd.markForCheck();
-      });
-  }
-
-  ngOnDestroy() {
-    if (this.inputEmailSubscription) {
-      this.inputEmailSubscription.unsubscribe();
+    if (this.member) {
+      this.inviteForm.controls['firstname'].setValue(this.member.firstname);
+      this.inviteForm.controls['lastname'].setValue(this.member.lastname);
+      this.inviteForm.controls['email'].setValue(this.member.email);
     }
   }
 
@@ -153,9 +88,6 @@ export class MemberFormComponent implements OnInit, OnDestroy {
         })
         .then(() => {
           this.isCreatingUser = false;
-          // this.inputNewMember.nativeElement.value = '';
-          // this.inputEmail = '';
-          this.isShowInviteForm = false;
           this.inviteForm.reset();
           this.cd.markForCheck();
         });
@@ -219,62 +151,4 @@ export class MemberFormComponent implements OnInit, OnDestroy {
         throw Error(reason);
       });
   }
-
-  onKeyUp(searchTextValue: string) {
-    this.inputEmail$.next(searchTextValue);
-  }
-
-  addExistingUser(newUser: User) {
-    if (this.isUserInTeam(newUser)) {
-      this.isAlreadyInTeam = true;
-      this.cd.markForCheck();
-      return;
-    }
-    this.isAlreadyInTeam = false;
-    newUser.teams.push(this.team.team_id);
-
-    this.userFactory
-      .upsert(newUser)
-      .then((result: boolean) => {
-        return result;
-      })
-      .then((result: boolean) => {
-        if (result) {
-          this.team.members.push(newUser);
-          return this.team;
-        }
-      })
-      .then((newTeam: Team) => {
-        return this.teamFactory.upsert(newTeam).then(() => {
-          return newTeam;
-        });
-      })
-      .then((team: Team) => {
-        this.analytics.eventTrack('Team', {
-          action: 'add',
-          team: team.name,
-          teamId: team.team_id,
-        });
-      })
-      .then(() => {
-        this.addMember.emit(undefined);
-      })
-      .then(() => {
-        this.inputNewMember.nativeElement.value = '';
-        this.inputEmail = '';
-        this.isShowSelectToAdd = false;
-        this.cd.markForCheck();
-      });
-  }
-
-  isUserInTeam(newUser: User) {
-    return (
-      this.team.members.findIndex((m) => m.user_id === newUser.user_id) >= 0
-    );
-  }
-
-  isEmail(text: string) {
-    return this.EMAIL_REGEXP.test(text);
-  }
-
 }
