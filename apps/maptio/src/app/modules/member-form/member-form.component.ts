@@ -30,7 +30,7 @@ export class MemberFormComponent implements OnInit {
   public errorMessage: string;
 
   public createdUser: User;
-  public inviteForm: FormGroup;
+  public memberForm: FormGroup;
 
   public isEditingExistingUser = false;
   public isCreatingUser: boolean;
@@ -49,7 +49,7 @@ export class MemberFormComponent implements OnInit {
     private analytics: Angulartics2Mixpanel,
     private intercom: Intercom,
   ) {
-    this.inviteForm = new FormGroup({
+    this.memberForm = new FormGroup({
       firstname: new FormControl('', {
         validators: [ Validators.required, Validators.minLength(2) ],
         updateOn: 'submit',
@@ -70,26 +70,26 @@ export class MemberFormComponent implements OnInit {
   ngOnInit(): void {
     if (this.member) {
       this.isEditingExistingUser = true;
-      this.inviteForm.controls['firstname'].setValue(this.member.firstname);
-      this.inviteForm.controls['lastname'].setValue(this.member.lastname);
-      this.inviteForm.controls['email'].setValue(this.member.email);
+      this.memberForm.controls['firstname'].setValue(this.member.firstname);
+      this.memberForm.controls['lastname'].setValue(this.member.lastname);
+      this.memberForm.controls['email'].setValue(this.member.email);
     }
   }
 
   save() {
     if (this.isEditingExistingUser) {
-      console.log('TODO');
+      // this.updateUser();
     } else {
       this.createUser();
     }
   }
 
   createUser() {
-    if (this.inviteForm.dirty && this.inviteForm.valid) {
+    if (this.memberForm.dirty && this.memberForm.valid) {
       this.isCreatingUser = true;
-      const firstname = this.inviteForm.controls['firstname'].value;
-      const lastname = this.inviteForm.controls['lastname'].value;
-      const email = this.inviteForm.controls['email'].value;
+      const firstname = this.memberForm.controls['firstname'].value;
+      const lastname = this.memberForm.controls['lastname'].value;
+      const email = this.memberForm.controls['email'].value;
 
       this.createUserFullDetails(email, firstname, lastname)
         .then(() => {
@@ -97,7 +97,7 @@ export class MemberFormComponent implements OnInit {
         })
         .then(() => {
           this.isCreatingUser = false;
-          this.inviteForm.reset();
+          this.memberForm.reset();
           this.cd.markForCheck();
         });
 
