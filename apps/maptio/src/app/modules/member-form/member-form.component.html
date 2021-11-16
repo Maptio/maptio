@@ -1,6 +1,6 @@
 <form
   class="mt-2 mb-3"
-  [formGroup]="inviteForm"
+  [formGroup]="memberForm"
   (submit)="save()"
 >
   <div class="form-group">
@@ -17,9 +17,9 @@
       formControlName="firstname"
       class="form-control form-control-warning"
       [class.is-invalid]="
-        inviteForm.controls['firstname'].invalid &&
-        (inviteForm.controls['firstname'].dirty ||
-          inviteForm.controls['firstname'].touched)
+        memberForm.controls['firstname'].invalid &&
+        (memberForm.controls['firstname'].dirty ||
+          memberForm.controls['firstname'].touched)
       "
       placeholder="First name"
       required
@@ -43,9 +43,9 @@
       formControlName="lastname"
       class="form-control form-control-warning"
       [class.is-invalid]="
-        inviteForm.controls['lastname'].invalid &&
-        (inviteForm.controls['lastname'].dirty ||
-          inviteForm.controls['lastname'].touched)
+        memberForm.controls['lastname'].invalid &&
+        (memberForm.controls['lastname'].dirty ||
+          memberForm.controls['lastname'].touched)
       "
       placeholder="Last name"
       required
@@ -69,9 +69,9 @@
       formControlName="email"
       class="form-control form-control-warning"
       [class.is-invalid]="
-        inviteForm.controls['email'].invalid &&
-        (inviteForm.controls['email'].dirty ||
-          inviteForm.controls['email'].touched)
+        memberForm.controls['email'].invalid &&
+        (memberForm.controls['email'].dirty ||
+          memberForm.controls['email'].touched)
       "
       placeholder="Email"
     />
@@ -81,7 +81,7 @@
 
   <div class="d-flex justify-content-end mt-2">
     <button
-      *ngIf="!inviteForm.dirty"
+      *ngIf="!memberForm.dirty"
       type="button"
       class="btn btn-outline-secondary mr-2"
       (click)="onCancel()"
@@ -90,7 +90,7 @@
     </button>
 
     <button
-      *ngIf="inviteForm.dirty"
+      *ngIf="memberForm.dirty"
       type="button"
       class="btn btn-outline-secondary mr-2"
       placement="top"
@@ -108,7 +108,7 @@
     <button
       type="submit"
       class="btn btn-success"
-      [disabled]="isSubmissionAttempted && !inviteForm.valid"
+      [disabled]="isSubmissionAttempted && !memberForm.valid"
     >
       Save
     </button>
