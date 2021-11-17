@@ -81,7 +81,7 @@ export class MemberFormComponent implements OnInit {
 
   save() {
     if (this.isEditingExistingUser) {
-      // this.updateUser();
+      this.updateUser();
     } else {
       this.createUser();
     }
@@ -164,7 +164,7 @@ export class MemberFormComponent implements OnInit {
       });
   }
 
-  updateUser() {
+  async updateUser() {
     if (!this.memberForm.valid) {
       return;
     }
@@ -178,46 +178,70 @@ export class MemberFormComponent implements OnInit {
     const lastname = this.memberForm.controls['lastname'].value;
     const email = this.memberForm.controls['email'].value;
 
-    this.userService
-      .updateUserProfile(this.member.user_id, firstname, lastname, true)
-      .then((updated: boolean) => {
-        if (updated) {
-          this.member.firstname = firstname;
-          this.member.lastname = firstname;
-          this.member.name = `${firstname} ${lastname}`;
-        } else {
-          this.savingFailedMessage = 'Cannot update user profile';
-        }
-      })
-      .then(() => {
-        if (
-          this.memberForm.controls['email'].dirty ||
-          this.memberForm.controls['email'].touched
-        ) {
-          return this.userService
-            .updateUserEmail(this.member.user_id, email)
-            .then((updated) => {
-              if (updated) {
-                this.member.email = email;
-                this.isSavingSuccess = true;
-                this.cd.markForCheck();
-              }
-            });
-        } else {
-          this.isSavingSuccess = true;
-          this.cd.markForCheck();
-        }
-      })
-      .then(() => {
-        this.isSaving = false;
-        this.cd.markForCheck();
-      })
-      .catch((err) => {
-        console.error(err);
-        this.isSaving = false;
-        this.isSavingSuccess = false;
-        this.savingFailedMessage = JSON.parse(err._body).message;
-        this.cd.markForCheck();
-      });
+    console.log('Calling this.userService.updateUser');
+
+    const success = await this.userService.updateUser(
+      this.member,
+      firstname,
+      lastname,
+      email
+    );
+
+    if (!success) {
+      this.savingFailedMessage = 'Cannot update user profile';
+    }
+
+    this.member.firstname = firstname;
+    this.member.lastname = lastname;
+    this.member.name = `${firstname} ${lastname}`;
+    this.member.email = email;
+
+    this.isSavingSuccess = true;
+    this.isSaving = false;
+    this.cd.markForCheck();
+
+    console.log('Received from this.userService.updateUser: ', success);
+
+    // this.userService
+    //   .updateUserProfile(this.member.user_id, firstname, lastname, true)
+    //   .then((updated: boolean) => {
+    //     if (updated) {
+    //       this.member.firstname = firstname;
+    //       this.member.lastname = firstname;
+    //       this.member.name = `${firstname} ${lastname}`;
+    //     } else {
+    //       this.savingFailedMessage = 'Cannot update user profile';
+    //     }
+    //   })
+    //   .then(() => {
+    //     if (
+    //       this.memberForm.controls['email'].dirty ||
+    //       this.memberForm.controls['email'].touched
+    //     ) {
+    //       return this.userService
+    //         .updateUserEmail(this.member.user_id, email)
+    //         .then((updated) => {
+    //           if (updated) {
+    //             this.member.email = email;
+    //             this.isSavingSuccess = true;
+    //             this.cd.markForCheck();
+    //           }
+    //         });
+    //     } else {
+    //       this.isSavingSuccess = true;
+    //       this.cd.markForCheck();
+    //     }
+    //   })
+    //   .then(() => {
+    //     this.isSaving = false;
+    //     this.cd.markForCheck();
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //     this.isSaving = false;
+    //     this.isSavingSuccess = false;
+    //     this.savingFailedMessage = JSON.parse(err._body).message;
+    //     this.cd.markForCheck();
+    //   });
   }
 }
