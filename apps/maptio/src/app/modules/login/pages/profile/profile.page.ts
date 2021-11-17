@@ -136,7 +136,7 @@ export class ProfilePage {
             let firstname = this.accountForm.controls["firstname"].value;
             let lastname = this.accountForm.controls["lastname"].value;
 
-            this.userService.updateUserProfile(this.user.user_id, firstname, lastname)
+            this.userService.updateUserProfilePlaceholder(this.user.user_id, firstname, lastname)
                 .then((hasUpdated: boolean) => {
                     if (hasUpdated) {
                         this.auth.getUser();

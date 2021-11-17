@@ -188,7 +188,7 @@ export class AuthorizeComponent implements OnInit {
 
         return observableForkJoin(
                 this.userService.updateUserPictureUrl(userId, picture),
-                this.userService.updateUserProfile(userId, firstName, lastName)).pipe(
+                this.userService.updateUserProfilePlaceholder(userId, firstName, lastName)).pipe(
             switchMap(() => {
                 return observableFrom(this.userService.getUsersInfo([user]))
             }),

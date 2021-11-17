@@ -565,8 +565,12 @@ export class UserService {
     });
   }
 
-  public updateUserProfile(
-    user_id: string,
+  // TODO: Replace calls to this with the function below
+  // eslint-disable-next-line
+  public updateUserProfilePlaceholder(...args): any {
+    console.error('TODO');
+  }
+
     firstname: string,
     lastname: string,
     fromMemberSingleComponent = false
