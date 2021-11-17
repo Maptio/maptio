@@ -157,7 +157,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
       const lastname = this.accountForm.controls['lastname'].value;
 
       this.userService
-        .updateUserProfile(this.user.user_id, firstname, lastname)
+        .updateUserProfilePlaceholder(this.user.user_id, firstname, lastname)
         .then(
           (hasUpdated: boolean) => {
             if (hasUpdated) {
