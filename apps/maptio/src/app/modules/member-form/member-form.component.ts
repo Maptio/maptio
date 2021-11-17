@@ -178,17 +178,30 @@ export class MemberFormComponent implements OnInit {
     const lastname = this.memberForm.controls['lastname'].value;
     const email = this.memberForm.controls['email'].value;
 
-    console.log('Calling this.userService.updateUser');
+    try {
+      this.isSavingSuccess = await this.userService.updateUser(
+        this.member,
+        firstname,
+        lastname,
+        email
+      );
+    } catch (error) {
+      this.isSavingSuccess = false;
+      this.savingFailedMessage = `Updating profile information failed with
+        error: "${error.message}", please try again later or contact us.`;
+      console.error(this.savingFailedMessage, error);
+    }
 
-    const success = await this.userService.updateUser(
-      this.member,
-      firstname,
-      lastname,
-      email
-    );
+    if (!this.isSavingSuccess) {
+      this.isSaving = false;
+      this.isSavingSuccess = false;
 
-    if (!success) {
-      this.savingFailedMessage = 'Cannot update user profile';
+      if (!this.savingFailedMessage) {
+        this.savingFailedMessage = 'Cannot update profile information, please try again later or contact us.';
+      }
+
+      this.cd.markForCheck();
+      return;
     }
 
     this.member.firstname = firstname;
@@ -199,49 +212,5 @@ export class MemberFormComponent implements OnInit {
     this.isSavingSuccess = true;
     this.isSaving = false;
     this.cd.markForCheck();
-
-    console.log('Received from this.userService.updateUser: ', success);
-
-    // this.userService
-    //   .updateUserProfile(this.member.user_id, firstname, lastname, true)
-    //   .then((updated: boolean) => {
-    //     if (updated) {
-    //       this.member.firstname = firstname;
-    //       this.member.lastname = firstname;
-    //       this.member.name = `${firstname} ${lastname}`;
-    //     } else {
-    //       this.savingFailedMessage = 'Cannot update user profile';
-    //     }
-    //   })
-    //   .then(() => {
-    //     if (
-    //       this.memberForm.controls['email'].dirty ||
-    //       this.memberForm.controls['email'].touched
-    //     ) {
-    //       return this.userService
-    //         .updateUserEmail(this.member.user_id, email)
-    //         .then((updated) => {
-    //           if (updated) {
-    //             this.member.email = email;
-    //             this.isSavingSuccess = true;
-    //             this.cd.markForCheck();
-    //           }
-    //         });
-    //     } else {
-    //       this.isSavingSuccess = true;
-    //       this.cd.markForCheck();
-    //     }
-    //   })
-    //   .then(() => {
-    //     this.isSaving = false;
-    //     this.cd.markForCheck();
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //     this.isSaving = false;
-    //     this.isSavingSuccess = false;
-    //     this.savingFailedMessage = JSON.parse(err._body).message;
-    //     this.cd.markForCheck();
-    //   });
   }
 }
