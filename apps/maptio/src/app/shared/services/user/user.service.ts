@@ -571,51 +571,28 @@ export class UserService {
     console.error('TODO');
   }
 
+  public async updateUser(
+    user: User,
     firstname: string,
     lastname: string,
-    fromMemberSingleComponent = false
+    email: string,
   ): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
+    if (user.email !== email && user.isInAuth0) {
+      try {
+        await this.updateUserEmailInAuth0(user.user_id, email);
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
 
-      // When this is called from MemberSingleComponent, the connection
-      // is not yet known so we set it to what Auth0 sets it to
-      // internally, this should just be a temporary change
-      const connection = fromMemberSingleComponent
-        ? 'Username-Password-Authentication'
-        : this.getConnection();
+    user.firstname = firstname;
+    user.lastname = lastname;
+    user.email = email;
 
-      const userMetadata = {
-        user_metadata: {
-          given_name: firstname,
-          family_name: lastname,
-        },
-        connection,
-      };
-
-      return this.http
-        .patch(
-          `${environment.USERS_API_URL}/${user_id}`,
-          userMetadata,
-          httpOptions
-        )
-        .toPromise()
-        .then(
-          (response) => {
-            return true;
-          },
-          (error) => {
-            return Promise.reject(error);
-          }
-        );
-    });
+    return this.userFactory.upsert(user);
   }
 
-  public updateUserEmail(user_id: string, email: string): Promise<boolean> {
+  private updateUserEmailInAuth0(user_id: string, email: string): Promise<boolean> {
     return this.configuration.getAccessToken().then((token: string) => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -628,22 +605,12 @@ export class UserService {
           `${environment.USERS_API_URL}/${user_id}`,
           {
             email: email,
-            /* this can only be called if the user is "Not invited"
-                    so changing their email shoudnt retrigger a verification
-                    */
+            // this can only be called if the user is "Not invited" so changing
+            // their email shoudn't retrigger a verification
             email_verified: true,
             connection: environment.CONNECTION_NAME,
           },
           httpOptions
-        )
-        .pipe(
-          mergeMap(() => {
-            return this.userFactory.get(user_id);
-          }),
-          mergeMap((user) => {
-            user.email = email;
-            return this.userFactory.upsert(user);
-          })
         )
         .toPromise()
         .then(
