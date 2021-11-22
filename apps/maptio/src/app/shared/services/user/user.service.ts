@@ -29,7 +29,13 @@ export class UserService {
     private userFactory: UserFactory
   ) {}
 
-  public createUserNew(
+  // TODO: Replace calls to this with the function below
+  // eslint-disable-next-line
+  public createUserPlaceholder(...args): any {
+    console.error('TODO');
+  }
+
+  public createUser(
     email: string,
     firstname: string,
     lastname: string,
@@ -66,18 +72,6 @@ export class UserService {
     const user = User.create().deserialize(newUser);
 
     return user;
-  }
-
-  // TODO: Temporary placeholder as we work through propagating the changes,
-  // only here for now to make the code compile
-  public createUser(
-    email: string,
-    firstname: string,
-    lastname: string,
-    isSignUp?: boolean,
-    isAdmin?: boolean
-  ): Promise<User> {
-    return;
   }
 
   public createUserInAuth0(user: User): Promise<boolean> {

@@ -103,7 +103,7 @@ export class SignupComponent implements OnInit {
                     }
                     else {
                         // no matching email => create user
-                        return this.userService.createUser(email, firstname, lastname, true, true)
+                        return this.userService.createUserPlaceholder(email, firstname, lastname, true, true)
                             .then((user: User) => {
                                 this.userId = user.user_id;
                                 return user;

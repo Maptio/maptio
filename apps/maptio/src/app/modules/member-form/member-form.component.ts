@@ -109,7 +109,7 @@ export class MemberFormComponent implements OnInit {
   }
 
   createUserFullDetails(email: string, firstname: string, lastname: string) {
-    const user =  this.userService.createUserNew(email, firstname, lastname);
+    const user =  this.userService.createUser(email, firstname, lastname);
 
     return this.datasetFactory.get(this.team)
       .then((datasets: DataSet[]) => {
