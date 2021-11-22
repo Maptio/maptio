@@ -160,7 +160,7 @@ export class TeamImportComponent implements OnInit {
     }
 
     public createUser(email: string, firstname: string, lastname: string) {
-        return this.userService.createUser(email, firstname, lastname, false, false)
+        return this.userService.createUserPlaceholder(email, firstname, lastname, false, false)
             .then((user: User) => {
                 return this.datasetFactory.get(this.team).then((datasets: DataSet[]) => {
                     let virtualUser = new User();

@@ -96,7 +96,7 @@ export class SignupComponent {
           } else {
             // no matching email => create user
             return this.userService
-              .createUser(email, firstname, lastname, true, true)
+              .createUserPlaceholder(email, firstname, lastname, true, true)
               .then(
                 (user: User) => {
                   this.userId = user.user_id;

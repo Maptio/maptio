@@ -70,7 +70,7 @@ export class AddMemberComponent implements OnInit {
             let firstname = this.form.controls["firstname"].value
             let lastname = this.form.controls["lastname"].value
 
-            return this.userService.createUser(email, firstname, lastname)
+            return this.userService.createUserPlaceholder(email, firstname, lastname)
                 .then((user: User) => {
                     return this.datasetFactory.get(this.team).then((datasets: DataSet[]) => {
                         let virtualUser = new User();
