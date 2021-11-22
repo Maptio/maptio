@@ -7,13 +7,11 @@ import {
   EventEmitter,
   ChangeDetectorRef,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
 
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Intercom } from 'ng-intercom';
-import * as distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
 import { User } from '@maptio-shared/model/user.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
@@ -43,11 +41,7 @@ export class MemberSingleComponent implements OnInit, OnDestroy {
 
   isDisplaySendingLoader: boolean;
   isDisplayUpdatingLoader: boolean;
-  isSaving: boolean;
-  isSavingSuccess: boolean;
-  savingFailedMessage: string;
   subscription: Subscription;
-  editUserForm: FormGroup;
   isEditToggled: boolean;
 
   constructor(
@@ -64,39 +58,40 @@ export class MemberSingleComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.editUserForm = new FormGroup({
-      firstname: new FormControl(
-        {
-          value: this.member.firstname,
-          disabled: !this.member.isActivationPending,
-        },
-        {
-          validators: [Validators.required],
-          updateOn: 'change',
-        }
-      ),
-      lastname: new FormControl(
-        {
-          value: this.member.lastname,
-          disabled: !this.member.isActivationPending,
-        },
-        {
-          validators: [Validators.required],
-          updateOn: 'change',
-        }
-      ),
-      email: new FormControl(
-        {
-          value: this.member.email,
-          disabled:
-            !this.member.isActivationPending || this.member.isInvitationSent,
-        },
-        {
-          validators: [Validators.required, Validators.email],
-          updateOn: 'change',
-        }
-      ),
-    });
+    // TODO: Compare validation / disabled fields to MemberFormComponent
+    // this.editUserForm = new FormGroup({
+    //   firstname: new FormControl(
+    //     {
+    //       value: this.member.firstname,
+    //       disabled: !this.member.isActivationPending,
+    //     },
+    //     {
+    //       validators: [Validators.required],
+    //       updateOn: 'change',
+    //     }
+    //   ),
+    //   lastname: new FormControl(
+    //     {
+    //       value: this.member.lastname,
+    //       disabled: !this.member.isActivationPending,
+    //     },
+    //     {
+    //       validators: [Validators.required],
+    //       updateOn: 'change',
+    //     }
+    //   ),
+    //   email: new FormControl(
+    //     {
+    //       value: this.member.email,
+    //       disabled:
+    //         !this.member.isActivationPending || this.member.isInvitationSent,
+    //     },
+    //     {
+    //       validators: [Validators.required, Validators.email],
+    //       updateOn: 'change',
+    //     }
+    //   ),
+    // });
   }
 
   ngOnDestroy(): void {
@@ -151,7 +146,9 @@ export class MemberSingleComponent implements OnInit, OnDestroy {
       });
   }
 
-  getAgo(date: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
-    return date ? distanceInWordsToNow(date) : 'Never';
-  }
+  // TODO: Copy over to MemberForm component (and fix "Never ago"!!!)
+  // import * as distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+  // getAgo(date: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
+  //   return date ? distanceInWordsToNow(date) : 'Never';
+  // }
 }
