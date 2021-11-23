@@ -1,83 +1,122 @@
-<div class="d-flex  align-items-center flex-column  h-100 row">
-    <div class="col-12 col-md-6 col-xl-4">
-        <h1 class="d-none d-md-block text-left text-md-center mb-5 mb-md-0">Create an account</h1>
-        <h3 class="d-block d-md-none text-left text-md-center mb-5 mb-md-0">Create an account</h3>
-        
+<div class="d-flex align-items-center flex-column h-100 row">
+  <div class="col-12 col-md-6 col-xl-4">
+    <h1 class="d-none d-md-block text-left text-md-center mb-5 mb-md-0">
+      Create an account
+    </h1>
+    <h3 class="d-block d-md-none text-left text-md-center mb-5 mb-md-0">
+      Create an account
+    </h3>
 
-        <br>
-        <div class="alert alert-danger" role="alert" *ngIf="signUpMessageFail">
-            {{signUpMessageFail}}
-        </div>
-        <div class="alert alert-warning" role="alert" *ngIf="isRedirectToActivate">
-            You already have created an account but we need to verify your email ! Check your inbox or
-            <a (click)="resendEmail()" class="alert-link cursor-pointer">resend a confirmation email
-                <i *ngIf="isResending" class="text-muted fas fa-circle-notch fa-spin ml-1 "></i>
-            </a>
-        </div>
-
-        <div class="alert alert-warning" role="alert" *ngIf="isEmailAlreadyExist">
-            This email already has an account.
-            <a class="alert-link" routerLink="/login">Log in</a> or
-            <a (click)="resendEmail()" class="alert-link cursor-pointer">resend a confirmation email
-                <i *ngIf="isResending" class="text-muted fas fa-circle-notch fa-spin ml-1 "></i>
-            </a>
-        </div>
-        <div class="alert alert-success" role="alert" *ngIf="isConfirmationEmailSent">
-            <span class="alert-heading">We have sent a confirmation email to
-                <b>{{signupForm.controls['email'].value}}.</b>
-            </span>
-            <p> Please follow the link in the email to complete set-up.</p>
-            <hr>
-            <p>Not received?
-                <a (click)="resendImmediately()" class="alert-link cursor-pointer">resend
-                    <i *ngIf="isResending" class="text-muted fas fa-circle-notch fa-spin fa-fw ml-1 "></i>
-                </a> or email
-                <a href="mailto:support@maptio.com?subject=Support request"></a> support@maptio.com</p>
-        </div>
-
-
-
-
-        <form class="form-group" [formGroup]="signupForm" (submit)="createAccount()" *ngIf="!isConfirmationEmailSent">
-            <fieldset>
-                <div class="form-group">
-                    <label for="inputFirstname">First name</label>
-                    <input type="text" id="inputFirstname" formControlName="firstname" [class.is-invalid]="signupForm.controls['firstname'].invalid  && (signupForm.controls['firstname'].dirty || signupForm.controls['firstname'].touched)"
-                        class="form-control form-control-warning form-control-lg" required minlength="2">
-                    <small class="invalid-feedback">
-                        First name must be at least 2 characters
-                    </small>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputLastname">Last name</label>
-                    <input type="text" id="inputLastname" [class.is-invalid]="signupForm.controls['lastname'].invalid  && (signupForm.controls['lastname'].dirty || signupForm.controls['lastname'].touched)"
-                        class="form-control form-control-warning form-control-lg" formControlName="lastname">
-                    <small class="invalid-feedback">
-                        Last name must be at least 2 characters
-                    </small>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputEmail">Email</label>
-                    <input type="email" class="form-control form-control-warning form-control-lg" [class.is-invalid]="signupForm.controls['email'].invalid  && (signupForm.controls['email'].dirty || signupForm.controls['email'].touched)"
-                        formControlName="email">
-                    <small class="invalid-feedback">
-                        We need a valid email!
-                    </small>
-                </div>
-
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success btn-lg w-100 mb-1">Create your Maptio account</button>
-                    <common-google-signin>
-                        <span>Sign up</span>
-                    </common-google-signin>
-                </div>
-
-
-            </fieldset>
-
-        </form>
-
+    <br />
+    <div class="alert alert-danger" role="alert" *ngIf="signUpMessageFail">
+      {{signUpMessageFail}}
     </div>
+    <div class="alert alert-warning" role="alert" *ngIf="isRedirectToActivate">
+      You already have created an account but we need to verify your email !
+      Check your inbox or
+      <a (click)="resendEmail()" class="alert-link cursor-pointer"
+        >resend a confirmation email
+        <i
+          *ngIf="isResending"
+          class="text-muted fas fa-circle-notch fa-spin ml-1"
+        ></i>
+      </a>
+    </div>
+
+    <div class="alert alert-warning" role="alert" *ngIf="isEmailAlreadyExist">
+      This email already has an account.
+      <a class="alert-link" routerLink="/login">Log in</a> or
+      <a (click)="resendEmail()" class="alert-link cursor-pointer"
+        >resend a confirmation email
+        <i
+          *ngIf="isResending"
+          class="text-muted fas fa-circle-notch fa-spin ml-1"
+        ></i>
+      </a>
+    </div>
+    <div
+      class="alert alert-success"
+      role="alert"
+      *ngIf="isConfirmationEmailSent"
+    >
+      <span class="alert-heading"
+        >We have sent a confirmation email to
+        <b>{{signupForm.controls['email'].value}}.</b>
+      </span>
+      <p>Please follow the link in the email to complete set-up.</p>
+      <hr />
+      <p>
+        Not received?
+        <a (click)="resendImmediately()" class="alert-link cursor-pointer"
+          >resend
+          <i
+            *ngIf="isResending"
+            class="text-muted fas fa-circle-notch fa-spin fa-fw ml-1"
+          ></i>
+        </a>
+        or email
+        <a href="mailto:support@maptio.com?subject=Support request"></a>
+        support@maptio.com
+      </p>
+    </div>
+
+    <form
+      class="form-group"
+      [formGroup]="signupForm"
+      (submit)="createAccount()"
+      *ngIf="!isConfirmationEmailSent"
+    >
+      <fieldset>
+        <div class="form-group">
+          <label for="inputFirstname">First name</label>
+          <input
+            type="text"
+            id="inputFirstname"
+            formControlName="firstname"
+            [class.is-invalid]="signupForm.controls['firstname'].invalid  && (signupForm.controls['firstname'].dirty || signupForm.controls['firstname'].touched)"
+            class="form-control form-control-warning form-control-lg"
+            required
+            minlength="2"
+          />
+          <small class="invalid-feedback">
+            First name must be at least 2 characters
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="inputLastname">Last name</label>
+          <input
+            type="text"
+            id="inputLastname"
+            [class.is-invalid]="signupForm.controls['lastname'].invalid  && (signupForm.controls['lastname'].dirty || signupForm.controls['lastname'].touched)"
+            class="form-control form-control-warning form-control-lg"
+            formControlName="lastname"
+          />
+          <small class="invalid-feedback">
+            Last name must be at least 2 characters
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="inputEmail">Email</label>
+          <input
+            type="email"
+            class="form-control form-control-warning form-control-lg"
+            [class.is-invalid]="signupForm.controls['email'].invalid  && (signupForm.controls['email'].dirty || signupForm.controls['email'].touched)"
+            formControlName="email"
+          />
+          <small class="invalid-feedback"> We need a valid email! </small>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-success btn-lg w-100 mb-1">
+            Create your Maptio account
+          </button>
+          <common-google-signin>
+            <span>Sign up</span>
+          </common-google-signin>
+        </div>
+      </fieldset>
+    </form>
+  </div>
 </div>
