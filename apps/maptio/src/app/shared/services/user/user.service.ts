@@ -153,7 +153,7 @@ export class UserService {
           .post(
             environment.TICKETS_API_URL,
             {
-              result_url: 'http://app.maptio.com/login?token=' + userToken,
+              result_url: this.getAuth0RedirectBackUrl(userToken),
               user_id: user.user_id,
               ttl_sec: 30 * 24 * 3600, // valid for 30 days
             },
@@ -208,7 +208,7 @@ export class UserService {
           .post(
             environment.TICKETS_API_URL,
             {
-              result_url: 'http://app.maptio.com/login?token=' + userToken,
+              result_url: this.getAuth0RedirectBackUrl(userToken),
               user_id: userId,
             },
             httpOptions
@@ -260,7 +260,7 @@ export class UserService {
           .post(
             environment.TICKETS_API_URL,
             {
-              result_url: 'http://app.maptio.com/login?token=' + userToken,
+              result_url: this.getAuth0RedirectBackUrl(userToken),
               user_id: userId,
             },
             httpOptions
@@ -313,6 +313,15 @@ export class UserService {
       firstname: firstname,
       lastname: lastname,
     });
+  }
+
+  /**
+   * URL used by Auth0 to redirect user back to Maptio
+   */
+  private getAuth0RedirectBackUrl(userToken: string) {
+    return `${window.location.protocol}//${window.location.hostname}` +
+      `${window.location.port === '' ? '' : `:${window.location.port}`}` +
+      `/login?token=${userToken}`;
   }
 
   private getHslFromName(name: string): { h: number; s: number; l: number } {
