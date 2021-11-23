@@ -8,14 +8,16 @@
     </h3>
 
     <br />
+
     <div class="alert alert-danger" role="alert" *ngIf="signUpMessageFail">
       {{signUpMessageFail}}
     </div>
+
     <div class="alert alert-warning" role="alert" *ngIf="isRedirectToActivate">
       You already have created an account but we need to verify your email !
       Check your inbox or
-      <a (click)="resendEmail()" class="alert-link cursor-pointer"
-        >resend a confirmation email
+      <a (click)="resendEmail()" class="alert-link cursor-pointer">
+        resend a confirmation email
         <i
           *ngIf="isResending"
           class="text-muted fas fa-circle-notch fa-spin ml-1"
@@ -25,38 +27,48 @@
 
     <div class="alert alert-warning" role="alert" *ngIf="isEmailAlreadyExist">
       This email already has an account.
+
       <a class="alert-link" routerLink="/login">Log in</a> or
-      <a (click)="resendEmail()" class="alert-link cursor-pointer"
-        >resend a confirmation email
+
+      <a (click)="resendEmail()" class="alert-link cursor-pointer">
+        resend a confirmation email
         <i
           *ngIf="isResending"
           class="text-muted fas fa-circle-notch fa-spin ml-1"
         ></i>
       </a>
     </div>
+
     <div
       class="alert alert-success"
       role="alert"
       *ngIf="isConfirmationEmailSent"
     >
-      <span class="alert-heading"
-        >We have sent a confirmation email to
+      <span class="alert-heading">
+        We have sent a confirmation email to
         <b>{{signupForm.controls['email'].value}}.</b>
       </span>
+
       <p>Please follow the link in the email to complete set-up.</p>
+
       <hr />
+
       <p>
         Not received?
-        <a (click)="resendImmediately()" class="alert-link cursor-pointer"
-          >resend
+
+        <a (click)="resendImmediately()" class="alert-link cursor-pointer">
+          resend
           <i
             *ngIf="isResending"
             class="text-muted fas fa-circle-notch fa-spin fa-fw ml-1"
           ></i>
         </a>
+
         or email
-        <a href="mailto:support@maptio.com?subject=Support request"></a>
-        support@maptio.com
+
+        <a href="mailto:support@maptio.com?subject=Support request">
+          support@maptio.com
+        </a>
       </p>
     </div>
 
@@ -112,6 +124,7 @@
           <button type="submit" class="btn btn-success btn-lg w-100 mb-1">
             Create your Maptio account
           </button>
+
           <common-google-signin>
             <span>Sign up</span>
           </common-google-signin>

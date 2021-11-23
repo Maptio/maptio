@@ -1,23 +1,22 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
-import { User } from '../../../../shared/model/user.data';
-import { UserService } from '../../../../shared/services/user/user.service';
-import { repeatValidator } from '../../../../shared/directives/equal-validator.directive';
-import { UserRole } from '../../../../shared/model/permission.data';
-import { LoaderService } from '../../../../shared/components/loading/loader.service';
-import { Auth } from '../../../../core/authentication/auth.service';
+
+import { Auth } from '@maptio-core/authentication/auth.service';
+import { User } from '@maptio-shared/model/user.data';
+import { UserService } from '@maptio-shared/services/user/user.service';
+import { LoaderService } from '@maptio-shared/components/loading/loader.service';
+
 
 @Component({
-  selector: 'signup',
+  selector: 'maptio-signup',
   templateUrl: './signup.page.html',
   styleUrls: ['./signup.page.css'],
 })
-export class SignupComponent implements OnInit {
-  public TOS_URL: string =
-    'https://termsfeed.com/terms-conditions/f0e548940bde8842b1fb58637ae048c0';
-  public PRIVACY_URL: string =
-    'https://termsfeed.com/privacy-policy/61f888ebea93b0029582b88a7be1e1e3';
+export class SignupComponent {
+  public TOS_URL = 'https://termsfeed.com/terms-conditions/f0e548940bde8842b1fb58637ae048c0';
+  public PRIVACY_URL = 'https://termsfeed.com/privacy-policy/61f888ebea93b0029582b88a7be1e1e3';
 
   public email: string;
   public firstname: string;
@@ -63,8 +62,6 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
-
   createAccount() {
     this.isConfirmationEmailSent = false;
     this.isRedirectToActivate = false;
@@ -74,9 +71,9 @@ export class SignupComponent implements OnInit {
 
     if (this.signupForm.dirty && this.signupForm.valid) {
       this.loaderService.show();
-      let email = this.signupForm.controls['email'].value;
-      let firstname = this.signupForm.controls['firstname'].value;
-      let lastname = this.signupForm.controls['lastname'].value;
+      const email = this.signupForm.controls['email'].value;
+      const firstname = this.signupForm.controls['firstname'].value;
+      const lastname = this.signupForm.controls['lastname'].value;
 
       Promise.all([
         this.isEmailExist(email),
@@ -128,6 +125,7 @@ export class SignupComponent implements OnInit {
                       this.cd.markForCheck();
                     },
                     (reason) => {
+                      console.error(reason);
                       this.isConfirmationEmailSent = false;
                       this.signUpMessageFail = `Confirmation email failed to send`;
                       this.cd.markForCheck();
@@ -145,9 +143,8 @@ export class SignupComponent implements OnInit {
                     lastname: lastname,
                   });
                 },
-                () => {}
               )
-              .catch((reason: any) => {
+              .catch((reason: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
                 console.error(reason);
                 this.signUpMessageFail = `${reason}! Please email us at support@maptio.com and we'll help you out. `;
                 this.cd.markForCheck();
