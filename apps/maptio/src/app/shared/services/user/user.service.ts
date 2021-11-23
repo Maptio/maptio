@@ -319,9 +319,12 @@ export class UserService {
    * URL used by Auth0 to redirect user back to Maptio
    */
   private getAuth0RedirectBackUrl(userToken: string) {
-    return `${window.location.protocol}//${window.location.hostname}` +
+    console.log('322, user token: ', userToken);
+    const url = `${window.location.protocol}//${window.location.hostname}` +
       `${window.location.port === '' ? '' : `:${window.location.port}`}` +
       `/login?token=${userToken}`;
+    console.log('323, url: ', url);
+    return url;
   }
 
   private getHslFromName(name: string): { h: number; s: number; l: number } {
