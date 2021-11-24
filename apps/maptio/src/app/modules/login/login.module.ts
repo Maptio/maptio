@@ -6,6 +6,8 @@ import { SanitizerModule } from '@maptio-shared/sanitizer.module';
 import { ImageModule } from '@maptio-shared/image.module';
 import { GoogleSignInComponent } from '@maptio-shared/components/buttons/google-signin.component';
 
+import { MemberFormModule } from "@maptio-member-form";
+
 import { LoginRoutingModule } from './login.routing';
 import { LoginComponent } from './pages/login/login.page';
 import { LogoutComponent } from './pages/logout/logout.page';
@@ -33,6 +35,7 @@ import { LoginButtonComponent } from './login-button/login-button.component';
     ReactiveFormsModule,
     SanitizerModule,
     ImageModule,
+    MemberFormModule,
     LoginRoutingModule,
   ],
   exports: [

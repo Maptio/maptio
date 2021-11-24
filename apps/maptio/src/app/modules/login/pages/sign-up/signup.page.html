@@ -72,7 +72,21 @@
       </p>
     </div>
 
-    <form
+    <maptio-member-form>
+    </maptio-member-form>
+
+    <common-google-signin>
+      <span>Sign up</span>
+    </common-google-signin>
+
+    <!-- <maptio-member-form
+      *ngIf="team && !team?.isExample"
+      [team]="team"
+      (addMember)="onAddMember($event)"
+    >
+    </maptio-member-form> -->
+
+    <!-- <form
       class="form-group"
       [formGroup]="signupForm"
       (submit)="createAccount()"
@@ -130,6 +144,6 @@
           </common-google-signin>
         </div>
       </fieldset>
-    </form>
+    </form> -->
   </div>
 </div>
