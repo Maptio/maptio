@@ -32,6 +32,11 @@ export class MemberFormComponent implements OnInit {
   public createdUser: User;
   public memberForm: FormGroup;
 
+  private firstname: string;
+  private lastname: string;
+  private email: string;
+
+  public isUserSignUp = false;
   public isEditingExistingUser = false;
 
   public isSubmissionAttempted = false;
@@ -77,39 +82,45 @@ export class MemberFormComponent implements OnInit {
       this.memberForm.controls['lastname'].setValue(this.member.lastname);
       this.memberForm.controls['email'].setValue(this.member.email);
     }
+
+    // Not adding a member to a team, but creating a user via sign up
+    if (!this.team) {
+      this.isUserSignUp = true;
+    }
   }
 
-  save() {
+  async save() {
+    if (!this.memberForm.valid) {
+      return;
+    }
+
+    this.firstname = this.memberForm.controls['firstname'].value;
+    this.lastname = this.memberForm.controls['lastname'].value;
+    this.email = this.memberForm.controls['email'].value;
+
+    this.isSaving = true;
+
     if (this.isEditingExistingUser) {
-      this.updateUser();
+      await this.updateUser();
+    } else if (this.isUserSignUp) {
+      await this.createUserFromSignup();
     } else {
-      this.createUser();
+      await this.createUserAndAddToTeam();
     }
+
+    this.isSaving = false;
+    this.cd.markForCheck();
   }
 
-  createUser() {
-    if (this.memberForm.dirty && this.memberForm.valid) {
-      this.isSaving = true;
-      const firstname = this.memberForm.controls['firstname'].value;
-      const lastname = this.memberForm.controls['lastname'].value;
-      const email = this.memberForm.controls['email'].value;
+  async createUserAndAddToTeam() {
+    await this.createUserFullDetails();
 
-      this.createUserFullDetails(email, firstname, lastname)
-        .then(() => {
-          this.addMember.emit(this.createdUser);
-        })
-        .then(() => {
-          this.isSaving = false;
-          this.memberForm.reset();
-          this.cd.markForCheck();
-        });
-
-      this.isSaving = false;
-    }
+    this.addMember.emit(this.createdUser);
+    this.memberForm.reset();
   }
 
-  createUserFullDetails(email: string, firstname: string, lastname: string) {
-    const user =  this.userService.createUser(email, firstname, lastname);
+  createUserFullDetails() {
+    const user =  this.userService.createUser(this.email, this.firstname, this.lastname);
 
     return this.datasetFactory.get(this.team)
       .then((datasets: DataSet[]) => {
@@ -129,7 +140,7 @@ export class MemberFormComponent implements OnInit {
         return virtualUser;
       },
       (reason) => {
-        return Promise.reject(`Can't create ${email} : ${reason}`);
+        return Promise.reject(`Can't create ${this.email} : ${reason}`);
       })
       .then((virtualUser: User) => {
         this.userFactory.create(virtualUser);
@@ -153,7 +164,7 @@ export class MemberFormComponent implements OnInit {
         this.intercom.trackEvent('Create user', {
           team: this.team.name,
           teamId: this.team.team_id,
-          email: email,
+          email: this.email,
         });
         return true;
       })
@@ -165,25 +176,16 @@ export class MemberFormComponent implements OnInit {
   }
 
   async updateUser() {
-    if (!this.memberForm.valid) {
-      return;
-    }
-
-    this.isSaving = true;
     this.savingFailedMessage = null;
     this.isSavingSuccess = false;
     this.cd.markForCheck();
 
-    const firstname = this.memberForm.controls['firstname'].value;
-    const lastname = this.memberForm.controls['lastname'].value;
-    const email = this.memberForm.controls['email'].value;
-
     try {
       this.isSavingSuccess = await this.userService.updateUser(
         this.member,
-        firstname,
-        lastname,
-        email
+        this.firstname,
+        this.lastname,
+        this.email
       );
     } catch (error) {
       this.isSavingSuccess = false;
@@ -193,24 +195,33 @@ export class MemberFormComponent implements OnInit {
     }
 
     if (!this.isSavingSuccess) {
-      this.isSaving = false;
       this.isSavingSuccess = false;
 
       if (!this.savingFailedMessage) {
         this.savingFailedMessage = 'Cannot update profile information, please try again later or contact us.';
       }
 
-      this.cd.markForCheck();
       return;
     }
 
-    this.member.firstname = firstname;
-    this.member.lastname = lastname;
-    this.member.name = `${firstname} ${lastname}`;
-    this.member.email = email;
+    this.member.firstname = this.firstname;
+    this.member.lastname = this.lastname;
+    this.member.name = `${this.firstname} ${this.lastname}`;
+    this.member.email = this.email;
 
     this.isSavingSuccess = true;
-    this.isSaving = false;
-    this.cd.markForCheck();
+  }
+
+  async createUserFromSignup() {
+    this.createdUser =  this.userService.createUser(this.email, this.firstname, this.lastname);
+    this.createdUser = await this.userService.createUserInAuth0(this.createdUser);
+
+    await this.userService.sendConfirmation(
+      this.createdUser.email,
+      this.createdUser.user_id,
+      this.createdUser.firstname,
+      this.createdUser.lastname,
+      this.createdUser.name
+    );
   }
 }

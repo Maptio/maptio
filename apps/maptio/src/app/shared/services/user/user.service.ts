@@ -74,11 +74,11 @@ export class UserService {
     return user;
   }
 
-  public createUserInAuth0(user: User): Promise<boolean> {
+  async createUserInAuth0(user: User): Promise<User> {
     if (!user.email) {
       const errorMessage = 'Cannot create Auth0 user without an email address.';
       console.error(errorMessage);
-      return Promise.reject(errorMessage);
+      throw new Error(errorMessage);
     }
 
     const userDataInAuth0Format = this.convertUserToAuth0Format(user);
@@ -87,37 +87,28 @@ export class UserService {
     // id matches the Auth0 id, we need to remove the prefix temporarily
     userDataInAuth0Format.user_id = user.user_id.replace('auth0|', '');
 
-    return this.configuration.getAccessToken()
-      .then((token: string) => {
-        const httpOptions = {
-          headers: new HttpHeaders({
-            Authorization: 'Bearer ' + token,
-          }),
-        };
+    const accessToken = await this.configuration.getAccessToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + accessToken,
+      }),
+    };
 
-        return this.http
-          .post(environment.USERS_API_URL, userDataInAuth0Format, httpOptions)
-          .pipe(
-            map((responseData) => {
-              return responseData;
-            }),
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            map((input: any) => {
-              return User.create().deserialize(input);
-            })
-          )
-          // Save to DB
-          .pipe(
-            mergeMap(() => {
-              return this.userFactory.get(user.user_id);
-            }),
-            mergeMap((newUser) => {
-              newUser.isInAuth0 = true;
-              return this.userFactory.upsert(newUser);
-            })
-          )
-          .toPromise();
-    });
+    return this.http.post(
+      environment.USERS_API_URL,
+      userDataInAuth0Format,
+      httpOptions
+    )
+      .pipe(
+        map((responseData) => {
+          return responseData;
+        }),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        map((input: any) => {
+          return User.create().deserialize(input);
+        })
+      )
+      .toPromise();
   }
 
   public sendInvite(
@@ -133,7 +124,14 @@ export class UserService {
         if (user.isInAuth0) {
           return [userToken, apiToken];
         } else {
-          return this.createUserInAuth0(user).then((success: boolean) => {
+          return this.createUserInAuth0(user).then(() => {
+            return this.userFactory.get(user.user_id);
+          })
+          .then((newUser) => {
+            newUser.isInAuth0 = true;
+            return this.userFactory.upsert(newUser);
+          })
+          .then((success: boolean) => {
             if (!success) {
               // TODO: Deal with this in some better way...
               console.error('Error creating user in Auth0 or saving the updated user...');
