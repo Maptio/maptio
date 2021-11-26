@@ -13,7 +13,7 @@ import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { DataSet } from '@maptio-shared/model/dataset.data';
-import { User } from '@maptio-shared/model/user.data';
+import { User, MemberFormFields } from '@maptio-shared/model/user.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
@@ -44,7 +44,7 @@ export class MemberFormComponent implements OnInit {
   public savingFailedMessage = null;
   public isSavingSuccess = false;
 
-  @Input() member: User;
+  @Input() member: User | MemberFormFields;
   @Input() team: Team;
   @Output() addMember = new EventEmitter<User>();
 
@@ -82,7 +82,7 @@ export class MemberFormComponent implements OnInit {
       this.memberForm.controls['email'].setValue(this.member.email);
     }
 
-    if (this.member?.user_id) {
+    if (this.member instanceof User) {
       this.isEditingExistingUser = true;
     }
 
@@ -182,6 +182,10 @@ export class MemberFormComponent implements OnInit {
     this.savingFailedMessage = null;
     this.isSavingSuccess = false;
     this.cd.markForCheck();
+
+    if (!(this.member instanceof User)) {
+      return;
+    }
 
     try {
       this.isSavingSuccess = await this.userService.updateUser(

@@ -193,3 +193,9 @@ export class SelectableUser extends User {
     Object.assign(this, init);
   }
 }
+
+export interface MemberFormFields {
+  firstname: string;
+  lastname: string;
+  email: string;
+}

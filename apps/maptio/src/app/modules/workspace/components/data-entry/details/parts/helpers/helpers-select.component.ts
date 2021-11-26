@@ -14,7 +14,7 @@ import { cloneDeep } from 'lodash-es';
 import { Team } from '@maptio-shared/model/team.data';
 import { Helper } from '@maptio-shared/model/helper.data';
 import { Auth } from '@maptio-core/authentication/auth.service';
-import { User } from '@maptio-shared/model/user.data';
+import { User, MemberFormFields } from '@maptio-shared/model/user.data';
 
 
 @Component({
@@ -36,7 +36,7 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
   placeholder: string;
   subscription: Subscription;
 
-  newMemberData: any;
+  newMemberData: MemberFormFields;
 
   isLoaded: boolean;
   isCreateNewMemberMode = false;
@@ -64,9 +64,7 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
   }
 
   onAddingHelper(newHelper: Helper) {
-    console.log('onAddingHelper');
     if (!Object.prototype.hasOwnProperty.call(newHelper, 'user_id')) {
-      console.log('onAddingHelper: is create new member mode');
       this.isCreateNewMemberMode = true;
       return;
     }
