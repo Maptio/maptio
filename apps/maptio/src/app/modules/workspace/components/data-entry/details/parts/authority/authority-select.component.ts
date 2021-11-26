@@ -9,7 +9,7 @@ import {
   OnChanges,
 } from '@angular/core';
 
-import { User } from '@maptio-shared/model/user.data';
+import { User, MemberFormFields } from '@maptio-shared/model/user.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { Helper } from '@maptio-shared/model/helper.data';
 
@@ -31,6 +31,8 @@ export class InitiativeAuthoritySelectComponent implements OnChanges {
 
   placeholder: string;
 
+  newMemberData: MemberFormFields;
+
   isCreateNewMemberMode = false;
 
   @ViewChild('autocomplete', { static: true })
@@ -46,7 +48,7 @@ export class InitiativeAuthoritySelectComponent implements OnChanges {
   }
 
   onSelect(newAccountable: Helper) {
-    if (newAccountable === undefined) {
+    if (newAccountable && !newAccountable.user_id) {
       this.isCreateNewMemberMode = true;
       return;
     }
@@ -98,7 +100,13 @@ export class InitiativeAuthoritySelectComponent implements OnChanges {
             new RegExp(term, 'gi').test(v.email)
         );
 
-    return [undefined, ...filteredTeamMembers];
+    this.newMemberData = {
+      firstname: term,
+      lastname: '',
+      email: '',
+    }
+
+    return [this.newMemberData, ...filteredTeamMembers];
   };
 
   formatter = (result: User) => {
