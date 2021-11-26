@@ -74,6 +74,10 @@ export class InitiativeAuthoritySelectComponent implements OnChanges {
     }
   }
 
+  onCancelAddingMember() {
+    this.isCreateNewMemberMode = false;
+  }
+
   /**
    * Leave a fat arrow in order to fixate the this and be able to use in child component
    * See : https://stackoverflow.com/a/54169646/7092722

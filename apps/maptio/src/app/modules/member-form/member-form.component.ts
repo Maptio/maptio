@@ -47,6 +47,7 @@ export class MemberFormComponent implements OnInit {
   @Input() member: User | MemberFormFields;
   @Input() team: Team;
   @Output() addMember = new EventEmitter<User>();
+  @Output() cancel = new EventEmitter();
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -230,5 +231,9 @@ export class MemberFormComponent implements OnInit {
       this.createdUser.lastname,
       this.createdUser.name
     );
+  }
+
+  onCancel() {
+    this.cancel.emit();
   }
 }

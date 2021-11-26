@@ -106,6 +106,10 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
     }
   }
 
+  onCancelAddingMember() {
+    this.isCreateNewMemberMode = false;
+  }
+
   formatter = (result: Helper) => {
     return result ? result.name : '';
   };
