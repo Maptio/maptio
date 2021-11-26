@@ -46,6 +46,8 @@ export class UserService {
       this.getHslFromName(`${firstname} ${lastname}`)
     );
 
+    const nameForAvatar = lastname ? `${firstname}+${lastname}` : firstname;
+
     const newUser = {
       isInAuth0: false,
       user_id: 'auth0|' + nanoid(), // The "auth0|" prefix is necessary - see comment below
@@ -61,7 +63,7 @@ export class UserService {
         role: isAdmin ? UserRole[UserRole.Admin] : UserRole[UserRole.Standard],
       },
       user_metadata: {
-        picture: `https://ui-avatars.com/api/?rounded=true&background=${color}&name=${firstname}+${lastname}&font-size=0.35&color=ffffff&size=500`,
+        picture: `https://ui-avatars.com/api/?rounded=true&background=${color}&name=${nameForAvatar}&font-size=0.35&color=ffffff&size=500`,
 
         given_name: firstname,
         family_name: lastname,

@@ -64,7 +64,7 @@ export class MemberFormComponent implements OnInit {
       }),
 
       lastname: new FormControl('', {
-        validators: [ Validators.required, Validators.minLength(2) ],
+        validators: [ Validators.minLength(2) ],
         updateOn: 'submit',
       }),
 
