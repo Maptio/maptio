@@ -36,6 +36,8 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
   placeholder: string;
   subscription: Subscription;
 
+  newMemberData: any;
+
   isLoaded: boolean;
   isCreateNewMemberMode = false;
 
@@ -62,7 +64,9 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
   }
 
   onAddingHelper(newHelper: Helper) {
-    if (!newHelper) {
+    console.log('onAddingHelper');
+    if (!Object.prototype.hasOwnProperty.call(newHelper, 'user_id')) {
+      console.log('onAddingHelper: is create new member mode');
       this.isCreateNewMemberMode = true;
       return;
     }
@@ -121,6 +125,12 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
             new RegExp(term, 'gi').test(v.email)
         );
 
-    return [undefined, ...filteredTeamMembers];
+    this.newMemberData = {
+      firstname: term,
+      lastname: '',
+      email: '',
+    }
+
+    return [this.newMemberData, ...filteredTeamMembers];
   };
 }

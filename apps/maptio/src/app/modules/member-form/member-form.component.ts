@@ -77,10 +77,13 @@ export class MemberFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.member) {
-      this.isEditingExistingUser = true;
       this.memberForm.controls['firstname'].setValue(this.member.firstname);
       this.memberForm.controls['lastname'].setValue(this.member.lastname);
       this.memberForm.controls['email'].setValue(this.member.email);
+    }
+
+    if (this.member?.user_id) {
+      this.isEditingExistingUser = true;
     }
 
     // Not adding a member to a team, but creating a user via sign up

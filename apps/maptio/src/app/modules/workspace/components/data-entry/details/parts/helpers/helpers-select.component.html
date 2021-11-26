@@ -1,5 +1,5 @@
 <ng-template #rt let-r="result" let-t="term">
-  <span *ngIf="r">
+  <span *ngIf="r.user_id">
     <img
       src="{{ r.picture }}"
       class="rounded-circle participant-picture"
@@ -8,8 +8,8 @@
     {{ r.name }}
   </span>
 
-  <span *ngIf="!r && t">{{t}} (Add a new team member)</span>
-  <span *ngIf="!r && !t">Add a new team member</span>
+  <span *ngIf="!r.user_id && t">{{t}} (Add a new team member)</span>
+  <span *ngIf="!r.user_id && !t">Add a new team member</span>
 </ng-template>
 
 <ng-template #editTipContent>
@@ -65,6 +65,7 @@
 <ng-template #newMemberForm>
   <maptio-member-form
     [team]="team"
+    [member]="newMemberData"
     (addMember)="onCreateNewMember($event)"
   >
   </maptio-member-form>
