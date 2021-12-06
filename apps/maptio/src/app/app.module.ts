@@ -9,8 +9,10 @@ import {
 // import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 
+import { AuthModule } from '@auth0/auth0-angular';
 import { MarkdownModule, MarkedOptions, MarkedRenderer } from "ngx-markdown";
 
+import { environment } from "@maptio-environment";
 import { AppComponent } from "./app.component";
 import { CoreModule } from "./core/core.module";
 import { AnalyticsModule } from "./core/analytics.module";
@@ -66,6 +68,10 @@ export function markedOptionsFactory(): MarkedOptions {
         AppRoutingModule,
         // analytics
         AnalyticsModule,
+
+        AuthModule.forRoot({
+          ...environment.auth,
+        }),
 
         MarkdownModule.forRoot({
             markedOptions: {

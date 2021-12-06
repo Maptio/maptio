@@ -28,6 +28,8 @@
 
     "baseUrl": "src",
     "paths": {
+      // "@maptio-environments/*": ["environments/*"],
+      "@maptio-environment": ["environments/environment"],
       "@maptio-config/*": ["app/config/*"],
       "@maptio-core/*": ["app/core/*"],
       "@maptio-shared/*": ["app/shared/*"],
