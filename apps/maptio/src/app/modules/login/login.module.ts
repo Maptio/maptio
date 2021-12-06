@@ -35,6 +35,9 @@ import { LoginButtonComponent } from './login-button/login-button.component';
     ImageModule,
     LoginRoutingModule,
   ],
+  exports: [
+    LoginButtonComponent,
+  ],
   providers: [],
 })
 export class LoginModule {}

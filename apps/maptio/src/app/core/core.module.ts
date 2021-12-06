@@ -31,6 +31,7 @@ import { MappingSummaryBreadcrumbs } from './breadcrumbs/summary.breadcrumb';
 import { OnboardingModule } from '../shared/onboarding.module';
 import { InstructionsComponent } from '../shared/components/instructions/instructions.component';
 import { OnboardingComponent } from '../shared/components/onboarding/onboarding.component';
+import { LoginModule } from 'app/modules/login/login.module';
 
 export function tokenGetter(): string {
   return localStorage.getItem("maptio_api_token");
@@ -59,6 +60,7 @@ export function tokenGetter(): string {
         BreadcrumbsModule.forRoot(),
         NgProgressModule,
         NgProgressRouterModule,
+        LoginModule,
     ],
     exports: [
         HeaderComponent,
