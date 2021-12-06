@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 import { AuthService } from '@auth0/auth0-angular';
 
@@ -9,10 +10,19 @@ import { AuthService } from '@auth0/auth0-angular';
   styleUrls: ['./login-button.component.scss']
 })
 export class LoginButtonComponent {
-  constructor(public auth: AuthService) { }
+  constructor(
+    public auth: AuthService,
+    @Inject(DOCUMENT) private doc: Document,
+  ) {}
 
-  loginWithRedirect() {
+  onLogin() {
     this.auth.loginWithRedirect();
+  }
+
+  onLogout() {
+    this.auth.logout({
+      returnTo: this.doc.location.origin,
+    });
   }
 
   signupWithRedirect() {
