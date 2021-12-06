@@ -13,6 +13,8 @@ import { SignupComponent } from './pages/sign-up/signup.page';
 import { AuthorizeComponent } from './pages/authorize/authorize.page';
 import { ProfilePageComponent } from './pages/profile/profile.page';
 import { ChangePasswordComponent } from './pages/forgot-password/change-password.page';
+import { LoginButtonComponent } from './login-button/login-button.component';
+
 
 
 @NgModule({
@@ -24,6 +26,7 @@ import { ChangePasswordComponent } from './pages/forgot-password/change-password
     AuthorizeComponent,
     ProfilePageComponent,
     ChangePasswordComponent,
+    LoginButtonComponent,
   ],
   imports: [
     CommonModule,
