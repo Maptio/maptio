@@ -1,9 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { forkJoin as observableForkJoin, Observable } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
 
+import { SubSink } from 'subsink';
+import { AuthService } from '@auth0/auth0-angular';
 import { UUID } from 'angular2-uuid/index';
 import { flatten } from 'lodash-es';
 import { nanoid } from 'nanoid'
@@ -20,14 +23,61 @@ import { MailingService } from '../mailing/mailing.service';
 
 
 @Injectable()
-export class UserService {
+export class UserService implements OnDestroy {
+  public isAuthenticated$: Observable<boolean>;
+
   constructor(
+    // Current
     private http: HttpClient,
-    private configuration: AuthConfiguration,
+    private subs: SubSink,
+    private auth: AuthService,
+    private userFactory: UserFactory,
+    @Inject(DOCUMENT) private doc: Document,
+
+    // Old, to be removed?
     private encodingService: JwtEncoder,
     private mailing: MailingService,
-    private userFactory: UserFactory
-  ) {}
+
+    // Old, to be removed!
+    private configuration: AuthConfiguration,
+  ) {
+    // Keep auth variables in the user service for convenience, allowing us to
+    // skip importing the Auth0 SDK in components
+    this.isAuthenticated$ = this.auth.isAuthenticated$;
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
+
+  login() {
+    this.auth.loginWithRedirect();
+  }
+
+  logout() {
+    this.auth.logout({
+      returnTo: this.doc.location.origin,
+    });
+  }
+
+  signup() {
+    this.auth.loginWithRedirect({
+      screen_hint: 'signup'
+    });
+  }
+
+  processAuth0Login() {
+    this.subs.sink = this.auth.user$.subscribe((profile) => {
+      if (!profile) {
+        // User is not logged in, let's change that
+        this.login();
+        return;
+      }
+
+      // User is logged in through Auth0, let's process it
+      console.log(profile)
+    });
+  }
 
   // TODO: Replace calls to this with the function below
   // eslint-disable-next-line

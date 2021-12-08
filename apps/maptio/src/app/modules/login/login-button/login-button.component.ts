@@ -1,7 +1,6 @@
-import { Component, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component } from '@angular/core';
 
-import { AuthService } from '@auth0/auth0-angular';
+import { UserService } from '@maptio-shared/services/user/user.service';
 
 
 @Component({
@@ -10,24 +9,13 @@ import { AuthService } from '@auth0/auth0-angular';
   styleUrls: ['./login-button.component.scss']
 })
 export class LoginButtonComponent {
-  constructor(
-    public auth: AuthService,
-    @Inject(DOCUMENT) private doc: Document,
-  ) {}
+  constructor(public userService: UserService) {}
 
   onLogin() {
-    this.auth.loginWithRedirect();
+    this.userService.login();
   }
 
   onLogout() {
-    this.auth.logout({
-      returnTo: this.doc.location.origin,
-    });
-  }
-
-  signupWithRedirect() {
-    this.auth.loginWithRedirect({
-      screen_hint: 'signup'
-    });
+    this.userService.logout();
   }
 }

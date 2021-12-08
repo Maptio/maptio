@@ -9,6 +9,7 @@ import {
 // import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 
+import { SubSink } from "subsink";
 import { AuthModule } from '@auth0/auth0-angular';
 import { MarkdownModule, MarkedOptions, MarkedRenderer } from "ngx-markdown";
 
@@ -91,6 +92,7 @@ export function markedOptionsFactory(): MarkedOptions {
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         { provide: APP_BASE_HREF, useValue: '/' },
         { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },
+        SubSink,
     ],
     bootstrap: [AppComponent]
 })

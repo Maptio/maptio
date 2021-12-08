@@ -1,5 +1,5 @@
 <a
-  *ngIf="(auth.isAuthenticated$ | async) === false; else logout"
+  *ngIf="(user.isAuthenticated$ | async) === false; else logout"
   class="btn btn-link px-0"
   (click)="onLogin()"
 >
