@@ -16,7 +16,7 @@ import { AuthorizeComponent } from './pages/authorize/authorize.page';
 import { ProfilePageComponent } from './pages/profile/profile.page';
 import { ChangePasswordComponent } from './pages/forgot-password/change-password.page';
 import { LoginButtonComponent } from './login-button/login-button.component';
-import { LoginPage } from './pages/login/login.page';
+import { LoginPageComponent } from './pages/login/login.page';
 
 
 
@@ -30,7 +30,7 @@ import { LoginPage } from './pages/login/login.page';
     ProfilePageComponent,
     ChangePasswordComponent,
     LoginButtonComponent,
-    LoginPage,
+    LoginPageComponent,
   ],
   imports: [
     CommonModule,
