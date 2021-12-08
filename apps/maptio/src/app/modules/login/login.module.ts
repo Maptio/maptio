@@ -9,26 +9,28 @@ import { GoogleSignInComponent } from '@maptio-shared/components/buttons/google-
 import { MemberFormModule } from "@maptio-member-form";
 
 import { LoginRoutingModule } from './login.routing';
-import { LoginComponent } from './pages/login/login.page';
+import { OldLoginComponent } from './pages/login.old/login.page';
 import { LogoutComponent } from './pages/logout/logout.page';
 import { SignupComponent } from './pages/sign-up/signup.page';
 import { AuthorizeComponent } from './pages/authorize/authorize.page';
 import { ProfilePageComponent } from './pages/profile/profile.page';
 import { ChangePasswordComponent } from './pages/forgot-password/change-password.page';
 import { LoginButtonComponent } from './login-button/login-button.component';
+import { LoginPage } from './pages/login/login.page';
 
 
 
 @NgModule({
   declarations: [
     GoogleSignInComponent,
-    LoginComponent,
+    OldLoginComponent,
     LogoutComponent,
     SignupComponent,
     AuthorizeComponent,
     ProfilePageComponent,
     ChangePasswordComponent,
     LoginButtonComponent,
+    LoginPage,
   ],
   imports: [
     CommonModule,

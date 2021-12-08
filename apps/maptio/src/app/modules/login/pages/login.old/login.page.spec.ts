@@ -14,7 +14,7 @@ import { JwtEncoder } from "../../../../shared/services/encoding/jwt.service";
 import { RouterTestingModule } from "@angular/router/testing";
 import { ActivatedRoute, Router, NavigationStart } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { LoginComponent } from "./login.page";
+import { OldLoginComponent } from "./login.page";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { Auth } from "../../../../core/authentication/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
@@ -32,17 +32,17 @@ export class AuthStub {
 }
 
 describe("login.component.ts", () => {
-  let component: LoginComponent;
-  let target: ComponentFixture<LoginComponent>;
+  let component: OldLoginComponent;
+  let target: ComponentFixture<OldLoginComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [LoginComponent],
+        declarations: [OldLoginComponent],
         schemas: [NO_ERRORS_SCHEMA],
         imports: [FormsModule, ReactiveFormsModule, RouterTestingModule, NgProgressModule, SharedModule.forRoot(), AnalyticsModule, CoreModule]
       })
-        .overrideComponent(LoginComponent, {
+        .overrideComponent(OldLoginComponent, {
           set: {
             providers: [
               {
@@ -90,7 +90,7 @@ describe("login.component.ts", () => {
   );
 
   beforeEach(() => {
-    target = TestBed.createComponent(LoginComponent);
+    target = TestBed.createComponent(OldLoginComponent);
     component = target.componentInstance;
 
     // target.detectChanges(); // trigger initial data binding

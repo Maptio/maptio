@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '@maptio-core/guards/auth.guard';
 
 import { SignupComponent } from './pages/sign-up/signup.page';
-import { LoginComponent } from './pages/login/login.page';
+import { OldLoginComponent } from './pages/login.old/login.page';
 import { AuthorizeComponent } from './pages/authorize/authorize.page';
 import { LogoutComponent } from './pages/logout/logout.page';
 import { ChangePasswordComponent } from './pages/forgot-password/change-password.page';
@@ -17,7 +17,7 @@ const routes: Routes = [
     children: [
       { path: 'signup', component: SignupComponent },
 
-      { path: 'login', component: LoginComponent },
+      { path: 'login', component: OldLoginComponent },
       { path: 'authorize', component: AuthorizeComponent },
 
       { path: 'logout', component: LogoutComponent },

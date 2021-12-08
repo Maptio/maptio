@@ -13,7 +13,7 @@ import { Auth } from "../../../../core/authentication/auth.service";
     selector: "login",
     templateUrl: "./login.page.html"
 })
-export class LoginComponent implements OnInit {
+export class OldLoginComponent implements OnInit {
 
 
     public TOS_URL: string = "https://termsfeed.com/terms-conditions/f0e548940bde8842b1fb58637ae048c0"
