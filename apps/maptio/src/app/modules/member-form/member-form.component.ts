@@ -124,7 +124,7 @@ export class MemberFormComponent implements OnInit {
   }
 
   createUserFullDetails() {
-    const user =  this.userService.createUser(this.email, this.firstname, this.lastname);
+    const user =  this.userService.createUserFromMemberForm(this.email, this.firstname, this.lastname);
 
     return this.datasetFactory.get(this.team)
       .then((datasets: DataSet[]) => {
@@ -221,7 +221,7 @@ export class MemberFormComponent implements OnInit {
   }
 
   async createUserFromSignup() {
-    this.createdUser =  this.userService.createUser(this.email, this.firstname, this.lastname);
+    this.createdUser =  this.userService.createUserFromMemberForm(this.email, this.firstname, this.lastname);
     this.createdUser = await this.userService.createUserInAuth0(this.createdUser);
 
     await this.userService.sendConfirmation(

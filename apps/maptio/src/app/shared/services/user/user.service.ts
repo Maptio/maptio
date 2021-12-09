@@ -66,8 +66,8 @@ export class UserService implements OnDestroy {
     });
   }
 
-  processAuth0Login() {
-    this.subs.sink = this.auth.user$.subscribe((profile) => {
+  async processAuth0Login() {
+    this.subs.sink = this.auth.user$.subscribe(async profile => {
       if (!profile) {
         // User is not logged in, let's change that
         this.login();
@@ -75,7 +75,19 @@ export class UserService implements OnDestroy {
       }
 
       // User is logged in through Auth0, let's process it
-      console.log(profile)
+      const userId = profile.sub;
+
+      const userData = await this.userFactory.get(userId);
+
+      if (!userData) {
+        // User is not in our database
+        const user = this.createUserFromAuth0Signup(profile);
+        this.userFactory.create(user);
+        return;
+      }
+
+      // TODO: Write out what happens when the user is in the db
+      console.log('user is in our database');
     });
   }
 
@@ -85,11 +97,33 @@ export class UserService implements OnDestroy {
     console.error('TODO');
   }
 
-  public createUser(
+  createUserFromAuth0Signup(profile): User {
+    return this.createUser(
+      profile.sub,
+      profile.email,
+      profile.given_name,
+      profile.family_name,
+      true,
+      true,
+    );
+  }
+
+  public createUserFromMemberForm(
     email: string,
     firstname: string,
     lastname: string,
-    isSignUp?: boolean,
+    isAdmin?: boolean
+  ): User {
+    const userId = 'auth0|' + nanoid(); // The "auth0|" prefix is necessary - see comment below
+    return this.createUser(userId, email, firstname, lastname, false, isAdmin);
+  }
+
+  public createUser(
+    userId: string,
+    email: string,
+    firstname: string,
+    lastname: string,
+    isEmailVerified?: boolean,
     isAdmin?: boolean
   ): User {
     const color = this.getHexFromHsl(
@@ -100,12 +134,12 @@ export class UserService implements OnDestroy {
 
     const newUser = {
       isInAuth0: false,
-      user_id: 'auth0|' + nanoid(), // The "auth0|" prefix is necessary - see comment below
+      user_id: userId,
       connection: environment.CONNECTION_NAME,
       email: email,
       name: `${firstname} ${lastname}`,
       password: `${UUID.UUID()}-${UUID.UUID().toUpperCase()}`,
-      email_verified: !isSignUp || true,
+      email_verified: isEmailVerified,
       verify_email: false, // we are always sending our emails (not through Auth0)
       app_metadata: {
         activation_pending: true,
