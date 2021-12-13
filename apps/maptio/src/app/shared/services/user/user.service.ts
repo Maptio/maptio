@@ -3,7 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { forkJoin as observableForkJoin, Observable } from 'rxjs';
-import { mergeMap, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { SubSink } from 'subsink';
 import { AuthService } from '@auth0/auth0-angular';
@@ -13,7 +13,6 @@ import { nanoid } from 'nanoid'
 
 // import { AuthConfiguration } from '@maptio-core/authentication/auth.config';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
-import { EmitterService } from '@maptio-core/services/emitter.service';
 import { environment } from '@maptio-config/environment';
 
 import { UserRole } from './../../model/permission.data';
