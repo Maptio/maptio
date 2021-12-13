@@ -14,7 +14,7 @@ import { SubSink } from "subsink";
 import { Intercom } from 'ng-intercom';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
-import { Auth } from "./core/authentication/auth.service";
+// import { Auth } from "./core/authentication/auth.service";
 import { environment } from "./config/environment";
 import { LoaderService } from "./shared/components/loading/loader.service";
 
@@ -38,7 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public navigationOtherSubscription: Subscription;
 
   constructor(
-    public auth: Auth,
+    // public auth: Auth,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     public intercom: Intercom,
@@ -62,15 +62,15 @@ export class AppComponent implements OnInit, OnDestroy {
         tap(showUi => this.showIntercomWidget(showUi) )
       )
 
-    this.subs.sink = observableInterval(environment.CHECK_TOKEN_EXPIRATION_INTERVAL_IN_MINUTES * 60 * 1000)
-      .pipe(
-        timeInterval(),
-        mergeMap(() => { return observableOf(this.auth.allAuthenticated()) }),
-        filter(isExpired => !isExpired),
-      )
-      .subscribe((isExpired: boolean) => {
-        this.router.navigateByUrl("/logout")
-      });
+    // this.subs.sink = observableInterval(environment.CHECK_TOKEN_EXPIRATION_INTERVAL_IN_MINUTES * 60 * 1000)
+    //   .pipe(
+    //     timeInterval(),
+    //     mergeMap(() => { return observableOf(this.auth.allAuthenticated()) }),
+    //     filter(isExpired => !isExpired),
+    //   )
+    //   .subscribe((isExpired: boolean) => {
+    //     this.router.navigateByUrl("/logout")
+    //   });
 
       this.intercom.boot({ app_id: environment.INTERCOM_APP_ID });
 

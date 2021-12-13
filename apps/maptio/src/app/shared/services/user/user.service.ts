@@ -11,7 +11,7 @@ import { UUID } from 'angular2-uuid/index';
 import { flatten } from 'lodash-es';
 import { nanoid } from 'nanoid'
 
-import { AuthConfiguration } from '@maptio-core/authentication/auth.config';
+// import { AuthConfiguration } from '@maptio-core/authentication/auth.config';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
 import { EmitterService } from '@maptio-core/services/emitter.service';
 import { environment } from '@maptio-config/environment';
@@ -39,7 +39,7 @@ export class UserService implements OnDestroy {
     private mailing: MailingService,
 
     // Old, to be removed!
-    private configuration: AuthConfiguration,
+    // private configuration: AuthConfiguration,
   ) {
     // Keep auth variables in the user service for convenience, allowing us to
     // skip importing the Auth0 SDK in components
@@ -90,6 +90,11 @@ export class UserService implements OnDestroy {
       // TODO: Write out what happens when the user is in the db
       // console.log('user is in our database');
     });
+  }
+
+  // TODO: Remove when ready...
+  public getAccessToken() {
+    return Promise.resolve('TODO');
   }
 
   // TODO: Replace calls to this with the function below
@@ -174,7 +179,7 @@ export class UserService implements OnDestroy {
     // id matches the Auth0 id, we need to remove the prefix temporarily
     userDataInAuth0Format.user_id = user.user_id.replace('auth0|', '');
 
-    const accessToken = await this.configuration.getAccessToken();
+    const accessToken = this.getAccessToken();
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + accessToken,
@@ -205,7 +210,7 @@ export class UserService implements OnDestroy {
   ): Promise<boolean> {
     return Promise.all([
       this.generateDetailedUserToken(user),
-      this.configuration.getAccessToken(),
+      this.getAccessToken(),
     ])
       .then(([userToken, apiToken]: [string, string]) => {
         if (user.isInAuth0) {
@@ -280,7 +285,7 @@ export class UserService implements OnDestroy {
         lastname: lastname,
         name: name,
       }),
-      this.configuration.getAccessToken(),
+      this.getAccessToken(),
     ])
       .then(([userToken, apiToken]: [string, string]) => {
         const httpOptions = {
@@ -332,7 +337,7 @@ export class UserService implements OnDestroy {
     return Promise.all([
       getUserId(),
       getUserEmail(),
-      this.configuration.getAccessToken(),
+      this.getAccessToken(),
     ])
       .then(([userId, email, apiToken]: [string, string, string]) => {
         const httpOptions = {
@@ -460,7 +465,7 @@ export class UserService implements OnDestroy {
 
     const query = users.map((u) => `user_id:"${u.user_id}"`).join(' OR ');
 
-    return this.configuration.getAccessToken().then((token: string) => {
+    return this.getAccessToken().then((token: string) => {
       const headers = new HttpHeaders({
         Authorization: 'Bearer ' + token,
       });
@@ -535,7 +540,7 @@ export class UserService implements OnDestroy {
   }
 
   public isActivationPendingByUserId(user_id: string): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
+    return this.getAccessToken().then((token: string) => {
       const httpOptions = {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,
@@ -559,7 +564,7 @@ export class UserService implements OnDestroy {
   public isActivationPendingByEmail(
     email: string
   ): Promise<{ isActivationPending: boolean; user_id: string }> {
-    return this.configuration.getAccessToken().then((token: string) => {
+    return this.getAccessToken().then((token: string) => {
       const httpOptions = {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,
@@ -594,7 +599,7 @@ export class UserService implements OnDestroy {
   }
 
   public isInvitationSent(user_id: string): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
+    return this.getAccessToken().then((token: string) => {
       const httpOptions = {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,
@@ -621,7 +626,7 @@ export class UserService implements OnDestroy {
     firstname: string,
     lastname: string
   ): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
+    return this.getAccessToken().then((token: string) => {
       const httpOptions = {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,
@@ -681,7 +686,7 @@ export class UserService implements OnDestroy {
   }
 
   private updateUserEmailInAuth0(user_id: string, email: string): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
+    return this.getAccessToken().then((token: string) => {
       const httpOptions = {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,
@@ -716,7 +721,7 @@ export class UserService implements OnDestroy {
     user_id: string,
     pictureUrl: string
   ): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
+    return this.getAccessToken().then((token: string) => {
       const httpOptions = {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,
@@ -750,7 +755,7 @@ export class UserService implements OnDestroy {
     user_id: string,
     isActivationPending: boolean
   ): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
+    return this.getAccessToken().then((token: string) => {
       const httpOptions = {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,
@@ -779,7 +784,7 @@ export class UserService implements OnDestroy {
     user_id: string,
     isInvitationSent: boolean
   ): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
+    return this.getAccessToken().then((token: string) => {
       const httpOptions = {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,
@@ -802,7 +807,7 @@ export class UserService implements OnDestroy {
   }
 
   public updateUserRole(user_id: string, userRole: string): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
+    return this.getAccessToken().then((token: string) => {
       const httpOptions = {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,
@@ -825,23 +830,23 @@ export class UserService implements OnDestroy {
   }
 
   public changePassword(email: string): void {
-    this.configuration.getWebAuth().changePassword(
-      {
-        connection: environment.CONNECTION_NAME,
-        email: email,
-      },
-      function (err, resp) {
-        if (err) {
-          EmitterService.get('changePasswordFeedbackMessage').emit(err.error);
-        } else {
-          EmitterService.get('changePasswordFeedbackMessage').emit(resp);
-        }
-      }
-    );
+    // this.configuration.getWebAuth().changePassword(
+    //   {
+    //     connection: environment.CONNECTION_NAME,
+    //     email: email,
+    //   },
+    //   function (err, resp) {
+    //     if (err) {
+    //       EmitterService.get('changePasswordFeedbackMessage').emit(err.error);
+    //     } else {
+    //       EmitterService.get('changePasswordFeedbackMessage').emit(resp);
+    //     }
+    //   }
+    // );
   }
 
   public isUserExist(email: string): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
+    return this.getAccessToken().then((token: string) => {
       const httpOptions = {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,

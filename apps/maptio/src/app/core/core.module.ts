@@ -5,8 +5,6 @@ import { RouterModule } from '@angular/router';
 
 import { JwtModule } from '@auth0/angular-jwt';
 
-import { httpInterceptorProviders } from './interceptors';
-
 // Unorganised
 import { UnauthorizedComponent } from './401/unauthorized.component';
 import { NotFoundComponent } from './404/not-found.component';
@@ -71,8 +69,8 @@ export function tokenGetter(): string {
     providers: [
         Auth,
         AuthConfiguration,
-        AccessGuard,
-        AuthGuard,
+        // AccessGuard,
+        // AuthGuard,
         BillingGuard,
         PermissionGuard,
         WorkspaceGuard,

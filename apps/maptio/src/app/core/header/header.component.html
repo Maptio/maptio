@@ -15,7 +15,9 @@
 </ng-template>
 
 <ng-container
-  *ngIf="auth.allAuthenticated() && (isMap() || isHome() || isTeam())"
+  *ngIf="
+    (userService.isAuthenticated$ | async) && (isMap() || isHome() || isTeam())
+  "
 >
   <nav
     class="d-flex flex-column py-3 flex-md-row justify-content-center align-items-center align-items-md-baseline bg-gradient-inverse rounded-bottom text-white mx-3"
@@ -58,7 +60,7 @@
     />
   </a>
   <div
-    *ngIf="auth.allAuthenticated()"
+    *ngIf="userService.isAuthenticated$ | async"
     class="d-none d-md-flex nav-item col-auto flex-row justify-content-end"
   >
     <lib-breadcrumbs></lib-breadcrumbs>
@@ -114,8 +116,13 @@
       </li>
       <li
         class="nav-item dropdown d-none d-md-flex align-items-center"
-        *ngIf="auth.allAuthenticated() && datasets && datasets?.length !== 0"
+        *ngIf="
+          (userService.isAuthenticated$ | async) &&
+          datasets &&
+          datasets?.length !== 0
+        "
       >
+        -->
         <a
           class="nav-link dropdown-toggle"
           id="mapsListDropdownLink"
@@ -146,7 +153,7 @@
       <li
         class="nav-item dropdown ml-3"
         id="profileInformation"
-        *ngIf="auth.allAuthenticated()"
+        *ngIf="userService.isAuthenticated$ | async"
       >
         <a
           class="nav-link dropdown-toggle without-caret px-0 d-none d-md-block"
@@ -201,10 +208,8 @@
           </div>
         </div>
       </li>
-      <li
-        class="nav-item d-flex align-items-center"
-        *ngIf="!auth.allAuthenticated() && !isSignUp()"
-      >
+
+      <li class="nav-item d-flex align-items-center" *ngIf="!isSignUp()">
         <maptio-login-button></maptio-login-button>
       </li>
 

@@ -18,12 +18,13 @@ import { environment } from '@maptio-config/environment';
 import { User } from '@maptio-shared/model/user.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { DataSet } from '@maptio-shared/model/dataset.data';
+import { UserService } from '@maptio-shared/services/user/user.service';
 import { ErrorService } from '@maptio-shared/services/error/error.service';
 import { BillingService } from '@maptio-shared/services/billing/billing.service';
 import { LoaderService } from '@maptio-shared/components/loading/loader.service';
 import { OnboardingService } from '@maptio-shared/components/onboarding/onboarding.service';
 
-import { Auth } from '../authentication/auth.service';
+// import { Auth } from '../authentication/auth.service';
 import { DatasetFactory } from '../http/map/dataset.factory';
 import { TeamFactory } from '../http/team/team.factory';
 import { EmitterService } from '../services/emitter.service';
@@ -54,7 +55,8 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   public isSandbox: boolean;
 
   constructor(
-    public auth: Auth,
+    // public auth: Auth,
+    public userService: UserService,
     private datasetFactory: DatasetFactory,
     private teamFactory: TeamFactory,
     public errorService: ErrorService,

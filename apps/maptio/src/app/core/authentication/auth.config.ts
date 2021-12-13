@@ -17,37 +17,39 @@ export class AuthConfiguration {
   constructor(private http: HttpClient) {}
 
   public getWebAuth(): WebAuth {
-    return new WebAuth({
-      domain: this.AUTH0_DOMAIN,
-      clientID: this.AUTH0_APP_KEY
-    });
+    return {} as WebAuth;
+    // return new WebAuth({
+    //   domain: this.AUTH0_DOMAIN,
+    //   clientID: this.AUTH0_APP_KEY
+    // });
   }
 
   getAccessToken(): Promise<string> {
-    let access_token = window.localStorage.getItem("access_token");
+    return Promise.resolve('TODO');
+    // let access_token = window.localStorage.getItem("access_token");
 
-    if (access_token) return Promise.resolve(access_token);
-    else {
-      return this.http
-        .post(environment.ACCESS_TOKEN_URL, {
-          client_id: this.AUTH0_MANAGEMENTAPI_KEY,
-          client_secret: this.AUTH0_MANAGEMENTAPI_SECRET,
-          audience: environment.ACCESS_TOKEN_AUDIENCE,
-          grant_type: "client_credentials"
-        })
-        .pipe(
-          map(responseData  => {
-            const accessToken = responseData['access_token']
+    // if (access_token) return Promise.resolve(access_token);
+    // else {
+    //   return this.http
+    //     .post(environment.ACCESS_TOKEN_URL, {
+    //       client_id: this.AUTH0_MANAGEMENTAPI_KEY,
+    //       client_secret: this.AUTH0_MANAGEMENTAPI_SECRET,
+    //       audience: environment.ACCESS_TOKEN_AUDIENCE,
+    //       grant_type: "client_credentials"
+    //     })
+    //     .pipe(
+    //       map(responseData  => {
+    //         const accessToken = responseData['access_token']
 
-            window.localStorage.setItem(
-              "access_token",
-              accessToken
-            );
+    //         window.localStorage.setItem(
+    //           "access_token",
+    //           accessToken
+    //         );
 
-            return accessToken;
-          })
-        )
-        .toPromise();
-    }
+    //         return accessToken;
+    //       })
+    //     )
+    //     .toPromise();
+    // }
   }
 }
