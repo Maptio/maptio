@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 import * as shortid from 'shortid';
 import { chunk, flattenDeep } from 'lodash-es';
 
+import { environment } from '@maptio-environment';
+
 @Injectable()
 export class UserFactory {
   constructor(private http: HttpClient) {}
@@ -72,7 +74,7 @@ export class UserFactory {
    */
   get(uniqueId: string): Promise<User> {
     return this.http
-      .get('/api/v1/user/' + uniqueId)
+      .get(`${environment.maptioApiUrl}/user/${uniqueId}`)
       .pipe(
         map((response) => {
           return User.create().deserialize(response);

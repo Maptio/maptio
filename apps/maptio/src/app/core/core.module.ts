@@ -79,7 +79,6 @@ export function tokenGetter(): string {
         DatasetFactory,
         TeamFactory,
         UserFactory,
-        httpInterceptorProviders,
         MappingSummaryBreadcrumbs,
         DeviceDetectorService
 

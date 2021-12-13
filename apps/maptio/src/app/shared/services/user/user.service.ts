@@ -77,6 +77,7 @@ export class UserService implements OnDestroy {
       // User is logged in through Auth0, let's process it
       const userId = profile.sub;
 
+      // TODO: Handle error here!
       const userData = await this.userFactory.get(userId);
 
       if (!userData) {
@@ -87,7 +88,7 @@ export class UserService implements OnDestroy {
       }
 
       // TODO: Write out what happens when the user is in the db
-      console.log('user is in our database');
+      // console.log('user is in our database');
     });
   }
 

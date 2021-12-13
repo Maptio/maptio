@@ -21,6 +21,9 @@ const DEFAULT_PORT = 3000;
 const isDevelopment = process.env.NODE_ENV !== "production";
 const port = process.env.PORT || DEFAULT_PORT;
 
+const audience = process.env.AUTH0_AUDIENCE;
+const issuer = process.env.AUTH0_ISSUER;
+
 
 //
 // Security
@@ -31,13 +34,13 @@ const jwtCheck = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: "https://login.maptio.com/.well-known/jwks.json"
+    jwksUri: `${issuer}.well-known/jwks.json`
   }),
 
-  audience: 'https://app.maptio.com/api/v1',
-  issuer: "https://login.maptio.com/",
+  audience,
+  issuer,
   algorithms: ['RS256'],
-  requestProperty: 'token'
+  requestProperty: 'token',
 });
 
 function checkscopes(scopes) {
