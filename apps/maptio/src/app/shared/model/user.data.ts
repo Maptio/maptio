@@ -75,7 +75,7 @@ export class User implements Serializable<User> {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   deserialize(input: any): User {
-    if (!input.user_id) {
+    if (!input?.user_id) {
       return undefined;
     }
 
