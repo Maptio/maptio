@@ -1,9 +1,9 @@
 import { Component, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
-import { forkJoin as observableForkJoin, Subscription } from 'rxjs';
+import { forkJoin as observableForkJoin } from 'rxjs';
 import { map, mergeMap, } from 'rxjs/operators';
 
+import { SubSink } from 'subsink';
 import { sortBy, isEmpty } from 'lodash-es';
 
 import { environment } from '@maptio-config/environment';
@@ -24,7 +24,8 @@ import { InstructionsService } from '@maptio-shared/components/instructions/inst
   styleUrls: ['./home.page.css'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  private routeSubscription: Subscription;
+  private subs = new SubSink();
+
   public datasets: DataSet[];
   public teams: Team[];
   public user: User;
@@ -35,7 +36,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     public auth: Auth,
-    private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
     public datasetFactory: DatasetFactory,
     public teamFactory: TeamFactory,
@@ -49,7 +49,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.isOnboarding = true;
     this.cd.markForCheck();
-    this.routeSubscription = this.auth
+
+    this.subs.sink = this.auth
       .getUser()
       .pipe(
         mergeMap((user: User) => {
@@ -99,6 +100,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.routeSubscription) this.routeSubscription.unsubscribe();
+    this.subs.unsubscribe();
   }
 }
