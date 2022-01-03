@@ -100,27 +100,41 @@ export class UserService implements OnDestroy {
         return;
       }
 
-      // TODO: Write out what happens when the user is in the db
-      // This is very old code, which had the comment "HACK : where does the
-      // duplication comes from?" next to it, copying it here, but at some
-      // point, it'd be good to investigate the source of the duplication,
-      // remove it, and clean up data
-      const teamIds = uniq(user.teams);
-      user.teams = teamIds;
-
-      user.exampleTeamIds = await this.identifyExampleTeams(user);
-
-      this.permissions = this.userRoleService.get(user.userRole);
-
-      const datasetIds = await this.datasetFactory.get(user);
-      user.datasets = uniq(datasetIds)
-
-      this.userSubject$.next(user);
-
+      // User is in our database, let's make all associated data available
       const userWithDatasetsAndTeams = await this.gatherUserData(user);
-      console.log(userWithDatasetsAndTeams);
+
+      this.userSubject$.next(userWithDatasetsAndTeams.user);
       this.userWithTeamsAndDatasetsSubject$.next(userWithDatasetsAndTeams);
     });
+  }
+
+  private async gatherUserData(user): Promise<UserWithTeamsAndDatasets> {
+    // This is very old code, which had the comment "HACK : where does the
+    // duplication comes from?" next to it, copying it here, but at some
+    // point, it'd be good to investigate the source of the duplication,
+    // remove it, and clean up data
+    const teamIds = uniq(user.teams);
+    user.teams = teamIds;
+
+    user.exampleTeamIds = await this.identifyExampleTeams(user);
+
+    this.permissions = this.userRoleService.get(user.userRole);
+
+    const datasetIds = await this.datasetFactory.get(user);
+    user.datasets = uniq(datasetIds)
+
+    const teams = isEmpty(user.teams) ? [] : await this.teamFactory.get(user.teams);
+    let datasets = isEmpty(user.datasets) ? [] : await this.datasetFactory.get(user.datasets, false);
+
+    datasets = datasets
+      .filter(dataset => !dataset.isArchived)
+      .map(dataset => {
+        dataset.team = teams.find(team => dataset.initiative.team_id === team.team_id);
+        return dataset;
+      });
+    datasets = sortBy(datasets, dataset => dataset.initiative.name);
+
+    return { datasets, teams, user };
   }
 
   private async identifyExampleTeams(user: User) {
@@ -134,20 +148,6 @@ export class UserService implements OnDestroy {
     }
 
     return exampleTeamIds;
-  }
-
-  private async gatherUserData(user): Promise<UserWithTeamsAndDatasets> {
-    const teams = isEmpty(user.teams) ? [] : await this.teamFactory.get(user.teams);
-    let datasets = isEmpty(user.datasets) ? [] : await this.datasetFactory.get(user.datasets, false);
-    datasets = datasets
-      .filter(dataset => !dataset.isArchived)
-      .map(dataset => {
-        dataset.team = teams.find(team => dataset.initiative.team_id === team.team_id);
-        return dataset;
-      });
-    datasets = sortBy(datasets, dataset => dataset.initiative.name);
-
-    return { datasets, teams, user };
   }
 
   public getPermissions(): Permissions[] {
