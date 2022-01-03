@@ -1,36 +1,34 @@
-import { forkJoin as observableForkJoin, Subscription, Observable } from 'rxjs';
-import { Auth } from '../../../../core/authentication/auth.service';
-import { Component, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DataSet } from '../../../../shared/model/dataset.data';
-import { Team } from '../../../../shared/model/team.data';
-import { User } from '../../../../shared/model/user.data';
-import { DatasetFactory } from '../../../../core/http/map/dataset.factory';
-import { TeamFactory } from '../../../../core/http/team/team.factory';
+import { Component, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { forkJoin as observableForkJoin, Subscription } from 'rxjs';
+import { map, mergeMap, } from 'rxjs/operators';
+
 import { sortBy, isEmpty } from 'lodash-es';
-import { LoaderService } from '../../../../shared/components/loading/loader.service';
-import { EmitterService } from '../../../../core/services/emitter.service';
-import { InstructionsService } from '../../../../shared/components/instructions/instructions.service';
-import { environment } from '../../../../config/environment';
-import {
-  map,
-  mergeMap,
-  distinct,
-  tap,
-  distinctUntilKeyChanged,
-} from 'rxjs/operators';
+
+import { environment } from '@maptio-config/environment';
+import { Auth } from '@maptio-core/authentication/auth.service';
+import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
+import { TeamFactory } from '@maptio-core/http/team/team.factory';
+import { EmitterService } from '@maptio-core/services/emitter.service';
+import { DataSet } from '@maptio-shared/model/dataset.data';
+import { Team } from '@maptio-shared/model/team.data';
+import { User } from '@maptio-shared/model/user.data';
+import { LoaderService } from '@maptio-shared/components/loading/loader.service';
+import { InstructionsService } from '@maptio-shared/components/instructions/instructions.service';
+
 
 @Component({
-  selector: 'home',
+  selector: 'maptio-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.css'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit, OnDestroy {
   private routeSubscription: Subscription;
   public datasets: DataSet[];
   public teams: Team[];
   public user: User;
-  public isLoading: Boolean;
+  public isLoading: boolean;
   public isOnboarding: boolean;
   SCREENSHOT_URL = environment.SCREENSHOT_URL;
   SCREENSHOT_URL_FALLBACK = environment.SCREENSHOT_URL_FALLBACK;
