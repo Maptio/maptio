@@ -1,28 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { Observable } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
 
-import { DataSet } from '../../../shared/model/dataset.data';
-import { Subject, Observable } from 'rxjs';
-import { User } from '../../../shared/model/user.data';
-import { Team } from '../../../shared/model/team.data';
 import * as shortid from 'shortid';
-import { Initiative } from '../../../shared/model/initiative.data';
+
+import { DataSet } from '@maptio-shared/model/dataset.data';
+import { Initiative } from '@maptio-shared/model/initiative.data';
+import { User } from '@maptio-shared/model/user.data';
+import { Team } from '@maptio-shared/model/team.data';
+
 
 @Injectable()
 export class DatasetFactory {
-  private _data$: Subject<DataSet[]>;
-
-  constructor(private http: HttpClient) {
-    this._data$ = new Subject<DataSet[]>();
-  }
+  constructor(private http: HttpClient) {}
 
   upsert(dataset: DataSet, datasetId?: string): Promise<boolean> {
     return this.http
       .put('/api/v1/dataset/' + (dataset.datasetId || datasetId), dataset)
       .toPromise()
-      .then((r) => {
+      .then(() => {
         return true;
       });
   }
@@ -38,7 +36,7 @@ export class DatasetFactory {
         null
       )
       .toPromise()
-      .then((r) => {
+      .then(() => {
         return true;
       });
   }
@@ -76,43 +74,29 @@ export class DatasetFactory {
   }
 
   /**
-   * Deletes a dataset from the collection of the given user
-   * @param dataset Dataset to delete
-   * @param user User attached to dataset
-   */
-  // delete(dataset: DataSet, user: User): Promise<boolean> {
-  //     return this.http.delete("/api/v1/user/" + user.user_id + "/dataset/" + dataset._id)
-  //         .map((responseData) => {
-  //             return responseData.json();
-  //         })
-  //         .toPromise()
-  //         .then(r => { return true; })
-  // }
-
-  // getAll(): Promise<DataSet[]> {
-  //     throw new Error("Not implemented");
-  // }
-
-  /**
    *  Retrieves a list dataset matching given ids
    * @param id List of dataset ids
    */
   get(ids: string[], isMinimal?: boolean): Promise<DataSet[]>;
+
   /**
    *  Retrieves a dataset matching a given id
    * @param id Unique dataset id
    */
   get(id: string): Promise<DataSet>;
+
   /**
    * Retrieves a collection of datasets for a given user
    * @param user User
    */
   get(user: User): Promise<string[]>;
+
   /**
    * Retrieves one or many datasets
    * @param idOrUser Dataset unique ID or User
    */
   get(team: Team): Promise<DataSet[]>;
+
   /**
    * Retrieves one or many datasets
    * @param idOrUser Dataset unique ID or User
@@ -141,11 +125,13 @@ export class DatasetFactory {
       .pipe(
         map((responseData: Array<{ _id: string }>) => {
           try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             return responseData.map((d: any) => d._id);
           } catch (err) {
             return [];
           }
         }),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         map((result: any) => {
           return result;
         })
@@ -157,8 +143,9 @@ export class DatasetFactory {
     return this.http
       .get('/api/v1/team/' + team.team_id + '/datasets')
       .pipe(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         map((inputs: Array<any>) => {
-          let result: Array<DataSet> = [];
+          const result: Array<DataSet> = [];
           if (inputs) {
             inputs.forEach((input) => {
               result.push(DataSet.create().deserialize(input));
@@ -175,7 +162,7 @@ export class DatasetFactory {
       .get('/api/v1/dataset/' + id)
       .pipe(
         map((response: Response) => {
-          let d = DataSet.create().deserialize(response);
+          const d = DataSet.create().deserialize(response);
           d.datasetId = id; // reassign id
           return d;
         })
@@ -197,8 +184,9 @@ export class DatasetFactory {
         }`
       )
       .pipe(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         map((inputs: Array<any>) => {
-          let result: Array<DataSet> = [];
+          const result: Array<DataSet> = [];
           if (inputs) {
             inputs.forEach((input) => {
               result.push(DataSet.create().deserialize(input));
