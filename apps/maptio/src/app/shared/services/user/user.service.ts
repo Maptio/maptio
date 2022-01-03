@@ -2,21 +2,24 @@ import { Injectable, OnDestroy, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { forkJoin as observableForkJoin, Observable } from 'rxjs';
+import { BehaviorSubject, forkJoin as observableForkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { SubSink } from 'subsink';
 import { AuthService } from '@auth0/auth0-angular';
 import { UUID } from 'angular2-uuid/index';
-import { flatten } from 'lodash-es';
+import { isEmpty, flatten, sortBy, uniq } from 'lodash-es';
 import { nanoid } from 'nanoid'
 
 // import { AuthConfiguration } from '@maptio-core/authentication/auth.config';
-import { UserFactory } from '@maptio-core/http/user/user.factory';
 import { environment } from '@maptio-config/environment';
+import { UserFactory } from '@maptio-core/http/user/user.factory';
+import { TeamFactory } from '@maptio-core/http/team/team.factory';
+import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
+import { User } from '@maptio-shared/model/user.data';
+import { UserRole, UserRoleService, Permissions } from '@maptio-shared/model/permission.data';
+import { UserWithTeamsAndDatasets } from '@maptio-shared/model/userWithTeamsAndDatasets.interface';
 
-import { UserRole } from './../../model/permission.data';
-import { User } from './../../model/user.data';
 import { JwtEncoder } from '../encoding/jwt.service';
 import { MailingService } from '../mailing/mailing.service';
 
@@ -25,12 +28,23 @@ import { MailingService } from '../mailing/mailing.service';
 export class UserService implements OnDestroy {
   public isAuthenticated$: Observable<boolean>;
 
+  private userSubject$: BehaviorSubject<User> = new BehaviorSubject(undefined);
+  public readonly user$ = this.userSubject$.asObservable();
+
+  private userWithTeamsAndDatasetsSubject$: BehaviorSubject<UserWithTeamsAndDatasets> = new BehaviorSubject(undefined);
+  public readonly userWithTeamsAndDatasets$ = this.userWithTeamsAndDatasetsSubject$.asObservable();
+
+  private permissions: Permissions[] = [];
+
   constructor(
     // Current
     private http: HttpClient,
     private subs: SubSink,
     private auth: AuthService,
     private userFactory: UserFactory,
+    private teamFactory: TeamFactory,
+    private datasetFactory: DatasetFactory,
+    private userRoleService: UserRoleService,
     @Inject(DOCUMENT) private doc: Document,
 
     // Old, to be removed?
@@ -77,9 +91,9 @@ export class UserService implements OnDestroy {
       const userId = profile.sub;
 
       // TODO: Handle error here!
-      const userData = await this.userFactory.get(userId);
+      const user = await this.userFactory.get(userId);
 
-      if (!userData) {
+      if (!user) {
         // User is not in our database
         const user = this.createUserFromAuth0Signup(profile);
         this.userFactory.create(user);
@@ -87,8 +101,57 @@ export class UserService implements OnDestroy {
       }
 
       // TODO: Write out what happens when the user is in the db
-      // console.log('user is in our database');
+      // This is very old code, which had the comment "HACK : where does the
+      // duplication comes from?" next to it, copying it here, but at some
+      // point, it'd be good to investigate the source of the duplication,
+      // remove it, and clean up data
+      const teamIds = uniq(user.teams);
+      user.teams = teamIds;
+
+      user.exampleTeamIds = await this.identifyExampleTeams(user);
+
+      this.permissions = this.userRoleService.get(user.userRole);
+
+      const datasetIds = await this.datasetFactory.get(user);
+      user.datasets = uniq(datasetIds)
+
+      this.userSubject$.next(user);
+
+      const userWithDatasetsAndTeams = await this.gatherUserData(user);
+      console.log(userWithDatasetsAndTeams);
+      this.userWithTeamsAndDatasetsSubject$.next(userWithDatasetsAndTeams);
     });
+  }
+
+  private async identifyExampleTeams(user: User) {
+    let exampleTeamIds = [];
+
+    if (user.teams.length > 0) {
+      const userTeams = await this.teamFactory.get(user.teams);
+      exampleTeamIds = userTeams
+        .filter(team => team.isExample)
+        .map(team => team.team_id)
+    }
+
+    return exampleTeamIds;
+  }
+
+  private async gatherUserData(user): Promise<UserWithTeamsAndDatasets> {
+    const teams = isEmpty(user.teams) ? [] : await this.teamFactory.get(user.teams);
+    let datasets = isEmpty(user.datasets) ? [] : await this.datasetFactory.get(user.datasets, false);
+    datasets = datasets
+      .filter(dataset => !dataset.isArchived)
+      .map(dataset => {
+        dataset.team = teams.find(team => dataset.initiative.team_id === team.team_id);
+        return dataset;
+      });
+    datasets = sortBy(datasets, dataset => dataset.initiative.name);
+
+    return { datasets, teams, user };
+  }
+
+  public getPermissions(): Permissions[] {
+    return this.permissions;
   }
 
   // TODO: Remove when ready...
