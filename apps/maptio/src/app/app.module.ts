@@ -76,6 +76,13 @@ export function markedOptionsFactory(): MarkedOptions {
           httpInterceptor: {
             allowedList: [
               {
+                uri: `/api/*`,
+                tokenOptions: {
+                  audience: environment.auth.audience,
+                  scope: 'api',
+                }
+              },
+              {
                 uri: `${environment.maptioApiUrl}/*`,
                 tokenOptions: {
                   audience: environment.auth.audience,
