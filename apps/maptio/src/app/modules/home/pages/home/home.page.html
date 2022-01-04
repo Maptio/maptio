@@ -2,40 +2,10 @@
   class="d-flex flex-column flex-xl-row justify-content-between align-items-stretch row"
 >
   <div
-    class="d-flex flex-column justify-content-center align-items-center"
-    [class.col-12]="!auth.allAuthenticated()"
-    [class.col-xl-6]="!auth.allAuthenticated()"
-    [class.w-100]="auth.allAuthenticated()"
+    *ngIf="userService.isAuthenticated$ | async; else homePageUnauthenticatedContent"
+    class="d-flex flex-column justify-content-center align-items-center w-100"
   >
-    <div
-      *ngIf="!auth.allAuthenticated()"
-      class="text-blue text-center d-flex flex-column align-items-center mt-5 mt-md-0"
-    >
-      <h1>
-        Maptio helps you organise without traditional management hierarchy
-      </h1>
-      <h4>Visualise your organisation in nested circles</h4>
-      <h4>Keep track of everyone’s roles</h4>
-
-      <button
-        class="btn btn-success d-md-none btn-lg my-3 btn-block"
-        routerLink="/signup"
-      >
-        Get started - try Maptio for free
-      </button>
-      <button
-        class="btn btn-success d-none d-md-block btn-lg my-3"
-        routerLink="/signup"
-      >
-        Get started - try Maptio for free
-      </button>
-
-      <div class="text-muted">
-        Already use Maptio?
-        <a routerLink="/login">Log in</a>
-      </div>
-    </div>
-    <div *ngIf="auth.allAuthenticated()" class="h-100 w-100">
+    <div class="h-100 w-100">
       <ng-container *ngIf="!isOnboarding">
         <dashboard
           *ngIf="!isLoading"
@@ -46,14 +16,51 @@
       </ng-container>
     </div>
   </div>
-  <div
-    class="col-12 d-none d-md-block col-xl-6"
-    *ngIf="!auth.allAuthenticated()"
-  >
-    <picture>
-      <source [srcset]="SCREENSHOT_URL | safe" type="image/webp" />
-      <source [srcset]="SCREENSHOT_URL_FALLBACK | safe" type="image/jpeg" />
-      <img class="w-99" [src]="SCREENSHOT_URL_FALLBACK | safe" alt="" />
-    </picture>
-  </div>
+
+  <ng-container #homePageUnauthenticatedContent>
+    <div
+      class="d-flex flex-column justify-content-center align-items-center col-12 col-xl-6"
+    >
+      <!-- Static content when unauthenticated -->
+      <div
+        *ngIf="(userService.isAuthenticated$ | async) === false"
+        class="text-blue text-center d-flex flex-column align-items-center mt-5 mt-md-0"
+      >
+        <h1>
+          Maptio helps you organise without traditional management hierarchy
+        </h1>
+        <h4>Visualise your organisation in nested circles</h4>
+        <h4>Keep track of everyone’s roles</h4>
+
+        <button
+          class="btn btn-success d-md-none btn-lg my-3 btn-block"
+          routerLink="/signup"
+        >
+          Get started - try Maptio for free
+        </button>
+        <button
+          class="btn btn-success d-none d-md-block btn-lg my-3"
+          routerLink="/signup"
+        >
+          Get started - try Maptio for free
+        </button>
+
+        <div class="text-muted">
+          Already use Maptio?
+          <a routerLink="/login">Log in</a>
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngIf="(userService.isAuthenticated$ | async) === false"
+      class="col-12 d-none d-md-block col-xl-6"
+    >
+      <picture>
+        <source [srcset]="SCREENSHOT_URL | safe" type="image/webp" />
+        <source [srcset]="SCREENSHOT_URL_FALLBACK | safe" type="image/jpeg" />
+        <img class="w-99" [src]="SCREENSHOT_URL_FALLBACK | safe" alt="" />
+      </picture>
+    </div>
+  </ng-container>
 </div>
