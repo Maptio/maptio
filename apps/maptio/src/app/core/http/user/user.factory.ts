@@ -20,7 +20,7 @@ export class UserFactory {
       return Promise.reject('You cannot make a search for all users !');
     }
     return this.http
-      .get(`${environment.maptioApiUrl}/user/all/${pattern}`)
+      .get(`/api/v1/user/all/${pattern}`)
       .pipe(
         map((responseData) => {
           return responseData;
@@ -47,7 +47,7 @@ export class UserFactory {
     return Promise.all(
       chunks.map((chunkusersId) =>
         this.http
-          .get(`${environment.maptioApiUrl}/user/in/${chunkusersId.join(',')}`)
+          .get(`/api/v1/user/in/${chunkusersId.join(',')}`)
           .pipe(
             map((responseData) => {
               return responseData;
@@ -74,7 +74,7 @@ export class UserFactory {
    */
   get(uniqueId: string): Promise<User> {
     return this.http
-      .get(`${environment.maptioApiUrl}/user/${uniqueId}`)
+      .get(`/api/v1/user/${uniqueId}`)
       .pipe(
         map((response) => {
           console.log("response", response);
@@ -98,7 +98,7 @@ export class UserFactory {
   create(input: User): Promise<User> {
     input.shortid = shortid.generate();
     return this.http
-      .post(`${environment.maptioApiUrl}/user`, input)
+      .post(`/api/v1/user`, input)
       .pipe(
         map((responseData) => {
           return responseData;
@@ -117,7 +117,7 @@ export class UserFactory {
    */
   upsert(user: User): Promise<boolean> {
     return this.http
-      .put(`${environment.maptioApiUrl}/user/${user.user_id}`, user)
+      .put(`/api/v1/user/${user.user_id}`, user)
       .pipe(
         map((responseData) => {
           return responseData;

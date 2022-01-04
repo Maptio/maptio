@@ -82,13 +82,6 @@ export function markedOptionsFactory(): MarkedOptions {
                   scope: 'api',
                 }
               },
-              {
-                uri: `${environment.maptioApiUrl}/*`,
-                tokenOptions: {
-                  audience: environment.auth.audience,
-                  scope: 'api',
-                }
-              },
             ],
           }
         }),
