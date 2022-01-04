@@ -3,50 +3,54 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   OnInit,
+  AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Subscription, from, forkJoin, partition } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
-import { User } from '../../shared/model/user.data';
-import { Team } from '../../shared/model/team.data';
-import { DataSet } from '../../shared/model/dataset.data';
+import { sortBy, isEmpty } from 'lodash-es';
+
+import { environment } from '@maptio-config/environment';
+
+import { User } from '@maptio-shared/model/user.data';
+import { Team } from '@maptio-shared/model/team.data';
+import { DataSet } from '@maptio-shared/model/dataset.data';
+import { ErrorService } from '@maptio-shared/services/error/error.service';
+import { BillingService } from '@maptio-shared/services/billing/billing.service';
+import { LoaderService } from '@maptio-shared/components/loading/loader.service';
+import { OnboardingService } from '@maptio-shared/components/onboarding/onboarding.service';
+
 import { Auth } from '../authentication/auth.service';
 import { DatasetFactory } from '../http/map/dataset.factory';
 import { TeamFactory } from '../http/team/team.factory';
 import { EmitterService } from '../services/emitter.service';
-import { ErrorService } from '../../shared/services/error/error.service';
-import { UserService } from '../../shared/services/user/user.service';
-import { sortBy, isEmpty } from 'lodash-es';
-import { BillingService } from '../../shared/services/billing/billing.service';
-import { LoaderService } from '../../shared/components/loading/loader.service';
-import { OnboardingService } from '../../shared/components/onboarding/onboarding.service';
-import { environment } from '../../config/environment';
+
 
 @Component({
-  selector: 'header',
+  selector: 'maptio-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
   changeDetection: ChangeDetectionStrategy.Default,
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   public user: User;
 
-  public datasets: Array<any>;
+  public datasets: Array<any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   public teams: Array<Team>;
   public sampleTeams: Team[];
   public team: Team;
   public selectedDataset: DataSet;
   public areMapsAvailable: Promise<boolean>;
-  public isMenuOpened: boolean = false;
+  public isMenuOpened = false;
   public BLOG_URL: string = environment.BLOG_URL;
 
   public emitterSubscription: Subscription;
   public userSubscription: Subscription;
 
-  public isSaving: Boolean = false;
+  public isSaving = false;
   public isSandbox: boolean;
 
   constructor(
@@ -56,12 +60,11 @@ export class HeaderComponent implements OnInit {
     public errorService: ErrorService,
     private router: Router,
     public loaderService: LoaderService,
-    private analytics: Angulartics2Mixpanel,
     private cd: ChangeDetectorRef,
     private billingService: BillingService,
     private onboarding: OnboardingService
   ) {
-    let [teamDefined, teamUndefined] = partition(
+    const [teamDefined, teamUndefined] = partition(
       from(EmitterService.get('currentTeam')),
       (team: Team) => !!team
     );
@@ -73,8 +76,8 @@ export class HeaderComponent implements OnInit {
             map(
               (value: {
                 created_at: Date;
-                freeTrialLength: Number;
-                isPaying: Boolean;
+                freeTrialLength: Number; // eslint-disable-line @typescript-eslint/ban-types
+                isPaying: Boolean; // eslint-disable-line @typescript-eslint/ban-types
               }) => {
                 team.createdAt = value.created_at;
                 team.freeTrialLength = value.freeTrialLength;
@@ -108,7 +111,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onMenuClick() {
-    let toggler = document.querySelector(
+    const toggler = document.querySelector(
       '.navbar-toggler'
     ) as HTMLButtonElement;
     if (window.getComputedStyle(toggler).display === 'none') return;
@@ -162,7 +165,7 @@ export class HeaderComponent implements OnInit {
 
           this.cd.markForCheck();
         },
-        (error: any) => {
+        (error: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
           console.error(error);
         }
       );
