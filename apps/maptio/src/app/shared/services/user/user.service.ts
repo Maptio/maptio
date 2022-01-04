@@ -2,7 +2,11 @@ import { Injectable, OnDestroy, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { BehaviorSubject, forkJoin as observableForkJoin, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  forkJoin as observableForkJoin,
+  Observable,
+} from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { SubSink } from 'subsink';
@@ -11,7 +15,6 @@ import { UUID } from 'angular2-uuid/index';
 import { isEmpty, flatten, sortBy, uniq } from 'lodash-es';
 import { nanoid } from 'nanoid'
 
-// import { AuthConfiguration } from '@maptio-core/authentication/auth.config';
 import { environment } from '@maptio-config/environment';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
@@ -26,15 +29,17 @@ import { MailingService } from '../mailing/mailing.service';
 
 @Injectable()
 export class UserService implements OnDestroy {
-  public isAuthenticated$: Observable<boolean>;
+  // Keep auth variables in the user service for convenience, allowing us to
+  // skip importing the Auth0 SDK in components
+  public isAuthenticated$ = this.auth.isAuthenticated$;
 
   private userSubject$: BehaviorSubject<User> = new BehaviorSubject(undefined);
   public readonly user$ = this.userSubject$.asObservable();
 
+  private permissions: Permissions[] = [];
+
   private userWithTeamsAndDatasetsSubject$: BehaviorSubject<UserWithTeamsAndDatasets> = new BehaviorSubject(undefined);
   public readonly userWithTeamsAndDatasets$ = this.userWithTeamsAndDatasetsSubject$.asObservable();
-
-  private permissions: Permissions[] = [];
 
   constructor(
     // Current
@@ -50,13 +55,11 @@ export class UserService implements OnDestroy {
     // Old, to be removed?
     private encodingService: JwtEncoder,
     private mailing: MailingService,
-
-    // Old, to be removed!
-    // private configuration: AuthConfiguration,
   ) {
-    // Keep auth variables in the user service for convenience, allowing us to
-    // skip importing the Auth0 SDK in components
-    this.isAuthenticated$ = this.auth.isAuthenticated$;
+    // TODO: This can be written much more cleanly - we've got some code
+    // duplication and API call duplication that it'd be great to avoid with
+    // some cleaner reactive code
+    this.prepareUserDataBasedOnAuthenticatedUser();
   }
 
   ngOnDestroy() {
@@ -76,6 +79,34 @@ export class UserService implements OnDestroy {
   signup() {
     this.auth.loginWithRedirect({
       screen_hint: 'signup'
+    });
+  }
+
+  private prepareUserDataBasedOnAuthenticatedUser() {
+    this.subs.sink = this.auth.user$.subscribe(async profile => {
+      if (!profile) {
+        // User is not logged in, no more data prep to do
+        return;
+      }
+
+      // User is logged in through Auth0, let's process it
+      const userId = profile.sub;
+
+      // TODO: Handle error here!
+      const user = await this.userFactory.get(userId);
+
+      if (!user) {
+        // User is not in our database
+        // TODO: Handle this error
+        console.error('User not found in database')
+        return;
+      }
+
+      // User is in our database, let's make all associated data available
+      const userWithDatasetsAndTeams = await this.gatherUserData(user);
+
+      this.userSubject$.next(userWithDatasetsAndTeams.user);
+      this.userWithTeamsAndDatasetsSubject$.next(userWithDatasetsAndTeams);
     });
   }
 
@@ -99,12 +130,6 @@ export class UserService implements OnDestroy {
         this.userFactory.create(user);
         return;
       }
-
-      // User is in our database, let's make all associated data available
-      const userWithDatasetsAndTeams = await this.gatherUserData(user);
-
-      this.userSubject$.next(userWithDatasetsAndTeams.user);
-      this.userWithTeamsAndDatasetsSubject$.next(userWithDatasetsAndTeams);
     });
   }
 
