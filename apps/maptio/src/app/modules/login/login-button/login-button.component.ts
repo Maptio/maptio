@@ -14,8 +14,4 @@ export class LoginButtonComponent {
   onLogin() {
     this.userService.login();
   }
-
-  onLogout() {
-    this.userService.logout();
-  }
 }

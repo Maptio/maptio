@@ -3,6 +3,7 @@
     Log out
   </a>
 </ng-template>
+
 <ng-template #profile>
   <a
     class="btn btn-link px-0"
@@ -10,6 +11,7 @@
     >Profile</a
   >
 </ng-template>
+
 <ng-template #freetrial
   >This is a demo organisation... Ready to create your own?
 </ng-template>
@@ -208,7 +210,10 @@
         </div>
       </li>
 
-      <li class="nav-item d-flex align-items-center" *ngIf="!isSignUp()">
+      <li
+        *ngIf="(userService.isAuthenticated$ | async) === false && !isSignUp()"
+        class="nav-item d-flex align-items-center"
+      >
         <maptio-login-button></maptio-login-button>
       </li>
 

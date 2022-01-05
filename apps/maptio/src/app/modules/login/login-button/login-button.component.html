@@ -1,16 +1,6 @@
 <a
-  *ngIf="(userService.isAuthenticated$ | async) === false; else logout"
   class="btn btn-link px-0"
   (click)="onLogin()"
 >
   Log in
 </a>
-
-<ng-template #logout>
-  <a
-    class="btn btn-link px-0"
-    (click)="onLogout()"
-  >
-    Log out
-  </a>
-</ng-template>

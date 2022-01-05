@@ -72,7 +72,7 @@ export class UserService implements OnDestroy {
 
   logout() {
     this.auth.logout({
-      returnTo: this.doc.location.origin,
+      returnTo: this.doc.location.origin + '/logout?auth0=true',
     });
   }
 
