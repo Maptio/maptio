@@ -223,7 +223,9 @@
 
       <ng-container *ngIf="datasets?.length > 0">
         <li class="d-md-none dropdown-divider"></li>
+
         <li class="d-md-none dropdown-header px-0 text-uppercase">Maps</li>
+
         <li
           class="nav-item d-md-none"
           *ngFor="let dataset of datasets | slice: 0:2"
@@ -237,6 +239,7 @@
             {{ dataset?.initiative.name }}
           </a>
         </li>
+
         <li class="nav-item d-md-none" *ngIf="datasets?.length > 3">
           <a class="btn btn-link px-0" routerLink="/home">All maps ...</a>
         </li>
@@ -244,9 +247,11 @@
 
       <ng-container *ngIf="teams?.length > 0">
         <li class="d-md-none dropdown-divider"></li>
+
         <li class="d-md-none dropdown-header px-0 text-uppercase">
           Organizations
         </li>
+
         <li class="nav-item d-md-none" *ngFor="let team of teams | slice: 0:2">
           <a
             class="btn btn-link px-0"
@@ -254,6 +259,7 @@
             >{{ team.name }}</a
           >
         </li>
+
         <li class="nav-item d-md-none" *ngIf="teams?.length > 3">
           <a
             *ngIf="teams?.length > 1"
@@ -265,6 +271,7 @@
       </ng-container>
 
       <li class="d-md-none dropdown-divider"></li>
+
       <li class="nav-item d-md-none">
         <a class="btn btn-link px-0" routerLink="/legal/terms">Terms</a>
       </li>
@@ -280,10 +287,14 @@
       <li class="nav-item d-md-none">
         <a class="btn btn-link px-0" routerLink="/pricing">Pricing</a>
       </li>
-      <li class="d-md-none dropdown-divider"></li>
-      <li class="nav-item d-md-none">
-        <ng-container *ngTemplateOutlet="logout"></ng-container>
-      </li>
+
+      <ng-container *ngIf="userService.isAuthenticated$ | async">
+        <li class="d-md-none dropdown-divider"></li>
+
+        <li class="nav-item d-md-none">
+          <ng-container *ngTemplateOutlet="logout"></ng-container>
+        </li>
+      </ng-container>
     </ul>
   </div>
 </nav>
