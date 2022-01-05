@@ -148,9 +148,10 @@ export class UserService implements OnDestroy {
     const datasetIds = await this.datasetFactory.get(user);
     user.datasets = uniq(datasetIds)
 
-    const teams = isEmpty(user.teams) ? [] : await this.teamFactory.get(user.teams);
-    let datasets = isEmpty(user.datasets) ? [] : await this.datasetFactory.get(user.datasets, false);
+    let teams = isEmpty(user.teams) ? [] : await this.teamFactory.get(user.teams);
+    teams = sortBy(teams, team => team.name);
 
+    let datasets = isEmpty(user.datasets) ? [] : await this.datasetFactory.get(user.datasets, false);
     datasets = datasets
       .filter(dataset => !dataset.isArchived)
       .map(dataset => {

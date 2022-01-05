@@ -8,10 +8,10 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Subscription, from, forkJoin, partition } from 'rxjs';
+import { from, partition } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
-import { sortBy, isEmpty } from 'lodash-es';
+import { SubSink } from 'subsink';
 
 import { environment } from '@maptio-config/environment';
 
@@ -37,6 +37,8 @@ import { EmitterService } from '../services/emitter.service';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
+  private subs = new SubSink();
+
   public user: User;
 
   public datasets: Array<any>; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -47,9 +49,6 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   public areMapsAvailable: Promise<boolean>;
   public isMenuOpened = false;
   public BLOG_URL: string = environment.BLOG_URL;
-
-  public emitterSubscription: Subscription;
-  public userSubscription: Subscription;
 
   public isSaving = false;
   public isSandbox: boolean;
@@ -71,7 +70,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
       (team: Team) => !!team
     );
 
-    teamDefined
+    this.subs.sink = teamDefined
       .pipe(
         mergeMap((team: Team) => {
           return this.billingService.getTeamStatus(team).pipe(
@@ -95,7 +94,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
         this.cd.markForCheck();
       });
 
-    teamUndefined.subscribe((value: Team) => {
+    this.subs.sink = teamUndefined.subscribe((value: Team) => {
       this.team = value;
       this.cd.markForCheck();
     });
@@ -107,9 +106,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
-    }
+    this.subs.unsubscribe();
   }
 
   onMenuClick() {
@@ -121,56 +118,24 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.userSubscription = EmitterService.get('headerUser')
-      .asObservable()
-      .pipe(
-        mergeMap((user: User) => {
-          return forkJoin(
-            isEmpty(user.datasets)
-              ? Promise.resolve([])
-              : this.datasetFactory.get(user.datasets, true),
-            isEmpty(user.teams)
-              ? Promise.resolve([])
-              : this.teamFactory.get(user.teams),
-            Promise.resolve(user)
-          );
-        }),
-        map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
-          return [
-            datasets
-              .filter((d) => !d.isArchived)
-              .map((d) => {
-                d.team = teams.find((t) => d.initiative.team_id === t.team_id);
-                return d;
-              }),
-            teams,
-            user,
-          ];
-        }),
-        map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
-          return {
-            datasets: sortBy(datasets, (d) => d.initiative.name),
-            teams: sortBy(teams, (t) => t.name),
-            user: user,
-          };
-        })
-      )
+    this.subs.sink = this.userService.userWithTeamsAndDatasets$.subscribe(
+      (data: { datasets: DataSet[]; teams: Team[]; user: User }) => {
+        if (!data) return;
 
-      .subscribe(
-        (data: { datasets: DataSet[]; teams: Team[]; user: User }) => {
-          this.user = data.user;
-          this.datasets = data.datasets;
-          this.teams = data.teams.filter((t) => !t.isExample);
-          this.sampleTeams = data.teams.filter((t) => t.isExample);
-          this.isSandbox =
-            this.sampleTeams.length >= 1 && this.teams.length === 0;
+        this.user = data.user;
+        this.datasets = data.datasets;
+        this.teams = data.teams.filter((t) => !t.isExample);
+        this.sampleTeams = data.teams.filter((t) => t.isExample);
+        this.isSandbox =
+          this.sampleTeams.length >= 1 && this.teams.length === 0;
 
-          this.cd.markForCheck();
-        },
-        (error: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
-          console.error(error);
-        }
-      );
+        this.cd.markForCheck();
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (error: any) => {
+        console.error(error);
+      }
+    );
   }
 
   isSignUp() {
