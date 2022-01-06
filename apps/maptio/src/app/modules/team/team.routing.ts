@@ -1,19 +1,22 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '../../core/guards/auth.guard';
+
+import { AuthGuard } from '@maptio-core/guards/auth.guard';
+import { AccessGuard } from '@maptio-core/guards/access.guard';
+import { PermissionGuard } from '@maptio-core/guards/permission.guard';
+import { Permissions } from '@maptio-shared/model/permission.data';
+
 import { TeamListComponent } from './pages/team-list/team-list.component';
 import { TeamListComponentResolver } from './pages/team-list/team-list.resolver';
 import { TeamComponentResolver } from './pages/team-single/team.resolver';
 import { TeamComponent } from './pages/team-single/team.component';
-import { AccessGuard } from '../../core/guards/access.guard';
 import { TeamMembersComponent } from './pages/team-members/members.component';
 import { TeamImportComponent } from './pages/team-import/import.component';
-import { PermissionGuard } from '../../core/guards/permission.guard';
-import { Permissions } from '../../shared/model/permission.data';
 import { TeamMapsComponent } from './pages/team-maps/maps.component';
 import { TeamIntegrationsComponent } from './pages/team-integrations/integrations.component';
 import { TeamSettingsComponent } from './pages/team-settings/settings.component';
 import { TeamBillingComponent } from './pages/team-billing/billing.component';
+
 
 const routes: Routes = [
   {

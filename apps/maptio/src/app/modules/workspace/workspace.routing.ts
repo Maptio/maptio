@@ -1,20 +1,23 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
+import { AuthGuard } from '@maptio-core/guards/auth.guard';
+import { AccessGuard } from '@maptio-core/guards/access.guard';
+import { BillingGuard } from '@maptio-core/guards/billing.guard';
+import { WorkspaceGuard } from '@maptio-core/guards/workspace.guard';
+import { MappingSummaryBreadcrumbs } from '@maptio-core/breadcrumbs/summary.breadcrumb';
+
 import { WorkspaceComponent } from './pages/workspace/workspace.component';
-import { AuthGuard } from '../../core/guards/auth.guard';
-import { AccessGuard } from '../../core/guards/access.guard';
-import { BillingGuard } from '../../core/guards/billing.guard';
 import { WorkspaceComponentResolver } from './pages/workspace/workspace.resolver';
 import { MappingZoomableComponent } from './pages/circles/mapping.zoomable.component';
 import { MappingCirclesGradualRevealComponent } from './pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component';
-import { WorkspaceGuard } from '../../core/guards/workspace.guard';
 import { MappingTreeComponent } from './pages/tree/mapping.tree.component';
 import { MappingNetworkComponent } from './pages/network/mapping.network.component';
 import { MappingSummaryComponent } from './pages/directory/summary.component';
-import { MappingSummaryBreadcrumbs } from '../../core/breadcrumbs/summary.breadcrumb';
 import { PeopleSummaryComponent } from './components/summary/overview/people.component';
 import { RolesSummaryComponent } from './components/summary/overview/roles.component';
 import { VacanciesSummaryComponent } from './components/summary/overview/vacancies.component';
+
 
 const routes: Routes = [
   {
