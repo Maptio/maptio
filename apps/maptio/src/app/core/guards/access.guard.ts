@@ -1,17 +1,20 @@
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot } from '@angular/router';
 import {
+  ActivatedRouteSnapshot,
   CanActivate,
   CanActivateChild,
-  RouterStateSnapshot,
   Router,
+  RouterStateSnapshot,
 } from '@angular/router';
-import { Auth } from '../authentication/auth.service';
+
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { Intercom } from 'ng-intercom';
-import { environment } from '../../config/environment';
-import { User } from '../../shared/model/user.data';
+
+import { environment } from '@maptio-config/environment';
+import { User } from '@maptio-shared/model/user.data';
+import { Auth } from '../authentication/auth.service';
+
 
 @Injectable()
 export class AccessGuard implements CanActivate, CanActivateChild {
@@ -23,10 +26,10 @@ export class AccessGuard implements CanActivate, CanActivateChild {
 
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot, // eslint-disable-line @typescript-eslint/no-unused-vars
   ): Observable<boolean> {
-    let dataset = route.params['mapid'];
-    let team = route.params['teamid'];
+    const dataset = route.params['mapid'];
+    const team = route.params['teamid'];
 
     return this.auth.getUser().pipe(
       map((u) => {
