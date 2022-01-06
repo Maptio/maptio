@@ -16,48 +16,70 @@ import { TeamSettingsComponent } from './pages/team-settings/settings.component'
 import { TeamBillingComponent } from './pages/team-billing/billing.component';
 
 const routes: Routes = [
-    {
-        path: "",
+  {
+    path: '',
+    children: [
+      {
+        path: '',
+        component: TeamListComponent,
+        canActivate: [AuthGuard],
+        resolve: {
+          teams: TeamListComponentResolver,
+        },
+      },
+      {
+        path: ':teamid/:slug',
+        resolve: {
+          assets: TeamComponentResolver,
+        },
+        component: TeamComponent,
+        data: { breadcrumbs: '{{assets.team.name}}' },
+        canActivate: [AuthGuard, AccessGuard],
         children: [
-            {
-                path: "", component: TeamListComponent, canActivate: [AuthGuard],
-                resolve: {
-                    teams: TeamListComponentResolver
-                }
+          { path: '', redirectTo: 'people', pathMatch: 'full' },
+          {
+            path: 'people',
+            component: TeamMembersComponent,
+            data: { breadcrumbs: true, text: 'People' },
+          },
+          {
+            path: 'import',
+            component: TeamImportComponent,
+            canActivate: [PermissionGuard],
+            data: {
+              permissions: [Permissions.canInviteUser.valueOf()],
+              breadcrumbs: true,
+              text: 'Import',
             },
-            {
-                path: ":teamid/:slug",
-                resolve: {
-                    assets: TeamComponentResolver
-                },
-                component: TeamComponent,
-                data: { breadcrumbs: "{{assets.team.name}}" },
-                canActivate: [AuthGuard, AccessGuard],
-                children: [
-                    { path: "", redirectTo: "people", pathMatch: "full" },
-                    { path: "people", component: TeamMembersComponent, data: { breadcrumbs: true, text: "People" } },
-                    {
-                        path: "import",
-                        component: TeamImportComponent,
-                        canActivate: [PermissionGuard],
-                        data: {
-                            permissions: [Permissions.canInviteUser.valueOf()], breadcrumbs: true, text: "Import"
-                        }
-                    },
-                    { path: "maps", component: TeamMapsComponent, data: { breadcrumbs: true, text: "Maps" } },
-                    { path: "integrations", component: TeamIntegrationsComponent, data: { breadcrumbs: true, text: "Integrations" } },
-                    { path: "settings", component: TeamSettingsComponent, data: { breadcrumbs: true, text: "Name & Terminology" } },
-                    { path: "billing", component: TeamBillingComponent, data: { breadcrumbs: true, text: "Billing" } }
-                ]
-            }
-        ]
-
-    }
+          },
+          {
+            path: 'maps',
+            component: TeamMapsComponent,
+            data: { breadcrumbs: true, text: 'Maps' },
+          },
+          {
+            path: 'integrations',
+            component: TeamIntegrationsComponent,
+            data: { breadcrumbs: true, text: 'Integrations' },
+          },
+          {
+            path: 'settings',
+            component: TeamSettingsComponent,
+            data: { breadcrumbs: true, text: 'Name & Terminology' },
+          },
+          {
+            path: 'billing',
+            component: TeamBillingComponent,
+            data: { breadcrumbs: true, text: 'Billing' },
+          },
+        ],
+      },
+    ],
+  },
 ];
-
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class TeamRoutingModule { }
+export class TeamRoutingModule {}
