@@ -68,7 +68,7 @@ export function tokenGetter(): string {
     providers: [
         Auth,
         AuthConfiguration,
-        // AccessGuard,
+        AccessGuard,
         BillingGuard,
         PermissionGuard,
         WorkspaceGuard,

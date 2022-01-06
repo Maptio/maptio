@@ -13,15 +13,15 @@ import { Intercom } from 'ng-intercom';
 
 import { environment } from '@maptio-config/environment';
 import { User } from '@maptio-shared/model/user.data';
-import { Auth } from '../authentication/auth.service';
+import { UserService } from '@maptio-shared/services/user/user.service';
 
 
 @Injectable()
 export class AccessGuard implements CanActivate, CanActivateChild {
   constructor(
-    private auth: Auth,
     private router: Router,
-    private intercom: Intercom
+    private intercom: Intercom,
+    private userService: UserService,
   ) {}
 
   canActivate(
@@ -31,7 +31,7 @@ export class AccessGuard implements CanActivate, CanActivateChild {
     const dataset = route.params['mapid'];
     const team = route.params['teamid'];
 
-    return this.auth.getUser().pipe(
+    return this.userService.user$.pipe(
       map((u) => {
         if (dataset && u.datasets.includes(dataset)) {
           this.updateIntercom(u.teams, u);
