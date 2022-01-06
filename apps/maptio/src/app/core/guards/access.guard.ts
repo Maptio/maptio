@@ -1,18 +1,17 @@
-
-import {map} from 'rxjs/operators';
-import { Observable } from "rxjs";
-import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot } from "@angular/router";
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import {
   CanActivate,
   CanActivateChild,
   RouterStateSnapshot,
-  Router
-} from "@angular/router";
-import { Auth } from "../authentication/auth.service";
-import { Intercom } from "ng-intercom";
-import { environment } from "../../config/environment";
-import { User } from "../../shared/model/user.data";
+  Router,
+} from '@angular/router';
+import { Auth } from '../authentication/auth.service';
+import { Intercom } from 'ng-intercom';
+import { environment } from '../../config/environment';
+import { User } from '../../shared/model/user.data';
 
 @Injectable()
 export class AccessGuard implements CanActivate, CanActivateChild {
@@ -26,21 +25,23 @@ export class AccessGuard implements CanActivate, CanActivateChild {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
-    let dataset = route.params["mapid"];
-    let team = route.params["teamid"];
+    let dataset = route.params['mapid'];
+    let team = route.params['teamid'];
 
-    return this.auth.getUser().pipe(map(u => {
-      if (dataset && u.datasets.includes(dataset)) {
-        this.updateIntercom(u.teams, u);
-        return true;
-      } else if (team && u.teams.includes(team)) {
-        this.updateIntercom(u.teams, u);
-        return true;
-      } else {
-        this.router.navigate(["/unauthorized"]);
-        return false;
-      }
-    }));
+    return this.auth.getUser().pipe(
+      map((u) => {
+        if (dataset && u.datasets.includes(dataset)) {
+          this.updateIntercom(u.teams, u);
+          return true;
+        } else if (team && u.teams.includes(team)) {
+          this.updateIntercom(u.teams, u);
+          return true;
+        } else {
+          this.router.navigate(['/unauthorized']);
+          return false;
+        }
+      })
+    );
   }
 
   canActivateChild(
@@ -52,20 +53,20 @@ export class AccessGuard implements CanActivate, CanActivateChild {
 
   private updateIntercom(teams: string[], user: User) {
     const nonExampleTeams = teams.filter(
-      t => user.exampleTeamIds.findIndex(e => e === t) < 0
+      (t) => user.exampleTeamIds.findIndex((e) => e === t) < 0
     );
 
     if (nonExampleTeams.length === 1) {
       // we'll worry about consultants later
 
-      nonExampleTeams.forEach(t => {
+      nonExampleTeams.forEach((t) => {
         this.intercom.update({
           app_id: environment.INTERCOM_APP_ID,
           email: user.email,
           user_id: user.user_id,
           company: {
-            company_id: t
-          }
+            company_id: t,
+          },
         });
       });
     }
