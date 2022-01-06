@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
-
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthGuard } from '@maptio-core/guards/auth.guard';
+import { AuthGuard } from '@auth0/auth0-angular';
 
 // Old components (before Auth0 SDK integration)
 import { SignupComponent } from './pages/sign-up/signup.page';

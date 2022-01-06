@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthGuard } from '@maptio-core/guards/auth.guard';
+import { AuthGuard } from '@auth0/auth0-angular';
+
 import { AccessGuard } from '@maptio-core/guards/access.guard';
 import { BillingGuard } from '@maptio-core/guards/billing.guard';
 import { WorkspaceGuard } from '@maptio-core/guards/workspace.guard';

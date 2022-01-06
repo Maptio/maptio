@@ -13,7 +13,6 @@ import { FooterComponent } from './footer/footer.component';
 import { Auth } from './authentication/auth.service';
 import { AuthConfiguration } from './authentication/auth.config';
 import { AccessGuard } from './guards/access.guard';
-import { AuthGuard } from './guards/auth.guard';
 import { BillingGuard } from './guards/billing.guard';
 import { PermissionGuard } from './guards/permission.guard';
 import { WorkspaceGuard } from './guards/workspace.guard';
@@ -70,7 +69,6 @@ export function tokenGetter(): string {
         Auth,
         AuthConfiguration,
         // AccessGuard,
-        // AuthGuard,
         BillingGuard,
         PermissionGuard,
         WorkspaceGuard,
