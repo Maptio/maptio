@@ -52,23 +52,10 @@ export class WorkspaceComponentResolver
         });
       }),
       flatMap(dt => {
-        return Promise.all([
-          this.userService.getUsersInfo(dt.team.members),
-          this.userFactory.getUsers(dt.team.members.map(m => m.user_id))
-        ])
-          .then(([auth0Users, databaseUsers]: [User[], User[]]) => {
-            return databaseUsers
-              .filter(u => u.teams.length > 0)
-              .map(u => {
-                u.picture = auth0Users.find(du => du.user_id === u.user_id)
-                  ? auth0Users.find(du => du.user_id === u.user_id).picture
-                  : u.picture;
-                u.name = auth0Users.find(du => du.user_id === u.user_id)
-                  ? auth0Users.find(du => du.user_id === u.user_id).name
-                  : u.name;
-
-                return u;
-              });
+        return this.userFactory.getUsers(dt.team.members.map(m => m.user_id))
+          .then(user => {
+            // Why is this necessary? Inherited from old code
+            return user.filter(user => user.teams.length > 0)
           })
           .then(members => compact(members))
           .then(members => [dt.team, sortBy(members, m => m.name)])
