@@ -7,7 +7,7 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Intercom } from 'ng-intercom';
 
@@ -32,6 +32,7 @@ export class AccessGuard implements CanActivate, CanActivateChild {
     const team = route.params['teamid'];
 
     return this.userService.user$.pipe(
+      filter((user) => !!user),
       map((u) => {
         if (dataset && u.datasets.includes(dataset)) {
           this.updateIntercom(u.teams, u);
