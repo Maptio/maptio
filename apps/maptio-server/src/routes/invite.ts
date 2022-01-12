@@ -9,6 +9,9 @@ const templating = require('lodash/template');
 require('dotenv').config();
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
+import { getAuth0MangementClient } from '../auth/management-client';
+
+
 const ses = new aws.SES({
   apiVersion: '2010-12-01',
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -20,7 +23,20 @@ const ses = new aws.SES({
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 router.post('/', function (req, res, next) {
   console.log(req.body);
-  res.json('ok');
+  // res.json('ok');
+
+  const auth0ManagementClient = getAuth0MangementClient();
+
+  auth0ManagementClient
+    .getUsers()
+    .then(function(users) {
+      res.send(users);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+
+
 
   // sendInvitationEmail(req, res);
 });

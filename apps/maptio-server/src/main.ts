@@ -9,6 +9,8 @@ import apicache from 'apicache';
 import sslRedirect from 'heroku-ssl-redirect';
 import compression from 'compression';
 
+import { setUpAuth0ManagementClient } from './auth/management-client';
+
 
 dotenv.config();
 
@@ -23,6 +25,12 @@ const port = process.env.PORT || DEFAULT_PORT;
 
 const audience = process.env.AUTH0_AUDIENCE;
 const issuer = process.env.AUTH0_ISSUER;
+
+
+//
+// Auth0 Management API Client
+//
+setUpAuth0ManagementClient();
 
 
 //
