@@ -206,6 +206,13 @@
   </maptio-member-form>
 </div>
 
+<div
+  *ngIf="errorMessage"
+  class="alert alert-danger fade show"
+  role="alert"
+>
+  {{errorMessage}}
+</div>
 
 <!-- TODO: Extract the two additional non-form fields from here too -->
 <!-- <div class="bg-light py-2" *ngIf="isEditToggled">

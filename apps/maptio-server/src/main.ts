@@ -129,7 +129,7 @@ var datasets = require('./routes/datasets');
 var embeddableDatasets = require('./routes/embeddable-datasets');
 var users = require('./routes/users');
 var teams = require('./routes/teams');
-var inviting = require('./routes/invite-mail');
+var inviting = require('./routes/invite');
 var confirming = require('./routes/confirm-mail');
 var encoding = require('./routes/encoding');
 var images = require('./routes/images');
@@ -143,10 +143,10 @@ app.use('/api/v1/mail/confirm', confirming);
 app.use('/api/v1/images/', jwtCheck, checkscopes(["api"]), images)
 app.use('/api/v1/notifications/', jwtCheck, checkscopes(["api"]), notifications)
 app.use('/api/v1/oauth', jwtCheck, checkscopes(["api"]), oauth);
-app.use('/api/v1/mail/invite', jwtCheck, checkscopes(["invite"]), inviting);
 app.use('/api/v1/dataset/', jwtCheck, checkscopes(["api"]), datasets);
 app.use('/api/v1/user', jwtCheck, checkscopes(["api"]), users);
 app.use('/api/v1/team', jwtCheck, checkscopes(["api"]), teams);
+app.use('/api/v1/invite', jwtCheck, checkscopes(["api"]), inviting);
 app.use('/api/v1/intercom', jwtCheck, checkscopes(["api"]), intercom);
 
 // Unprotected endpoint for use for publicly shared embeddable maps

@@ -44,6 +44,8 @@ export class MemberSingleComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   isEditToggled: boolean;
 
+  errorMessage: string;
+
   constructor(
     private cd: ChangeDetectorRef,
     private userService: UserService,
@@ -115,7 +117,9 @@ export class MemberSingleComponent implements OnInit, OnDestroy {
 
   inviteUser(): Promise<void> {
     this.isDisplaySendingLoader = true;
+    this.errorMessage = '';
     this.cd.markForCheck();
+
     return this.userService
       .sendInvite(
         this.member,
@@ -126,6 +130,11 @@ export class MemberSingleComponent implements OnInit, OnDestroy {
         this.member.isInvitationSent = isSent;
         this.isDisplaySendingLoader = false;
         this.cd.markForCheck();
+
+        if (!isSent) {
+          throw new Error();
+        }
+
         return;
       })
       .then(() => {
@@ -143,6 +152,15 @@ export class MemberSingleComponent implements OnInit, OnDestroy {
           email: this.member.email,
         });
         return;
+      })
+      .catch((error) => {
+        console.error('Error while sending invitation: ', error);
+
+        this.isDisplaySendingLoader = false;
+        this.errorMessage = error.message ?
+          error.message :
+          'Something went wrong. Please try again later.';
+        this.cd.markForCheck();
       });
   }
 
