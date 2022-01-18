@@ -7,6 +7,7 @@ const templating = require("lodash/template");
 require('dotenv').config()
 const isDevelopment = process.env.NODE_ENV !== "production"
 
+// TODO: Dry just like the Auth0 code has been dried
 let ses = new aws.SES({
     apiVersion: "2010-12-01",
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,

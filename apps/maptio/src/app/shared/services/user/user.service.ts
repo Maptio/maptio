@@ -296,85 +296,22 @@ export class UserService implements OnDestroy {
     teamName: string,
     invitedBy: string
   ): Promise<boolean> {
-    const input = {
-      email: user.email,
+    const userDataInAuth0Format = this.convertUserToAuth0Format(user);
+
+    const inviteData = {
+      userData: userDataInAuth0Format,
+      teamName,
+      invitedBy,
     }
 
     return this.http
-      .post(`/api/v1/invite`, input)
+      .post(`/api/v1/invite`, inviteData)
       .toPromise()
       .then(success => {
-        console.log('success:', success);
-
-        // return Promise.resolve(true);
-        return Promise.reject(false);
-
-        // TODO:
-        // return this.updateInvitiationSentStatus(user.user_id, true);
+        if (success) {
+          return this.updateInvitationSentStatus(user, true);
+        }
       })
-
-
-    // console.log(300);
-    // return Promise.all([
-    //   this.generateDetailedUserToken(user),
-    //   this.getAccessToken(),
-    // ])
-    //   .then(([userToken, apiToken]: [string, string]) => {
-    //     if (user.isInAuth0) {
-    //       return [userToken, apiToken];
-    //     } else {
-    //       return this.createUserInAuth0(user).then(() => {
-    //         return this.userFactory.get(user.user_id);
-    //       })
-    //       .then((newUser) => {
-    //         newUser.isInAuth0 = true;
-    //         return this.userFactory.upsert(newUser);
-    //       })
-    //       .then((success: boolean) => {
-    //         if (!success) {
-    //           // TODO: Deal with this in some better way...
-    //           console.error('Error creating user in Auth0 or saving the updated user...');
-    //         }
-    //         return [userToken, apiToken];
-    //       });
-    //     }
-    //   })
-    //   .then(([userToken, apiToken]: [string, string]) => {
-    //     const httpOptions = {
-    //       headers: new HttpHeaders({
-    //         Authorization: 'Bearer ' + apiToken,
-    //       }),
-    //     };
-
-    //     return this.http
-    //       .post(
-    //         environment.TICKETS_API_URL,
-    //         {
-    //           result_url: this.getAuth0RedirectBackUrl(userToken),
-    //           user_id: user.user_id,
-    //           ttl_sec: 30 * 24 * 3600, // valid for 30 days
-    //         },
-    //         httpOptions
-    //       )
-    //       .pipe(
-    //         map((responseData: any) => {
-    //           return <string>responseData.ticket;
-    //         })
-    //       )
-    //       .toPromise();
-    //   })
-    //   .then((ticket: string) => {
-    //     return this.mailing.sendInvitation(
-    //       environment.SUPPORT_EMAIL,
-    //       [user.email],
-    //       ticket,
-    //       teamName,
-    //       invitedBy
-    //     );
-    //   })
-      // .then((success: boolean) => {
-      //   return this.updateInvitiationSentStatus(user.user_id, true);
-      // });
   }
 
   public sendConfirmation(
@@ -893,30 +830,12 @@ export class UserService implements OnDestroy {
     });
   }
 
-  public updateInvitiationSentStatus(
-    user_id: string,
+  public async updateInvitationSentStatus(
+    user: User,
     isInvitationSent: boolean
   ): Promise<boolean> {
-    return this.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .patch(
-          `${environment.USERS_API_URL}/${user_id}`,
-          { app_metadata: { invitation_sent: isInvitationSent } },
-          httpOptions
-        )
-        .pipe(
-          map((responseData) => {
-            return true;
-          })
-        )
-        .toPromise();
-    });
+    user.isInvitationSent = isInvitationSent;
+    return this.userFactory.upsert(user);
   }
 
   public updateUserRole(user_id: string, userRole: string): Promise<boolean> {

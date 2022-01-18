@@ -157,9 +157,7 @@ export class MemberSingleComponent implements OnInit, OnDestroy {
         console.error('Error while sending invitation: ', error);
 
         this.isDisplaySendingLoader = false;
-        this.errorMessage = error.message ?
-          error.message :
-          'Something went wrong. Please try again later.';
+        this.errorMessage = 'Something went wrong. Please try again later or contact us if the problem persists.';
         this.cd.markForCheck();
       });
   }
