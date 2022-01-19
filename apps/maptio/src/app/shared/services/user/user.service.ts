@@ -306,8 +306,14 @@ export class UserService implements OnDestroy {
   ): Promise<boolean> {
     const userDataInAuth0Format = this.convertUserToAuth0Format(user);
 
-    // See comment for `removeAuth0IdPrefix` for more details
-    if (!user.isInAuth0) { // Only necessary when first creating user
+    // When first sending an invitation, we need to create a new user in Auth0,
+    // unless the user is already there (like with old data) or they are already
+    // in Auth0.
+    const createUser = !user.isInAuth0;
+
+    // When creating a user in Auth0, we need to remove the "auth0|" prefix,
+    // from the user id, see comment for `addAuth0IdPrefix` for more details.
+    if (createUser) {
       userDataInAuth0Format.user_id = this.removeAuth0IdPrefix(userDataInAuth0Format.user_id);
     }
 
@@ -315,7 +321,7 @@ export class UserService implements OnDestroy {
       userData: userDataInAuth0Format,
       teamName,
       invitedBy,
-      createUser: !user.isInAuth0,
+      createUser,
     }
 
     return this.http
