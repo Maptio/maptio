@@ -32,42 +32,47 @@ const ses = new aws.SES({
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   let inviteData;
   let userData;
+  let userId: string;
   let userEmail: string;
   let invitedBy: string;
   let teamName: string;
+  let createUser: boolean;
 
   // TODO: Error checking could be improved hear to avoid the try/catch tower of terror
+
 
   try {
     inviteData = req.body;
     userData = inviteData.userData;
+    userId = userData.user_id;
     userEmail = userData.email;
     invitedBy = inviteData.invitedBy;
     teamName = inviteData.teamName;
+    createUser = inviteData.createUser;
   } catch(error) {
     error.message = 'Error parsing invite data: ' + error.message;
     return next(error);
   }
 
-  let auth0ManagementClient;
+  const auth0ManagementClient = getAuth0MangementClient();
+
   let createdUser;
-  let createdUserId: string;
 
-  try {
-    auth0ManagementClient = getAuth0MangementClient();
+  if (createUser) {
+    try {
+      createdUser = await auth0ManagementClient
+        .createUser(userData)
+    } catch(error) {
+      error.message = 'Error creating invited user in Auth0: ' + error.message;
+      return next(error);
+    }
 
-    createdUser = await auth0ManagementClient
-      .createUser(userData)
-  } catch(error) {
-    error.message = 'Error creating invited user in Auth0: ' + error.message;
-    return next(error);
-  }
-
-  try {
-    createdUserId = createdUser.user_id;
-  } catch(error) {
-    error.message = 'Error getting ID of created user: ' + error.message;
-    return next(error);
+    try {
+      userId = createdUser.user_id;
+    } catch(error) {
+      error.message = 'Error getting ID of created user: ' + error.message;
+      return next(error);
+    }
   }
 
   let verifyEmailTicketResponse;
@@ -77,12 +82,13 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
       .tickets
       // TODO: Use password change instead
       .verifyEmail({
-        user_id: createdUserId,
+        user_id: userId,
         // TODO: Add a real return URL
         result_url: 'http://localhost:4200',
       })
   } catch(error) {
-    error.message = 'Error getting ticket from Auth0 for user invitation (password change)' + error.message;
+    error.message = 'Error getting ticket from Auth0 for user invitation' +
+      `(password change for user with user id "${userId}"): ${error.message}`;
     return next(error);
   }
 

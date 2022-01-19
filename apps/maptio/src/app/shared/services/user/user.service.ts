@@ -315,6 +315,7 @@ export class UserService implements OnDestroy {
       userData: userDataInAuth0Format,
       teamName,
       invitedBy,
+      createUser: !user.isInAuth0,
     }
 
     return this.http
@@ -847,7 +848,14 @@ export class UserService implements OnDestroy {
     user: User,
     isInvitationSent: boolean
   ): Promise<boolean> {
+    // TODO: We need to separate creating the user in Auth0 from invitation
+    // sending more to be able to update these separately, otherwise there is a
+    // small chance that a user will be in Auth0 but will not yet be invited
+    // and so we will be trying to create them in Auth0 again and invitation
+    // sending with fail!
+    user.isInAuth0 = isInvitationSent;
     user.isInvitationSent = isInvitationSent;
+
     return this.userFactory.upsert(user);
   }
 
