@@ -66,6 +66,11 @@ export class UserService implements OnDestroy {
     this.subs.unsubscribe();
   }
 
+
+  /*
+   * Login, signup, logout and associated data preparation
+   */
+
   login() {
     this.auth.loginWithRedirect();
   }
@@ -82,6 +87,9 @@ export class UserService implements OnDestroy {
     });
   }
 
+  // TODO: This is almost identical to processAuth0Login, we should refactor
+  // to DRY this up, though it might makes sense to leave this until state
+  // management can be improved
   private prepareUserDataBasedOnAuthenticatedUser() {
     this.subs.sink = this.auth.user$.subscribe(async profile => {
       if (!profile) {
@@ -110,6 +118,9 @@ export class UserService implements OnDestroy {
     });
   }
 
+  // TODO: This is almost identical to prepareUserDataBasedOnAuthenticatedUser,
+  // we should refactor to DRY this up, though it might makes sense to leave
+  // this until state management can be improved
   async processAuth0Login() {
     this.subs.sink = this.auth.user$.subscribe(async profile => {
       if (!profile) {
@@ -185,6 +196,11 @@ export class UserService implements OnDestroy {
     return Promise.resolve('TODO');
   }
 
+
+  /*
+   * User creation
+   */
+
   // TODO: Replace calls to this with the function below
   // eslint-disable-next-line
   public createUserPlaceholder(...args): any {
@@ -202,17 +218,17 @@ export class UserService implements OnDestroy {
     );
   }
 
-  public createUserFromMemberForm(
+  createUserFromMemberForm(
     email: string,
     firstname: string,
     lastname: string,
     isAdmin?: boolean
   ): User {
-    const userId = 'auth0|' + nanoid(); // The "auth0|" prefix is necessary - see comment below
+    const userId = this.generateNewUserId();
     return this.createUser(userId, email, firstname, lastname, false, isAdmin);
   }
 
-  public createUser(
+  private createUser(
     userId: string,
     email: string,
     firstname: string,
@@ -254,41 +270,33 @@ export class UserService implements OnDestroy {
     return user;
   }
 
-  async createUserInAuth0(user: User): Promise<User> {
-    if (!user.email) {
-      const errorMessage = 'Cannot create Auth0 user without an email address.';
-      console.error(errorMessage);
-      throw new Error(errorMessage);
-    }
+  private generateNewUserId(): string {
+    return this.addAuth0IdPrefix(nanoid());
+  }
 
-    const userDataInAuth0Format = this.convertUserToAuth0Format(user);
+  /**
+   * Add the "auth0|" prefix to the user id
+   *
+   * When we create a user manually in the database first, before creating them
+   * in Auth0, we still need the `user_id`, which later, after the user data is
+   * sent to Auth0, will need to have the "auth0|" prefix. Therefore, we need
+   * to add the prefix when creating the user, then remove it just before we
+   * send the data to Auth0.
+   *
+   * TODO: Refactor this out once we have a consistent way of handling ids for
+   * all objects
+   */
+  private addAuth0IdPrefix(userId: string): string {
+    return `auth0|${userId}`;
+  }
 
-    // Auth0 will add the "auth0|" prefix automatically, so to ensure that our
-    // id matches the Auth0 id, we need to remove the prefix temporarily
-    userDataInAuth0Format.user_id = user.user_id.replace('auth0|', '');
-
-    const accessToken = this.getAccessToken();
-    const httpOptions = {
-      headers: new HttpHeaders({
-        Authorization: 'Bearer ' + accessToken,
-      }),
-    };
-
-    return this.http.post(
-      environment.USERS_API_URL,
-      userDataInAuth0Format,
-      httpOptions
-    )
-      .pipe(
-        map((responseData) => {
-          return responseData;
-        }),
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        map((input: any) => {
-          return User.create().deserialize(input);
-        })
-      )
-      .toPromise();
+  /**
+   * Remove the "auth0|" prefix from the user id
+   *
+   * See comment for mehtod above for more details
+   */
+  private removeAuth0IdPrefix(userId: string): string {
+    return userId.replace('auth0|', '');
   }
 
   public sendInvite(
@@ -297,6 +305,11 @@ export class UserService implements OnDestroy {
     invitedBy: string
   ): Promise<boolean> {
     const userDataInAuth0Format = this.convertUserToAuth0Format(user);
+
+    // See comment for `removeAuth0IdPrefix` for more details
+    if (!user.isInAuth0) { // Only necessary when first creating user
+      userDataInAuth0Format.user_id = this.removeAuth0IdPrefix(userDataInAuth0Format.user_id);
+    }
 
     const inviteData = {
       userData: userDataInAuth0Format,

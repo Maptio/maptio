@@ -222,7 +222,8 @@ export class MemberFormComponent implements OnInit {
 
   async createUserFromSignup() {
     this.createdUser =  this.userService.createUserFromMemberForm(this.email, this.firstname, this.lastname);
-    this.createdUser = await this.userService.createUserInAuth0(this.createdUser);
+    // TODO: This needs to be properly removed... the entire signup page needs to be reworked to just redirect to Auth0
+    // this.createdUser = await this.userService.createUserInAuth0(this.createdUser);
 
     await this.userService.sendConfirmation(
       this.createdUser.email,
