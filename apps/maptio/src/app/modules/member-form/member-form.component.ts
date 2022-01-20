@@ -139,6 +139,7 @@ export class MemberFormComponent implements OnInit {
         virtualUser.picture = user.picture;
         virtualUser.teams = [this.team.team_id];
         virtualUser.datasets = datasets.map((d) => d.datasetId);
+        virtualUser.createdAt = user.createdAt;
         this.createdUser = virtualUser;
 
         return virtualUser;

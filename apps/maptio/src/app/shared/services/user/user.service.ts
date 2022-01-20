@@ -214,7 +214,6 @@ export class UserService implements OnDestroy {
       profile.given_name,
       profile.family_name,
       true,
-      true,
     );
   }
 
@@ -225,7 +224,7 @@ export class UserService implements OnDestroy {
     isAdmin?: boolean
   ): User {
     const userId = this.generateNewUserId();
-    return this.createUser(userId, email, firstname, lastname, false, isAdmin);
+    return this.createUser(userId, email, firstname, lastname, isAdmin);
   }
 
   private createUser(
@@ -233,41 +232,39 @@ export class UserService implements OnDestroy {
     email: string,
     firstname: string,
     lastname: string,
-    isEmailVerified?: boolean,
     isAdmin?: boolean
   ): User {
+    const newUserData = {
+      isInAuth0: false,
+      user_id: userId,
+      name: `${firstname} ${lastname}`,
+      firstname,
+      lastname,
+      email: email,
+      picture: this.generateUserAvatarLink(firstname, lastname),
+      isActivationPending: true,
+      isInvitationSent: false,
+      isDeleted: false,
+      lastSeenAt: undefined,
+      createdAt: new Date().toISOString(),
+      loginsCount: 0,
+      userRole: isAdmin ? UserRole[UserRole.Admin] : UserRole[UserRole.Standard],
+    };
+
+
+    // const user = User.create();
+    const user = User.create().deserialize(newUserData);
+
+    return user;
+  }
+
+  private generateUserAvatarLink(firstname, lastname) {
+    const nameForAvatar = lastname ? `${firstname}+${lastname}` : firstname;
     const color = this.getHexFromHsl(
       this.getHslFromName(`${firstname} ${lastname}`)
     );
 
-    const nameForAvatar = lastname ? `${firstname}+${lastname}` : firstname;
-
-    const newUser = {
-      isInAuth0: false,
-      user_id: userId,
-      connection: environment.CONNECTION_NAME,
-      email: email,
-      name: `${firstname} ${lastname}`,
-      password: `${UUID.UUID()}-${UUID.UUID().toUpperCase()}`,
-      email_verified: isEmailVerified,
-      verify_email: false, // we are always sending our emails (not through Auth0)
-      app_metadata: {
-        activation_pending: true,
-        invitation_sent: false,
-        role: isAdmin ? UserRole[UserRole.Admin] : UserRole[UserRole.Standard],
-      },
-      user_metadata: {
-        picture: `https://ui-avatars.com/api/?rounded=true&background=${color}&name=${nameForAvatar}&font-size=0.35&color=ffffff&size=500`,
-
-        given_name: firstname,
-        family_name: lastname,
-      },
-    };
-
-    // const user = User.create();
-    const user = User.create().deserialize(newUser);
-
-    return user;
+    return `https://ui-avatars.com/api/?rounded=true&background=${color}&name=${nameForAvatar}&font-size=0.35&color=ffffff&size=500`;
   }
 
   private generateNewUserId(): string {
