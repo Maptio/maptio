@@ -606,85 +606,16 @@ export class UserService implements OnDestroy {
   //     );
   // }
 
-  public isActivationPendingByUserId(user_id: string): Promise<boolean> {
-    return this.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .get(`${environment.USERS_API_URL}/` + user_id, httpOptions)
-        .pipe(
-          map((responseData: any) => {
-            if (responseData.app_metadata) {
-              return responseData.app_metadata.activation_pending;
-            }
-            return false;
-          })
-        )
-        .toPromise();
-    });
+  public isActivationPendingByUserId(...args): any {
+    console.error('TODO: isActivationPendingByUserId');
   }
 
-  public isActivationPendingByEmail(
-    email: string
-  ): Promise<{ isActivationPending: boolean; user_id: string }> {
-    return this.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .get(
-          `${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=` +
-            encodeURIComponent(`email:"${email}"`),
-          httpOptions
-        )
-        .pipe(
-          map((responseData: any) => {
-            if (responseData.total === 0) {
-              return { isActivationPending: false, user_id: undefined };
-            }
-            if (responseData.total === 1) {
-              const user = responseData.users[0];
-              return user.app_metadata
-                ? {
-                    isActivationPending: user.app_metadata.activation_pending,
-                    user_id: user.user_id,
-                  }
-                : { isActivationPending: false, user_id: user.user_id };
-            }
-            // return Promise.reject("There is more than one user with this email")
-          })
-        )
-        .toPromise();
-    });
+  public isActivationPendingByEmail(...args): any {
+    console.error('TODO: isActivationPendingByEmail');
   }
 
-  public isInvitationSent(user_id: string): Promise<boolean> {
-    return this.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .get(`${environment.USERS_API_URL}/${user_id}`, httpOptions)
-        .pipe(
-          map((responseData: any) => {
-            if (responseData.app_metadata) {
-              return responseData.app_metadata.invitation_sent;
-            }
-            return false;
-          })
-        )
-        .toPromise();
-    });
+  public isInvitationSent(...args): any {
+    console.error('TODO: isInvitationSent');
   }
 
   public updateUserCredentials(
