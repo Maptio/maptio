@@ -123,33 +123,22 @@ export class MemberFormComponent implements OnInit {
     this.memberForm.reset();
   }
 
-  createUserFullDetails() {
-    const user =  this.userService.createUserFromMemberForm(this.email, this.firstname, this.lastname);
+  private createUserFullDetails() {
+    this.createdUser =  this.userService.createUserFromMemberForm(this.email, this.firstname, this.lastname);
 
     return this.datasetFactory.get(this.team)
       .then((datasets: DataSet[]) => {
-        const virtualUser = new User();
-        virtualUser.name = user.name;
-        virtualUser.email = user.email;
-        virtualUser.firstname = user.firstname;
-        virtualUser.lastname = user.lastname;
-        virtualUser.nickname = user.nickname;
-        virtualUser.user_id = user.user_id;
-        virtualUser.isInAuth0 = user.isInAuth0;
-        virtualUser.picture = user.picture;
-        virtualUser.teams = [this.team.team_id];
-        virtualUser.datasets = datasets.map((d) => d.datasetId);
-        virtualUser.createdAt = user.createdAt;
-        this.createdUser = virtualUser;
+        this.createdUser.teams = [this.team.team_id];
+        this.createdUser.datasets = datasets.map((d) => d.datasetId);
 
-        return virtualUser;
+        return this.createdUser;
       },
       (reason) => {
         return Promise.reject(`Can't create ${this.email} : ${reason}`);
       })
-      .then((virtualUser: User) => {
-        this.userFactory.create(virtualUser);
-        return virtualUser;
+      .then((user: User) => {
+        this.userFactory.create(user);
+        return user;
       })
       .then((user: User) => {
         this.team.members.push(user);
