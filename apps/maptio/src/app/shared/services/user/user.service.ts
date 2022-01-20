@@ -749,33 +749,8 @@ export class UserService implements OnDestroy {
     });
   }
 
-  public updateActivationPendingStatus(
-    user_id: string,
-    isActivationPending: boolean
-  ): Promise<boolean> {
-    return this.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .patch(
-          `${environment.USERS_API_URL}/${user_id}`,
-          { app_metadata: { activation_pending: isActivationPending } },
-          httpOptions
-        )
-        .toPromise()
-        .then(
-          (response) => {
-            return true;
-          },
-          (error) => {
-            return Promise.reject('Cannot update user credentials');
-          }
-        );
-    });
+  public updateActivationPendingStatus(...args): any {
+    console.error('TODO: updateActivationPendingStatus');
   }
 
   public async updateInvitationSentStatus(
