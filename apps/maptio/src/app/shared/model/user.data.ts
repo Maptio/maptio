@@ -83,19 +83,89 @@ export class User implements Serializable<User> {
 
     // If a user was created before this field was added, they can be assumed
     // to have had an account in Auth0 created for them
+    // TODO: Remove this in a migration once we have a migration system
     deserialized.isInAuth0 = input.isInAuth0 ?? true;
 
     deserialized.shortid = input.shortid;
 
-    deserialized.firstname =
-      (input.user_metadata
-        ? input.user_metadata.given_name
-        : input.given_name) || input.firstname;
+    deserialized.firstname = input.firstname;
 
-    deserialized.lastname =
-      (input.user_metadata
+    deserialized.lastname = input.lastname;
+
+    deserialized.name = this.createNameFromFirstAndLastNames(
+      deserialized.firstname,
+      deserialized.lastname,
+      input.name
+    );
+
+    deserialized.isActivationPending = input.isActivationPending;
+
+    deserialized.isInvitationSent = input.isInvitationSent;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    deserialized.userRole = (<any>UserRole)[input.userRole]
+      ? input.userRole
+      : UserRole.Standard;
+
+    deserialized.loginsCount = input.loginsCount;
+    deserialized.lastSeenAt = input.lastSeenAt ? parse(input.lastSeenAt) : null;
+    deserialized.createdAt = input.createdAt ? parse(input.createdAt) : null;
+
+    deserialized.nickname = input.nickname;
+    deserialized.email = input.email;
+
+    deserialized.picture = input.picture;
+
+    deserialized.user_id = input.user_id; // specific to Auth0
+
+    deserialized.teams = [];
+    if (input.teams) {
+      input.teams.forEach((t: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+        deserialized.teams.push(t);
+      });
+    }
+
+    deserialized.datasets = [];
+    if (input.datasets) {
+      input.datasets.forEach((d: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+        deserialized.datasets.push(d);
+      });
+    }
+
+    return deserialized;
+  }
+
+  tryDeserialize(input: any): [boolean, User] { // eslint-disable-line @typescript-eslint/no-explicit-any
+    try {
+      const user = this.deserialize(input);
+      if (user !== undefined) {
+        return [true, user];
+      } else {
+        return [false, undefined];
+      }
+    } catch (Exception) {
+      return [false, undefined];
+    }
+  }
+
+  deserializeAuth0Data(input: any): User {
+    if (!input?.user_id) {
+      return undefined;
+    }
+
+    const deserialized = new User();
+
+    deserialized.isInAuth0 = true;
+
+    deserialized.shortid = input.shortid;
+
+    deserialized.firstname = input.user_metadata
+        ? input.user_metadata.given_name
+        : input.given_name;
+
+    deserialized.lastname = input.user_metadata
         ? input.user_metadata.family_name
-        : input.family_name) || input.lastname;
+        : input.family_name;
 
     deserialized.name = this.createNameFromFirstAndLastNames(
       deserialized.firstname,
@@ -106,9 +176,7 @@ export class User implements Serializable<User> {
     deserialized.isActivationPending =
       input.app_metadata && input.app_metadata.activation_pending
         ? input.app_metadata.activation_pending
-        // If user not sent to Auth0, activation is pending, otherwise return
-        // false as before
-        : !deserialized.isInAuth0;
+        : false;
 
     deserialized.isInvitationSent =
       input.app_metadata && input.app_metadata.invitation_sent
@@ -149,19 +217,6 @@ export class User implements Serializable<User> {
     }
 
     return deserialized;
-  }
-
-  tryDeserialize(input: any): [boolean, User] { // eslint-disable-line @typescript-eslint/no-explicit-any
-    try {
-      const user = this.deserialize(input);
-      if (user !== undefined) {
-        return [true, user];
-      } else {
-        return [false, undefined];
-      }
-    } catch (Exception) {
-      return [false, undefined];
-    }
   }
 
   getSlug() {
