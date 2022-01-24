@@ -2,7 +2,13 @@
   class="circle-info"
   [style.font-size]="fontSize"
 >
-  <div class="circle-info__name">{{ circle.data.name }}</div>
+  <div class="circle-info__name">
+    {{ circle.data.name }}
+    <i
+      class="fas fa-info-circle"
+      (click)="onDetailsButtonClick($event)"
+    ></i>
+  </div>
 
   <div class="circle-info__tags-list cluster">
     <div class="cluster__wrapper">
