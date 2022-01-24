@@ -7,13 +7,16 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { DataSet } from '../../../model/dataset.data';
-import { ExportService } from '../../../services/export/export.service';
-import { saveAs } from 'file-saver';
-import { DatasetFactory } from '../../../../core/http/map/dataset.factory';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+
 import { cloneDeep, escape } from 'lodash-es';
-import { Permissions } from '../../../model/permission.data';
+import { saveAs } from 'file-saver';
+
+import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
+import { DataSet } from '@maptio-shared/model/dataset.data';
+import { ExportService } from '@maptio-shared/services/export/export.service';
+import { Permissions } from '@maptio-shared/model/permission.data';
+
 
 @Component({
   selector: 'maptio-map-card',
