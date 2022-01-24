@@ -16,11 +16,11 @@ import { cloneDeep, escape } from 'lodash-es';
 import { Permissions } from '../../../model/permission.data';
 
 @Component({
-  selector: 'common-card-map',
-  templateUrl: './card-map.component.html',
-  styleUrls: ['./card-map.component.css'],
+  selector: 'maptio-map-card',
+  templateUrl: './map-card.component.html',
+  styleUrls: ['./map-card.component.css'],
 })
-export class CardMapComponent implements OnInit {
+export class MapCardComponent implements OnInit {
   @Input('dataset') dataset: DataSet;
   @Input('isExportAvailable') isExportAvailable: Boolean;
   @Input('isTeamDisplayed') isTeamDisplayed: Boolean;
