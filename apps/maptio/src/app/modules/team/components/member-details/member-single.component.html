@@ -1,6 +1,6 @@
 <ng-template #adminTipContent>
-  <span class="text-orange"
-    >You don't have permission to do this.
+  <span class="text-orange">
+    You don't have permission to do this.
     <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
   </span>
 </ng-template>
@@ -52,7 +52,8 @@
         <img
           class="rounded-circle mr-1 participant-picture"
           src="{{ member.picture }}"
-        />{{ member.name }}
+        />
+        {{ member.name }}
       </div>
     </div>
 
@@ -66,8 +67,9 @@
           placement="top"
           container="body"
           ngbTooltip="{{ member.name }} was sent an invitation."
-          >Pending invitation</small
         >
+          Pending invitation
+        </small>
 
         <small
           *ngIf="member.isActivationPending && !member.isInvitationSent"
@@ -75,8 +77,9 @@
           placement="top"
           container="body"
           ngbTooltip="{{ member.name }} cannot view or edit maps."
-          >Not yet invited</small
         >
+          Not yet invited
+        </small>
 
         <small
           *ngIf="!member.isActivationPending"
@@ -84,8 +87,9 @@
           placement="top"
           container="body"
           ngbTooltip="{{ member.name }} can view and edit maps"
-          >Active</small
         >
+          Active
+        </small>
       </div>
     </div>
 
@@ -96,8 +100,9 @@
           else elseRoleBlock;
           then: thenRoleBlock
         "
-        >main</ng-container
       >
+        main
+      </ng-container>
 
       <ng-template #elseRoleBlock>
         {{ UserRole[member.userRole] }}
