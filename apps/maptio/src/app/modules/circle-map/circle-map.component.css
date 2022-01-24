@@ -1,4 +1,5 @@
-::ng-deep svg {
+
+/* ::ng-deep svg {
     background: transparent;
     user-select: none;
 }
@@ -7,16 +8,16 @@
     cursor: pointer;
 }
 
-::ng-deep .initiative-map.node:hover {
+::ng-deep .initiative-map.node:hover { */
     /* stroke: initial; */
     /* stroke-width: initial; */
-}
+/* } */
 
 /* ::ng-deep circle.node.initiative-map{
   box-shadow : inset 0 0 0 1px hsla(0, 0%, 0%, 0.1);
 } */
 
-::ng-deep .initiative-map.node--leaf {
+/* ::ng-deep .initiative-map.node--leaf {
     fill: white;
     pointer-events: visible;
 }
@@ -67,7 +68,7 @@
 ::ng-deep .initiative-map.node--root {
     display: none;
 }
-
+ */
 /* ::ng-deep svg circle.initiative-map:hover{
     stroke: var(--maptio-blue) !important;
     stroke-width: 3px;
@@ -78,7 +79,7 @@
     stroke: #000;
 } */
 
-::ng-deep svg text.initiative-map.accountable {
+/* ::ng-deep svg text.initiative-map.accountable {
     fill: #555;
 }
 
@@ -93,4 +94,4 @@
 ::ng-deep .label.initiative-map {
     font: "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-anchor: start;
-}
+} */
