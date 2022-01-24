@@ -45,6 +45,10 @@ export class CircleMapComponent implements OnInit, OnDestroy {
   rootCircle: InitiativeNode | undefined = undefined;
   primaryCircles: InitiativeNode[] = [];
 
+  // We also need the description of the currently selected circle
+  // selectedCircleDescription = '';
+  selectedCircle$ = this.circleMapService.selectedCircle;
+
   isLoading: boolean;
   isFirstLoad = true;
 
