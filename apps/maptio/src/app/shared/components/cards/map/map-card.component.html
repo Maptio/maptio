@@ -17,13 +17,9 @@
       <div class="d-flex justify-content-between align-items-baseline">
         <div class="w-100">
           <div *ngIf="!isEditing" class="lead">
-            <a
-              routerLink="/map/{{ dataset?.datasetId }}/{{
-                dataset?.initiative.getSlug()
-              }}"
-            >
-              {{ dataset?.initiative.name }}</a
-            >
+            <a routerLink="/map/{{ dataset?.datasetId }}/{{ dataset?.initiative.getSlug() }}">
+              {{ dataset?.initiative.name }}
+            </a>
           </div>
 
           <form
@@ -80,7 +76,7 @@
             *ngIf="dataset?.initiative.children[0]?.accountable"
             class="text-muted d-flex align-items-center"
           >
-            <span class="">Led by</span>
+            Led by
             <img
               class="rounded-circle mx-1 participant-picture"
               src="{{ dataset?.initiative.children[0]?.accountable?.picture }}"
@@ -88,16 +84,12 @@
             />
             <a
               class="text-muted"
-              routerLink="/map/{{ dataset?.datasetId }}/{{
-                dataset?.initiative.getSlug()
-              }}/directory"
+              routerLink="/map/{{ dataset?.datasetId }}/{{ dataset?.initiative.getSlug() }}/directory"
               [queryParams]="{
                 member: dataset?.initiative.children[0]?.accountable?.shortid
               }"
             >
-              <span>
-                {{ dataset?.initiative.children[0]?.accountable?.name }}</span
-              >
+              {{ dataset?.initiative.children[0]?.accountable?.name }}
             </a>
           </div>
 
@@ -113,12 +105,9 @@
 
     <div class="card-subtitle my-2" *ngIf="isTeamDisplayed">
       Organisation
-      <a
-        routerLink="/teams/{{ dataset?.team?.team_id }}/{{
-          dataset?.team?.getSlug()
-        }}"
-        >{{ dataset?.team?.name }}</a
-      >
+      <a routerLink="/teams/{{ dataset?.team?.team_id }}/{{dataset?.team?.getSlug()}}">
+        {{ dataset?.team?.name }}
+      </a>
     </div>
   </div>
 
