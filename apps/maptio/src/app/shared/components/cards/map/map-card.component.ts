@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  OnChanges,
   Input,
   ChangeDetectorRef,
   SimpleChanges,
@@ -23,30 +24,28 @@ import { Permissions } from '@maptio-shared/model/permission.data';
   templateUrl: './map-card.component.html',
   styleUrls: ['./map-card.component.css'],
 })
-export class MapCardComponent implements OnInit {
-  @Input('dataset') dataset: DataSet;
-  @Input('isExportAvailable') isExportAvailable: Boolean;
-  @Input('isTeamDisplayed') isTeamDisplayed: Boolean;
-  @Input('isEdit') isEdit: Boolean;
-  @Input('isReadOnly') isReadOnly: Boolean;
+export class MapCardComponent implements OnInit, OnChanges {
+  @Input() dataset: DataSet;
+  @Input() isExportAvailable: boolean;
+  @Input() isTeamDisplayed: boolean;
+  @Input() isEdit: boolean;
+  @Input() isReadOnly: boolean;
 
-  @Output('copied') copied: EventEmitter<DataSet> = new EventEmitter<DataSet>();
-  @Output('archived')
-  archived: EventEmitter<DataSet> = new EventEmitter<DataSet>();
-  @Output('restored')
-  restored: EventEmitter<DataSet> = new EventEmitter<DataSet>();
+  @Output() copied: EventEmitter<DataSet> = new EventEmitter<DataSet>();
+  @Output() archived: EventEmitter<DataSet> = new EventEmitter<DataSet>();
+  @Output() restored: EventEmitter<DataSet> = new EventEmitter<DataSet>();
 
-  isExporting: Boolean;
-  isEditing: Boolean;
+  isExporting: boolean;
+  isEditing: boolean;
   isTogglingEmbedding = false;
   isTogglingEmbeddingFailed = false;
   isEmbedInstructionsPopoverOpen = false;
   isCopying: boolean;
-  isRestoring: Boolean;
-  isArchiving: Boolean;
-  isUpdateFailed: Boolean;
+  isRestoring: boolean;
+  isArchiving: boolean;
+  isUpdateFailed: boolean;
   form: FormGroup;
-  isEditAvailable: Boolean;
+  isEditAvailable: boolean;
   Permissions = Permissions;
 
   embeddingIntroduction = '';
@@ -75,32 +74,32 @@ export class MapCardComponent implements OnInit {
     );
 
     this.embeddingIntroduction = `
-            Enabling this feature will allow you to embed this map on your
-            website as well as get a publicly-shareable link.
-            The map will be accessible to anyone with the URL.
-        `;
+      Enabling this feature will allow you to embed this map on your
+      website as well as get a publicly-shareable link.
+      The map will be accessible to anyone with the URL.
+    `;
 
     this.embeddingInstructions = `
-            This map can be viewed publicly at the following URL:
-            <a href="${shareableUrl}">
-              ${shareableUrl}
-            </a>
-            <br>
-            <br>
+      This map can be viewed publicly at the following URL:
+      <a href="${shareableUrl}">
+        ${shareableUrl}
+      </a>
+      <br>
+      <br>
 
-            You can embed this map on your website by using the following code snippet:
-            <br>
-            <code>
-              ${iframeSnippet}
-            </code>
-            <br>
-            <br>
+      You can embed this map on your website by using the following code snippet:
+      <br>
+      <code>
+        ${iframeSnippet}
+      </code>
+      <br>
+      <br>
 
-            <p>
-              To stop sharing the map, click "Disable" below.
-              Please make sure you remove the code snippet from your website before you do this.
-            </p>
-        `;
+      <p>
+        To stop sharing the map, click "Disable" below.
+        Please make sure you remove the code snippet from your website before you do this.
+      </p>
+    `;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -113,7 +112,7 @@ export class MapCardComponent implements OnInit {
     this.isExporting = true;
     this.exportService.getReport(dataset).subscribe(
       (exportString: string) => {
-        let blob = new Blob([exportString], { type: 'text/csv' });
+        const blob = new Blob([exportString], { type: 'text/csv' });
         saveAs(blob, `${dataset.initiative.name}.csv`);
       },
       (error: Error) => console.error(error),
@@ -133,7 +132,7 @@ export class MapCardComponent implements OnInit {
     this.toggleEmbedding(false);
   }
 
-  toggleEmbedding(isEmbeddable: boolean, successCallback?: Function) {
+  toggleEmbedding(isEmbeddable: boolean, successCallback?: () => void) {
     if (this.isTogglingEmbedding) return;
 
     this.isTogglingEmbedding = true;
@@ -167,7 +166,7 @@ export class MapCardComponent implements OnInit {
       this.dataset.initiative.name = this.form.controls['mapName'].value;
       this.datasetFactory
         .upsert(this.dataset)
-        .then((success: Boolean) => {
+        .then((success: boolean) => {
           if (success) {
             this.form.reset();
             this.isEditing = false;
@@ -177,7 +176,8 @@ export class MapCardComponent implements OnInit {
             this.cd.markForCheck();
           }
         })
-        .catch(() => {});
+        // TODO: No error handling, need to change this!
+        // .catch(() => {});
     }
   }
 
@@ -185,7 +185,7 @@ export class MapCardComponent implements OnInit {
     if (!this.isCopying) {
       this.isCopying = true;
       this.cd.markForCheck();
-      let copy = cloneDeep(this.dataset);
+      const copy = cloneDeep(this.dataset);
       copy.initiative.name = `${this.dataset.initiative.name} [duplicate]`;
       return this.datasetFactory
         .create(copy)
