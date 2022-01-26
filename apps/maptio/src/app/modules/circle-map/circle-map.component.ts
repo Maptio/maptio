@@ -11,7 +11,7 @@ import {
 import { BehaviorSubject, combineLatest, Observable } from "rxjs";
 
 import { SubSink } from 'subsink';
-import { hierarchy, HierarchyNode, pack } from 'd3-hierarchy';
+import { HierarchyNode, pack } from 'd3-hierarchy';
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 
 import { CircleMapData } from "@maptio-shared/model/circle-map-data.interface";
