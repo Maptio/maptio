@@ -1,6 +1,7 @@
 <maptio-circle-map
   *ngIf="dataset; else datasetUnavailableBlock"
   [circleMapData$]="circleMapData$"
+  [showDetailsPanel]="true"
 ></maptio-circle-map>
 
 <ng-template #datasetUnavailableBlock>

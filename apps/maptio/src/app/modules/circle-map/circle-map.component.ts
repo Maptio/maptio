@@ -34,6 +34,7 @@ import { map } from "rxjs/operators";
 export class CircleMapComponent implements OnInit, OnDestroy {
   // All the data comes in as a single package
   @Input() circleMapData$: BehaviorSubject<CircleMapData>;
+  @Input() showDetailsPanel: boolean;
 
   // We then extract the individual pieces of the data package
   private rootInitiative: Initiative;
@@ -80,8 +81,8 @@ export class CircleMapComponent implements OnInit, OnDestroy {
       this.selectedCircleDescription$,
       this.dataset$
     ]).pipe(
-      map(([selectedCircleDescription, dataset]) => {
-        return selectedCircleDescription && dataset.showDescriptions;
+      map(([description, dataset]) => {
+        return this.showDetailsPanel && dataset.showDescriptions && !!description;
       })
     );
 
