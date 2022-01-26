@@ -141,7 +141,9 @@ export class MapCardComponent implements OnInit, OnChanges {
   }
 
   async toggleShowingDescriptions(event: Event) {
-    if (this.isTogglingShowingDescriptions) return;
+    if (this.isTogglingShowingDescriptions) {
+      return;
+    };
 
     this.isTogglingShowingDescriptions = true;
     this.hasTogglingShowingDescriptionsFailed = false;
@@ -158,13 +160,12 @@ export class MapCardComponent implements OnInit, OnChanges {
       result = false;
     }
 
-    if (result) {
-      this.isTogglingShowingDescriptions = false;
-    } else {
+    if (!result) {
       this.hasTogglingShowingDescriptionsFailed = true;
       this.dataset.showDescriptions = !this.dataset.showDescriptions;
     }
 
+    this.isTogglingShowingDescriptions = false;
     this.cd.markForCheck();
   }
 

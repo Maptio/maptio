@@ -251,10 +251,15 @@
         <input
           type="checkbox"
           id="showDescriptions"
+          [disabled]="isTogglingShowingDescriptions"
           [checked]="dataset.showDescriptions"
           (change)="toggleShowingDescriptions($event)"
         >
-        <label for="showDescriptions" class="ml-2">
+        <label
+          for="showDescriptions"
+          class="ml-2"
+          [class.text-muted]="isTogglingShowingDescriptions"
+        >
           Show descriptions (beta)
         </label>
       </div>
