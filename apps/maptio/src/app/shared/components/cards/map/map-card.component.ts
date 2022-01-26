@@ -140,14 +140,16 @@ export class MapCardComponent implements OnInit, OnChanges {
       });
   }
 
-  async toggleShowingDescriptions() {
+  async toggleShowingDescriptions(event: Event) {
     if (this.isTogglingShowingDescriptions) return;
 
     this.isTogglingShowingDescriptions = true;
     this.hasTogglingShowingDescriptionsFailed = false;
     this.cd.markForCheck();
 
-    this.dataset.showDescriptions = !this.dataset.showDescriptions;
+    const target = event?.target as HTMLInputElement;
+    this.dataset.showDescriptions = target.checked;
+
     let result = false;
     try {
       result = await this.datasetFactory.upsert(this.dataset);

@@ -247,8 +247,13 @@
         A description of the currently selected circle can optionally be shown next to the map:
       </p>
 
-      <div (click)="toggleShowingDescriptions()" class="mt-n2 mb-2">
-        <input type="checkbox" name="showDescriptions" [checked]="dataset.showDescriptions">
+      <div class="mt-n2 mb-2">
+        <input
+          type="checkbox"
+          id="showDescriptions"
+          [checked]="dataset.showDescriptions"
+          (change)="toggleShowingDescriptions($event)"
+        >
         <label for="showDescriptions" class="ml-2">
           Show descriptions (beta)
         </label>
