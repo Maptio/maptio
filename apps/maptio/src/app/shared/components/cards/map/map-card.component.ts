@@ -52,6 +52,8 @@ export class MapCardComponent implements OnInit, OnChanges {
   isTogglingEmbeddingFailed = false;
   shareableUrl = '';
   iframeSnippet = '';
+  isTogglingShowingDescriptions = false;
+  hasTogglingShowingDescriptionsFailed = false;
 
   constructor(
     private exportService: ExportService,
@@ -137,6 +139,33 @@ export class MapCardComponent implements OnInit, OnChanges {
         this.cd.markForCheck();
       });
   }
+
+  async toggleShowingDescriptions() {
+    if (this.isTogglingShowingDescriptions) return;
+
+    this.isTogglingShowingDescriptions = true;
+    this.hasTogglingShowingDescriptionsFailed = false;
+    this.cd.markForCheck();
+
+    this.dataset.showDescriptions = !this.dataset.showDescriptions;
+    let result = false;
+    try {
+      result = await this.datasetFactory.upsert(this.dataset);
+    } catch {
+      // Error handled below
+      result = false;
+    }
+
+    if (result) {
+      this.isTogglingShowingDescriptions = false;
+    } else {
+      this.hasTogglingShowingDescriptionsFailed = true;
+      this.dataset.showDescriptions = !this.dataset.showDescriptions;
+    }
+
+    this.cd.markForCheck();
+  }
+
 
   save() {
     if (this.form.valid) {
