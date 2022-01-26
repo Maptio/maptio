@@ -1,11 +1,11 @@
 <div
   class="circle-description"
-  *ngIf="(selectedCircle$ | async )?.data?.description as description"
+  *ngIf="(showDescriptions$ | async )"
 >
   <markdown
     class="cursor-text d-block border-0 w-100 h-100"
-    [data]="description">
-    [data]="(selectedCircle$ | async )?.data?.description">
+    [data]="(selectedCircleDescription$ | async )"
+  >
   </markdown>
 </div>
 

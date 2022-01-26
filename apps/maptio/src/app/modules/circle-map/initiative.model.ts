@@ -5,6 +5,7 @@ export interface InitiativeViewModel {
   id: number;
 
   name: string;
+  description: string;
   color: string; // Not in other initative
 
   accountable?: Helper;

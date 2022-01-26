@@ -8,7 +8,7 @@ import {
   ChangeDetectionStrategy,
 } from "@angular/core";
 
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, combineLatest, Observable } from "rxjs";
 
 import { SubSink } from 'subsink';
 import { hierarchy, HierarchyNode, pack } from 'd3-hierarchy';
@@ -21,6 +21,7 @@ import { ColorService } from "@maptio-shared/services/color/color.service";
 
 import { InitiativeViewModel, InitiativeNode } from './initiative.model';
 import { CircleMapService } from './circle-map.service';
+import { map } from "rxjs/operators";
 
 
 @Component({
@@ -40,14 +41,17 @@ export class CircleMapComponent implements OnInit, OnDestroy {
   private datasetId: string;
   private seedColor: string;
 
+  // Same as above, just slowly moving this code to a more reactive style
+  private dataset$: Observable<DataSet>;
+
   // Then, the data is transformed into a display format
   circles: InitiativeNode[] = [];
   rootCircle: InitiativeNode | undefined = undefined;
   primaryCircles: InitiativeNode[] = [];
 
   // We also need the description of the currently selected circle
-  // selectedCircleDescription = '';
-  selectedCircle$ = this.circleMapService.selectedCircle;
+  selectedCircleDescription$: Observable<string>;
+  showDescriptions$: Observable<boolean>;
 
   isLoading: boolean;
   isFirstLoad = true;
@@ -62,6 +66,25 @@ export class CircleMapComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.dataset$ = this.circleMapData$.pipe(
+      map((circleMapData) => circleMapData.dataset)
+    );
+
+    this.selectedCircleDescription$ = this.circleMapService.selectedCircle.pipe(
+      map((selectedCircle) => {
+        return selectedCircle?.data?.description;
+      })
+    );
+
+    this.showDescriptions$ = combineLatest([
+      this.selectedCircleDescription$,
+      this.dataset$
+    ]).pipe(
+      map(([selectedCircleDescription, dataset]) => {
+        return selectedCircleDescription && dataset.showDescriptions;
+      })
+    );
+
     this.onInputChanges();
 
     this.subs.sink = this.circleMapData$.subscribe(() => {
