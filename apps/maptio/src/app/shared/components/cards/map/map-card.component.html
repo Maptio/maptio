@@ -243,17 +243,18 @@
         <code>{{ iframeSnippet }}</code>
       </p>
 
-      <div class="mt-n2 mb-2">
+      <div class="form-check mb-2">
         <input
           type="checkbox"
           id="showDescriptions"
+          class="form-check-input"
           [disabled]="isTogglingShowingDescriptions"
           [checked]="dataset.showDescriptions"
           (change)="toggleShowingDescriptions($event)"
         >
         <label
           for="showDescriptions"
-          class="ml-2"
+          class="form-check-label"
           [class.text-muted]="isTogglingShowingDescriptions"
         >
           Include detailed circle descriptions on the public map (beta)
