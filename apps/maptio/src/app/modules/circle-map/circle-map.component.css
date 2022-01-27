@@ -13,5 +13,8 @@
 .circle-details__name {
   font-size: 2vw;
   font-weight: bold;
-  margin-bottom: 2vw;
+}
+
+.circle-details__description {
+  margin-top: 2vw;
 }
