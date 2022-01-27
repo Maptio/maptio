@@ -197,9 +197,10 @@
     </ng-container>
   </div>
 
-    <!-- When editing, the footer contains editing options -->
-    <!-- For now, we're only using this pattern for configuring embedding, but
-         it'd be great to move all editing options here for consistency -->
+  <!-- When editing, the footer contains editing options -->
+  <!-- For now, we're only using this pattern for configuring embedding, but
+      it'd be great to move all editing options here for consistency -->
+  <!-- TODO: This can and should be a separate component -->
   <div
     class="card-footer d-flex flex-column mt-n3 border-top-0 justify-content-between align-items-left"
     *ngIf="isConfiguringEmbedding"
@@ -255,14 +256,16 @@
         </label>
       </div>
 
+      <!-- TODO: Extract as component -->
       <div
         *ngIf="hasTogglingShowingDescriptionsFailed"
         class="alert alert-danger"
         role="alert"
       >
+        There was an error when updating showing circle descriptions.
         Chat with us or email us at
         <a
-          href="mailto:support@maptio.com?subject=Error when updating embedding status"
+          href="mailto:support@maptio.com?subject=Error when updating showing circle descriptions"
         >
           support@maptio.com
         </a>
