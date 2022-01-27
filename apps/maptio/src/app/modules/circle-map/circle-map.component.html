@@ -1,3 +1,19 @@
+<div
+  class="circle-details"
+  *ngIf="showDescriptions$ | async "
+>
+  <h1 class="circle-details__name">
+    {{ selectedCircleName$ | async }}
+  </h1>
+
+  <markdown
+    *ngIf="selectedCircleDescription$ | async as description"
+    class="circle-details__description cursor-text d-block border-0 w-100 h-100"
+    [data]="description"
+  >
+  </markdown>
+</div>
+
 <maptio-svg-zoom-pan
   (click)="onBackdropClick()"
 >

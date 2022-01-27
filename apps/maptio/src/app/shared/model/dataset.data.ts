@@ -25,6 +25,7 @@ export class DataSet implements Serializable<DataSet> {
   isArchived:boolean;
 
   isEmbeddable = false;
+  showDescriptions = false;
 
   public constructor(init?: Partial<DataSet>) {
     Object.assign(this, init);
@@ -43,6 +44,7 @@ export class DataSet implements Serializable<DataSet> {
     deserialized.initiative = Initiative.create().deserialize(input.initiative || input);
     deserialized.isArchived = input.isArchived;
     deserialized.isEmbeddable = input.isEmbeddable;
+    deserialized.showDescriptions = input.showDescriptions ? input.showDescriptions : false;
 
     let tags = new Array<Tag>();
     if (input.tags && input.tags instanceof Array && input.tags.length > 0) {

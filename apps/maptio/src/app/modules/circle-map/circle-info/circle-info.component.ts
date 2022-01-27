@@ -25,6 +25,12 @@ export class CircleInfoComponent implements OnInit {
     this.fontSize = this.fontSizeInitial + this.fontSizeUnit;
   }
 
+  onDetailsButtonClick($event: MouseEvent) {
+    console.log('boo');
+    // Avoid triggering click events for the circle when a tag avatar is clicked
+    $event.stopPropagation();
+  }
+
   onTagClick($event: MouseEvent) {
     // Avoid triggering click events for the circle when a tag avatar is clicked
     $event.stopPropagation();

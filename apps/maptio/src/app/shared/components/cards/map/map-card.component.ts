@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { cloneDeep, escape } from 'lodash-es';
+import { cloneDeep } from 'lodash-es';
 import { saveAs } from 'file-saver';
 
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
@@ -37,9 +37,7 @@ export class MapCardComponent implements OnInit, OnChanges {
 
   isExporting: boolean;
   isEditing: boolean;
-  isTogglingEmbedding = false;
-  isTogglingEmbeddingFailed = false;
-  isEmbedInstructionsPopoverOpen = false;
+
   isCopying: boolean;
   isRestoring: boolean;
   isArchiving: boolean;
@@ -48,8 +46,14 @@ export class MapCardComponent implements OnInit, OnChanges {
   isEditAvailable: boolean;
   Permissions = Permissions;
 
-  embeddingIntroduction = '';
-  embeddingInstructions = '';
+  // Variables for configuring embedding
+  isConfiguringEmbedding = false;
+  isTogglingEmbedding = false;
+  isTogglingEmbeddingFailed = false;
+  shareableUrl = '';
+  iframeSnippet = '';
+  isTogglingShowingDescriptions = false;
+  hasTogglingShowingDescriptionsFailed = false;
 
   constructor(
     private exportService: ExportService,
@@ -65,41 +69,16 @@ export class MapCardComponent implements OnInit, OnChanges {
       }),
     });
 
+    this.prepareEmbeddingInstructions();
+  }
+
+  private prepareEmbeddingInstructions() {
     const baseUrl = `${window.location.protocol}//${window.location.host}`;
-    const shareableUrl = `${baseUrl}/share/${this.dataset.datasetId}`;
+    this.shareableUrl = `${baseUrl}/share/${this.dataset.datasetId}`;
+
     const embedUrl = `${baseUrl}/embed/${this.dataset.datasetId}`;
     const iframeStyle = 'height: 100%; width: 100%; border: none;';
-    const iframeSnippet = escape(
-      `<iframe src="${embedUrl}" style="${iframeStyle}"></iframe>`
-    );
-
-    this.embeddingIntroduction = `
-      Enabling this feature will allow you to embed this map on your
-      website as well as get a publicly-shareable link.
-      The map will be accessible to anyone with the URL.
-    `;
-
-    this.embeddingInstructions = `
-      This map can be viewed publicly at the following URL:
-      <a href="${shareableUrl}">
-        ${shareableUrl}
-      </a>
-      <br>
-      <br>
-
-      You can embed this map on your website by using the following code snippet:
-      <br>
-      <code>
-        ${iframeSnippet}
-      </code>
-      <br>
-      <br>
-
-      <p>
-        To stop sharing the map, click "Disable" below.
-        Please make sure you remove the code snippet from your website before you do this.
-      </p>
-    `;
+    this.iframeSnippet = `<iframe src="${embedUrl}" style="${iframeStyle}"></iframe>`;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -122,17 +101,21 @@ export class MapCardComponent implements OnInit, OnChanges {
     );
   }
 
+  toggleConfiguringEmbedding() {
+    this.isConfiguringEmbedding = !this.isConfiguringEmbedding;
+    this.cd.markForCheck();
+  }
+
   enableEmbedding() {
-    this.toggleEmbedding(true, () => {
-      this.isEmbedInstructionsPopoverOpen = true;
-    });
+    this.toggleEmbedding(true);
   }
 
-  disableEmbedding() {
-    this.toggleEmbedding(false);
+  async disableEmbedding() {
+    await this.toggleEmbedding(false);
+    this.isConfiguringEmbedding = false;
   }
 
-  toggleEmbedding(isEmbeddable: boolean, successCallback?: () => void) {
+  private toggleEmbedding(isEmbeddable: boolean) {
     if (this.isTogglingEmbedding) return;
 
     this.isTogglingEmbedding = true;
@@ -145,7 +128,6 @@ export class MapCardComponent implements OnInit, OnChanges {
       .then((result) => {
         if (result) {
           this.isTogglingEmbedding = false;
-          successCallback();
           this.cd.markForCheck();
         } else {
           this.isTogglingEmbeddingFailed = true;
@@ -157,6 +139,37 @@ export class MapCardComponent implements OnInit, OnChanges {
         this.cd.markForCheck();
       });
   }
+
+  async toggleShowingDescriptions(event: Event) {
+    if (this.isTogglingShowingDescriptions) {
+      return;
+    };
+
+    this.isTogglingShowingDescriptions = true;
+    this.hasTogglingShowingDescriptionsFailed = false;
+    this.cd.markForCheck();
+
+    const target = event?.target as HTMLInputElement;
+    this.dataset.showDescriptions = target.checked;
+
+    let result = false;
+    try {
+      result = await this.datasetFactory.upsert(this.dataset);
+    } catch {
+      // Error handled below
+      result = false;
+    }
+
+    if (!result) {
+      this.hasTogglingShowingDescriptionsFailed = true;
+      this.dataset.showDescriptions = !this.dataset.showDescriptions;
+      target.checked = this.dataset.showDescriptions;
+    }
+
+    this.isTogglingShowingDescriptions = false;
+    this.cd.markForCheck();
+  }
+
 
   save() {
     if (this.form.valid) {

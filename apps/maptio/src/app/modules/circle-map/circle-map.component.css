@@ -1,0 +1,20 @@
+.circle-details {
+  position: absolute;
+  width: 25%;
+  max-height: calc(100% - 2vw);
+  margin: 1vw;
+  padding: 1vw;
+  border-radius: 1vw;
+  overflow: auto;
+  background-color:rgba(255, 255, 255, 0.6);
+  font-size: 1.5vw;
+}
+
+.circle-details__name {
+  font-size: 2vw;
+  font-weight: bold;
+}
+
+.circle-details__description {
+  margin-top: 2vw;
+}

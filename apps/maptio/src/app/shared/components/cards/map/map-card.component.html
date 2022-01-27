@@ -62,56 +62,63 @@
       </div>
     </div>
 
-    <div
-      class="card-subtitle my-1 d-flex align-items-baseline"
-      *ngIf="dataset?.getName()"
-    >
-      <span>{{ dataset?.getName() }}</span>
-    </div>
-
-    <div class="card-subtitle my-2 text-muted">
-      <div class="d-flex justify-content-between">
-        <span *ngIf="dataset?.initiative.children">
-          <div
-            *ngIf="dataset?.initiative.children[0]?.accountable"
-            class="text-muted d-flex align-items-center"
-          >
-            Led by
-            <img
-              class="rounded-circle mx-1 participant-picture"
-              src="{{ dataset?.initiative.children[0]?.accountable?.picture }}"
-              alt="{{ dataset?.initiative.children[0]?.accountable?.name }}"
-            />
-            <a
-              class="text-muted"
-              routerLink="/map/{{ dataset?.datasetId }}/{{ dataset?.initiative.getSlug() }}/directory"
-              [queryParams]="{
-                member: dataset?.initiative.children[0]?.accountable?.shortid
-              }"
-            >
-              {{ dataset?.initiative.children[0]?.accountable?.name }}
-            </a>
-          </div>
-
-          <div
-            *ngIf="!dataset?.initiative.children[0]?.accountable"
-            class="text-muted"
-          >
-            No vision holder yet.
-          </div>
-        </span>
+    <ng-container *ngIf="!isConfiguringEmbedding">
+      <div
+        class="card-subtitle my-1 d-flex align-items-baseline"
+        *ngIf="dataset?.getName()"
+      >
+        <span>{{ dataset?.getName() }}</span>
       </div>
-    </div>
 
-    <div class="card-subtitle my-2" *ngIf="isTeamDisplayed">
-      Organisation
-      <a routerLink="/teams/{{ dataset?.team?.team_id }}/{{dataset?.team?.getSlug()}}">
-        {{ dataset?.team?.name }}
-      </a>
-    </div>
+      <div class="card-subtitle my-2 text-muted">
+        <div class="d-flex justify-content-between">
+          <span *ngIf="dataset?.initiative.children">
+            <div
+              *ngIf="dataset?.initiative.children[0]?.accountable"
+              class="text-muted d-flex align-items-center"
+            >
+              Led by
+              <img
+                class="rounded-circle mx-1 participant-picture"
+                src="{{ dataset?.initiative.children[0]?.accountable?.picture }}"
+                alt="{{ dataset?.initiative.children[0]?.accountable?.name }}"
+              />
+              <a
+                class="text-muted"
+                routerLink="/map/{{ dataset?.datasetId }}/{{ dataset?.initiative.getSlug() }}/directory"
+                [queryParams]="{
+                  member: dataset?.initiative.children[0]?.accountable?.shortid
+                }"
+              >
+                {{ dataset?.initiative.children[0]?.accountable?.name }}
+              </a>
+            </div>
+
+            <div
+              *ngIf="!dataset?.initiative.children[0]?.accountable"
+              class="text-muted"
+            >
+              No vision holder yet.
+            </div>
+          </span>
+        </div>
+      </div>
+
+      <div class="card-subtitle my-2" *ngIf="isTeamDisplayed">
+        Organisation
+        <a routerLink="/teams/{{ dataset?.team?.team_id }}/{{dataset?.team?.getSlug()}}">
+          {{ dataset?.team?.name }}
+        </a>
+      </div>
+    </ng-container>
   </div>
 
-  <div class="card-footer border-top-0 d-flex justify-content-between align-items-center">
+  <!-- Footer with action buttons -->
+  <div
+    class="card-footer border-top-0 d-flex justify-content-between align-items-center"
+    *ngIf="!isConfiguringEmbedding"
+  >
+    <!-- Export button -->
     <button
       *ngIf="isExportAvailable"
       [class.invisible]="dataset.isArchived"
@@ -124,41 +131,13 @@
       <span class="text-muted d-none d-md-block" *ngIf="isExporting">Exporting</span>
     </button>
 
+    <!-- All buttons other then the export button -->
     <ng-container *permissionsOnly="Permissions.canEditMapName">
       <button
-        *ngIf="
-          !dataset.isEmbeddable && isEditAvailable && !dataset?.team?.isExample
-        "
+        *ngIf="isEditAvailable && !dataset?.team?.isExample"
         class="btn btn-link btn-sm pr-0 underline-on-hover"
         [class.invisible]="isEditing || dataset.isArchived"
-        mwlConfirmationPopover
-        [popoverTitle]="'Enable public read-only embeddable map?'"
-        [popoverMessage]="embeddingIntroduction"
-        [confirmText]="'Enable'"
-        placement="bottom"
-        focusButton="cancel"
-        appendToBody="true"
-        (confirm)="enableEmbedding()"
-        (cancel)="cancelClicked = true"
-      >
-        <i class="fas fa-code mr-1"></i>
-        <span class="d-none d-md-block">Embed</span>
-      </button>
-
-      <button
-        *ngIf="dataset.isEmbeddable && isEditAvailable && !dataset?.team?.isExample"
-        class="btn btn-link btn-sm pr-0 underline-on-hover"
-        [class.invisible]="isEditing || dataset.isArchived"
-        mwlConfirmationPopover
-        [isOpen]="isEmbedInstructionsPopoverOpen"
-        [popoverTitle]="'Public read-only embeddable map is enabled'"
-        [popoverMessage]="embeddingInstructions"
-        [confirmText]="'Disable'"
-        placement="bottom"
-        focusButton="cancel"
-        appendToBody="true"
-        (confirm)="disableEmbedding()"
-        (cancel)="cancelClicked = true"
+        (click)="toggleConfiguringEmbedding()"
       >
         <i class="fas fa-code mr-1"></i>
         <span class="d-none d-md-block">Embed</span>
@@ -215,6 +194,110 @@
         <i class="fas fa-undo mr-1"></i
         ><span class="d-none d-md-block">Restore</span>
       </button>
+    </ng-container>
+  </div>
+
+  <!-- When editing, the footer contains editing options -->
+  <!-- For now, we're only using this pattern for configuring embedding, but
+      it'd be great to move all editing options here for consistency -->
+  <!-- TODO: This can and should be a separate component -->
+  <div
+    class="card-footer d-flex flex-column mt-n3 border-top-0 justify-content-between align-items-left"
+    *ngIf="isConfiguringEmbedding"
+  >
+    <ng-container *ngIf="!dataset.isEmbeddable">
+      <h3 class="editing-title">Enable public read-only embeddable map?</h3>
+
+      Enabling this feature will allow you to embed this map on your website as
+      well as get a publicly-shareable link. The map will be accessible to anyone
+      with the URL.
+
+      <div class="d-flex flex-row w-100 mt-3 justify-content-end">
+        <button
+          class="btn btn-link"
+          (click)="toggleConfiguringEmbedding()"
+        >
+          Cancel
+        </button>
+
+        <button
+          class="btn btn-success"
+          (click)="enableEmbedding()"
+        >
+          Enable
+        </button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="dataset.isEmbeddable">
+      <h3 class="editing-title">Public read-only embeddable map is enabled</h3>
+      <p>
+        This map can be viewed publicly at the following URL:
+        <a href="{{ shareableUrl }}">
+          {{ shareableUrl }}
+        </a>
+      </p>
+
+      <div class="form-check mb-3">
+        <input
+          type="checkbox"
+          id="showDescriptions"
+          class="form-check-input"
+          [disabled]="isTogglingShowingDescriptions"
+          [checked]="dataset.showDescriptions"
+          (change)="toggleShowingDescriptions($event)"
+        >
+        <label
+          for="showDescriptions"
+          class="form-check-label"
+          [class.text-muted]="isTogglingShowingDescriptions"
+        >
+          Include detailed circle descriptions on the public map (beta)
+        </label>
+      </div>
+
+      <!-- TODO: Extract as component -->
+      <div
+        *ngIf="hasTogglingShowingDescriptionsFailed"
+        class="alert alert-danger"
+        role="alert"
+      >
+        There was an error when updating showing circle descriptions.
+        Chat with us or email us at
+        <a
+          href="mailto:support@maptio.com?subject=Error when updating showing circle descriptions"
+        >
+          support@maptio.com
+        </a>
+        if the issue persists.
+      </div>
+
+      <p>
+        You can embed this map on your website by using the following code snippet:
+        <br>
+        <code>{{ iframeSnippet }}</code>
+      </p>
+
+      <p>
+        To stop sharing the map, click "Disable" below.
+        Please make sure you remove the code snippet from your website before you do this.
+      </p>
+
+      <div class="d-flex flex-row w-100 justify-content-end">
+        <button
+          class="btn btn-link"
+          (click)="toggleConfiguringEmbedding()"
+        >
+          Cancel
+        </button>
+
+        <button
+          class="btn btn-danger"
+          (click)="disableEmbedding()"
+        >
+          Disable
+        </button>
+      </div>
     </ng-container>
   </div>
 </div>
