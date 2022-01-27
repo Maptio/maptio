@@ -86,10 +86,13 @@ export class CircleMapComponent implements OnInit, OnDestroy {
 
     this.showDescriptions$ = combineLatest([
       this.selectedCircleDescription$,
+      this.selectedCircleName$,
       this.dataset$
     ]).pipe(
-      map(([description, dataset]) => {
-        return this.showDetailsPanel && dataset.showDescriptions && !!description;
+      map(([description, name, dataset]) => {
+        return this.showDetailsPanel // setting to only show panel in sharing mode
+          && dataset.showDescriptions // map-specific user setting
+          && (!!description || !!name); // is there something to show?
       })
     );
 
