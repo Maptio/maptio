@@ -163,6 +163,7 @@ export class MapCardComponent implements OnInit, OnChanges {
     if (!result) {
       this.hasTogglingShowingDescriptionsFailed = true;
       this.dataset.showDescriptions = !this.dataset.showDescriptions;
+      target.checked = this.dataset.showDescriptions;
     }
 
     this.isTogglingShowingDescriptions = false;

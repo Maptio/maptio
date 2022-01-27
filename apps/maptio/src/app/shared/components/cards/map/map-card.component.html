@@ -255,6 +255,20 @@
         </label>
       </div>
 
+      <div
+        *ngIf="hasTogglingShowingDescriptionsFailed"
+        class="alert alert-danger"
+        role="alert"
+      >
+        Chat with us or email us at
+        <a
+          href="mailto:support@maptio.com?subject=Error when updating embedding status"
+        >
+          support@maptio.com
+        </a>
+        if the issue persists.
+      </div>
+
       <p>
         You can embed this map on your website by using the following code snippet:
         <br>
