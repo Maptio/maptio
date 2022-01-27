@@ -75,9 +75,9 @@
                         <ul class="list-inline row d-flex align-items-stretch">
                             <ng-container *ngFor="let dataset of kv[1]; trackBy: trackByDatasetId;">
                                 <li class="col-12 col-md-6 my-2" *ngIf="dataset.initiative.name">
-                                    <common-card-map [dataset]="dataset" [isExportAvailable]="true" [isEdit]="true"
+                                    <maptio-map-card [dataset]="dataset" [isExportAvailable]="true" [isEdit]="true"
                                         [isTeamDisplayed]="false" (copied)="onCopy($event)"
-                                        (archived)="onArchive($event)"></common-card-map>
+                                        (archived)="onArchive($event)"></maptio-map-card>
                                 </li>
                             </ng-container>
                         </ul>
