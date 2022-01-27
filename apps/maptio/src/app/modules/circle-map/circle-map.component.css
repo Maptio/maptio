@@ -1,4 +1,4 @@
-.circle-description {
+.circle-details {
   position: absolute;
   width: 25%;
   max-height: calc(100% - 2vw);
@@ -8,4 +8,10 @@
   overflow: auto;
   background-color:rgba(255, 255, 255, 0.6);
   font-size: 1.5vw;
+}
+
+.circle-details__name {
+  font-size: 2vw;
+  font-weight: bold;
+  margin-bottom: 2vw;
 }

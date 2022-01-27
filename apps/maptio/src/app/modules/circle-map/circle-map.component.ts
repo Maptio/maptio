@@ -52,6 +52,7 @@ export class CircleMapComponent implements OnInit, OnDestroy {
 
   // We also need the description of the currently selected circle
   selectedCircleDescription$: Observable<string>;
+  selectedCircleName$: Observable<string>;
   showDescriptions$: Observable<boolean>;
 
   isLoading: boolean;
@@ -74,6 +75,12 @@ export class CircleMapComponent implements OnInit, OnDestroy {
     this.selectedCircleDescription$ = this.circleMapService.selectedCircle.pipe(
       map((selectedCircle) => {
         return selectedCircle?.data?.description;
+      })
+    );
+
+    this.selectedCircleName$ = this.circleMapService.selectedCircle.pipe(
+      map((selectedCircle) => {
+        return selectedCircle?.data?.name;
       })
     );
 
