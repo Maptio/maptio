@@ -8,33 +8,29 @@ import { ChangePasswordComponent } from './pages/forgot-password/change-password
 import { ProfilePage } from './pages/profile/profile.page';
 import { AuthGuard } from '../../core/guards/auth.guard';
 
-
 const routes: Routes = [
-    {
-        path: "",
-        children: [
+  {
+    path: '',
+    children: [
+      { path: 'signup', component: SignupComponent },
 
-            { path: "signup", component: SignupComponent },
+      { path: 'login', component: LoginComponent },
+      { path: 'authorize', component: AuthorizeComponent },
 
-            { path: "login", component: LoginComponent },
-            { path: "authorize", component: AuthorizeComponent },
-
-            { path: "logout", component: LogoutComponent },
-            { path: "forgot", component: ChangePasswordComponent },
-            {
-                path: "profile/:shortid/:slug",
-                component: ProfilePage,
-                canActivate: [AuthGuard],
-                data: { breadcrumbs: "Profile" }
-            },
-        ]
-
-    }
+      { path: 'logout', component: LogoutComponent },
+      { path: 'forgot', component: ChangePasswordComponent },
+      {
+        path: 'profile/:shortid/:slug',
+        component: ProfilePage,
+        canActivate: [AuthGuard],
+        data: { breadcrumbs: 'Profile' },
+      },
+    ],
+  },
 ];
 
-
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class LoginRoutingModule { }
+export class LoginRoutingModule {}
