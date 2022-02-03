@@ -124,9 +124,7 @@ export class UserService implements OnDestroy {
   async processAuth0Login() {
     this.subs.sink = this.auth.user$.subscribe(async profile => {
       if (!profile) {
-        // User is not logged in, let's change that
-        this.login();
-        return;
+        throw Error('User not logged in as expected, route guards should have prevented this');
       }
 
       // User is logged in through Auth0, let's process it

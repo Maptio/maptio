@@ -11,6 +11,7 @@ import { ChangePasswordComponent } from './pages/forgot-password/change-password
 import { ProfilePageComponent } from './pages/profile/profile.page';
 
 // New components (after Auth0 SDK integration)
+import { LoginPageGuard } from './pages/login/login-page.guard';
 import { LoginPageComponent } from './pages/login/login.page';
 
 
@@ -20,7 +21,14 @@ const routes: Routes = [
     children: [
       { path: 'signup', component: SignupComponent },
 
-      { path: 'login', component: LoginPageComponent },
+      {
+        path: 'login',
+        canActivate: [
+          AuthGuard, // Going to this route will send unauthenticated user to Auth0 login page
+          LoginPageGuard, // Going to this route will send already logged-in users home
+        ],
+        component: LoginPageComponent
+      },
       { path: 'authorize', component: AuthorizeComponent },
 
       { path: 'logout', component: LogoutComponent },
