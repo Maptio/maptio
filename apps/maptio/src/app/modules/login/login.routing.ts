@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
+import { AuthGuard } from '@maptio-core/guards/auth.guard';
+
 import { SignupComponent } from './pages/sign-up/signup.page';
 import { LoginComponent } from './pages/login/login.page';
 import { AuthorizeComponent } from './pages/authorize/authorize.page';
 import { LogoutComponent } from './pages/logout/logout.page';
 import { ChangePasswordComponent } from './pages/forgot-password/change-password.page';
 import { ProfilePage } from './pages/profile/profile.page';
-import { AuthGuard } from '../../core/guards/auth.guard';
+
 
 const routes: Routes = [
   {
@@ -28,6 +31,7 @@ const routes: Routes = [
     ],
   },
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
