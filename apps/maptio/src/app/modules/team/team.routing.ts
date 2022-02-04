@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from '@auth0/auth0-angular';
 
+import { ActivationGuard } from '@maptio-core/guards/activation.guard';
 import { AccessGuard } from '@maptio-core/guards/access.guard';
 import { PermissionGuard } from '@maptio-core/guards/permission.guard';
 import { Permissions } from '@maptio-shared/model/permission.data';
@@ -26,7 +27,7 @@ const routes: Routes = [
       {
         path: '',
         component: TeamListComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, ActivationGuard],
         resolve: {
           teams: TeamListComponentResolver,
         },
@@ -38,7 +39,7 @@ const routes: Routes = [
         },
         component: TeamComponent,
         data: { breadcrumbs: '{{assets.team.name}}' },
-        canActivate: [AuthGuard, AccessGuard],
+        canActivate: [AuthGuard, ActivationGuard, AccessGuard],
         children: [
           { path: '', redirectTo: 'people', pathMatch: 'full' },
           {

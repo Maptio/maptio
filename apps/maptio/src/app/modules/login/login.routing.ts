@@ -9,7 +9,9 @@ import { LogoutComponent } from './pages/logout/logout.page';
 import { ProfilePageComponent } from './pages/profile/profile.page';
 
 // New (after Auth0 SDK integration)
+import { ActivationGuard } from '@maptio-core/guards/activation.guard';
 import { LoginGuard } from './login.guard';
+import { SignupGuard } from './signup.guard';
 
 
 const routes: Routes = [
@@ -25,14 +27,18 @@ const routes: Routes = [
         children: [],
       },
 
-      { path: 'signup', component: SignupComponent },
+      {
+        path: 'signup',
+        canActivate: [SignupGuard],
+        component: SignupComponent
+      },
 
       { path: 'logout', component: LogoutComponent },
 
       {
         path: 'profile/:shortid/:slug',
         component: ProfilePageComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, ActivationGuard],
         data: { breadcrumbs: 'Profile' },
       },
     ],

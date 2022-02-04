@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from '@auth0/auth0-angular';
 
+import { ActivationGuard } from '@maptio-core/guards/activation.guard';
 import { AccessGuard } from '@maptio-core/guards/access.guard';
 import { BillingGuard } from '@maptio-core/guards/billing.guard';
 import { WorkspaceGuard } from '@maptio-core/guards/workspace.guard';
@@ -25,7 +26,7 @@ const routes: Routes = [
     path: '',
     data: { breadcrumbs: '{{data.dataset.initiative.name}}' },
     component: WorkspaceComponent,
-    canActivate: [AuthGuard, AccessGuard, BillingGuard],
+    canActivate: [AuthGuard, ActivationGuard, AccessGuard, BillingGuard],
     resolve: {
       data: WorkspaceComponentResolver,
     },
