@@ -5,9 +5,7 @@ import { AuthGuard } from '@auth0/auth0-angular';
 
 // Old components (before Auth0 SDK integration)
 import { SignupComponent } from './pages/sign-up/signup.page';
-import { AuthorizeComponent } from './pages/authorize/authorize.page';
 import { LogoutComponent } from './pages/logout/logout.page';
-import { ChangePasswordComponent } from './pages/forgot-password/change-password.page';
 import { ProfilePageComponent } from './pages/profile/profile.page';
 
 // New (after Auth0 SDK integration)
@@ -28,10 +26,9 @@ const routes: Routes = [
       },
 
       { path: 'signup', component: SignupComponent },
-      { path: 'authorize', component: AuthorizeComponent },
 
       { path: 'logout', component: LogoutComponent },
-      { path: 'forgot', component: ChangePasswordComponent },
+
       {
         path: 'profile/:shortid/:slug',
         component: ProfilePageComponent,

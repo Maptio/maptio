@@ -11,9 +11,7 @@ import { MemberFormModule } from "@maptio-member-form";
 import { LoginRoutingModule } from './login.routing';
 import { LogoutComponent } from './pages/logout/logout.page';
 import { SignupComponent } from './pages/sign-up/signup.page';
-import { AuthorizeComponent } from './pages/authorize/authorize.page';
 import { ProfilePageComponent } from './pages/profile/profile.page';
-import { ChangePasswordComponent } from './pages/forgot-password/change-password.page';
 import { LoginButtonComponent } from './login-button/login-button.component';
 
 
@@ -23,9 +21,7 @@ import { LoginButtonComponent } from './login-button/login-button.component';
     GoogleSignInComponent,
     LogoutComponent,
     SignupComponent,
-    AuthorizeComponent,
     ProfilePageComponent,
-    ChangePasswordComponent,
     LoginButtonComponent,
   ],
   imports: [

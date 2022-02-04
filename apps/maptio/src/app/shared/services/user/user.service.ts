@@ -894,3 +894,41 @@ export class UserService implements OnDestroy {
     return userInAuth0Format;
   }
 }
+
+// TODO: Use this code (that used to be part of the authorize page) to get
+// metadata from Auth0
+// private updateMetadata(profile: any): Observable<User> {
+//   let picture: string, firstName: string, lastName: string;
+
+//   let user = User.create().deserialize(profile);
+
+//   let userId = user.user_id;
+//   let identities = profile.identities.length;
+//   let googleIdentity = profile.identities.find((i: any) => i.provider === "google-oauth2");
+
+//   if (googleIdentity) {
+//       if (identities === 1) {
+//           picture = profile.picture;
+//           firstName = profile.given_name;
+//           lastName = profile.family_name;
+//       }
+//       else {
+//           picture = googleIdentity.profileData.picture;
+//           firstName = googleIdentity.profileData.given_name;
+//           lastName = googleIdentity.profileData.family_name;
+//       }
+//   } else {
+//       picture = googleIdentity.profileData.picture;
+//       firstName = googleIdentity.profileData.given_name;
+//       lastName = googleIdentity.profileData.family_name;
+//   }
+
+//   return observableForkJoin(
+//           this.userService.updateUserPictureUrl(userId, picture),
+//           this.userService.updateUserProfilePlaceholder(userId, firstName, lastName)).pipe(
+//       switchMap(() => {
+//           return observableFrom(this.userService.getUsersInfo([user]))
+//       }),
+//       map(users => users[0]),)
+
+// }
