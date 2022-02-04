@@ -15,7 +15,7 @@ import { AuthService } from '@auth0/auth0-angular';
 @Injectable({
   providedIn: 'root',
 })
-export class LoginPageGuard implements CanActivate, CanActivateChild {
+export class LoginGuard implements CanActivate, CanActivateChild {
   constructor(
     private router: Router,
     private auth: AuthService,
