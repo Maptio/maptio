@@ -3,16 +3,21 @@ import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {
-  BehaviorSubject,
-  forkJoin as observableForkJoin,
-  Observable,
+  from,
 } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {
+  concatMap,
+  distinctUntilKeyChanged,
+  filter,
+  map,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 import { SubSink } from 'subsink';
 import { AuthService } from '@auth0/auth0-angular';
 import { UUID } from 'angular2-uuid/index';
-import { isEmpty, flatten, sortBy, uniq } from 'lodash-es';
+import { isEmpty, sortBy, uniq } from 'lodash-es';
 import { nanoid } from 'nanoid'
 
 import { environment } from '@maptio-config/environment';
@@ -33,13 +38,125 @@ export class UserService implements OnDestroy {
   // skip importing the Auth0 SDK in components
   public isAuthenticated$ = this.auth.isAuthenticated$;
 
-  private userSubject$: BehaviorSubject<User> = new BehaviorSubject(undefined);
-  public readonly user$ = this.userSubject$.asObservable();
-
   private permissions: Permissions[] = [];
 
-  private userWithTeamsAndDatasetsSubject$: BehaviorSubject<UserWithTeamsAndDatasets> = new BehaviorSubject(undefined);
-  public readonly userWithTeamsAndDatasets$ = this.userWithTeamsAndDatasetsSubject$.asObservable();
+  public userWithTeamsAndDatasets$ = this.auth.user$.pipe(
+    // What follows is a draft conversion of "async processAuth0Login()"
+    // tap((profile) => {
+    //   console.log('56, auth.user$ emitted with profile object:', profile);
+    // }),
+
+    // Deal with user not being logged in (this code should not have ran!)
+    tap(profile => {
+      if (!profile) {
+        console.error('User not logged in as expected, route guards should have prevented this');
+      }
+    }),
+    filter(profile => Boolean(profile)),
+
+    // Limit unnecessary emissions, see discussion here:
+    // https://github.com/auth0/auth0-angular/issues/105
+    // and solution proposed here:
+    // https://community.auth0.com/t/infinite-requests-when-piping-auth-user-in-angular-auth-o/57136/2
+    distinctUntilKeyChanged('sub'),
+
+    tap((profile) => {
+      console.log('70, processing emission from auth.user$', profile);
+    }),
+
+    concatMap((profile) => {
+      const userId = profile.sub;
+
+      // TODO: Handle error here!
+      // return from(this.userFactory.get(userId));
+
+      return from(this.userFactory.get(userId));
+    }),
+
+    tap((user) => {
+      console.log('92, User from concatMap:', user);
+    }),
+
+    // TODO: Finish the signup scenario
+    // withLatestFrom(this.auth.user$),
+    // tap(([user, profile]) => {
+    //   console.log('97, after withLatestFrom, user:', user);
+    //   console.log('97, after withLatestFrom, profile:', profile);
+    // }),
+
+    // concatMap((boo) => {
+    // }),
+  //   map(([profile, user]) => {
+  //     if (!user) {
+  //       // User is not in our database
+  //       const user = this.createUserFromAuth0Signup(profile);
+  //       return from(this.userFactory.create(user));
+  //     } else {
+  //       return user;
+  //     }
+  //   }),
+
+    concatMap((user) => {
+      return this.gatherUserData(user);
+    }),
+  )
+
+  public user$ = this.userWithTeamsAndDatasets$.pipe(
+    map((userWithTeamsAndDatasets) => {
+      return userWithTeamsAndDatasets.user;
+    }),
+  );
+
+  // This used to be called in the constructor:
+  // private prepareUserDataBasedOnAuthenticatedUser() {
+  //   this.subs.sink = this.auth.user$.subscribe(async profile => {
+  //     if (!profile) {
+  //       // User is not logged in, no more data prep to do
+  //       return;
+  //     }
+
+  //     // User is logged in through Auth0, let's process it
+  //     const userId = profile.sub;
+
+  //     // TODO: Handle error here!
+  //     const user = await this.userFactory.get(userId);
+
+  //     if (!user) {
+  //       // User is not in our database
+  //       // TODO: Handle this error
+  //       console.error('User not found in database')
+  //       return;
+  //     }
+
+  //     // User is in our database, let's make all associated data available
+  //     const userWithDatasetsAndTeams = await this.gatherUserData(user);
+
+  //     this.userSubject$.next(userWithDatasetsAndTeams.user);
+  //     this.userWithTeamsAndDatasetsSubject$.next(userWithDatasetsAndTeams);
+  //   });
+  // }
+
+  // This used to be called on the login page:
+  // async processAuth0Login() {
+  //   this.subs.sink = this.auth.user$.subscribe(async profile => {
+  //     if (!profile) {
+  //       throw Error('User not logged in as expected, route guards should have prevented this');
+  //     }
+
+  //     // User is logged in through Auth0, let's process it
+  //     const userId = profile.sub;
+
+  //     // TODO: Handle error here!
+  //     const user = await this.userFactory.get(userId);
+
+  //     if (!user) {
+  //       // User is not in our database
+  //       const user = this.createUserFromAuth0Signup(profile);
+  //       this.userFactory.create(user);
+  //       return;
+  //     }
+  //   });
+  // }
 
   constructor(
     // Current
@@ -55,12 +172,7 @@ export class UserService implements OnDestroy {
     // Old, to be removed?
     private encodingService: JwtEncoder,
     private mailing: MailingService,
-  ) {
-    // TODO: This can be written much more cleanly - we've got some code
-    // duplication and API call duplication that it'd be great to avoid with
-    // some cleaner reactive code
-    this.prepareUserDataBasedOnAuthenticatedUser();
-  }
+  ) {}
 
   ngOnDestroy() {
     this.subs.unsubscribe();
@@ -84,61 +196,6 @@ export class UserService implements OnDestroy {
   signup() {
     this.auth.loginWithRedirect({
       screen_hint: 'signup'
-    });
-  }
-
-  // TODO: This is almost identical to processAuth0Login, we should refactor
-  // to DRY this up, though it might makes sense to leave this until state
-  // management can be improved
-  private prepareUserDataBasedOnAuthenticatedUser() {
-    this.subs.sink = this.auth.user$.subscribe(async profile => {
-      if (!profile) {
-        // User is not logged in, no more data prep to do
-        return;
-      }
-
-      // User is logged in through Auth0, let's process it
-      const userId = profile.sub;
-
-      // TODO: Handle error here!
-      const user = await this.userFactory.get(userId);
-
-      if (!user) {
-        // User is not in our database
-        // TODO: Handle this error
-        console.error('User not found in database')
-        return;
-      }
-
-      // User is in our database, let's make all associated data available
-      const userWithDatasetsAndTeams = await this.gatherUserData(user);
-
-      this.userSubject$.next(userWithDatasetsAndTeams.user);
-      this.userWithTeamsAndDatasetsSubject$.next(userWithDatasetsAndTeams);
-    });
-  }
-
-  // TODO: This is almost identical to prepareUserDataBasedOnAuthenticatedUser,
-  // we should refactor to DRY this up, though it might makes sense to leave
-  // this until state management can be improved
-  async processAuth0Login() {
-    this.subs.sink = this.auth.user$.subscribe(async profile => {
-      if (!profile) {
-        throw Error('User not logged in as expected, route guards should have prevented this');
-      }
-
-      // User is logged in through Auth0, let's process it
-      const userId = profile.sub;
-
-      // TODO: Handle error here!
-      const user = await this.userFactory.get(userId);
-
-      if (!user) {
-        // User is not in our database
-        const user = this.createUserFromAuth0Signup(profile);
-        this.userFactory.create(user);
-        return;
-      }
     });
   }
 
