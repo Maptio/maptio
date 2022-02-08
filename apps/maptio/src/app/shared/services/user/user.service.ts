@@ -3,13 +3,14 @@ import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {
-  from,
+  from, of,
 } from 'rxjs';
 import {
   concatMap,
   distinctUntilKeyChanged,
   filter,
   map,
+  shareReplay,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -84,8 +85,39 @@ export class UserService implements OnDestroy {
     //   console.log('97, after withLatestFrom, profile:', profile);
     // }),
 
-    // concatMap((boo) => {
+    // concatMap(([user, profile]) => {
+    //   // if (user) {
+    //   //   return of(user);
+    // // }
+    //   // return of(user);
+    //   // } else {
+    //   //   const newUser = this.createUserFromAuth0Signup(profile);
+    //   //   return from(this.userFactory.create(newUser));
+    //   // }
+    //   const newUser = this.createUserFromAuth0Signup(profile);
+    //   return from(this.userFactory.create(newUser));
     // }),
+
+    withLatestFrom(this.auth.user$),
+    concatMap(([user, profile]) => {
+      console.log('104, typeof user', typeof user);
+      console.log('105, typeof user', user instanceof User);
+      if (user) {
+        console.log('103');
+        return of(user);
+      } else {
+        console.log('106');
+        const newUser = this.createUserFromAuth0Signup(profile);
+        return from(this.userFactory.create(newUser));
+      }
+    }),
+
+    tap((user) => {
+      console.log('115, after signup user creation concatmap, user:', user);
+      console.log('116, typeof user', typeof user);
+      console.log('117, typeof user', user instanceof User);
+    }),
+
   //   map(([profile, user]) => {
   //     if (!user) {
   //       // User is not in our database
@@ -97,12 +129,17 @@ export class UserService implements OnDestroy {
   //   }),
 
     concatMap((user) => {
+      // console.log('133, after tap, user:', user);
+      // console.log('134, typeof user', typeof user);
+      // console.log('135, typeof user', user instanceof User);
       return this.gatherUserData(user);
     }),
+
+    shareReplay(1),
   )
 
   public user$ = this.userWithTeamsAndDatasets$.pipe(
-    map((userWithTeamsAndDatasets) => {
+    map((userWithTeamsAndDatasets: UserWithTeamsAndDatasets) => {
       return userWithTeamsAndDatasets.user;
     }),
   );
@@ -172,7 +209,9 @@ export class UserService implements OnDestroy {
     // Old, to be removed?
     private encodingService: JwtEncoder,
     private mailing: MailingService,
-  ) {}
+  ) {
+    console.log('constructing user service...');
+  }
 
   ngOnDestroy() {
     this.subs.unsubscribe();
@@ -199,7 +238,7 @@ export class UserService implements OnDestroy {
     });
   }
 
-  private async gatherUserData(user): Promise<UserWithTeamsAndDatasets> {
+  private async gatherUserData(user: User): Promise<UserWithTeamsAndDatasets> {
     // This is very old code, which had the comment "HACK : where does the
     // duplication comes from?" next to it, copying it here, but at some
     // point, it'd be good to investigate the source of the duplication,
