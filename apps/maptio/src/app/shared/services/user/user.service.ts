@@ -41,13 +41,7 @@ export class UserService implements OnDestroy {
 
   private permissions: Permissions[] = [];
 
-  public userWithTeamsAndDatasets$ = this.auth.user$.pipe(
-    // What follows is a draft conversion of "async processAuth0Login()"
-    // tap((profile) => {
-    //   console.log('56, auth.user$ emitted with profile object:', profile);
-    // }),
-
-    // Deal with user not being logged in (this code should not have ran!)
+  public userFromAuth0Profile$ = this.auth.user$.pipe(
     tap(profile => {
       if (!profile) {
         console.error('User not logged in as expected, route guards should have prevented this');
@@ -61,81 +55,32 @@ export class UserService implements OnDestroy {
     // https://community.auth0.com/t/infinite-requests-when-piping-auth-user-in-angular-auth-o/57136/2
     distinctUntilKeyChanged('sub'),
 
-    tap((profile) => {
-      console.log('70, processing emission from auth.user$', profile);
-    }),
-
     concatMap((profile) => {
       const userId = profile.sub;
 
       // TODO: Handle error here!
-      // return from(this.userFactory.get(userId));
-
       return from(this.userFactory.get(userId));
     }),
 
-    tap((user) => {
-      console.log('92, User from concatMap:', user);
-    }),
-
-    // TODO: Finish the signup scenario
-    // withLatestFrom(this.auth.user$),
-    // tap(([user, profile]) => {
-    //   console.log('97, after withLatestFrom, user:', user);
-    //   console.log('97, after withLatestFrom, profile:', profile);
-    // }),
-
-    // concatMap(([user, profile]) => {
-    //   // if (user) {
-    //   //   return of(user);
-    // // }
-    //   // return of(user);
-    //   // } else {
-    //   //   const newUser = this.createUserFromAuth0Signup(profile);
-    //   //   return from(this.userFactory.create(newUser));
-    //   // }
-    //   const newUser = this.createUserFromAuth0Signup(profile);
-    //   return from(this.userFactory.create(newUser));
-    // }),
-
     withLatestFrom(this.auth.user$),
     concatMap(([user, profile]) => {
-      console.log('104, typeof user', typeof user);
-      console.log('105, typeof user', user instanceof User);
       if (user) {
-        console.log('103');
         return of(user);
       } else {
-        console.log('106');
         const newUser = this.createUserFromAuth0Signup(profile);
         return from(this.userFactory.create(newUser));
       }
     }),
 
-    tap((user) => {
-      console.log('115, after signup user creation concatmap, user:', user);
-      console.log('116, typeof user', typeof user);
-      console.log('117, typeof user', user instanceof User);
-    }),
+    // Cache the user
+    shareReplay(1),
+  );
 
-  //   map(([profile, user]) => {
-  //     if (!user) {
-  //       // User is not in our database
-  //       const user = this.createUserFromAuth0Signup(profile);
-  //       return from(this.userFactory.create(user));
-  //     } else {
-  //       return user;
-  //     }
-  //   }),
-
+  // Refresh user data every time it is requested
+  public userWithTeamsAndDatasets$ = this.userFromAuth0Profile$.pipe(
     concatMap((user) => {
-      // console.log('133, after tap, user:', user);
-      // console.log('134, typeof user', typeof user);
-      // console.log('135, typeof user', user instanceof User);
       return this.gatherUserData(user);
     }),
-
-    shareReplay(1),
   )
 
   public user$ = this.userWithTeamsAndDatasets$.pipe(
@@ -143,57 +88,6 @@ export class UserService implements OnDestroy {
       return userWithTeamsAndDatasets.user;
     }),
   );
-
-  // This used to be called in the constructor:
-  // private prepareUserDataBasedOnAuthenticatedUser() {
-  //   this.subs.sink = this.auth.user$.subscribe(async profile => {
-  //     if (!profile) {
-  //       // User is not logged in, no more data prep to do
-  //       return;
-  //     }
-
-  //     // User is logged in through Auth0, let's process it
-  //     const userId = profile.sub;
-
-  //     // TODO: Handle error here!
-  //     const user = await this.userFactory.get(userId);
-
-  //     if (!user) {
-  //       // User is not in our database
-  //       // TODO: Handle this error
-  //       console.error('User not found in database')
-  //       return;
-  //     }
-
-  //     // User is in our database, let's make all associated data available
-  //     const userWithDatasetsAndTeams = await this.gatherUserData(user);
-
-  //     this.userSubject$.next(userWithDatasetsAndTeams.user);
-  //     this.userWithTeamsAndDatasetsSubject$.next(userWithDatasetsAndTeams);
-  //   });
-  // }
-
-  // This used to be called on the login page:
-  // async processAuth0Login() {
-  //   this.subs.sink = this.auth.user$.subscribe(async profile => {
-  //     if (!profile) {
-  //       throw Error('User not logged in as expected, route guards should have prevented this');
-  //     }
-
-  //     // User is logged in through Auth0, let's process it
-  //     const userId = profile.sub;
-
-  //     // TODO: Handle error here!
-  //     const user = await this.userFactory.get(userId);
-
-  //     if (!user) {
-  //       // User is not in our database
-  //       const user = this.createUserFromAuth0Signup(profile);
-  //       this.userFactory.create(user);
-  //       return;
-  //     }
-  //   });
-  // }
 
   constructor(
     // Current
@@ -209,9 +103,7 @@ export class UserService implements OnDestroy {
     // Old, to be removed?
     private encodingService: JwtEncoder,
     private mailing: MailingService,
-  ) {
-    console.log('constructing user service...');
-  }
+  ) {}
 
   ngOnDestroy() {
     this.subs.unsubscribe();
