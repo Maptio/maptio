@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { UnauthorizedComponent } from './core/401/unauthorized.component';
-import { NotFoundComponent } from './core/404/not-found.component';
+
+import { UnauthorizedComponent } from '@maptio-core/401/unauthorized.component';
+import { NotFoundComponent } from '@maptio-core/404/not-found.component';
 
 const routes: Routes = [
     {

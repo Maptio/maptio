@@ -1,31 +1,45 @@
 <div class="d-flex justify-content-center align-items-center flex-column row">
   <div class="d-flex flex-column justify-content-center align-items-center col-12 col-md-6">
     <div class="card bg-white border-0">
-      <div class="">
-        <div class="d-flex justify-content-center align-items-center flex-column text-gradient-error">
-          <i class="fas fa-minus-circle d-none d-md-block icon-ending"></i>
-          <i class="fas fa-minus-circle d-md-none icon-ending-xs"></i>
-          <h1 class="d-none d-md-block">You cannot see this!</h1>
-          <h3 class="d-md-none">You cannot see this!</h3>
-        </div>
+      <div class="d-flex justify-content-center align-items-center flex-column text-gradient-error">
+        <i class="fas fa-{{ iconName }} d-none d-md-block icon-ending"></i>
+        <i class="fas fa-{{ iconName }} d-md-none icon-ending-xs"></i>
 
+        <h1 class="d-none d-md-block mt-4">{{ errorHeadline }}</h1>
+        <h3 class="d-md-none mt-4">{{ errorHeadline }}</h3>
+      </div>
+
+      <ng-container *ngIf="!shouldRedirect; else redirect">
         <h4 class="text-muted mt-5">
-          Chat with us or email us at
-          <a
-            class="ml-1"
-            href="mailto:support@maptio.com?subject=Support request"
-          >
-            support@maptio.com
-          </a>
-          if the issue persists.
+          We move fast and sometimes we break things, but we are always happy to
+          help get you back on track.
+        </h4>
+
+        <div class="mt-4">
+          <ng-template *ngTemplateOutlet="contactUs"></ng-template>
+        </div>
+      </ng-container>
+
+      <ng-template #redirect>
+        <h4 class="text-muted mt-5">
+          <ng-template *ngTemplateOutlet="contactUs"></ng-template>
         </h4>
 
         <div class="mt-4">
           You will be redirected to the
           <a class="mx-1" routerLink="/home">homepage</a>
-          in {{ timeToRedirect }} seconds.
+          in {{timeToRedirect}} seconds.
         </div>
-      </div>
+      </ng-template>
     </div>
   </div>
 </div>
+
+
+<ng-template #contactUs>
+  Chat with us or email us at
+  <a href="mailto:support@maptio.com?subject=Support request">
+    support@maptio.com
+  </a>
+  if the issue persists.
+</ng-template>
