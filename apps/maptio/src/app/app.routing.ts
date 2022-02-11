@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { UnauthorizedComponent } from '@maptio-core/401/unauthorized.component';
 import { NotFoundComponent } from '@maptio-core/404/not-found.component';
+import { LoginErrorPageComponent } from '@maptio-core/login-error/login-error.page';
+
 
 const routes: Routes = [
     {
@@ -48,6 +50,10 @@ const routes: Routes = [
       path: 'embed/:id',
       loadChildren: () => import('./modules/embed/embed.module').then(m => m.EmbedModule),
       data: { 'hideUI': true },
+    },
+    {
+        path: "login-error",
+        component: LoginErrorPageComponent,
     },
     {
         path: "unauthorized",

@@ -77,7 +77,6 @@ export class UserFactory {
       .get(`/api/v1/user/${uniqueId}`)
       .pipe(
         map((response) => {
-          console.log("response", response);
           return User.create().deserialize(response);
         })
       )

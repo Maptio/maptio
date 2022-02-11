@@ -1,11 +1,15 @@
 import { Injectable, OnDestroy, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 import {
-  from, of,
+  EMPTY,
+  from,
+  of,
 } from 'rxjs';
 import {
+  catchError,
   concatMap,
   distinctUntilKeyChanged,
   filter,
@@ -28,6 +32,7 @@ import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { User } from '@maptio-shared/model/user.data';
 import { UserRole, UserRoleService, Permissions } from '@maptio-shared/model/permission.data';
 import { UserWithTeamsAndDatasets } from '@maptio-shared/model/userWithTeamsAndDatasets.interface';
+import { LoaderService } from '@maptio-shared/components/loading/loader.service';
 
 import { JwtEncoder } from '../encoding/jwt.service';
 import { MailingService } from '../mailing/mailing.service';
@@ -58,7 +63,6 @@ export class UserService implements OnDestroy {
     concatMap((profile) => {
       const userId = profile.sub;
 
-      // TODO: Handle error here!
       return from(this.userFactory.get(userId));
     }),
 
@@ -71,6 +75,8 @@ export class UserService implements OnDestroy {
         return from(this.userFactory.create(newUser));
       }
     }),
+
+    catchError(this.handleLoginError),
 
     // Cache the user
     shareReplay(1),
@@ -92,12 +98,14 @@ export class UserService implements OnDestroy {
   constructor(
     // Current
     private http: HttpClient,
+    private router: Router,
     private subs: SubSink,
     private auth: AuthService,
     private userFactory: UserFactory,
     private teamFactory: TeamFactory,
     private datasetFactory: DatasetFactory,
     private userRoleService: UserRoleService,
+    private loaderService: LoaderService,
     @Inject(DOCUMENT) private doc: Document,
 
     // Old, to be removed?
@@ -315,6 +323,13 @@ export class UserService implements OnDestroy {
           return this.updateInvitationSentStatus(user, true);
         }
       })
+  }
+
+  private handleLoginError(error) {
+    console.error(error);
+    this.router.navigateByUrl('/login-error');
+    this.loaderService.hide();
+    return EMPTY;
   }
 
   public sendConfirmation(
