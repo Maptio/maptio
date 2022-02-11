@@ -664,6 +664,7 @@ export class UserService implements OnDestroy {
     firstname: string,
     lastname: string,
     email: string,
+    isActivationPending?: boolean,
   ): Promise<boolean> {
     if (user.email !== email && user.isInAuth0) {
       try {
@@ -676,6 +677,10 @@ export class UserService implements OnDestroy {
     user.firstname = firstname;
     user.lastname = lastname;
     user.email = email;
+
+    if (isActivationPending !== undefined) {
+      user.isActivationPending = isActivationPending;
+    }
 
     return this.userFactory.upsert(user);
   }
