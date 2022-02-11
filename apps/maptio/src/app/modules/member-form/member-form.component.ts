@@ -7,6 +7,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { Intercom } from 'ng-intercom';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
@@ -51,6 +52,7 @@ export class MemberFormComponent implements OnInit {
 
   constructor(
     private cd: ChangeDetectorRef,
+    private router: Router,
     private datasetFactory: DatasetFactory,
     private userFactory: UserFactory,
     private teamFactory: TeamFactory,
@@ -104,10 +106,11 @@ export class MemberFormComponent implements OnInit {
 
     this.isSaving = true;
 
-    if (this.isEditingExistingUser) {
+    if (this.isEditingExistingUser && !this.isUserSignUp) {
       await this.updateUser();
-    } else if (this.isUserSignUp) {
-      await this.createUserFromSignup();
+    } else if (this.isEditingExistingUser && this.isUserSignUp) {
+      await this.updateUser(this.isUserSignUp);
+      this.router.navigateByUrl('/home');
     } else {
       await this.createUserAndAddToTeam();
     }
@@ -169,7 +172,7 @@ export class MemberFormComponent implements OnInit {
       });
   }
 
-  async updateUser() {
+  async updateUser(setAsActivated?: boolean) {
     this.savingFailedMessage = null;
     this.isSavingSuccess = false;
     this.cd.markForCheck();
@@ -179,12 +182,22 @@ export class MemberFormComponent implements OnInit {
     }
 
     try {
-      this.isSavingSuccess = await this.userService.updateUser(
-        this.member,
-        this.firstname,
-        this.lastname,
-        this.email
-      );
+      if (setAsActivated) {
+        this.isSavingSuccess = await this.userService.updateUser(
+          this.member,
+          this.firstname,
+          this.lastname,
+          this.email,
+          false,
+        );
+      } else {
+        this.isSavingSuccess = await this.userService.updateUser(
+          this.member,
+          this.firstname,
+          this.lastname,
+          this.email
+        );
+      }
     } catch (error) {
       this.isSavingSuccess = false;
       this.savingFailedMessage = `Updating profile information failed with
@@ -208,20 +221,6 @@ export class MemberFormComponent implements OnInit {
     this.member.email = this.email;
 
     this.isSavingSuccess = true;
-  }
-
-  async createUserFromSignup() {
-    this.createdUser =  this.userService.createUserFromMemberForm(this.email, this.firstname, this.lastname);
-    // TODO: This needs to be properly removed... the entire signup page needs to be reworked to just redirect to Auth0
-    // this.createdUser = await this.userService.createUserInAuth0(this.createdUser);
-
-    await this.userService.sendConfirmation(
-      this.createdUser.email,
-      this.createdUser.user_id,
-      this.createdUser.firstname,
-      this.createdUser.lastname,
-      this.createdUser.name
-    );
   }
 
   onCancel() {
