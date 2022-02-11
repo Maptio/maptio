@@ -47,11 +47,7 @@ export class UserService implements OnDestroy {
   private permissions: Permissions[] = [];
 
   public userFromAuth0Profile$ = this.auth.user$.pipe(
-    tap(profile => {
-      if (!profile) {
-        console.error('User not logged in as expected, route guards should have prevented this');
-      }
-    }),
+    // Proceed only when Auth0 returns profile information
     filter(profile => Boolean(profile)),
 
     // Limit unnecessary emissions, see discussion here:
