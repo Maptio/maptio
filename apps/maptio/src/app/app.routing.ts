@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { ActivationGuard } from '@maptio-core/guards/activation.guard';
 import { UnauthorizedComponent } from '@maptio-core/401/unauthorized.component';
 import { NotFoundComponent } from '@maptio-core/404/not-found.component';
 import { LoginErrorPageComponent } from '@maptio-core/login-error/login-error.page';
@@ -14,7 +15,8 @@ const routes: Routes = [
     },
     {
         path: "home",
-        loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
+        canActivate: [ActivationGuard],
+        loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule),
     },
     {
         path: "teams",
