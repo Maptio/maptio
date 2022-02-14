@@ -6,9 +6,10 @@ import {
   UrlTree,
 } from '@angular/router';
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { concatMap, map } from 'rxjs/operators';
 
+import { User } from '@maptio-shared/model/user.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 
 
@@ -30,12 +31,21 @@ export class ActivationGuard implements CanActivate, CanActivateChild {
   }
 
   private redirectToSignupIfNotActivated(): Observable<boolean | UrlTree> {
-    return this.user.user$.pipe(
+    console.log('ActivationGuard before user$ emits...');
+    return this.user.isAuthenticated$.pipe(
+      concatMap(isAuthenticated => {
+        if (!isAuthenticated) {
+          return of(false);
+        } else {
+          return this.user.user$;
+        }
+      }),
       map((user) => {
-        // Redirect unauthenticated users to the signup page
-        if (!user) {
-          console.error('User is not authenticated in activation guard, this should never happen');
-          return this.router.parseUrl('/login');
+        // Let unauthenticated users through (necessary for the home page that
+        // can be accessed by unauthenticated users, in all other places
+        // AuthGuard needs to be used separately to ensure authentication)
+        if (!(user instanceof User)) {
+          return true;
         }
 
         // Redirect users who have not completed the sign up form to the home page
