@@ -102,12 +102,6 @@ export class AuthorizeComponent implements OnInit {
                 });
             }),
             tap((user: User) => {
-                this.fullstory.identify(user.user_id, {
-                    displayName: user.name,
-                    email: user.email
-                });
-            }),
-            tap((user: User) => {
                 LogRocket.identify(user.user_id, {
                     name: user.name,
                     email: user.email,
