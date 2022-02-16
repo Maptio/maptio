@@ -80,11 +80,8 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     verifyEmailTicketResponse = await auth0ManagementClient
       .tickets
-      // TODO: Use password change instead
-      .verifyEmail({
+      .changePassword({
         user_id: userId,
-        // TODO: Add a real return URL
-        result_url: 'http://localhost:4200',
       })
   } catch(error) {
     error.message = 'Error getting ticket from Auth0 for user invitation' +
