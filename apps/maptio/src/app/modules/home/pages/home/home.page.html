@@ -34,20 +34,24 @@
 
         <button
           class="btn btn-success d-md-none btn-lg my-3 btn-block"
-          routerLink="/signup"
+          maptioLoginRedirect
+          [isSignup]="true"
         >
           Get started - try Maptio for free
         </button>
         <button
+          maptioLoginRedirect
+          [isSignup]="true"
           class="btn btn-success d-none d-md-block btn-lg my-3"
-          routerLink="/signup"
         >
           Get started - try Maptio for free
         </button>
 
         <div class="text-muted">
           Already use Maptio?
-          <a routerLink="/login">Log in</a>
+          <a maptioLoginRedirect role="button" class="link-primary">
+            Log in
+          </a>
         </div>
       </div>
     </div>

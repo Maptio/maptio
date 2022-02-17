@@ -12,7 +12,7 @@ import { LoginRoutingModule } from './login.routing';
 import { LogoutComponent } from './pages/logout/logout.page';
 import { SignupComponent } from './pages/sign-up/signup.page';
 import { ProfilePageComponent } from './pages/profile/profile.page';
-import { LoginButtonComponent } from './login-button/login-button.component';
+import { LoginRedirectDirective } from './login-redirect/login-redirect.directive';
 
 
 
@@ -22,7 +22,7 @@ import { LoginButtonComponent } from './login-button/login-button.component';
     LogoutComponent,
     SignupComponent,
     ProfilePageComponent,
-    LoginButtonComponent,
+    LoginRedirectDirective,
   ],
   imports: [
     CommonModule,
@@ -33,7 +33,7 @@ import { LoginButtonComponent } from './login-button/login-button.component';
     LoginRoutingModule,
   ],
   exports: [
-    LoginButtonComponent,
+    LoginRedirectDirective,
   ],
   providers: [],
 })

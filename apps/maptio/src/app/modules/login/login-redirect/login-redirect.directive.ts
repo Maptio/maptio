@@ -1,4 +1,4 @@
-import { Directive, HostListener } from '@angular/core';
+import { Directive, HostListener, Input } from '@angular/core';
 
 import { UserService } from '@maptio-shared/services/user/user.service';
 
@@ -7,13 +7,15 @@ import { UserService } from '@maptio-shared/services/user/user.service';
   selector: '[maptioLoginRedirect]'
 })
 export class LoginRedirectDirective {
+  @Input() isSignup = false;
+
   constructor(public userService: UserService) {}
 
   @HostListener('click') onClick() {
-    this.onLogin();
-  }
-
-  onLogin() {
-    this.userService.login();
+    if (this.isSignup) {
+      this.userService.signup();
+    } else {
+      this.userService.login();
+    }
   }
 }

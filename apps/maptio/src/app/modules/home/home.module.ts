@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PermissionsModule } from '../../shared/permissions.module';
 import { CreateMapModule } from '../../shared/create-map.module';
 import { HomeRoutingModule } from './home.routing';
+import { LoginModule } from '../login/login.module';
 
 @NgModule({
   declarations: [HomeComponent, DashboardComponent],
@@ -17,6 +18,7 @@ import { HomeRoutingModule } from './home.routing';
     CreateMapModule,
     SanitizerModule,
     HomeRoutingModule,
+    LoginModule,
   ],
   exports: [],
   providers: [],
