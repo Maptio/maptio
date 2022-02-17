@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SanitizerModule } from '@maptio-shared/sanitizer.module';
+import { LoginModule } from '@maptio-login/login.module';
 
 import { CheckoutComponent } from './pages/checkout/checkout.page';
 import { PricingComponent } from './pages/pricing/pricing.page';
@@ -18,7 +19,8 @@ import { PaymentRoutingModule } from './payment.routing';
   imports: [
     CommonModule,
     SanitizerModule,
-    PaymentRoutingModule
+    PaymentRoutingModule,
+    LoginModule,
   ],
   providers: [],
 })

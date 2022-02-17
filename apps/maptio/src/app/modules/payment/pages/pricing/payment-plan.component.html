@@ -24,9 +24,10 @@
 
     <div class="card-text">
       <button
+        maptioLoginRedirect
+        [isSignup]="true"
         *ngIf="!auth.allAuthenticated()"
         class="btn btn-success btn-lg my-3"
-        routerLink="/signup"
       >
         Sign up
       </button>

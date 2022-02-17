@@ -33,6 +33,7 @@
       "@maptio-config/*": ["app/config/*"],
       "@maptio-core/*": ["app/core/*"],
       "@maptio-shared/*": ["app/shared/*"],
+      "@maptio-login/*": ["app/modules/login/*"],
       "@maptio-circle-map/*": ["app/modules/circle-map/*"],
       "@maptio-member-form": ["app/modules/member-form"],
     }
