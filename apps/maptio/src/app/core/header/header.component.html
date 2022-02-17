@@ -214,7 +214,12 @@
         *ngIf="(userService.isAuthenticated$ | async) === false && !isSignUp()"
         class="nav-item d-flex align-items-center"
       >
-        <maptio-login-button></maptio-login-button>
+        <a
+          class="btn btn-link px-0"
+          maptioLoginRedirect
+        >
+          Log in
+        </a>
       </li>
 
       <li class="nav-item d-md-none">
