@@ -107,7 +107,16 @@ export class UserService implements OnDestroy {
     // Old, to be removed?
     private encodingService: JwtEncoder,
     private mailing: MailingService,
-  ) {}
+  ) {
+    // TODO: This is the solution to token expiry actually recommended by Auth0
+    // here: https://github.com/auth0/auth0-angular#handling-errors but it's
+    // ugly and it'd be great to improve on this
+    this.subs.sink = this.auth.error$.pipe(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      filter(error => (error as any).error === 'login_required'),
+      mergeMap(() => this.login())
+    ).subscribe();
+  }
 
   ngOnDestroy() {
     this.subs.unsubscribe();
@@ -119,7 +128,7 @@ export class UserService implements OnDestroy {
    */
 
   login() {
-    this.auth.loginWithRedirect();
+    return this.auth.loginWithRedirect();
   }
 
   logout() {
@@ -129,7 +138,7 @@ export class UserService implements OnDestroy {
   }
 
   signup() {
-    this.auth.loginWithRedirect({
+    return this.auth.loginWithRedirect({
       screen_hint: 'signup'
     });
   }
