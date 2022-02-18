@@ -92,15 +92,6 @@ export class InitiativeComponent implements OnChanges {
                         return t
                     },
                         () => { return Promise.reject("No organisation available") })
-
-
-
-                // this.members$ = this.team$
-                //     .then((team: Team) => {
-                //         return this.userService.getUsersInfo(team.members)
-                //             .then(members => compact(members))
-                //             .then(members => sortBy(members, m => m.name))
-                //     })
             }
 
         }

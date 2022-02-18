@@ -64,17 +64,6 @@ export class WorkspaceComponentResolver
             team.members = members;
             return { dataset: dt.dataset, team: team, members: members };
           });
-
-        // return Promise.all([this.userService.getUsersInfo(dt.team.members), this.userFactory.getUsers(dt.team.members.map(m => m.user_id))])
-        //     .then(([auth0Users, databaseUsers]: [User[], User[]]) => {
-        //         return databaseUsers.map(u => {
-        //             u.picture = auth0Users.find(du => du.user_id === u.user_id) ? auth0Users.find(du => du.user_id === u.user_id).picture : u.picture;
-        //             return u;
-        //         })
-        //     })
-        //     .then(members => compact(members))
-        //     .then(members => sortBy(members, m => m.name))
-        //     .then(members => { return { dataset: dt.dataset, team: dt.team, members: members } })
       }),
       flatMap(dt => {
         return this.auth
