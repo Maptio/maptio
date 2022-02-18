@@ -5,9 +5,10 @@
 
     <div class="col-12 px-0 col-md-auto">
       <button
+        maptioLoginRedirect
+        [isSignup]="true"
         *ngIf="!auth.allAuthenticated()"
         class="btn-block w-100 btn btn-success btn-md-lg my-4"
-        routerLink="/signup"
       >
         Get started - try Maptio for free
       </button>
