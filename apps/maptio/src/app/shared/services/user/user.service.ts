@@ -35,9 +35,6 @@ import { UserRole, UserRoleService, Permissions } from '@maptio-shared/model/per
 import { UserWithTeamsAndDatasets } from '@maptio-shared/model/userWithTeamsAndDatasets.interface';
 import { LoaderService } from '@maptio-shared/components/loading/loader.service';
 
-import { JwtEncoder } from '../encoding/jwt.service';
-import { MailingService } from '../mailing/mailing.service';
-
 
 @Injectable()
 export class UserService implements OnDestroy {
@@ -104,10 +101,6 @@ export class UserService implements OnDestroy {
     private userRoleService: UserRoleService,
     private loaderService: LoaderService,
     @Inject(DOCUMENT) private doc: Document,
-
-    // Old, to be removed?
-    private encodingService: JwtEncoder,
-    private mailing: MailingService,
   ) {
     // TODO: This is the solution to token expiry actually recommended by Auth0
     // here: https://github.com/auth0/auth0-angular#handling-errors but it's
@@ -187,11 +180,17 @@ export class UserService implements OnDestroy {
     return exampleTeamIds;
   }
 
+  private handleLoginError(error) {
+    console.error(error);
+    this.router.navigateByUrl('/login-error');
+    this.loaderService.hide();
+    return EMPTY;
+  }
+
   public getPermissions(): Permissions[] {
     return this.permissions;
   }
 
-  // TODO: Remove when ready...
   public getAccessToken() {
     return Promise.resolve('TODO');
   }
@@ -251,11 +250,16 @@ export class UserService implements OnDestroy {
       userRole: isAdmin ? UserRole[UserRole.Admin] : UserRole[UserRole.Standard],
     };
 
+    return User.create().deserialize(newUserData);
+  }
 
-    // const user = User.create();
-    const user = User.create().deserialize(newUserData);
 
-    return user;
+  /*
+   * User creation: small helper methods
+   */
+
+  private generateNewUserId(): string {
+    return this.addAuth0IdPrefix(nanoid());
   }
 
   private generateUserAvatarLink(firstname, lastname) {
@@ -267,8 +271,49 @@ export class UserService implements OnDestroy {
     return `https://ui-avatars.com/api/?rounded=true&background=${color}&name=${nameForAvatar}&font-size=0.35&color=ffffff&size=500`;
   }
 
-  private generateNewUserId(): string {
-    return this.addAuth0IdPrefix(nanoid());
+  private getHslFromName(name: string): { h: number; s: number; l: number } {
+    const cleaned = name.toLowerCase().replace(/[^a-zA-Z0-9]+/g, '-');
+    let hash = 0;
+    for (let i = 0; i < cleaned.length; i++) {
+      hash = cleaned.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    return { h: hash % 360, s: 99, l: 35 };
+  }
+
+  private getHexFromHsl(hsl: { h: number; s: number; l: number }) {
+    const h = hsl.h / 360;
+    const s = hsl.s / 100;
+    const l = hsl.l / 100;
+
+    let r: number, g: number, b: number;
+
+    if (s === 0) {
+      r = g = b = l; // achromatic
+    } else {
+      const hue2rgb = (p: number, q: number, t: number) => {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+        return p;
+      };
+
+      const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      const p = 2 * l - q;
+
+      r = hue2rgb(p, q, h + 1 / 3);
+      g = hue2rgb(p, q, h);
+      b = hue2rgb(p, q, h - 1 / 3);
+    }
+
+    const toHex = (x: number) => {
+      const hex = Math.round(x * 255).toString(16);
+      return hex.length === 1 ? '0' + hex : hex;
+    };
+
+    return `${toHex(r)}${toHex(g)}${toHex(b)}`.replace('-', '').substr(0, 6);
   }
 
   /**
@@ -295,6 +340,11 @@ export class UserService implements OnDestroy {
   private removeAuth0IdPrefix(userId: string): string {
     return userId.replace('auth0|', '');
   }
+
+
+  /*
+   * Invitations
+   */
 
   public sendInvite(
     user: User,
@@ -331,201 +381,15 @@ export class UserService implements OnDestroy {
       })
   }
 
-  private handleLoginError(error) {
-    console.error(error);
-    this.router.navigateByUrl('/login-error');
-    this.loaderService.hide();
-    return EMPTY;
-  }
 
-  public sendConfirmation(
-    email: string,
-    userId: string,
-    firstname: string,
-    lastname: string,
-    name: string
-  ): Promise<boolean> {
-    return Promise.all([
-      this.encodingService.encode({
-        user_id: userId,
-        email: email,
-        firstname: firstname,
-        lastname: lastname,
-        name: name,
-      }),
-      this.getAccessToken(),
-    ])
-      .then(([userToken, apiToken]: [string, string]) => {
-        const httpOptions = {
-          headers: new HttpHeaders({
-            Authorization: 'Bearer ' + apiToken,
-          }),
-        };
 
-        return this.http
-          .post(
-            environment.TICKETS_API_URL,
-            {
-              result_url: this.getAuth0RedirectBackUrl(userToken),
-              user_id: userId,
-            },
-            httpOptions
-          )
-          .pipe(
-            map((responseData: any) => {
-              return <string>responseData.ticket;
-            })
-          )
-          .toPromise();
-      })
-      .then((ticket: string) => {
-        return this.mailing.sendConfirmation(
-          environment.SUPPORT_EMAIL,
-          [email],
-          ticket
-        );
-      })
-      .then((success: boolean) => {
-        return this.updateActivationPendingStatus(userId, true);
-      });
-  }
 
-  public sendConfirmationWithUserToken(userToken: string): Promise<boolean> {
-    const getUserId = () => {
-      return this.encodingService
-        .decode(userToken)
-        .then((decoded) => decoded.user_id);
-    };
-    const getUserEmail = () => {
-      return this.encodingService
-        .decode(userToken)
-        .then((decoded) => decoded.email);
-    };
 
-    return Promise.all([
-      getUserId(),
-      getUserEmail(),
-      this.getAccessToken(),
-    ])
-      .then(([userId, email, apiToken]: [string, string, string]) => {
-        const httpOptions = {
-          headers: new HttpHeaders({
-            Authorization: 'Bearer ' + apiToken,
-          }),
-        };
 
-        return this.http
-          .post(
-            environment.TICKETS_API_URL,
-            {
-              result_url: this.getAuth0RedirectBackUrl(userToken),
-              user_id: userId,
-            },
-            httpOptions
-          )
-          .pipe(
-            map((responseData: any) => {
-              return {
-                ticket: <string>responseData.ticket,
-                email: email,
-                userId: userId,
-              };
-            })
-          )
-          .toPromise();
-      })
-      .then((data: { ticket: string; email: string; userId: string }) => {
-        return this.mailing.sendConfirmation(
-          environment.SUPPORT_EMAIL,
-          [data.email],
-          data.ticket
-        );
-      })
-      .then(() => {
-        return getUserId();
-      })
-      .then((userId: string) => {
-        return this.updateActivationPendingStatus(userId, true);
-      });
-  }
 
-  private generateDetailedUserToken(user: User): Promise<string> {
-    return this.encodingService.encode({
-      user_id: user.user_id,
-      email: user.email,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      name: user.name,
-    });
-  }
 
-  public generateUserToken(
-    userId: string,
-    email: string,
-    firstname: string,
-    lastname: string
-  ): Promise<string> {
-    return this.encodingService.encode({
-      user_id: userId,
-      email: email,
-      firstname: firstname,
-      lastname: lastname,
-    });
-  }
 
-  /**
-   * URL used by Auth0 to redirect user back to Maptio
-   */
-  private getAuth0RedirectBackUrl(userToken: string) {
-    return `${window.location.protocol}//${window.location.hostname}` +
-      `${window.location.port === '' ? '' : `:${window.location.port}`}` +
-      `/login?token=${userToken}`;
-  }
 
-  private getHslFromName(name: string): { h: number; s: number; l: number } {
-    const cleaned = name.toLowerCase().replace(/[^a-zA-Z0-9]+/g, '-');
-    let hash = 0;
-    for (let i = 0; i < cleaned.length; i++) {
-      hash = cleaned.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    return { h: hash % 360, s: 99, l: 35 };
-  }
-
-  getHexFromHsl(hsl: { h: number; s: number; l: number }) {
-    const h = hsl.h / 360;
-    const s = hsl.s / 100;
-    const l = hsl.l / 100;
-
-    let r: number, g: number, b: number;
-
-    if (s === 0) {
-      r = g = b = l; // achromatic
-    } else {
-      const hue2rgb = (p: number, q: number, t: number) => {
-        if (t < 0) t += 1;
-        if (t > 1) t -= 1;
-        if (t < 1 / 6) return p + (q - p) * 6 * t;
-        if (t < 1 / 2) return q;
-        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-        return p;
-      };
-
-      const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-      const p = 2 * l - q;
-
-      r = hue2rgb(p, q, h + 1 / 3);
-      g = hue2rgb(p, q, h);
-      b = hue2rgb(p, q, h - 1 / 3);
-    }
-
-    const toHex = (x: number) => {
-      const hex = Math.round(x * 255).toString(16);
-      return hex.length === 1 ? '0' + hex : hex;
-    };
-
-    return `${toHex(r)}${toHex(g)}${toHex(b)}`.replace('-', '').substr(0, 6);
-  }
 
   public async getUsersInfo(users: Array<User>): Promise<Array<User>> {
     if (users.length === 0)
@@ -613,55 +477,10 @@ export class UserService implements OnDestroy {
   //     );
   // }
 
-  public isActivationPendingByUserId(...args): any {
-    console.error('TODO: isActivationPendingByUserId');
-  }
-
-  public isActivationPendingByEmail(...args): any {
-    console.error('TODO: isActivationPendingByEmail');
-  }
-
   public isInvitationSent(...args): any {
     console.error('TODO: isInvitationSent');
   }
 
-  public updateUserCredentials(
-    user_id: string,
-    password: string,
-    firstname: string,
-    lastname: string
-  ): Promise<boolean> {
-    return this.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .patch(
-          `${environment.USERS_API_URL}/${user_id}`,
-          {
-            password: password,
-            user_metadata: {
-              given_name: firstname,
-              family_name: lastname,
-            },
-            connection: environment.CONNECTION_NAME,
-          },
-          httpOptions
-        )
-        .toPromise()
-        .then(
-          (response) => {
-            return true;
-          },
-          (error) => {
-            return Promise.reject('Cannot update user credentials');
-          }
-        );
-    });
-  }
 
   // TODO: Replace calls to this with the function below
   // eslint-disable-next-line
@@ -803,47 +622,6 @@ export class UserService implements OnDestroy {
     });
   }
 
-  public changePassword(email: string): void {
-    // this.configuration.getWebAuth().changePassword(
-    //   {
-    //     connection: environment.CONNECTION_NAME,
-    //     email: email,
-    //   },
-    //   function (err, resp) {
-    //     if (err) {
-    //       EmitterService.get('changePasswordFeedbackMessage').emit(err.error);
-    //     } else {
-    //       EmitterService.get('changePasswordFeedbackMessage').emit(resp);
-    //     }
-    //   }
-    // );
-  }
-
-  public isUserExist(email: string): Promise<boolean> {
-    return this.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .get(
-          `${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=` +
-            encodeURIComponent(`email:"${email}"`),
-          httpOptions
-        )
-        .pipe(
-          map((responseData: any) => {
-            if (responseData.total) {
-              return responseData.total === 1;
-            }
-            return false;
-          })
-        )
-        .toPromise();
-    });
-  }
 
   /**
    * Get name of Auth0 connection for currently logged in user
