@@ -31,7 +31,6 @@ export class ActivationGuard implements CanActivate, CanActivateChild {
   }
 
   private redirectToSignupIfNotActivated(): Observable<boolean | UrlTree> {
-    console.log('ActivationGuard before user$ emits...');
     return this.user.isAuthenticated$.pipe(
       concatMap(isAuthenticated => {
         if (!isAuthenticated) {
