@@ -46,11 +46,6 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
   public members$: Promise<User[]>;
   private routeSubscription: Subscription;
 
-  public invite$: Subject<void> = new Subject<void>();
-
-  public invitableUsersCount: number;
-  public inviteAllUsersMessage: string;
-
   public createdUser: User;
   cancelClicked: boolean;
 
@@ -137,13 +132,7 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
       .catch(() => {
         this.cd.markForCheck();
         this.loaderService.hide();
-        return [];
-      });
-    // });
-  }
-
-  inviteAll() {
-    this.invite$.next();
+    }
   }
 
   onAddMember(createdUser?: User) {

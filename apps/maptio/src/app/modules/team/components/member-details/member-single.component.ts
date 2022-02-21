@@ -1,14 +1,11 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
   Input,
   Output,
   EventEmitter,
   ChangeDetectorRef,
 } from '@angular/core';
-
-import { Observable, Subscription } from 'rxjs';
 
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Intercom } from 'ng-intercom';
@@ -27,7 +24,7 @@ import { Team } from '@maptio-shared/model/team.data';
   templateUrl: './member-single.component.html',
   styleUrls: ['./member-single.component.css'],
 })
-export class MemberSingleComponent implements OnInit, OnDestroy {
+export class MemberSingleComponent implements OnInit {
   UserRole = UserRole;
   Permissions = Permissions;
 
@@ -35,13 +32,11 @@ export class MemberSingleComponent implements OnInit, OnDestroy {
   @Input() member: User;
   @Input() user: User;
   @Input() isOnlyMember: boolean;
-  @Input() invite: Observable<User>;
 
   @Output() delete = new EventEmitter<User>();
 
   isDisplaySendingLoader: boolean;
   isDisplayUpdatingLoader: boolean;
-  subscription: Subscription;
   isEditToggled: boolean;
 
   errorMessage: string;
@@ -54,12 +49,7 @@ export class MemberSingleComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this.invite.subscribe(() => {
-      if (this.member.isActivationPending) {
-        this.inviteUser();
-      }
-    });
-
+    console.log('TODO');
     // TODO: Compare validation / disabled fields to MemberFormComponent
     // this.editUserForm = new FormGroup({
     //   firstname: new FormControl(
@@ -94,10 +84,6 @@ export class MemberSingleComponent implements OnInit, OnDestroy {
     //     }
     //   ),
     // });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   deleteMember() {

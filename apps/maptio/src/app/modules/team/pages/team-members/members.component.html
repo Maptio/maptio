@@ -47,21 +47,6 @@
             <i class="fa fa-info-circle text-muted" aria-hidden="true"></i>
           </a>
         </div>
-
-        <div *permissionsOnly="Permissions.canInviteUser" class="ml-auto">
-          <button
-            class="btn btn-outline-secondary pull-right nowrap"
-            mwlConfirmationPopover
-            [popoverMessage]="inviteAllUsersMessage"
-            placement="top"
-            focusButton="cancel"
-            appendToBody="true"
-            (confirm)="inviteAll()"
-            (cancel)="cancelClicked = true"
-          >
-            Invite/resend all
-          </button>
-        </div>
       </div>
     </div>
 
@@ -75,7 +60,6 @@
     >
       <div class="col-12 my-1">
         <maptio-member-single
-          [invite]="invite$.asObservable()"
           [isOnlyMember]="team.members.length === 1"
           [user]="user"
           [member]="member"
