@@ -6,16 +6,12 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Subject, Subscription } from 'rxjs';
-import {
-  combineLatest,
-} from 'rxjs/operators';
+import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 
 import {
   compact,
   remove,
   uniqBy,
-  differenceBy,
   sortBy,
 } from 'lodash-es';
 import { Intercom } from 'ng-intercom';
@@ -43,7 +39,9 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
   user: User;
   Permissions = Permissions;
 
-  public members$: Promise<User[]>;
+  private membersSubject$: BehaviorSubject<User[]> = new BehaviorSubject([]);
+  public readonly members$ = this.membersSubject$.asObservable();
+
   private routeSubscription: Subscription;
 
   public createdUser: User;
@@ -63,15 +61,17 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.routeSubscription = this.route.parent.data
-      .pipe(combineLatest(this.auth.getUser()))
-      .subscribe(
-        (data: [{ assets: { team: Team; datasets: DataSet[] } }, User]) => {
-          this.team = data[0].assets.team;
-          this.user = data[1];
-          this.members$ = this.getAllMembers();
-        }
-      );
+    this.routeSubscription = combineLatest([
+      this.route.parent.data,
+      this.userService.user$,
+    ]).subscribe(
+      async (data: [{ assets: { team: Team; datasets: DataSet[] } }, User]) => {
+        this.team = data[0].assets.team;
+        this.user = data[1];
+
+        this.getAllMembers();
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -80,58 +80,31 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
     }
   }
 
-  getAllMembers() {
-    this.loaderService.show();
-    return this.userFactory
-      .getUsers(this.team.members.map((m) => m.user_id))
-      .then((members) => compact(members))
-      .then((members: User[]) => {
-        return this.userService.getUsersInfo(members).then((pending) => {
-          if (this.createdUser) {
-            this.createdUser.isActivationPending = true;
-            this.createdUser.isInvitationSent = false;
-            pending.push(this.createdUser);
-          }
+  async getAllMembers() {
+    try {
+      this.loaderService.show();
 
-          return { members: members, membersPending: pending };
-        });
-      })
-      .then((result) => {
-        const members = result.members;
+      const memberIds = this.team.members.map((member) => member.user_id);
+      let members = await this.userFactory.getUsers(memberIds);
+      members = compact(members);
 
-        const membersPending = uniqBy(result.membersPending, (m) => m.user_id);
-        const allDeleted = differenceBy(
-          members,
-          membersPending,
-          (m) => m.user_id
-        ); //.map(m => { m.isDeleted = true; return m });
+      if (this.createdUser) {
+        this.createdUser.isActivationPending = true;
+        this.createdUser.isInvitationSent = false;
+        members.push(this.createdUser);
+      }
 
-        return membersPending.concat(allDeleted);
-      })
-      .then((members) => {
-        this.invitableUsersCount = members.filter(
-          (m) => m.isActivationPending
-        ).length;
-        this.inviteAllUsersMessage = `Are you sure you want to send an invitation email to these
-    ${this.invitableUsersCount} people?`;
-        return sortBy(members, (m) => m.name);
-      })
-      .then((members) => {
-        this.intercom.update({
-          app_id: environment.INTERCOM_APP_ID,
-          email: this.user.email,
-          user_id: this.user.user_id,
-          company: {
-            company_id: this.team.team_id,
-            created_users: members.length,
-          },
-        });
-        this.loaderService.hide();
-        return members;
-      })
-      .catch(() => {
-        this.cd.markForCheck();
-        this.loaderService.hide();
+      members = uniqBy(members, (member) => member.user_id);
+      members = sortBy(members, (member) => member.name);
+
+      this.updateCreatedUsersInIntercom(members.length);
+      this.loaderService.hide();
+
+      this.membersSubject$.next(members);
+    } catch(error) {
+      console.error('Error retrieving all members', error);
+      this.cd.markForCheck();
+      this.membersSubject$.next([]);
     }
   }
 
@@ -139,7 +112,8 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
     if (createdUser) {
       this.createdUser = createdUser;
     }
-    this.members$ = this.getAllMembers();
+
+    this.getAllMembers();
   }
 
   deleteMember(user: User) {
@@ -149,11 +123,23 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
     });
     this.cd.markForCheck();
     this.teamFactory.upsert(this.team).then(() => {
-      this.members$ = this.getAllMembers();
+      this.getAllMembers();
     });
   }
 
   trackByMemberId(index: number, member: User) {
     return member.user_id;
+  }
+
+  private updateCreatedUsersInIntercom(numberOfCreatedUsers: number) {
+    this.intercom.update({
+      app_id: environment.INTERCOM_APP_ID,
+      email: this.user.email,
+      user_id: this.user.user_id,
+      company: {
+        company_id: this.team.team_id,
+        created_users: numberOfCreatedUsers,
+      },
+    });
   }
 }
