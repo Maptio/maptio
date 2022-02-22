@@ -15,7 +15,6 @@ import { ProfilePageComponent } from './pages/profile/profile.page';
 import { LoginRedirectDirective } from './login-redirect/login-redirect.directive';
 
 
-
 @NgModule({
   declarations: [
     GoogleSignInComponent,
