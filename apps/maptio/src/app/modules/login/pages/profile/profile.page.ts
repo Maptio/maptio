@@ -37,6 +37,8 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   public uploader: FileUploader;
   public isRefreshingPicture: boolean;
 
+  user$ = this.userService.user$;
+
   UserRole = UserRole;
   private uploaderOptions: FileUploaderOptions = {
     url: `https://api.cloudinary.com/v1_1/${
