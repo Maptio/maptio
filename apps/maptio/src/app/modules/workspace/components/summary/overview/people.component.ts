@@ -53,7 +53,7 @@ export class PeopleSummaryComponent implements OnInit {
         public loaderService: LoaderService,
         private router: Router,
         private cd: ChangeDetectorRef,
-        private analytics: Angulartics2Mixpanel, 
+        private analytics: Angulartics2Mixpanel,
     ) {}
 
     ngOnInit(): void {
@@ -64,9 +64,8 @@ export class PeopleSummaryComponent implements OnInit {
             switchMap((data: [any, Params]) => {
                 if (data[1].member) {
                     return this.userFactory.get(data[1].member)
-                        .then(user => this.userService.getUsersInfo([user]))
-                        .then((users: User[]) => {
-                            this.selectedMember = users[0];
+                        .then((user: User) => {
+                            this.selectedMember = user;
                             this.cd.markForCheck();
                             return data[0];
                         });
