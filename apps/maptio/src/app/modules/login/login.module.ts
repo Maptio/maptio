@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { SanitizerModule } from '@maptio-shared/sanitizer.module';
-import { ImageModule } from '@maptio-shared/image.module';
 import { GoogleSignInComponent } from '@maptio-shared/components/buttons/google-signin.component';
 
 import { MemberFormModule } from "@maptio-member-form";
@@ -27,7 +26,6 @@ import { LoginRedirectDirective } from './login-redirect/login-redirect.directiv
     CommonModule,
     ReactiveFormsModule,
     SanitizerModule,
-    ImageModule,
     MemberFormModule,
     LoginRoutingModule,
   ],

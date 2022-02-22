@@ -1,4 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { Cloudinary } from '@cloudinary/angular-5.x';
+import {
+  FileUploaderOptions,
+  FileUploader,
+  FileLikeObject,
+} from 'ng2-file-upload';
+
+import { environment } from '@maptio-config/environment';
+import { UserService } from '@maptio-shared/services/user/user.service';
+import { UserFactory } from '@maptio-core/http/user/user.factory';
+import { User } from '@maptio-shared/model/user.data';
+
 
 @Component({
   selector: 'maptio-image-upload',
@@ -7,9 +20,124 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ImageUploadComponent implements OnInit {
 
-  constructor() { }
+  public uploader: FileUploader;
+  private uploaderOptions: FileUploaderOptions = {
+    url: `https://api.cloudinary.com/v1_1/${
+      this.cloudinary.config().cloud_name
+    }/upload`,
+    // Upload files automatically upon addition to upload queue
+    autoUpload: true,
+    // Use xhrTransport in favor of iframeTransport
+    isHTML5: true,
+
+    maxFileSize: 1024000 * 2,
+    // Calsculate progress independently for each uploaded file
+    removeAfterUpload: true,
+    // XHR request headers
+    headers: [
+      {
+        name: 'X-Requested-With',
+        value: 'XMLHttpRequest',
+      },
+    ],
+  };
+
+  public feedbackMessage = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+  public errorMessage = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+
+  public isRefreshingPicture: boolean;
+
+  @Input() user: User;
+
+  constructor(
+    private cloudinary: Cloudinary,
+    private userService: UserService,
+    private userFactory: UserFactory,
+  ) {}
 
   ngOnInit(): void {
+    this.uploader = new FileUploader(this.uploaderOptions);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
+      this.buildItemForm(fileItem, form);
+    };
+    this.uploader.onWhenAddingFileFailed = (
+      item: FileLikeObject,
+      filter: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+    ) => {
+      this.handleError(item, filter);
+    };
+
+    this.uploader.onCompleteItem = (
+      item: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+      response: string,
+    ) => {
+      const pictureURL = JSON.parse(response).secure_url;
+      this.updatePicture(pictureURL);
+      this.feedbackMessage = 'Successfully updated.';
+    };
+
+    this.uploader.onProgressItem = () => {
+      this.isRefreshingPicture = true;
+    };
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private handleError(item: FileLikeObject, filter: any) {
+    if (filter.name === 'fileSize') {
+      this.errorMessage = 'The image size must not exceed 2mb.';
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private buildItemForm(fileItem: any, form: FormData): any {
+    this.isRefreshingPicture = true;
+    this.feedbackMessage = null;
+    this.errorMessage = '';
+    // Add Cloudinary's unsigned upload preset to the upload form
+    form.append('upload_preset', this.cloudinary.config().upload_preset);
+    // Add built-in and custom tags for displaying the uploaded photo in the list
+    form.append('context', `user_id=${encodeURIComponent(this.user.user_id)}`);
+    form.append('tags', environment.CLOUDINARY_PROFILE_TAGNAME);
+    form.append('file', fileItem);
+
+    // Use default "withCredentials" value for CORS requests
+    fileItem.withCredentials = false;
+    return { fileItem, form };
+  }
+
+  updatePicture(pictureURL: string) {
+    this.userService
+      .updateUserPictureUrl(this.user.user_id, pictureURL)
+      .then(
+        (hasUpdated: boolean) => {
+          if (hasUpdated) {
+            // TODO: WTF? :)
+            // this.auth.getUser();
+            return;
+          } else return Promise.reject('Cannot update your profile picture.');
+        },
+        () => {
+          return Promise.reject('Cannot update your profile picture.');
+        }
+      )
+      .then(() => {
+        this.user.picture = pictureURL;
+        return this.userFactory.upsert(this.user).then(
+          (hasUpdated) => {
+            if (!hasUpdated)
+              return Promise.reject('Cannot sync your profile picture');
+          },
+          () => {
+            return Promise.reject('Cannot sync your profile picture');
+          }
+        );
+      })
+      .then(() => {
+        this.isRefreshingPicture = false;
+      })
+      .catch((reason) => {
+        this.errorMessage = reason;
+      });
+  }
 }
