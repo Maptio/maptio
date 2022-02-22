@@ -1,28 +1,31 @@
-import { UserRole } from '../../../../shared/model/permission.data';
-import { environment } from '../../../../config/environment';
-import { UserService } from '../../../../shared/services/user/user.service';
-import { ErrorService } from '../../../../shared/services/error/error.service';
-import { Auth } from '../../../../core/authentication/auth.service';
-import { Subscription } from 'rxjs';
-import { User } from '../../../../shared/model/user.data';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+
+import { Subscription } from 'rxjs';
+
 import { Cloudinary } from '@cloudinary/angular-5.x';
 import {
   FileUploaderOptions,
   FileUploader,
-  ParsedResponseHeaders,
   FileLikeObject,
 } from 'ng2-file-upload';
-import { UserFactory } from '../../../../core/http/user/user.factory';
-import { LoaderService } from '../../../../shared/components/loading/loader.service';
+
+import { environment } from '@maptio-config/environment';
+import { Auth } from '@maptio-core/authentication/auth.service';
+import { UserFactory } from '@maptio-core/http/user/user.factory';
+import { User } from '@maptio-shared/model/user.data';
+import { UserRole } from '@maptio-shared/model/permission.data';
+import { UserService } from '@maptio-shared/services/user/user.service';
+import { ErrorService } from '@maptio-shared/services/error/error.service';
+import { LoaderService } from '@maptio-shared/components/loading/loader.service';
+
 
 @Component({
-  selector: 'profile',
+  selector: 'maptio-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.css'],
 })
-export class ProfilePage {
+export class ProfilePageComponent implements OnInit, OnDestroy {
   public user: User;
   public subscription: Subscription;
   public accountForm: FormGroup;
@@ -85,7 +88,7 @@ export class ProfilePage {
         this.lastname = user.lastname;
         this.loaderService.hide();
       },
-      (error: any) => {
+      (error: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
         this.errorService.handleError(error);
       },
       () => {
@@ -94,39 +97,39 @@ export class ProfilePage {
     );
 
     this.uploader = new FileUploader(this.uploaderOptions);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
       this.buildItemForm(fileItem, form);
     };
     this.uploader.onWhenAddingFileFailed = (
       item: FileLikeObject,
-      filter: any,
-      options: any
+      filter: any, // eslint-disable-line @typescript-eslint/no-explicit-any
     ) => {
-      this.handleError(item, filter, options);
+      this.handleError(item, filter);
     };
 
     this.uploader.onCompleteItem = (
-      item: any,
+      item: any, // eslint-disable-line @typescript-eslint/no-explicit-any
       response: string,
-      status: number,
-      headers: ParsedResponseHeaders
     ) => {
-      let pictureURL = JSON.parse(response).secure_url;
+      const pictureURL = JSON.parse(response).secure_url;
       this.updatePicture(pictureURL);
       this.feedbackMessage = 'Successfully updated.';
     };
 
-    this.uploader.onProgressItem = (fileItem: any, progress: any) => {
+    this.uploader.onProgressItem = () => {
       this.isRefreshingPicture = true;
     };
   }
 
-  private handleError(item: FileLikeObject, filter: any, options: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private handleError(item: FileLikeObject, filter: any) {
     if (filter.name === 'fileSize') {
       this.errorMessage = 'The image size must not exceed 2mb.';
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private buildItemForm(fileItem: any, form: FormData): any {
     this.isRefreshingPicture = true;
     this.feedbackMessage = null;
@@ -150,8 +153,8 @@ export class ProfilePage {
   save() {
     this.feedbackMessage = null;
     if (this.accountForm.dirty && this.accountForm.valid) {
-      let firstname = this.accountForm.controls['firstname'].value;
-      let lastname = this.accountForm.controls['lastname'].value;
+      const firstname = this.accountForm.controls['firstname'].value;
+      const lastname = this.accountForm.controls['lastname'].value;
 
       this.userService
         .updateUserProfile(this.user.user_id, firstname, lastname)
@@ -200,7 +203,7 @@ export class ProfilePage {
             return;
           } else return Promise.reject('Cannot update your profile picture.');
         },
-        (reason) => {
+        () => {
           return Promise.reject('Cannot update your profile picture.');
         }
       )

@@ -8,7 +8,7 @@ import { LoginComponent } from './pages/login/login.page';
 import { AuthorizeComponent } from './pages/authorize/authorize.page';
 import { LogoutComponent } from './pages/logout/logout.page';
 import { ChangePasswordComponent } from './pages/forgot-password/change-password.page';
-import { ProfilePage } from './pages/profile/profile.page';
+import { ProfilePageComponent } from './pages/profile/profile.page';
 
 
 const routes: Routes = [
@@ -24,7 +24,7 @@ const routes: Routes = [
       { path: 'forgot', component: ChangePasswordComponent },
       {
         path: 'profile/:shortid/:slug',
-        component: ProfilePage,
+        component: ProfilePageComponent,
         canActivate: [AuthGuard],
         data: { breadcrumbs: 'Profile' },
       },

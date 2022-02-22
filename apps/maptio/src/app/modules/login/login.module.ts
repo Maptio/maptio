@@ -11,8 +11,9 @@ import { LoginComponent } from './pages/login/login.page';
 import { LogoutComponent } from './pages/logout/logout.page';
 import { SignupComponent } from './pages/sign-up/signup.page';
 import { AuthorizeComponent } from './pages/authorize/authorize.page';
-import { ProfilePage } from './pages/profile/profile.page';
+import { ProfilePageComponent } from './pages/profile/profile.page';
 import { ChangePasswordComponent } from './pages/forgot-password/change-password.page';
+
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { ChangePasswordComponent } from './pages/forgot-password/change-password
     LogoutComponent,
     SignupComponent,
     AuthorizeComponent,
-    ProfilePage,
+    ProfilePageComponent,
     ChangePasswordComponent,
   ],
   imports: [
