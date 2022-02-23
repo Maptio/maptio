@@ -1,41 +1,59 @@
-<p>image-upload works!</p>
+<div
+  class="alert alert-success alert-dismissable"
+  role="alert"
+  *ngIf="feedbackMessage"
+>
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">
+    &times;
+  </a>
+  {{ feedbackMessage }}
+</div>
 
+<div
+  class="alert alert-danger alert-dismissable"
+  role="alert"
+  *ngIf="errorMessage"
+>
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">
+    &times;
+  </a>
+  {{ errorMessage }}
+</div>
 
-  <div class="form-group form-inline row">
-    <label
-      class="col-12 col-md-4 d-flex justify-content-start"
-      for="inputPicture"
-    >
-      Avatar
-    </label>
-    <div class="input-group col-12 col-md-8">
-      <div class="input-group-prepend">
-        <button
-          class="btn btn-light cover"
-          type="button"
-        ></button>
-        <!-- TODO: -->
-        <!-- [ngStyle]="{'background': ' url(' + member?.picture + ') no-repeat'}" -->
-      </div>
-      <div class="custom-file">
-        <input
-          type="file"
-          class="custom-file-input"
-          id="customFile"
-          id="fileupload"
-          #fileInput
-          ng2FileSelect
-          [uploader]="uploader"
-          (change)="fileInput.value=''"
-          accept="image/*"
-        />
-        <label class="custom-file-label" for="customFile">
-          <i
-            *ngIf="isRefreshingPicture"
-            class="ml-1 text-muted fas fa-circle-notch fa-spin"
-          ></i>
-          <span *ngIf="!isRefreshingPicture">Choose file</span>
-        </label>
-      </div>
+<div class="form-group form-inline row">
+  <label
+    class="col-12 col-md-4 d-flex justify-content-start"
+    for="inputPicture"
+  >
+    Avatar
+  </label>
+  <div class="input-group col-12 col-md-8">
+    <div class="input-group-prepend">
+      <button
+        class="btn btn-light cover"
+        type="button"
+      ></button>
+        <!-- [ngStyle]="{ background: ' url(' + user?.picture + ') no-repeat' }" -->
+    </div>
+    <div class="custom-file">
+      <input
+        type="file"
+        class="custom-file-input"
+        id="customFile"
+        id="fileupload"
+        #fileInput
+        ng2FileSelect
+        [uploader]="uploader"
+        (change)="fileInput.value = ''"
+        accept="image/*"
+      />
+      <label class="custom-file-label" for="customFile">
+        <i
+          *ngIf="isRefreshingPicture"
+          class="ml-1 text-muted fas fa-circle-notch fa-spin"
+        ></i>
+        <span *ngIf="!isRefreshingPicture">Choose file</span>
+      </label>
     </div>
   </div>
+</div>
