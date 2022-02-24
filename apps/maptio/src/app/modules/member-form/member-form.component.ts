@@ -36,6 +36,7 @@ export class MemberFormComponent implements OnInit {
   private firstname: string;
   private lastname: string;
   private email: string;
+  private picture: string;
 
   public isUserSignUp = false;
   public isEditingExistingUser = false;
@@ -83,6 +84,8 @@ export class MemberFormComponent implements OnInit {
       this.memberForm.controls['firstname'].setValue(this.member.firstname);
       this.memberForm.controls['lastname'].setValue(this.member.lastname);
       this.memberForm.controls['email'].setValue(this.member.email);
+
+      this.picture = this.member.picture;
     }
 
     if (this.member instanceof User) {
@@ -93,6 +96,12 @@ export class MemberFormComponent implements OnInit {
     if (!this.team) {
       this.isUserSignUp = true;
     }
+  }
+
+  onImageUpload(imageUrl: string) {
+    // TODO
+    console.log(imageUrl);
+    this.picture = imageUrl;
   }
 
   async save() {

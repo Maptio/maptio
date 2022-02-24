@@ -54,9 +54,19 @@
     <small class="invalid-feedback">2 characters minimum</small>
   </div>
 
-  <maptio-image-upload
-    [user]="member"
-  ></maptio-image-upload>
+  <div class="form-group">
+    <label
+      class="mb-0 text-uppercase text-bold text-gray-light small"
+      for="inputFirstname"
+    >
+      Avatar
+    </label>
+
+    <maptio-image-upload
+      [user]="member"
+      (uploadedImageUrl)="onImageUpload($event)"
+    ></maptio-image-upload>
+  </div>
 
   <div class="form-group">
     <label

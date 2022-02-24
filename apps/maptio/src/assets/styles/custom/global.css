@@ -318,8 +318,32 @@ button.cursor-not-allowed{
   background-position-x: right;
 }
 
+.avatar {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50% !important;
+  object-fit: cover;
+  box-shadow : inset 0 0 0 1px hsla(0, 0%, 0%, 0.1)
+}
+
+.avatar--medium {
+  height: 4rem;
+  width: 4rem;
+}
+
+.avatar--large {
+  height: 6rem;
+  width: 6rem;
+}
+
 img.user{
   box-shadow : inset 0 0 0 1px hsla(0, 0%, 0%, 0.1)
+}
+
+.participant-picture{
+  width: 2rem;
+  height: 2rem;
+  box-shadow : inset 0 0 0 1px hsla(0, 0%, 0%, 0.1);
 }
 
 .grayscale{
@@ -537,12 +561,6 @@ transition: max-height .25s ease-in-out;
 .top-center{
   top: 0;
     left: 50%;
-}
-
-.participant-picture{
-  width:2rem;
-  height: 2rem;
-  box-shadow : inset 0 0 0 1px hsla(0, 0%, 0%, 0.1);
 }
 
 .top-right{
