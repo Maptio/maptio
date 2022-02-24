@@ -1,7 +1,7 @@
 <ng-template #list>
     <a class="card border cursor-pointer" *ngFor="let member of filteredMembers" (click)="onSelectMember(member)">
         <div class="card-body">
-            <img *ngIf="member.picture" [src]="member.picture"  class="rounded-circle participant-picture mr-1">{{member.name}}
+            <img *ngIf="member.picture" [src]="member.picture"  class="avatar mr-1">{{member.name}}
         </div>
     </a>
 </ng-template>

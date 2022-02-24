@@ -4,13 +4,13 @@
             <span class="btn-link cursor-pointer" (click)="openInitiative(initiative)">{{initiative.name}}</span>
             <span class="text-muted nowrap" *ngIf="initiative.accountable && isWithLeader">led by
                     <button  class="btn btn-link p-0 border-0" (click)="onSelectMember(initiative.accountable)">
-                        <img class="rounded-circle participant-picture"  src="{{initiative.accountable?.picture}}" alt="{{initiative.accountable?.name}}"
+                        <img class="avatar"  src="{{initiative.accountable?.picture}}" alt="{{initiative.accountable?.name}}"
                             title="{{initiative.accountable?.name}}" placement="top" container="body" ngbTooltip="{{initiative.accountable?.name}}">
                     </button>
                 </span>
         </div>
         <!-- <div class="card-subtitle">
-           
+
         </div> -->
         <div class="card-subtitle" *ngIf="initiative.tags && initiative.tags.length>0">
             <ul class="list-inline small no-cursor">
@@ -38,8 +38,8 @@
                     <div class="collapse {{getMultipleCollapseClass()}} w-100" id="{{getWithDescriptionId()}}">
                         <div *ngFor="let h of initiative.helpers">
                             <div class="d-flex my-1 align-items-baseline my-2">
-                                <button (click)="onSelectMember(h)" class="btn btn-link p-0 border-0">   
-                                    <img [hidden]="h.user_id === member?.user_id " class="rounded-circle  participant-picture" src="{{h.picture}}" alt="{{h.name}}"
+                                <button (click)="onSelectMember(h)" class="btn btn-link p-0 border-0">
+                                    <img [hidden]="h.user_id === member?.user_id " class="avatar" src="{{h.picture}}" alt="{{h.name}}"
                                         title="{{h.name}}" placement="top" container="body" ngbTooltip="{{h.name}}">
                                 </button>
 
@@ -57,7 +57,7 @@
                             <ul class="list-inline d-flex flex-row-reverse picture-list my-1 flex-wrap">
                                 <li class="list-inline-item rounded-circle border-thick border-white" *ngFor="let h of sortHelpers()">
                                     <button [class.d-none]="h.user_id === member?.user_id " (click)="onSelectMember(h)" class="btn btn-link p-0 border-0">
-                                        <img [hidden]="h.user_id === member?.user_id " class="rounded-circle participant-picture"  src="{{h.picture}}" alt="{{h.name}}"
+                                        <img [hidden]="h.user_id === member?.user_id " class="avatar"  src="{{h.picture}}" alt="{{h.name}}"
                                             title="{{h.name}}" placement="top" container="body" ngbTooltip="{{h.name}}">
                                     </button>
                                 </li>

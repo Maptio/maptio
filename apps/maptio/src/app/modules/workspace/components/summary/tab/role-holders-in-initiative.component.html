@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-body">
-        <div 
+        <div
             class="card-title d-flex justify-content-between align-items-baseline"
             [class.mb-0]="hideMembers"
         >
@@ -12,7 +12,7 @@
             </span>
         </div>
 
-        <div 
+        <div
             class="card-text"
             *ngIf="!hideMembers"
         >
@@ -30,7 +30,7 @@
                     aria-expanded="false"
                     role="button"
                 >
-                    <i 
+                    <i
                         class="fa"
                         [class.fa-caret-right]="!isShowRoles"
                         [class.fa-caret-down]="isShowRoles"
@@ -51,7 +51,7 @@
                                     class="btn btn-link p-0 border-0"
                                 >
                                     <img
-                                        class="rounded-circle participant-picture"
+                                        class="avatar"
                                         src="{{ h.picture }}"
                                         alt="{{ h.name }}"
                                         title="{{ h.name }}"
@@ -94,7 +94,7 @@
                                         class="btn btn-link p-0 border-0"
                                     >
                                         <img
-                                            class="rounded-circle participant-picture"
+                                            class="avatar"
                                             src="{{h.picture}}" alt="{{h.name}}"
                                             title="{{h.name}}"
                                             placement="top"

@@ -4,7 +4,7 @@
 
 <ng-template #rt let-r="result" let-t="term">
   <span *ngIf="r.user_id">
-    <img src="{{ r.picture }}" class="rounded-circle participant-picture" />
+    <img src="{{ r.picture }}" class="avatar" />
     {{ r.name }}
   </span>
 
@@ -57,7 +57,7 @@
         >
           <img
             src="{{ authority?.picture }}"
-            class="rounded-circle participant-picture"
+            class="avatar"
           />
           {{ authority?.name }}
         </a>
