@@ -8,8 +8,6 @@ import {
 } from 'ng2-file-upload';
 
 import { environment } from '@maptio-config/environment';
-import { UserService } from '@maptio-shared/services/user/user.service';
-import { UserFactory } from '@maptio-core/http/user/user.factory';
 import { User } from '@maptio-shared/model/user.data';
 
 
@@ -19,6 +17,7 @@ import { User } from '@maptio-shared/model/user.data';
   styleUrls: ['./image-upload.component.scss']
 })
 export class ImageUploadComponent implements OnInit {
+  public imageUrl = '';
 
   public uploader: FileUploader;
   private uploaderOptions: FileUploaderOptions = {
@@ -31,7 +30,7 @@ export class ImageUploadComponent implements OnInit {
     isHTML5: true,
 
     maxFileSize: 1024000 * 2,
-    // Calsculate progress independently for each uploaded file
+    // Calculate progress independently for each uploaded file
     removeAfterUpload: true,
     // XHR request headers
     headers: [
