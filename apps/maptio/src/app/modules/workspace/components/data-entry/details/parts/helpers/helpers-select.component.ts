@@ -51,7 +51,7 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
     this.cd.markForCheck();
   }
 
-  isCurrentUserAlredyAdded() {
+  isCurrentUserAlreadyAdded() {
     if (this.helpers && this.user) {
       return (
         this.helpers
