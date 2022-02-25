@@ -426,10 +426,6 @@ export class UserService implements OnDestroy {
     return this.userFactory.upsert(user);
   }
 
-  public updateActivationPendingStatus(...args): any {
-    console.error('TODO: updateActivationPendingStatus');
-  }
-
   public async updateInvitationSentStatus(
     user: User,
     isInvitationSent: boolean
