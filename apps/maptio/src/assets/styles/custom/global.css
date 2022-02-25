@@ -336,6 +336,19 @@ button.cursor-not-allowed{
   width: 6rem;
 }
 
+/** Allow a fontawesome icon to be used with the avatar class */
+.avatar--placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.avatar__placeholder-icon {
+  margin-top: 0.75rem;
+  font-size: 3.5rem;
+}
+
 .grayscale{
   filter:grayscale();
 }
