@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { Cloudinary } from '@cloudinary/angular-5.x';
 import {
@@ -47,11 +47,10 @@ export class ImageUploadComponent implements OnInit {
   public isRefreshingPicture: boolean;
 
   @Input() user: User;
+  @Output() uploadedImageUrl = new EventEmitter<string>();
 
   constructor(
     private cloudinary: Cloudinary,
-    private userService: UserService,
-    private userFactory: UserFactory,
   ) {}
 
   ngOnInit(): void {
@@ -130,6 +129,7 @@ export class ImageUploadComponent implements OnInit {
   updatePicture(imageURL: string) {
     if (imageURL) {
       this.imageUrl = imageURL;
+      this.uploadedImageUrl.emit(this.imageUrl);
     } else {
       // TODO
       this.errorMessage = 'Something went wrong, please try again later.';

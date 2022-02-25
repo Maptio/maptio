@@ -100,6 +100,7 @@ export class MemberFormComponent implements OnInit {
 
   onImageUpload(imageUrl: string) {
     // TODO
+    console.log('!!! onImageUpload');
     console.log(imageUrl);
     this.picture = imageUrl;
   }
@@ -128,15 +129,20 @@ export class MemberFormComponent implements OnInit {
     this.cd.markForCheck();
   }
 
-  async createUserAndAddToTeam() {
+  private async createUserAndAddToTeam() {
     await this.createUserFullDetails();
 
     this.addMember.emit(this.createdUser);
     this.memberForm.reset();
   }
 
-  private createUserFullDetails() {
-    this.createdUser =  this.userService.createUserFromMemberForm(this.email, this.firstname, this.lastname);
+  private async createUserFullDetails() {
+    this.createdUser = this.userService.createUserFromMemberForm(
+      this.email,
+      this.firstname,
+      this.lastname,
+      this.picture,
+    );
 
     return this.datasetFactory.get(this.team)
       .then((datasets: DataSet[]) => {
@@ -181,7 +187,7 @@ export class MemberFormComponent implements OnInit {
       });
   }
 
-  async updateUser(setAsActivated?: boolean) {
+  private async updateUser(setAsActivated?: boolean) {
     this.savingFailedMessage = null;
     this.isSavingSuccess = false;
     this.cd.markForCheck();
@@ -197,6 +203,7 @@ export class MemberFormComponent implements OnInit {
           this.firstname,
           this.lastname,
           this.email,
+          this.picture,
           false,
         );
       } else {
@@ -204,7 +211,8 @@ export class MemberFormComponent implements OnInit {
           this.member,
           this.firstname,
           this.lastname,
-          this.email
+          this.email,
+          this.picture,
         );
       }
     } catch (error) {

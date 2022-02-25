@@ -131,6 +131,7 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
       firstname: term,
       lastname: '',
       email: '',
+      picture: '',
     }
 
     return [this.newMemberData, ...filteredTeamMembers];

@@ -212,6 +212,7 @@ export class UserService implements OnDestroy {
       profile.email,
       profile.given_name,
       profile.family_name,
+      profile.picture,
       true,
     );
   }
@@ -220,10 +221,11 @@ export class UserService implements OnDestroy {
     email: string,
     firstname: string,
     lastname: string,
+    picture: string,
     isAdmin?: boolean
   ): User {
     const userId = this.generateNewUserId();
-    return this.createUser(userId, email, firstname, lastname, isAdmin);
+    return this.createUser(userId, email, firstname, lastname, picture, isAdmin);
   }
 
   private createUser(
@@ -231,8 +233,11 @@ export class UserService implements OnDestroy {
     email: string,
     firstname: string,
     lastname: string,
+    picture?: string,
     isAdmin?: boolean
   ): User {
+    const imageUrl = picture ? picture : this.generateUserAvatarLink(firstname, lastname);
+
     const newUserData = {
       isInAuth0: false,
       user_id: userId,
@@ -240,7 +245,7 @@ export class UserService implements OnDestroy {
       firstname,
       lastname,
       email: email,
-      picture: this.generateUserAvatarLink(firstname, lastname),
+      picture: imageUrl,
       isActivationPending: true,
       isInvitationSent: false,
       isDeleted: false,
@@ -408,6 +413,7 @@ export class UserService implements OnDestroy {
     firstname: string,
     lastname: string,
     email: string,
+    picture: string,
     isActivationPending?: boolean,
   ): Promise<boolean> {
     if (user.email !== email && user.isInAuth0) {
@@ -421,6 +427,7 @@ export class UserService implements OnDestroy {
     user.firstname = firstname;
     user.lastname = lastname;
     user.email = email;
+    user.picture = picture;
 
     if (isActivationPending !== undefined) {
       user.isActivationPending = isActivationPending;
@@ -443,7 +450,7 @@ export class UserService implements OnDestroy {
           {
             email: email,
             // this can only be called if the user is "Not invited" so changing
-            // their email shoudn't retrigger a verification
+            // their email shouldn't retrigger a verification
             email_verified: true,
             connection: environment.CONNECTION_NAME,
           },
