@@ -411,11 +411,7 @@ export class UserService implements OnDestroy {
     isActivationPending?: boolean,
   ): Promise<boolean> {
     if (user.email !== email && user.isInAuth0) {
-      try {
-        await this.updateUserEmailInAuth0(user.user_id, email);
-      } catch (error) {
-        throw new Error(error);
-      }
+      throw new Error('Cannot update email of user already in Auth0.');
     }
 
     user.firstname = firstname;
@@ -428,38 +424,6 @@ export class UserService implements OnDestroy {
     }
 
     return this.userFactory.upsert(user);
-  }
-
-  private updateUserEmailInAuth0(user_id: string, email: string): Promise<boolean> {
-    return this.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .patch(
-          `${environment.USERS_API_URL}/${user_id}`,
-          {
-            email: email,
-            // this can only be called if the user is "Not invited" so changing
-            // their email shouldn't retrigger a verification
-            email_verified: true,
-            connection: environment.CONNECTION_NAME,
-          },
-          httpOptions
-        )
-        .toPromise()
-        .then(
-          (response) => {
-            return true;
-          },
-          (error) => {
-            return Promise.reject(error);
-          }
-        );
-    });
   }
 
   public updateUserPictureUrl(
