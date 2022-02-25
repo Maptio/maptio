@@ -56,6 +56,10 @@ export class ImageUploadComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (this.user) {
+      this.imageUrl = this.user.picture;
+    }
+
     this.uploader = new FileUploader(this.uploaderOptions);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
@@ -115,7 +119,7 @@ export class ImageUploadComponent implements OnInit {
     // Add Cloudinary's unsigned upload preset to the upload form
     form.append('upload_preset', this.cloudinary.config().upload_preset);
     // Add built-in and custom tags for displaying the uploaded photo in the list
-    form.append('context', `user_id=${encodeURIComponent(this.user.user_id)}`);
+    form.append('context', `user_id=${encodeURIComponent(userId)}`);
     form.append('tags', environment.CLOUDINARY_PROFILE_TAGNAME);
     form.append('file', fileItem);
 
@@ -124,38 +128,14 @@ export class ImageUploadComponent implements OnInit {
     return { fileItem, form };
   }
 
-  updatePicture(pictureURL: string) {
-    this.userService
-      .updateUserPictureUrl(this.user.user_id, pictureURL)
-      .then(
-        (hasUpdated: boolean) => {
-          if (hasUpdated) {
-            // TODO: WTF? :)
-            // this.auth.getUser();
-            return;
-          } else return Promise.reject('Cannot update your profile picture.');
-        },
-        () => {
-          return Promise.reject('Cannot update your profile picture.');
-        }
-      )
-      .then(() => {
-        this.user.picture = pictureURL;
-        return this.userFactory.upsert(this.user).then(
-          (hasUpdated) => {
-            if (!hasUpdated)
-              return Promise.reject('Cannot sync your profile picture');
-          },
-          () => {
-            return Promise.reject('Cannot sync your profile picture');
-          }
-        );
-      })
-      .then(() => {
-        this.isRefreshingPicture = false;
-      })
-      .catch((reason) => {
-        this.errorMessage = reason;
-      });
+  updatePicture(imageURL: string) {
+    if (imageURL) {
+      this.imageUrl = imageURL;
+    } else {
+      // TODO
+      this.errorMessage = 'Something went wrong, please try again later.';
+    }
+
+    this.isRefreshingPicture = false;
   }
 }

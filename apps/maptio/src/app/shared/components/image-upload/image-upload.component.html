@@ -22,9 +22,16 @@
 
 <div class="image-upload input-group">
   <img
-    src="{{ user?.picture }}"
+    *ngIf="imageUrl; else placeholderImage"
+    src="{{ imageUrl }}"
     class="avatar avatar--medium"
   />
+
+  <ng-template #placeholderImage>
+    <div class="avatar avatar--medium avatar--placeholder text-gray-light">
+      <i class="fas fa-user avatar__placeholder-icon" aria-hidden="true"></i>
+    </div>
+  </ng-template>
 
   <label class="image-upload__button btn btn-outline-secondary">
     <input
