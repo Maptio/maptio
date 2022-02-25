@@ -99,9 +99,6 @@ export class MemberFormComponent implements OnInit {
   }
 
   onImageUpload(imageUrl: string) {
-    // TODO
-    console.log('!!! onImageUpload');
-    console.log(imageUrl);
     this.picture = imageUrl;
   }
 
