@@ -402,12 +402,6 @@ export class UserService implements OnDestroy {
   }
 
 
-  // TODO: Replace calls to this with the function below
-  // eslint-disable-next-line
-  public updateUserProfilePlaceholder(...args): any {
-    console.error('TODO');
-  }
-
   public async updateUser(
     user: User,
     firstname: string,
