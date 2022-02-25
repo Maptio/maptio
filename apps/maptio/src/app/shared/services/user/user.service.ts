@@ -426,40 +426,6 @@ export class UserService implements OnDestroy {
     return this.userFactory.upsert(user);
   }
 
-  public updateUserPictureUrl(
-    user_id: string,
-    pictureUrl: string
-  ): Promise<boolean> {
-    return this.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .patch(
-          `${environment.USERS_API_URL}/${user_id}`,
-          {
-            user_metadata: {
-              picture: pictureUrl,
-            },
-            connection: this.getConnection(),
-          },
-          httpOptions
-        )
-        .toPromise()
-        .then(
-          (response) => {
-            return true;
-          },
-          (error) => {
-            return Promise.reject('Cannot update user picture');
-          }
-        );
-    });
-  }
-
   public updateActivationPendingStatus(...args): any {
     console.error('TODO: updateActivationPendingStatus');
   }
