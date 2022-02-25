@@ -80,6 +80,12 @@ export class ImageUploadComponent implements OnInit {
     this.uploader.onProgressItem = () => {
       this.isRefreshingPicture = true;
     };
+
+    this.uploader.onErrorItem = (error) => {
+      // TODO: This never seems to fire, even when errors clearly occur, how
+      // to better handle errors from this library?
+      console.error(error);
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -94,6 +100,18 @@ export class ImageUploadComponent implements OnInit {
     this.isRefreshingPicture = true;
     this.feedbackMessage = null;
     this.errorMessage = '';
+
+    // This prevents an ugly bug - when user isn't passed in - that doesn't
+    // even show up as an error in the console and so is hard to reproduce.
+    // Apparently, something prevents errors from this function from
+    // propagating so it's impossible to handle them. Would be good to dig into
+    // this a bit more deeply, surely the library provides functionality for
+    // better error handling? (TODO)
+    let userId = 'user-id-not-yet-set';
+    if (this.user) {
+      userId = this.user.user_id;
+    }
+
     // Add Cloudinary's unsigned upload preset to the upload form
     form.append('upload_preset', this.cloudinary.config().upload_preset);
     // Add built-in and custom tags for displaying the uploaded photo in the list
