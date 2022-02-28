@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import {
@@ -16,7 +16,6 @@ import {
   map,
   mergeMap,
   shareReplay,
-  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 
@@ -187,6 +186,11 @@ export class UserService implements OnDestroy {
     return EMPTY;
   }
 
+
+  /*
+   * User permissions
+   */
+
   public getPermissions(): Permissions[] {
     return this.permissions;
   }
@@ -195,6 +199,7 @@ export class UserService implements OnDestroy {
   /*
    * User creation
    */
+
   createUserFromAuth0Signup(profile): User {
     return this.createUser(
       profile.sub,
@@ -329,10 +334,44 @@ export class UserService implements OnDestroy {
   /**
    * Remove the "auth0|" prefix from the user id
    *
-   * See comment for mehtod above for more details
+   * See comment for method above for more details
    */
   private removeAuth0IdPrefix(userId: string): string {
     return userId.replace('auth0|', '');
+  }
+
+
+  /*
+   * Updating user information
+   */
+
+  public async updateUser(
+    user: User,
+    firstname: string,
+    lastname: string,
+    email: string,
+    picture: string,
+    isActivationPending?: boolean,
+  ): Promise<boolean> {
+    if (user.email !== email && user.isInAuth0) {
+      throw new Error('Cannot update email of user already in Auth0.');
+    }
+
+    user.firstname = firstname;
+    user.lastname = lastname;
+    user.email = email;
+    user.picture = picture;
+
+    if (isActivationPending !== undefined) {
+      user.isActivationPending = isActivationPending;
+    }
+
+    return this.userFactory.upsert(user);
+  }
+
+  public updateUserRole(user: User, userRole: UserRole): Promise<boolean> {
+    user.userRole = userRole;
+    return this.userFactory.upsert(user);
   }
 
 
@@ -375,66 +414,6 @@ export class UserService implements OnDestroy {
       })
   }
 
-
-
-
-
-
-
-
-
-
-
-
-  public isInvitationSent(...args): any {
-    console.error('TODO: isInvitationSent');
-  }
-
-
-  public async updateUser(
-    user: User,
-    firstname: string,
-    lastname: string,
-    email: string,
-    picture: string,
-    isActivationPending?: boolean,
-  ): Promise<boolean> {
-    if (user.email !== email && user.isInAuth0) {
-      throw new Error('Cannot update email of user already in Auth0.');
-    }
-
-    user.firstname = firstname;
-    user.lastname = lastname;
-    user.email = email;
-    user.picture = picture;
-
-    if (isActivationPending !== undefined) {
-      user.isActivationPending = isActivationPending;
-    }
-
-    return this.userFactory.upsert(user);
-  }
-
-  public async updateInvitationSentStatus(
-    user: User,
-    isInvitationSent: boolean
-  ): Promise<boolean> {
-    // TODO: We need to separate creating the user in Auth0 from invitation
-    // sending more to be able to update these separately, otherwise there is a
-    // small chance that a user will be in Auth0 but will not yet be invited
-    // and so we will be trying to create them in Auth0 again and invitation
-    // sending with fail!
-    user.isInAuth0 = isInvitationSent;
-    user.isInvitationSent = isInvitationSent;
-
-    return this.userFactory.upsert(user);
-  }
-
-  public updateUserRole(user: User, userRole: UserRole): Promise<boolean> {
-    user.userRole = userRole;
-    return this.userFactory.upsert(user);
-  }
-
   private convertUserToAuth0Format(user: User) {
     const userInAuth0Format = {
       user_id: user.user_id,
@@ -457,6 +436,21 @@ export class UserService implements OnDestroy {
     }
 
     return userInAuth0Format;
+  }
+
+  private async updateInvitationSentStatus(
+    user: User,
+    isInvitationSent: boolean
+  ): Promise<boolean> {
+    // TODO: We need to separate creating the user in Auth0 from invitation
+    // sending more to be able to update these separately, otherwise there is a
+    // small chance that a user will be in Auth0 but will not yet be invited
+    // and so we will be trying to create them in Auth0 again and invitation
+    // sending with fail!
+    user.isInAuth0 = isInvitationSent;
+    user.isInvitationSent = isInvitationSent;
+
+    return this.userFactory.upsert(user);
   }
 }
 
