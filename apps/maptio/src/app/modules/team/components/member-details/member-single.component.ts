@@ -90,11 +90,14 @@ export class MemberSingleComponent implements OnInit {
     this.delete.emit(this.member);
   }
 
-  changeUserRole(userRole: UserRole) {
+  changeUserRole(userRoleString: string) {
     this.isDisplayUpdatingLoader = true;
     this.cd.markForCheck();
+
+    const userRole = Number(userRoleString) as UserRole;
+
     this.userService
-      .updateUserRole(this.member.user_id, UserRole[userRole])
+      .updateUserRole(this.member, userRole)
       .then(() => {
         this.isDisplayUpdatingLoader = false;
         this.cd.markForCheck();

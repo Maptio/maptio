@@ -441,29 +441,10 @@ export class UserService implements OnDestroy {
     return this.userFactory.upsert(user);
   }
 
-  public updateUserRole(user_id: string, userRole: string): Promise<boolean> {
-    return this.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .patch(
-          `${environment.USERS_API_URL}/${user_id}`,
-          { app_metadata: { role: userRole } },
-          httpOptions
-        )
-        .pipe(
-          map((responseData) => {
-            return true;
-          })
-        )
-        .toPromise();
-    });
+  public updateUserRole(user: User, userRole: UserRole): Promise<boolean> {
+    user.userRole = userRole;
+    return this.userFactory.upsert(user);
   }
-
 
   /**
    * Get name of Auth0 connection for currently logged in user
