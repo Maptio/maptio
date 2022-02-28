@@ -15,7 +15,6 @@ import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { environment } from '../../config/environment';
 import { LoaderService } from '../../shared/components/loading/loader.service';
 import { Observable, of, Subject } from 'rxjs';
-import { AuthConfiguration } from './auth.config';
 import { DatasetFactory } from '../http/map/dataset.factory';
 import { UserFactory } from '../http/user/user.factory';
 import { User } from '../../shared/model/user.data';
@@ -42,7 +41,6 @@ export class Auth {
   constructor(
     private http: HttpClient,
     private jwtHelper: JwtHelperService,
-    private configuration: AuthConfiguration,
     private datasetFactory: DatasetFactory,
     private userFactory: UserFactory,
     private teamFactory: TeamFactory,
