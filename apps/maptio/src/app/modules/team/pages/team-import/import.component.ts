@@ -71,12 +71,12 @@ export class TeamImportComponent implements OnInit {
         }
 
         let input = $event.target as HTMLInputElement;
-        
+
         let reader = new FileReader();
         reader.readAsText(input.files[0], "utf-8");
 
         reader.onload = (data) => {
-            let csvData = reader.result as string; 
+            let csvData = reader.result as string;
             let csvRecordsArray = csvData.split(/\r\n|\n|\r/).filter((s: string) => s !== "");
             let headerLength = -1;
             let headersRow = this.fileService.getHeaderArray(csvRecordsArray, Constants.tokenDelimeter);
@@ -160,44 +160,47 @@ export class TeamImportComponent implements OnInit {
     }
 
     public createUser(email: string, firstname: string, lastname: string) {
-        return this.userService.createUserPlaceholder(email, firstname, lastname, false, false)
-            .then((user: User) => {
-                return this.datasetFactory.get(this.team).then((datasets: DataSet[]) => {
-                    let virtualUser = new User();
-                    virtualUser.name = user.name;
-                    virtualUser.email = user.email;
-                    virtualUser.firstname = user.firstname;
-                    virtualUser.lastname = user.lastname;
-                    virtualUser.nickname = user.nickname;
-                    virtualUser.user_id = user.user_id;
-                    virtualUser.picture = user.picture;
-                    virtualUser.teams = [this.team.team_id];
-                    virtualUser.datasets = datasets.map(d => d.datasetId);
+        console.log('TODO');
+        return Promise.resolve('TODO');
 
-                    return virtualUser;
-                }, (reason) => {
-                    return Promise.reject(`Can't create ${email} : ${reason}`);
-                })
-            }, (reason: any) => {
-                throw JSON.parse(reason._body).message;
-            })
-            .then((virtualUser: User) => {
-                this.userFactory.create(virtualUser)
-                return virtualUser;
-            })
-            .then((user: User) => {
-                this.team.members.push(user);
-                return this.teamFactory.upsert(this.team)
-            })
-            .then(() => {
-                this.analytics.eventTrack("Team", { action: "create", team: this.team.name, teamId: this.team.team_id });
-                return true;
-            })
-            .catch((reason) => {
-                throw Error(reason);
-            })
+    //     return this.userService.createUserPlaceholder(email, firstname, lastname, false, false)
+    //         .then((user: User) => {
+    //             return this.datasetFactory.get(this.team).then((datasets: DataSet[]) => {
+    //                 let virtualUser = new User();
+    //                 virtualUser.name = user.name;
+    //                 virtualUser.email = user.email;
+    //                 virtualUser.firstname = user.firstname;
+    //                 virtualUser.lastname = user.lastname;
+    //                 virtualUser.nickname = user.nickname;
+    //                 virtualUser.user_id = user.user_id;
+    //                 virtualUser.picture = user.picture;
+    //                 virtualUser.teams = [this.team.team_id];
+    //                 virtualUser.datasets = datasets.map(d => d.datasetId);
+
+    //                 return virtualUser;
+    //             }, (reason) => {
+    //                 return Promise.reject(`Can't create ${email} : ${reason}`);
+    //             })
+    //         }, (reason: any) => {
+    //             throw JSON.parse(reason._body).message;
+    //         })
+    //         .then((virtualUser: User) => {
+    //             this.userFactory.create(virtualUser)
+    //             return virtualUser;
+    //         })
+    //         .then((user: User) => {
+    //             this.team.members.push(user);
+    //             return this.teamFactory.upsert(this.team)
+    //         })
+    //         .then(() => {
+    //             this.analytics.eventTrack("Team", { action: "create", team: this.team.name, teamId: this.team.team_id });
+    //             return true;
+    //         })
+    //         .catch((reason) => {
+    //             throw Error(reason);
+    //         })
 
 
-        // }
+    //     // }
     }
 }

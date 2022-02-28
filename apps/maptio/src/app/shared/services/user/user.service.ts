@@ -195,13 +195,6 @@ export class UserService implements OnDestroy {
   /*
    * User creation
    */
-
-  // TODO: Replace calls to this with the function below
-  // eslint-disable-next-line
-  public createUserPlaceholder(...args): any {
-    console.error('TODO');
-  }
-
   createUserFromAuth0Signup(profile): User {
     return this.createUser(
       profile.sub,
