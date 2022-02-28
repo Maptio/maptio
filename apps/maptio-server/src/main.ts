@@ -138,7 +138,6 @@ var embeddableDatasets = require('./routes/embeddable-datasets');
 var users = require('./routes/users');
 var teams = require('./routes/teams');
 var inviting = require('./routes/invite');
-var confirming = require('./routes/confirm-mail');
 var encoding = require('./routes/encoding');
 var images = require('./routes/images');
 var notifications = require('./routes/notifications');
@@ -146,7 +145,6 @@ var oauth = require('./routes/oauth');
 var intercom = require("./routes/intercom");
 
 app.use('/api/v1/jwt/', encoding);
-app.use('/api/v1/mail/confirm', confirming);
 
 app.use('/api/v1/images/', jwtCheck, checkscopes(["api"]), images)
 app.use('/api/v1/notifications/', jwtCheck, checkscopes(["api"]), notifications)
