@@ -12,8 +12,6 @@ import { UnauthorizedComponent } from './401/unauthorized.component';
 import { NotFoundComponent } from './404/not-found.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { Auth } from './authentication/auth.service';
-import { AuthConfiguration } from './authentication/auth.config';
 import { AccessGuard } from './guards/access.guard';
 import { ActivationGuard } from './guards/activation.guard';
 import { BillingGuard } from './guards/billing.guard';
@@ -72,8 +70,6 @@ export function tokenGetter(): string {
         OnboardingComponent
     ],
     providers: [
-        Auth,
-        AuthConfiguration,
         AccessGuard,
         ActivationGuard,
         BillingGuard,
