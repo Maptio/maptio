@@ -2,13 +2,11 @@ import { Component, OnInit, Input, SimpleChanges, ChangeDetectorRef, ViewChild, 
 import { DataSet } from '../../model/dataset.data';
 import { Team } from '../../model/team.data';
 import { isEmpty } from 'lodash';
-import { environment } from '../../../config/environment';
 import { User } from '../../model/user.data';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TeamService } from '../../services/team/team.service';
 import { Router } from '@angular/router';
 import { MapService } from '../../services/map/map.service';
-import { Intercom } from 'ng-intercom';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 
@@ -36,7 +34,6 @@ export class OnboardingComponent implements OnInit {
     teamCreationErrorMessage: string;
     mapCreationErrorMessage: string;
     isTerminologySaved: boolean;
-    MAX_MEMBERS: number = 4;
     COLORS: any[] = [
         { name: "#aaa", isSelected: false },
         { name: "blue", isSelected: false },
@@ -142,7 +139,7 @@ export class OnboardingComponent implements OnInit {
         this.isSkippable = this.getIsSkippable();
         this.progress = this.getProgress()
         this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
-        
+
         this.mixpanel.eventTrack("Onboarding", {
             step: this.steps[this.currentIndex-1],
             members : this.members.length,
@@ -227,29 +224,13 @@ export class OnboardingComponent implements OnInit {
     }
 
     getIsSkippable() {
-        switch (this.currentStep) {
-            case "AddMember":
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    onMemberAdded(event: { team: Team, user: User }) {
-        this.nextActionName = "Next";
-        this.isSkippable = false;
-        this.members.push(event.user);
-        this.cd.markForCheck();
+        return false;
     }
 
     onTerminologySaved(team:Team){
         this.nextActionName = "Next";
         this.isSkippable = false;
         this.cd.markForCheck();
-    }
-
-    getMemberIndexes() {
-        return Array.from({ length: this.MAX_MEMBERS - this.members.length }, (x, i) => i + 1);
     }
 
     selectColor(color: { name: string, isSelected: boolean }) {
