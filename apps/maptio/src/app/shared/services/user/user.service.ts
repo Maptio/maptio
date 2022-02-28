@@ -191,10 +191,6 @@ export class UserService implements OnDestroy {
     return this.permissions;
   }
 
-  public getAccessToken() {
-    return Promise.resolve('TODO');
-  }
-
 
   /*
    * User creation
