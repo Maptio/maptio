@@ -248,7 +248,7 @@ export class UserService implements OnDestroy {
       lastSeenAt: undefined,
       createdAt: new Date().toISOString(),
       loginsCount: 0,
-      userRole: isAdmin ? UserRole[UserRole.Admin] : UserRole[UserRole.Standard],
+      userRole: isAdmin ? UserRole.Admin : UserRole.Standard,
     };
 
     return User.create().deserialize(newUserData);
