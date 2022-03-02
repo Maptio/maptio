@@ -17,7 +17,6 @@ import {
 import { Intercom } from 'ng-intercom';
 
 import { environment } from '@maptio-config/environment';
-import { Auth } from '@maptio-core/authentication/auth.service';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
 
@@ -57,7 +56,6 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
     private intercom: Intercom,
     private cd: ChangeDetectorRef,
     private loaderService: LoaderService,
-    private auth: Auth
   ) {}
 
   ngOnInit() {
