@@ -7,7 +7,7 @@
       <button
         maptioLoginRedirect
         [isSignup]="true"
-        *ngIf="!auth.allAuthenticated()"
+        *ngIf="(userService.isAuthenticated$ | async) === false"
         class="btn-block w-100 btn btn-success btn-md-lg my-4"
       >
         Get started - try Maptio for free

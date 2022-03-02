@@ -1,4 +1,7 @@
-<div class="card border-0">
+<div
+  class="card border-0"
+  *ngIf="{ isAuthenticated: userService.isAuthenticated$ | async } as observables"
+>
   <div class="card-body border-0 bg-white text-center">
     <div class="card-title border-bottom h4 py-4">
       {{ name }}
@@ -12,7 +15,7 @@
     <ng-template #contactUsPrice>
       <a
         class="d-md-block mt-3 mb-2"
-        [class.invisible]="auth.allAuthenticated()"
+        [class.invisible]="observables.isAuthenticated"
         style="margin-bottom: 11px !important"
         href="mailto:support@maptio.com"
       >
@@ -26,14 +29,14 @@
       <button
         maptioLoginRedirect
         [isSignup]="true"
-        *ngIf="!auth.allAuthenticated()"
+        *ngIf="!observables.isAuthenticated"
         class="btn btn-success btn-lg my-3"
       >
         Sign up
       </button>
 
       <a
-        *ngIf="auth.allAuthenticated() && price"
+        *ngIf="observables.isAuthenticated && price"
         class="btn btn-success text-white btn-lg my-3"
         href="{{ billingLink }}"
       >
@@ -41,7 +44,7 @@
       </a>
 
       <a
-        *ngIf="auth.allAuthenticated() && !price"
+        *ngIf="observables.isAuthenticated && !price"
         class="btn btn-success text-white btn-lg my-3"
         href="mailto:support@maptio.com"
       >
