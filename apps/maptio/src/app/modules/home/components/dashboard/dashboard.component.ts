@@ -143,10 +143,12 @@ export class DashboardComponent {
   }
 
   onCopy(dataset: DataSet) {
+    // TODO: This needs proper state management
     this.userService.refreshUserData();
   }
 
   onArchive(dataset: DataSet) {
+    // TODO: This needs proper state management
     let index = this._datasets.findIndex(
       (d) => d.datasetId === dataset.datasetId
     );
