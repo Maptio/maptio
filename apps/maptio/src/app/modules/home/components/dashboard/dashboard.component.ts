@@ -11,9 +11,9 @@ import { User } from '../../../../shared/model/user.data';
 import { Subject, Subscription } from 'rxjs';
 import { TeamService } from '../../../../shared/services/team/team.service';
 import { MapService } from '../../../../shared/services/map/map.service';
-import { Auth } from '../../../../core/authentication/auth.service';
 import { OnboardingService } from '../../../../shared/components/onboarding/onboarding.service';
 import { environment } from '../../../../config/environment';
+import { UserService } from '@maptio-shared/services/user/user.service';
 
 @Component({
   selector: 'dashboard',
@@ -38,9 +38,9 @@ export class DashboardComponent {
 
   constructor(
     private cd: ChangeDetectorRef,
+    private userService: UserService,
     private teamService: TeamService,
     private mapService: MapService,
-    private auth: Auth,
     private onboarding: OnboardingService
   ) {
     this.filterMaps$ = new Subject<string>();
@@ -143,12 +143,7 @@ export class DashboardComponent {
   }
 
   onCopy(dataset: DataSet) {
-    this.auth
-      .getUser()
-      .toPromise()
-      .then(() => {
-        this.cd.markForCheck();
-      });
+    this.userService.refreshUserData();
   }
 
   onArchive(dataset: DataSet) {
@@ -158,12 +153,8 @@ export class DashboardComponent {
     this._datasets.splice(index, 1);
     this.onKeyDown('');
     this.cd.markForCheck();
-    this.auth
-      .getUser()
-      .toPromise()
-      .then(() => {
-        this.cd.markForCheck();
-      });
+
+    this.userService.refreshUserData();
   }
 
   getExampleMap(): Promise<DataSet> {

@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import {
+  BehaviorSubject,
+  combineLatest,
   EMPTY,
   from,
   of,
@@ -75,9 +77,15 @@ export class UserService implements OnDestroy {
     shareReplay(1),
   );
 
+  private refreshUserDataSubject = new BehaviorSubject<void>(null);
+  public refreshUserDataAction$ = this.refreshUserDataSubject.asObservable();
+
   // Refresh user data every time it is requested
-  public userWithTeamsAndDatasets$ = this.userFromAuth0Profile$.pipe(
-    concatMap((user) => {
+  public userWithTeamsAndDatasets$ = combineLatest([
+    this.userFromAuth0Profile$,
+    this.refreshUserDataAction$,
+  ]).pipe(
+    concatMap(([user,]) => {
       return this.gatherUserData(user);
     }),
   )
@@ -184,6 +192,15 @@ export class UserService implements OnDestroy {
     this.router.navigateByUrl('/login-error');
     this.loaderService.hide();
     return EMPTY;
+  }
+
+
+  /*
+   * User data refresh
+   */
+
+  public refreshUserData() {
+    this.refreshUserDataSubject.next();
   }
 
 
