@@ -37,7 +37,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public navigationOtherSubscription: Subscription;
 
   constructor(
-    // public auth: Auth,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     public intercom: Intercom,
