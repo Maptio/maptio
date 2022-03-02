@@ -13,7 +13,6 @@ import { cloneDeep } from 'lodash-es';
 
 import { Team } from '@maptio-shared/model/team.data';
 import { Helper } from '@maptio-shared/model/helper.data';
-import { Auth } from '@maptio-core/authentication/auth.service';
 import { User, MemberFormFields } from '@maptio-shared/model/user.data';
 
 
@@ -41,7 +40,7 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
   isLoaded: boolean;
   isCreateNewMemberMode = false;
 
-  constructor(private auth: Auth, private cd: ChangeDetectorRef) {}
+  constructor(private cd: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.team && changes.team.currentValue) {

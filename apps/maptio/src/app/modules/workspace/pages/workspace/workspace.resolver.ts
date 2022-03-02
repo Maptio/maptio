@@ -1,6 +1,5 @@
 
 import {first,  map, flatMap } from 'rxjs/operators';
-import { Auth } from "../../../../core/authentication/auth.service";
 import {
   ActivatedRouteSnapshot,
   Resolve,
@@ -27,7 +26,6 @@ export class WorkspaceComponentResolver
     private teamFactory: TeamFactory,
     private userService: UserService,
     private userFactory: UserFactory,
-    private auth: Auth
   ) { }
 
   resolve(
@@ -66,9 +64,9 @@ export class WorkspaceComponentResolver
           });
       }),
       flatMap(dt => {
-        return this.auth
-          .getUser().pipe(
-          first())
+        return this.userService.user$.pipe(
+          first()
+        )
           .toPromise()
           .then(u => {
             return { user: u, data: dt };
