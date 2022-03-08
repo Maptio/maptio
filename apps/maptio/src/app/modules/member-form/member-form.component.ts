@@ -84,6 +84,11 @@ export class MemberFormComponent implements OnInit {
       this.isEditingExistingUser = true;
     }
 
+    // Email shouldn't be editable once a team member is already in Auth0
+    if (this.member instanceof User && this.member.isInAuth0) {
+      this.memberForm.get('email').disable();
+    }
+
     // Not adding a member to a team, but creating a user via sign up
     if (!this.team) {
       this.isUserSignUp = true;
