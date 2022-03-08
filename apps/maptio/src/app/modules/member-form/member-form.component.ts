@@ -104,6 +104,7 @@ export class MemberFormComponent implements OnInit {
 
   async save() {
     if (!this.memberForm.valid) {
+      this.isSubmissionAttempted = true;
       return;
     }
 
@@ -122,6 +123,7 @@ export class MemberFormComponent implements OnInit {
       await this.createUserAndAddToTeam();
     }
 
+    this.isSubmissionAttempted = false;
     this.isSaving = false;
     this.cd.markForCheck();
   }

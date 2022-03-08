@@ -17,9 +17,12 @@
       formControlName="firstname"
       class="form-control form-control-warning"
       [class.is-invalid]="
-        memberForm.controls['firstname'].invalid &&
-        (memberForm.controls['firstname'].dirty ||
-          memberForm.controls['firstname'].touched)
+        (
+          memberForm.get('firstname')?.dirty ||
+          memberForm.get('firstname')?.touched ||
+          isSubmissionAttempted
+        ) &&
+        !memberForm.get('firstname')?.valid
       "
       placeholder="First name"
       required
@@ -43,9 +46,12 @@
       formControlName="lastname"
       class="form-control form-control-warning"
       [class.is-invalid]="
-        memberForm.controls['lastname'].invalid &&
-        (memberForm.controls['lastname'].dirty ||
-          memberForm.controls['lastname'].touched)
+        (
+          memberForm.get('lastname')?.dirty ||
+          memberForm.get('lastname')?.touched ||
+          isSubmissionAttempted
+        ) &&
+        memberForm.get('lastname')?.invalid
       "
       placeholder="Last name"
       minlength="2"
@@ -82,9 +88,12 @@
       formControlName="email"
       class="form-control form-control-warning"
       [class.is-invalid]="
-        memberForm.controls['email'].invalid &&
-        (memberForm.controls['email'].dirty ||
-          memberForm.controls['email'].touched)
+        (
+          memberForm.get('email')?.dirty ||
+          memberForm.get('email')?.touched ||
+          isSubmissionAttempted
+        ) &&
+        memberForm.get('email')?.invalid
       "
       placeholder="Email"
     />
