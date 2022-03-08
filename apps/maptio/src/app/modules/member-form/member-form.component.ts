@@ -60,23 +60,18 @@ export class MemberFormComponent implements OnInit {
     private userService: UserService,
     private analytics: Angulartics2Mixpanel,
     private intercom: Intercom,
-  ) {
-    this.memberForm = new FormGroup({
-      firstname: new FormControl('', {
-        validators: [ Validators.required, Validators.minLength(2) ],
-      }),
-
-      lastname: new FormControl('', {
-        validators: [ Validators.minLength(2) ],
-      }),
-
-      email: new FormControl('', {
-        validators: [ Validators.email ],
-      }),
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.memberForm = new FormGroup({
+      firstname: new FormControl(
+        '',
+        { validators: [ Validators.required, Validators.minLength(2) ] }
+      ),
+      lastname: new FormControl('', { validators: [ Validators.minLength(2) ] }),
+      email: new FormControl('', { validators: [ Validators.email ] }),
+    });
+
     if (this.member) {
       this.memberForm.controls['firstname'].setValue(this.member.firstname);
       this.memberForm.controls['lastname'].setValue(this.member.lastname);
