@@ -24,7 +24,7 @@ import { TeamFactory } from '@maptio-core/http/team/team.factory';
 @Component({
   selector: 'maptio-member-form',
   templateUrl: './member-form.component.html',
-  styleUrls: ['./member-form.component.scss']
+  styleUrls: ['./member-form.component.scss'],
 })
 export class MemberFormComponent implements OnInit {
   public newMember: User;
@@ -93,6 +93,15 @@ export class MemberFormComponent implements OnInit {
     if (!this.team) {
       this.isUserSignUp = true;
     }
+  }
+
+  isFieldInvalid(fieldName: string): boolean {
+    const field = this.memberForm.get(fieldName);
+
+    const isDirtyOrTouched = field.dirty || field.touched;
+    const isDirtyOrTouchedAfterSubmission = isDirtyOrTouched && this.isSubmissionAttempted;
+
+    return (isDirtyOrTouchedAfterSubmission || this.isSubmissionAttempted) && field.invalid;
   }
 
   onImageUpload(imageUrl: string) {

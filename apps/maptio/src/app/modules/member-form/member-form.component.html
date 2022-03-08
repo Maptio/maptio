@@ -16,14 +16,7 @@
       id="inputFirstname"
       formControlName="firstname"
       class="form-control form-control-warning"
-      [class.is-invalid]="
-        (
-          memberForm.get('firstname')?.dirty ||
-          memberForm.get('firstname')?.touched ||
-          isSubmissionAttempted
-        ) &&
-        !memberForm.get('firstname')?.valid
-      "
+      [class.is-invalid]="isFieldInvalid('firstname')"
       placeholder="First name"
       required
       minlength="2"
@@ -45,14 +38,7 @@
       id="inputLastname"
       formControlName="lastname"
       class="form-control form-control-warning"
-      [class.is-invalid]="
-        (
-          memberForm.get('lastname')?.dirty ||
-          memberForm.get('lastname')?.touched ||
-          isSubmissionAttempted
-        ) &&
-        memberForm.get('lastname')?.invalid
-      "
+      [class.is-invalid]="isFieldInvalid('lastname')"
       placeholder="Last name"
       minlength="2"
     />
@@ -87,14 +73,7 @@
       id="inputEmail"
       formControlName="email"
       class="form-control form-control-warning"
-      [class.is-invalid]="
-        (
-          memberForm.get('email')?.dirty ||
-          memberForm.get('email')?.touched ||
-          isSubmissionAttempted
-        ) &&
-        memberForm.get('email')?.invalid
-      "
+      [class.is-invalid]="isFieldInvalid('email')"
       placeholder="Email"
     />
 
