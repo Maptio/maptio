@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   Input,
   Output,
   EventEmitter,
@@ -24,7 +23,7 @@ import { Team } from '@maptio-shared/model/team.data';
   templateUrl: './member-single.component.html',
   styleUrls: ['./member-single.component.css'],
 })
-export class MemberSingleComponent implements OnInit {
+export class MemberSingleComponent {
   UserRole = UserRole;
   Permissions = Permissions;
 
@@ -47,44 +46,6 @@ export class MemberSingleComponent implements OnInit {
     private analytics: Angulartics2Mixpanel,
     private intercom: Intercom
   ) {}
-
-  ngOnInit(): void {
-    console.log('TODO');
-    // TODO: Compare validation / disabled fields to MemberFormComponent
-    // this.editUserForm = new FormGroup({
-    //   firstname: new FormControl(
-    //     {
-    //       value: this.member.firstname,
-    //       disabled: !this.member.isActivationPending,
-    //     },
-    //     {
-    //       validators: [Validators.required],
-    //       updateOn: 'change',
-    //     }
-    //   ),
-    //   lastname: new FormControl(
-    //     {
-    //       value: this.member.lastname,
-    //       disabled: !this.member.isActivationPending,
-    //     },
-    //     {
-    //       validators: [Validators.required],
-    //       updateOn: 'change',
-    //     }
-    //   ),
-    //   email: new FormControl(
-    //     {
-    //       value: this.member.email,
-    //       disabled:
-    //         !this.member.isActivationPending || this.member.isInvitationSent,
-    //     },
-    //     {
-    //       validators: [Validators.required, Validators.email],
-    //       updateOn: 'change',
-    //     }
-    //   ),
-    // });
-  }
 
   deleteMember() {
     this.delete.emit(this.member);
