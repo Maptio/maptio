@@ -64,17 +64,14 @@ export class MemberFormComponent implements OnInit {
     this.memberForm = new FormGroup({
       firstname: new FormControl('', {
         validators: [ Validators.required, Validators.minLength(2) ],
-        updateOn: 'submit',
       }),
 
       lastname: new FormControl('', {
         validators: [ Validators.minLength(2) ],
-        updateOn: 'submit',
       }),
 
       email: new FormControl('', {
         validators: [ Validators.email ],
-        updateOn: 'submit',
       }),
     });
   }
