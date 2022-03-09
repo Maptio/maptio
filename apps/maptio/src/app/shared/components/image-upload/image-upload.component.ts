@@ -48,6 +48,7 @@ export class ImageUploadComponent implements OnInit {
 
   @Input() user: User;
   @Output() uploadedImageUrl = new EventEmitter<string>();
+  @Output() errorMessage = new EventEmitter<string>();
 
   constructor(
     private cloudinary: Cloudinary,
@@ -93,15 +94,14 @@ export class ImageUploadComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private handleError(item: FileLikeObject, filter: any) {
     if (filter.name === 'fileSize') {
-      this.errorMessage = 'The image size must not exceed 2mb.';
+      this.errorMessage.emit('The image size must not exceed 2mb.');
     }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private buildItemForm(fileItem: any, form: FormData): any {
     this.isRefreshingPicture = true;
-    this.feedbackMessage = null;
-    this.errorMessage = '';
+    this.errorMessage.emit('');
 
     // This prevents an ugly bug - when user isn't passed in - that doesn't
     // even show up as an error in the console and so is hard to reproduce.
@@ -131,8 +131,7 @@ export class ImageUploadComponent implements OnInit {
       this.imageUrl = imageURL;
       this.uploadedImageUrl.emit(this.imageUrl);
     } else {
-      // TODO
-      this.errorMessage = 'Something went wrong, please try again later.';
+      this.errorMessage.emit('Image upload was unsuccessful, please try again later.');
     }
 
     this.isRefreshingPicture = false;

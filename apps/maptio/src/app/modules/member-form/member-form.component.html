@@ -54,7 +54,11 @@
     <maptio-image-upload
       [user]="member"
       (uploadedImageUrl)="onImageUpload($event)"
+      (errorMessage)="onImageUploadError($event)"
+      [class.is-invalid]="imageUploadErrorMessage"
     ></maptio-image-upload>
+
+    <small class="invalid-feedback">{{ imageUploadErrorMessage }}</small>
   </div>
 
   <div class="form-group">

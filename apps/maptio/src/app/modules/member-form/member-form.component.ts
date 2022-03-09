@@ -36,7 +36,7 @@ export class MemberFormComponent implements OnInit {
   private firstname: string;
   private lastname: string;
   private email: string;
-  private picture: string;
+  public imageUploadErrorMessage = '';
 
   public isUserSignUp = false;
   public isEditingExistingUser = false;
@@ -110,6 +110,11 @@ export class MemberFormComponent implements OnInit {
   onImageUpload(imageUrl: string) {
     this.isNewImageUploaded = true;
     this.picture = imageUrl;
+    this.imageUploadErrorMessage = '';
+  }
+
+  onImageUploadError(errorMessage: string) {
+    this.imageUploadErrorMessage = errorMessage;
   }
 
   async save() {
@@ -142,7 +147,7 @@ export class MemberFormComponent implements OnInit {
     await this.createUserFullDetails();
 
     this.addMember.emit(this.createdUser);
-    this.memberForm.reset();
+    this.reset();
   }
 
   private async createUserFullDetails() {
@@ -252,5 +257,10 @@ export class MemberFormComponent implements OnInit {
 
   onCancel() {
     this.cancel.emit();
+  }
+
+  private reset() {
+    this.imageUploadErrorMessage = '';
+    this.memberForm.reset();
   }
 }
