@@ -8,7 +8,6 @@ import {
 } from 'ng2-file-upload';
 
 import { environment } from '@maptio-config/environment';
-import { User } from '@maptio-shared/model/user.data';
 
 
 @Component({
@@ -38,9 +37,6 @@ export class ImageUploadComponent implements OnInit {
       },
     ],
   };
-
-  public feedbackMessage = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
-  public errorMessage = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 
   public isRefreshingPicture: boolean;
 
@@ -72,7 +68,6 @@ export class ImageUploadComponent implements OnInit {
     ) => {
       const pictureURL = JSON.parse(response).secure_url;
       this.updatePicture(pictureURL);
-      this.feedbackMessage = 'Successfully updated.';
     };
 
     this.uploader.onProgressItem = () => {
