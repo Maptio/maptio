@@ -41,6 +41,7 @@ export class MemberFormComponent implements OnInit {
   public isUserSignUp = false;
   public isEditingExistingUser = false;
 
+  public isNewImageUploaded = false;
   public isSubmissionAttempted = false;
   public isSaving: boolean;
   public savingFailedMessage = null;
@@ -105,6 +106,7 @@ export class MemberFormComponent implements OnInit {
   }
 
   onImageUpload(imageUrl: string) {
+    this.isNewImageUploaded = true;
     this.picture = imageUrl;
   }
 
