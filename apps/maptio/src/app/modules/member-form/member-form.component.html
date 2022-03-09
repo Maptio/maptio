@@ -46,13 +46,13 @@
   <div class="form-group">
     <label
       class="mb-0 text-uppercase text-bold text-gray-light small"
-      for="inputFirstname"
     >
       Profile Image
     </label>
 
     <maptio-image-upload
-      [user]="member"
+      [imageUrl]="picture"
+      [userId]="memberId"
       (uploadedImageUrl)="onImageUpload($event)"
       (errorMessage)="onImageUploadError($event)"
       [class.is-invalid]="imageUploadErrorMessage"

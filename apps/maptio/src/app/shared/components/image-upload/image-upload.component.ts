@@ -17,8 +17,6 @@ import { User } from '@maptio-shared/model/user.data';
   styleUrls: ['./image-upload.component.scss']
 })
 export class ImageUploadComponent implements OnInit {
-  public imageUrl = '';
-
   public uploader: FileUploader;
   private uploaderOptions: FileUploaderOptions = {
     url: `https://api.cloudinary.com/v1_1/${
@@ -46,7 +44,8 @@ export class ImageUploadComponent implements OnInit {
 
   public isRefreshingPicture: boolean;
 
-  @Input() user: User;
+  @Input() imageUrl: string;
+  @Input() userId: string;
   @Output() uploadedImageUrl = new EventEmitter<string>();
   @Output() errorMessage = new EventEmitter<string>();
 
@@ -55,10 +54,6 @@ export class ImageUploadComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.user) {
-      this.imageUrl = this.user.picture;
-    }
-
     this.uploader = new FileUploader(this.uploaderOptions);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
@@ -110,8 +105,8 @@ export class ImageUploadComponent implements OnInit {
     // this a bit more deeply, surely the library provides functionality for
     // better error handling? (TODO)
     let userId = 'user-id-not-yet-set';
-    if (this.user) {
-      userId = this.user.user_id;
+    if (this.userId) {
+      userId = this.userId;
     }
 
     // Add Cloudinary's unsigned upload preset to the upload form
@@ -126,9 +121,9 @@ export class ImageUploadComponent implements OnInit {
     return { fileItem, form };
   }
 
-  updatePicture(imageURL: string) {
-    if (imageURL) {
-      this.imageUrl = imageURL;
+  updatePicture(imageUrl: string) {
+    if (imageUrl) {
+      this.imageUrl = imageUrl;
       this.uploadedImageUrl.emit(this.imageUrl);
     } else {
       this.errorMessage.emit('Image upload was unsuccessful, please try again later.');

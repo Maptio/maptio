@@ -36,6 +36,9 @@ export class MemberFormComponent implements OnInit {
   private firstname: string;
   private lastname: string;
   private email: string;
+
+  public picture: string;
+  public memberId: string;
   public imageUploadErrorMessage = '';
 
   public isUserSignUp = false;
@@ -85,6 +88,7 @@ export class MemberFormComponent implements OnInit {
 
     if (this.member instanceof User) {
       this.isEditingExistingUser = true;
+      this.memberId = this.member.user_id;
     }
 
     // Email shouldn't be editable once a team member is already in Auth0
@@ -261,6 +265,7 @@ export class MemberFormComponent implements OnInit {
 
   private reset() {
     this.imageUploadErrorMessage = '';
+    this.picture = '';
     this.memberForm.reset();
   }
 }
