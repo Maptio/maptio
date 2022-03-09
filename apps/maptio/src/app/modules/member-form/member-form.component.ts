@@ -50,6 +50,7 @@ export class MemberFormComponent implements OnInit {
   @Input() member: User | MemberFormFields;
   @Input() team: Team;
   @Output() addMember = new EventEmitter<User>();
+  @Output() editMember = new EventEmitter();
   @Output() cancel = new EventEmitter();
 
   constructor(
@@ -244,6 +245,7 @@ export class MemberFormComponent implements OnInit {
     this.member.name = `${this.firstname} ${this.lastname}`;
     this.member.email = this.email;
 
+    this.editMember.emit();
     this.isSavingSuccess = true;
   }
 

@@ -122,6 +122,10 @@ export class MemberSingleComponent {
       });
   }
 
+  onEditMember() {
+    this.onCancelEditing();
+  }
+
   onCancelEditing() {
     this.isEditToggled = false;
     this.cd.markForCheck();
