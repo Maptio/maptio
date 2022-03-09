@@ -147,6 +147,7 @@
                 placement="left"
                 container="body"
                 ngbTooltip="Invite {{ member.name }} to view and edit maps"
+                [disabled]="!member.email && wasInvitationAttempted"
               >
                 Invite
               </button>

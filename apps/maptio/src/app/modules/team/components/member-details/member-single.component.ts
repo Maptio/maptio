@@ -37,6 +37,7 @@ export class MemberSingleComponent {
   isDisplaySendingLoader: boolean;
   isDisplayUpdatingLoader: boolean;
   isEditToggled: boolean;
+  wasInvitationAttempted: boolean;
 
   errorMessage: string;
 
@@ -66,6 +67,14 @@ export class MemberSingleComponent {
   }
 
   inviteUser(): Promise<void> {
+    this.wasInvitationAttempted = true;
+
+    if (!this.member.email) {
+      this.errorMessage = 'Please enter an email address to send the invitation to.';
+      this.cd.markForCheck();
+      return;
+    }
+
     this.isDisplaySendingLoader = true;
     this.errorMessage = '';
     this.cd.markForCheck();
@@ -79,6 +88,7 @@ export class MemberSingleComponent {
       .then((isSent) => {
         this.member.isInvitationSent = isSent;
         this.isDisplaySendingLoader = false;
+        this.wasInvitationAttempted = false;
         this.cd.markForCheck();
 
         if (!isSent) {
