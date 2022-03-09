@@ -49,6 +49,7 @@ export class MemberFormComponent implements OnInit {
 
   @Input() member: User | MemberFormFields;
   @Input() team: Team;
+  @Input() showCancelButton = false;
   @Output() addMember = new EventEmitter<User>();
   @Output() editMember = new EventEmitter();
   @Output() cancel = new EventEmitter();

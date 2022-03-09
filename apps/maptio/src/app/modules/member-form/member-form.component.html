@@ -95,7 +95,7 @@
 
   <div class="d-flex justify-content-end mt-2">
     <button
-      *ngIf="!(memberForm.dirty || isNewImageUploaded)"
+      *ngIf="showCancelButton && !(memberForm.dirty || isNewImageUploaded)"
       type="button"
       class="btn btn-outline-secondary mr-2"
       (click)="onCancel()"
@@ -104,7 +104,7 @@
     </button>
 
     <button
-      *ngIf="memberForm.dirty || isNewImageUploaded"
+      *ngIf="showCancelButton && (memberForm.dirty || isNewImageUploaded)"
       type="button"
       class="btn btn-outline-secondary mr-2"
       placement="top"
