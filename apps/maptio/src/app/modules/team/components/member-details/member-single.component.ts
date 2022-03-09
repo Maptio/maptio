@@ -122,6 +122,11 @@ export class MemberSingleComponent {
       });
   }
 
+  onCancelEditing() {
+    this.isEditToggled = false;
+    this.cd.markForCheck();
+  }
+
   // TODO: Copy over to MemberForm component (and fix "Never ago"!!!)
   // import * as distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
   // getAgo(date: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
