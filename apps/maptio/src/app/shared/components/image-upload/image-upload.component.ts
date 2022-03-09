@@ -55,6 +55,7 @@ export class ImageUploadComponent implements OnInit {
     this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
       this.buildItemForm(fileItem, form);
     };
+
     this.uploader.onWhenAddingFileFailed = (
       item: FileLikeObject,
       filter: any, // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -66,8 +67,19 @@ export class ImageUploadComponent implements OnInit {
       item: any, // eslint-disable-line @typescript-eslint/no-explicit-any
       response: string,
     ) => {
-      const pictureURL = JSON.parse(response).secure_url;
-      this.updatePicture(pictureURL);
+      try {
+        const pictureURL = JSON.parse(response).secure_url;
+
+        if (!pictureURL) {
+          throw new Error();
+        }
+
+        this.updatePicture(pictureURL);
+      } catch {
+        this.errorMessage.emit('Image upload was unsuccessful, please try again later.');
+      }
+
+      this.isRefreshingPicture = false;
     };
 
     this.uploader.onProgressItem = () => {
@@ -117,13 +129,7 @@ export class ImageUploadComponent implements OnInit {
   }
 
   updatePicture(imageUrl: string) {
-    if (imageUrl) {
-      this.imageUrl = imageUrl;
-      this.uploadedImageUrl.emit(this.imageUrl);
-    } else {
-      this.errorMessage.emit('Image upload was unsuccessful, please try again later.');
-    }
-
-    this.isRefreshingPicture = false;
+    this.imageUrl = imageUrl;
+    this.uploadedImageUrl.emit(this.imageUrl);
   }
 }
