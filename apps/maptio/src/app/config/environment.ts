@@ -1,17 +1,21 @@
 export const environment = {
-    AUTH0_MANAGEMENTAPI_KEY: "mjQumlN564UkegYxzZGLNhM0umeEsmdC",
-    AUTH0_MANAGEMENTAPI_SECRET: "YHMsevargwqFXmBt7I0rAjjkhCz_yQ6gb8-g4YLwQRvKI_B2at22r0MUmyENEXZ_",
-    AUTH0_APP_KEY: "CRvF82hID2lNIMK4ei2wDz20LH7S5BMy",
-    AUTH0_DOMAIN: "login.maptio.com",
+    AUTH0_MANAGEMENTAPI_KEY: "PO4uPjtjG8HHuu9YsDasRChnQ63cTtXG",
+    AUTH0_MANAGEMENTAPI_SECRET: "SvSA889HI1qD0CHUrKahhhdF1gJTZ153u4U9COGGGCvCOBmeikjBnqD80ug1WJod",
+    AUTH0_APP_KEY: "V12vLeKCT4mxpGZpqKDhlXeIMaOzBtTT",
+    AUTH0_DOMAIN: "maptio-staging.us.auth0.com",
+
+    USERS_API_URL: "https:/maptio-staging.us.auth0.com/api/v2/users",
+    TICKETS_API_URL: "https://maptio-staging.us.auth0.com/api/v2/tickets/email-verification",
+
+    ACCESS_TOKEN_URL: "https://maptio-staging.us.auth0.com/oauth/token",
+    ACCESS_TOKEN_AUDIENCE: "https://maptio-staging.us.auth0.com/api/v2/",
+
+
     TOS_URL: "https://termsfeed.com/terms-conditions/f0e548940bde8842b1fb58637ae048c0",
     PRIVACY_URL: "https://termsfeed.com/privacy-policy/9a9cf258899b266a6aed7997c9a8044c",
     BLOG_URL: "https://medium.com/maptio",
-    USERS_API_URL: "https://login.maptio.com/api/v2/users",
-    TICKETS_API_URL: "https://login.maptio.com/api/v2/tickets/email-verification",
     CONNECTION_NAME: "Username-Password-Authentication",
     SUPPORT_EMAIL: "support@maptio.com",
-    ACCESS_TOKEN_URL: "https://circlemapping.auth0.com/oauth/token",
-    ACCESS_TOKEN_AUDIENCE: "https://circlemapping.auth0.com/api/v2/",
     MAPTIO_API_URL: "https://app.maptio.com/api/v1",
     MIXPANEL_TOKEN: "de90e67220137ed9cab9510a84ba7ecf",
     INTERCOM_APP_ID: "q3x5lnhp",
