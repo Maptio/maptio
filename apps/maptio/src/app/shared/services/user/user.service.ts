@@ -27,7 +27,7 @@ import { UUID } from 'angular2-uuid/index';
 import { isEmpty, sortBy, uniq } from 'lodash-es';
 import { nanoid } from 'nanoid'
 
-import { environment } from '@maptio-config/environment';
+import { environment } from '@maptio-environment';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
@@ -434,7 +434,7 @@ export class UserService implements OnDestroy {
   private convertUserToAuth0Format(user: User) {
     const userInAuth0Format = {
       user_id: user.user_id,
-      connection: environment.CONNECTION_NAME,
+      connection: environment.auth0DatabaseConnectionName,
       email: user.email,
       name: `${user.firstname} ${user.lastname}`,
       password: `${UUID.UUID()}-${UUID.UUID().toUpperCase()}`,

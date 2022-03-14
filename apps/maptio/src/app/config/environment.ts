@@ -1,15 +1,13 @@
+/*
+ * Please do not add anything here. Let's slowly migrate to the current
+ * standard location for Angular configuration files at src/app/environments
+ */
+
 export const environment = {
-    AUTH0_APP_KEY: "CRvF82hID2lNIMK4ei2wDz20LH7S5BMy",
-    AUTH0_DOMAIN: "login.maptio.com",
     TOS_URL: "https://termsfeed.com/terms-conditions/f0e548940bde8842b1fb58637ae048c0",
     PRIVACY_URL: "https://termsfeed.com/privacy-policy/9a9cf258899b266a6aed7997c9a8044c",
     BLOG_URL: "https://medium.com/maptio",
-    USERS_API_URL: "https://login.maptio.com/api/v2/users",
-    TICKETS_API_URL: "https://login.maptio.com/api/v2/tickets/email-verification",
-    CONNECTION_NAME: "Username-Password-Authentication",
     SUPPORT_EMAIL: "support@maptio.com",
-    ACCESS_TOKEN_URL: "https://circlemapping.auth0.com/oauth/token",
-    ACCESS_TOKEN_AUDIENCE: "https://circlemapping.auth0.com/api/v2/",
     MAPTIO_API_URL: "https://app.maptio.com/api/v1",
     MIXPANEL_TOKEN: "de90e67220137ed9cab9510a84ba7ecf",
     INTERCOM_APP_ID: "q3x5lnhp",
@@ -18,8 +16,6 @@ export const environment = {
     CLOUDINARY_CLOUDNAME: "hgkbm0qes",
     CLOUDINARY_UPLOAD_PRESET: "rk6tzs5q",
     CLOUDINARY_PROFILE_TAGNAME: "profile",
-    AUTH0_USERS_PAGE_LIMIT: 50,
-    CHECK_TOKEN_EXPIRATION_INTERVAL_IN_MINUTES: 1440,
 
     KB_URL_PERMISSIONS: "https://maptio.outseta.com/support/kb#/articles/bB9l5DW8/managing-permissions",
     KB_URL_HOME: "https://maptio.outseta.com/support/kb",

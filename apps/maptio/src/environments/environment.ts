@@ -12,6 +12,7 @@ export const environment = {
     scope: 'api',
     audience: 'http://localhost:4200/api/v1',
   },
+  auth0DatabaseConnectionName: 'Username-Password-Authentication',
 };
 
 /*
