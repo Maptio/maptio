@@ -10,8 +10,9 @@ let PRIVATE_KEY, PUBLIC_KEY;
 
 let isDevelopment = process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "staging";
 
-console.log("isDevelopment: ", isDevelopment);
-console.log("process.env.NODE_ENV: ", process.env.NODE_ENV);
+console.log("encoding.js isDevelopment: ", isDevelopment);
+console.log("encoding.js process.env.NODE_ENV: ", process.env.NODE_ENV);
+console.log("encoding.js process.env.NODE_ENV_TWO: ", process.env.NODE_ENV_TWO);
 
 if (isDevelopment) {
     PRIVATE_KEY = fs.readFileSync(path.join(__dirname, "assets/id_rsa"));

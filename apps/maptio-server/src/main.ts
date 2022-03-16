@@ -27,6 +27,10 @@ const audience = process.env.AUTH0_AUDIENCE;
 const issuer = process.env.AUTH0_ISSUER;
 
 
+console.log("main.ts isDevelopment: ", isDevelopment);
+console.log("main.ts process.env.NODE_ENV: ", process.env.NODE_ENV);
+
+
 //
 // Auth0 Management API Client
 //
