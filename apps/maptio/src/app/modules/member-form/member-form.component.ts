@@ -53,6 +53,7 @@ export class MemberFormComponent implements OnInit {
   @Input() member: User | MemberFormFields;
   @Input() team: Team;
   @Input() showCancelButton = false;
+  @Input() disableEmailInput = false;
   @Output() addMember = new EventEmitter<User>();
   @Output() editMember = new EventEmitter();
   @Output() cancel = new EventEmitter();
@@ -92,7 +93,7 @@ export class MemberFormComponent implements OnInit {
     }
 
     // Email shouldn't be editable once a team member is already in Auth0
-    if (this.member instanceof User && this.member.isInAuth0) {
+    if (this.disableEmailInput || (this.member instanceof User && this.member.isInAuth0)) {
       this.memberForm.get('email').disable();
     }
 
