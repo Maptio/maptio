@@ -113,6 +113,7 @@ if (!environment.isDevelopment) {
         'https://www.termsfeed.com',
         'https://termsfeed.com',
         'https://login.maptio.com',
+        'https://maptio-staging.us.auth0.com',
         'https://maptio.chargebee.com'
       ],
       childSrc: [
