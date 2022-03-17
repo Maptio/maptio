@@ -4,17 +4,14 @@ var jwt = require('jsonwebtoken');
 var fs = require("fs");
 var path = require('path');
 
+import { environment } from '../environments/environment';
+
 require('dotenv').config()
 
 let PRIVATE_KEY, PUBLIC_KEY;
 
-let isDevelopment = process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "staging";
 
-console.log("encoding.js isDevelopment: ", isDevelopment);
-console.log("encoding.js process.env.NODE_ENV: ", process.env.NODE_ENV);
-console.log("encoding.js process.env.NODE_ENV_TWO: ", process.env.NODE_ENV_TWO);
-
-if (isDevelopment) {
+if (environment.isDevelopment) {
     PRIVATE_KEY = fs.readFileSync(path.join(__dirname, "assets/id_rsa"));
     PUBLIC_KEY = fs.readFileSync(path.join(__dirname, "assets/rsa.pub"));
 } else {

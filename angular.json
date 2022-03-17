@@ -238,6 +238,17 @@
                   "with": "apps/maptio-server/src/environments/environment.prod.ts"
                 }
               ]
+            },
+            "staging": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/maptio-server/src/environments/environment.ts",
+                  "with": "apps/maptio-server/src/environments/environment.staging.ts"
+                }
+              ]
             }
           }
         },

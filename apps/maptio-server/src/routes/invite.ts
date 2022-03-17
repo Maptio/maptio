@@ -14,10 +14,9 @@ require('dotenv').config();
 // New imports
 import { Request, Response, NextFunction } from 'express'
 
+import { environment } from '../environments/environment';
 import { getAuth0MangementClient } from '../auth/management-client';
 
-
-const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // TODO: Dry just like the Auth0 code has been dried
 const ses = new aws.SES({
@@ -120,7 +119,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
 
 function sendInvitationEmail(userEmail, invitedBy, team, url) {
   const from = process.env.SUPPORT_EMAIL;
-  const to = isDevelopment ? process.env.DEVELOPMENT_EMAIL : userEmail;
+  const to = environment.isDevelopment ? process.env.DEVELOPMENT_EMAIL : userEmail;
   const subject = `${invitedBy} invited you to join organisation "${team}" on Maptio`;
 
   const template = templating(

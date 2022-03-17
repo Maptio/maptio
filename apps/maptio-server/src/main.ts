@@ -9,6 +9,7 @@ import apicache from 'apicache';
 import sslRedirect from 'heroku-ssl-redirect';
 import compression from 'compression';
 
+import { environment } from './environments/environment';
 import { setUpAuth0ManagementClient } from './auth/management-client';
 
 
@@ -20,15 +21,19 @@ const DIST_DIR = path.join(__dirname, "../maptio/");
 const HTML_FILE = path.join(DIST_DIR, "index.html");
 const DEFAULT_PORT = 3000;
 
-const isDevelopment = process.env.NODE_ENV !== "production";
 const port = process.env.PORT || DEFAULT_PORT;
 
 const audience = process.env.AUTH0_AUDIENCE;
 const issuer = process.env.AUTH0_ISSUER;
 
 
-console.log("main.ts isDevelopment: ", isDevelopment);
-console.log("main.ts process.env.NODE_ENV: ", process.env.NODE_ENV);
+if (environment.isDevelopment) {
+    console.log('Running server in DEVELOPMENT mode.')
+} else {
+    console.log('Running server in PRODUCTION mode.')
+}
+console.log("environment.isDevelopment: ", environment.isDevelopment);
+console.log("process.env.NODE_ENV: ", process.env.NODE_ENV);
 
 
 //
@@ -70,7 +75,7 @@ function checkscopes(scopes) {
   }
 }
 
-if (!isDevelopment) {
+if (!environment.isDevelopment) {
   app.use(helmet())
   app.use(helmet.contentSecurityPolicy({
     directives: {
@@ -169,7 +174,7 @@ app.use('/api/v1/embeddable-dataset/', embeddableDatasets);
 app.set("port", port);
 app.get(cache('5 seconds'));
 
-if (!isDevelopment) {
+if (!environment.isDevelopment) {
   app.use(express.static(DIST_DIR));
 
   // Make it possible to use the /embed/ route in an iframe by removing the
