@@ -38,8 +38,6 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   let createUser: boolean;
 
   // TODO: Error checking could be improved hear to avoid the try/catch tower of terror
-
-
   try {
     inviteData = req.body;
     userData = inviteData.userData;
@@ -74,10 +72,10 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     }
   }
 
-  let verifyEmailTicketResponse;
+  let changePasswordTicketResponse;
 
   try {
-    verifyEmailTicketResponse = await auth0ManagementClient
+    changePasswordTicketResponse = await auth0ManagementClient
       .tickets
       .changePassword({
         user_id: userId,
@@ -88,10 +86,10 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     return next(error);
   }
 
-  let verifyEmailTicket: string;
+  let changePasswordTicket: string;
 
   try {
-    verifyEmailTicket = verifyEmailTicketResponse.ticket;
+    changePasswordTicket = changePasswordTicketResponse.ticket;
   } catch(error) {
     error.message = 'Error processing password change ticket response from Auth0: ' + error.message;
     return next(error);
@@ -104,7 +102,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
       userEmail,
       invitedBy,
       teamName,
-      verifyEmailTicket,
+      changePasswordTicket,
     )
   } catch(error) {
     error.message = 'Error sending invitation email: ' + error.message;
