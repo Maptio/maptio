@@ -81,10 +81,7 @@ export class User implements Serializable<User> {
 
     const deserialized = new User();
 
-    // If a user was created before this field was added, they can be assumed
-    // to have had an account in Auth0 created for them
-    // TODO: Remove this in a migration once we have a migration system
-    deserialized.isInAuth0 = input.isInAuth0 ?? true;
+    deserialized.isInAuth0 = input.isInAuth0;
 
     deserialized.shortid = input.shortid;
 

@@ -404,8 +404,7 @@ export class UserService implements OnDestroy {
     const userDataInAuth0Format = this.convertUserToAuth0Format(user);
 
     // When first sending an invitation, we need to create a new user in Auth0,
-    // unless the user is already there (like with old data) or they are already
-    // in Auth0.
+    // unless the user is already there.
     const createUser = !user.isInAuth0;
 
     // When creating a user in Auth0, we need to remove the "auth0|" prefix,
