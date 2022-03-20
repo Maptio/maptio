@@ -28,10 +28,14 @@
 
     "baseUrl": "src",
     "paths": {
+      // "@maptio-environments/*": ["environments/*"],
+      "@maptio-environment": ["environments/environment"],
       "@maptio-config/*": ["app/config/*"],
       "@maptio-core/*": ["app/core/*"],
       "@maptio-shared/*": ["app/shared/*"],
+      "@maptio-login/*": ["app/modules/login/*"],
       "@maptio-circle-map/*": ["app/modules/circle-map/*"],
+      "@maptio-member-form": ["app/modules/member-form"],
     }
   },
   // TODO: Reenable strict compilation options once the code is fixed

@@ -3,7 +3,6 @@ import {of as observableOf,  Subscription ,  Observable } from 'rxjs';
 import { Helper } from "./../model/helper.data";
 import { Initiative } from "./../model/initiative.data";
 import { Permissions } from "./../model/permission.data";
-import { Auth } from "../../core/authentication/auth.service";
 import {
     Directive,
     EventEmitter,
@@ -15,7 +14,10 @@ import {
     ViewContainerRef,
     SimpleChanges
 } from "@angular/core";
+
+import { UserService } from '@maptio-shared/services/user/user.service';
 import { PermissionsService } from "../services/permissions/permissions.service";
+
 
 export type StrategyFunction = (templateRef?: TemplateRef<any>) => void;
 
@@ -67,10 +69,10 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     constructor(
         private viewContainer: ViewContainerRef,
         private templateRef: TemplateRef<any>,
-        private auth: Auth,
+        private userService: UserService,
         private permissionService: PermissionsService
     ) {
-        this.userPermissions = auth.getPermissions();
+        this.userPermissions = this.userService.getPermissions();
         if (localStorage.getItem("profile")) {
             this.userId = JSON.parse(localStorage.getItem("profile")).user_id
         }

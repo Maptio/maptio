@@ -2,8 +2,6 @@ import {
     Component,
     OnInit,
     ChangeDetectionStrategy,
-    ViewChild,
-    ElementRef,
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Observable, Subject, Subscription } from "rxjs";
@@ -14,7 +12,6 @@ import { DataService } from "../../services/data.service";
 import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
-import { Auth } from "../../../../core/authentication/auth.service";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Team } from "../../../../shared/model/team.data";
 import { Initiative } from "../../../../shared/model/initiative.data";
@@ -70,7 +67,6 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     dataSubscription: Subscription;
 
     constructor(
-        public auth: Auth,
         public route: ActivatedRoute,
         public datasetFactory: DatasetFactory,
         public userFactory: UserFactory,

@@ -35,6 +35,13 @@
     },
     "maptio-server": {
       "tags": []
+    },
+    "maptio-admin": {
+      "tags": []
+    },
+    "maptio-admin-e2e": {
+      "tags": [],
+      "implicitDependencies": ["maptio-admin"]
     }
   }
 }

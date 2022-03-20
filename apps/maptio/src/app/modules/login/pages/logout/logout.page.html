@@ -1,63 +1,85 @@
-<div class="d-flex flex-column flex-xl-row justify-content-between align-items-stretch row">
-    <div class="d-flex flex-column justify-content-center align-items-center my-5 col-12 col-xl-6 ">
-        <div class="text-center">
-            <h1 class="text-blue ">Maptio helps you organise without traditional management hierarchy</h1>
+<div
+  class="d-flex flex-column flex-xl-row justify-content-between align-items-stretch row"
+>
+  <div
+    class="d-flex flex-column justify-content-center align-items-center my-5 col-12 col-xl-6"
+  >
+    <div class="text-center">
+      <h1 class="text-blue">
+        Maptio helps you organise without traditional management hierarchy
+      </h1>
 
-            <h3 class="display-4 d-flex justify-content-around my-4">
-                <i class="fas fa-unlink text-muted" aria-hidden="true"></i>
-            </h3>
-            <p class="lead d-flex justify-content-center">
-                You are now logged out.
-            </p>
+      <h3 class="display-4 d-flex justify-content-around mt-5 mb-4">
+        <i class="fas fa-unlink text-muted" aria-hidden="true"></i>
+      </h3>
 
-            <button class="btn btn-success btn-lg my-3" routerLink="/login">Log back in</button>
+      <ng-container *ngIf="userService.isAuthenticated$ | async; else loggedOut">
+        <p class="lead d-flex justify-content-center mb-6">Logging you out now.</p>
+      </ng-container>
 
-            <div class="d-flex row justify-content-center align-items-stretch">
-                <div class="col-12 col-md-6">
-                    <a class="card border-white box-shadow text-blue no-underline" href="{{SURVEY_URL}}" target="blank">
-                        <div class="card-body">
-                            <h5 class="card-title d-flex justify-content-center">
-                                <i class="fas fa-comments fa-3x" aria-hidden="true"></i>
-                            </h5>
-                            <div class="card-text">
-                                <span class="text-muted">We want to make Maptio even better.</span>
-                                <span class="text-blue">Tell us what to work on next.</span>
+      <ng-template #loggedOut>
+        <p class="lead d-flex justify-content-center">You are now logged out.</p>
 
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-12 col-md-6 mt-3 mt-md-0">
-                    <div class="card border-white box-shadow">
-                        <div class="card-body">
-                            <h5 class="card-title d-flex justify-content-center text-blue ">
-                                <i class="fa fa-rss fa-3x" aria-hidden="true"></i>
-                            </h5>
-                            <div class="card-text text-muted">
-                                Check out
-                                <a href="https://medium.com/maptio/create-organisational-clarity-using-initiative-mapping-967069247380" target="blank" class="text-blue">
-                                    the Maptio guide to initiative mapping</a>
-                                <span>and</span>
-                                <a href="https://medium.com/maptio" target="blank" class="text-blue">
-                                    our blog</a>
+        <button maptioLoginRedirect class="btn btn-success btn-lg mt-3 mb-5">
+          Log back in
+        </button>
+      </ng-template>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
+      <div class="d-flex row justify-content-center align-items-stretch">
+        <div class="col-12 col-md-6">
+          <a
+            class="card border-white box-shadow text-blue no-underline"
+            href="{{SURVEY_URL}}"
+            target="blank"
+          >
+            <div class="card-body">
+              <h5 class="card-title d-flex justify-content-center">
+                <i class="fas fa-comments fa-3x" aria-hidden="true"></i>
+              </h5>
+              <div class="card-text">
+                <span class="text-muted"
+                  >We want to make Maptio even better.</span
+                >
+                <span class="text-blue">Tell us what to work on next.</span>
+              </div>
             </div>
-
+          </a>
         </div>
+        <div class="col-12 col-md-6 mt-3 mt-md-0">
+          <div class="card border-white box-shadow">
+            <div class="card-body">
+              <h5 class="card-title d-flex justify-content-center text-blue">
+                <i class="fa fa-rss fa-3x" aria-hidden="true"></i>
+              </h5>
+              <div class="card-text text-muted">
+                Check out
+                <a
+                  href="https://medium.com/maptio/create-organisational-clarity-using-initiative-mapping-967069247380"
+                  target="blank"
+                  class="text-blue"
+                >
+                  the Maptio guide to initiative mapping</a
+                >
+                <span>and</span>
+                <a
+                  href="https://medium.com/maptio"
+                  target="blank"
+                  class="text-blue"
+                >
+                  our blog</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="col-12 d-none d-md-block col-xl-6">
-        <picture>
-            <source [srcset]="SCREENSHOT_URL | safe" type="image/webp">
-            <source [srcset]="SCREENSHOT_URL_FALLBACK | safe" type="image/jpeg">
-            <img class="w-99" [src]="SCREENSHOT_URL_FALLBACK | safe" alt="">
-        </picture>
-    </div>
+  </div>
+  <div class="col-12 d-none d-md-block col-xl-6">
+    <picture>
+      <source [srcset]="SCREENSHOT_URL | safe" type="image/webp" />
+      <source [srcset]="SCREENSHOT_URL_FALLBACK | safe" type="image/jpeg" />
+      <img class="w-99" [src]="SCREENSHOT_URL_FALLBACK | safe" alt="" />
+    </picture>
+  </div>
 </div>

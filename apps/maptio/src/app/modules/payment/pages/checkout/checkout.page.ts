@@ -4,13 +4,13 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription , Observable,  forkJoin } from 'rxjs';
 import { Intercom } from 'ng-intercom';
-import { Auth } from '../../../../core/authentication/auth.service';
 import { environment } from '../../../../config/environment';
 import { DatasetFactory } from '../../../../core/http/map/dataset.factory';
 import { Team } from '../../../../shared/model/team.data';
 import { DataSet } from '../../../../shared/model/dataset.data';
 import { TeamFactory } from '../../../../core/http/team/team.factory';
 import { User } from '../../../../shared/model/user.data';
+import { UserService } from '@maptio-shared/services/user/user.service';
 
 @Component({
     selector: 'pricing-checkout',
@@ -27,12 +27,12 @@ export class CheckoutComponent implements OnInit {
     SURVEY_URL:string = environment.SURVEY_URL;
 
     constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef,
-        private intercom: Intercom, private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory) { }
+        private intercom: Intercom, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory) { }
 
     ngOnInit(): void {
         this.subscription = this.route.queryParams.pipe(
-            combineLatest(this.auth.getUser()),
-            
+            combineLatest(this.userService.user$),
+
             tap(data => {
                 let params = data[0];
                 let user = data[1];

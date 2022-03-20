@@ -18,17 +18,14 @@ import { remove } from "lodash-es";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 
 import { environment } from "../../../../../config/environment";
-import { Auth } from "../../../../../core/authentication/auth.service";
 import { Permissions } from "../../../../../shared/model/permission.data";
 import { Helper } from "../../../../../shared/model/helper.data";
-import { UserFactory } from "../../../../../core/http/user/user.factory";
 import { TeamFactory } from "../../../../../core/http/team/team.factory";
 import { Team } from "../../../../../shared/model/team.data";
 import { DataSet } from "../../../../../shared/model/dataset.data";
 import { User } from "../../../../../shared/model/user.data";
 import { Tag } from "../../../../../shared/model/tag.data";
 import { Initiative } from "../../../../../shared/model/initiative.data";
-import { UserService } from "../../../../../shared/services/user/user.service";
 import { PermissionsService } from "../../../../../shared/services/permissions/permissions.service";
 
 
@@ -74,8 +71,8 @@ export class InitiativeComponent implements OnChanges {
     KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
     MESSAGE_PERMISSIONS_DENIED_EDIT = environment.MESSAGE_PERMISSIONS_DENIED_EDIT;
 
-    constructor(private auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
-        private userService: UserService, private permissionsService: PermissionsService,
+    constructor(private teamFactory: TeamFactory,
+        private permissionsService: PermissionsService,
         private analytics: Angulartics2Mixpanel,
         private cd: ChangeDetectorRef) {
     }
@@ -92,15 +89,6 @@ export class InitiativeComponent implements OnChanges {
                         return t
                     },
                         () => { return Promise.reject("No organisation available") })
-
-
-
-                // this.members$ = this.team$
-                //     .then((team: Team) => {
-                //         return this.userService.getUsersInfo(team.members)
-                //             .then(members => compact(members))
-                //             .then(members => sortBy(members, m => m.name))
-                //     })
             }
 
         }
@@ -240,7 +228,6 @@ export class InitiativeComponent implements OnChanges {
     openTagsPanel() {
         this.editTags.emit();
     }
-
 
 
     trackByUserId(index: number, helper: Helper) {

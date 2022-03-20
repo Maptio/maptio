@@ -4,11 +4,11 @@ import { Team } from "../../../../shared/model/team.data";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { ActivatedRoute , Router} from "@angular/router";
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
-import { Auth } from "../../../../core/authentication/auth.service";
 import { User } from "../../../../shared/model/user.data";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { Permissions } from "../../../../shared/model/permission.data";
 import {sortBy} from "lodash-es";
+import { UserService } from '@maptio-shared/services/user/user.service';
 
 @Component({
     selector: "team-single-maps",
@@ -23,13 +23,13 @@ export class TeamMapsComponent implements OnInit {
     Permissions=Permissions;
     isCreateMapForbidden:boolean;
 
-    constructor(private route: ActivatedRoute, private auth: Auth, private cd:ChangeDetectorRef,private analytics: Angulartics2Mixpanel,
+    constructor(private route: ActivatedRoute, private userService: UserService, private cd:ChangeDetectorRef,private analytics: Angulartics2Mixpanel,
     private router:Router) {
 
     }
     ngOnInit() {
         this.route.parent.data.pipe(
-            combineLatest(this.auth.getUser()))
+            combineLatest(this.userService.user$))
             .subscribe(([data, user] : [{ assets: { team: Team, datasets: DataSet[] } }, User]) => {
                 this.datasets = sortBy(data.assets.datasets, d => !!d.isArchived).map(d => {d.team = data.assets.team; return d});
                 this.teams = [data.assets.team];

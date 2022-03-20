@@ -1,0 +1,20 @@
+{
+  // Dictionary with additional words for Code Spell Checker extension
+  // https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker
+	"cSpell.words": [
+		"adipiscing",
+		"amet",
+		"Angulartics",
+		"consectetur",
+		"elit",
+		"firstname",
+		"focusbutton",
+		"fontawesome",
+		"lastname",
+		"maptio",
+		"Mixpanel",
+		"subsink",
+		"TlJstdtRcRi1rlPM4iBCIYcHjdzSyPiD",
+		"upsert"
+	]
+}

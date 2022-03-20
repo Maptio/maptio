@@ -3,12 +3,12 @@ import { Subscription } from "rxjs";
 import { Permissions } from "../../../../shared/model/permission.data";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Component, OnInit, ChangeDetectorRef, TemplateRef, Renderer2 } from "@angular/core";
-import { Auth } from "../../../../core/authentication/auth.service";
 import { User } from "../../../../shared/model/user.data";
 import { Team } from "../../../../shared/model/team.data";
 import { Router, ActivatedRoute } from "@angular/router";
 import { isEmpty } from 'lodash';
 import { LoaderService } from '../../../../shared/components/loading/loader.service';
+import { UserService } from '@maptio-shared/services/user/user.service';
 
 @Component({
     selector: "team-list",
@@ -35,7 +35,7 @@ export class TeamListComponent implements OnInit {
     Permissions = Permissions;
     KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
 
-    constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef, public auth: Auth,
+    constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef, public userService: UserService,
         public router: Router,
         private loaderService: LoaderService) {
     }
@@ -52,7 +52,7 @@ export class TeamListComponent implements OnInit {
             });
 
         this.isRedirectHome = this.route.snapshot.queryParamMap.has("onboarding");
-        this.userSubscription = this.auth.getUser().subscribe(user => {
+        this.userSubscription = this.userService.user$.subscribe(user => {
             this.user = user;
         })
     }
@@ -63,10 +63,10 @@ export class TeamListComponent implements OnInit {
     }
 
     canCreateUnlimitedTeams() {
-        return this.auth.getPermissions().includes(Permissions.canCreateUnlimitedTeams);
+        return this.userService.getPermissions().includes(Permissions.canCreateUnlimitedTeams);
     }
 
-   
+
     trackByTeamId(index: number, team: Team) {
         return team.team_id;
     }

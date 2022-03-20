@@ -14,7 +14,6 @@ import { ErrorService } from './services/error/error.service';
 import { ExportService } from './services/export/export.service';
 import { FileService } from './services/file/file.service';
 import { LoaderService } from './components/loading/loader.service';
-import { MailingService } from './services/mailing/mailing.service';
 import { URIService } from './services/uri/uri.service';
 import { UserService } from './services/user/user.service';
 import { BillingService } from './services/billing/billing.service';
@@ -60,7 +59,6 @@ export class SharedModule {
                 ExportService,
                 FileService,
                 LoaderService,
-                MailingService,
                 URIService,
                 UserService,
                 BillingService,

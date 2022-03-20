@@ -5,17 +5,15 @@ import { RouterModule } from '@angular/router';
 
 import { JwtModule } from '@auth0/angular-jwt';
 
-import { httpInterceptorProviders } from './interceptors';
+import { ErrorPageComponent } from './error/error.page';
 
 // Unorganised
 import { UnauthorizedComponent } from './401/unauthorized.component';
 import { NotFoundComponent } from './404/not-found.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { Auth } from './authentication/auth.service';
-import { AuthConfiguration } from './authentication/auth.config';
 import { AccessGuard } from './guards/access.guard';
-import { AuthGuard } from './guards/auth.guard';
+import { ActivationGuard } from './guards/activation.guard';
 import { BillingGuard } from './guards/billing.guard';
 import { PermissionGuard } from './guards/permission.guard';
 import { WorkspaceGuard } from './guards/workspace.guard';
@@ -31,6 +29,8 @@ import { MappingSummaryBreadcrumbs } from './breadcrumbs/summary.breadcrumb';
 import { OnboardingModule } from '../shared/onboarding.module';
 import { InstructionsComponent } from '../shared/components/instructions/instructions.component';
 import { OnboardingComponent } from '../shared/components/onboarding/onboarding.component';
+import { LoginModule } from 'app/modules/login/login.module';
+import { LoginErrorPageComponent } from './login-error/login-error.page';
 
 export function tokenGetter(): string {
   return localStorage.getItem("maptio_api_token");
@@ -38,11 +38,13 @@ export function tokenGetter(): string {
 
 @NgModule({
     declarations: [
-        UnauthorizedComponent,
-        NotFoundComponent,
         HeaderComponent,
         FooterComponent,
         LoaderComponent,
+        UnauthorizedComponent,
+        NotFoundComponent,
+        LoginErrorPageComponent,
+        ErrorPageComponent,
 
     ],
     imports: [
@@ -59,6 +61,7 @@ export function tokenGetter(): string {
         BreadcrumbsModule.forRoot(),
         NgProgressModule,
         NgProgressRouterModule,
+        LoginModule,
     ],
     exports: [
         HeaderComponent,
@@ -67,17 +70,14 @@ export function tokenGetter(): string {
         OnboardingComponent
     ],
     providers: [
-        Auth,
-        AuthConfiguration,
         AccessGuard,
-        AuthGuard,
+        ActivationGuard,
         BillingGuard,
         PermissionGuard,
         WorkspaceGuard,
         DatasetFactory,
         TeamFactory,
         UserFactory,
-        httpInterceptorProviders,
         MappingSummaryBreadcrumbs,
         DeviceDetectorService
 

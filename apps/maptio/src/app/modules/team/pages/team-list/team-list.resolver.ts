@@ -1,39 +1,28 @@
+import { Injectable } from '@angular/core';
+import { Resolve } from '@angular/router';
 
-import {map, mergeMap, first} from 'rxjs/operators';
-import { UserService } from "../../../../shared/services/user/user.service";
-import { User } from "../../../../shared/model/user.data";
-import { Auth } from "../../../../core/authentication/auth.service";
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { TeamFactory } from "../../../../core/http/team/team.factory";
-import { Team } from "../../../../shared/model/team.data";
-import { differenceBy, sortBy, isEmpty } from "lodash-es"
+import { Observable } from 'rxjs';
+import { map, first } from 'rxjs/operators';
+
+import { Team } from '@maptio-shared/model/team.data';
+import { UserService } from '@maptio-shared/services/user/user.service';
+
 
 @Injectable()
 export class TeamListComponentResolver implements Resolve<Team[]> {
+  constructor(private userService: UserService) {}
 
-    constructor(private teamFactory: TeamFactory, private auth: Auth, private userService: UserService) {
-    }
-
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Team[]> {
-        return this.auth.getUser().pipe(first(),
-            mergeMap(user => {  return isEmpty(user.teams) ? Promise.resolve([]) : this.teamFactory.get(user.teams)} ),
-            map((teams: Team[]) => {
-                teams.forEach(t => {
-                    if (t) {
-                        this.userService.getUsersInfo(t.members).then((actualMembers: User[]) => {
-                            let allDeleted = differenceBy(t.members, actualMembers, m => m.user_id).map(m => { m.isDeleted = true; return m });
-                            return actualMembers.concat(allDeleted);
-                        })
-                            .then(members => t.members = sortBy(members, m => m.name))
-                    }
-                })
-                return teams.filter(t => { return t !== undefined });
-            }),
-            map(teams => {
-                return sortBy(teams, t => t.name)
-            }),)
-    }
-
+  resolve(): Observable<Team[]> {
+    // TODO: This could be reactive, there's no need for this resolver,
+    // really, but relying on the old code architecture to avoid propagating
+    // all the reactive code changes throughout the codebase just yet - though
+    // that is the eventual goal, just not in the current piece of work (auth
+    // refactoring) where I'm making this change.
+    return this.userService.userWithTeamsAndDatasets$.pipe(
+      first(),
+      map(userWithTeamsAndDatasets => {
+        return userWithTeamsAndDatasets.teams;
+      }),
+    );
+  }
 }

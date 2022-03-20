@@ -345,19 +345,7 @@ export class BuildingComponent implements OnDestroy {
                 this.roleLibrary.syncDatasetRoles(dataset.roles, this.nodes[0]);
                 dataset.roles = team.roles;
 
-                return Promise.all([this.userService.getUsersInfo(team.members), this.userFactory.getUsers(team.members.map(m => m.user_id))])
-                    .then(([auth0Users, databaseUsers]: [User[], User[]]) => {
-                        return databaseUsers.map(u => {
-                            const userAuth0Data = auth0Users.find(du => du.user_id === u.user_id);
-                            u.name = userAuth0Data
-                                ? u.createNameFromFirstAndLastNames(userAuth0Data.firstname, userAuth0Data.lastname, u.name)
-                                : u.name;
-
-                            u.picture = auth0Users.find(du => du.user_id === u.user_id) ? auth0Users.find(du => du.user_id === u.user_id).picture : u.picture;
-                            return u;
-                        })
-                    })
-
+                return this.userFactory.getUsers(team.members.map(m => m.user_id));
             })
             .then((users: User[]) => {
                 // TODO: This is the first place where the initiative and the

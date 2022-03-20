@@ -1,5 +1,6 @@
 import { Injectable, NgModule } from "@angular/core";
 import { Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF } from "@angular/common";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import {
   BrowserModule,
   HammerModule,
@@ -9,8 +10,11 @@ import {
 // import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 
+import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
+import { SubSink } from "subsink";
 import { MarkdownModule, MarkedOptions, MarkedRenderer } from "ngx-markdown";
 
+import { environment } from "@maptio-environment";
 import { AppComponent } from "./app.component";
 import { CoreModule } from "./core/core.module";
 import { AnalyticsModule } from "./core/analytics.module";
@@ -67,6 +71,21 @@ export function markedOptionsFactory(): MarkedOptions {
         // analytics
         AnalyticsModule,
 
+        AuthModule.forRoot({
+          ...environment.auth,
+          httpInterceptor: {
+            allowedList: [
+              {
+                uri: `/api/*`,
+                tokenOptions: {
+                  audience: environment.auth.audience,
+                  scope: 'api',
+                }
+              },
+            ],
+          }
+        }),
+
         MarkdownModule.forRoot({
             markedOptions: {
                 provide: MarkedOptions,
@@ -84,7 +103,13 @@ export function markedOptionsFactory(): MarkedOptions {
         Location,
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         { provide: APP_BASE_HREF, useValue: '/' },
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: AuthHttpInterceptor,
+          multi: true,
+        },
         { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },
+        SubSink,
     ],
     bootstrap: [AppComponent]
 })

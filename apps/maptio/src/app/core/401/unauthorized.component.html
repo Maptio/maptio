@@ -1,26 +1,5 @@
-<div class="d-flex justify-content-center align-items-center flex-column row ">
-    <div class="d-flex flex-column justify-content-center align-items-center col-12 col-md-6">
-        <div class="card bg-white border-0">
-            <div class="">
-                <div class="d-flex justify-content-center align-items-center flex-column text-gradient-error">
-                    <i class="fas fa-minus-circle d-none d-md-block icon-ending"></i>
-                    <i class="fas fa-minus-circle d-md-none icon-ending-xs"></i>
-                    <h1 class="d-none d-md-block">You cannot see this!</h1>
-                    <h3 class="d-md-none">You cannot see this!</h3>
-                </div>
-
-                <h4 class="text-muted mt-5 ">
-                    Chat with us or email us at
-                    <a class="ml-1" href="mailto:support@maptio.com?subject=Support request">
-                        support@maptio.com</a> if the issue persists.
-                </h4>
-
-                <div class="mt-4">
-                    You will be redirected to the
-                    <a class="mx-1" routerLink="/home">homepage</a> in {{timeToRedirect}} seconds.
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<maptio-error-page
+  [iconName]="'minus-circle'"
+  [errorHeadline]="'You cannot see this!'"
+  [shouldRedirect]="true"
+></maptio-error-page>
