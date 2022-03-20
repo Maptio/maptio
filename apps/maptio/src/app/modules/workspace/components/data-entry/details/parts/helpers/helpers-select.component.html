@@ -1,72 +1,55 @@
 <ng-template #rt let-r="result" let-t="term">
-    <img src="{{r.picture}}" class="rounded-circle participant-picture" alt={{r.name}} /> {{r.name}}
+  <img
+    src="{{ r.picture }}"
+    class="rounded-circle participant-picture"
+    alt="{{ r.name }}"
+  />
+  {{ r.name }}
 </ng-template>
+
 <ng-template #editTipContent>
-    <ng-content></ng-content>
+  <ng-content></ng-content>
 </ng-template>
-<div class="d-flex justify-content-between align-items-center text-gray-light mb-2 ">
-    <span>
-        <i class="fas fa-users  mr-1"></i>
-        <span class="text-uppercase text-bold small mr-1">Who's helping?</span>
-        <span *ngIf="isUnauthorized" class="text-gray-light small" [stickyPopover]="editTipContent" placement='right'>
-            <i class="fas fa-lock"></i>
-        </span>
+
+<div
+  class="d-flex justify-content-between align-items-center text-gray-light mb-2"
+>
+  <span>
+    <i class="fas fa-users mr-1"></i>
+    <span class="text-uppercase text-bold small mr-1">Who's helping?</span>
+    <span
+      *ngIf="isUnauthorized"
+      class="text-gray-light small"
+      [stickyPopover]="editTipContent"
+      placement="right"
+    >
+      <i class="fas fa-lock"></i>
     </span>
-    <button *ngIf="!isCurrentUserAlredyAdded() && !isUnauthorized" class="align-self-end btn btn-sm btn-link"
-        (click)="onAddingCurrentUser()">
-        Add yourself as a {{team?.settings.helper |  lowercase}}
-    </button>
+  </span>
+
+  <button
+    *ngIf="!isCurrentUserAlredyAdded() && !isUnauthorized"
+    class="align-self-end btn btn-sm btn-link"
+    (click)="onAddingCurrentUser()"
+  >
+    Add yourself as a {{ team?.settings.helper | lowercase }}
+  </button>
 </div>
+
 <div class="d-flex flex-column align-items-end">
-    <div class="w-100" *ngIf="!isUnauthorized">
-        <common-autocomplete [isUnauthorized]="isUnauthorized" [placeholder]="placeholder" [resultTemplate]="rt"
-            [showSelectedResult]="false" [resultFormatter]="formatter" [filter]="filterMembers"
-            (pick)="onAddingHelper($event)">
-            <button class="btn btn-outline-success">Add {{team?.settings.helper |  lowercase}} </button>
-        </common-autocomplete>
-
-    </div>
-
-
+  <div class="w-100" *ngIf="!isUnauthorized">
+    <common-autocomplete
+      [isUnauthorized]="isUnauthorized"
+      [placeholder]="placeholder"
+      [resultTemplate]="rt"
+      [showSelectedResult]="false"
+      [resultFormatter]="formatter"
+      [filter]="filterMembers"
+      (pick)="onAddingHelper($event)"
+    >
+      <button class="btn btn-outline-success">
+        Add {{ team?.settings.helper | lowercase }}
+      </button>
+    </common-autocomplete>
+  </div>
 </div>
-
-
-
-
-<!-- <input #person required="required" [resultTemplate]="rt" type="text" id="inputHelper"
-    placeholder="Enter the name of a {{helper | lowercase}}" class="form-control" (selectItem)="saveHelper($event)"
-    (focus)="person.value=''" [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter"
-    [inputFormatter]="formatter" editable="false" /> -->
-
-<!-- <div class="mb-2">
-    <div
-        *permissionsOnly="Permissions.canAddHelper;initiative node; then thenAddHelperBlock ; else elseAddHelperBlock ">
-    </div>
-    <ng-template #thenAddHelperBlock>
-        <input #person required="required" [resultTemplate]="rt" type="text" id="inputHelper"
-            placeholder="Enter the name of a {{helper | lowercase}}" class="form-control"
-            (selectItem)="saveHelper($event)" (focus)="person.value=''" [ngbTypeahead]="searchTeamMember"
-            [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" />
-    </ng-template>
-    <ng-template #elseAddHelperBlock>
-        <input #person required="required" [resultTemplate]="rt" type="text" id="inputHelper"
-            placeholder="Enter the name of a {{helper | lowercase}}" class="form-control"
-            (selectItem)="saveHelperRestricted($event)" (focus)="person.value=''" [ngbTypeahead]="searchTeamMember"
-            [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" />
-        <span class="text-accent small" *ngIf="isRestrictedAddHelper">You can only add
-            <strong>yourself</strong> as a {{helper | lowercase}} in this circle</span>
-    </ng-template>
-</div> -->
-
-<!-- <div *ngIf="false" class="">
-    <div class="d-flex justify-content-between align-items-center" *ngIf="getAllHelpers().length > 0">
-        <div></div>
-        <span class="small d-flex mr-2 ml-auto"
-            ngbTooltip="Check this box to allow contributors to edit the details of this circle" placement="top"
-            container="body">Can edit</span>
-    </div>
-    <ng-container *ngFor="let user of getAllHelpers(); let i=index;trackBy:trackByUserId">
-     
-    </ng-container>
-
-</div> -->
