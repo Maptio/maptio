@@ -9,6 +9,9 @@ import apicache from 'apicache';
 import sslRedirect from 'heroku-ssl-redirect';
 import compression from 'compression';
 
+import { environment } from './environments/environment';
+import { setUpAuth0ManagementClient } from './auth/management-client';
+
 
 dotenv.config();
 
@@ -18,8 +21,25 @@ const DIST_DIR = path.join(__dirname, "../maptio/");
 const HTML_FILE = path.join(DIST_DIR, "index.html");
 const DEFAULT_PORT = 3000;
 
-const isDevelopment = process.env.NODE_ENV !== "production";
 const port = process.env.PORT || DEFAULT_PORT;
+
+const audience = process.env.AUTH0_AUDIENCE;
+const issuer = process.env.AUTH0_ISSUER;
+
+
+if (environment.isDevelopment) {
+    console.log('Running server in DEVELOPMENT mode.')
+} else {
+    console.log('Running server in PRODUCTION mode.')
+}
+console.log("environment.isDevelopment: ", environment.isDevelopment);
+console.log("process.env.NODE_ENV: ", process.env.NODE_ENV);
+
+
+//
+// Auth0 Management API Client
+//
+setUpAuth0ManagementClient();
 
 
 //
@@ -31,13 +51,13 @@ const jwtCheck = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: "https://login.maptio.com/.well-known/jwks.json"
+    jwksUri: `${issuer}.well-known/jwks.json`
   }),
 
-  audience: 'https://app.maptio.com/api/v1',
-  issuer: "https://login.maptio.com/",
+  audience,
+  issuer,
   algorithms: ['RS256'],
-  requestProperty: 'token'
+  requestProperty: 'token',
 });
 
 function checkscopes(scopes) {
@@ -55,7 +75,7 @@ function checkscopes(scopes) {
   }
 }
 
-if (!isDevelopment) {
+if (!environment.isDevelopment) {
   app.use(helmet())
   app.use(helmet.contentSecurityPolicy({
     directives: {
@@ -68,7 +88,14 @@ if (!isDevelopment) {
         'widget.intercom.io', 'https://app.intercom.io',
         'https://js.intercomcdn.com', 'https://fullstory.com','https://static.hotjar.com', 'code.jquery.com'],
       fontSrc: ["'self'", 'maxcdn.bootstrapcdn.com', 'cdn.mixpnl.com', 'https://js.intercomcdn.com','fonts.gstatic.com'],
-      connectSrc: ["'self'", 'api.cloudinary.com', 'circlemapping.auth0.com', 'login.maptio.com','https://api.intercom.io', 'https://api-iam.intercom.io',
+      connectSrc: [
+        "'self'",
+        'api.cloudinary.com',
+        'circlemapping.auth0.com',
+        'login.maptio.com',
+        'https://maptio-staging.us.auth0.com/oauth/token',
+        'https://api.intercom.io',
+        'https://api-iam.intercom.io',
         'https://api-ping.intercom.io',
         'https://nexus-websocket-a.intercom.io',
         'https://nexus-websocket-b.intercom.io',
@@ -86,6 +113,7 @@ if (!isDevelopment) {
         'https://www.termsfeed.com',
         'https://termsfeed.com',
         'https://login.maptio.com',
+        'https://maptio-staging.us.auth0.com',
         'https://maptio.chargebee.com'
       ],
       childSrc: [
@@ -96,7 +124,9 @@ if (!isDevelopment) {
         'https://fast.wistia.net',
         'https://drive.google.com',
         'https://termsfeed.com/',
-        'https://circlemapping.auth0.com/','login.maptio.com',
+        'https://circlemapping.auth0.com/',
+        'login.maptio.com',
+        'https://maptio-staging.us.auth0.com/',
         'https://maptio.chargebee.com',
         'https://intercom-sheets.com'
       ],
@@ -126,8 +156,7 @@ var datasets = require('./routes/datasets');
 var embeddableDatasets = require('./routes/embeddable-datasets');
 var users = require('./routes/users');
 var teams = require('./routes/teams');
-var inviting = require('./routes/invite-mail');
-var confirming = require('./routes/confirm-mail');
+var inviting = require('./routes/invite');
 var encoding = require('./routes/encoding');
 var images = require('./routes/images');
 var notifications = require('./routes/notifications');
@@ -135,15 +164,14 @@ var oauth = require('./routes/oauth');
 var intercom = require("./routes/intercom");
 
 app.use('/api/v1/jwt/', encoding);
-app.use('/api/v1/mail/confirm', confirming);
 
 app.use('/api/v1/images/', jwtCheck, checkscopes(["api"]), images)
 app.use('/api/v1/notifications/', jwtCheck, checkscopes(["api"]), notifications)
 app.use('/api/v1/oauth', jwtCheck, checkscopes(["api"]), oauth);
-app.use('/api/v1/mail/invite', jwtCheck, checkscopes(["invite"]), inviting);
 app.use('/api/v1/dataset/', jwtCheck, checkscopes(["api"]), datasets);
 app.use('/api/v1/user', jwtCheck, checkscopes(["api"]), users);
 app.use('/api/v1/team', jwtCheck, checkscopes(["api"]), teams);
+app.use('/api/v1/invite', jwtCheck, checkscopes(["api"]), inviting);
 app.use('/api/v1/intercom', jwtCheck, checkscopes(["api"]), intercom);
 
 // Unprotected endpoint for use for publicly shared embeddable maps
@@ -156,7 +184,7 @@ app.use('/api/v1/embeddable-dataset/', embeddableDatasets);
 app.set("port", port);
 app.get(cache('5 seconds'));
 
-if (!isDevelopment) {
+if (!environment.isDevelopment) {
   app.use(express.static(DIST_DIR));
 
   // Make it possible to use the /embed/ route in an iframe by removing the

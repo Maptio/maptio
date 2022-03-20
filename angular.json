@@ -238,6 +238,17 @@
                   "with": "apps/maptio-server/src/environments/environment.prod.ts"
                 }
               ]
+            },
+            "staging": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/maptio-server/src/environments/environment.ts",
+                  "with": "apps/maptio-server/src/environments/environment.staging.ts"
+                }
+              ]
             }
           }
         },
@@ -259,6 +270,125 @@
           "options": {
             "jestConfig": "apps/maptio-server/jest.config.js",
             "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "maptio-admin": {
+      "projectType": "application",
+      "root": "apps/maptio-admin",
+      "sourceRoot": "apps/maptio-admin/src",
+      "prefix": "maptio",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/maptio-admin",
+            "index": "apps/maptio-admin/src/index.html",
+            "main": "apps/maptio-admin/src/main.ts",
+            "polyfills": "apps/maptio-admin/src/polyfills.ts",
+            "tsConfig": "apps/maptio-admin/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/maptio-admin/src/favicon.ico",
+              "apps/maptio-admin/src/assets"
+            ],
+            "styles": ["apps/maptio-admin/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/maptio-admin/src/environments/environment.ts",
+                  "with": "apps/maptio-admin/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "maptio-admin:build:production"
+            },
+            "development": {
+              "browserTarget": "maptio-admin:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "maptio-admin:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/maptio-admin/src/**/*.ts",
+              "apps/maptio-admin/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/maptio-admin"],
+          "options": {
+            "jestConfig": "apps/maptio-admin/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "maptio-admin-e2e": {
+      "root": "apps/maptio-admin-e2e",
+      "sourceRoot": "apps/maptio-admin-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/maptio-admin-e2e/cypress.json",
+            "tsConfig": "apps/maptio-admin-e2e/tsconfig.e2e.json",
+            "devServerTarget": "maptio-admin:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "maptio-admin:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/maptio-admin-e2e/**/*.{js,ts}"]
           }
         }
       }

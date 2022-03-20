@@ -16,10 +16,10 @@
                                 <small class="flex-shrink-0" *ngIf="r.result.accountable">
                                         <span *ngIf="r.result.accountable" class="mx-1">led by</span>
                                         <img [src]="r.result.accountable.picture" [alt]="r.result.accountable.name"
-                                            class="rounded-circle participant-picture mr-1">{{r.result.accountable.name}}
+                                            class="avatar mr-1">{{r.result.accountable.name}}
                                     </small>
                         </div>
-                        
+
                         <!-- <small class="d-flex w-100 flex-wrap" *ngIf="r.result.helpers.length>0">
                         <span *ngIf="r.result.helpers.length>0" class="">with the help of</span>
 
@@ -34,7 +34,7 @@
                 <ng-container *ngIf="r.type===SearchResultType.User">
                     <span>
                         <img [src]="r.result.picture" [alt]="r.result.name" width="30" height="30"
-                            class="rounded-circle user mr-1">{{r.result.name}}
+                            class="avatar mr-1">{{r.result.name}}
                     </span>
                 </ng-container>
             </ng-container>

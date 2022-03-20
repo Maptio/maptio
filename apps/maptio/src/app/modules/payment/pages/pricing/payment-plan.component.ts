@@ -1,6 +1,6 @@
 import { Component, HostBinding, Input } from '@angular/core';
 
-import { Auth } from '@maptio-core/authentication/auth.service';
+import { UserService } from '@maptio-shared/services/user/user.service';
 
 
 @Component({
@@ -15,5 +15,5 @@ export class PaymentPlanComponent {
   @Input() text: number;
   @Input() billingLink: string;
 
-  constructor(public auth: Auth) { }
+  constructor(public userService: UserService) { }
 }

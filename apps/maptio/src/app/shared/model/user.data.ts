@@ -8,6 +8,9 @@ import { Serializable } from '../interfaces/serializable.interface';
  * A user
  */
 export class User implements Serializable<User> {
+  /** Is this person a user within Auth0 or just a team member without an account? */
+  public isInAuth0: boolean;
+
   /** Unique Id (specific to Auth0 schema) */
   public user_id: string;
 
@@ -72,23 +75,19 @@ export class User implements Serializable<User> {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   deserialize(input: any): User {
-    if (!input.user_id) {
+    if (!input?.user_id) {
       return undefined;
     }
 
     const deserialized = new User();
 
+    deserialized.isInAuth0 = input.isInAuth0;
+
     deserialized.shortid = input.shortid;
 
-    deserialized.firstname =
-      (input.user_metadata
-        ? input.user_metadata.given_name
-        : input.given_name) || input.firstname;
+    deserialized.firstname = input.firstname;
 
-    deserialized.lastname =
-      (input.user_metadata
-        ? input.user_metadata.family_name
-        : input.family_name) || input.lastname;
+    deserialized.lastname = input.lastname;
 
     deserialized.name = this.createNameFromFirstAndLastNames(
       deserialized.firstname,
@@ -96,32 +95,23 @@ export class User implements Serializable<User> {
       input.name
     );
 
-    deserialized.isActivationPending =
-      input.app_metadata && input.app_metadata.activation_pending
-        ? input.app_metadata.activation_pending
-        : false;
+    deserialized.isActivationPending = input.isActivationPending;
 
-    deserialized.isInvitationSent =
-      input.app_metadata && input.app_metadata.invitation_sent
-        ? input.app_metadata.invitation_sent
-        : false;
+    deserialized.isInvitationSent = input.isInvitationSent;
 
-    deserialized.userRole =
-      input.app_metadata && input.app_metadata.role
-        ? (<any>UserRole)[input.app_metadata.role] // eslint-disable-line @typescript-eslint/no-explicit-any
-        : UserRole.Standard;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    deserialized.userRole = (<any>UserRole)[input.userRole]
+      ? input.userRole
+      : UserRole.Standard;
 
-    deserialized.loginsCount = input.logins_count;
-    deserialized.lastSeenAt = input.last_login ? parse(input.last_login) : null;
-    deserialized.createdAt = input.created_at ? parse(input.created_at) : null;
+    deserialized.loginsCount = input.loginsCount;
+    deserialized.lastSeenAt = input.lastSeenAt ? parse(input.lastSeenAt) : null;
+    deserialized.createdAt = input.createdAt ? parse(input.createdAt) : null;
 
     deserialized.nickname = input.nickname;
     deserialized.email = input.email;
 
-    deserialized.picture =
-      input.user_metadata && input.user_metadata.picture
-        ? input.user_metadata.picture
-        : input.picture;
+    deserialized.picture = input.picture;
 
     deserialized.user_id = input.user_id; // specific to Auth0
 
@@ -183,4 +173,11 @@ export class SelectableUser extends User {
     super();
     Object.assign(this, init);
   }
+}
+
+export interface MemberFormFields {
+  firstname: string;
+  lastname: string;
+  email: string;
+  picture: string;
 }

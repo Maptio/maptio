@@ -13,8 +13,7 @@ import { cloneDeep } from 'lodash-es';
 
 import { Team } from '@maptio-shared/model/team.data';
 import { Helper } from '@maptio-shared/model/helper.data';
-import { Auth } from '@maptio-core/authentication/auth.service';
-import { User } from '@maptio-shared/model/user.data';
+import { User, MemberFormFields } from '@maptio-shared/model/user.data';
 
 
 @Component({
@@ -31,12 +30,17 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
   @Input() isUnauthorized: boolean;
 
   @Output() save: EventEmitter<Array<Helper>> = new EventEmitter<Array<Helper>>();
+  @Output() createNewMember: EventEmitter<boolean> = new EventEmitter();
 
   placeholder: string;
   subscription: Subscription;
-  isLoaded: boolean;
 
-  constructor(private auth: Auth, private cd: ChangeDetectorRef) {}
+  newMemberData: MemberFormFields;
+
+  isLoaded: boolean;
+  isCreateNewMemberMode = false;
+
+  constructor(private cd: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.team && changes.team.currentValue) {
@@ -46,7 +50,7 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
     this.cd.markForCheck();
   }
 
-  isCurrentUserAlredyAdded() {
+  isCurrentUserAlreadyAdded() {
     if (this.helpers && this.user) {
       return (
         this.helpers
@@ -59,6 +63,11 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
   }
 
   onAddingHelper(newHelper: Helper) {
+    if (!Object.prototype.hasOwnProperty.call(newHelper, 'user_id')) {
+      this.isCreateNewMemberMode = true;
+      return;
+    }
+
     if (
       (this.authority && newHelper.user_id === this.authority.user_id) ||
       this.helpers.findIndex((user) => user.user_id === newHelper.user_id) > 0
@@ -84,6 +93,22 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
     this.onAddingHelper(this.user as Helper);
   }
 
+  onCreateNewMember(user: User) {
+    this.isCreateNewMemberMode = false;
+
+    const teamMember = this.team.members.find(member => member.user_id === user.user_id);
+
+    if (teamMember) {
+      this.onAddingHelper(teamMember as Helper);
+    } else {
+      console.error('Team member corresponding to created user not found');
+    }
+  }
+
+  onCancelAddingMember() {
+    this.isCreateNewMemberMode = false;
+  }
+
   formatter = (result: Helper) => {
     return result ? result.name : '';
   };
@@ -93,12 +118,21 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
    * See : https://stackoverflow.com/a/54169646/7092722
    */
   filterMembers = (term: string) => {
-    return term.length < 1
+    const filteredTeamMembers = term.length < 1
       ? this.team.members
       : this.team.members.filter(
           (v) =>
             new RegExp(term, 'gi').test(v.name) ||
             new RegExp(term, 'gi').test(v.email)
         );
+
+    this.newMemberData = {
+      firstname: term,
+      lastname: '',
+      email: '',
+      picture: '',
+    }
+
+    return [this.newMemberData, ...filteredTeamMembers];
   };
 }

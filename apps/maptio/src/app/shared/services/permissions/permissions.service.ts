@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
+
+import { UserService } from '../user/user.service';
 import { Permissions } from '../../model/permission.data';
 import { Initiative } from '../../model/initiative.data';
 import { Helper } from '../../model/helper.data';
-import { Auth } from '../../../core/authentication/auth.service';
+
 
 @Injectable()
 export class PermissionsService {
@@ -12,11 +14,11 @@ export class PermissionsService {
     private userId:string;
     private userPermissions:Permissions[];
 
-    constructor(auth:Auth){
+    constructor(private userService: UserService) {
         if (localStorage.getItem("profile")) {
             this.userId = JSON.parse(localStorage.getItem("profile")).user_id
         }
-        this.userPermissions = auth.getPermissions();
+        this.userPermissions = this.userService.getPermissions();
     }
 
     public canMoveInitiative(): boolean {

@@ -22,6 +22,9 @@ import { CreateTeamComponent } from "../../shared/components/cards/create-team/c
 import { CreateMapModule } from "../../shared/create-map.module";
 import { TeamRoutingModule } from "./team.routing";
 
+import { MemberFormModule } from '@maptio-member-form';
+
+
 @NgModule({
     imports: [
         CommonModule,
@@ -34,7 +37,8 @@ import { TeamRoutingModule } from "./team.routing";
         SharedModule,
         NgbTooltipModule,
         PermissionsModule,
-        CreateMapModule
+        CreateMapModule,
+        MemberFormModule,
     ],
     declarations: [
         CardTeamComponent,
@@ -48,8 +52,8 @@ import { TeamRoutingModule } from "./team.routing";
         TeamIntegrationsComponent,
         TeamBillingComponent,
         TeamMapsComponent,
-        KeysPipe
-        
+        KeysPipe,
+
     ],
     providers: [TeamComponentResolver, TeamListComponentResolver]
 })

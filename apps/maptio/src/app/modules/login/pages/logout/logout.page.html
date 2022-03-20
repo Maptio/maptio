@@ -9,14 +9,21 @@
         Maptio helps you organise without traditional management hierarchy
       </h1>
 
-      <h3 class="display-4 d-flex justify-content-around my-4">
+      <h3 class="display-4 d-flex justify-content-around mt-5 mb-4">
         <i class="fas fa-unlink text-muted" aria-hidden="true"></i>
       </h3>
-      <p class="lead d-flex justify-content-center">You are now logged out.</p>
 
-      <button class="btn btn-success btn-lg my-3" routerLink="/login">
-        Log back in
-      </button>
+      <ng-container *ngIf="userService.isAuthenticated$ | async; else loggedOut">
+        <p class="lead d-flex justify-content-center mb-6">Logging you out now.</p>
+      </ng-container>
+
+      <ng-template #loggedOut>
+        <p class="lead d-flex justify-content-center">You are now logged out.</p>
+
+        <button maptioLoginRedirect class="btn btn-success btn-lg mt-3 mb-5">
+          Log back in
+        </button>
+      </ng-template>
 
       <div class="d-flex row justify-content-center align-items-stretch">
         <div class="col-12 col-md-6">

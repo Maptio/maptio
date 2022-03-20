@@ -4,18 +4,17 @@ var jwt = require('jsonwebtoken');
 var fs = require("fs");
 var path = require('path');
 
+import { environment } from '../environments/environment';
+
 require('dotenv').config()
 
 let PRIVATE_KEY, PUBLIC_KEY;
 
-// let jwtSecret = process.env.JWT_SECRET;
-let isDevelopment = process.env.NODE_ENV !== "production"
 
-if (isDevelopment) {
+if (environment.isDevelopment) {
     PRIVATE_KEY = fs.readFileSync(path.join(__dirname, "assets/id_rsa"));
     PUBLIC_KEY = fs.readFileSync(path.join(__dirname, "assets/rsa.pub"));
-}
-else {
+} else {
     PRIVATE_KEY = Buffer.from(process.env.SSH_PRIVATE_KEY);
     PUBLIC_KEY = Buffer.from(process.env.SSH_PUBLIC_KEY);
 }

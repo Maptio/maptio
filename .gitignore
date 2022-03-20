@@ -34,6 +34,10 @@
 # local data
 /data
 
+# migration logs and data
+/scripts/migrations/logs
+/scripts/migrations/data
+
 # misc
 /.sass-cache
 /connect.lock

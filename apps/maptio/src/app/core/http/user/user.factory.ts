@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 import * as shortid from 'shortid';
 import { chunk, flattenDeep } from 'lodash-es';
 
+import { environment } from '@maptio-environment';
+
 @Injectable()
 export class UserFactory {
   constructor(private http: HttpClient) {}
@@ -18,13 +20,13 @@ export class UserFactory {
       return Promise.reject('You cannot make a search for all users !');
     }
     return this.http
-      .get('/api/v1/user/all/' + pattern)
+      .get(`/api/v1/user/all/${pattern}`)
       .pipe(
         map((responseData) => {
           return responseData;
         }),
         map((inputs: Array<any>) => {
-          let result: Array<User> = [];
+          const result: Array<User> = [];
           if (inputs) {
             inputs.forEach((input) => {
               result.push(User.create().deserialize(input));
@@ -40,18 +42,18 @@ export class UserFactory {
     if (!usersId || usersId.length === 0) {
       return Promise.reject('You cannot make a search for all users !');
     }
-    let chunks = chunk(usersId, 50);
+    const chunks = chunk(usersId, 50);
 
     return Promise.all(
       chunks.map((chunkusersId) =>
         this.http
-          .get('/api/v1/user/in/' + chunkusersId.join(','))
+          .get(`/api/v1/user/in/${chunkusersId.join(',')}`)
           .pipe(
             map((responseData) => {
               return responseData;
             }),
             map((inputs: Array<any>) => {
-              let result: Array<User> = [];
+              const result: Array<User> = [];
               if (inputs) {
                 inputs.forEach((input) => {
                   result.push(User.create().deserialize(input));
@@ -72,7 +74,7 @@ export class UserFactory {
    */
   get(uniqueId: string): Promise<User> {
     return this.http
-      .get('/api/v1/user/' + uniqueId)
+      .get(`/api/v1/user/${uniqueId}`)
       .pipe(
         map((response) => {
           return User.create().deserialize(response);
@@ -95,7 +97,7 @@ export class UserFactory {
   create(input: User): Promise<User> {
     input.shortid = shortid.generate();
     return this.http
-      .post('/api/v1/user', input)
+      .post(`/api/v1/user`, input)
       .pipe(
         map((responseData) => {
           return responseData;
@@ -114,7 +116,7 @@ export class UserFactory {
    */
   upsert(user: User): Promise<boolean> {
     return this.http
-      .put('/api/v1/user/' + user.user_id, user)
+      .put(`/api/v1/user/${user.user_id}`, user)
       .pipe(
         map((responseData) => {
           return responseData;

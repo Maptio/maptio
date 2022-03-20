@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import { OnboardingComponent } from "./components/onboarding/onboarding.component";
 import { SharedModule } from "./shared.module";
 import { IntercomService } from "./services/team/intercom.service";
-import { AddMemberComponent } from "./components/onboarding/add-member.component";
 import { AddTerminologyComponent } from "./components/onboarding/add-terminology.component";
 import { CommonModalComponent } from "./components/modal/modal.component";
 import { InstructionsComponent } from "./components/instructions/instructions.component";
@@ -26,7 +25,6 @@ import { OnboardingService } from "./components/onboarding/onboarding.service";
     declarations: [
         OnboardingComponent,
         InstructionsComponent,
-        AddMemberComponent,
         AddTerminologyComponent,
         CommonModalComponent
     ],
@@ -38,7 +36,6 @@ import { OnboardingService } from "./components/onboarding/onboarding.service";
     exports: [
         OnboardingComponent,
         InstructionsComponent,
-        AddMemberComponent,
         AddTerminologyComponent,
         CommonModalComponent
     ]

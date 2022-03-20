@@ -1,6 +1,5 @@
 
 import {first,  map, flatMap } from 'rxjs/operators';
-import { Auth } from "../../../../core/authentication/auth.service";
 import {
   ActivatedRouteSnapshot,
   Resolve,
@@ -27,7 +26,6 @@ export class WorkspaceComponentResolver
     private teamFactory: TeamFactory,
     private userService: UserService,
     private userFactory: UserFactory,
-    private auth: Auth
   ) { }
 
   resolve(
@@ -52,23 +50,10 @@ export class WorkspaceComponentResolver
         });
       }),
       flatMap(dt => {
-        return Promise.all([
-          this.userService.getUsersInfo(dt.team.members),
-          this.userFactory.getUsers(dt.team.members.map(m => m.user_id))
-        ])
-          .then(([auth0Users, databaseUsers]: [User[], User[]]) => {
-            return databaseUsers
-              .filter(u => u.teams.length > 0)
-              .map(u => {
-                u.picture = auth0Users.find(du => du.user_id === u.user_id)
-                  ? auth0Users.find(du => du.user_id === u.user_id).picture
-                  : u.picture;
-                u.name = auth0Users.find(du => du.user_id === u.user_id)
-                  ? auth0Users.find(du => du.user_id === u.user_id).name
-                  : u.name;
-
-                return u;
-              });
+        return this.userFactory.getUsers(dt.team.members.map(m => m.user_id))
+          .then(user => {
+            // Why is this necessary? Inherited from old code
+            return user.filter(user => user.teams.length > 0)
           })
           .then(members => compact(members))
           .then(members => [dt.team, sortBy(members, m => m.name)])
@@ -77,22 +62,11 @@ export class WorkspaceComponentResolver
             team.members = members;
             return { dataset: dt.dataset, team: team, members: members };
           });
-
-        // return Promise.all([this.userService.getUsersInfo(dt.team.members), this.userFactory.getUsers(dt.team.members.map(m => m.user_id))])
-        //     .then(([auth0Users, databaseUsers]: [User[], User[]]) => {
-        //         return databaseUsers.map(u => {
-        //             u.picture = auth0Users.find(du => du.user_id === u.user_id) ? auth0Users.find(du => du.user_id === u.user_id).picture : u.picture;
-        //             return u;
-        //         })
-        //     })
-        //     .then(members => compact(members))
-        //     .then(members => sortBy(members, m => m.name))
-        //     .then(members => { return { dataset: dt.dataset, team: dt.team, members: members } })
       }),
       flatMap(dt => {
-        return this.auth
-          .getUser().pipe(
-          first())
+        return this.userService.user$.pipe(
+          first()
+        )
           .toPromise()
           .then(u => {
             return { user: u, data: dt };

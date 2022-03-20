@@ -11,7 +11,7 @@
                 <button *ngIf="initiative.accountable" class="d-flex flex-column cursor-pointer list-group-item list-group-item-action" (click)="openUser(initiative)">
                     <span class="d-flex align-items-center justify-content-start nowrap">
                         <i class="far fa-id-card mr-1"></i> {{initiative.accountable.name}}'s summary
-                        <img [src]="initiative.accountable.picture" [alt]="initiative.accountable.name" class="rounded-circle participant-picture mx-1">
+                        <img [src]="initiative.accountable.picture" [alt]="initiative.accountable.name" class="avatar mx-1">
                     </span>
                 </button>
             </ng-container>

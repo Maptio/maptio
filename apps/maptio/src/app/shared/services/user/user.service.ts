@@ -1,212 +1,290 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, OnDestroy, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
-import { forkJoin as observableForkJoin, Observable } from 'rxjs';
-import { mergeMap, map } from 'rxjs/operators';
+import {
+  BehaviorSubject,
+  combineLatest,
+  EMPTY,
+  from,
+  of,
+} from 'rxjs';
+import {
+  catchError,
+  concatMap,
+  distinctUntilKeyChanged,
+  filter,
+  map,
+  mergeMap,
+  shareReplay,
+  withLatestFrom,
+} from 'rxjs/operators';
 
-import { flatten } from 'lodash-es';
+import { SubSink } from 'subsink';
+import { AuthService } from '@auth0/auth0-angular';
 import { UUID } from 'angular2-uuid/index';
+import { isEmpty, sortBy, uniq } from 'lodash-es';
+import { nanoid } from 'nanoid'
 
-import { AuthConfiguration } from '@maptio-core/authentication/auth.config';
+import { environment } from '@maptio-environment';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
-import { EmitterService } from '@maptio-core/services/emitter.service';
-import { environment } from '@maptio-config/environment';
+import { TeamFactory } from '@maptio-core/http/team/team.factory';
+import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
+import { User } from '@maptio-shared/model/user.data';
+import { UserRole, UserRoleService, Permissions } from '@maptio-shared/model/permission.data';
+import { UserWithTeamsAndDatasets } from '@maptio-shared/model/userWithTeamsAndDatasets.interface';
+import { LoaderService } from '@maptio-shared/components/loading/loader.service';
 
-import { UserRole } from './../../model/permission.data';
-import { User } from './../../model/user.data';
-import { JwtEncoder } from '../encoding/jwt.service';
-import { MailingService } from '../mailing/mailing.service';
 
 @Injectable()
-export class UserService {
+export class UserService implements OnDestroy {
+  // Keep auth variables in the user service for convenience, allowing us to
+  // skip importing the Auth0 SDK in components
+  public isAuthenticated$ = this.auth.isAuthenticated$;
+
+  private permissions: Permissions[] = [];
+
+  public userFromAuth0Profile$ = this.auth.user$.pipe(
+    // Proceed only when Auth0 returns profile information
+    filter(profile => Boolean(profile)),
+
+    // Limit unnecessary emissions, see discussion here:
+    // https://github.com/auth0/auth0-angular/issues/105
+    // and solution proposed here:
+    // https://community.auth0.com/t/infinite-requests-when-piping-auth-user-in-angular-auth-o/57136/2
+    distinctUntilKeyChanged('sub'),
+
+    concatMap((profile) => {
+      const userId = profile.sub;
+
+      return from(this.userFactory.get(userId));
+    }),
+
+    withLatestFrom(this.auth.user$),
+    concatMap(([user, profile]) => {
+      if (user) {
+        return of(user);
+      } else {
+        const newUser = this.createUserFromAuth0Signup(profile);
+        return from(this.userFactory.create(newUser));
+      }
+    }),
+
+    catchError(this.handleLoginError),
+
+    // Cache the user
+    shareReplay(1),
+  );
+
+  private refreshUserDataSubject = new BehaviorSubject<void>(null);
+  public refreshUserDataAction$ = this.refreshUserDataSubject.asObservable();
+
+  // Refresh user data every time it is requested
+  public userWithTeamsAndDatasets$ = combineLatest([
+    this.userFromAuth0Profile$,
+    this.refreshUserDataAction$,
+  ]).pipe(
+    concatMap(([user,]) => {
+      return this.gatherUserData(user);
+    }),
+  )
+
+  public user$ = this.userWithTeamsAndDatasets$.pipe(
+    map((userWithTeamsAndDatasets: UserWithTeamsAndDatasets) => {
+      return userWithTeamsAndDatasets.user;
+    }),
+  );
+
   constructor(
+    // Current
     private http: HttpClient,
-    private configuration: AuthConfiguration,
-    private encodingService: JwtEncoder,
-    private mailing: MailingService,
-    private userFactory: UserFactory
-  ) {}
-
-  public sendInvite(
-    email: string,
-    userId: string,
-    firstname: string,
-    lastname: string,
-    name: string,
-    teamName: string,
-    invitedBy: string
-  ): Promise<boolean> {
-    return Promise.all([
-      this.encodingService.encode({
-        user_id: userId,
-        email: email,
-        firstname: firstname,
-        lastname: lastname,
-        name: name,
-      }),
-      this.configuration.getAccessToken(),
-    ])
-      .then(([userToken, apiToken]: [string, string]) => {
-        const httpOptions = {
-          headers: new HttpHeaders({
-            Authorization: 'Bearer ' + apiToken,
-          }),
-        };
-
-        return this.http
-          .post(
-            environment.TICKETS_API_URL,
-            {
-              result_url: 'http://app.maptio.com/login?token=' + userToken,
-              user_id: userId,
-              ttl_sec: 30 * 24 * 3600, // valid for 30 days
-            },
-            httpOptions
-          )
-          .pipe(
-            map((responseData: any) => {
-              return <string>responseData.ticket;
-            })
-          )
-          .toPromise();
-      })
-      .then((ticket: string) => {
-        return this.mailing.sendInvitation(
-          environment.SUPPORT_EMAIL,
-          [email],
-          ticket,
-          teamName,
-          invitedBy
-        );
-      })
-      .then((success: boolean) => {
-        return this.updateInvitiationSentStatus(userId, true);
-      });
+    private router: Router,
+    private subs: SubSink,
+    private auth: AuthService,
+    private userFactory: UserFactory,
+    private teamFactory: TeamFactory,
+    private datasetFactory: DatasetFactory,
+    private userRoleService: UserRoleService,
+    private loaderService: LoaderService,
+    @Inject(DOCUMENT) private doc: Document,
+  ) {
+    // TODO: This is the solution to token expiry actually recommended by Auth0
+    // here: https://github.com/auth0/auth0-angular#handling-errors but it's
+    // ugly and it'd be great to improve on this
+    this.subs.sink = this.auth.error$.pipe(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      filter(error => (error as any).error === 'login_required'),
+      mergeMap(() => this.login())
+    ).subscribe();
   }
 
-  public sendConfirmation(
-    email: string,
-    userId: string,
-    firstname: string,
-    lastname: string,
-    name: string
-  ): Promise<boolean> {
-    return Promise.all([
-      this.encodingService.encode({
-        user_id: userId,
-        email: email,
-        firstname: firstname,
-        lastname: lastname,
-        name: name,
-      }),
-      this.configuration.getAccessToken(),
-    ])
-      .then(([userToken, apiToken]: [string, string]) => {
-        const httpOptions = {
-          headers: new HttpHeaders({
-            Authorization: 'Bearer ' + apiToken,
-          }),
-        };
-
-        return this.http
-          .post(
-            environment.TICKETS_API_URL,
-            {
-              result_url: 'http://app.maptio.com/login?token=' + userToken,
-              user_id: userId,
-            },
-            httpOptions
-          )
-          .pipe(
-            map((responseData: any) => {
-              return <string>responseData.ticket;
-            })
-          )
-          .toPromise();
-      })
-      .then((ticket: string) => {
-        return this.mailing.sendConfirmation(
-          environment.SUPPORT_EMAIL,
-          [email],
-          ticket
-        );
-      })
-      .then((success: boolean) => {
-        return this.updateActivationPendingStatus(userId, true);
-      });
+  ngOnDestroy() {
+    this.subs.unsubscribe();
   }
 
-  public sendConfirmationWithUserToken(userToken: string): Promise<boolean> {
-    const getUserId = () => {
-      return this.encodingService
-        .decode(userToken)
-        .then((decoded) => decoded.user_id);
-    };
-    const getUserEmail = () => {
-      return this.encodingService
-        .decode(userToken)
-        .then((decoded) => decoded.email);
-    };
 
-    return Promise.all([
-      getUserId(),
-      getUserEmail(),
-      this.configuration.getAccessToken(),
-    ])
-      .then(([userId, email, apiToken]: [string, string, string]) => {
-        const httpOptions = {
-          headers: new HttpHeaders({
-            Authorization: 'Bearer ' + apiToken,
-          }),
-        };
+  /*
+   * Login, signup, logout and associated data preparation
+   */
 
-        return this.http
-          .post(
-            environment.TICKETS_API_URL,
-            {
-              result_url: 'http://app.maptio.com/login?token=' + userToken,
-              user_id: userId,
-            },
-            httpOptions
-          )
-          .pipe(
-            map((responseData: any) => {
-              return {
-                ticket: <string>responseData.ticket,
-                email: email,
-                userId: userId,
-              };
-            })
-          )
-          .toPromise();
-      })
-      .then((data: { ticket: string; email: string; userId: string }) => {
-        return this.mailing.sendConfirmation(
-          environment.SUPPORT_EMAIL,
-          [data.email],
-          data.ticket
-        );
-      })
-      .then(() => {
-        return getUserId();
-      })
-      .then((userId: string) => {
-        return this.updateActivationPendingStatus(userId, true);
-      });
+  login() {
+    return this.auth.loginWithRedirect();
   }
 
-  public generateUserToken(
-    userId: string,
-    email: string,
-    firstname: string,
-    lastname: string
-  ): Promise<string> {
-    return this.encodingService.encode({
-      user_id: userId,
-      email: email,
-      firstname: firstname,
-      lastname: lastname,
+  logout() {
+    this.auth.logout({
+      returnTo: this.doc.location.origin + '/logout?auth0=true',
     });
+  }
+
+  signup() {
+    return this.auth.loginWithRedirect({
+      screen_hint: 'signup'
+    });
+  }
+
+  private async gatherUserData(user: User): Promise<UserWithTeamsAndDatasets> {
+    // This is very old code, which had the comment "HACK : where does the
+    // duplication comes from?" next to it, copying it here, but at some
+    // point, it'd be good to investigate the source of the duplication,
+    // remove it, and clean up data
+    const teamIds = uniq(user.teams);
+    user.teams = teamIds;
+
+    user.exampleTeamIds = await this.identifyExampleTeams(user);
+
+    this.permissions = this.userRoleService.get(user.userRole);
+
+    const datasetIds = await this.datasetFactory.get(user);
+    user.datasets = uniq(datasetIds)
+
+    let teams = isEmpty(user.teams) ? [] : await this.teamFactory.get(user.teams);
+    teams = sortBy(teams, team => team.name);
+
+    let datasets = isEmpty(user.datasets) ? [] : await this.datasetFactory.get(user.datasets, false);
+    datasets = datasets
+      .filter(dataset => !dataset.isArchived)
+      .map(dataset => {
+        dataset.team = teams.find(team => dataset.initiative.team_id === team.team_id);
+        return dataset;
+      });
+    datasets = sortBy(datasets, dataset => dataset.initiative.name);
+
+    return { datasets, teams, user };
+  }
+
+  private async identifyExampleTeams(user: User) {
+    let exampleTeamIds = [];
+
+    if (user.teams.length > 0) {
+      const userTeams = await this.teamFactory.get(user.teams);
+      exampleTeamIds = userTeams
+        .filter(team => team.isExample)
+        .map(team => team.team_id)
+    }
+
+    return exampleTeamIds;
+  }
+
+  private handleLoginError(error) {
+    console.error(error);
+    this.router.navigateByUrl('/login-error');
+    this.loaderService.hide();
+    return EMPTY;
+  }
+
+
+  /*
+   * User data refresh
+   */
+
+  public refreshUserData() {
+    this.refreshUserDataSubject.next();
+  }
+
+
+  /*
+   * User permissions
+   */
+
+  public getPermissions(): Permissions[] {
+    return this.permissions;
+  }
+
+
+  /*
+   * User creation
+   */
+
+  createUserFromAuth0Signup(profile): User {
+    return this.createUser(
+      profile.sub,
+      profile.email,
+      profile.given_name,
+      profile.family_name,
+      profile.picture,
+      true,
+    );
+  }
+
+  createUserFromMemberForm(
+    email: string,
+    firstname: string,
+    lastname: string,
+    picture: string,
+    isAdmin?: boolean
+  ): User {
+    const userId = this.generateNewUserId();
+    return this.createUser(userId, email, firstname, lastname, picture, isAdmin);
+  }
+
+  private createUser(
+    userId: string,
+    email: string,
+    firstname: string,
+    lastname: string,
+    picture?: string,
+    isAdmin?: boolean
+  ): User {
+    const imageUrl = picture ? picture : this.generateUserAvatarLink(firstname, lastname);
+
+    const newUserData = {
+      isInAuth0: false,
+      user_id: userId,
+      name: `${firstname} ${lastname}`,
+      firstname,
+      lastname,
+      email: email,
+      picture: imageUrl,
+      isActivationPending: true,
+      isInvitationSent: false,
+      isDeleted: false,
+      lastSeenAt: undefined,
+      createdAt: new Date().toISOString(),
+      loginsCount: 0,
+      userRole: isAdmin ? UserRole.Admin : UserRole.Standard,
+    };
+
+    return User.create().deserialize(newUserData);
+  }
+
+
+  /*
+   * User creation: small helper methods
+   */
+
+  private generateNewUserId(): string {
+    return this.addAuth0IdPrefix(nanoid());
+  }
+
+  private generateUserAvatarLink(firstname, lastname) {
+    const nameForAvatar = lastname ? `${firstname}+${lastname}` : firstname;
+    const color = this.getHexFromHsl(
+      this.getHslFromName(`${firstname} ${lastname}`)
+    );
+
+    return `https://ui-avatars.com/api/?rounded=true&background=${color}&name=${nameForAvatar}&font-size=0.35&color=ffffff&size=500`;
   }
 
   private getHslFromName(name: string): { h: number; s: number; l: number } {
@@ -219,7 +297,7 @@ export class UserService {
     return { h: hash % 360, s: 99, l: 35 };
   }
 
-  getHexFromHsl(hsl: { h: number; s: number; l: number }) {
+  private getHexFromHsl(hsl: { h: number; s: number; l: number }) {
     const h = hsl.h / 360;
     const s = hsl.s / 100;
     const l = hsl.l / 100;
@@ -254,535 +332,140 @@ export class UserService {
     return `${toHex(r)}${toHex(g)}${toHex(b)}`.replace('-', '').substr(0, 6);
   }
 
-  public createUser(
-    email: string,
+  /**
+   * Add the "auth0|" prefix to the user id
+   *
+   * When we create a user manually in the database first, before creating them
+   * in Auth0, we still need the `user_id`, which later, after the user data is
+   * sent to Auth0, will need to have the "auth0|" prefix. Therefore, we need
+   * to add the prefix when creating the user, then remove it just before we
+   * send the data to Auth0.
+   *
+   * TODO: Refactor this out once we have a consistent way of handling ids for
+   * all objects
+   */
+  private addAuth0IdPrefix(userId: string): string {
+    return `auth0|${userId}`;
+  }
+
+  /**
+   * Remove the "auth0|" prefix from the user id
+   *
+   * See comment for method above for more details
+   */
+  private removeAuth0IdPrefix(userId: string): string {
+    return userId.replace('auth0|', '');
+  }
+
+
+  /*
+   * Updating user information
+   */
+
+  public async updateUser(
+    user: User,
     firstname: string,
     lastname: string,
-    isSignUp?: boolean,
-    isAdmin?: boolean
-  ): Promise<User> {
-    const color = this.getHexFromHsl(
-      this.getHslFromName(`${firstname} ${lastname}`)
-    );
+    email: string,
+    picture: string,
+    isActivationPending?: boolean,
+  ): Promise<boolean> {
+    if (user.email !== email && user.isInAuth0) {
+      throw new Error('Cannot update email of user already in Auth0.');
+    }
 
-    const newUser = {
-      connection: environment.CONNECTION_NAME,
-      email: email,
-      name: `${firstname} ${lastname}`,
+    user.firstname = firstname;
+    user.lastname = lastname;
+    user.email = email;
+    user.picture = picture;
+
+    if (isActivationPending !== undefined) {
+      user.isActivationPending = isActivationPending;
+    }
+
+    return this.userFactory.upsert(user);
+  }
+
+  public updateUserRole(user: User, userRole: UserRole): Promise<boolean> {
+    user.userRole = userRole;
+    return this.userFactory.upsert(user);
+  }
+
+
+  /*
+   * Invitations
+   */
+
+  public sendInvite(
+    user: User,
+    teamName: string,
+    invitedBy: string
+  ): Promise<boolean> {
+    const userDataInAuth0Format = this.convertUserToAuth0Format(user);
+
+    // When first sending an invitation, we need to create a new user in Auth0,
+    // unless the user is already there.
+    const createUser = !user.isInAuth0;
+
+    // When creating a user in Auth0, we need to remove the "auth0|" prefix,
+    // from the user id, see comment for `addAuth0IdPrefix` for more details.
+    if (createUser) {
+      userDataInAuth0Format.user_id = this.removeAuth0IdPrefix(userDataInAuth0Format.user_id);
+    }
+
+    const inviteData = {
+      userData: userDataInAuth0Format,
+      teamName,
+      invitedBy,
+      createUser,
+    }
+
+    return this.http
+      .post(`/api/v1/invite`, inviteData)
+      .toPromise()
+      .then(success => {
+        if (success) {
+          return this.updateInvitationSentStatus(user, true);
+        }
+      })
+  }
+
+  private convertUserToAuth0Format(user: User) {
+    const userInAuth0Format = {
+      user_id: user.user_id,
+      connection: environment.auth0DatabaseConnectionName,
+      email: user.email,
+      name: `${user.firstname} ${user.lastname}`,
       password: `${UUID.UUID()}-${UUID.UUID().toUpperCase()}`,
-      email_verified: !isSignUp || true,
+      // email_verified: !isSignUp || true,
+      email_verified: false,
       verify_email: false, // we are always sending our emails (not through Auth0)
       app_metadata: {
         activation_pending: true,
         invitation_sent: false,
-        role: isAdmin ? UserRole[UserRole.Admin] : UserRole[UserRole.Standard],
       },
       user_metadata: {
-        picture: `https://ui-avatars.com/api/?rounded=true&background=${color}&name=${firstname}+${lastname}&font-size=0.35&color=ffffff&size=500`,
-
-        given_name: firstname,
-        family_name: lastname,
+        picture: user.picture,
+        given_name: user.firstname,
+        family_name: user.lastname,
       },
-    };
+    }
 
-    return this.configuration.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .post(environment.USERS_API_URL, newUser, httpOptions)
-        .pipe(
-          map((responseData) => {
-            return responseData;
-          }),
-          map((input: any) => {
-            return User.create().deserialize(input);
-          })
-        )
-        .toPromise();
-    });
+    return userInAuth0Format;
   }
 
-  public getUsersInfo(users: Array<User>): Promise<Array<User>> {
-    if (users.length === 0)
-      return Promise.reject('You must specify some user ids.');
-
-    const query = users.map((u) => `user_id:"${u.user_id}"`).join(' OR ');
-
-    return this.configuration.getAccessToken().then((token: string) => {
-      const headers = new HttpHeaders({
-        Authorization: 'Bearer ' + token,
-      });
-
-      // we can get all users at once
-      if (users.length <= environment.AUTH0_USERS_PAGE_LIMIT) {
-        return this.requestUsersPerPage(query, headers, 0).toPromise();
-      } else {
-        // query several times
-        const maxCounter = Math.ceil(
-          users.length / environment.AUTH0_USERS_PAGE_LIMIT
-        );
-
-        const pageArrays = Array.from(Array(maxCounter).keys());
-        const singleObservables = pageArrays.map(
-          (pageNumber: number, index: number) => {
-            const truncatedQuery = users
-              .slice(
-                index * environment.AUTH0_USERS_PAGE_LIMIT,
-                (index + 1) * environment.AUTH0_USERS_PAGE_LIMIT
-              )
-              .map((u) => `user_id:"${u.user_id}"`)
-              .join(' OR ');
-            return this.requestUsersPerPage(
-              truncatedQuery,
-              headers,
-              pageNumber
-            ).pipe(
-              map((single) => {
-                return single;
-              })
-            );
-          }
-        );
-
-        return observableForkJoin(singleObservables)
-          .toPromise()
-          .then((result: User[][]) => {
-            return flatten(result);
-          });
-      }
-    });
-  }
-
-  private requestUsersPerPage(
-    query: string,
-    headers: HttpHeaders,
-    page: number
-  ): Observable<User[]> {
-    const httpOptions = { headers };
-    return this.http
-      .get(
-        `${environment.USERS_API_URL}?q=${encodeURIComponent(
-          query
-        )}&search_engine=v3`,
-        httpOptions
-      )
-      .pipe(
-        map((responseData) => {
-          return responseData;
-        }),
-        map((inputs: Array<any>) => {
-          const result: Array<User> = [];
-          if (inputs) {
-            inputs.forEach((input) => {
-              result.push(User.create().deserialize(input));
-            });
-          }
-          return result;
-        })
-      );
-  }
-
-  public isActivationPendingByUserId(user_id: string): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .get(`${environment.USERS_API_URL}/` + user_id, httpOptions)
-        .pipe(
-          map((responseData: any) => {
-            if (responseData.app_metadata) {
-              return responseData.app_metadata.activation_pending;
-            }
-            return false;
-          })
-        )
-        .toPromise();
-    });
-  }
-
-  public isActivationPendingByEmail(
-    email: string
-  ): Promise<{ isActivationPending: boolean; user_id: string }> {
-    return this.configuration.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .get(
-          `${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=` +
-            encodeURIComponent(`email:"${email}"`),
-          httpOptions
-        )
-        .pipe(
-          map((responseData: any) => {
-            if (responseData.total === 0) {
-              return { isActivationPending: false, user_id: undefined };
-            }
-            if (responseData.total === 1) {
-              const user = responseData.users[0];
-              return user.app_metadata
-                ? {
-                    isActivationPending: user.app_metadata.activation_pending,
-                    user_id: user.user_id,
-                  }
-                : { isActivationPending: false, user_id: user.user_id };
-            }
-            // return Promise.reject("There is more than one user with this email")
-          })
-        )
-        .toPromise();
-    });
-  }
-
-  public isInvitationSent(user_id: string): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .get(`${environment.USERS_API_URL}/${user_id}`, httpOptions)
-        .pipe(
-          map((responseData: any) => {
-            if (responseData.app_metadata) {
-              return responseData.app_metadata.invitation_sent;
-            }
-            return false;
-          })
-        )
-        .toPromise();
-    });
-  }
-
-  public updateUserCredentials(
-    user_id: string,
-    password: string,
-    firstname: string,
-    lastname: string
-  ): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .patch(
-          `${environment.USERS_API_URL}/${user_id}`,
-          {
-            password: password,
-            user_metadata: {
-              given_name: firstname,
-              family_name: lastname,
-            },
-            connection: environment.CONNECTION_NAME,
-          },
-          httpOptions
-        )
-        .toPromise()
-        .then(
-          (response) => {
-            return true;
-          },
-          (error) => {
-            return Promise.reject('Cannot update user credentials');
-          }
-        );
-    });
-  }
-
-  public updateUserProfile(
-    user_id: string,
-    firstname: string,
-    lastname: string,
-    fromMemberSingleComponent = false
-  ): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      // When this is called from MemberSingleComponent, the connection
-      // is not yet known so we set it to what Auth0 sets it to
-      // internally, this should just be a temporary change
-      const connection = fromMemberSingleComponent
-        ? 'Username-Password-Authentication'
-        : this.getConnection();
-
-      const userMetadata = {
-        user_metadata: {
-          given_name: firstname,
-          family_name: lastname,
-        },
-        connection,
-      };
-
-      return this.http
-        .patch(
-          `${environment.USERS_API_URL}/${user_id}`,
-          userMetadata,
-          httpOptions
-        )
-        .toPromise()
-        .then(
-          (response) => {
-            return true;
-          },
-          (error) => {
-            return Promise.reject(error);
-          }
-        );
-    });
-  }
-
-  public updateUserEmail(user_id: string, email: string): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .patch(
-          `${environment.USERS_API_URL}/${user_id}`,
-          {
-            email: email,
-            /* this can only be called if the user is "Not invited"
-                    so changing their email shoudnt retrigger a verification
-                    */
-            email_verified: true,
-            connection: environment.CONNECTION_NAME,
-          },
-          httpOptions
-        )
-        .pipe(
-          mergeMap(() => {
-            return this.userFactory.get(user_id);
-          }),
-          mergeMap((user) => {
-            user.email = email;
-            return this.userFactory.upsert(user);
-          })
-        )
-        .toPromise()
-        .then(
-          (response) => {
-            return true;
-          },
-          (error) => {
-            return Promise.reject(error);
-          }
-        );
-    });
-  }
-
-  public updateUserPictureUrl(
-    user_id: string,
-    pictureUrl: string
-  ): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .patch(
-          `${environment.USERS_API_URL}/${user_id}`,
-          {
-            user_metadata: {
-              picture: pictureUrl,
-            },
-            connection: this.getConnection(),
-          },
-          httpOptions
-        )
-        .toPromise()
-        .then(
-          (response) => {
-            return true;
-          },
-          (error) => {
-            return Promise.reject('Cannot update user picture');
-          }
-        );
-    });
-  }
-
-  public updateActivationPendingStatus(
-    user_id: string,
-    isActivationPending: boolean
-  ): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .patch(
-          `${environment.USERS_API_URL}/${user_id}`,
-          { app_metadata: { activation_pending: isActivationPending } },
-          httpOptions
-        )
-        .toPromise()
-        .then(
-          (response) => {
-            return true;
-          },
-          (error) => {
-            return Promise.reject('Cannot update user credentials');
-          }
-        );
-    });
-  }
-
-  public updateInvitiationSentStatus(
-    user_id: string,
+  private async updateInvitationSentStatus(
+    user: User,
     isInvitationSent: boolean
   ): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
+    // TODO: We need to separate creating the user in Auth0 from invitation
+    // sending more to be able to update these separately, otherwise there is a
+    // small chance that a user will be in Auth0 but will not yet be invited
+    // and so we will be trying to create them in Auth0 again and invitation
+    // sending with fail!
+    user.isInAuth0 = isInvitationSent;
+    user.isInvitationSent = isInvitationSent;
 
-      return this.http
-        .patch(
-          `${environment.USERS_API_URL}/${user_id}`,
-          { app_metadata: { invitation_sent: isInvitationSent } },
-          httpOptions
-        )
-        .pipe(
-          map((responseData) => {
-            return true;
-          })
-        )
-        .toPromise();
-    });
-  }
-
-  public updateUserRole(user_id: string, userRole: string): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .patch(
-          `${environment.USERS_API_URL}/${user_id}`,
-          { app_metadata: { role: userRole } },
-          httpOptions
-        )
-        .pipe(
-          map((responseData) => {
-            return true;
-          })
-        )
-        .toPromise();
-    });
-  }
-
-  public changePassword(email: string): void {
-    this.configuration.getWebAuth().changePassword(
-      {
-        connection: environment.CONNECTION_NAME,
-        email: email,
-      },
-      function (err, resp) {
-        if (err) {
-          EmitterService.get('changePasswordFeedbackMessage').emit(err.error);
-        } else {
-          EmitterService.get('changePasswordFeedbackMessage').emit(resp);
-        }
-      }
-    );
-  }
-
-  public isUserExist(email: string): Promise<boolean> {
-    return this.configuration.getAccessToken().then((token: string) => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      };
-
-      return this.http
-        .get(
-          `${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=` +
-            encodeURIComponent(`email:"${email}"`),
-          httpOptions
-        )
-        .pipe(
-          map((responseData: any) => {
-            if (responseData.total) {
-              return responseData.total === 1;
-            }
-            return false;
-          })
-        )
-        .toPromise();
-    });
-  }
-
-  /**
-   * Get name of Auth0 connection for currently logged in user
-   *
-   * Every user in Auth0 has at least one identity, each with its own
-   * connection. When updating user information we need to provide the name of
-   * the connection. For users who don't have the default connection stored in
-   * the CONNECTION_NAME environment variable, we need to return the name of
-   * the google OAuth 2 connection to update user information.
-   *
-   * For more information, see: https://auth0.com/docs/identityproviders
-   */
-  getConnection() {
-    const profileString = localStorage.getItem('profile');
-
-    let profile;
-    try {
-      profile = JSON.parse(profileString);
-    } catch (err) {
-      console.error('Error while parsing profile json: ');
-      console.error(err);
-    }
-
-    // Regardless what happens with the profile, try the default connection
-    if (!profile || !profile.identities) {
-      return environment.CONNECTION_NAME;
-    }
-
-    const numberOfIdentities = profile.identities.length;
-    const googleIdentity = profile.identities.find(
-      (identity: any) => identity.provider === 'google-oauth2'
-    );
-
-    if (numberOfIdentities === 1 && googleIdentity) {
-      return 'google-oauth2';
-    } else {
-      return environment.CONNECTION_NAME;
-    }
+    return this.userFactory.upsert(user);
   }
 }

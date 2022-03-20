@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { environment } from '@maptio-config/environment';
-import { Auth } from '@maptio-core/authentication/auth.service';
+import { UserService } from '@maptio-shared/services/user/user.service';
 
 
 @Component({
@@ -14,5 +14,5 @@ export class PricingComponent {
   public BILLING_STANDARD_PLAN = environment.BILLING_STANDARD_PLAN;
   public BILLING_PORTAL = environment.BILLING_PORTAL;
 
-  constructor(public auth: Auth) { }
+  constructor(public userService: UserService) { }
 }

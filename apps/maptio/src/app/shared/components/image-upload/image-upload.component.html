@@ -1,0 +1,32 @@
+<div class="image-upload input-group">
+  <img
+    *ngIf="imageUrl; else placeholderImage"
+    src="{{ imageUrl }}"
+    class="avatar avatar--medium"
+  />
+
+  <ng-template #placeholderImage>
+    <div class="avatar avatar--medium avatar--placeholder text-gray-light">
+      <i class="fas fa-user avatar__placeholder-icon" aria-hidden="true"></i>
+    </div>
+  </ng-template>
+
+  <label class="image-upload__button btn btn-outline-secondary">
+    <input
+      type="file"
+      class="d-none"
+      id="customFile"
+      id="fileupload"
+      #fileInput
+      ng2FileSelect
+      [uploader]="uploader"
+      (change)="fileInput.value = ''"
+      accept="image/*"
+    />
+      <i
+        *ngIf="isRefreshingPicture"
+        class="ml-1 text-muted fas fa-circle-notch fa-spin"
+      ></i>
+      <span *ngIf="!isRefreshingPicture">Choose image</span>
+  </label>
+</div>

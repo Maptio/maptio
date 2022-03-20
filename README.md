@@ -106,7 +106,7 @@ local development account workflow at some point!).
 
 ### Using a backup of the production database locally
 
-Using an empty databse locally (as described above) is not always enough (e.g. performance issues only appear with sufficiently complex
+Using an empty database locally (as described above) is not always enough (e.g. performance issues only appear with sufficiently complex
 maps). Connecting to the production database locally is dangerous as it may lead to data loss. To avoid both issues, we can back up the
 production database and restore it to our own local MongoDB instance. To do this, please follow the instructions below.
 

@@ -3,8 +3,13 @@
 </ng-template>
 
 <ng-template #rt let-r="result" let-t="term">
-  <img src="{{ r.picture }}" class="rounded-circle participant-picture" />
-  {{ r.name }}
+  <span *ngIf="r.user_id">
+    <img src="{{ r.picture }}" class="avatar" />
+    {{ r.name }}
+  </span>
+
+  <span *ngIf="!r.user_id && t">{{t}} (Add a new team member)</span>
+  <span *ngIf="!r.user_id && !t">Add a new team member</span>
 </ng-template>
 
 <span class="d-flex align-items-baseline text-gray-light mb-1">
@@ -24,9 +29,12 @@
 </span>
 
 <div
+  *ngIf="!isCreateNewMemberMode; else newMemberForm"
   class="d-flex justify-content-start align-items-center bg-light rounded p-2"
 >
-  <div class="d-flex justify-content-start align-items-center flex-grow-1">
+  <div
+    class="d-flex justify-content-start align-items-center flex-grow-1"
+  >
     <div class="w-100">
       <common-autocomplete
         #autocomplete
@@ -49,7 +57,7 @@
         >
           <img
             src="{{ authority?.picture }}"
-            class="rounded-circle participant-picture"
+            class="avatar"
           />
           {{ authority?.name }}
         </a>
@@ -58,3 +66,14 @@
     </div>
   </div>
 </div>
+
+<ng-template #newMemberForm>
+  <maptio-member-form
+    [team]="team"
+    [member]="newMemberData"
+    [showCancelButton]="true"
+    (addMember)="onCreateNewMember($event)"
+    (cancel)="onCancelAddingMember($event)"
+  >
+  </maptio-member-form>
+</ng-template>

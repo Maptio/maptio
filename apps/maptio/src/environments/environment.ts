@@ -3,7 +3,16 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+
+  auth: {
+    domain: 'maptio-dev.eu.auth0.com',
+    clientId: 'rAcSdJBxn8gCq8Qtl2Xo9mI0lzTGtPIu',
+    redirectUri: window.location.origin + '/login',
+    scope: 'api',
+    audience: 'http://localhost:4200/api/v1',
+  },
+  auth0DatabaseConnectionName: 'Username-Password-Authentication',
 };
 
 /*
