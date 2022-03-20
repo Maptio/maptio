@@ -2,7 +2,7 @@ export const environment = {
   production: true,
 
   auth: {
-    domain: 'circlemapping.auth0.com',
+    domain: 'login.maptio.com',
     clientId: 'hLMoi4RU80PH686BQ2GTlTg2lInzbXEB',
     redirectUri: window.location.origin + '/login',
     scope: 'api',
