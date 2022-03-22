@@ -76,6 +76,10 @@ export function markedOptionsFactory(): MarkedOptions {
           httpInterceptor: {
             allowedList: [
               {
+                uri: `/api/v1/embeddable-dataset/*`,
+                allowAnonymous: true,
+              },
+              {
                 uri: `/api/*`,
                 tokenOptions: {
                   audience: environment.auth.audience,
