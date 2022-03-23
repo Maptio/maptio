@@ -14,8 +14,7 @@ So that people throughout the organisation can:
 
 ## Introduction
 
-| Maptio has recently become an open source project 🎉 | 
-| The below documentation has served us internally for a while, but we need to improve it. In the meantime, if you want to get started, [get in touch with us](mailto:support@maptio.com) or [with me directly](mailto:roman.goj@gmail.com) and we'll be happy to help you via a video call. |
+| Maptio has recently become an open source project 🎉  <br> The below documentation has served us internally for a while, but we need to improve it. In the meantime, if you want to get started, [get in touch with us](mailto:support@maptio.com) or [with me directly](mailto:roman.goj@gmail.com) and we'll be happy to help you via a video call. |
 | --- |
 
 
