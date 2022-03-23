@@ -1,10 +1,4 @@
-![Logo of the project](./public/images/logo-full.png)
-
-[![Build Status](https://travis-ci.com/Safiyya/maptio.svg?token=nc9XxWrdvz8syvD6uvUM&branch=master)](https://travis-ci.com/Safiyya/maptio)
-[![CircleCI](https://circleci.com/github/tomnixon/maptio.svg?style=svg&circle-token=0c8395a403ed8f724ce36387033696b3cc363e34)](https://app.circleci.com/pipelines/github/tomnixon)
-[![Maintainability](https://api.codeclimate.com/v1/badges/be1b4f8e1652075411b3/maintainability)](https://codeclimate.com/repos/58ddc02f974e760287000b1d/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/be1b4f8e1652075411b3/test_coverage)](https://codeclimate.com/repos/58ddc02f974e760287000b1d/test_coverage)
-
+![Maptio Logo](./apps/maptio/src/assets/images/logo-full.png)
 
 # Maptio
 
@@ -16,6 +10,12 @@ So that people throughout the organisation can:
 - see how responsibilities throughout the organisation feed into the greater system
 - enjoy greater transparency
 - avoid the tyranny of heavy-weight processes, bureaucracy and excessive management.
+
+
+## Introduction
+
+| Maptio has recently become an open source project 🎉  <br> The below documentation has served us internally for a while, but we need to improve it. In the meantime, if you want to get started, [get in touch with us](mailto:support@maptio.com) or [with me directly](mailto:roman.goj@gmail.com) and we'll be happy to help you via a video call. |
+| --- |
 
 
 ## Installing / Getting started
