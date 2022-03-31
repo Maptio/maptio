@@ -21,8 +21,6 @@ So that people throughout the organisation can:
 ## Installing / Getting started
 
 The latest version of the app is running at [https://app.maptio.com](https://app.maptio.com).
-A staging environment is setup at [https://maptio-staging.herokuapp.com/](https://maptio-staging.herokuapp.com/).
-Please be careful when using the staging environment as it is currently connected to the production database.
 
 To launch it on your local server, see the [Setting up dev](#setting-up-dev) section.
 
@@ -163,7 +161,6 @@ It can be re-enabled by simply commenting out the scripts in `index.html`
 The app is hosted on heroku.
 There are two heroku projects, one for the production server (app.maptio.com) and one for the staging server:
 * [maptio-eu (production) on heroku](https://dashboard.heroku.com/apps/maptio-eu)
-* [maptio-staging on heroku](https://dashboard.heroku.com/apps/maptio-staging)
 
 
 #### Database
@@ -267,7 +264,3 @@ In general, we use standards rules from out of the box TSLint.
 ## Database
 
 MongoDB hosted on MongoDb Atlas, ORM is MongoJS.
-
-## Licensing
-
-UNLICENSED
