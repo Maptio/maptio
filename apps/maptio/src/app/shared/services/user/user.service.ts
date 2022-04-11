@@ -401,6 +401,12 @@ export class UserService implements OnDestroy {
     teamName: string,
     invitedBy: string
   ): Promise<boolean> {
+    const duplicatedUsers = this.checkForDuplication(user);
+
+    if (duplicatedUsers.length > 0) {
+      // TODO
+    }
+
     const userDataInAuth0Format = this.convertUserToAuth0Format(user);
 
     // When first sending an invitation, we need to create a new user in Auth0,
@@ -467,5 +473,20 @@ export class UserService implements OnDestroy {
     user.isInvitationSent = isInvitationSent;
 
     return this.userFactory.upsert(user);
+  }
+
+
+  /*
+   * Detecting and handling duplication
+   */
+
+  public checkForDuplication(user: User): User[] {
+    // this.userFactory.getAll('roman.goj@gmail.com').then(users => {
+    //   console.log(users);
+    // });
+    this.userFactory.getAllByEmail('roman.goj@gmail.com').then(users => {
+      console.log(users);
+    });
+    return [];
   }
 }
