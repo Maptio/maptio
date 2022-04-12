@@ -36,7 +36,7 @@ import { UserRole, UserRoleService, Permissions } from '@maptio-shared/model/per
 import { UserWithTeamsAndDatasets } from '@maptio-shared/model/userWithTeamsAndDatasets.interface';
 import { LoaderService } from '@maptio-shared/components/loading/loader.service';
 
-import { DuplicationError } from './duplication.error';
+import { MultipleUserDuplicationError } from './multiple-user-duplication.error';
 
 
 @Injectable()
@@ -500,7 +500,7 @@ export class UserService implements OnDestroy {
       );
 
       if (duplicatedUsers.length > 1) {
-        throw new DuplicationError(
+        throw new MultipleUserDuplicationError(
           'We found multiple duplicated users with `isInAuth0` set to `true`.'
         );
       }
