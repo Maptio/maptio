@@ -37,6 +37,7 @@ import { UserWithTeamsAndDatasets } from '@maptio-shared/model/userWithTeamsAndD
 import { LoaderService } from '@maptio-shared/components/loading/loader.service';
 
 import { MultipleUserDuplicationError } from './multiple-user-duplication.error';
+import { DuplicationError } from './duplication.error';
 
 
 @Injectable()
@@ -406,7 +407,7 @@ export class UserService implements OnDestroy {
     const duplicatedUsers = await this.checkForDuplication(user);
 
     if (duplicatedUsers.length > 0) {
-      // TODO
+      throw new DuplicationError('Duplicate users have been found.', duplicatedUsers);
     }
 
     const userDataInAuth0Format = this.convertUserToAuth0Format(user);

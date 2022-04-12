@@ -1,6 +1,4 @@
-import { DuplicationError } from "./duplication.error";
-
-export class MultipleUserDuplicationError extends DuplicationError {
+export class MultipleUserDuplicationError extends Error {
   constructor(message: string) {
     super(message);
     this.name = "MultipleUserDuplicationError";
