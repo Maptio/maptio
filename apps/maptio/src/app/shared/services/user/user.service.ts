@@ -499,6 +499,11 @@ export class UserService implements OnDestroy {
         userFromDB => userFromDB.isInAuth0
       );
 
+      if (duplicatedUsers.length > 1) {
+        throw new DuplicationError(
+          'We found multiple duplicated users with `isInAuth0` set to `true`.'
+        );
+      }
     }
 
     console.log('duplicatedUsers', duplicatedUsers);

@@ -16,6 +16,7 @@ import {
   Permissions,
 } from '@maptio-shared/model/permission.data';
 import { Team } from '@maptio-shared/model/team.data';
+import { DuplicationError } from '@maptio-shared/services/user/duplication.error';
 
 
 @Component({
@@ -116,8 +117,19 @@ export class MemberSingleComponent {
       .catch((error) => {
         console.error('Error while sending invitation: ', error);
 
+        if (error instanceof DuplicationError) {
+          this.errorMessage = `
+            More than one user with this email already exists. This is
+            unexpected. Please contact us and we will address this issue.
+          `;
+        } else {
+          this.errorMessage = `
+            Something went wrong. Please try again later or contact us if the
+            problem persists.
+          `;
+        }
+
         this.isDisplaySendingLoader = false;
-        this.errorMessage = 'Something went wrong. Please try again later or contact us if the problem persists.';
         this.cd.markForCheck();
       });
   }
