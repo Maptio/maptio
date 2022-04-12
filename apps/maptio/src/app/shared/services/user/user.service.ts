@@ -36,6 +36,8 @@ import { UserRole, UserRoleService, Permissions } from '@maptio-shared/model/per
 import { UserWithTeamsAndDatasets } from '@maptio-shared/model/userWithTeamsAndDatasets.interface';
 import { LoaderService } from '@maptio-shared/components/loading/loader.service';
 
+import { DuplicationError } from './duplication.error';
+
 
 @Injectable()
 export class UserService implements OnDestroy {
@@ -396,12 +398,12 @@ export class UserService implements OnDestroy {
    * Invitations
    */
 
-  public sendInvite(
+  public async sendInvite(
     user: User,
     teamName: string,
     invitedBy: string
   ): Promise<boolean> {
-    const duplicatedUsers = this.checkForDuplication(user);
+    const duplicatedUsers = await this.checkForDuplication(user);
 
     if (duplicatedUsers.length > 0) {
       // TODO
@@ -480,13 +482,27 @@ export class UserService implements OnDestroy {
    * Detecting and handling duplication
    */
 
-  public checkForDuplication(user: User): User[] {
-    // this.userFactory.getAll('roman.goj@gmail.com').then(users => {
-    //   console.log(users);
-    // });
-    this.userFactory.getAllByEmail('roman.goj@gmail.com').then(users => {
-      console.log(users);
-    });
-    return [];
+  public async checkForDuplication(user: User): Promise<User[]> {
+    let duplicatedUsers: User[] = [];
+
+    if (user.email) {
+      // Find all users in the DB with the same email address
+      await this.userFactory.getAllByEmail(user.email).then(usersWithGivenEmail => {
+        console.log('usersWithGivenEmail', usersWithGivenEmail);
+        duplicatedUsers = usersWithGivenEmail.filter(
+          userFromDB => userFromDB.user_id !== user.user_id
+        );
+      });
+
+      // Ignore users not already in Auth0
+      duplicatedUsers = duplicatedUsers.filter(
+        userFromDB => userFromDB.isInAuth0
+      );
+
+    }
+
+    console.log('duplicatedUsers', duplicatedUsers);
+
+    return duplicatedUsers;
   }
 }
