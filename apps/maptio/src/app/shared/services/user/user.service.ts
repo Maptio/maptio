@@ -404,10 +404,10 @@ export class UserService implements OnDestroy {
     teamName: string,
     invitedBy: string
   ): Promise<boolean> {
-    const duplicatedUsers = await this.checkForDuplication(user);
+    const duplicateUsers = await this.checkForDuplication(user);
 
-    if (duplicatedUsers.length > 0) {
-      throw new DuplicationError('Duplicate users have been found.', duplicatedUsers);
+    if (duplicateUsers.length > 0) {
+      throw new DuplicationError('Duplicate users have been found.', duplicateUsers);
     }
 
     const userDataInAuth0Format = this.convertUserToAuth0Format(user);
@@ -484,31 +484,31 @@ export class UserService implements OnDestroy {
    */
 
   public async checkForDuplication(user: User): Promise<User[]> {
-    let duplicatedUsers: User[] = [];
+    let duplicateUsers: User[] = [];
 
     if (user.email) {
       // Find all users in the DB with the same email address
       await this.userFactory.getAllByEmail(user.email).then(usersWithGivenEmail => {
         console.log('usersWithGivenEmail', usersWithGivenEmail);
-        duplicatedUsers = usersWithGivenEmail.filter(
+        duplicateUsers = usersWithGivenEmail.filter(
           userFromDB => userFromDB.user_id !== user.user_id
         );
       });
 
       // Ignore users not already in Auth0
-      duplicatedUsers = duplicatedUsers.filter(
+      duplicateUsers = duplicateUsers.filter(
         userFromDB => userFromDB.isInAuth0
       );
 
-      if (duplicatedUsers.length > 1) {
+      if (duplicateUsers.length > 1) {
         throw new MultipleUserDuplicationError(
           'We found multiple duplicated users with `isInAuth0` set to `true`.'
         );
       }
     }
 
-    console.log('duplicatedUsers', duplicatedUsers);
+    console.log('duplicateUsers', duplicateUsers);
 
-    return duplicatedUsers;
+    return duplicateUsers;
   }
 }
