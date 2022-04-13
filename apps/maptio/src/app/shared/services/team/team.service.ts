@@ -6,6 +6,8 @@ import { Team } from "../../model/team.data";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { IntercomService } from "./intercom.service";
 
+import { remove } from 'lodash-es';
+
 @Injectable()
 export class TeamService {
 
@@ -103,7 +105,7 @@ export class TeamService {
 
     saveTerminology(team: Team, name: string, authority: string, helper: string) {
         if (!name) return Promise.reject("Organisation name cannot be empty");
-       
+
         team.name = name;
         team.settings = { authority: authority, helper: helper }
 
@@ -119,4 +121,32 @@ export class TeamService {
             })
 
     }
+
+  async removeMember(team: Team, user: User, save = true): Promise<boolean> {
+    if (team.members.length === 1) {
+      return;
+    }
+
+    remove(team.members, function (member) {
+      return member.user_id === user.user_id;
+    });
+
+    if (save) {
+      return this.teamFactory.upsert(team);
+    }
+  }
+
+  async addMember(team: Team, user: User, save = true): Promise<boolean> {
+    team.members.push(user);
+
+    if (save) {
+      return this.teamFactory.upsert(team);
+    }
+  }
+
+  async replaceMember(team: Team, memberToBeReplaced: User, memberToBeAdded: User): Promise<boolean> {
+    this.removeMember(team, memberToBeReplaced, false);
+    this.addMember(team, memberToBeAdded, false);
+    return this.teamFactory.upsert(team);
+  }
 }

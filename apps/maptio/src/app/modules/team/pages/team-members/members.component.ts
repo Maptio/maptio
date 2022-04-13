@@ -10,19 +10,18 @@ import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 
 import {
   compact,
-  remove,
   uniqBy,
   sortBy,
 } from 'lodash-es';
 import { Intercom } from 'ng-intercom';
 
 import { environment } from '@maptio-config/environment';
-import { TeamFactory } from '@maptio-core/http/team/team.factory';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
 
 import { DataSet } from '@maptio-shared/model/dataset.data';
 import { User } from '@maptio-shared/model/user.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
+import { TeamService } from '@maptio-shared/services/team/team.service';
 import { Permissions } from '@maptio-shared/model/permission.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { LoaderService } from '@maptio-shared/components/loading/loader.service';
@@ -52,7 +51,7 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private userFactory: UserFactory,
     private userService: UserService,
-    private teamFactory: TeamFactory,
+    private teamService: TeamService,
     private intercom: Intercom,
     private cd: ChangeDetectorRef,
     private loaderService: LoaderService,
@@ -114,15 +113,9 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
     this.getAllMembers();
   }
 
-  deleteMember(user: User) {
-    if (this.team.members.length === 1) return;
-    remove(this.team.members, function (m) {
-      return m.user_id === user.user_id;
-    });
-    this.cd.markForCheck();
-    this.teamFactory.upsert(this.team).then(() => {
-      this.getAllMembers();
-    });
+  async deleteMember(user: User) {
+    await this.teamService.removeMember(this.team, user);
+    this.getAllMembers();
   }
 
   trackByMemberId(index: number, member: User) {
