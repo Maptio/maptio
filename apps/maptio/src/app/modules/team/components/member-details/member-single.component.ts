@@ -41,6 +41,8 @@ export class MemberSingleComponent {
   isEditToggled: boolean;
   wasInvitationAttempted: boolean;
 
+  duplicateUsers: User[] = [];
+
   errorMessage: string;
 
   constructor(
@@ -120,6 +122,7 @@ export class MemberSingleComponent {
 
         if (error instanceof DuplicationError) {
           console.log('duplicate users from member-single:', error.duplicateUsers);
+          this.handleDuplicateUsers(error.duplicateUsers);
         } else if (error instanceof MultipleUserDuplicationError) {
           this.errorMessage = `
             More than one user with this email already exists. This is
@@ -135,6 +138,11 @@ export class MemberSingleComponent {
         this.isDisplaySendingLoader = false;
         this.cd.markForCheck();
       });
+  }
+
+  handleDuplicateUsers(duplicateUsers: User[]) {
+    this.isEditToggled = true;
+    this.duplicateUsers = duplicateUsers;
   }
 
   onEditMember() {

@@ -97,7 +97,10 @@
     {{ savingFailedMessage }}
   </span>
 
-  <div class="d-flex justify-content-end mt-2">
+  <div
+    *ngIf="!duplicateUsers.length"
+    class="d-flex justify-content-end mt-2"
+  >
     <button
       *ngIf="showCancelButton && !(memberForm.dirty || isNewImageUploaded)"
       type="button"
@@ -136,4 +139,36 @@
     <i class="fas fa-circle-notch fa-spin mx-1"></i>
     Creating
   </span>
+
+  <div
+    *ngIf="duplicateUsers.length"
+    class="alert alert-warning"
+    role="alert"
+  >
+    <p>Another user with this email address is already registered with Maptio:</p>
+
+    <ul *ngFor="let duplicateUser of duplicateUsers">
+      <li>{{ duplicateUser.name }}</li>
+    </ul>
+
+    Would you like to merge these two accounts or edit the email of the current team member?
+
+    <div class="d-flex justify-content-end mt-3">
+      <button
+        type="button"
+        class="btn btn-outline-secondary mr-2"
+        (click)="onCancelMergingDuplicateUsers()"
+      >
+        Edit email
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="onMergeDuplicateUsers()"
+      >
+        Merge users
+      </button>
+    </div>
+  </div>
 </form>

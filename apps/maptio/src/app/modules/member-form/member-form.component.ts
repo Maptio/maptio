@@ -54,6 +54,7 @@ export class MemberFormComponent implements OnInit {
   @Input() team: Team;
   @Input() showCancelButton = false;
   @Input() disableEmailInput = false;
+  @Input() duplicateUsers: User[] = [];
   @Output() addMember = new EventEmitter<User>();
   @Output() editMember = new EventEmitter();
   @Output() cancel = new EventEmitter();
@@ -262,6 +263,26 @@ export class MemberFormComponent implements OnInit {
 
   onCancel() {
     this.cancel.emit();
+  }
+
+  onCancelMergingDuplicateUsers() {
+    console.log('TODO');
+  }
+
+  onMergeDuplicateUsers() {
+    if (!(this.member instanceof User)) {
+      throw new Error(`
+        Attempting to replace a MemberFormFields object with a duplicate user.
+        This is unexpected and something must have gone wrong, this function
+        should only be run with a User object.
+      `);
+    }
+
+    this.userService.replaceUserWithDuplicateAlreadyInAuth0(
+      this.duplicateUsers,
+      this.member,
+      this.team
+    );
   }
 
   private reset() {
