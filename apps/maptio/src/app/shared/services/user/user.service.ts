@@ -32,6 +32,8 @@ import { UserFactory } from '@maptio-core/http/user/user.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { User } from '@maptio-shared/model/user.data';
+import { Team } from '@maptio-shared/model/team.data';
+import { DataSet } from '@maptio-shared/model/dataset.data';
 import { UserRole, UserRoleService, Permissions } from '@maptio-shared/model/permission.data';
 import { UserWithTeamsAndDatasets } from '@maptio-shared/model/userWithTeamsAndDatasets.interface';
 import { LoaderService } from '@maptio-shared/components/loading/loader.service';
@@ -99,6 +101,8 @@ export class UserService implements OnDestroy {
     }),
   );
 
+  userDatasets: DataSet[];
+
   constructor(
     // Current
     private http: HttpClient,
@@ -165,8 +169,8 @@ export class UserService implements OnDestroy {
     let teams = isEmpty(user.teams) ? [] : await this.teamFactory.get(user.teams);
     teams = sortBy(teams, team => team.name);
 
-    let datasets = isEmpty(user.datasets) ? [] : await this.datasetFactory.get(user.datasets, false);
-    datasets = datasets
+    this.userDatasets = isEmpty(user.datasets) ? [] : await this.datasetFactory.get(user.datasets, false);
+    let datasets = this.userDatasets
       .filter(dataset => !dataset.isArchived)
       .map(dataset => {
         dataset.team = teams.find(team => dataset.initiative.team_id === team.team_id);
@@ -511,4 +515,31 @@ export class UserService implements OnDestroy {
 
     return duplicateUsers;
   }
+
+  async replaceUserWithDuplicateAlreadyInAuth0(
+    duplicateUsers: User[],
+    userToBeReplaced: User,
+    team: Team
+  ) {
+    // Get datasets for the current team
+    const teamDatasets = this.userDatasets.filter(
+      dataset => {
+        if (!dataset.initiative) {
+          return false;
+        }
+
+        return dataset.initiative.team_id === team.team_id
+      }
+    );
+
+    console.log('mergeUsers > teamDatasets', teamDatasets);
+
+
+    // for each map in team maps:
+    //   for each circle in map:
+    //     if circle has user:
+    //       replace user with duplicate user
+
+  }
+
 }
