@@ -34,6 +34,7 @@ import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { User } from '@maptio-shared/model/user.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { DataSet } from '@maptio-shared/model/dataset.data';
+import { TeamService } from '@maptio-shared/services/team/team.service';
 import { UserRole, UserRoleService, Permissions } from '@maptio-shared/model/permission.data';
 import { UserWithTeamsAndDatasets } from '@maptio-shared/model/userWithTeamsAndDatasets.interface';
 import { LoaderService } from '@maptio-shared/components/loading/loader.service';
@@ -111,6 +112,7 @@ export class UserService implements OnDestroy {
     private auth: AuthService,
     private userFactory: UserFactory,
     private teamFactory: TeamFactory,
+    private teamService: TeamService,
     private datasetFactory: DatasetFactory,
     private userRoleService: UserRoleService,
     private loaderService: LoaderService,
@@ -521,6 +523,24 @@ export class UserService implements OnDestroy {
     userToBeReplaced: User,
     team: Team
   ) {
+    // TODO: Make sure this is only run when user is from an external team... yikes...
+    if (duplicateUsers.length > 1) {
+      throw new Error('Cannot replace user with multiple duplicates.');
+    } else if (duplicateUsers.length === 0) {
+      throw new Error('No duplicate users found. Aborting replacing user.');
+    }
+
+    const replacementUser = duplicateUsers[0];
+
+    // remove user from team
+    // add duplicate user to team (if not already there)
+    console.log('mergeUsers > team before replacement', team);
+    await this.teamService.replaceMember(team, userToBeReplaced, replacementUser);
+
+
+    console.log('mergeUsers > this.teamDatasets', this.userDatasets);
+    console.log('mergeUsers > team after replacement', team);
+
     // Get datasets for the current team
     const teamDatasets = this.userDatasets.filter(
       dataset => {
