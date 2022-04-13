@@ -270,7 +270,7 @@ export class MemberFormComponent implements OnInit {
     console.log('TODO');
   }
 
-  onMergeDuplicateUsers() {
+  async onMergeDuplicateUsers() {
     if (!(this.member instanceof User)) {
       throw new Error(`
         Attempting to replace a MemberFormFields object with a duplicate user.
@@ -279,7 +279,7 @@ export class MemberFormComponent implements OnInit {
       `);
     }
 
-    this.userService.replaceUserWithDuplicateAlreadyInAuth0(
+    await this.userService.replaceUserWithDuplicateAlreadyInAuth0(
       this.duplicateUsers,
       this.member,
       this.team
