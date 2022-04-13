@@ -146,7 +146,15 @@ export class TeamService {
 
   async replaceMember(team: Team, memberToBeReplaced: User, memberToBeAdded: User): Promise<boolean> {
     this.removeMember(team, memberToBeReplaced, false);
-    this.addMember(team, memberToBeAdded, false);
+
+    const isMemberToBeAddedAlreadyInTeam = team.members.some(
+      member => member.user_id === memberToBeAdded.user_id
+    );
+
+    if (!isMemberToBeAddedAlreadyInTeam) {
+      this.addMember(team, memberToBeAdded, false);
+    }
+
     return this.teamFactory.upsert(team);
   }
 }
