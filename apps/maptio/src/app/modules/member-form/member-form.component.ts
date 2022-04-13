@@ -57,6 +57,7 @@ export class MemberFormComponent implements OnInit {
   @Input() duplicateUsers: User[] = [];
   @Output() addMember = new EventEmitter<User>();
   @Output() editMember = new EventEmitter();
+  @Output() solveDuplication = new EventEmitter();
   @Output() cancel = new EventEmitter();
 
   constructor(
@@ -283,6 +284,8 @@ export class MemberFormComponent implements OnInit {
       this.member,
       this.team
     );
+
+    this.solveDuplication.emit();
   }
 
   private reset() {

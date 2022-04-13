@@ -33,6 +33,7 @@ export class MemberSingleComponent {
   @Input() member: User;
   @Input() user: User;
   @Input() isOnlyMember: boolean;
+  @Output() solveDuplication = new EventEmitter();
 
   @Output() delete = new EventEmitter<User>();
 
@@ -152,6 +153,10 @@ export class MemberSingleComponent {
   onCancelEditing() {
     this.isEditToggled = false;
     this.cd.markForCheck();
+  }
+
+  onSolveDuplication() {
+    this.solveDuplication.emit(this.duplicateUsers);
   }
 
   // TODO: Copy over to MemberForm component (and fix "Never ago"!!!)
