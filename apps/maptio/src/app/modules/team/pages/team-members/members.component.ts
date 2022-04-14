@@ -115,11 +115,6 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
     this.getAllMembers();
   }
 
-  onSolveDuplication() {
-    this.getAllMembers();
-    this.cd.markForCheck();
-  }
-
   async deleteMember(user: User) {
     await this.teamService.removeMember(this.team, user);
     this.getAllMembers();

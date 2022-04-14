@@ -57,7 +57,6 @@ export class MemberFormComponent implements OnInit {
   @Input() duplicateUsers: User[] = [];
   @Output() addMember = new EventEmitter<User>();
   @Output() editMember = new EventEmitter();
-  @Output() solveDuplication = new EventEmitter();
   @Output() cancel = new EventEmitter();
 
   constructor(
@@ -272,6 +271,7 @@ export class MemberFormComponent implements OnInit {
 
   async onMergeDuplicateUsers() {
     if (!(this.member instanceof User)) {
+      // TODO: Replace with this.errorMessage...
       throw new Error(`
         Attempting to replace a MemberFormFields object with a duplicate user.
         This is unexpected and something must have gone wrong, this function
@@ -279,13 +279,12 @@ export class MemberFormComponent implements OnInit {
       `);
     }
 
+    // TODO: Handle errors...
     await this.userService.replaceUserWithDuplicateAlreadyInAuth0(
       this.duplicateUsers,
       this.member,
       this.team
     );
-
-    this.solveDuplication.emit();
   }
 
   private reset() {
