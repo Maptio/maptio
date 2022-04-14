@@ -560,6 +560,9 @@ export class UserService implements OnDestroy {
     //     if circle has user:
     //       replace user with duplicate user
 
+    // We need to do this to ensure that the team and dataset changes are
+    // propagated
+    this.refreshUserData();
   }
 
 }

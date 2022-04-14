@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 
 import {
+  cloneDeep,
   compact,
   uniqBy,
   sortBy,
@@ -88,7 +89,8 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
       if (this.createdUser) {
         this.createdUser.isActivationPending = true;
         this.createdUser.isInvitationSent = false;
-        members.push(this.createdUser);
+        members.push(cloneDeep(this.createdUser));
+        this.createdUser = undefined;
       }
 
       members = uniqBy(members, (member) => member.user_id);
