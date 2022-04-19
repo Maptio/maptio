@@ -1,9 +1,13 @@
 use('maptio');
 
-auth0UserId = 'auth0|5ae03d0dfbf13c2a859f7897'
-teamId = '5af3be15acbcad0014b32a72';
+// Use this variable to update user by their Auth0 ID
+// auth0UserId = 'auth0|5ae03d0dfbf13c2a859f7897'
+
+userId = '5f36a95bfb8c6a0016da7e80'; // Romek Goj
+teamId = '594998ef94a981001151011c'; // Maptio
 
 db.users.update(
-   { user_id: auth0UserId },
-   { $pull: { teams: teamId } }
+  //  { user_id: auth0UserId },
+  { _id: ObjectId(userId) },
+  { $pull: { teams: teamId } }
 )
