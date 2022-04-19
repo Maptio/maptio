@@ -32,8 +32,10 @@ import { UserFactory } from '@maptio-core/http/user/user.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { User } from '@maptio-shared/model/user.data';
+import { Helper } from '@maptio-shared/model/helper.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { DataSet } from '@maptio-shared/model/dataset.data';
+import { Initiative } from '@maptio-shared/model/initiative.data';
 import { TeamService } from '@maptio-shared/services/team/team.service';
 import { UserRole, UserRoleService, Permissions } from '@maptio-shared/model/permission.data';
 import { UserWithTeamsAndDatasets } from '@maptio-shared/model/userWithTeamsAndDatasets.interface';
@@ -532,14 +534,13 @@ export class UserService implements OnDestroy {
 
     const replacementUser = duplicateUsers[0];
 
-    // remove user from team
-    // add duplicate user to team (if not already there)
     console.log('mergeUsers > team before replacement', team);
     await this.teamService.replaceMember(team, userToBeReplaced, replacementUser);
 
 
     console.log('mergeUsers > this.teamDatasets', this.userDatasets);
     console.log('mergeUsers > team after replacement', team);
+    console.log('mergeUsers > team size after replacement', team.members.length);
 
     // Get datasets for the current team
     const teamDatasets = this.userDatasets.filter(
@@ -554,15 +555,41 @@ export class UserService implements OnDestroy {
 
     console.log('mergeUsers > teamDatasets', teamDatasets);
 
+    teamDatasets.forEach(async dataset => {
+      dataset.team = team;
 
-    // for each map in team maps:
-    //   for each circle in map:
-    //     if circle has user:
-    //       replace user with duplicate user
+      dataset.initiative.traverse((initiative: Initiative) => {
+        this.replaceHelperIfNecessary(initiative.accountable, userToBeReplaced, replacementUser);
+
+        initiative.helpers.forEach((helper) => {
+          this.replaceHelperIfNecessary(helper, userToBeReplaced, replacementUser);
+        })
+      });
+
+      try {
+        await this.datasetFactory.upsert(dataset);
+      } catch {
+        console.error('TODO')
+      }
+    });
+
 
     // We need to do this to ensure that the team and dataset changes are
     // propagated
     this.refreshUserData();
+  }
+
+  private replaceHelperIfNecessary(
+    initiativeHelper: Helper,
+    userToBeReplaced: User,
+    replacementUser: User,
+  ) {
+    if (
+      initiativeHelper
+      && initiativeHelper.user_id === userToBeReplaced.user_id
+    ) {
+      initiativeHelper = Object.assign(initiativeHelper, replacementUser);
+    }
   }
 
 }
