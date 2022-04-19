@@ -591,5 +591,4 @@ export class UserService implements OnDestroy {
       initiativeHelper = Object.assign(initiativeHelper, replacementUser);
     }
   }
-
 }
