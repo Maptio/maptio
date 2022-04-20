@@ -271,20 +271,33 @@ export class MemberFormComponent implements OnInit {
 
   async onMergeDuplicateUsers() {
     if (!(this.member instanceof User)) {
-      // TODO: Replace with this.errorMessage...
-      throw new Error(`
+      this.errorMessage = `
+        The application encountered an unexpected input error while attempting
+        user de-duplication. Please contact us for help and quote this error
+        message.
+      `;
+      console.error(`
         Attempting to replace a MemberFormFields object with a duplicate user.
         This is unexpected and something must have gone wrong, this function
         should only be run with a User object.
       `);
+      return;
     }
 
-    // TODO: Handle errors...
-    await this.userService.replaceUserWithDuplicateAlreadyInAuth0(
-      this.duplicateUsers,
-      this.member,
-      this.team
-    );
+    try {
+      await this.userService.replaceUserWithDuplicateAlreadyInAuth0(
+        this.duplicateUsers,
+        this.member,
+        this.team
+      );
+    } catch(error) {
+      console.error('Error while attempting to replace user with duplicate', error);
+      this.errorMessage = `
+        The application encountered an unexpected error while attempting user
+        de-duplication. Please contact us for help and quote this error
+        message.
+      `;
+    }
   }
 
   private reset() {

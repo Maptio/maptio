@@ -141,7 +141,7 @@
   </span>
 
   <div
-    *ngIf="duplicateUsers.length"
+    *ngIf="duplicateUsers.length && !errorMessage"
     class="alert alert-warning"
     role="alert"
   >
@@ -177,5 +177,13 @@
         Add existing user
       </button>
     </div>
+  </div>
+
+  <div
+    *ngIf="errorMessage"
+    class="alert alert-danger fade show"
+    role="alert"
+  >
+    {{ errorMessage }}
   </div>
 </form>
