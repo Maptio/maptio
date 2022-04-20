@@ -302,6 +302,7 @@ export class MemberFormComponent implements OnInit {
 
   private reset() {
     this.imageUploadErrorMessage = '';
+    this.errorMessage = '';
     this.picture = '';
     this.memberForm.reset();
   }
