@@ -498,7 +498,6 @@ export class UserService implements OnDestroy {
     if (user.email) {
       // Find all users in the DB with the same email address
       await this.userFactory.getAllByEmail(user.email).then(usersWithGivenEmail => {
-        console.log('usersWithGivenEmail', usersWithGivenEmail);
         duplicateUsers = usersWithGivenEmail.filter(
           userFromDB => userFromDB.user_id !== user.user_id
         );
@@ -516,8 +515,6 @@ export class UserService implements OnDestroy {
       }
     }
 
-    console.log('duplicateUsers', duplicateUsers);
-
     return duplicateUsers;
   }
 
@@ -534,13 +531,7 @@ export class UserService implements OnDestroy {
 
     const replacementUser = duplicateUsers[0];
 
-    console.log('mergeUsers > team before replacement', team);
     await this.teamService.replaceMember(team, userToBeReplaced, replacementUser);
-
-
-    console.log('mergeUsers > this.teamDatasets', this.userDatasets);
-    console.log('mergeUsers > team after replacement', team);
-    console.log('mergeUsers > team size after replacement', team.members.length);
 
     // Get datasets for the current team
     const teamDatasets = this.userDatasets.filter(
@@ -553,14 +544,11 @@ export class UserService implements OnDestroy {
       }
     );
 
-    console.log('mergeUsers > teamDatasets', teamDatasets);
-
     teamDatasets.forEach(async dataset => {
       dataset.team = team;
 
       dataset.initiative.traverse((initiative: Initiative) => {
         if (this.isUserAccountableOfInitiative(userToBeReplaced, initiative)) {
-          console.log('user is accountable of initiative');
           this.replaceUser(initiative.accountable, replacementUser);
 
           if (this.isUserAHelperInInitiative(replacementUser, initiative)) {

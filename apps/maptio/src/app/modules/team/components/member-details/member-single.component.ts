@@ -121,7 +121,6 @@ export class MemberSingleComponent {
         console.error('Error while sending invitation: ', error);
 
         if (error instanceof DuplicationError) {
-          console.log('duplicate users from member-single:', error.duplicateUsers);
           this.handleDuplicateUsers(error.duplicateUsers);
         } else if (error instanceof MultipleUserDuplicationError) {
           this.errorMessage = `
