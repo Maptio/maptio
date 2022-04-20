@@ -526,7 +526,6 @@ export class UserService implements OnDestroy {
     userToBeReplaced: User,
     team: Team
   ) {
-    // TODO: Make sure this is only run when user is from an external team... yikes...
     if (duplicateUsers.length > 1) {
       throw new Error('Cannot replace user with multiple duplicates.');
     } else if (duplicateUsers.length === 0) {
