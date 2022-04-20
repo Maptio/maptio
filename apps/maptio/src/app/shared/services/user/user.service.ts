@@ -587,7 +587,7 @@ export class UserService implements OnDestroy {
       try {
         await this.datasetFactory.upsert(dataset);
       } catch {
-        console.error('TODO')
+        throw new Error('Failed to update dataset while replacing duplicate users.');
       }
     });
 
