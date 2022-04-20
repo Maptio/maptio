@@ -266,7 +266,7 @@ export class MemberFormComponent implements OnInit {
   }
 
   onCancelMergingDuplicateUsers() {
-    console.log('TODO');
+    this.duplicateUsers = [];
   }
 
   async onMergeDuplicateUsers() {
