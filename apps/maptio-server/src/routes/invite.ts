@@ -117,7 +117,10 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
 
 function sendInvitationEmail(userEmail, invitedBy, team, url) {
   const from = process.env.SUPPORT_EMAIL;
+
+  // Send email to developer when running locally
   const to = environment.isDevelopment ? process.env.DEVELOPMENT_EMAIL : userEmail;
+
   const subject = `${invitedBy} invited you to join organisation "${team}" on Maptio`;
 
   const template = templating(
