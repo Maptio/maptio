@@ -145,7 +145,9 @@
     class="alert alert-warning"
     role="alert"
   >
-    <p>Another user with this email address is already registered with Maptio:</p>
+    <p>
+      This email address is already associated with an existing Maptio user:
+    </p>
 
     <maptio-member
       *ngFor="let duplicateUser of duplicateUsers"
@@ -153,7 +155,10 @@
       class="d-block mb-2"
     ></maptio-member>
 
-    Would you like to merge these two accounts or edit the email of the current team member?
+    <p>
+      Would you like to add this user to your organisation, or change to a
+      different email address?
+    </p>
 
     <div class="d-flex justify-content-end mt-3">
       <button
@@ -161,7 +166,7 @@
         class="btn btn-outline-secondary mr-2"
         (click)="onCancelMergingDuplicateUsers()"
       >
-        Edit email
+        Change email
       </button>
 
       <button
@@ -169,7 +174,7 @@
         class="btn btn-success"
         (click)="onMergeDuplicateUsers()"
       >
-        Merge users
+        Add existing user
       </button>
     </div>
   </div>
