@@ -24,7 +24,7 @@ import {
 import { SubSink } from 'subsink';
 import { AuthService } from '@auth0/auth0-angular';
 import { UUID } from 'angular2-uuid/index';
-import { isEmpty, sortBy, uniq } from 'lodash-es';
+import { isEmpty, remove, sortBy, uniq } from 'lodash-es';
 import { nanoid } from 'nanoid'
 
 import { environment } from '@maptio-environment';
@@ -32,9 +32,18 @@ import { UserFactory } from '@maptio-core/http/user/user.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { User } from '@maptio-shared/model/user.data';
+import { Helper } from '@maptio-shared/model/helper.data';
+import { Team } from '@maptio-shared/model/team.data';
+import { DataSet } from '@maptio-shared/model/dataset.data';
+import { Initiative } from '@maptio-shared/model/initiative.data';
+import { TeamService } from '@maptio-shared/services/team/team.service';
 import { UserRole, UserRoleService, Permissions } from '@maptio-shared/model/permission.data';
 import { UserWithTeamsAndDatasets } from '@maptio-shared/model/userWithTeamsAndDatasets.interface';
 import { LoaderService } from '@maptio-shared/components/loading/loader.service';
+
+import { MultipleUserDuplicationError } from './multiple-user-duplication.error';
+import { DuplicationError } from './duplication.error';
+import { init } from 'logrocket';
 
 
 @Injectable()
@@ -96,6 +105,8 @@ export class UserService implements OnDestroy {
     }),
   );
 
+  userDatasets: DataSet[];
+
   constructor(
     // Current
     private http: HttpClient,
@@ -104,6 +115,7 @@ export class UserService implements OnDestroy {
     private auth: AuthService,
     private userFactory: UserFactory,
     private teamFactory: TeamFactory,
+    private teamService: TeamService,
     private datasetFactory: DatasetFactory,
     private userRoleService: UserRoleService,
     private loaderService: LoaderService,
@@ -162,8 +174,8 @@ export class UserService implements OnDestroy {
     let teams = isEmpty(user.teams) ? [] : await this.teamFactory.get(user.teams);
     teams = sortBy(teams, team => team.name);
 
-    let datasets = isEmpty(user.datasets) ? [] : await this.datasetFactory.get(user.datasets, false);
-    datasets = datasets
+    this.userDatasets = isEmpty(user.datasets) ? [] : await this.datasetFactory.get(user.datasets, false);
+    let datasets = this.userDatasets
       .filter(dataset => !dataset.isArchived)
       .map(dataset => {
         dataset.team = teams.find(team => dataset.initiative.team_id === team.team_id);
@@ -396,11 +408,17 @@ export class UserService implements OnDestroy {
    * Invitations
    */
 
-  public sendInvite(
+  public async sendInvite(
     user: User,
     teamName: string,
     invitedBy: string
   ): Promise<boolean> {
+    const duplicateUsers = await this.checkForDuplication(user);
+
+    if (duplicateUsers.length > 0) {
+      throw new DuplicationError('Duplicate users have been found.', duplicateUsers);
+    }
+
     const userDataInAuth0Format = this.convertUserToAuth0Format(user);
 
     // When first sending an invitation, we need to create a new user in Auth0,
@@ -467,5 +485,119 @@ export class UserService implements OnDestroy {
     user.isInvitationSent = isInvitationSent;
 
     return this.userFactory.upsert(user);
+  }
+
+
+  /*
+   * Detecting and handling duplication
+   */
+
+  public async checkForDuplication(user: User): Promise<User[]> {
+    let duplicateUsers: User[] = [];
+
+    if (user.email) {
+      // Find all users in the DB with the same email address
+      await this.userFactory.getAllByEmail(user.email).then(usersWithGivenEmail => {
+        duplicateUsers = usersWithGivenEmail.filter(
+          userFromDB => userFromDB.user_id !== user.user_id
+        );
+      });
+
+      // Ignore users not already in Auth0
+      duplicateUsers = duplicateUsers.filter(
+        userFromDB => userFromDB.isInAuth0
+      );
+
+      if (duplicateUsers.length > 1) {
+        throw new MultipleUserDuplicationError(
+          'We found multiple duplicated users with `isInAuth0` set to `true`.'
+        );
+      }
+    }
+
+    return duplicateUsers;
+  }
+
+  async replaceUserWithDuplicateAlreadyInAuth0(
+    duplicateUsers: User[],
+    userToBeReplaced: User,
+    team: Team
+  ) {
+    if (duplicateUsers.length > 1) {
+      throw new Error('Cannot replace user with multiple duplicates.');
+    } else if (duplicateUsers.length === 0) {
+      throw new Error('No duplicate users found. Aborting replacing user.');
+    }
+
+    const replacementUser = duplicateUsers[0];
+
+    await this.teamService.replaceMember(team, userToBeReplaced, replacementUser);
+
+    // Get datasets for the current team
+    const teamDatasets = this.userDatasets.filter(
+      dataset => {
+        if (!dataset.initiative) {
+          return false;
+        }
+
+        return dataset.initiative.team_id === team.team_id
+      }
+    );
+
+    teamDatasets.forEach(async dataset => {
+      dataset.team = team;
+
+      dataset.initiative.traverse((initiative: Initiative) => {
+        if (this.isUserAccountableOfInitiative(userToBeReplaced, initiative)) {
+          this.replaceUser(initiative.accountable, replacementUser);
+
+          if (this.isUserAHelperInInitiative(replacementUser, initiative)) {
+            remove(initiative.helpers, helper => helper.user_id === replacementUser.user_id);
+          }
+        }
+
+        if (this.isUserAHelperInInitiative(userToBeReplaced, initiative)) {
+          if (
+            this.isUserAccountableOfInitiative(replacementUser, initiative)
+            || this.isUserAHelperInInitiative(replacementUser, initiative)
+          ) {
+            remove(initiative.helpers, helper => helper.user_id === userToBeReplaced.user_id);
+          } else {
+            initiative.helpers.forEach((helper) => {
+              if (helper.user_id === userToBeReplaced.user_id) {
+                this.replaceUser(helper, replacementUser);
+              }
+            });
+          }
+        }
+      });
+
+      try {
+        await this.datasetFactory.upsert(dataset);
+      } catch {
+        throw new Error('Failed to update dataset while replacing duplicate users.');
+      }
+    });
+
+    // We need to do this to ensure that the team and dataset changes are
+    // propagated
+    this.refreshUserData();
+  }
+
+  private replaceUser(
+    initiativeHelper: Helper,
+    replacementUser: User,
+  ) {
+    initiativeHelper = Object.assign(initiativeHelper, replacementUser);
+  }
+
+  private isUserAccountableOfInitiative(user: User, initiative: Initiative) {
+    return initiative.accountable?.user_id === user.user_id;
+  }
+
+  private isUserAHelperInInitiative(user: User, initiative: Initiative) {
+    return initiative.helpers.some(
+      helper => helper.user_id === user.user_id
+    );
   }
 }

@@ -31,6 +31,21 @@ router.get('/all/:pattern', function (req, res, next) {
         });
 });
 
+router.get('/all/email/:email', function (req, res, next) {
+    let email = req.params.email;
+
+    db.users.find(
+        {  email  },
+        function (err, users) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(users);
+            }
+        }
+    );
+});
+
 router.get('/in/:query', function (req, res, next) {
     let users_id = req.params.query.split(',');
     db.users.find(

@@ -6,6 +6,7 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
 import { PermissionsModule } from '@maptio-shared/permissions.module';
 import { ImageModule } from '@maptio-shared/image.module';
+import { MemberModule } from '@maptio-member';
 
 import { MemberFormComponent } from './member-form.component';
 
@@ -14,12 +15,13 @@ import { MemberFormComponent } from './member-form.component';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    PermissionsModule,
-    ImageModule,
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: "danger",
       cancelButtonType: "link"
-  }),
+    }),
+    PermissionsModule,
+    ImageModule,
+    MemberModule,
   ],
   declarations: [
     MemberFormComponent

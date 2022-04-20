@@ -11,11 +11,13 @@ import { Intercom } from 'ng-intercom';
 
 import { User } from '@maptio-shared/model/user.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
+import { MultipleUserDuplicationError } from '@maptio-shared/services/user/multiple-user-duplication.error';
 import {
   UserRole,
   Permissions,
 } from '@maptio-shared/model/permission.data';
 import { Team } from '@maptio-shared/model/team.data';
+import { DuplicationError } from '@maptio-shared/services/user/duplication.error';
 
 
 @Component({
@@ -38,6 +40,8 @@ export class MemberSingleComponent {
   isDisplayUpdatingLoader: boolean;
   isEditToggled: boolean;
   wasInvitationAttempted: boolean;
+
+  duplicateUsers: User[] = [];
 
   errorMessage: string;
 
@@ -116,10 +120,28 @@ export class MemberSingleComponent {
       .catch((error) => {
         console.error('Error while sending invitation: ', error);
 
+        if (error instanceof DuplicationError) {
+          this.handleDuplicateUsers(error.duplicateUsers);
+        } else if (error instanceof MultipleUserDuplicationError) {
+          this.errorMessage = `
+            More than one user with this email already exists. This is
+            unexpected. Please contact us and we will address this issue.
+          `;
+        } else {
+          this.errorMessage = `
+            Something went wrong. Please try again later or contact us if the
+            problem persists.
+          `;
+        }
+
         this.isDisplaySendingLoader = false;
-        this.errorMessage = 'Something went wrong. Please try again later or contact us if the problem persists.';
         this.cd.markForCheck();
       });
+  }
+
+  handleDuplicateUsers(duplicateUsers: User[]) {
+    this.isEditToggled = true;
+    this.duplicateUsers = duplicateUsers;
   }
 
   onEditMember() {

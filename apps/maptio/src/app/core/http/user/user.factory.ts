@@ -12,29 +12,28 @@ import { environment } from '@maptio-environment';
 export class UserFactory {
   constructor(private http: HttpClient) {}
 
-  /** Gets all users
-   *
+  /**
+   * Get all users with names and emails matching a given string
    */
   getAll(pattern: string): Promise<User[]> {
     if (!pattern || pattern === '') {
       return Promise.reject('You cannot make a search for all users !');
     }
+
     return this.http
       .get(`/api/v1/user/all/${pattern}`)
-      .pipe(
-        map((responseData) => {
-          return responseData;
-        }),
-        map((inputs: Array<any>) => {
-          const result: Array<User> = [];
-          if (inputs) {
-            inputs.forEach((input) => {
-              result.push(User.create().deserialize(input));
-            });
-          }
-          return result;
-        })
-      )
+      .pipe(map(this.createUsersFromResponseData))
+      .toPromise();
+  }
+
+  getAllByEmail(email: string): Promise<User[]> {
+    if (!email || email === '') {
+      return Promise.reject('Please enter an email address.');
+    }
+
+    return this.http
+      .get(`/api/v1/user/all/${email}`)
+      .pipe(map(this.createUsersFromResponseData))
       .toPromise();
   }
 
@@ -48,25 +47,25 @@ export class UserFactory {
       chunks.map((chunkusersId) =>
         this.http
           .get(`/api/v1/user/in/${chunkusersId.join(',')}`)
-          .pipe(
-            map((responseData) => {
-              return responseData;
-            }),
-            map((inputs: Array<any>) => {
-              const result: Array<User> = [];
-              if (inputs) {
-                inputs.forEach((input) => {
-                  result.push(User.create().deserialize(input));
-                });
-              }
-              return result;
-            })
-          )
+          .pipe(map(this.createUsersFromResponseData))
           .toPromise()
       )
     ).then((array) => {
       return <User[]>flattenDeep(array);
     });
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private createUsersFromResponseData(inputs: Array<any>) {
+    const result: Array<User> = [];
+
+    if (inputs) {
+      inputs.forEach((input) => {
+        result.push(User.create().deserialize(input));
+      });
+    }
+
+    return result;
   }
 
   /** Gets a user using its uniquerId

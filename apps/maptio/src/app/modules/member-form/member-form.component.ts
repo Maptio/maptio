@@ -54,6 +54,7 @@ export class MemberFormComponent implements OnInit {
   @Input() team: Team;
   @Input() showCancelButton = false;
   @Input() disableEmailInput = false;
+  @Input() duplicateUsers: User[] = [];
   @Output() addMember = new EventEmitter<User>();
   @Output() editMember = new EventEmitter();
   @Output() cancel = new EventEmitter();
@@ -264,8 +265,44 @@ export class MemberFormComponent implements OnInit {
     this.cancel.emit();
   }
 
+  onCancelMergingDuplicateUsers() {
+    this.duplicateUsers = [];
+  }
+
+  async onMergeDuplicateUsers() {
+    if (!(this.member instanceof User)) {
+      this.errorMessage = `
+        The application encountered an unexpected input error while attempting
+        user de-duplication. Please contact us for help and quote this error
+        message.
+      `;
+      console.error(`
+        Attempting to replace a MemberFormFields object with a duplicate user.
+        This is unexpected and something must have gone wrong, this function
+        should only be run with a User object.
+      `);
+      return;
+    }
+
+    try {
+      await this.userService.replaceUserWithDuplicateAlreadyInAuth0(
+        this.duplicateUsers,
+        this.member,
+        this.team
+      );
+    } catch(error) {
+      console.error('Error while attempting to replace user with duplicate', error);
+      this.errorMessage = `
+        The application encountered an unexpected error while attempting user
+        de-duplication. Please contact us for help and quote this error
+        message.
+      `;
+    }
+  }
+
   private reset() {
     this.imageUploadErrorMessage = '';
+    this.errorMessage = '';
     this.picture = '';
     this.memberForm.reset();
   }
