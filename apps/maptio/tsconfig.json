@@ -35,6 +35,7 @@
       "@maptio-shared/*": ["app/shared/*"],
       "@maptio-login/*": ["app/modules/login/*"],
       "@maptio-circle-map/*": ["app/modules/circle-map/*"],
+      "@maptio-member": ["app/modules/member"],
       "@maptio-member-form": ["app/modules/member-form"],
     }
   },

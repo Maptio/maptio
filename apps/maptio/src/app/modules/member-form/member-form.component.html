@@ -147,9 +147,11 @@
   >
     <p>Another user with this email address is already registered with Maptio:</p>
 
-    <ul *ngFor="let duplicateUser of duplicateUsers">
-      <li>{{ duplicateUser.name }}</li>
-    </ul>
+    <maptio-member
+      *ngFor="let duplicateUser of duplicateUsers"
+      [member]="duplicateUser"
+      class="d-block mb-2"
+    ></maptio-member>
 
     Would you like to merge these two accounts or edit the email of the current team member?
 

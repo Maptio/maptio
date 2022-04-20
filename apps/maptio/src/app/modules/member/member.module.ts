@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MemberComponent } from './member/member.component';
 
+import { MemberComponent } from './member.component';
 
 
 @NgModule({
@@ -10,6 +10,9 @@ import { MemberComponent } from './member/member.component';
   ],
   imports: [
     CommonModule
-  ]
+  ],
+  exports: [
+    MemberComponent
+  ],
 })
 export class MemberModule { }
