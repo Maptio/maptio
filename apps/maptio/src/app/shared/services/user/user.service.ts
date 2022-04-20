@@ -24,7 +24,7 @@ import {
 import { SubSink } from 'subsink';
 import { AuthService } from '@auth0/auth0-angular';
 import { UUID } from 'angular2-uuid/index';
-import { isEmpty, sortBy, uniq } from 'lodash-es';
+import { isEmpty, remove, sortBy, uniq } from 'lodash-es';
 import { nanoid } from 'nanoid'
 
 import { environment } from '@maptio-environment';
@@ -43,6 +43,7 @@ import { LoaderService } from '@maptio-shared/components/loading/loader.service'
 
 import { MultipleUserDuplicationError } from './multiple-user-duplication.error';
 import { DuplicationError } from './duplication.error';
+import { init } from 'logrocket';
 
 
 @Injectable()
@@ -559,11 +560,29 @@ export class UserService implements OnDestroy {
       dataset.team = team;
 
       dataset.initiative.traverse((initiative: Initiative) => {
-        this.replaceHelperIfNecessary(initiative.accountable, userToBeReplaced, replacementUser);
+        if (this.isUserAccountableOfInitiative(userToBeReplaced, initiative)) {
+          console.log('user is accountable of initiative');
+          this.replaceUser(initiative.accountable, replacementUser);
 
-        initiative.helpers.forEach((helper) => {
-          this.replaceHelperIfNecessary(helper, userToBeReplaced, replacementUser);
-        })
+          if (this.isUserAHelperInInitiative(replacementUser, initiative)) {
+            remove(initiative.helpers, helper => helper.user_id === replacementUser.user_id);
+          }
+        }
+
+        if (this.isUserAHelperInInitiative(userToBeReplaced, initiative)) {
+          if (
+            this.isUserAccountableOfInitiative(replacementUser, initiative)
+            || this.isUserAHelperInInitiative(replacementUser, initiative)
+          ) {
+            remove(initiative.helpers, helper => helper.user_id === userToBeReplaced.user_id);
+          } else {
+            initiative.helpers.forEach((helper) => {
+              if (helper.user_id === userToBeReplaced.user_id) {
+                this.replaceUser(helper, replacementUser);
+              }
+            });
+          }
+        }
       });
 
       try {
@@ -573,22 +592,25 @@ export class UserService implements OnDestroy {
       }
     });
 
-
     // We need to do this to ensure that the team and dataset changes are
     // propagated
     this.refreshUserData();
   }
 
-  private replaceHelperIfNecessary(
+  private replaceUser(
     initiativeHelper: Helper,
-    userToBeReplaced: User,
     replacementUser: User,
   ) {
-    if (
-      initiativeHelper
-      && initiativeHelper.user_id === userToBeReplaced.user_id
-    ) {
-      initiativeHelper = Object.assign(initiativeHelper, replacementUser);
-    }
+    initiativeHelper = Object.assign(initiativeHelper, replacementUser);
+  }
+
+  private isUserAccountableOfInitiative(user: User, initiative: Initiative) {
+    return initiative.accountable?.user_id === user.user_id;
+  }
+
+  private isUserAHelperInInitiative(user: User, initiative: Initiative) {
+    return initiative.helpers.some(
+      helper => helper.user_id === user.user_id
+    );
   }
 }
