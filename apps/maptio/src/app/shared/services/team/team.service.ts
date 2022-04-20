@@ -8,12 +8,19 @@ import { IntercomService } from "./intercom.service";
 
 import { remove } from 'lodash-es';
 
+import { DatasetFactory } from "@maptio-core/http/map/dataset.factory";
+import { DataSet } from "@maptio-shared/model/dataset.data";
+
+
 @Injectable()
 export class TeamService {
 
-    constructor(private teamFactory: TeamFactory, private userFactory: UserFactory,
-        private analytics: Angulartics2Mixpanel, private intercomService: IntercomService) {
-
+    constructor(
+        private teamFactory: TeamFactory,
+        private userFactory: UserFactory,
+        private datasetFactory: DatasetFactory,
+        private analytics: Angulartics2Mixpanel,
+        private intercomService: IntercomService) {
     }
 
     create(name: string, user: User, members?: User[], isTemporary?: boolean, isExample?: boolean) {
@@ -122,7 +129,7 @@ export class TeamService {
 
     }
 
-  async removeMember(team: Team, user: User, save = true): Promise<boolean> {
+  async removeMember(team: Team, user: User): Promise<boolean> {
     if (team.members.length === 1) {
       return;
     }
@@ -131,30 +138,72 @@ export class TeamService {
       return member.user_id === user.user_id;
     });
 
-    if (save) {
-      return this.teamFactory.upsert(team);
+    let success: boolean;
+
+    try {
+      success = await this.teamFactory.upsert(team);
+    } catch {
+      throw new Error(`
+        Encountered an error while updating team object after removing a team
+        member.
+      `);
     }
+
+    return success;
   }
 
-  async addMember(team: Team, user: User, save = true): Promise<boolean> {
+  async addMember(team: Team, user: User): Promise<boolean> {
+    let success: boolean;
+    let teamDatasets: DataSet[];
+
+    user.teams.push(team.team_id);
+
+    try {
+      teamDatasets = await this.datasetFactory.get(team);
+    } catch {
+      throw new Error(`
+        Encountered an error while fetching datasets for a team to add a member
+        to the team.
+      `);
+    }
+
+    const teamDatasetIds = teamDatasets.map(dataset => dataset.datasetId);
+    user.datasets = user.datasets.concat(teamDatasetIds);
+
+    try {
+      success = await this.userFactory.upsert(user);
+    } catch {
+      throw new Error(`
+        Encountered an error while updating user object after adding member to
+        team.
+      `);
+    }
+
     team.members.push(user);
 
-    if (save) {
-      return this.teamFactory.upsert(team);
+    try {
+      success = await this.teamFactory.upsert(team);
+    } catch {
+      throw new Error(`
+        Encountered an error while updating team object after removing a team
+        member.
+      `);
     }
+
+    return success;
   }
 
   async replaceMember(team: Team, memberToBeReplaced: User, memberToBeAdded: User): Promise<boolean> {
-    this.removeMember(team, memberToBeReplaced, false);
+    this.removeMember(team, memberToBeReplaced);
 
     const isMemberToBeAddedAlreadyInTeam = team.members.some(
       member => member.user_id === memberToBeAdded.user_id
     );
 
     if (!isMemberToBeAddedAlreadyInTeam) {
-      this.addMember(team, memberToBeAdded, false);
+      return this.addMember(team, memberToBeAdded);
+    } else {
+      return this.teamFactory.upsert(team);
     }
-
-    return this.teamFactory.upsert(team);
   }
 }
