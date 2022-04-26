@@ -50,7 +50,7 @@ export class MemberFormComponent implements OnInit {
   public savingFailedMessage = null;
   public isSavingSuccess = false;
 
-  public isDeduplicationDetectedInternally = false;
+  public isDeduplicationTriggeredInternally = false;
 
   @Input() member: User | MemberFormFields;
   @Input() team: Team;
@@ -138,7 +138,7 @@ export class MemberFormComponent implements OnInit {
     this.duplicateUsers = await this.checkForDuplicateTeamMembers();
 
     if (this.duplicateUsers.length) {
-      this.isDeduplicationDetectedInternally = true;
+      this.isDeduplicationTriggeredInternally = true;
       return;
     }
 
@@ -327,7 +327,7 @@ export class MemberFormComponent implements OnInit {
     this.imageUploadErrorMessage = '';
     this.errorMessage = '';
     this.picture = '';
-    this.isDeduplicationDetectedInternally = false;
+    this.isDeduplicationTriggeredInternally = false;
     this.memberForm.reset();
   }
 }

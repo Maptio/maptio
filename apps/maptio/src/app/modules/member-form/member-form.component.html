@@ -141,7 +141,7 @@
   </span>
 
   <div
-    *ngIf="duplicateUsers.length && !isDeduplicationDetectedInternally && !errorMessage"
+    *ngIf="duplicateUsers.length && !isDeduplicationTriggeredInternally && !errorMessage"
     class="alert alert-warning"
     role="alert"
   >
@@ -180,7 +180,7 @@
   </div>
 
   <div
-    *ngIf="duplicateUsers.length && isDeduplicationDetectedInternally && !errorMessage"
+    *ngIf="duplicateUsers.length && isDeduplicationTriggeredInternally && !errorMessage"
     class="alert alert-warning"
     role="alert"
   >
