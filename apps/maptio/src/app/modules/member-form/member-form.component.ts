@@ -125,7 +125,7 @@ export class MemberFormComponent implements OnInit {
     this.imageUploadErrorMessage = errorMessage;
   }
 
-  async save() {
+  async save(performDeduplication = true) {
     if (!this.memberForm.valid) {
       this.isSubmissionAttempted = true;
       return;
@@ -135,11 +135,13 @@ export class MemberFormComponent implements OnInit {
     this.lastname = this.memberForm.controls['lastname'].value;
     this.email = this.memberForm.controls['email'].value;
 
-    this.duplicateUsers = await this.checkForDuplicateTeamMembers();
+    if (performDeduplication) {
+      this.duplicateUsers = await this.checkForDuplicateTeamMembers();
 
-    if (this.duplicateUsers.length) {
-      this.isDeduplicationTriggeredInternally = true;
-      return;
+      if (this.duplicateUsers.length) {
+        this.isDeduplicationTriggeredInternally = true;
+        return;
+      }
     }
 
     this.isSaving = true;
@@ -285,6 +287,13 @@ export class MemberFormComponent implements OnInit {
 
   onCancelDeduplication() {
     this.duplicateUsers = [];
+  }
+
+  onIgnoreDeduplicationWarning() {
+    this.onCancelDeduplication();
+
+    // Run save method again, this time without performing deduplication
+    this.save(false);
   }
 
   async onMergeDuplicateUsers() {
