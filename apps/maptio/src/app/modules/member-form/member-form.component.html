@@ -141,7 +141,46 @@
   </span>
 
   <div
-    *ngIf="duplicateUsers.length && !errorMessage"
+    *ngIf="duplicateUsers.length && !isDeduplicationDetectedInternally && !errorMessage"
+    class="alert alert-warning"
+    role="alert"
+  >
+    <p>
+      This email address is already associated with an existing Maptio user:
+    </p>
+
+    <maptio-member
+      *ngFor="let duplicateUser of duplicateUsers"
+      [member]="duplicateUser"
+      class="d-block mb-2"
+    ></maptio-member>
+
+    <p>
+      Would you like to add this user to your organisation, or change to a
+      different email address?
+    </p>
+
+    <div class="d-flex justify-content-end mt-3">
+      <button
+        type="button"
+        class="btn btn-outline-secondary mr-2"
+        (click)="onCancelMergingDuplicateUsers()"
+      >
+        Change email
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="onMergeDuplicateUsers()"
+      >
+        Add existing user
+      </button>
+    </div>
+  </div>
+
+  <div
+    *ngIf="duplicateUsers.length && isDeduplicationDetectedInternally && !errorMessage"
     class="alert alert-warning"
     role="alert"
   >
