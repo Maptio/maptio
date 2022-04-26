@@ -185,19 +185,28 @@
     role="alert"
   >
     <p>
-      This email address is already associated with an existing Maptio user:
+      A person with this name and/or email address is already a member of your organisation.
+      Would you like to add this existing person instead?
     </p>
 
-    <maptio-member
+    <div
       *ngFor="let duplicateUser of duplicateUsers"
-      [member]="duplicateUser"
-      class="d-block mb-2"
-    ></maptio-member>
+    >
+      <maptio-member
+        [member]="duplicateUser"
+        class="d-block mb-2"
+      ></maptio-member>
 
-    <p>
-      Would you like to add this user to your organisation, or change to a
-      different email address?
-    </p>
+      <div class="d-flex justify-content-end mt-3">
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="onChooseMemberViaDeduplication(duplicateUser)"
+        >
+          Yes, add this person instead
+        </button>
+      </div>
+    </div>
 
     <div class="d-flex justify-content-end mt-3">
       <button
@@ -205,15 +214,15 @@
         class="btn btn-outline-secondary mr-2"
         (click)="onCancelMergingDuplicateUsers()"
       >
-        Change email
+        No, edit new person
       </button>
 
       <button
         type="button"
-        class="btn btn-success"
-        (click)="onMergeDuplicateUsers()"
+        class="btn btn-outline-secondary mr-2"
+        (click)="onCancelMergingDuplicateUsers()"
       >
-        Add existing user
+        No, add new person
       </button>
     </div>
   </div>
