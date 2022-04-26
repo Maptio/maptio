@@ -492,6 +492,37 @@ export class UserService implements OnDestroy {
    * Detecting and handling duplication
    */
 
+  public async checkForDuplicateTeamMembers(
+    team: Team,
+    email: string,
+    firstname: string,
+    lastname: string
+  ): Promise<User[]> {
+    const teamMembers = team.members;
+    const name = `${firstname} ${lastname}`;
+    let duplicateUsers: User[] = [];
+
+    if (email) {
+      duplicateUsers = duplicateUsers.concat(
+        teamMembers.filter(member => member.email === email)
+      );
+    }
+
+    if (name) {
+      duplicateUsers = duplicateUsers.concat(
+        teamMembers.filter(
+          member => this.areStringsAlmostIdentical(member.name, name)
+        )
+      );
+    }
+
+    return duplicateUsers;
+  }
+
+  private areStringsAlmostIdentical(string1: string, string2: string): boolean {
+    return string1.trim().localeCompare(string2.trim()) === 0;
+  }
+
   public async checkForDuplication(user: User): Promise<User[]> {
     let duplicateUsers: User[] = [];
 
