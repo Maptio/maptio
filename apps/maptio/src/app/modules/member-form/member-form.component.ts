@@ -138,6 +138,7 @@ export class MemberFormComponent implements OnInit {
     this.duplicateUsers = await this.checkForDuplicateTeamMembers();
 
     if (this.duplicateUsers.length) {
+      this.isDeduplicationDetectedInternally = true;
       return;
     }
 
@@ -321,6 +322,7 @@ export class MemberFormComponent implements OnInit {
     this.imageUploadErrorMessage = '';
     this.errorMessage = '';
     this.picture = '';
+    this.isDeduplicationDetectedInternally = false;
     this.memberForm.reset();
   }
 }
