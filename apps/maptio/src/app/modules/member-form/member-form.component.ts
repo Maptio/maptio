@@ -50,6 +50,8 @@ export class MemberFormComponent implements OnInit {
   public savingFailedMessage = null;
   public isSavingSuccess = false;
 
+  public isDeduplicationDetectedInternally = false;
+
   @Input() member: User | MemberFormFields;
   @Input() team: Team;
   @Input() showCancelButton = false;
@@ -133,6 +135,12 @@ export class MemberFormComponent implements OnInit {
     this.lastname = this.memberForm.controls['lastname'].value;
     this.email = this.memberForm.controls['email'].value;
 
+    this.duplicateUsers = await this.checkForDuplicateTeamMembers();
+
+    if (this.duplicateUsers.length) {
+      return;
+    }
+
     this.isSaving = true;
 
     if (this.isEditingExistingUser && !this.isUserSignUp) {
@@ -147,6 +155,15 @@ export class MemberFormComponent implements OnInit {
     this.isSubmissionAttempted = false;
     this.isSaving = false;
     this.cd.markForCheck();
+  }
+
+  private async checkForDuplicateTeamMembers() {
+    return this.userService.checkForDuplicateTeamMembers(
+      this.team,
+      this.email,
+      this.firstname,
+      this.lastname,
+    );
   }
 
   private async createUserAndAddToTeam() {
