@@ -283,7 +283,7 @@ export class MemberFormComponent implements OnInit {
     this.cancel.emit();
   }
 
-  onCancelMergingDuplicateUsers() {
+  onCancelDeduplication() {
     this.duplicateUsers = [];
   }
 
