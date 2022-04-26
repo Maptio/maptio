@@ -318,6 +318,11 @@ export class MemberFormComponent implements OnInit {
     }
   }
 
+  onChooseMemberViaDeduplication(member: User) {
+    this.addMember.emit(member);
+    this.reset();
+  }
+
   private reset() {
     this.imageUploadErrorMessage = '';
     this.errorMessage = '';
