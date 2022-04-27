@@ -187,7 +187,7 @@
     <p>
       <span *ngIf="duplicateUsers.length === 1; else multiplePeople">A person</span>
       with this 
-      <span *ngIf="memberForm.controls['email']; else duplicationOnName">email address </span>
+      <span *ngIf="memberForm.controls['email'].value; else duplicationOnName">email address </span>
       <span *ngIf="duplicateUsers.length === 1; else are">is</span>
       already
       <span *ngIf="duplicateUsers.length === 1; else members">a member</span>
