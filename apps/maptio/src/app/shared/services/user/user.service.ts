@@ -520,7 +520,11 @@ export class UserService implements OnDestroy {
   }
 
   private areStringsAlmostIdentical(string1: string, string2: string): boolean {
-    return string1.trim().localeCompare(string2.trim()) === 0;
+    return string1.trim().localeCompare(
+      string2.trim(),
+      undefined, // locale not specified
+      { sensitivity: 'base' } // case insensitive, among other things
+    ) === 0;
   }
 
   public async checkForDuplication(user: User): Promise<User[]> {
