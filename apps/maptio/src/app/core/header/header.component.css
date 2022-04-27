@@ -6,16 +6,6 @@
   max-width: 36px;
 }
 
-.brand-logo {
-  /* min-height: 100%; */
-  /* margin-right: 10px; */
-  background: url(/assets/images/logo.png);
-  background-repeat: no-repeat;
-  background-size: contain;
-  width: 50px;
-  height: 31px;
-}
-
 #saving {
   -moz-animation: cssAnimation 0s ease-in 2s forwards;
   /* Firefox */
