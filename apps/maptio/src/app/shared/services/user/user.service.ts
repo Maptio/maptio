@@ -506,9 +506,7 @@ export class UserService implements OnDestroy {
       duplicateUsers = duplicateUsers.concat(
         teamMembers.filter(member => member.email === email)
       );
-    }
-
-    if (name) {
+    } else if (name) {
       duplicateUsers = duplicateUsers.concat(
         teamMembers.filter(
           member => this.areStringsAlmostIdentical(member.name, name)
