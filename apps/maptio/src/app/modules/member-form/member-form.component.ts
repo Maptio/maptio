@@ -56,6 +56,7 @@ export class MemberFormComponent implements OnInit {
   @Input() team: Team;
   @Input() showCancelButton = false;
   @Input() disableEmailInput = false;
+  @Input() disableDeduplication = false;
   @Input() duplicateUsers: User[] = [];
   @Output() addMember = new EventEmitter<User>();
   @Output() editMember = new EventEmitter();
@@ -135,7 +136,12 @@ export class MemberFormComponent implements OnInit {
     this.lastname = this.memberForm.controls['lastname'].value;
     this.email = this.memberForm.controls['email'].value;
 
-    if (performDeduplication) {
+    if (
+      performDeduplication
+      && !this.disableDeduplication
+      && !this.isEditingExistingUser
+      && !this.isUserSignUp
+    ) {
       this.duplicateUsers = await this.checkForDuplicateTeamMembers();
 
       if (this.duplicateUsers.length) {
@@ -328,6 +334,7 @@ export class MemberFormComponent implements OnInit {
   }
 
   onChooseMemberViaDeduplication(member: User) {
+    console.log('onChooseMemberViaDeduplication');
     this.addMember.emit(member);
     this.reset();
   }
@@ -336,6 +343,7 @@ export class MemberFormComponent implements OnInit {
     this.imageUploadErrorMessage = '';
     this.errorMessage = '';
     this.picture = '';
+    this.duplicateUsers = [];
     this.isDeduplicationTriggeredInternally = false;
     this.memberForm.reset();
   }
