@@ -334,7 +334,6 @@ export class MemberFormComponent implements OnInit {
   }
 
   onChooseMemberViaDeduplication(member: User) {
-    console.log('onChooseMemberViaDeduplication');
     this.addMember.emit(member);
     this.reset();
   }
