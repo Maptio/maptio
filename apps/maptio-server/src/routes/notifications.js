@@ -32,7 +32,7 @@ router.post('/send', function (req, res, next) {
         //         "image_url": imageUrl,
         //         "thumb_url": imageUrl,
         //         "footer": "Maptio",
-        //         "footer_icon": "https://app.maptio.com/assets/images/logo-full.png",
+        //         "footer_icon": "https://app.maptio.com/assets/images/logo.png",
         //         "ts": time
         //     }
         // ]

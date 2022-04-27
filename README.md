@@ -1,4 +1,4 @@
-![Maptio Logo](https://user-images.githubusercontent.com/29975080/165537928-0108a00f-98a6-4ec3-bef8-83046be8034d.jpg)
+![Maptio Logo](./apps/maptio/src/assets/images/logo-with-name.png)
 
 # Maptio
 

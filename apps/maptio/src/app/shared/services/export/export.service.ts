@@ -78,7 +78,7 @@ export class ExportService {
                         image_url: imageUrl,
                         thumb_url: imageUrl,
                         footer: "Maptio",
-                        footer_icon: "https://app.maptio.com/assets/images/logo-full.png",
+                        footer_icon: "https://app.maptio.com/assets/images/logo.png",
                         // ts: Date.now()
                     }]
 
