@@ -7,6 +7,7 @@ export const environment = {
     TOS_URL: "https://termsfeed.com/terms-conditions/f0e548940bde8842b1fb58637ae048c0",
     PRIVACY_URL: "https://termsfeed.com/privacy-policy/9a9cf258899b266a6aed7997c9a8044c",
     BLOG_URL: "https://medium.com/maptio",
+    WIKI_URL: "https://github.com/Maptio/maptio/wiki/Maptio-Help-and-Support",
     SUPPORT_EMAIL: "support@maptio.com",
     MAPTIO_API_URL: "https://app.maptio.com/api/v1",
     MIXPANEL_TOKEN: "de90e67220137ed9cab9510a84ba7ecf",
@@ -17,8 +18,8 @@ export const environment = {
     CLOUDINARY_UPLOAD_PRESET: "rk6tzs5q",
     CLOUDINARY_PROFILE_TAGNAME: "profile",
 
-    KB_URL_PERMISSIONS: "https://maptio.outseta.com/support/kb#/articles/bB9l5DW8/managing-permissions",
-    KB_URL_HOME: "https://maptio.outseta.com/support/kb",
+    KB_URL_PERMISSIONS: "https://github.com/Maptio/maptio/wiki/User-permission-types",
+    KB_URL_HOME: "https://github.com/Maptio/maptio/wiki/Maptio-Help-and-Support",
     KB_URL_INTEGRATIONS: "https://maptio.outseta.com/support/kb#/articles/2amRZEmJ/integrations",
 
     MESSAGE_PERMISSIONS_DENIED_EDIT: "You don't have permissions to edit this",

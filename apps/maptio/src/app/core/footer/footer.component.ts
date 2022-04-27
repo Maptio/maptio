@@ -13,6 +13,7 @@ export class FooterComponent {
     public TOS_URL: string = environment.TOS_URL
     public PRIVACY_URL: string = environment.PRIVACY_URL
     public BLOG_URL: string = environment.BLOG_URL;
+    public WIKI_URL: string = environment.WIKI_URL;
     public today  = Date.now();
 
     constructor() { }
