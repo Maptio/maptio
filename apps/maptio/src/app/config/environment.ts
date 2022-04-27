@@ -7,6 +7,7 @@ export const environment = {
     TOS_URL: "https://termsfeed.com/terms-conditions/f0e548940bde8842b1fb58637ae048c0",
     PRIVACY_URL: "https://termsfeed.com/privacy-policy/9a9cf258899b266a6aed7997c9a8044c",
     BLOG_URL: "https://medium.com/maptio",
+    WIKI_URL: "https://github.com/Maptio/maptio/wiki/Maptio-Help-and-Support",
     SUPPORT_EMAIL: "support@maptio.com",
     MAPTIO_API_URL: "https://app.maptio.com/api/v1",
     MIXPANEL_TOKEN: "de90e67220137ed9cab9510a84ba7ecf",
