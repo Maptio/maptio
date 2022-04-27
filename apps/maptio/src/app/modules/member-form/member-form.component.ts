@@ -50,10 +50,13 @@ export class MemberFormComponent implements OnInit {
   public savingFailedMessage = null;
   public isSavingSuccess = false;
 
+  public isDeduplicationTriggeredInternally = false;
+
   @Input() member: User | MemberFormFields;
   @Input() team: Team;
   @Input() showCancelButton = false;
   @Input() disableEmailInput = false;
+  @Input() disableDeduplication = false;
   @Input() duplicateUsers: User[] = [];
   @Output() addMember = new EventEmitter<User>();
   @Output() editMember = new EventEmitter();
@@ -123,7 +126,7 @@ export class MemberFormComponent implements OnInit {
     this.imageUploadErrorMessage = errorMessage;
   }
 
-  async save() {
+  async save(performDeduplication = true) {
     if (!this.memberForm.valid) {
       this.isSubmissionAttempted = true;
       return;
@@ -132,6 +135,20 @@ export class MemberFormComponent implements OnInit {
     this.firstname = this.memberForm.controls['firstname'].value;
     this.lastname = this.memberForm.controls['lastname'].value;
     this.email = this.memberForm.controls['email'].value;
+
+    if (
+      performDeduplication
+      && !this.disableDeduplication
+      && !this.isEditingExistingUser
+      && !this.isUserSignUp
+    ) {
+      this.duplicateUsers = await this.checkForDuplicateTeamMembers();
+
+      if (this.duplicateUsers.length) {
+        this.isDeduplicationTriggeredInternally = true;
+        return;
+      }
+    }
 
     this.isSaving = true;
 
@@ -147,6 +164,15 @@ export class MemberFormComponent implements OnInit {
     this.isSubmissionAttempted = false;
     this.isSaving = false;
     this.cd.markForCheck();
+  }
+
+  private async checkForDuplicateTeamMembers() {
+    return this.userService.checkForDuplicateTeamMembers(
+      this.team,
+      this.email,
+      this.firstname,
+      this.lastname,
+    );
   }
 
   private async createUserAndAddToTeam() {
@@ -265,8 +291,15 @@ export class MemberFormComponent implements OnInit {
     this.cancel.emit();
   }
 
-  onCancelMergingDuplicateUsers() {
+  onCancelDeduplication() {
     this.duplicateUsers = [];
+  }
+
+  onIgnoreDeduplicationWarning() {
+    this.onCancelDeduplication();
+
+    // Run save method again, this time without performing deduplication
+    this.save(false);
   }
 
   async onMergeDuplicateUsers() {
@@ -300,10 +333,17 @@ export class MemberFormComponent implements OnInit {
     }
   }
 
+  onChooseMemberViaDeduplication(member: User) {
+    this.addMember.emit(member);
+    this.reset();
+  }
+
   private reset() {
     this.imageUploadErrorMessage = '';
     this.errorMessage = '';
     this.picture = '';
+    this.duplicateUsers = [];
+    this.isDeduplicationTriggeredInternally = false;
     this.memberForm.reset();
   }
 }

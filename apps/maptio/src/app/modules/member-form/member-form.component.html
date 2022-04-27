@@ -141,7 +141,7 @@
   </span>
 
   <div
-    *ngIf="duplicateUsers.length && !errorMessage"
+    *ngIf="duplicateUsers.length && !isDeduplicationTriggeredInternally && !errorMessage"
     class="alert alert-warning"
     role="alert"
   >
@@ -164,7 +164,7 @@
       <button
         type="button"
         class="btn btn-outline-secondary mr-2"
-        (click)="onCancelMergingDuplicateUsers()"
+        (click)="onCancelDeduplication()"
       >
         Change email
       </button>
@@ -175,6 +175,64 @@
         (click)="onMergeDuplicateUsers()"
       >
         Add existing user
+      </button>
+    </div>
+  </div>
+
+  <div
+    *ngIf="duplicateUsers.length && isDeduplicationTriggeredInternally && !errorMessage"
+    class="alert alert-warning"
+    role="alert"
+  >
+    <p>
+      <span *ngIf="duplicateUsers.length === 1; else multiplePeople">A person</span>
+      with this 
+      <span *ngIf="member.email; else duplicationOnName">email address</span>
+      <span *ngIf="duplicateUsers.length === 1; else are">is</span>
+      already
+      <span *ngIf="duplicateUsers.length === 1; else members">a member</span>
+      of your organisation.
+      Would you like to add them instead?
+    </p>
+
+    <ng-template #multiplePeople>Multiple people</ng-template>
+    <ng-template #duplicationOnName>name </ng-template>
+    <ng-template #are>are</ng-template>
+    <ng-template #members>members</ng-template>
+
+    <div
+      *ngFor="let duplicateUser of duplicateUsers"
+    >
+      <maptio-member
+        [member]="duplicateUser"
+        [isVertical]="true"
+        class="d-block mb-2"
+      ></maptio-member>
+
+      <button
+        type="button"
+        class="btn btn-success mt-0 mb-4"
+        (click)="onChooseMemberViaDeduplication(duplicateUser)"
+      >
+        Yes, add this person instead
+      </button>
+    </div>
+
+    <div class="d-flex row container justify-content-start">
+      <button
+        type="button"
+        class="btn btn-outline-secondary mr-2"
+        (click)="onIgnoreDeduplicationWarning()"
+      >
+        No, add new person
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="onCancelDeduplication()"
+      >
+        Cancel
       </button>
     </div>
   </div>
