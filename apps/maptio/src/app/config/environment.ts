@@ -18,8 +18,8 @@ export const environment = {
     CLOUDINARY_UPLOAD_PRESET: "rk6tzs5q",
     CLOUDINARY_PROFILE_TAGNAME: "profile",
 
-    KB_URL_PERMISSIONS: "https://maptio.outseta.com/support/kb#/articles/bB9l5DW8/managing-permissions",
-    KB_URL_HOME: "https://maptio.outseta.com/support/kb",
+    KB_URL_PERMISSIONS: "https://github.com/Maptio/maptio/wiki/User-permission-types",
+    KB_URL_HOME: "https://github.com/Maptio/maptio/wiki/Maptio-Help-and-Support",
     KB_URL_INTEGRATIONS: "https://maptio.outseta.com/support/kb#/articles/2amRZEmJ/integrations",
 
     MESSAGE_PERMISSIONS_DENIED_EDIT: "You don't have permissions to edit this",
