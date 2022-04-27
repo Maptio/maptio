@@ -194,35 +194,34 @@
     >
       <maptio-member
         [member]="duplicateUser"
+        [isVertical]="true"
         class="d-block mb-2"
       ></maptio-member>
 
-      <div class="d-flex justify-content-end mt-3">
-        <button
-          type="button"
-          class="btn btn-success"
-          (click)="onChooseMemberViaDeduplication(duplicateUser)"
-        >
-          Yes, add this person instead
-        </button>
-      </div>
-    </div>
-
-    <div class="d-flex justify-content-end mt-3">
       <button
         type="button"
-        class="btn btn-outline-secondary mr-2"
-        (click)="onCancelDeduplication()"
+        class="btn btn-success mt-0 mb-4"
+        (click)="onChooseMemberViaDeduplication(duplicateUser)"
       >
-        No, edit new person
+        Yes, add this person instead
       </button>
+    </div>
 
+    <div class="d-flex row container justify-content-start">
       <button
         type="button"
         class="btn btn-outline-secondary mr-2"
         (click)="onIgnoreDeduplicationWarning()"
       >
         No, add new person
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="onCancelDeduplication()"
+      >
+        Cancel
       </button>
     </div>
   </div>

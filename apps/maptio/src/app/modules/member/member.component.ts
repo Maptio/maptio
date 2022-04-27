@@ -10,4 +10,5 @@ import { User } from '@maptio-shared/model/user.data';
 })
 export class MemberComponent {
   @Input() member: User;
+  @Input() isVertical = false;
 }
