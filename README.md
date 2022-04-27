@@ -1,4 +1,4 @@
-![Maptio Logo](./apps/maptio/src/assets/images/logo-full.png)
+![Maptio Logo](https://user-images.githubusercontent.com/29975080/165537928-0108a00f-98a6-4ec3-bef8-83046be8034d.jpg)
 
 # Maptio
 
@@ -10,7 +10,6 @@ So that people throughout the organisation can:
 - see how responsibilities throughout the organisation feed into the greater system
 - enjoy greater transparency
 - avoid the tyranny of heavy-weight processes, bureaucracy and excessive management.
-
 
 ## Introduction
 
