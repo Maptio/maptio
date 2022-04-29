@@ -37,7 +37,15 @@ export function markedOptionsFactory(): MarkedOptions {
     const renderer = new MarkedRenderer();
 
     renderer.link = (href: string, title: string, text: string) => {
-        return `<a href=${href} class="markdown-link" target="_blank" title=${title}>${text}</a>`;
+        let linkHtml = `<a href=${href} class="markdown-link" target="_blank"`;
+
+        if (title) {
+          linkHtml += ` title="${title}"`;
+        }
+
+        linkHtml += `>${text}</a>`;
+
+        return linkHtml;
     }
 
     renderer.paragraph = (text: string) => {
