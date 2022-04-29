@@ -40,7 +40,7 @@ export function markedOptionsFactory(): MarkedOptions {
         let linkHtml = `<a href=${href} class="markdown-link" target="_blank"`
 
         if (title) {
-          linkHtml += ` title=${title}`;
+          linkHtml += ` title="${title}"`;
         }
 
         linkHtml += `>${text}</a>`;
