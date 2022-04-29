@@ -54,6 +54,7 @@ export class MemberFormComponent implements OnInit {
 
   @Input() member: User | MemberFormFields;
   @Input() team: Team;
+  @Input() splitName = false;
   @Input() showCancelButton = false;
   @Input() disableEmailInput = false;
   @Input() disableDeduplication = false;
@@ -84,8 +85,18 @@ export class MemberFormComponent implements OnInit {
     });
 
     if (this.member) {
-      this.memberForm.controls['firstname'].setValue(this.member.firstname);
-      this.memberForm.controls['lastname'].setValue(this.member.lastname);
+      // Ugly workaround for when we get the first name from an autocomplete
+      // name input in the circle details panel. This is meant to be replaced
+      // in the future by a single name field!
+      if (this.splitName) {
+        const [firstWord, ...remainingWords] = this.member.firstname.split(' ').filter(Boolean);
+        this.memberForm.controls['firstname'].setValue(firstWord);
+        this.memberForm.controls['lastname'].setValue(remainingWords.join(' '));
+      } else {
+        this.memberForm.controls['firstname'].setValue(this.member.firstname);
+        this.memberForm.controls['lastname'].setValue(this.member.lastname);
+      }
+
       this.memberForm.controls['email'].setValue(this.member.email);
 
       this.picture = this.member.picture;
