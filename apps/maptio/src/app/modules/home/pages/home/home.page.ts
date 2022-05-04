@@ -12,7 +12,7 @@ import { Team } from '@maptio-shared/model/team.data';
 import { User } from '@maptio-shared/model/user.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 import { LoaderService } from '@maptio-shared/components/loading/loader.service';
-import { InstructionsService } from '@maptio-shared/components/instructions/instructions.service';
+import { OnboardingService } from '@maptio-shared/components/onboarding/onboarding.service';
 
 
 @Component({
@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     public teamFactory: TeamFactory,
     public userService: UserService,
     public loaderService: LoaderService,
-    private instructions: InstructionsService
+    private onboardingService: OnboardingService,
   ) {}
 
   ngOnInit(): void {
@@ -58,12 +58,16 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.teams = data.teams;
             this.datasets = data.datasets;
             this.user = data.user;
+
             this.isLoading = false;
-            if (isEmpty(this.teams)) {
-              this.instructions.openWelcome(this.user);
+
+            this.isOnboarding = isEmpty(this.teams);
+            if (this.isOnboarding) {
+              this.onboardingService.open(this.user);
             }
+
             EmitterService.get('currentTeam').emit(this.teams[0]);
-            this.isOnboarding = isEmpty(this.user.teams);
+
             this.cd.markForCheck();
             this.loaderService.hide();
           });
