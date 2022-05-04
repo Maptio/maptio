@@ -62,6 +62,7 @@ export class OnboardingComponent implements OnInit {
 
         if (this.user.teams.length === 0) {
             this.team = new Team({ name: '' });
+            console.log('creating team', this.team);
         } else {
             // TODO: In the future, when we get rid of all old data with
             // example teams, we will be able to remove this.
@@ -127,6 +128,7 @@ export class OnboardingComponent implements OnInit {
             }
         }
         else if (this.currentStep === "Ending") {
+            this.sendOnboardingEventToMixpanel();
             return this.router.navigateByUrl(`/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}`)
                 .then(() => {
                     this.cd.markForCheck();
@@ -141,6 +143,17 @@ export class OnboardingComponent implements OnInit {
 
     }
 
+    private sendOnboardingEventToMixpanel() {
+        this.mixpanel.eventTrack("Onboarding", {
+            step: this.steps[this.currentIndex-1],
+            members : this.members.length,
+            authority : this.team.settings.authority,
+            helper:this.team.settings.helper,
+            mapName: this.mapName,
+            isCreateEmptyMap:this.isCreatingEmptyMap
+        });
+    }
+
     private goToNextStep() {
         this.currentIndex += 1;
         this.currentStep = this.steps[this.currentIndex]
@@ -151,14 +164,6 @@ export class OnboardingComponent implements OnInit {
         this.progress = this.getProgress()
         this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
 
-        this.mixpanel.eventTrack("Onboarding", {
-            step: this.steps[this.currentIndex-1],
-            members : this.members.length,
-            authority : this.team.settings.authority,
-            helper:this.team.settings.helper,
-            mapName: this.mapName,
-            isCreateEmptyMap:this.isCreatingEmptyMap
-        });
         this.cd.markForCheck();
     }
 
