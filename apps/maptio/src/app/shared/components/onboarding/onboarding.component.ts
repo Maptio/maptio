@@ -60,15 +60,26 @@ export class OnboardingComponent implements OnInit {
         this.progress = this.getProgress()
         this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
 
+        if (this.user.teams.length === 0) {
+            this.team = new Team({ name: '' });
+        } else {
+            // TODO: In the future, when we get rid of all old data with
+            // example teams, we will be able to remove this.
+            this.getFirstNonExampleTeamOrCreateNewOne();
+        }
+
+    }
+
+    private getFirstNonExampleTeamOrCreateNewOne() {
         this.teamService.get(this.user)
             .then((teams: Team[]) => {
-                let nonExampleTeams = teams.filter(t => !t.isExample);
+                const nonExampleTeams = teams.filter(t => !t.isExample);
                 if (nonExampleTeams.length === 1) {
                     this.team = nonExampleTeams[0];
                 } else {
                     this.team = new Team({ name: '' });
                 }
-            })
+            });
     }
 
     close() {
