@@ -27,7 +27,6 @@ import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
 import { MappingSummaryBreadcrumbs } from './breadcrumbs/summary.breadcrumb';
 import { OnboardingModule } from '../shared/onboarding.module';
-import { InstructionsComponent } from '../shared/components/instructions/instructions.component';
 import { OnboardingComponent } from '../shared/components/onboarding/onboarding.component';
 import { LoginModule } from 'app/modules/login/login.module';
 import { LoginErrorPageComponent } from './login-error/login-error.page';
