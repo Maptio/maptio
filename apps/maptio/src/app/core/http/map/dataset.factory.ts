@@ -47,7 +47,7 @@ export class DatasetFactory {
    */
   create(dataset: DataSet): Promise<DataSet> {
     dataset.shortid = shortid.generate();
-    if (!dataset) throw new Error('Parameter missing');
+    if (!dataset) throw new Error('Parameter missing - on dataset creation');
     return this.http
       .post('/api/v1/dataset', dataset)
       .pipe(
@@ -106,7 +106,7 @@ export class DatasetFactory {
     isMinimal?: boolean
   ): Promise<DataSet> | Promise<DataSet[]> | Promise<string[]> {
     if (!idOrUserOrTeam)
-      return Promise.reject('Parameter missing') as Promise<DataSet>;
+      return Promise.reject('Parameter missing - on dataset retrieval') as Promise<DataSet>;
     if (idOrUserOrTeam instanceof User) {
       return this.getWithUser(<User>idOrUserOrTeam);
     }

@@ -157,6 +157,7 @@ export class OnboardingComponent implements OnInit {
     private goToNextStep() {
         this.currentIndex += 1;
         this.currentStep = this.steps[this.currentIndex]
+        console.log('current step', this.currentStep);
         this.nextActionName = this.getNextActionName();
         this.previousActionName = this.getPreviousActionName();
         this.isClosable = this.getIsClosable();
