@@ -13,14 +13,6 @@
     <ng-container *ngIf="currentStep === 'Terminology'">
         <ng-container *ngTemplateOutlet="terminology"></ng-container>
     </ng-container>
-
-    <ng-container *ngIf="currentStep === 'PickColor'">
-        <ng-container *ngTemplateOutlet="pickcolor"></ng-container>
-    </ng-container>
-
-    <ng-container *ngIf="currentStep === 'Ending'">
-        <ng-container *ngTemplateOutlet="ending"></ng-container>
-    </ng-container>
 </common-modal>
 
 <ng-template #welcome>
@@ -101,41 +93,5 @@
 
     <div class="my-5 ">
         <onboarding-add-terminology [team]="team" (saved)="onTerminologySaved($event)"></onboarding-add-terminology>
-
     </div>
-
-</ng-template>
-
-<ng-template #ending>
-
-    <div class="d-flex justify-content-center align-items-center flex-column text-gradient-gold">
-        <i class="d-none d-md-block fas fa-trophy  icon-ending"></i>
-        <i class="d-md-none fas fa-trophy  icon-ending-xs"></i>
-        <h1>Nice one!</h1>
-    </div>
-
-    <div class="d-flex justify-content-center align-items-center flex-column my-3">
-
-        <h4 class="text-muted">Your map is ready. Go and create some circles, we'll be here if you need us.</h4>
-    </div>
-
-
-
-    <!-- <h4 class="my-5">
-        You can start mapping right away. Any questions?
-        <ul class="ml-2 my-3">
-            <li class="h6 py-2"> Start a chat with us or email us at support@maptio.com</li>
-            <li class="h6 py-2"> Read our
-                <a target="blank" href="https://medium.com/maptio/create-organisational-clarity-using-initiative-mapping-967069247380">free guide</a> to mapping your organisation
-            </li>
-            <li class="h6 py-2">
-                <a target="blank" href="https://calendly.com/tomnixon/30min">Book a free mastery call</a> with Maptio founder Tom Nixon
-
-            </li>
-
-        </ul>
-    </h4> -->
-    <!-- <h4>Look forward to talking to you!</h4> -->
-
-
 </ng-template>

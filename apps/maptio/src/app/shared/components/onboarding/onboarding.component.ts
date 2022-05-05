@@ -110,7 +110,7 @@ export class OnboardingComponent implements OnInit {
                     })
             }
         }
-        else if (this.currentStep === "Ending") {
+        else if (this.currentStep === "Terminology") {
             this.sendOnboardingEventToMixpanel();
 
             return this.createMap(this.mapName)
@@ -198,7 +198,7 @@ export class OnboardingComponent implements OnInit {
         switch (this.currentStep) {
             case "Welcome":
                 return "Start";
-            case "Ending":
+            case "Terminology":
                 return "Start mapping";
             default:
                 return "Next";
@@ -217,8 +217,7 @@ export class OnboardingComponent implements OnInit {
         return false;
     }
 
-    onTerminologySaved(team:Team){
-        this.nextActionName = "Next";
+    onTerminologySaved(team:Team) {
         this.isSkippable = false;
         this.cd.markForCheck();
     }
