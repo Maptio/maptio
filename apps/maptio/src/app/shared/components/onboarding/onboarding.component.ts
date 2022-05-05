@@ -116,9 +116,8 @@ export class OnboardingComponent implements OnInit {
                 this.mapCreationErrorMessage = "We need a map name to continue.";
                 this.cd.markForCheck();
                 return;
-            }
-            else {
-                this.saveMap()
+            } else {
+                this.createMap(this.mapName, this.isCreatingEmptyMap)
                     .then(dataset => {
                         this.dataset = dataset;
                         this.mapCreationErrorMessage = null;
@@ -189,16 +188,6 @@ export class OnboardingComponent implements OnInit {
                 } else {
                     return this.teamService.create(team.name, this.user, [this.user], false, false)
                 }
-            })
-    }
-
-    saveMap() {
-        return this.mapService.get(this.user.datasets[0])
-            .then(dataset => {
-                return this.mapService.archive(dataset)
-            })
-            .then(() => {
-                return this.createMap(this.mapName, this.isCreatingEmptyMap)
             })
     }
 
