@@ -71,19 +71,6 @@ export class TeamService {
         return this.create("", user, [], true, false);
     }
 
-    createDemoTeam(user: User) {
-        return this.userFactory.getUsers([
-            "auth0|5c091c1e14668e36dcc5fee5",
-            "auth0|5c091a8b4d578823ecbfde5d",
-            "auth0|5c09198dfb5415347c72b78c",
-            "auth0|5c0916cc0b53141eaedcaf99",
-            "google-oauth2|114631860882417255120"
-        ])
-            .then(members => {
-                return this.create("The Banana app company", user, members, false, true)
-            })
-    }
-
     renameTemporary(team: Team, name: string) {
         if (!name) return Promise.reject("Organisation name cannot be empty");
         team.name = name;
