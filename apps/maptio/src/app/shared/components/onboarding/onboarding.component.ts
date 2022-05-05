@@ -110,29 +110,20 @@ export class OnboardingComponent implements OnInit {
                     })
             }
         }
-        else if (this.currentStep === "CreateMap") {
-            if (isEmpty(this.mapName)) {
-                this.mapCreationErrorMessage = "We need a map name to continue.";
-                this.cd.markForCheck();
-                return;
-            } else {
-                this.createMap(this.mapName)
-                    .then(dataset => {
-                        this.dataset = dataset;
-                        this.mapCreationErrorMessage = null;
-                        this.goToNextStep();
-                        this.cd.markForCheck();
-                    })
-            }
-        }
         else if (this.currentStep === "Ending") {
             this.sendOnboardingEventToMixpanel();
-            return this.router.navigateByUrl(`/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}`)
+
+            return this.createMap(this.mapName)
+                .then(dataset => {
+                    this.dataset = dataset;
+                    this.mapCreationErrorMessage = null;
+
+                    return this.router.navigateByUrl(`/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}`);
+                })
                 .then(() => {
                     this.cd.markForCheck();
                     this.activeModal.close();
                 })
-
         }
         else {
             this.goToNextStep();

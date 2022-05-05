@@ -18,10 +18,6 @@
         <ng-container *ngTemplateOutlet="pickcolor"></ng-container>
     </ng-container>
 
-    <ng-container *ngIf="currentStep === 'CreateMap'">
-        <ng-container *ngTemplateOutlet="createmap"></ng-container>
-    </ng-container>
-
     <ng-container *ngIf="currentStep === 'Ending'">
         <ng-container *ngTemplateOutlet="ending"></ng-container>
     </ng-container>
@@ -108,39 +104,6 @@
 
     </div>
 
-</ng-template>
-
-<ng-template #createmap>
-    <ng-template #createmaptitle>Your map is almost ready!</ng-template>
-
-    <ng-template #createmapsubtitle>
-        <span class="text-muted">Just give a us a name, we'll create a brand new map for you.</span>
-    </ng-template>
-
-
-    <h1 class="text-center d-none d-md-block">
-        <ng-container *ngTemplateOutlet="createmaptitle"></ng-container>
-    </h1>
-    <h3 class="text-center d-md-none">
-        <ng-container *ngTemplateOutlet="createmaptitle"></ng-container>
-    </h3>
-
-
-    <h4 class="text-center d-none d-md-block">
-        <ng-container *ngTemplateOutlet="createmapsubtitle"></ng-container>
-    </h4>
-    <h6 class="text-center d-md-none">
-        <ng-container *ngTemplateOutlet="createmapsubtitle"></ng-container>
-    </h6>
-
-
-    <div class="mt-md-5 mt-3">
-        <div class="form-inline w-100 d-flex justify-content-start align-items-baseline">
-            <label for="inputMapName" class="mr-1">Map name </label>
-            <input [(ngModel)]="mapName" type="text" id="inputMapName" class="form-control col-md-6 col">
-        </div>
-        <small *ngIf="mapCreationErrorMessage" class="form-text text-danger">{{mapCreationErrorMessage}}</small>
-    </div>
 </ng-template>
 
 <ng-template #ending>
