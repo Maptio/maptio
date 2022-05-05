@@ -70,10 +70,16 @@
     <ng-template #terminologytitle>What should we call them?</ng-template>
 
     <ng-template #terminologysubtitle>
-        <span class="text-muted">What language do you use to refer to people at
-            <b>{{team.name}}</b>?</span>
+        <span class="text-muted">
+          What language do you use to refer to people at <b>{{team.name}}</b>?
+        </span>
     </ng-template>
 
+    <ng-template #settingsnote>
+        <span class="text-muted">
+            You can always change this later in the organization settings.
+        </span>
+    </ng-template>
 
     <h1 class="text-center d-none d-md-block">
         <ng-container *ngTemplateOutlet="terminologytitle"></ng-container>
@@ -91,7 +97,14 @@
     </h6>
 
 
-    <div class="my-5 ">
+    <div class="my-5">
         <onboarding-add-terminology [team]="team" (saved)="onTerminologySaved($event)"></onboarding-add-terminology>
+    </div>
+
+    <div class="h5 text-center d-none d-md-block">
+        <ng-container *ngTemplateOutlet="settingsnote"></ng-container>
+    </div>
+    <div class="h6 text-center d-md-none">
+        <ng-container *ngTemplateOutlet="settingsnote"></ng-container>
     </div>
 </ng-template>
