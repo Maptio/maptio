@@ -44,7 +44,6 @@ export class OnboardingComponent implements OnInit {
     ]
     selectedColor: string = this.COLORS[0].name;
     mapName: string;
-    isCreatingEmptyMap: boolean =true;
     isCreatingTeam: boolean;
 
     members: User[];
@@ -117,7 +116,7 @@ export class OnboardingComponent implements OnInit {
                 this.cd.markForCheck();
                 return;
             } else {
-                this.createMap(this.mapName, this.isCreatingEmptyMap)
+                this.createMap(this.mapName)
                     .then(dataset => {
                         this.dataset = dataset;
                         this.mapCreationErrorMessage = null;
@@ -149,7 +148,6 @@ export class OnboardingComponent implements OnInit {
             authority : this.team.settings.authority,
             helper:this.team.settings.helper,
             mapName: this.mapName,
-            isCreateEmptyMap:this.isCreatingEmptyMap
         });
     }
 
@@ -191,13 +189,8 @@ export class OnboardingComponent implements OnInit {
             })
     }
 
-    private createMap(name: string, isCreatingEmptyMap: boolean): Promise<DataSet> {
-        if (isCreatingEmptyMap) {
-            return this.mapService.createEmpty(name, this.team.team_id)
-        }
-        else {
-            return this.mapService.createTemplate(name, this.team.team_id)
-        }
+    private createMap(name: string): Promise<DataSet> {
+        return this.mapService.createTemplate(name, this.team.team_id)
     }
 
     getProgress() {

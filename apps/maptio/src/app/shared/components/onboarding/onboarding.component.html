@@ -137,55 +137,10 @@
     <div class="mt-md-5 mt-3">
         <div class="form-inline w-100 d-flex justify-content-start align-items-baseline">
             <label for="inputMapName" class="mr-1">Map name </label>
-
             <input [(ngModel)]="mapName" type="text" id="inputMapName" class="form-control col-md-6 col">
         </div>
         <small *ngIf="mapCreationErrorMessage" class="form-text text-danger">{{mapCreationErrorMessage}}</small>
-        <div class="my-md-5 my-3 py-4 w-100 d-flex flex-column flex-md-row justify-content-between align-items-stretch">
-            <div class="custom-control custom-radio custom-control-inline col-md-6 col-12">
-                <input type="radio" id="emptyMapRadio" name="mapOptionsRadio" [value]="isCreatingEmptyMap"
-                    (change)="isCreatingEmptyMap=true" class="custom-control-input" checked>
-                <label class="custom-control-label" for="emptyMapRadio">
-                    <div class="card cursor-pointer h-100">
-                        <div class="card-header">
-                            Give me a blank canvas
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">
-                                We'll create an empty map for you to start adding circles to.
-                            </p>
-                            <p class="card-text small">
-                                Better if you've already familiarized yourself with Maptio.</p>
-                        </div>
-                    </div>
-
-                </label>
-            </div>
-            <div class="custom-control custom-radio custom-control-inline col-md-6 col-12 mt-3 mt-md-0">
-                <input type="radio" id="instructionsMapRadio" name="mapOptionsRadio" [value]="!isCreatingEmptyMap"
-                    (change)="isCreatingEmptyMap=false" class="custom-control-input">
-                <label class="custom-control-label" for="instructionsMapRadio">
-                    <div class="card cursor-pointer h-100">
-                        <div class="card-header">
-                            Create a few circles for me
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">
-                                We'll give you some circles containing tips to get you going.
-                            </p>
-                            <p class="card-text small">
-                                Better if you'd like some extra help starting.
-                            </p>
-                        </div>
-                    </div>
-
-                </label>
-            </div>
-        </div>
     </div>
-
-
-
 </ng-template>
 
 <ng-template #ending>
