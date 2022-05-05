@@ -1,22 +1,14 @@
-<form [formGroup]="form" class="form-group d-flex flex-column  row" >
-    <div class="form-group col-12 col-md-6">
+<form [formGroup]="form" class="form-group d-flex flex-column row align-items-center" >
+    <div class="form-group col-12 col-md-10 col-lg-6">
         <input formControlName="authority" (input)="add()" required class="form-control" type="text" name="" id="" [class.is-invalid]="isInvalid('authority')">
         <small class="form-text text-muted">
             What does your organisation call the person in the main key role for each circle? e.g. Lead, Authority, Driver, Lead link,
             Source.
         </small>
     </div>
-    <div class="form-group col-12 col-md-6">
+    <div class="form-group col-12 col-md-10 col-lg-6">
         <input formControlName="helper" (input)="add()"  required class="form-control" type="text" name="" id="" [class.is-invalid]="isInvalid('helper')">
         <small class="form-text text-muted">And what do you call others contributing to an circle? e.g. Contributor, Helper, Role-holder, Sub-source.
         </small>
     </div>
-    <!-- <div class="form-group w-50 d-flex justify-content-end align-items-center">
-        <i *ngIf="isAdding" class="fas fa-circle-notch fa-spin"></i>
-        <span class="text-green mx-1 flash small" *ngIf="isAdded" [class.show]="isAdded">
-            <i class="fas fa-save"></i>Successfully saved!
-        </span>
-        <button type="submit" class="btn btn-outline-success">
-            Save</button>
-    </div> -->
 </form>
