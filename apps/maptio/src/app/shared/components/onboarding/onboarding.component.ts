@@ -44,7 +44,6 @@ export class OnboardingComponent implements OnInit {
     ]
     selectedColor: string = this.COLORS[0].name;
     mapName: string;
-    isCreatingEmptyMap: boolean =true;
     isCreatingTeam: boolean;
 
     members: User[];
@@ -60,15 +59,27 @@ export class OnboardingComponent implements OnInit {
         this.progress = this.getProgress()
         this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
 
+        if (this.user.teams.length === 0) {
+            this.team = new Team({ name: '' });
+            console.log('creating team', this.team);
+        } else {
+            // TODO: In the future, when we get rid of all old data with
+            // example teams, we will be able to remove this.
+            this.getFirstNonExampleTeamOrCreateNewOne();
+        }
+
+    }
+
+    private getFirstNonExampleTeamOrCreateNewOne() {
         this.teamService.get(this.user)
             .then((teams: Team[]) => {
-                let nonExampleTeams = teams.filter(t => !t.isExample);
+                const nonExampleTeams = teams.filter(t => !t.isExample);
                 if (nonExampleTeams.length === 1) {
                     this.team = nonExampleTeams[0];
                 } else {
                     this.team = new Team({ name: '' });
                 }
-            })
+            });
     }
 
     close() {
@@ -99,29 +110,20 @@ export class OnboardingComponent implements OnInit {
                     })
             }
         }
-        else if (this.currentStep === "CreateMap") {
-            if (isEmpty(this.mapName)) {
-                this.mapCreationErrorMessage = "We need a map name to continue.";
-                this.cd.markForCheck();
-                return;
-            }
-            else {
-                this.saveMap()
-                    .then(dataset => {
-                        this.dataset = dataset;
-                        this.mapCreationErrorMessage = null;
-                        this.goToNextStep();
-                        this.cd.markForCheck();
-                    })
-            }
-        }
-        else if (this.currentStep === "Ending") {
-            return this.router.navigateByUrl(`/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}`)
+        else if (this.currentStep === "Terminology") {
+            this.sendOnboardingEventToMixpanel();
+
+            return this.createMap(this.mapName)
+                .then(dataset => {
+                    this.dataset = dataset;
+                    this.mapCreationErrorMessage = null;
+
+                    return this.router.navigateByUrl(`/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}`);
+                })
                 .then(() => {
                     this.cd.markForCheck();
                     this.activeModal.close();
                 })
-
         }
         else {
             this.goToNextStep();
@@ -130,9 +132,20 @@ export class OnboardingComponent implements OnInit {
 
     }
 
+    private sendOnboardingEventToMixpanel() {
+        this.mixpanel.eventTrack("Onboarding", {
+            step: this.steps[this.currentIndex-1],
+            members : this.members.length,
+            authority : this.team.settings.authority,
+            helper:this.team.settings.helper,
+            mapName: this.mapName,
+        });
+    }
+
     private goToNextStep() {
         this.currentIndex += 1;
         this.currentStep = this.steps[this.currentIndex]
+        console.log('current step', this.currentStep);
         this.nextActionName = this.getNextActionName();
         this.previousActionName = this.getPreviousActionName();
         this.isClosable = this.getIsClosable();
@@ -140,14 +153,6 @@ export class OnboardingComponent implements OnInit {
         this.progress = this.getProgress()
         this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
 
-        this.mixpanel.eventTrack("Onboarding", {
-            step: this.steps[this.currentIndex-1],
-            members : this.members.length,
-            authority : this.team.settings.authority,
-            helper:this.team.settings.helper,
-            mapName: this.mapName,
-            isCreateEmptyMap:this.isCreatingEmptyMap
-        });
         this.cd.markForCheck();
     }
 
@@ -175,23 +180,8 @@ export class OnboardingComponent implements OnInit {
             })
     }
 
-    saveMap() {
-        return this.mapService.get(this.user.datasets[0])
-            .then(dataset => {
-                return this.mapService.archive(dataset)
-            })
-            .then(() => {
-                return this.createMap(this.mapName, this.isCreatingEmptyMap)
-            })
-    }
-
-    private createMap(name: string, isCreatingEmptyMap: boolean): Promise<DataSet> {
-        if (isCreatingEmptyMap) {
-            return this.mapService.createEmpty(name, this.team.team_id)
-        }
-        else {
-            return this.mapService.createTemplate(name, this.team.team_id)
-        }
+    private createMap(name: string): Promise<DataSet> {
+        return this.mapService.createTemplate(name, this.team.team_id)
     }
 
     getProgress() {
@@ -208,7 +198,7 @@ export class OnboardingComponent implements OnInit {
         switch (this.currentStep) {
             case "Welcome":
                 return "Start";
-            case "Ending":
+            case "Terminology":
                 return "Start mapping";
             default:
                 return "Next";
@@ -227,8 +217,7 @@ export class OnboardingComponent implements OnInit {
         return false;
     }
 
-    onTerminologySaved(team:Team){
-        this.nextActionName = "Next";
+    onTerminologySaved(team:Team) {
         this.isSkippable = false;
         this.cd.markForCheck();
     }

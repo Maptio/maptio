@@ -13,18 +13,6 @@
     <ng-container *ngIf="currentStep === 'Terminology'">
         <ng-container *ngTemplateOutlet="terminology"></ng-container>
     </ng-container>
-
-    <ng-container *ngIf="currentStep === 'PickColor'">
-        <ng-container *ngTemplateOutlet="pickcolor"></ng-container>
-    </ng-container>
-
-    <ng-container *ngIf="currentStep === 'CreateMap'">
-        <ng-container *ngTemplateOutlet="createmap"></ng-container>
-    </ng-container>
-
-    <ng-container *ngIf="currentStep === 'Ending'">
-        <ng-container *ngTemplateOutlet="ending"></ng-container>
-    </ng-container>
 </common-modal>
 
 <ng-template #welcome>
@@ -69,7 +57,7 @@
     </h3>
     <div class="my-3 my-md-5">
         <div class="form-row w-100 d-flex justify-content-center align-items-center flex-column">
-            <input [(ngModel)]="team.name" type="text" class="form-control col-12 col-md-6">
+            <input [(ngModel)]="team.name" type="text" class="form-control col-12 col-md-10 col-lg-6">
             <small *ngIf="teamCreationErrorMessage" class="form-text text-danger">{{teamCreationErrorMessage}}</small>
             <small *ngIf="isCreatingTeam" class="text-green">
                 <i class="fas fa-circle-notch fa-spin"></i> Setting up your organisation</small>
@@ -82,10 +70,16 @@
     <ng-template #terminologytitle>What should we call them?</ng-template>
 
     <ng-template #terminologysubtitle>
-        <span class="text-muted">What language do you use to refer to people at
-            <b>{{team.name}}</b>?</span>
+        <span class="text-muted">
+          What language do you use to refer to people at <b>{{team.name}}</b>?
+        </span>
     </ng-template>
 
+    <ng-template #settingsnote>
+        <span class="text-muted">
+            You can always change this later in the organization settings.
+        </span>
+    </ng-template>
 
     <h1 class="text-center d-none d-md-block">
         <ng-container *ngTemplateOutlet="terminologytitle"></ng-container>
@@ -103,121 +97,14 @@
     </h6>
 
 
-    <div class="my-5 ">
+    <div class="my-5">
         <onboarding-add-terminology [team]="team" (saved)="onTerminologySaved($event)"></onboarding-add-terminology>
-
     </div>
 
-</ng-template>
-
-<ng-template #createmap>
-    <ng-template #createmaptitle>Your map is almost ready!</ng-template>
-
-    <ng-template #createmapsubtitle>
-        <span class="text-muted">Just give a us a name, we'll create a brand new map for you.</span>
-    </ng-template>
-
-
-    <h1 class="text-center d-none d-md-block">
-        <ng-container *ngTemplateOutlet="createmaptitle"></ng-container>
-    </h1>
-    <h3 class="text-center d-md-none">
-        <ng-container *ngTemplateOutlet="createmaptitle"></ng-container>
-    </h3>
-
-
-    <h4 class="text-center d-none d-md-block">
-        <ng-container *ngTemplateOutlet="createmapsubtitle"></ng-container>
-    </h4>
-    <h6 class="text-center d-md-none">
-        <ng-container *ngTemplateOutlet="createmapsubtitle"></ng-container>
-    </h6>
-
-
-    <div class="mt-md-5 mt-3">
-        <div class="form-inline w-100 d-flex justify-content-start align-items-baseline">
-            <label for="inputMapName" class="mr-1">Map name </label>
-
-            <input [(ngModel)]="mapName" type="text" id="inputMapName" class="form-control col-md-6 col">
-        </div>
-        <small *ngIf="mapCreationErrorMessage" class="form-text text-danger">{{mapCreationErrorMessage}}</small>
-        <div class="my-md-5 my-3 py-4 w-100 d-flex flex-column flex-md-row justify-content-between align-items-stretch">
-            <div class="custom-control custom-radio custom-control-inline col-md-6 col-12">
-                <input type="radio" id="emptyMapRadio" name="mapOptionsRadio" [value]="isCreatingEmptyMap"
-                    (change)="isCreatingEmptyMap=true" class="custom-control-input" checked>
-                <label class="custom-control-label" for="emptyMapRadio">
-                    <div class="card cursor-pointer h-100">
-                        <div class="card-header">
-                            Give me a blank canvas
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">
-                                We'll create an empty map for you to start adding circles to.
-                            </p>
-                            <p class="card-text small">
-                                Better if you've already familiarized yourself with Maptio.</p>
-                        </div>
-                    </div>
-
-                </label>
-            </div>
-            <div class="custom-control custom-radio custom-control-inline col-md-6 col-12 mt-3 mt-md-0">
-                <input type="radio" id="instructionsMapRadio" name="mapOptionsRadio" [value]="!isCreatingEmptyMap"
-                    (change)="isCreatingEmptyMap=false" class="custom-control-input">
-                <label class="custom-control-label" for="instructionsMapRadio">
-                    <div class="card cursor-pointer h-100">
-                        <div class="card-header">
-                            Create a few circles for me
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">
-                                We'll give you some circles containing tips to get you going.
-                            </p>
-                            <p class="card-text small">
-                                Better if you'd like some extra help starting.
-                            </p>
-                        </div>
-                    </div>
-
-                </label>
-            </div>
-        </div>
+    <div class="h5 text-center d-none d-md-block">
+        <ng-container *ngTemplateOutlet="settingsnote"></ng-container>
     </div>
-
-
-
-</ng-template>
-
-<ng-template #ending>
-
-    <div class="d-flex justify-content-center align-items-center flex-column text-gradient-gold">
-        <i class="d-none d-md-block fas fa-trophy  icon-ending"></i>
-        <i class="d-md-none fas fa-trophy  icon-ending-xs"></i>
-        <h1>Nice one!</h1>
+    <div class="h6 text-center d-md-none">
+        <ng-container *ngTemplateOutlet="settingsnote"></ng-container>
     </div>
-
-    <div class="d-flex justify-content-center align-items-center flex-column my-3">
-
-        <h4 class="text-muted">Your map is ready. Go and create some circles, we'll be here if you need us.</h4>
-    </div>
-
-
-
-    <!-- <h4 class="my-5">
-        You can start mapping right away. Any questions?
-        <ul class="ml-2 my-3">
-            <li class="h6 py-2"> Start a chat with us or email us at support@maptio.com</li>
-            <li class="h6 py-2"> Read our
-                <a target="blank" href="https://medium.com/maptio/create-organisational-clarity-using-initiative-mapping-967069247380">free guide</a> to mapping your organisation
-            </li>
-            <li class="h6 py-2">
-                <a target="blank" href="https://calendly.com/tomnixon/30min">Book a free mastery call</a> with Maptio founder Tom Nixon
-
-            </li>
-
-        </ul>
-    </h4> -->
-    <!-- <h4>Look forward to talking to you!</h4> -->
-
-
 </ng-template>

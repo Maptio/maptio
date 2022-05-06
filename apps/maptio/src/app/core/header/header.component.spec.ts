@@ -31,7 +31,6 @@ import { Team } from '../../shared/model/team.data';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { BillingService } from '../../shared/services/billing/billing.service';
 import { NgProgress, NgProgressModule } from '@ngx-progressbar/core';
-import { OnboardingService } from '../../shared/components/onboarding/onboarding.service';
 import { AnalyticsModule } from '../analytics.module';
 import { SharedModule } from '../../shared/shared.module';
 import { AuthModule } from '../../shared/services/auth/auth.module';

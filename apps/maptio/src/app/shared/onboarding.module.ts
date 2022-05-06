@@ -7,9 +7,7 @@ import { SharedModule } from "./shared.module";
 import { IntercomService } from "./services/team/intercom.service";
 import { AddTerminologyComponent } from "./components/onboarding/add-terminology.component";
 import { CommonModalComponent } from "./components/modal/modal.component";
-import { InstructionsComponent } from "./components/instructions/instructions.component";
 import { NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
-import { InstructionsService } from "./components/instructions/instructions.service";
 import { OnboardingService } from "./components/onboarding/onboarding.service";
 
 
@@ -24,18 +22,15 @@ import { OnboardingService } from "./components/onboarding/onboarding.service";
     ],
     declarations: [
         OnboardingComponent,
-        InstructionsComponent,
         AddTerminologyComponent,
         CommonModalComponent
     ],
     providers: [
         IntercomService,
-        InstructionsService,
         OnboardingService,
     ],
     exports: [
         OnboardingComponent,
-        InstructionsComponent,
         AddTerminologyComponent,
         CommonModalComponent
     ]

@@ -29,8 +29,6 @@ import { PeopleSummaryComponent } from "./components/summary/overview/people.com
 import { PersonalSummaryComponent } from "./components/summary/overview/personal.component";
 import { RolesSummaryComponent } from "./components/summary/overview/roles.component";
 import { VacanciesSummaryComponent } from "./components/summary/overview/vacancies.component";
-import { OnboardingComponent } from "../../shared/components/onboarding/onboarding.component";
-import { InstructionsComponent } from "../../shared/components/instructions/instructions.component";
 import { StripMarkdownPipe } from "../../shared/pipes/strip-markdown.pipe";
 import { EllipsisPipe } from "../../shared/pipes/ellipsis.pipe";
 import { PersonalCardComponent } from "./components/summary/tab/card.component";

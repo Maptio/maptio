@@ -1,6 +1,5 @@
 import { environment } from '../../../../config/environment';
 import { Component, OnInit } from "@angular/core";
-import { InstructionsService } from '../../../../shared/components/instructions/instructions.service';
 import { User } from '../../../../shared/model/user.data';
 import { Subscription } from 'rxjs';
 import { Intercom } from 'ng-intercom';
@@ -19,7 +18,6 @@ export class HelpComponent implements OnInit {
     constructor(
         private intercom: Intercom,
         private userService: UserService,
-        private instructions: InstructionsService,
     ) { }
 
     ngOnInit() {
@@ -30,10 +28,6 @@ export class HelpComponent implements OnInit {
 
     ngOnDestroy(): void {
         if(this.subscription) this.subscription.unsubscribe();
-    }
-
-    openTutorial(){
-        this.instructions.openTutorial(this.user);
     }
 
     openIntercom(){
