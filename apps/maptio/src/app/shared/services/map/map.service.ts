@@ -21,40 +21,26 @@ export class MapService {
                 team_id: teamId,
                 children: [
                     new Initiative({
-                        name: "This is your outer circle. A great place to put a short version of your mission or vision",
-                        description: "This is the description of the circle. Use this to explain more about what this circle does and link out to other tools, systems and documents that you're using.\n\n**You can click any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it.",
+                        name: "Outer circle",
+                        description: "Use this area to explain more about what this circle does and link out to other tools, systems and documents that you're using.",
                         team_id: teamId,
                         id: Math.floor(Math.random() * 10000000000000),
                         children: [
                             new Initiative({
-                                name: "This is a sub-circle, perhaps representing a major initiative in the organisation",
-                                description: "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can click any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
+                                name: "Sub-circle 1",
+                                description: "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.",
                                 team_id: teamId,
                                 id: Math.floor(Math.random() * 10000000000000),
                             }),
                             new Initiative({
-                                name: "This is a sub-circle, perhaps representing a major initiative in the organisation",
-                                description: "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can click any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
+                                name: "Sub-circle 2",
+                                description: "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.",
                                 team_id: teamId,
                                 id: Math.floor(Math.random() * 10000000000000),
-                                children: [
-                                    new Initiative({
-                                        name: "This is a sub-circle, perhaps representing a major initiative in the organisation",
-                                        description: "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can click any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
-                                        team_id: teamId,
-                                        id: Math.floor(Math.random() * 10000000000000),
-                                    }),
-                                    new Initiative({
-                                        name: "This is a sub-circle, perhaps representing a major initiative in the organisation",
-                                        description: "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can click any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
-                                        team_id: teamId,
-                                        id: Math.floor(Math.random() * 10000000000000),
-                                    })
-                                ]
                             }),
                             new Initiative({
-                                name: "This is a sub-circle, perhaps representing a major initiative in the organisation",
-                                description: "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can click any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
+                                name: "Sub-circle 3",
+                                description: "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.",
                                 team_id: teamId,
                                 id: Math.floor(Math.random() * 10000000000000),
                             }),
