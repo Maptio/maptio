@@ -11,6 +11,7 @@ import { ErrorPageComponent } from './error/error.page';
 import { UnauthorizedComponent } from './401/unauthorized.component';
 import { NotFoundComponent } from './404/not-found.component';
 import { HeaderComponent } from './header/header.component';
+import { OnboardingBannerComponent } from './header/onboarding-banner.component';
 import { FooterComponent } from './footer/footer.component';
 import { AccessGuard } from './guards/access.guard';
 import { ActivationGuard } from './guards/activation.guard';
@@ -38,13 +39,13 @@ export function tokenGetter(): string {
 @NgModule({
     declarations: [
         HeaderComponent,
+        OnboardingBannerComponent,
         FooterComponent,
         LoaderComponent,
         UnauthorizedComponent,
         NotFoundComponent,
         LoginErrorPageComponent,
         ErrorPageComponent,
-
     ],
     imports: [
         CommonModule,
