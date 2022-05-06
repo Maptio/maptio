@@ -237,6 +237,7 @@ export class UserService implements OnDestroy {
       profile.family_name,
       profile.picture,
       true,
+      true, // isInAuth0
     );
   }
 
@@ -257,12 +258,13 @@ export class UserService implements OnDestroy {
     firstname: string,
     lastname: string,
     picture?: string,
-    isAdmin?: boolean
+    isAdmin?: boolean,
+    isInAuth0 = false,
   ): User {
     const imageUrl = picture ? picture : this.generateUserAvatarLink(firstname, lastname);
 
     const newUserData = {
-      isInAuth0: false,
+      isInAuth0,
       user_id: userId,
       name: `${firstname} ${lastname}`,
       firstname,
