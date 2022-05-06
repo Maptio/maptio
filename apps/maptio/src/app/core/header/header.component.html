@@ -12,41 +12,12 @@
   >
 </ng-template>
 
-<ng-template #freetrial>
-  This is a demo organisation... Ready to create your own?
-</ng-template>
-
-<ng-container
+<maptio-onboarding-banner
   *ngIf="
-    (userService.isAuthenticated$ | async) && (isMap() || isHome() || isTeam())
+    (userService.isAuthenticated$ | async)
+    && (isMap() || isHome() || isTeam())
   "
->
-  <nav
-    class="d-flex flex-column py-3 flex-md-row justify-content-center align-items-center align-items-md-baseline bg-gradient-inverse rounded-bottom text-white mx-3"
-    *ngIf="isSandbox"
-  >
-    <div class="h5 d-none d-md-block">
-      <ng-container *ngTemplateOutlet="freetrial"></ng-container>
-    </div>
-    <small class="text-center d-md-none">
-      <ng-container *ngTemplateOutlet="freetrial"></ng-container>
-    </small>
-
-    <button
-      class="d-none d-md-block btn btn-success mx-1"
-      (click)="openOnboarding()"
-    >
-      Start a 14 day free trial
-    </button>
-
-    <button
-      class="d-md-none btn-sm btn btn-success my-1"
-      (click)="openOnboarding()"
-    >
-      Start a 14 day free trial
-    </button>
-  </nav>
-</ng-container>
+></maptio-onboarding-banner>
 
 <nav
   class="d-flex header navbar navbar-expand-md navbar-light bg-transparent justify-content-between align-items-baseline pr-3"
