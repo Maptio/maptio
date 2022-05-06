@@ -56,9 +56,7 @@ export class SelectableTag extends Tag {
 
 
 export const DEFAULT_TAGS = [
-    new Tag({ name: "Green", color: "#4bb974", shortid: "SyevDuUfM" }),
-    new Tag({ name: "Amber", color: "#eab126", shortid: "rJuuwd8Gz" }),
-    new Tag({ name: "Red", color: "#e86942", shortid: "ByJtD_Lfz" }),
-    new Tag({ name: "Not Started", color: "#857bb7", shortid: "rkvFDdLGf" }),
-    new Tag({ name: "Dormant", color: "#b4b0b0", shortid: "S1yqP_8MG" }),
+    new Tag({ name: "Example tag", color: "#4bb974", shortid: "SyevDuUfM" }),
+    new Tag({ name: "Another tag", color: "#eab126", shortid: "rJuuwd8Gz" }),
+    new Tag({ name: "One more tag", color: "#e86942", shortid: "ByJtD_Lfz" }),
 ]
