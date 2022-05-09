@@ -22,7 +22,6 @@ import { UserService } from '@maptio-shared/services/user/user.service';
 import { ErrorService } from '@maptio-shared/services/error/error.service';
 import { BillingService } from '@maptio-shared/services/billing/billing.service';
 import { LoaderService } from '@maptio-shared/components/loading/loader.service';
-import { OnboardingService } from '@maptio-shared/components/onboarding/onboarding.service';
 
 import { DatasetFactory } from '../http/map/dataset.factory';
 import { TeamFactory } from '../http/team/team.factory';
@@ -61,7 +60,6 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     public loaderService: LoaderService,
     private cd: ChangeDetectorRef,
     private billingService: BillingService,
-    private onboarding: OnboardingService
   ) {
     const [teamDefined, teamUndefined] = partition(
       from(EmitterService.get('currentTeam')),
@@ -158,9 +156,5 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isPricing() {
     return this.router.url.startsWith('/pricing');
-  }
-
-  openOnboarding() {
-    this.onboarding.open(this.user);
   }
 }
