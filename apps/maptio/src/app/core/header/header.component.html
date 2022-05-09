@@ -16,6 +16,7 @@
   *ngIf="
     (userService.isAuthenticated$ | async)
     && (isMap() || isHome() || isTeam())
+    && team?.isPaying === false
   "
 ></maptio-onboarding-banner>
 
