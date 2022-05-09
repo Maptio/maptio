@@ -7,7 +7,7 @@
   margin: 0 -15px; // Break out of container
 
   background-image: linear-gradient(to left, var(--maptio-accent), var(--maptio-blue));
-  color: #fff;
+  color: white;
 
   @media (min-width: 768px) {
     align-items: baseline;
@@ -16,4 +16,7 @@
 }
 
 // .onboarding-banner__free-trial-text {
+// }
+
+// .onboarding-banner__button {
 // }

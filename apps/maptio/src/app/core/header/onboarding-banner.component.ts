@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 
+import { environment } from '@maptio-environment';
 import { Team } from '@maptio-shared/model/team.data';
 
 
@@ -10,4 +11,6 @@ import { Team } from '@maptio-shared/model/team.data';
 })
 export class OnboardingBannerComponent {
   @Input() team?: Team;
+
+  BOOK_ONBOARDING_URL = environment.BOOK_ONBOARDING_URL;
 }

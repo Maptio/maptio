@@ -7,17 +7,10 @@
     day<span *ngIf="team?.getRemainingTrialDays() > 1">s</span>
   </div>
 
-  <button
-    class="d-none d-md-block btn btn-success mx-1"
-    (click)="openOnboarding()"
+  <a
+    class="btn btn-success text-white"
+    [href]="BOOK_ONBOARDING_URL"
   >
-    Start a 14 day free trial
-  </button>
-
-  <button
-    class="d-md-none btn-sm btn btn-success my-1"
-    (click)="openOnboarding()"
-  >
-    Start a 14 day free trial
-  </button>
+    Book free onboarding
+  </a>
 </nav>
