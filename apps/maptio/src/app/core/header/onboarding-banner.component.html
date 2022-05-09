@@ -1,18 +1,21 @@
-<ng-template #freetrial>
-  Free trial time left: {{ team?.getRemainingTrialDays() }}
-  day<span *ngIf="team?.getRemainingTrialDays() > 1">s</span>
-</ng-template>
+<!-- <ng-template #freetrial>
+</ng-template> -->
 
 <nav
   class="d-flex flex-column py-3 flex-md-row justify-content-center align-items-center align-items-md-baseline bg-gradient-inverse rounded-bottom text-white mx-3"
   *ngIf="true"
 >
-  <div class="h5 d-none d-md-block">
+  <!-- <div class="h5 d-none d-md-block">
     <ng-container *ngTemplateOutlet="freetrial"></ng-container>
   </div>
   <small class="text-center d-md-none">
     <ng-container *ngTemplateOutlet="freetrial"></ng-container>
-  </small>
+  </small> -->
+
+  <div class="onboarding-banner__free-trial-text">
+    Free trial time left: {{ team?.getRemainingTrialDays() }}
+    day<span *ngIf="team?.getRemainingTrialDays() > 1">s</span>
+  </div>
 
   <button
     class="d-none d-md-block btn btn-success mx-1"
