@@ -13,4 +13,6 @@ export class OnboardingBannerComponent {
   @Input() team?: Team;
 
   BOOK_ONBOARDING_URL = environment.BOOK_ONBOARDING_URL;
+  REQUEST_TRIAL_EXTENSION_EMAIL = environment.REQUEST_TRIAL_EXTENSION_EMAIL;
+  SUBSCRIBE_NOW_LINK = environment.SUBSCRIBE_NOW_LINK;
 }
