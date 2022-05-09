@@ -10,7 +10,12 @@ import { Team } from '@maptio-shared/model/team.data';
   styleUrls: ['./onboarding-banner.component.scss']
 })
 export class OnboardingBannerComponent {
-  @Input() team?: Team;
+  @Input() set team(team: Team) {
+    this.team = team;
+    this.remainingTrialDays = this.team.getRemainingTrialDays();
+  }
+
+  remainingTrialDays: number;
 
   BOOK_ONBOARDING_URL = environment.BOOK_ONBOARDING_URL;
   REQUEST_TRIAL_EXTENSION_EMAIL = environment.REQUEST_TRIAL_EXTENSION_EMAIL;
