@@ -70,25 +70,17 @@
         class="navbar-text d-none d-md-flex align-items-center position-relative ml-auto mr-auto"
         *ngIf="team && isMap()"
       >
-        <span *ngIf="team?.name" class="text-muted mr-1"
-          >Organisation
+        <span
+          *ngIf="team?.name"
+          class="text-muted mr-1"
+        >
+          Organisation
           <a routerLink="/teams/{{ team?.team_id }}/{{ team?.getSlug() }}">
             {{ team?.name }}
           </a>
         </span>
-        <span
-          *ngIf="!team?.isPaying && !team.isExample"
-          style="bottom: -5px"
-          class="x-small text-green position-absolute"
-          >{{ team?.getRemainingTrialDays() }} days left on your free trial.
-          <a
-            routerLink="/teams/{{ team?.team_id }}/{{
-              team?.getSlug()
-            }}/billing"
-            >Subscribe now</a
-          >
-        </span>
       </li>
+
       <li
         class="nav-item dropdown d-none d-md-flex align-items-center"
         *ngIf="
