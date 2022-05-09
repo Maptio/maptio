@@ -1,0 +1,19 @@
+.onboarding-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  margin: 0 -15px; // Break out of container
+
+  background-image: linear-gradient(to left, var(--maptio-accent), var(--maptio-blue));
+  color: #fff;
+
+  @media (min-width: 768px) {
+    align-items: baseline;
+    flex-direction: row;
+  }
+}
+
+// .onboarding-banner__free-trial-text {
+// }
