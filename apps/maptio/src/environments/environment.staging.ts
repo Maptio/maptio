@@ -2,7 +2,11 @@
 // `ng build --configuration=staging` replaces `environment.ts` with `environment.staging.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { commonEnvironment } from "./environment.common";
+
 export const environment = {
+  ...commonEnvironment,
+
   production: false,
 
   auth: {

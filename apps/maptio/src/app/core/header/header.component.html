@@ -12,41 +12,14 @@
   >
 </ng-template>
 
-<ng-template #freetrial>
-  This is a demo organisation... Ready to create your own?
-</ng-template>
-
-<ng-container
+<maptio-onboarding-banner
   *ngIf="
-    (userService.isAuthenticated$ | async) && (isMap() || isHome() || isTeam())
+    (userService.isAuthenticated$ | async)
+    && (isMap() || isHome() || isTeam())
+    && team?.isPaying === false
   "
->
-  <nav
-    class="d-flex flex-column py-3 flex-md-row justify-content-center align-items-center align-items-md-baseline bg-gradient-inverse rounded-bottom text-white mx-3"
-    *ngIf="isSandbox"
-  >
-    <div class="h5 d-none d-md-block">
-      <ng-container *ngTemplateOutlet="freetrial"></ng-container>
-    </div>
-    <small class="text-center d-md-none">
-      <ng-container *ngTemplateOutlet="freetrial"></ng-container>
-    </small>
-
-    <button
-      class="d-none d-md-block btn btn-success mx-1"
-      (click)="openOnboarding()"
-    >
-      Start a 14 day free trial
-    </button>
-
-    <button
-      class="d-md-none btn-sm btn btn-success my-1"
-      (click)="openOnboarding()"
-    >
-      Start a 14 day free trial
-    </button>
-  </nav>
-</ng-container>
+  [team]="team"
+></maptio-onboarding-banner>
 
 <nav
   class="d-flex header navbar navbar-expand-md navbar-light bg-transparent justify-content-between align-items-baseline pr-3"
@@ -97,25 +70,17 @@
         class="navbar-text d-none d-md-flex align-items-center position-relative ml-auto mr-auto"
         *ngIf="team && isMap()"
       >
-        <span *ngIf="team?.name" class="text-muted mr-1"
-          >Organisation
+        <span
+          *ngIf="team?.name"
+          class="text-muted mr-1"
+        >
+          Organisation
           <a routerLink="/teams/{{ team?.team_id }}/{{ team?.getSlug() }}">
             {{ team?.name }}
           </a>
         </span>
-        <span
-          *ngIf="!team?.isPaying && !team.isExample"
-          style="bottom: -5px"
-          class="x-small text-green position-absolute"
-          >{{ team?.getRemainingTrialDays() }} days left on your free trial.
-          <a
-            routerLink="/teams/{{ team?.team_id }}/{{
-              team?.getSlug()
-            }}/billing"
-            >Subscribe now</a
-          >
-        </span>
       </li>
+
       <li
         class="nav-item dropdown d-none d-md-flex align-items-center"
         *ngIf="

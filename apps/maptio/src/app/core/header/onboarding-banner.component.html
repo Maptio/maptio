@@ -1,0 +1,40 @@
+<nav
+  class="onboarding-banner"
+>
+  <div class="onboarding-banner__free-trial-text">
+    <ng-container
+      *ngIf="remainingTrialDays >= 0; else noMoreTimeInFreeTrial"
+    >
+      Free trial time left: {{ remainingTrialDays }}
+      day<span *ngIf="remainingTrialDays > 1">s</span>
+    </ng-container>
+
+    <ng-template #noMoreTimeInFreeTrial>
+      Your free trial has ended
+    </ng-template>
+  </div>
+
+  <a
+    class="btn btn-info text-white"
+    [href]="REQUEST_TRIAL_EXTENSION_EMAIL"
+  >
+    <span class="onboarding-banner__emoji">⏳</span>
+    Request longer
+  </a>
+
+  <a
+    class="btn btn-success text-white"
+    routerLink="{{ SUBSCRIBE_NOW_LINK }}"
+  >
+    <span class="onboarding-banner__emoji">❤️</span>
+    Subscribe now
+  </a>
+
+  <a
+    class="btn btn-success text-white"
+    [href]="BOOK_ONBOARDING_URL"
+  >
+    <span class="onboarding-banner__emoji">💬</span>
+    Book free Zoom help call
+  </a>
+</nav>
