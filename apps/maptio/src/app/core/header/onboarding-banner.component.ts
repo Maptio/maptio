@@ -11,8 +11,7 @@ import { Team } from '@maptio-shared/model/team.data';
 })
 export class OnboardingBannerComponent {
   @Input() set team(team: Team) {
-    this.team = team;
-    this.remainingTrialDays = this.team.getRemainingTrialDays();
+    this.remainingTrialDays = team.getRemainingTrialDays();
   }
 
   remainingTrialDays: number;
