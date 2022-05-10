@@ -82,6 +82,15 @@
       </li>
 
       <li
+        class="nav-item d-none d-md-flex align-items-center mr-3"
+        *ngIf="team"
+      >
+        <a routerLink="/teams/{{ team?.team_id }}/{{ team?.getSlug() }}">
+          Settings
+        </a>
+      </li>
+
+      <li
         class="nav-item dropdown d-none d-md-flex align-items-center"
         *ngIf="
           (userService.isAuthenticated$ | async) &&
@@ -116,6 +125,7 @@
           </ng-container>
         </div>
       </li>
+
       <li
         class="nav-item dropdown ml-3"
         id="profileInformation"
