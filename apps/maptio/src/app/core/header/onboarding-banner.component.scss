@@ -25,5 +25,9 @@
 }
 
 .onboarding-banner__emoji {
+  // Counteract the emoji having a different width in production
+  width: 1.25rem;
+  display: inline-block;
+
   margin-right: 0.0625rem;
 }
