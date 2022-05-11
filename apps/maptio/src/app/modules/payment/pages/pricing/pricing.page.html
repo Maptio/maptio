@@ -26,12 +26,12 @@
       name="radioBasic"
     >
       <label ngbButtonLabel class="btn-primary">
-        <input ngbButton type="radio" [value]="BillingSchedule.Annual">
+        <input ngbButton type="radio" [value]="BillingSchedule.ANNUAL">
         Annual billing
       </label>
 
       <label ngbButtonLabel class="btn-primary">
-        <input ngbButton type="radio" [value]="BillingSchedule.Monthly">
+        <input ngbButton type="radio" [value]="BillingSchedule.MONTHLY">
         Monthly billing
       </label>
     </div>
@@ -42,13 +42,20 @@
     <div class="d-flex flex-column flex-md-row justify-content-center align-items-stretch">
       <maptio-payment-plan
         [name]="'Starter'"
-        [price]="20"
         [text]="'1 - 12 people'"
-        [billingLink]="BILLING_STARTER_PLAN"
+        [prices]="{
+          MONTHLY: BILLING_PLANS.STARTER_MONTHLY_COST,
+          ANNUAL: BILLING_PLANS.STARTER_ANNUAL_COST
+        }"
+        [billingLinks]="{
+          MONTHLY: BILLING_PLANS.STARTER_MONTHLY_URL,
+          ANNUAL: BILLING_PLANS.STARTER_ANNUAL_URL
+        }"
+        [billingSchedule]="billingScheduleChoice"
       >
       </maptio-payment-plan>
 
-      <maptio-payment-plan
+      <!-- <maptio-payment-plan
         [name]="'Small'"
         [price]="50"
         [text]="'13 - 35 people'"
@@ -62,12 +69,11 @@
         [text]="'36 - 200 people'"
         [billingLink]="BILLING_STANDARD_PLAN"
       >
-      </maptio-payment-plan>
+      </maptio-payment-plan> -->
 
       <maptio-payment-plan
         [name]="'Larger organizations'"
         [text]="'200+ people'"
-        [billingLink]="BILLING_SMALL_PLAN"
       >
       </maptio-payment-plan>
     </div>

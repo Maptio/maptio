@@ -1,4 +1,4 @@
 export enum BillingSchedule {
-  Monthly,
-  Annual,
+  MONTHLY = 'MONTHLY',
+  ANNUAL = 'ANNUAL',
 }
