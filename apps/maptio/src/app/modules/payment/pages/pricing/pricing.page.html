@@ -19,6 +19,26 @@
       No minimum contract length.
     </p>
 
+    <div
+      ngbRadioGroup
+      [(ngModel)]="billingScheduleChoice"
+      class="btn-group btn-group-toggle"
+      name="radioBasic"
+    >
+      <label ngbButtonLabel class="btn-primary">
+        <input ngbButton type="radio" [value]="BillingSchedule.Annual">
+        Annual billing
+      </label>
+
+      <label ngbButtonLabel class="btn-primary">
+        <input ngbButton type="radio" [value]="BillingSchedule.Monthly">
+        Monthly billing
+      </label>
+    </div>
+
+    <hr>
+    <pre>{{ billingScheduleChoice }}</pre>
+
     <div class="d-flex flex-column flex-md-row justify-content-center align-items-stretch">
       <maptio-payment-plan
         [name]="'Starter'"
