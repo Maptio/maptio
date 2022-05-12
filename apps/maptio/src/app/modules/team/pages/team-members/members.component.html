@@ -42,12 +42,15 @@
 
         <div class="col-4">Email</div>
 
-        <div class="col-2 nowrap">
+        <a
+          class="col-2 nowrap text-decoration-none"
+          ngbTooltip="Click to go to our help hub and watch video about user permission types"
+          href="{{ KB_URL_PERMISSIONS }}"
+          target="blank"
+        >
           Permission type
-          <a href="{{ KB_URL_PERMISSIONS }}" target="blank">
-            <i class="fa fa-info-circle text-muted" aria-hidden="true"></i>
-          </a>
-        </div>
+          <i class="fa fa-info-circle text-muted" aria-hidden="true"></i>
+        </a>
       </div>
     </div>
 
