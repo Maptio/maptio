@@ -15,7 +15,7 @@
 
       <button *ngIf="isPickRoleMode" class="btn btn-link btn-sm" (click)="isPickRoleMode=false">Cancel</button>
       <button [class.invisible]="isPickRoleMode || isCreateRoleMode || isEditRoleMode || isUnauthorized" class="btn btn-link btn-sm"
-          (click)="!isUnauthorized && isPickRoleMode=true">Add role</button>
+          (click)="!isUnauthorized && isPickRoleMode=true">Add role vacancy</button>
   </div>
 
   <initiative-helper-role-select *ngIf="isPickRoleMode" [roles]="initiative?.vacancies" (pick)="onPickRole($event)"
@@ -43,7 +43,7 @@
 
         <hr *ngIf="!last && initiative?.vacancies[roleIndex +1]" class="role-divider my-1">
     </ng-container>
-  </div> 
+  </div>
 
   <p class="text-muted small my-2">
     See all vacancies in the
