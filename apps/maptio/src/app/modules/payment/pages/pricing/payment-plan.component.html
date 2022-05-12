@@ -9,7 +9,7 @@
 
     <div *ngIf="price; else contactUsPrice" class="card-text">
       <span class="display-4">${{ price }} </span>
-      <sup class="text-top">per month</sup>
+      <sup class="text-top">per {{ billingPeriod }}</sup>
     </div>
 
     <ng-template #contactUsPrice>

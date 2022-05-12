@@ -20,6 +20,7 @@ export class PaymentPlanComponent implements OnChanges {
 
   price: number;
   billingLink: string;
+  billingPeriod: string;
 
   constructor(public userService: UserService) { }
 
@@ -27,6 +28,8 @@ export class PaymentPlanComponent implements OnChanges {
     if (this.prices && this.billingLinks && this.billingSchedule) {
       this.price = this.prices[this.billingSchedule];
       this.billingLink = this.billingLinks[this.billingSchedule];
+      this.billingPeriod = this.billingSchedule ===
+        BillingSchedule.MONTHLY ? 'month' : 'year';
     }
   }
 }
