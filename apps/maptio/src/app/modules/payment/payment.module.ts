@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { SanitizerModule } from '@maptio-shared/sanitizer.module';
 import { LoginModule } from '@maptio-login/login.module';
@@ -18,6 +21,8 @@ import { PaymentRoutingModule } from './payment.routing';
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    NgbModule,
     SanitizerModule,
     PaymentRoutingModule,
     LoginModule,

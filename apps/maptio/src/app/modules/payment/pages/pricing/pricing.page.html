@@ -19,35 +19,86 @@
       No minimum contract length.
     </p>
 
+    <div
+      ngbRadioGroup
+      [(ngModel)]="billingScheduleChoice"
+      class="btn-group btn-group-toggle mb-3"
+      name="radioBasic"
+    >
+      <label
+        ngbButtonLabel
+        class="btn-lg"
+        [class]="
+          billingScheduleChoice === BillingSchedule.ANNUAL ?
+          'btn-success' : 'btn-light'
+        "
+      >
+        <input ngbButton type="radio" [value]="BillingSchedule.ANNUAL">
+        Annual billing
+      </label>
+
+      <label
+        ngbButtonLabel
+        class="btn-lg"
+        [class]="
+          billingScheduleChoice === BillingSchedule.MONTHLY ?
+          'btn-success' : 'btn-light'
+        "
+      >
+        <input ngbButton type="radio" [value]="BillingSchedule.MONTHLY">
+        Monthly billing
+      </label>
+    </div>
+
     <div class="d-flex flex-column flex-md-row justify-content-center align-items-stretch">
       <maptio-payment-plan
         [name]="'Starter'"
-        [price]="20"
         [text]="'1 - 12 people'"
-        [billingLink]="BILLING_STARTER_PLAN"
+        [billingSchedule]="billingScheduleChoice"
+        [prices]="{
+          MONTHLY: BILLING_PLANS.STARTER_MONTHLY_COST,
+          ANNUAL: BILLING_PLANS.STARTER_ANNUAL_COST
+        }"
+        [billingLinks]="{
+          MONTHLY: BILLING_PLANS.STARTER_MONTHLY_URL,
+          ANNUAL: BILLING_PLANS.STARTER_ANNUAL_URL
+        }"
       >
       </maptio-payment-plan>
 
       <maptio-payment-plan
         [name]="'Small'"
-        [price]="50"
         [text]="'13 - 35 people'"
-        [billingLink]="BILLING_SMALL_PLAN"
+        [billingSchedule]="billingScheduleChoice"
+        [prices]="{
+          MONTHLY: BILLING_PLANS.SMALL_MONTHLY_COST,
+          ANNUAL: BILLING_PLANS.SMALL_ANNUAL_COST
+        }"
+        [billingLinks]="{
+          MONTHLY: BILLING_PLANS.SMALL_MONTHLY_URL,
+          ANNUAL: BILLING_PLANS.SMALL_ANNUAL_URL
+        }"
       >
       </maptio-payment-plan>
 
       <maptio-payment-plan
         [name]="'Standard plan'"
-        [price]="99"
         [text]="'36 - 200 people'"
-        [billingLink]="BILLING_STANDARD_PLAN"
+        [billingSchedule]="billingScheduleChoice"
+        [prices]="{
+          MONTHLY: BILLING_PLANS.STANDARD_MONTHLY_COST,
+          ANNUAL: BILLING_PLANS.STANDARD_ANNUAL_COST
+        }"
+        [billingLinks]="{
+          MONTHLY: BILLING_PLANS.STANDARD_MONTHLY_URL,
+          ANNUAL: BILLING_PLANS.STANDARD_ANNUAL_URL
+        }"
       >
       </maptio-payment-plan>
 
       <maptio-payment-plan
         [name]="'Larger organizations'"
         [text]="'200+ people'"
-        [billingLink]="BILLING_SMALL_PLAN"
       >
       </maptio-payment-plan>
     </div>
