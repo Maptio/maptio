@@ -22,22 +22,31 @@
     <div
       ngbRadioGroup
       [(ngModel)]="billingScheduleChoice"
-      class="btn-group btn-group-toggle"
+      class="btn-group btn-group-toggle mb-3"
       name="radioBasic"
     >
-      <label ngbButtonLabel class="btn-primary">
+      <label
+        ngbButtonLabel
+        [class]="
+          billingScheduleChoice === BillingSchedule.ANNUAL ?
+          'btn-success' : 'btn-light'
+        "
+      >
         <input ngbButton type="radio" [value]="BillingSchedule.ANNUAL">
         Annual billing
       </label>
 
-      <label ngbButtonLabel class="btn-primary">
+      <label
+        ngbButtonLabel
+        [class]="
+          billingScheduleChoice === BillingSchedule.MONTHLY ?
+          'btn-success' : 'btn-light'
+        "
+      >
         <input ngbButton type="radio" [value]="BillingSchedule.MONTHLY">
         Monthly billing
       </label>
     </div>
-
-    <hr>
-    <pre>{{ billingScheduleChoice }}</pre>
 
     <div class="d-flex flex-column flex-md-row justify-content-center align-items-stretch">
       <maptio-payment-plan
