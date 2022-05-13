@@ -22,7 +22,7 @@
   </div>
 
   <div class="my-4">
-    <div class="d-none d-md-block border-bottom py-2 text-muted">
+    <div class="d-none d-md-block border-bottom pt-4 text-muted">
       <div class="d-flex align-items-center">
         <div
           *permissionsOnly="Permissions.canEditUser"
@@ -38,16 +38,20 @@
           ></button>
         </div>
 
-        <div class="col-3">Name</div>
+        <div class="col-3 text-uppercase text-bold text-gray-light small">Name</div>
 
-        <div class="col-4">Email</div>
+        <div class="col-4 text-uppercase text-bold text-gray-light small">Email</div>
 
-        <div class="col-2 nowrap">
+        <a
+          class="col-2 nowrap mb-0 text-uppercase text-bold text-gray-light small text-decoration-none"
+          ngbTooltip="Learn about permission types"
+          href="{{ KB_URL_PERMISSIONS }}"
+          target="blank"
+          container="body"
+        >
           Permission type
-          <a href="{{ KB_URL_PERMISSIONS }}" target="blank">
-            <i class="fa fa-info-circle text-muted" aria-hidden="true"></i>
-          </a>
-        </div>
+          <i class="fa fa-info-circle text-gray-light" aria-hidden="true"></i>
+        </a>
       </div>
     </div>
 

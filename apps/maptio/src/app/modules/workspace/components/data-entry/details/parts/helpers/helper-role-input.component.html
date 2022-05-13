@@ -39,6 +39,17 @@
   </small>
 
   <div *ngIf="!isDirectoryView" class="my-2">
+    <a
+      class="mb-0 text-uppercase text-bold text-gray-light small text-decoration-none"
+      ngbTooltip="Learn about custom and library roles"
+      href="{{ KB_URL_ROLE_TYPES }}"
+      target="blank"
+      container="body"
+    >
+      Role type
+      <i class="fa fa-info-circle text-gray-light" aria-hidden="true"></i>
+    </a>
+
     <div class="custom-control custom-radio">
       <input
         type="radio"

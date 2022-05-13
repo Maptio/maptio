@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } fro
 
 import { Subscription } from "rxjs";
 
+import { environment } from '@maptio-config/environment';
+
 import { Role } from "../../../../../../../shared/model/role.data";
 import { Helper } from "../../../../../../../shared/model/helper.data";
 import { RoleLibraryService } from "../../../../../services/role-library.service";
@@ -37,6 +39,8 @@ export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
 
     @Output("cancel") cancel = new EventEmitter<void>();
     @Output("save") save = new EventEmitter<void>();
+
+    KB_URL_ROLE_TYPES = environment.KB_URL_ROLE_TYPES;
 
     roleForm: FormGroup;
     title = new FormControl();

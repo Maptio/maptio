@@ -19,6 +19,7 @@ export const environment = {
     CLOUDINARY_PROFILE_TAGNAME: "profile",
 
     KB_URL_PERMISSIONS: "https://github.com/Maptio/maptio/wiki/User-permission-types",
+    KB_URL_ROLE_TYPES: "https://github.com/Maptio/maptio/wiki/Working-with-roles",
     KB_URL_HOME: "https://github.com/Maptio/maptio/wiki/Maptio-Help-and-Support",
     KB_URL_INTEGRATIONS: "https://maptio.outseta.com/support/kb#/articles/2amRZEmJ/integrations",
 
