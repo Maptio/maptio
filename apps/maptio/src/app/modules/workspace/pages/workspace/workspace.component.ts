@@ -43,7 +43,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   public isEditMode: boolean;
   public datasetId: string;
   private routeSubscription: Subscription;
-  private userSubscription: Subscription;
   public isLoading: boolean;
 
   public dataset: DataSet;
@@ -72,7 +71,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     EmitterService.get('currentTeam').emit(undefined);
     if (this.routeSubscription) this.routeSubscription.unsubscribe();
-    if (this.userSubscription) this.userSubscription.unsubscribe();
   }
 
   constructor(
