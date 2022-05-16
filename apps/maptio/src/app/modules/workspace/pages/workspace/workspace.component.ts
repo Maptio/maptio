@@ -1,6 +1,6 @@
 import { tap } from 'rxjs/operators';
 import { BuildingComponent } from '../../components/data-entry/hierarchy/building.component';
-import { DataService, CounterService } from '../../services/data.service';
+import { DataService } from '../../services/data.service';
 import { RoleLibraryService } from '../../services/role-library.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription, Subject } from 'rxjs';
@@ -26,7 +26,7 @@ import { Intercom } from 'ng-intercom';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 @Component({
-  selector: 'workspace',
+  selector: 'maptio-workspace',
   templateUrl: 'workspace.component.html',
   styleUrls: ['./workspace.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,13 +35,12 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   @ViewChild('building', { static: true })
   buildingComponent: BuildingComponent;
 
-  public isBuildingPanelCollapsed: boolean = true;
-  public isDetailsPanelCollapsed: boolean = true;
-  public isBuildingVisible: boolean = true;
-  public isEmptyMap: Boolean;
-  public isSaving: Boolean;
+  public isBuildingPanelCollapsed = true;
+  public isDetailsPanelCollapsed = true;
+  public isBuildingVisible = true;
+  public isEmptyMap: boolean;
+  public isSaving: boolean;
   public isEditMode: boolean;
-  // public isSettingsPanelCollapsed: boolean = true;
   public datasetId: string;
   private routeSubscription: Subscription;
   private userSubscription: Subscription;
@@ -93,7 +92,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     this.routeSubscription = this.route.data
       .pipe(
         tap((data) => {
-          let newDatasetId = data.data.dataset.datasetId;
+          const newDatasetId = data.data.dataset.datasetId;
           if (newDatasetId !== this.datasetId) {
             this.isBuildingPanelCollapsed = true;
             this.isDetailsPanelCollapsed = true;
@@ -161,7 +160,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     this.tags = change.tags;
 
     let depth = 0;
-    change.initiative.traverse((n) => {
+    change.initiative.traverse(() => {
       depth++;
     });
 
