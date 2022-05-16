@@ -87,7 +87,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         tap((data) => {
           const newDatasetId = data.data.dataset.datasetId;
           if (newDatasetId !== this.datasetId) {
-            this.isBuildingPanelCollapsed = true;
+            this.isBuildingPanelCollapsed = false;
             this.isDetailsPanelCollapsed = true;
             // this.closeDetailsPanel();
             // this.closeBuildingPanel();
