@@ -1,93 +1,92 @@
-
-<div [class.invisible]="!isBuildingVisible || isLoading" class="d-none d-md-block text-muted my-1 saving text-center  small w-100">
-    <i class="fas fa-save mr-1" aria-hidden="true"></i>
-    <span *ngIf="isSaving">Saving...</span>
-    <span *ngIf="!isSaving">All changes saved</span>
+<div [class.invisible]="!isBuildingVisible || isLoading"
+  class="d-none d-md-block text-muted my-1 saving text-center  small w-100">
+  <i class="fas fa-save mr-1" aria-hidden="true"></i>
+  <span *ngIf="isSaving">Saving...</span>
+  <span *ngIf="!isSaving">All changes saved</span>
 </div>
-<div class="d-md-none small w-100 text-center  text-muted" >
-    Map editing is disabled on mobile.
-  </div>
+<div class="d-md-none small w-100 text-center  text-muted">
+  Map editing is disabled on mobile.
+</div>
 
 <div class="row" style="height: calc(100% - 1.75rem) ">
 
-    <div class="col-12 position-relative h-100">
+  <div class="col-12 position-relative h-100">
 
-        <div class=" position-relative d-flex justify-content-start h-99 rounded box-shadow"
-            [class.overflow-hidden]="team?.isExample && isBuildingVisible">
+    <div class=" position-relative d-flex justify-content-start h-99 rounded box-shadow"
+      [class.overflow-hidden]="team?.isExample && isBuildingVisible">
 
-            <div id="toggle" 
-                class="d-none d-md-flex h-100 rounded-left py-3 flex-shrink-0   flex-column justify-content-start align-items-center cursor-pointer collapsible "
-                [class.hide]="!isBuildingPanelCollapsed" [class.show]="isBuildingPanelCollapsed"
-                [ngClass]="{'bg-accent-gray pointer-none':!isBuildingVisible}"  [class.bg-accent]="isBuildingVisible"
-                (click)="openBuildingPanel()">
-                <div class="flex flex-column text-white" *ngIf="isBuildingPanelCollapsed">
-                    <i class="h2 fa fa-angle-right w-100 text-center " aria-hidden="true"></i>
-                    <div class="w-100 text-center small">Edit map</div>
-                </div>
-            </div>
-            <div id="hierarchy" [class.hide]="isBuildingPanelCollapsed || !isBuildingVisible"
-                [class.show]="!isBuildingPanelCollapsed && isBuildingVisible" 
-                class="d-none d-md-block collapsible sidenav h-100 justify-content-start">
-                <div id="sidenav-hierarchy" class="hierarchy w-100 h-100 card border-light border-right bg-white">
-                    <div class="card border-0 bg-transparent h-100">
-                        <button class="position-absolute top-right btn bg-transparent"
-                            [class.invisible]="isBuildingPanelCollapsed" (click)="closeBuildingPanel()">
-                            <span aria-hidden="true" class="text-muted">
-                                <i class="fas fa-times"></i>
-                            </span>
-                        </button>
-                        <div class="card-body h-100 p-3">
-                            <building #building [user]="user" [isEmptyMap]="isEmptyMap" (save)="saveChanges($event)"
-                                (openDetails)="onOpenDetails($event)"></building>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div id="details" [class.hide]="isDetailsPanelCollapsed || !isBuildingVisible"
-                [ngClass]="{'show border-right': !isDetailsPanelCollapsed && isBuildingVisible}"
-                class="d-none d-md-block collapsible bg-white  details h-100 justify-content-start overflow-y">
-                <div id="sidenav-details" class="h-100 w-100">
-                    <div class="card border-0 bg-transparent">
-                        <button class="position-absolute top-right btn bg-transparent"
-                            [class.invisible]="isDetailsPanelCollapsed" (click)="closeDetailsPanel()">
-                            <span aria-hidden="true" class="text-muted">
-                                <i class="fas fa-times"></i>
-                            </span>
-                        </button>
-
-                        <div class="card-body p-3 pt-4">
-
-                            <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [dataset]="dataset"
-                                [node]="openedNode" [user]="user" [team]="team" (edited)="saveDetailChanges()"
-                                [isEditMode]="isEditMode" (editTags)="onEditTags()"></initiative>
-                        </div>
-                    </div>
-                </div>
-
+      <div id="toggle"
+        class="d-none d-md-flex h-100 rounded-left py-3 flex-shrink-0   flex-column justify-content-start align-items-center cursor-pointer collapsible "
+        [class.hide]="!isBuildingPanelCollapsed" [class.show]="isBuildingPanelCollapsed"
+        [ngClass]="{'bg-accent-gray pointer-none':!isBuildingVisible}" [class.bg-accent]="isBuildingVisible"
+        (click)="openBuildingPanel()">
+        <div class="flex flex-column text-white" *ngIf="isBuildingPanelCollapsed">
+          <i class="h2 fa fa-angle-right w-100 text-center " aria-hidden="true"></i>
+          <div class="w-100 text-center small">Edit map</div>
+        </div>
+      </div>
+      <div id="hierarchy" [class.hide]="isBuildingPanelCollapsed || !isBuildingVisible"
+        [class.show]="!isBuildingPanelCollapsed && isBuildingVisible"
+        class="d-none d-md-block collapsible sidenav h-100 justify-content-start">
+        <div id="sidenav-hierarchy" class="hierarchy w-100 h-100 card border-light border-right bg-white">
+          <div class="card border-0 bg-transparent h-100">
+            <button class="position-absolute top-right btn bg-transparent" [class.invisible]="isBuildingPanelCollapsed"
+              (click)="closeBuildingPanel()">
+              <span aria-hidden="true" class="text-muted">
+                <i class="fas fa-times"></i>
+              </span>
+            </button>
+            <div class="card-body h-100 p-3">
+              <building #building [user]="user" [isEmptyMap]="isEmptyMap" (save)="saveChanges($event)"
+                (openDetails)="onOpenDetails($event)"></building>
 
             </div>
-
-
-            <div class="h-100 flex-shrink-1 w-100" id="main">
-                <div class="h-100 ">
-                    <ng-container *ngIf="isLoading">
-                        <div style="font-size: 4rem" class="d-flex justify-content-center align-items-center h-100 text-accent">
-                            <i class="fas fa-circle-notch fa-spin fa-pulse"></i>
-                        </div>
-                    </ng-container>
-                    <ng-container *ngIf="!isLoading">
-                        <mapping [tags]="selectableTags" [isEmptyMap]="isEmptyMap"
-                            (openDetails)="onOpenDetails($event)"
-                            (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
-                            (openTreePanel)="openBuildingPanel()" (expandTree)="buildingComponent.toggleAll(true)"
-                            (toggleEditingPanelsVisibility)="toggleEditingPanelsVisibility($event)">
-                        </mapping>
-                    </ng-container>
-                </div>
-            </div>
+          </div>
 
         </div>
+      </div>
+      <div id="details" [class.hide]="isDetailsPanelCollapsed || !isBuildingVisible"
+        [ngClass]="{'show border-right': !isDetailsPanelCollapsed && isBuildingVisible}"
+        class="d-none d-md-block collapsible bg-white  details h-100 justify-content-start overflow-y">
+        <div id="sidenav-details" class="h-100 w-100">
+          <div class="card border-0 bg-transparent">
+            <button class="position-absolute top-right btn bg-transparent" [class.invisible]="isDetailsPanelCollapsed"
+              (click)="closeDetailsPanel()">
+              <span aria-hidden="true" class="text-muted">
+                <i class="fas fa-times"></i>
+              </span>
+            </button>
+
+            <div class="card-body p-3 pt-4">
+
+              <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [dataset]="dataset" [node]="openedNode"
+                [user]="user" [team]="team" (edited)="saveDetailChanges()" [isEditMode]="isEditMode"
+                (editTags)="onEditTags()"></initiative>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+
+      <div class="h-100 flex-shrink-1 w-100" id="main">
+        <div class="h-100 ">
+          <ng-container *ngIf="isLoading">
+            <div style="font-size: 4rem" class="d-flex justify-content-center align-items-center h-100 text-accent">
+              <i class="fas fa-circle-notch fa-spin fa-pulse"></i>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="!isLoading">
+            <mapping [tags]="selectableTags" [isEmptyMap]="isEmptyMap" (openDetails)="onOpenDetails($event)"
+              (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
+              (openTreePanel)="openBuildingPanel()" (expandTree)="buildingComponent.toggleAll(true)"
+              (toggleEditingPanelsVisibility)="toggleEditingPanelsVisibility($event)">
+            </mapping>
+          </ng-container>
+        </div>
+      </div>
+
     </div>
+  </div>
 </div>
