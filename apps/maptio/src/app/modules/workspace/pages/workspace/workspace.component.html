@@ -6,6 +6,7 @@
   <span *ngIf="isSaving">Saving...</span>
   <span *ngIf="!isSaving">All changes saved</span>
 </div>
+
 <div class="d-md-none small w-100 text-center text-muted">
   Map editing is disabled on mobile.
 </div>
@@ -36,6 +37,7 @@
           <div class="w-100 text-center small">Edit map</div>
         </div>
       </div>
+
       <div
         id="hierarchy"
         [class.hide]="isBuildingPanelCollapsed || !isBuildingVisible"
@@ -56,6 +58,7 @@
                 <i class="fas fa-times"></i>
               </span>
             </button>
+
             <div class="card-body h-100 p-3">
               <building
                 #building
@@ -68,6 +71,7 @@
           </div>
         </div>
       </div>
+
       <div
         id="details"
         [class.hide]="isDetailsPanelCollapsed || !isBuildingVisible"
@@ -115,6 +119,7 @@
               <i class="fas fa-circle-notch fa-spin fa-pulse"></i>
             </div>
           </ng-container>
+
           <ng-container *ngIf="!isLoading">
             <mapping
               [tags]="selectableTags"
