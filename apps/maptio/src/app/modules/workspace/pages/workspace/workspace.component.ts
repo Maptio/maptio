@@ -68,11 +68,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   @ViewChild('dragConfirmation')
   dragConfirmationModal: NgbModal;
 
-  ngOnDestroy(): void {
-    EmitterService.get('currentTeam').emit(undefined);
-    if (this.routeSubscription) this.routeSubscription.unsubscribe();
-  }
-
   constructor(
     private route: ActivatedRoute,
     private datasetFactory: DatasetFactory,
@@ -133,6 +128,11 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
           this.cd.markForCheck();
         }
       );
+  }
+
+  ngOnDestroy(): void {
+    EmitterService.get('currentTeam').emit(undefined);
+    if (this.routeSubscription) this.routeSubscription.unsubscribe();
   }
 
   saveDetailChanges() {
