@@ -11,6 +11,10 @@
 
 
 <div class="d-flex flex-column h-100 mb-4">
+  <maptio-onboarding-message>
+    See and edit a circle's details here.
+  </maptio-onboarding-message>
+
 	<div class="mb-4">
 		<initiative-input-name [isUnauthorized]="!canEditName()"
 			[name]="node?.name" (save)="saveName($event)">
