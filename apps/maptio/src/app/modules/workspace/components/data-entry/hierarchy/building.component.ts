@@ -147,6 +147,11 @@ export class BuildingComponent implements OnDestroy {
         this.roleDeletedSubscription = this.roleLibrary.roleDeleted.subscribe((deletedRole) => {
             this.onLibraryRoleDelete(deletedRole);
         });
+
+        // Open all nodes unless we have saved state
+        if (!this.state) {
+          this.toggleAll(true);
+        }
     }
 
     ngOnDestroy() {

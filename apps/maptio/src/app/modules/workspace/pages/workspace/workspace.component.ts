@@ -43,7 +43,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   public isEditMode: boolean;
   public datasetId: string;
   private routeSubscription: Subscription;
-  private userSubscription: Subscription;
   public isLoading: boolean;
 
   public dataset: DataSet;
@@ -69,12 +68,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   @ViewChild('dragConfirmation')
   dragConfirmationModal: NgbModal;
 
-  ngOnDestroy(): void {
-    EmitterService.get('currentTeam').emit(undefined);
-    if (this.routeSubscription) this.routeSubscription.unsubscribe();
-    if (this.userSubscription) this.userSubscription.unsubscribe();
-  }
-
   constructor(
     private route: ActivatedRoute,
     private datasetFactory: DatasetFactory,
@@ -94,7 +87,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         tap((data) => {
           const newDatasetId = data.data.dataset.datasetId;
           if (newDatasetId !== this.datasetId) {
-            this.isBuildingPanelCollapsed = true;
+            this.isBuildingPanelCollapsed = false;
             this.isDetailsPanelCollapsed = true;
             // this.closeDetailsPanel();
             // this.closeBuildingPanel();
@@ -135,6 +128,11 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
           this.cd.markForCheck();
         }
       );
+  }
+
+  ngOnDestroy(): void {
+    EmitterService.get('currentTeam').emit(undefined);
+    if (this.routeSubscription) this.routeSubscription.unsubscribe();
   }
 
   saveDetailChanges() {
