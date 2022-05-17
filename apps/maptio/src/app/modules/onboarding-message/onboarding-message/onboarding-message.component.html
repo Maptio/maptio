@@ -1,4 +1,7 @@
-<div class="onboarding-message">
+<div
+  class="onboarding-message"
+  [class.onboarding-message--floating]="floating"
+>
   <p class="onboarding-message__message">
     <ng-content></ng-content>
   </p>

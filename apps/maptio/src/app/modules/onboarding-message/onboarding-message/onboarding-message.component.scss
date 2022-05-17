@@ -6,6 +6,13 @@
   background-image: linear-gradient(to left, var(--maptio-accent), var(--maptio-blue));
 }
 
+.onboarding-message--floating {
+  position: absolute;
+  max-width: 22.5rem;
+  margin: 2rem;
+  box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.37);
+}
+
 // TODO: Consider doing this and animating with:
 // https://codepen.io/chriscoyier/pen/eRbLWP
 // .onboarding-message:hover {
