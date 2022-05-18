@@ -183,8 +183,6 @@ export class UserService implements OnDestroy {
       });
     datasets = sortBy(datasets, dataset => dataset.initiative.name);
 
-    console.log('*** User at the end of gather user data', user);
-
     return { datasets, teams, user };
   }
 
