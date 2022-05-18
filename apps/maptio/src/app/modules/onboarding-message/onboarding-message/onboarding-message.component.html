@@ -1,4 +1,5 @@
 <div
+  *ngIf="showMessage$ | async"
   class="onboarding-message"
   [class.onboarding-message--floating]="floating"
 >
