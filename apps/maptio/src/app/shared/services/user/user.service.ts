@@ -183,6 +183,8 @@ export class UserService implements OnDestroy {
       });
     datasets = sortBy(datasets, dataset => dataset.initiative.name);
 
+    console.log('*** User at the end of gather user data', user);
+
     return { datasets, teams, user };
   }
 
@@ -278,6 +280,11 @@ export class UserService implements OnDestroy {
       createdAt: new Date().toISOString(),
       loginsCount: 0,
       userRole: isAdmin ? UserRole.Admin : UserRole.Standard,
+      onboardingProgress: {
+        showEditingPanelMessage: true,
+        showCircleDetailsPanelMessage: true,
+        showCircleCanvasMessage: true,
+      }
     };
 
     return User.create().deserialize(newUserData);
