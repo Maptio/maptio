@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { environment } from '@maptio-environment';
 import { User } from '@maptio-shared/model/user.data';
 import { UserRole } from '@maptio-shared/model/permission.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
@@ -20,6 +21,8 @@ export class OnboardingMessageComponent {
   @Input() set messageKey(messageKey: string) {
     this.messageKey$.next(messageKey);
   }
+
+  helpPageUrl = '';
 
   user?: User;
 
@@ -42,6 +45,7 @@ export class OnboardingMessageComponent {
         user.userRole === UserRole.Admin &&
         Object.prototype.hasOwnProperty.call(user.onboardingProgress, messageKey)
       ) {
+        this.helpPageUrl = environment.ONBOARDING_MESSAGES[messageKey];
         return user.onboardingProgress[messageKey];
       } else {
         return false;

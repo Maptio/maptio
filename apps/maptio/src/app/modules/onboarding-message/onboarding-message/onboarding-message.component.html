@@ -10,7 +10,9 @@
   <div class="onboarding-message__buttons">
     <a
       class="btn btn-info text-white"
-      [href]="''"
+      *ngIf="helpPageUrl"
+      [href]="helpPageUrl"
+      target="_blank"
     >
       <span class="onboarding-message__emoji">📚</span>
       Learn more
