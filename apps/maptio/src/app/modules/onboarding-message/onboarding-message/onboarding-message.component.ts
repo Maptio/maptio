@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { User } from '@maptio-shared/model/user.data';
 import { UserRole } from '@maptio-shared/model/permission.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 
@@ -20,14 +21,22 @@ export class OnboardingMessageComponent {
     this.messageKey$.next(messageKey);
   }
 
+  user?: User;
+
+  private hideMessageManually$ = new BehaviorSubject<boolean>(false);
+
   // Show message only if user has not already dismissed it and only if they
   // are an admin
   showMessage$ = combineLatest([
     this.messageKey$,
     this.userService.user$,
+    this.hideMessageManually$,
   ]).pipe(
-    map(([messageKey, user]) => {
+    map(([messageKey, user, hideMessageManually]) => {
+      this.user = user;
+
       if (
+        !hideMessageManually &&
         user &&
         messageKey &&
         user.userRole === UserRole.Admin &&
@@ -41,4 +50,16 @@ export class OnboardingMessageComponent {
   );
 
   constructor(public userService: UserService) {};
+
+  dismissMessage() {
+    const messageKey = this.messageKey$.value;
+
+    if (this.user && messageKey) {
+      const onboardingProgress = this.user.onboardingProgress;
+      onboardingProgress[messageKey] = false;
+
+      this.userService.updateUserOnboardingProgress(this.user, onboardingProgress);
+      this.hideMessageManually$.next(true);
+    }
+  }
 }

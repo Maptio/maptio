@@ -32,6 +32,7 @@ import { UserFactory } from '@maptio-core/http/user/user.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { User } from '@maptio-shared/model/user.data';
+import { OnboardingProgress } from '@maptio-shared/model/onboarding-progress.data';
 import { Helper } from '@maptio-shared/model/helper.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { DataSet } from '@maptio-shared/model/dataset.data';
@@ -43,7 +44,6 @@ import { LoaderService } from '@maptio-shared/components/loading/loader.service'
 
 import { MultipleUserDuplicationError } from './multiple-user-duplication.error';
 import { DuplicationError } from './duplication.error';
-import { init } from 'logrocket';
 
 
 @Injectable()
@@ -407,6 +407,14 @@ export class UserService implements OnDestroy {
 
   public updateUserRole(user: User, userRole: UserRole): Promise<boolean> {
     user.userRole = userRole;
+    return this.userFactory.upsert(user);
+  }
+
+  public updateUserOnboardingProgress(
+    user: User,
+    onboardingProgress: OnboardingProgress
+  ): Promise<boolean> {
+    user.onboardingProgress = onboardingProgress;
     return this.userFactory.upsert(user);
   }
 
