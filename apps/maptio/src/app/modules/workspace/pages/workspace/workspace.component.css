@@ -46,11 +46,17 @@
 }
 
 .clean-close-button {
-  top: 0.25rem;
-  right: 0.25rem;
-  padding: 3px 9px 3px 10px; /* With icon achieves a 32px by 32px button */
+  /* Position adjusted to look good both with and without scrollbar */
+  top: 4px;
+  right: 7px;
+
+  /* With icon achieves a 26px by 26px button */
+  padding: 0 6px 0 7px;
+
+  /* Match bootstrap button styles */
   border-radius: 0.25rem;
-  background-color: rgba(255,255,255,0.25) !important;
+
+  background-color: transparent !important;
   z-index: 1;
 }
 
