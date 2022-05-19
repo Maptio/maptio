@@ -58,9 +58,12 @@ import { InitiativeVacanciesInputComponent } from './components/data-entry/detai
 import { CommonTextareaComponent } from '../../shared/components/textarea/textarea.component';
 import { InitiativeHelperPrivilegeComponent } from './components/data-entry/details/parts/helpers/helper-toggle-privilege.component';
 import { InitiativeInputSizeComponent } from './components/data-entry/details/parts/size/input-size.component';
-import { CircleMapModule } from '@maptio-circle-map/circle-map.module';
 
+import { CircleMapModule } from '@maptio-circle-map/circle-map.module';
 import { MemberFormModule } from "@maptio-member-form";
+import { OnboardingMessageModule } from "../onboarding-message/onboarding-message.module";
+// TODO: Why is this not working instead of the above line, what am I missing?
+// import { OnboardingMessageModule } from "@maptio-onboarding-message";
 
 
 @NgModule({
@@ -85,6 +88,7 @@ import { MemberFormModule } from "@maptio-member-form";
         PermissionsModule,
         CircleMapModule,
         MemberFormModule,
+        OnboardingMessageModule,
     ],
     declarations: [
         WorkspaceComponent,

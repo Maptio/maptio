@@ -1,0 +1,29 @@
+<div
+  *ngIf="showMessage$ | async"
+  class="onboarding-message"
+  [class.onboarding-message--floating]="floating"
+>
+  <p class="onboarding-message__message">
+    <ng-content></ng-content>
+  </p>
+
+  <div class="onboarding-message__buttons">
+    <a
+      class="btn btn-info text-white"
+      *ngIf="helpPageUrl"
+      [href]="helpPageUrl"
+      target="_blank"
+    >
+      <span class="onboarding-message__emoji">📚</span>
+      Learn more
+    </a>
+
+    <button
+      class="btn btn-success text-white"
+      (click)="dismissMessage()"
+    >
+      <span class="onboarding-message__emoji">✅</span>
+      OK
+    </button>
+  </div>
+</div>

@@ -1,8 +1,10 @@
 import * as slug from 'slug';
 import * as parse from 'date-fns/parse';
 
-import { UserRole } from './permission.data';
 import { Serializable } from '../interfaces/serializable.interface';
+import { UserRole } from './permission.data';
+import { OnboardingProgress } from './onboarding-progress.data';
+
 
 /**
  * A user
@@ -64,6 +66,8 @@ export class User implements Serializable<User> {
 
   /** User status e.g. Standard, Admin, Guest, etc. */
   public userRole: UserRole;
+
+  public onboardingProgress: OnboardingProgress;
 
   public constructor(init?: Partial<User>) {
     Object.assign(this, init);
@@ -128,6 +132,10 @@ export class User implements Serializable<User> {
         deserialized.datasets.push(d);
       });
     }
+
+    deserialized.onboardingProgress = OnboardingProgress
+      .create()
+      .deserialize(input.onboardingProgress);
 
     return deserialized;
   }

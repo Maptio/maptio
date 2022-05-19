@@ -1,0 +1,42 @@
+.onboarding-message {
+  margin-bottom: 1.25rem;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  color: white;
+  background-image: linear-gradient(to left, var(--maptio-accent), var(--maptio-blue));
+}
+
+.onboarding-message--floating {
+  position: absolute;
+  max-width: 22.5rem;
+  margin: 2rem;
+  box-shadow: 4px 4px 12px 4px hsl(0deg 0% 0% / 10%);
+}
+
+// TODO: Consider doing this and animating with:
+// https://codepen.io/chriscoyier/pen/eRbLWP
+// .onboarding-message:hover {
+//   background-image: linear-gradient(to left, var(--maptio-green), var(--maptio-blue));
+// }
+
+.onboarding-message__message {
+  margin-bottom: 0.75rem;
+}
+
+.onboarding-message__buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.onboarding-message__buttons >  * + * {
+  margin-left: 1rem;
+}
+
+// TODO: Create a component and reuse here and in the onboarding banner
+.onboarding-message__emoji {
+  // Counteract the emoji having a different width in production
+  width: 1.25rem;
+
+  display: inline-block;
+  margin-right: 0.0625rem;
+}

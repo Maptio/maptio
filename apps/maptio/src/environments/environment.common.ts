@@ -21,5 +21,11 @@ export const commonEnvironment = {
     STANDARD_MONTHLY_URL: 'https://maptio.chargebee.com/hosted_pages/plans/standard-plan',
     STANDARD_ANNUAL_COST: '89',
     STANDARD_ANNUAL_URL: 'https://maptio.chargebee.com/hosted_pages/plans/annual-standard-plan',
+  },
+
+  ONBOARDING_MESSAGES: {
+    showEditingPanelMessage: 'https://github.com/Maptio/maptio/wiki/Creating-and-editing-circles',
+    showCircleDetailsPanelMessage: 'https://github.com/Maptio/maptio/wiki/Creating-and-editing-circles',
+    showCircleCanvasMessage: 'https://github.com/Maptio/maptio/wiki/Circles-and-expanded-views',
   }
 };
