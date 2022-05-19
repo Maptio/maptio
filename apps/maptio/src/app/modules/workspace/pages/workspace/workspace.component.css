@@ -1,10 +1,10 @@
 .saving{
-	opacity: 0.75;	
+	opacity: 0.75;
     transition-delay:0s;
 }
 
 .saving.hide{
-	opacity: 0;	
+	opacity: 0;
     transition: opacity 2s ease;
     transition-delay:2s;
 }
@@ -43,4 +43,64 @@
 #details.collapsible.show{
     width:66%;
     transition:all 1s;
+}
+
+.clean-close-button {
+  /* Position adjusted to look good both with and without scrollbar */
+  top: 4px;
+  right: 7px;
+
+  /* With icon achieves a 26px by 26px button */
+  padding: 0 6px 0 7px;
+
+  /* Match bootstrap button styles */
+  border-radius: 0.25rem;
+
+  background-color: transparent !important;
+  z-index: 1;
+}
+
+.clean-close-button:hover {
+  color:rgba(0, 0, 0, 0.75);
+  background-color: rgba(255,255,255,0.75) !important;
+}
+
+.clean-close-button__icon {
+  color:rgba(0, 0, 0, 0.35);
+  transition: color .15s ease-in-out;
+}
+
+.clean-close-button:hover .clean-close-button__icon {
+  color:rgba(0, 0, 0, 0.75);
+}
+
+.clean-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 0.25rem;
+}
+
+.clean-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 0.25rem;
+}
+
+.clean-scrollbar::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.clean-scrollbar::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.clean-scrollbar {
+  overflow-y: overlay;
+
+  -ms-overflow-style: auto;
+  scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+  scrollbar-width: thin;
+}
+
+.clean-scrollbar:hover {
+  scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
 }

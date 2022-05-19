@@ -48,17 +48,17 @@
           id="sidenav-hierarchy"
           class="hierarchy w-100 h-100 card border-light border-right bg-white"
         >
-          <div class="card border-0 bg-transparent h-100">
-            <button
-              class="position-absolute top-right btn bg-transparent"
-              [class.invisible]="isBuildingPanelCollapsed"
-              (click)="closeBuildingPanel()"
-            >
-              <span aria-hidden="true" class="text-muted">
-                <i class="fas fa-times"></i>
-              </span>
-            </button>
+          <button
+            class="clean-close-button position-absolute top-right btn bg-transparent"
+            [class.invisible]="isBuildingPanelCollapsed"
+            (click)="closeBuildingPanel()"
+          >
+            <span aria-hidden="true" class="clean-close-button__icon">
+              <i class="fas fa-times"></i>
+            </span>
+          </button>
 
+          <div class="clean-scrollbar card border-0 bg-transparent h-100">
             <div class="card-body h-100 p-3">
               <building
                 #building
@@ -78,20 +78,20 @@
         [ngClass]="{
           'show border-right': !isDetailsPanelCollapsed && isBuildingVisible
         }"
-        class="d-none d-md-block collapsible bg-white details h-100 justify-content-start overflow-y"
+        class="position-relative d-none d-md-block collapsible bg-white details h-100 justify-content-start"
       >
-        <div id="sidenav-details" class="h-100 w-100">
-          <div class="card border-0 bg-transparent">
-            <button
-              class="position-absolute top-right btn bg-transparent"
-              [class.invisible]="isDetailsPanelCollapsed"
-              (click)="closeDetailsPanel()"
-            >
-              <span aria-hidden="true" class="text-muted">
-                <i class="fas fa-times"></i>
-              </span>
-            </button>
+        <button
+          class="clean-close-button position-absolute btn bg-transparent"
+          [class.invisible]="isDetailsPanelCollapsed"
+          (click)="closeDetailsPanel()"
+        >
+          <span aria-hidden="true" class="clean-close-button__icon">
+            <i class="fas fa-times"></i>
+          </span>
+        </button>
 
+        <div id="sidenav-details" class="h-100 w-100 clean-scrollbar">
+          <div class="card border-0 bg-transparent">
             <div class="card-body p-3 pt-4">
               <initiative
                 *ngIf="!isDetailsPanelCollapsed"
