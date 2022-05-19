@@ -48,18 +48,17 @@
           id="sidenav-hierarchy"
           class="hierarchy w-100 h-100 card border-light border-right bg-white"
         >
-          <div class="card border-0 bg-transparent h-100">
-            <!-- The close button! -->
-            <button
-              class="position-absolute top-right btn bg-transparent"
-              [class.invisible]="isBuildingPanelCollapsed"
-              (click)="closeBuildingPanel()"
-            >
-              <span aria-hidden="true" class="text-muted">
-                <i class="fas fa-times"></i>
-              </span>
-            </button>
+          <button
+            class="clean-close-button position-absolute top-right btn bg-transparent"
+            [class.invisible]="isBuildingPanelCollapsed"
+            (click)="closeBuildingPanel()"
+          >
+            <span aria-hidden="true" class="text-muted">
+              <i class="fas fa-times"></i>
+            </span>
+          </button>
 
+          <div class="clean-scrollbar card border-0 bg-transparent h-100">
             <div class="card-body h-100 p-3">
               <building
                 #building
