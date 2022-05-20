@@ -21,6 +21,27 @@
     </div>
   </div>
 
+  <div
+    *ngIf="showMultipleAdminsWarning"
+    class="alert alert-warning fade show mt-5 mb-0"
+    role="alert"
+  >
+    Your organisation appears to have multiple admin users.
+    We recommend that you only have one admin user at any one time.
+    We are working on a multiuser realtime map editing system, however in the
+    meantime, there is a small possibility that data will be overriden when
+    multiple admin users make edits at the same time.
+    If you need multiple admin users, please communicate to avoid making changes
+    at the same time.
+    If this is something particularly important for you, please
+    <a
+      href="mailto:support@maptio.com?subject=I need multiuser realtime editing"
+      class="alert-link"
+    >reach out and let us know</a>.
+    You can also
+    <a href="#" class="alert-link">learn more here</a>.
+  </div>
+
   <div class="my-4">
     <div class="d-none d-md-block border-bottom pt-4 text-muted">
       <div class="d-flex align-items-center">
