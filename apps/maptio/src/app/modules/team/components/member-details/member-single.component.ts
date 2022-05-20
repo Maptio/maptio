@@ -40,6 +40,7 @@ export class MemberSingleComponent {
   isDisplayUpdatingLoader: boolean;
   isEditToggled: boolean;
   wasInvitationAttempted: boolean;
+  showMultipleAdminsWarning: boolean;
 
   duplicateUsers: User[] = [];
 
@@ -61,6 +62,12 @@ export class MemberSingleComponent {
     this.cd.markForCheck();
 
     const userRole = Number(userRoleString) as UserRole;
+
+    if (userRole === UserRole.Admin) {
+      this.showMultipleAdminsWarning = true;
+    } else {
+      this.showMultipleAdminsWarning = false;
+    }
 
     this.userService
       .updateUserRole(this.member, userRole)

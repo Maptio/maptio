@@ -221,6 +221,27 @@
   {{errorMessage}}
 </div>
 
+<div
+  *ngIf="showMultipleAdminsWarning"
+  class="alert alert-warning fade show"
+  role="alert"
+>
+  We recommend that you only have one admin user in your organisation at any
+  one time.
+  We are working on a multiuser realtime map editing system, however in the
+  meantime, there is a small possibility that data will be overriden when
+  multiple admin users make edits at the same time.
+  If you need multiple admin users, please communicate to avoid making changes
+  at the same time.
+  If this is something particularly important for you, please
+  <a
+    href="mailto:support@maptio.com?subject=I need multiuser realtime editing"
+    class="alert-link"
+  >reach out and let us know</a>.
+  You can also
+  <a href="#" class="alert-link">learn more here</a>.
+</div>
+
 <!-- TODO: Extract the two additional non-form fields from here too -->
 <!-- <div class="bg-light py-2" *ngIf="isEditToggled">
   <form
