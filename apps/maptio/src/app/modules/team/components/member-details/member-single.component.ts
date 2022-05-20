@@ -36,6 +36,7 @@ export class MemberSingleComponent {
 
   @Output() delete = new EventEmitter<User>();
 
+  @Input() numberOfAdminUsers: number;
   @Output() refreshMembersList = new EventEmitter<void>();
 
   isDisplaySendingLoader: boolean;
@@ -65,7 +66,7 @@ export class MemberSingleComponent {
 
     const userRole = Number(userRoleString) as UserRole;
 
-    if (userRole === UserRole.Admin) {
+    if (userRole === UserRole.Admin && this.numberOfAdminUsers > 0) {
       this.showMultipleAdminsWarning = true;
     } else {
       this.showMultipleAdminsWarning = false;

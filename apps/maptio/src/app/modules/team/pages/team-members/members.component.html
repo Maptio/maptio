@@ -90,8 +90,9 @@
           [user]="user"
           [member]="member"
           [team]="team"
-          (delete)="deleteMember(member)"
+          [numberOfAdminUsers]="numberOfAdminUsers"
           (refreshMembersList)="getAllMembers()"
+          (delete)="deleteMember(member)"
         ></maptio-member-single>
 
         <hr class="d-md-none" />

@@ -41,6 +41,7 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
   private membersSubject$: BehaviorSubject<User[]> = new BehaviorSubject([]);
   public readonly members$ = this.membersSubject$.asObservable();
 
+  numberOfAdminUsers: number;
   showMultipleAdminsWarning = false;
 
   private routeSubscription: Subscription;
@@ -101,11 +102,11 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
       this.updateCreatedUsersInIntercom(members.length);
       this.loaderService.hide();
 
-      const numberOfAdmins = members
+      this.numberOfAdminUsers = members
         .filter((member) => member.userRole === UserRole.Admin)
         .length;
 
-      if (numberOfAdmins > 1) {
+      if (this.numberOfAdminUsers > 1) {
         this.showMultipleAdminsWarning = true;
       } else {
         this.showMultipleAdminsWarning = false;
