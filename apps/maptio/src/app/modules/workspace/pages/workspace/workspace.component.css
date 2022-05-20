@@ -94,6 +94,7 @@
 }
 
 .clean-scrollbar {
+  overflow-y: auto; /* For Firefox, and anywhere `overlay` isn't supported */
   overflow-y: overlay;
 
   -ms-overflow-style: auto;
