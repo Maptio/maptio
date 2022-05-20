@@ -36,6 +36,8 @@ export class MemberSingleComponent {
 
   @Output() delete = new EventEmitter<User>();
 
+  @Output() refreshMembersList = new EventEmitter<void>();
+
   isDisplaySendingLoader: boolean;
   isDisplayUpdatingLoader: boolean;
   isEditToggled: boolean;
@@ -73,6 +75,7 @@ export class MemberSingleComponent {
       .updateUserRole(this.member, userRole)
       .then(() => {
         this.isDisplayUpdatingLoader = false;
+        this.refreshMembersList.emit();
         this.cd.markForCheck();
       });
   }

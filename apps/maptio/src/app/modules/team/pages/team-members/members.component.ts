@@ -107,6 +107,8 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
 
       if (numberOfAdmins > 1) {
         this.showMultipleAdminsWarning = true;
+      } else {
+        this.showMultipleAdminsWarning = false;
       }
 
       this.membersSubject$.next(members);
