@@ -19,11 +19,11 @@
     >
       <div
         id="toggle"
-        class="d-none d-md-flex h-100 rounded-left py-3 flex-shrink-0 flex-column justify-content-start align-items-center cursor-pointer collapsible"
+        class="d-none h-100 rounded-left py-3 flex-shrink-0 flex-column justify-content-start align-items-center cursor-pointer collapsible"
         [class.hide]="!isBuildingPanelCollapsed"
         [class.show]="isBuildingPanelCollapsed"
-        [ngClass]="{ 'bg-accent-gray pointer-none': !isBuildingVisible }"
         [class.bg-accent]="isBuildingVisible"
+        [class.d-md-flex]="isBuildingVisible"
         (click)="openBuildingPanel()"
       >
         <div

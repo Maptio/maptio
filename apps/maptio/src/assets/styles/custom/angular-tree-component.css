@@ -110,6 +110,9 @@ tree-viewport {
 }
 
 .angular-tree-component {
+  /* Fix to improve styles in Safari with the clean scrollbar class */
+  overflow-y: hidden;
+
   width: 100%;
   position: relative;
   display: inline-block;
@@ -177,7 +180,7 @@ tree-root .angular-tree-component-rtl .tree-children {
   position: relative;
   width: 100%;
   padding: 2px 0px !important;
-  margin-left: 0.5vw; 
+  margin-left: 0.5vw;
   /* margin-right: 0.5vw; */
 }
 
