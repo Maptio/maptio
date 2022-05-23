@@ -44,7 +44,9 @@ export class OnboardingComponent implements OnInit {
     ]
     selectedColor: string = this.COLORS[0].name;
     mapName: string;
+
     isCreatingTeam: boolean;
+    isCreatingMap = false;
 
     members: User[];
     team: Team;
@@ -87,23 +89,28 @@ export class OnboardingComponent implements OnInit {
     }
 
     nextStep() {
+        if (this.isCreatingTeam || this.isCreatingMap) {
+          return;
+        }
 
         if (this.currentStep === "CreateTeam") {
             this.isCreatingTeam = false;
             this.cd.markForCheck();
             if (isEmpty(this.team.name)) {
                 this.teamCreationErrorMessage = "We need a name to continue."
+                this.nextActionName = 'Next';
                 this.cd.markForCheck();
                 return;
             }
             else {
                 this.isCreatingTeam = true;
+                this.nextActionName = 'Setting up your organisation';
+                this.teamCreationErrorMessage = null;
                 this.cd.markForCheck();
                 this.saveTeam(this.team)
                     .then(team => {
                         this.isCreatingTeam = false;
                         this.team = team;
-                        this.teamCreationErrorMessage = null;
                         this.mapName = `${team.name} map`
                         this.goToNextStep();
                         this.cd.markForCheck();
@@ -112,6 +119,9 @@ export class OnboardingComponent implements OnInit {
         }
         else if (this.currentStep === "Terminology") {
             this.sendOnboardingEventToMixpanel();
+
+            this.isCreatingMap = true;
+            this.nextActionName = 'Creating your map';
 
             return this.createMap(this.mapName)
                 .then(dataset => {
@@ -145,7 +155,6 @@ export class OnboardingComponent implements OnInit {
     private goToNextStep() {
         this.currentIndex += 1;
         this.currentStep = this.steps[this.currentIndex]
-        console.log('current step', this.currentStep);
         this.nextActionName = this.getNextActionName();
         this.previousActionName = this.getPreviousActionName();
         this.isClosable = this.getIsClosable();

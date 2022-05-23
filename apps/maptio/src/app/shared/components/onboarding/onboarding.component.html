@@ -1,6 +1,7 @@
 <common-modal [nextActionName]="nextActionName" [previousActionName]="previousActionName" [isSkippable]="isSkippable"
     [isReady]="true" [isWithProgress]="true" [isWithProgress]="false" [progress]="progress"
-    [progressLabel]="progressLabel" (next)="nextStep()" (previous)="previousStep()">
+    [progressLabel]="progressLabel" [isUpdating]="isCreatingTeam || isCreatingMap"
+    (next)="nextStep()" (previous)="previousStep()">
 
     <ng-container *ngIf="currentStep === 'Welcome'">
         <ng-container *ngTemplateOutlet="welcome"></ng-container>
@@ -59,8 +60,6 @@
         <div class="form-row w-100 d-flex justify-content-center align-items-center flex-column">
             <input [(ngModel)]="team.name" type="text" class="form-control col-12 col-md-10 col-lg-6">
             <small *ngIf="teamCreationErrorMessage" class="form-text text-danger">{{teamCreationErrorMessage}}</small>
-            <small *ngIf="isCreatingTeam" class="text-green">
-                <i class="fas fa-circle-notch fa-spin"></i> Setting up your organisation</small>
         </div>
     </div>
 
