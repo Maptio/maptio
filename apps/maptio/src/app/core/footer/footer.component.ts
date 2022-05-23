@@ -1,5 +1,6 @@
-import { environment } from "../../config/environment";
 import { Component, Input} from "@angular/core";
+
+import { environment } from "@maptio-environment";
 
 @Component({
     selector: "footer",
