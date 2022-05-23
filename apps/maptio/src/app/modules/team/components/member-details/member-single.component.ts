@@ -36,10 +36,14 @@ export class MemberSingleComponent {
 
   @Output() delete = new EventEmitter<User>();
 
+  @Input() numberOfAdminUsers: number;
+  @Output() refreshMembersList = new EventEmitter<void>();
+
   isDisplaySendingLoader: boolean;
   isDisplayUpdatingLoader: boolean;
   isEditToggled: boolean;
   wasInvitationAttempted: boolean;
+  showMultipleAdminsWarning: boolean;
 
   duplicateUsers: User[] = [];
 
@@ -62,10 +66,17 @@ export class MemberSingleComponent {
 
     const userRole = Number(userRoleString) as UserRole;
 
+    if (userRole === UserRole.Admin && this.numberOfAdminUsers > 0) {
+      this.showMultipleAdminsWarning = true;
+    } else {
+      this.showMultipleAdminsWarning = false;
+    }
+
     this.userService
       .updateUserRole(this.member, userRole)
       .then(() => {
         this.isDisplayUpdatingLoader = false;
+        this.refreshMembersList.emit();
         this.cd.markForCheck();
       });
   }

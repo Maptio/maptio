@@ -416,7 +416,7 @@ button.cursor-not-allowed{
 
 
 
-.btn-link, a:not(.btn-tag):not(.text-white):not(.text-gray-light):not(.text-success):not(.nav-link) {
+.btn-link, a:not(.btn-tag):not(.alert-link):not(.text-white):not(.text-gray-light):not(.text-success):not(.nav-link) {
   color: var(--maptio-blue) !important;
 }
 

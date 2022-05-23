@@ -23,7 +23,7 @@ import { DataSet } from '@maptio-shared/model/dataset.data';
 import { User } from '@maptio-shared/model/user.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 import { TeamService } from '@maptio-shared/services/team/team.service';
-import { Permissions } from '@maptio-shared/model/permission.data';
+import { Permissions, UserRole } from '@maptio-shared/model/permission.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { LoaderService } from '@maptio-shared/components/loading/loader.service';
 
@@ -40,6 +40,9 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
 
   private membersSubject$: BehaviorSubject<User[]> = new BehaviorSubject([]);
   public readonly members$ = this.membersSubject$.asObservable();
+
+  numberOfAdminUsers: number;
+  showMultipleAdminsWarning = false;
 
   private routeSubscription: Subscription;
 
@@ -98,6 +101,16 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
 
       this.updateCreatedUsersInIntercom(members.length);
       this.loaderService.hide();
+
+      this.numberOfAdminUsers = members
+        .filter((member) => member.userRole === UserRole.Admin)
+        .length;
+
+      if (this.numberOfAdminUsers > 1) {
+        this.showMultipleAdminsWarning = true;
+      } else {
+        this.showMultipleAdminsWarning = false;
+      }
 
       this.membersSubject$.next(members);
     } catch(error) {
