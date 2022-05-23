@@ -23,11 +23,13 @@ import {
 
 import { SubSink } from 'subsink';
 import { AuthService } from '@auth0/auth0-angular';
+import { Intercom } from 'ng-intercom';
 import { UUID } from 'angular2-uuid/index';
 import { isEmpty, remove, sortBy, uniq } from 'lodash-es';
 import { nanoid } from 'nanoid'
 
 import { environment } from '@maptio-environment';
+import { environment as config } from '@maptio-config/environment';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
@@ -113,6 +115,7 @@ export class UserService implements OnDestroy {
     private router: Router,
     private subs: SubSink,
     private auth: AuthService,
+    private intercomService: Intercom, // :'(
     private userFactory: UserFactory,
     private teamFactory: TeamFactory,
     private teamService: TeamService,
@@ -395,11 +398,16 @@ export class UserService implements OnDestroy {
 
     user.firstname = firstname;
     user.lastname = lastname;
+    user.name = `${firstname} ${lastname}`;
     user.email = email;
     user.picture = picture;
 
     if (isActivationPending !== undefined) {
       user.isActivationPending = isActivationPending;
+    }
+
+    if (user.isInAuth0) {
+      this.updateUserDataInIntercom(user);
     }
 
     return this.userFactory.upsert(user);
@@ -647,5 +655,25 @@ export class UserService implements OnDestroy {
     return initiative.helpers.some(
       helper => helper.user_id === user.user_id
     );
+  }
+
+  /**
+   * :'(
+   */
+  private updateUserDataInIntercom(user) {
+    this.intercomService.update({
+      app_id: config.INTERCOM_APP_ID,
+      email: user.email,
+      user_id: user.user_id,
+      name: user.name,
+      first_name: user.firstname,
+      "First Name": user.firstname,
+      "Last Name": user.lastname,
+      avatar: {
+          type: "avatar",
+          image_url: user.picture,
+      },
+      is_invited: user.isInvitationSent
+    });
   }
 }
