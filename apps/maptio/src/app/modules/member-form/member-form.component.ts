@@ -63,6 +63,7 @@ export class MemberFormComponent implements OnInit {
   @Input() disableEmailInput = false;
   @Input() disableDeduplication = false;
   @Input() duplicateUsers: User[] = [];
+  @Input() isProfilePage = false;
   @Output() addMember = new EventEmitter<User>();
   @Output() editMember = new EventEmitter();
   @Output() cancel = new EventEmitter();
@@ -86,7 +87,6 @@ export class MemberFormComponent implements OnInit {
       ),
       lastname: new FormControl('', { validators: [ Validators.minLength(2) ] }),
       email: new FormControl('', { validators: [ Validators.email ] }),
-      isTermsAccepted: new FormControl(false, { validators: [ Validators.requiredTrue ] }),
     });
 
     if (this.member) {
@@ -118,8 +118,13 @@ export class MemberFormComponent implements OnInit {
     }
 
     // Not adding a member to a team, but creating a user via sign up
-    if (!this.team) {
+    if (!this.team && !this.isProfilePage) {
       this.isUserSignUp = true;
+
+      this.memberForm.addControl(
+        'isTermsAccepted',
+        new FormControl(false, { validators: [ Validators.requiredTrue ] }),
+      )
     }
   }
 
