@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from '../../../../config/environment';
+import { environment } from '@maptio-environment';
 
 @Component({
     selector: 'app-privacy',
