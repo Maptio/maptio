@@ -81,6 +81,30 @@
     <small class="invalid-feedback">Please enter a valid email</small>
   </div>
 
+  <div class="form-group mt-4">
+    <div class="custom-control custom-checkbox">
+      <input
+        type="checkbox"
+        id="inputIsTermsAccepted"
+        formControlName="isTermsAccepted"
+        class="custom-control-input"
+        [class.is-invalid]="isFieldInvalid('isTermsAccepted')"
+      >
+
+      <label class="custom-control-label" for="inputIsTermsAccepted">
+        I agree to Maptio's
+        <a href="{{ TERMS_AND_CONDITIONS_URL}}" target="_blank">
+          Terms of Service
+        </a> and
+        <a href="{{ PRIVACY_POLICY_URL }}" target="_blank">
+          Privacy Policy
+        </a>
+      </label>
+
+      <small class="invalid-feedback">Please acknowledge accepting the terms before proceeding</small>
+    </div>
+  </div>
+
   <span
     *ngIf="isSavingSuccess"
     class="text-green mx-1 flash small"
@@ -186,7 +210,7 @@
   >
     <p>
       <span *ngIf="duplicateUsers.length === 1; else multiplePeople">A person</span>
-      with this 
+      with this
       <span *ngIf="memberForm.controls['email'].value; else duplicationOnName">email address </span>
       <span *ngIf="duplicateUsers.length === 1; else are">is</span>
       already

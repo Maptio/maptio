@@ -86,6 +86,7 @@ export class MemberFormComponent implements OnInit {
       ),
       lastname: new FormControl('', { validators: [ Validators.minLength(2) ] }),
       email: new FormControl('', { validators: [ Validators.email ] }),
+      isTermsAccepted: new FormControl(false, { validators: [ Validators.requiredTrue ] }),
     });
 
     if (this.member) {
