@@ -12,7 +12,7 @@ export class FooterComponent {
     @Input("isMobile") isMobile:boolean;
 
     public TERMS_AND_CONDITIONS_URL: string = environment.TERMS_AND_CONDITIONS_URL
-    public PRIVACY_URL: string = environment.PRIVACY_URL
+    public PRIVACY_POLICY_URL: string = environment.PRIVACY_POLICY_URL
     public BLOG_URL: string = environment.BLOG_URL;
     public WIKI_URL: string = environment.WIKI_URL;
     public today  = Date.now();
