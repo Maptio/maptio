@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { Intercom } from 'ng-intercom';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
+import { environment } from '@maptio-environment';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { DataSet } from '@maptio-shared/model/dataset.data';
 import { User, MemberFormFields } from '@maptio-shared/model/user.data';
@@ -27,6 +28,9 @@ import { TeamFactory } from '@maptio-core/http/team/team.factory';
   styleUrls: ['./member-form.component.scss'],
 })
 export class MemberFormComponent implements OnInit {
+  TERMS_AND_CONDITIONS_URL = environment.TERMS_AND_CONDITIONS_URL;
+  PRIVACY_POLICY_URL = environment.PRIVACY_POLICY_URL;
+
   public newMember: User;
   public errorMessage: string;
 
