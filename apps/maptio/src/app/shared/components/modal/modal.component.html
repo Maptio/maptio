@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="d-flex justify-content-end col-12 col-md mt-3 mt-md-0">
-        <button type="button" class="btn btn-lg btn-outline-secondary mx-1" [class.invisible]="!previousActionName" (click)="previousStep()">{{previousActionName}}</button>
+        <button type="button" class="btn btn-lg btn-outline-secondary mx-1" [class.invisible]="!previousActionName" [disabled]="isUpdating" (click)="previousStep()">{{previousActionName}}</button>
         <button type="button" *ngIf="isSkippable" class="btn btn-lg btn-link mx-1" (click)="nextStep()">I'll do this later</button>
         <button type="button" *ngIf="!isSkippable" class="btn btn-lg btn-success" [class.invisible]="!nextActionName" [disabled]="isUpdating" (click)="nextStep()">
           <i *ngIf="isUpdating" class="fas fa-circle-notch fa-spin"></i>
