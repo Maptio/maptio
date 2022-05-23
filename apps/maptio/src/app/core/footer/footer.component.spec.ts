@@ -29,7 +29,7 @@ describe("footer.component.ts", () => {
     });
 
     it("should gets correct links ", () => {
-        expect(component.TOS_URL).toBe(environment.TOS_URL);
+        expect(component.TERMS_AND_CONDITIONS_URL).toBe(environment.TERMS_AND_CONDITIONS_URL);
         expect(component.PRIVACY_URL).toBe(environment.PRIVACY_URL);
         expect(component.BLOG_URL).toBe(environment.BLOG_URL);
     });

@@ -2,7 +2,7 @@
 // environments
 
 export const commonEnvironment = {
-  TOS_URL: 'https://termsfeed.com/terms-conditions/f0e548940bde8842b1fb58637ae048c0',
+  TERMS_AND_CONDITIONS_URL: 'https://termsfeed.com/terms-conditions/f0e548940bde8842b1fb58637ae048c0',
   PRIVACY_URL: 'https://termsfeed.com/privacy-policy/9a9cf258899b266a6aed7997c9a8044c',
 
   BOOK_ONBOARDING_URL: 'https://calendly.com/tomnixon/30min',

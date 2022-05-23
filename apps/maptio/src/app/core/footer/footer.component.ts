@@ -11,7 +11,7 @@ export class FooterComponent {
 
     @Input("isMobile") isMobile:boolean;
 
-    public TOS_URL: string = environment.TOS_URL
+    public TERMS_AND_CONDITIONS_URL: string = environment.TERMS_AND_CONDITIONS_URL
     public PRIVACY_URL: string = environment.PRIVACY_URL
     public BLOG_URL: string = environment.BLOG_URL;
     public WIKI_URL: string = environment.WIKI_URL;
