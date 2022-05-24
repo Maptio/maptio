@@ -41,6 +41,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
     @Output("save") save = new EventEmitter<void>();
 
     KB_URL_ROLE_TYPES = environment.KB_URL_ROLE_TYPES;
+    KB_URL_MARKDOWN = environment.KB_URL_MARKDOWN;
 
     roleForm: FormGroup;
     title = new FormControl();
