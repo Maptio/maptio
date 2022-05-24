@@ -27,8 +27,8 @@ export const commonEnvironment = {
   },
 
   ONBOARDING_MESSAGES: {
-    showEditingPanelMessage: 'https://github.com/Maptio/maptio/wiki/Creating-and-editing-circles',
-    showCircleDetailsPanelMessage: 'https://github.com/Maptio/maptio/wiki/Creating-and-editing-circles',
-    showCircleCanvasMessage: 'https://github.com/Maptio/maptio/wiki/Circles-and-expanded-views',
+    showEditingPanelMessage: 'https://learning.maptio.com/creating-and-editing-circles',
+    showCircleDetailsPanelMessage: 'https://learning.maptio.com/creating-and-editing-circles',
+    showCircleCanvasMessage: 'https://learning.maptio.com/circles-and-expanded-views',
   }
 };

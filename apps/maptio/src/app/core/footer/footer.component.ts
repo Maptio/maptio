@@ -15,7 +15,7 @@ export class FooterComponent {
     public TERMS_AND_CONDITIONS_URL: string = environment.TERMS_AND_CONDITIONS_URL
     public PRIVACY_POLICY_URL: string = environment.PRIVACY_POLICY_URL
     public BLOG_URL: string = config.BLOG_URL;
-    public WIKI_URL: string = config.WIKI_URL;
+    public KB_URL_HOME: string = config.KB_URL_HOME;
     public today  = Date.now();
 
     constructor() { }

@@ -19,7 +19,6 @@ export class TeamBillingComponent implements OnInit {
     public remaningTrialDays: Number;
     public isLoading: boolean;
     public Permissions = Permissions;
-    public KB_URL_INTEGRATIONS = environment.KB_URL_INTEGRATIONS;
     public BILLING_PORTAL = environment.BILLING_PORTAL;
 
     constructor(private route: ActivatedRoute, private billingService: BillingService,
