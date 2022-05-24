@@ -15,9 +15,10 @@ export const environment = {
     CLOUDINARY_UPLOAD_PRESET: "rk6tzs5q",
     CLOUDINARY_PROFILE_TAGNAME: "profile",
 
+    KB_URL_HOME: "https://learning.maptio.com",
     KB_URL_PERMISSIONS: "https://learning.maptio.com/user-permission-types",
     KB_URL_ROLE_TYPES: "https://learning.maptio.com/working-with-roles",
-    KB_URL_HOME: "https://learning.maptio.com",
+    KB_URL_MARKDOWN: "https://learning.maptio.com/adding-text-formatting",
 
     // To be removed soon
     KB_URL_INTEGRATIONS: "https://maptio.outseta.com/support/kb#/articles/2amRZEmJ/integrations",

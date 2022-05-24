@@ -20,6 +20,8 @@ export class CommonTextareaComponent implements OnInit {
     isTextEmpty:boolean =true;
     showUnauthorized:boolean;
 
+    KB_URL_MARKDOWN = environment.KB_URL_MARKDOWN;
+
     constructor(private cd:ChangeDetectorRef) { }
 
     ngOnInit(): void { }
