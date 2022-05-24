@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 
+import { environment } from '@maptio-config/environment';
+
 @Component({
     selector: 'common-textarea',
     templateUrl: './textarea.component.html',
@@ -12,7 +14,7 @@ export class CommonTextareaComponent implements OnInit {
     @Input("rows") rows: number;
     @Input("label") label: string = "Edit";
     @Input("isUnauthorized") isUnauthorized:boolean;
-    @Input("isHeader") isHeader:boolean; 
+    @Input("isHeader") isHeader:boolean;
 
     @Output("save") save: EventEmitter<string> = new EventEmitter<string>();
 
@@ -28,7 +30,7 @@ export class CommonTextareaComponent implements OnInit {
 
     ngOnChanges(changes: SimpleChanges): void {
         if(changes.text){
-            this.isTextEmpty = !changes.text.currentValue || changes.text.currentValue.trim() === ''; 
+            this.isTextEmpty = !changes.text.currentValue || changes.text.currentValue.trim() === '';
         }
     }
 
