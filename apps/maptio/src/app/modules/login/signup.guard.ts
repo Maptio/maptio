@@ -7,7 +7,7 @@ import {
 } from '@angular/router';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import { UserService } from '@maptio-shared/services/user/user.service';
 
@@ -30,13 +30,15 @@ export class SignupGuard implements CanActivate, CanActivateChild {
   }
 
   private redirectHomeIfActivatedOrToAuth0IfNotAuthenticated(): Observable<boolean | UrlTree> {
-    return this.user.user$.pipe(
-      map((user) => {
+    return this.user.isAuthenticated$.pipe(
+      tap((isAuthenticated) => {
         // Redirect unauthenticated users to the signup page
-        if (!user) {
+        if (!isAuthenticated) {
           this.user.signup();
         }
-
+      }),
+      switchMap(() => this.user.user$),
+      map((user) => {
         // Redirect signed up users to the home page
         if (!user.isActivationPending) {
           return this.router.parseUrl('/home');
