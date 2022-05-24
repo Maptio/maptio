@@ -33,7 +33,7 @@ export class DashboardComponent {
   isOutOfSampleMode: boolean;
   filterMaps$: Subject<string>;
   filteredMaps: Map<Team, DataSet[]>;
-  SURVEY_URL = environment.SURVEY_URL;
+  KB_URL_HOME = environment.KB_URL_HOME;
   subscription: Subscription;
 
   constructor(
