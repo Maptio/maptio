@@ -5,7 +5,6 @@ import { MappingZoomableComponent } from "./pages/circles/mapping.zoomable.compo
 import { MappingCirclesGradualRevealComponent } from "./pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component";
 
 import { ColorHueModule } from 'ngx-color/hue'; // <color-hue-picker></color-hue-picker>
-import { ShareSlackComponent } from "./components/sharing/slack.component";
 import { SharedModule } from "../../shared/shared.module";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { MarkdownModule, } from "ngx-markdown";
@@ -119,7 +118,7 @@ import { OnboardingMessageModule } from "../onboarding-message/onboarding-messag
         RoleHoldersInInitiativeComponent,
         InitiativeInputSizeComponent,
 
-        SearchComponent, FilterTagsComponent, ShareSlackComponent,
+        SearchComponent, FilterTagsComponent,
         TooltipComponent, ContextMenuComponent,
         ColorPickerComponent,
         EditTagsComponent,

@@ -110,7 +110,6 @@
                 <i class="fab fa-slack"></i>
                 <span class="icon-text-label">Share</span>
               </button>
-
             </div>
 
             <div class="d-none d-md-block btn-group-vertical my-3">
@@ -224,10 +223,11 @@
     <div closable id="collapseFilter" class="collapse rounded mb-3 col-12 bg-light p-3">
       <filter-tags [team]="team" [tags]="tags" (changeTagsSelection)="broadcastTagsSelection($event)"></filter-tags>
     </div>
+
     <div closable id="collapseSlack" class="collapse rounded mb-3 col-12 bg-light p-3">
-      <slack-share [slack]="team?.slack" [team]="team" [isPrinting]="isPrinting" [hasNotified]="hasNotified"
-        [hasConfigurationError]="hasConfigurationError" (shareMap)="sendSlackNotification($event)"></slack-share>
+      Nothing to see here...
     </div>
+
     <div closable class="collapse rounded col-auto bg-light p-4" id="collapseSettings">
       <div class="card bg-transparent border-0">
         <div class="card-body">
