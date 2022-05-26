@@ -89,8 +89,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
           if (newDatasetId !== this.datasetId) {
             this.isBuildingPanelCollapsed = false;
             this.isDetailsPanelCollapsed = true;
-            // this.closeDetailsPanel();
-            // this.closeBuildingPanel();
             this.cd.markForCheck();
           }
         }),
@@ -103,6 +101,12 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             return this.buildingComponent
               .loadData(data.data.dataset, data.data.team, data.data.members)
               .then(() => {
+                console.log('Will be closing details panel in 100ms...');
+                setTimeout(() => {
+                  console.log('...and closing now.');
+                  this.closeDetailsPanel();
+                }, 100);
+                console.time();
                 this.isLoading = false;
                 this.cd.markForCheck();
               });
@@ -240,6 +244,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   }
 
   openDetailsPanel() {
+    console.timeEnd();
+    console.log('open details panel');
     this.isDetailsPanelCollapsed = false;
     // this.resizeMap();
     this.cd.markForCheck();
