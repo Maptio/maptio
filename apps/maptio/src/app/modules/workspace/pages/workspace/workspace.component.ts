@@ -101,12 +101,12 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             return this.buildingComponent
               .loadData(data.data.dataset, data.data.team, data.data.members)
               .then(() => {
-                console.log('Will be closing details panel in 100ms...');
+                // Hack to make sure the circle details panel stays closed...
+                // TODO: Remove this when we've got good enough state
+                // management here
                 setTimeout(() => {
-                  console.log('...and closing now.');
                   this.closeDetailsPanel();
                 }, 100);
-                console.time();
                 this.isLoading = false;
                 this.cd.markForCheck();
               });
@@ -244,8 +244,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   }
 
   openDetailsPanel() {
-    console.timeEnd();
-    console.log('open details panel');
     this.isDetailsPanelCollapsed = false;
     // this.resizeMap();
     this.cd.markForCheck();
