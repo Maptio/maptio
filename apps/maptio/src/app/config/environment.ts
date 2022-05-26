@@ -37,8 +37,6 @@ export const environment = {
     BILLING_PORTAL: "https://maptio.chargebeeportal.com/portal/login",
     BILLING_TEST_PORTAL: "https://maptio-test.chargebeeportal.com/portal/login",
 
-    SURVEY_URL: "https://maptio.typeform.com/to/zTvRm6",
-
     DEFAULT_MAP_BACKGOUND_COLOR: "#3599af",
     DEFAULT_MAP_TEXT_COLOR: "#242c2e",
     DEFAULT_PRESETS_COLORS: ["#3599af","#e4e24a", "#9735af","#57af35", "#af4a35", "#242c2e"],

@@ -4,13 +4,15 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription , Observable,  forkJoin } from 'rxjs';
 import { Intercom } from 'ng-intercom';
-import { environment } from '../../../../config/environment';
 import { DatasetFactory } from '../../../../core/http/map/dataset.factory';
 import { Team } from '../../../../shared/model/team.data';
 import { DataSet } from '../../../../shared/model/dataset.data';
 import { TeamFactory } from '../../../../core/http/team/team.factory';
 import { User } from '../../../../shared/model/user.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
+
+import { environment } from '@maptio-environment';
+import { environment as config } from '@maptio-config/environment';
 
 @Component({
     selector: 'pricing-checkout',
@@ -24,7 +26,8 @@ export class CheckoutComponent implements OnInit {
     customerEmail: string;
     datasets: DataSet[];
     team:Team;
-    SURVEY_URL:string = environment.SURVEY_URL;
+
+    FEATURE_REQUEST_EMAIL: string = environment.FEATURE_REQUEST_EMAIL;
 
     constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef,
         private intercom: Intercom, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory) { }
@@ -47,7 +50,7 @@ export class CheckoutComponent implements OnInit {
                 this.cd.markForCheck();
 
                 this.intercom.update({
-                    app_id: environment.INTERCOM_APP_ID,
+                    app_id: config.INTERCOM_APP_ID,
                     email: user.email,
                     user_id: user.user_id,
                     company: {
