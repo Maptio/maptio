@@ -28,16 +28,16 @@ import * as LogRocket from "logrocket";
 export class AnalyticsModule {
     constructor(mixpanel: Angulartics2Mixpanel) {
 
-        if (!isDevMode()) {
-            LogRocket.init(environment.LOGROCKET_APP_ID, {
-                network: {
-                    isEnabled: true
-                }
+        // if (!isDevMode()) {
+        //     LogRocket.init(environment.LOGROCKET_APP_ID, {
+        //         network: {
+        //             isEnabled: true
+        //         }
 
-            });
-            mixpanel.startTracking()
-        }
-        
+        //     });
+        //     mixpanel.startTracking()
+        // }
+
     }
 
 }
