@@ -61,6 +61,7 @@ import { InitiativeInputSizeComponent } from './components/data-entry/details/pa
 import { CircleMapModule } from '@maptio-circle-map/circle-map.module';
 import { MemberFormModule } from "@maptio-member-form";
 import { OnboardingMessageModule } from "../onboarding-message/onboarding-message.module";
+import { SharingComponent } from './components/sharing/sharing.component';
 // TODO: Why is this not working instead of the above line, what am I missing?
 // import { OnboardingMessageModule } from "@maptio-onboarding-message";
 
@@ -126,7 +127,8 @@ import { OnboardingMessageModule } from "../onboarding-message/onboarding-messag
         CommonTextareaComponent,
 
         StripMarkdownPipe,
-        EllipsisPipe
+        EllipsisPipe,
+        SharingComponent
     ],
     providers: [BillingGuard, WorkspaceGuard, UIService,
         SlackService, DataService, RoleLibraryService, MapSettingsService,
