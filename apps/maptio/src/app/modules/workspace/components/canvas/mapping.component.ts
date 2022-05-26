@@ -227,14 +227,14 @@ export class MappingComponent {
       this.isSearchDisabled = false;
       this.isFilterDisabled = true;
       this.isZoomDisabled = false;
-      this.isShareDisabled = true;
+      this.isShareDisabled = false;
       this.toggleEditingPanelsVisibility.emit(true)
     } else {
       this.isMapSettingsDisabled = false;
       this.isSearchDisabled = false;
       this.isFilterDisabled = false;
       this.isZoomDisabled = false;
-      this.isShareDisabled = false;
+      this.isShareDisabled = true;
       this.toggleEditingPanelsVisibility.emit(true)
     }
   }
