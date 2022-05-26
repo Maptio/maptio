@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from '@angular/router';
 
-import { environment } from "@maptio-config/environment";
+import { environment } from "@maptio-environment";
+import { environment as config } from "@maptio-config/environment";
 import { UserService } from "@maptio-shared/services/user/user.service";
 
 
@@ -13,9 +14,9 @@ import { UserService } from "@maptio-shared/services/user/user.service";
 export class LogoutComponent implements OnInit {
   isComingFromAuth0 = false;
 
-  SURVEY_URL: string = environment.SURVEY_URL;
-  SCREENSHOT_URL = environment.SCREENSHOT_URL;
-  SCREENSHOT_URL_FALLBACK = environment.SCREENSHOT_URL_FALLBACK;
+  FEATURE_REQUEST_EMAIL: string = environment.FEATURE_REQUEST_EMAIL;
+  SCREENSHOT_URL = config.SCREENSHOT_URL;
+  SCREENSHOT_URL_FALLBACK = config.SCREENSHOT_URL_FALLBACK;
 
   constructor(
     private route: ActivatedRoute,
