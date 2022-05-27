@@ -1,1 +1,94 @@
-<p>sharing works!</p>
+<ng-container *ngIf="!dataset.isEmbeddable">
+  <h3 class="editing-title">Enable public read-only embeddable map?</h3>
+
+  Enabling this feature will allow you to embed this map on your website as
+  well as get a publicly-shareable link. The map will be accessible to anyone
+  with the URL.
+
+  <div class="d-flex flex-row w-100 mt-3 justify-content-end">
+    <button
+      class="btn btn-link"
+      (click)="toggleConfiguringEmbedding()"
+    >
+      Cancel
+    </button>
+
+    <button
+      class="btn btn-success"
+      (click)="enableEmbedding()"
+    >
+      Enable
+    </button>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="dataset.isEmbeddable">
+  <h3 class="editing-title">Public read-only embeddable map is enabled</h3>
+  <p>
+    This map can be viewed publicly at the following URL:
+    <a href="{{ shareableUrl }}">
+      {{ shareableUrl }}
+    </a>
+  </p>
+
+  <div class="form-check mb-3">
+    <input
+      type="checkbox"
+      id="showDescriptions"
+      class="form-check-input"
+      [disabled]="isTogglingShowingDescriptions"
+      [checked]="dataset.showDescriptions"
+      (change)="toggleShowingDescriptions($event)"
+    >
+    <label
+      for="showDescriptions"
+      class="form-check-label"
+      [class.text-muted]="isTogglingShowingDescriptions"
+    >
+      Include detailed circle descriptions on the public map (beta)
+    </label>
+  </div>
+
+  <!-- TODO: Extract as component -->
+  <div
+    *ngIf="hasTogglingShowingDescriptionsFailed"
+    class="alert alert-danger"
+    role="alert"
+  >
+    There was an error when updating showing circle descriptions.
+    Chat with us or email us at
+    <a
+      href="mailto:support@maptio.com?subject=Error when updating showing circle descriptions"
+    >
+      support@maptio.com
+    </a>
+    if the issue persists.
+  </div>
+
+  <p>
+    You can embed this map on your website by using the following code snippet:
+    <br>
+    <code>{{ iframeSnippet }}</code>
+  </p>
+
+  <p>
+    To stop sharing the map, click "Disable" below.
+    Please make sure you remove the code snippet from your website before you do this.
+  </p>
+
+  <div class="d-flex flex-row w-100 justify-content-end">
+    <button
+      class="btn btn-link"
+      (click)="toggleConfiguringEmbedding()"
+    >
+      Cancel
+    </button>
+
+    <button
+      class="btn btn-danger"
+      (click)="disableEmbedding()"
+    >
+      Disable
+    </button>
+  </div>
+</ng-container>
