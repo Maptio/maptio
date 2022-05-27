@@ -7,13 +7,6 @@
 
   <div class="d-flex flex-row w-100 mt-3 justify-content-end">
     <button
-      class="btn btn-link"
-      (click)="toggleConfiguringEmbedding()"
-    >
-      Cancel
-    </button>
-
-    <button
       class="btn btn-success"
       (click)="enableEmbedding()"
     >
@@ -49,7 +42,6 @@
     </label>
   </div>
 
-  <!-- TODO: Extract as component -->
   <div
     *ngIf="hasTogglingShowingDescriptionsFailed"
     class="alert alert-danger"
@@ -77,13 +69,6 @@
   </p>
 
   <div class="d-flex flex-row w-100 justify-content-end">
-    <button
-      class="btn btn-link"
-      (click)="toggleConfiguringEmbedding()"
-    >
-      Cancel
-    </button>
-
     <button
       class="btn btn-danger"
       (click)="disableEmbedding()"
