@@ -32,7 +32,6 @@ import { MappingSummaryComponent } from "../../pages/directory/summary.component
 import { MappingCirclesGradualRevealComponent } from "../../pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component";
 import { environment } from "../../../../config/environment";
 import * as screenfull from 'screenfull';
-import { SlackService } from "../sharing/slack.service";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { MapSettingsService, MapSettings } from "../../services/map-settings.service";
 
@@ -128,7 +127,6 @@ export class MappingComponent {
     private exportService: ExportService,
     private intercom: Intercom,
     private router: Router,
-    private slackService: SlackService,
     private mapSettingsService: MapSettingsService
   ) {
     this.zoom$ = new Subject<number>();
@@ -474,30 +472,6 @@ export class MappingComponent {
     this.showTooltip(null, null);
     this.cd.markForCheck();
     this.router.navigateByUrl(`/map/${this.datasetId}/${this.slug}/directory?member=${selected.shortid}`);
-
-  }
-
-  sendSlackNotification(message: string) {
-    this.isPrinting = true;
-    this.hasNotified = false;
-    this.cd.markForCheck();
-
-    this.slackService.sendNotification(
-      message,
-      document.getElementById("map"),
-      this.dataset,
-      this.team)
-      .subscribe((result) => {
-        this.isPrinting = false;
-        this.hasNotified = true;
-        this.intercom.trackEvent("Sharing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: this.initiative.name });
-
-        this.cd.markForCheck()
-      },
-        (err) => {
-          this.hasConfigurationError = true;
-          this.cd.markForCheck();
-        })
 
   }
 }
