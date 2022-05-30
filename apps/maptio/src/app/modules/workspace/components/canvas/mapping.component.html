@@ -42,7 +42,6 @@
 <div class="d-flex rounded-right justify-content-center h-100 position-relative bg-white overflow-x-hidden"
   [class.overflow-y-hidden]="!isFullScreen" id="mapping-canvas">
   <div class="w-100">
-
     <div class="w-100 h-100">
       <div class="row  h-100 ">
         <div class="col-12 h-100 d-flex justify-content-between px-0">
@@ -120,6 +119,7 @@
                 <span class="d-none d-md-block icon-text-label">Directory</span>
               </button>
             </div>
+
             <div class="d-md-none btn-group col-9 my-2">
               <ng-container *ngTemplateOutlet="viewsButtonGroup"></ng-container>
             </div>
@@ -194,14 +194,10 @@
         </div>
       </div>
     </div>
-    <!-- <div class="summary-tooltip col-4 position-absolute top-left ml-3 z-index-2 mh-100 overflow-y" [style.max-height.px]="VIEWPORT_HEIGHT" *ngIf="hoveredInitiatives">
-      <tooltip *ngFor="let hoveredInitiative of hoveredInitiatives" [initiative]="hoveredInitiative" [isNameOnly]="isNameOnly"
-        [team]="team"></tooltip>
-    </div> -->
+
     <context-menu [initiatives]="selectedInitiatives" [isReadOnly]="isReadOnlyContextMenu" [x]="selectedInitiativeX"
       [y]="selectedInitiativeY" (add)="emitAddInitiative($event)" (remove)="emitRemoveInitiative($event)"
       (edit)="emitOpenInitiative($event)" (openAccountable)="goToUserSummary($event)"></context-menu>
-
   </div>
 
 
@@ -212,6 +208,7 @@
       <search #search [list]="flattenInitiative" (selectInitiative)="zoomToInitiative($event)"
         (selectUser)="goToUserSummary($event)"></search>
     </div>
+
     <div closable id="collapseFilter" class="collapse rounded mb-3 col-12 bg-light p-3">
       <filter-tags [team]="team" [tags]="tags" (changeTagsSelection)="broadcastTagsSelection($event)"></filter-tags>
     </div>
@@ -228,12 +225,11 @@
           <common-color-picker [color]="settings.mapColor" [label]="'Map'" [default]="DEFAULT_MAP_COLOR"
             (change)="changeMapColor($event)"></common-color-picker>
         </div>
-
       </div>
-
     </div>
   </div>
 </div>
+
 <div *ngIf="isEmptyMap" class="instructions h2 d-none d-md-block">
   Click
 
@@ -259,7 +255,8 @@
 
   to create your first circle
 </div>
+
 <div *ngIf="isEmptyMap" class="px-4 d-flex flex-column position-absolute center-center d-md-none w-100 text-center">
-    <b>Map editing is disable on mobile.</b>
-    <span class="text-muted">Open Maptio on a desktop to start adding circles</span>
-  </div>
+  <b>Map editing is disable on mobile.</b>
+  <span class="text-muted">Open Maptio on a desktop to start adding circles</span>
+</div>
