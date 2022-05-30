@@ -92,14 +92,14 @@
                 [class.disabled]="isShareDisabled || isMapSettingsDisabled"
                 (click)="isSharingToggled=!isSharingToggled"
                 data-toggle="collapse"
-                href="#collapseSlack"
+                href="#collapseShare"
                 role="button"
                 ngbTooltip="Share"
                 openDelay="500"
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
               >
-                <i class="fab fa-slack"></i>
+                <i class="fas fa-share"></i>
                 <span class="icon-text-label">Share</span>
               </button>
             </div>
@@ -216,7 +216,7 @@
       <filter-tags [team]="team" [tags]="tags" (changeTagsSelection)="broadcastTagsSelection($event)"></filter-tags>
     </div>
 
-    <div closable id="collapseSlack" class="collapse rounded mb-3 col-12 bg-light p-3">
+    <div closable id="collapseShare" class="collapse rounded mb-3 col-12 bg-light p-3">
       <maptio-sharing
         [dataset]="dataset"
       ></maptio-sharing>
