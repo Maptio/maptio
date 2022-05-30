@@ -200,104 +200,37 @@
   <!-- When editing, the footer contains editing options -->
   <!-- For now, we're only using this pattern for configuring embedding, but
       it'd be great to move all editing options here for consistency -->
-  <!-- TODO: This can and should be a separate component -->
   <div
     class="card-footer d-flex flex-column mt-n3 border-top-0 justify-content-between align-items-left"
     *ngIf="isConfiguringEmbedding"
   >
-    <ng-container *ngIf="!dataset.isEmbeddable">
-      <h3 class="editing-title">Enable public read-only embeddable map?</h3>
+    <div class="d-flex flex-row align-items-center">
+      This functionality has now moved into the toolbar in the Circles map view.
 
-      Enabling this feature will allow you to embed this map on your website as
-      well as get a publicly-shareable link. The map will be accessible to anyone
-      with the URL.
+      <img
+        class="ml-2"
+        width="50px"
+        height="64px"
+        style="width: 50px; height: 64px;"
+        src="assets/images/share-button.png"
+        alt="Screenshot of button used for sharing a publc verision of a map"
+      />
+    </div>
 
-      <div class="d-flex flex-row w-100 mt-3 justify-content-end">
-        <button
-          class="btn btn-link"
-          (click)="toggleConfiguringEmbedding()"
-        >
-          Cancel
-        </button>
-
-        <button
-          class="btn btn-success"
-          (click)="enableEmbedding()"
-        >
-          Enable
-        </button>
-      </div>
-    </ng-container>
-
-    <ng-container *ngIf="dataset.isEmbeddable">
-      <h3 class="editing-title">Public read-only embeddable map is enabled</h3>
-      <p>
-        This map can be viewed publicly at the following URL:
-        <a href="{{ shareableUrl }}">
-          {{ shareableUrl }}
-        </a>
-      </p>
-
-      <div class="form-check mb-3">
-        <input
-          type="checkbox"
-          id="showDescriptions"
-          class="form-check-input"
-          [disabled]="isTogglingShowingDescriptions"
-          [checked]="dataset.showDescriptions"
-          (change)="toggleShowingDescriptions($event)"
-        >
-        <label
-          for="showDescriptions"
-          class="form-check-label"
-          [class.text-muted]="isTogglingShowingDescriptions"
-        >
-          Include detailed circle descriptions on the public map (beta)
-        </label>
-      </div>
-
-      <!-- TODO: Extract as component -->
-      <div
-        *ngIf="hasTogglingShowingDescriptionsFailed"
-        class="alert alert-danger"
-        role="alert"
+    <div class="d-flex flex-row w-100 mt-3 justify-content-end">
+      <button
+        class="btn btn-link"
+        (click)="toggleConfiguringEmbedding()"
       >
-        There was an error when updating showing circle descriptions.
-        Chat with us or email us at
-        <a
-          href="mailto:support@maptio.com?subject=Error when updating showing circle descriptions"
-        >
-          support@maptio.com
-        </a>
-        if the issue persists.
-      </div>
+        Cancel
+      </button>
 
-      <p>
-        You can embed this map on your website by using the following code snippet:
-        <br>
-        <code>{{ iframeSnippet }}</code>
-      </p>
-
-      <p>
-        To stop sharing the map, click "Disable" below.
-        Please make sure you remove the code snippet from your website before you do this.
-      </p>
-
-      <div class="d-flex flex-row w-100 justify-content-end">
-        <button
-          class="btn btn-link"
-          (click)="toggleConfiguringEmbedding()"
-        >
-          Cancel
-        </button>
-
-        <button
-          class="btn btn-danger"
-          (click)="disableEmbedding()"
-        >
-          Disable
-        </button>
-      </div>
-    </ng-container>
+      <a
+        routerLink="/map/{{ dataset?.datasetId }}/{{ dataset?.initiative.getSlug() }}"
+        class="btn btn-success text-white"
+      >
+        Take me there
+      </a>
+    </div>
   </div>
 </div>

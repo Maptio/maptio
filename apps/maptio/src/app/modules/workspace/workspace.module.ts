@@ -5,7 +5,6 @@ import { MappingZoomableComponent } from "./pages/circles/mapping.zoomable.compo
 import { MappingCirclesGradualRevealComponent } from "./pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component";
 
 import { ColorHueModule } from 'ngx-color/hue'; // <color-hue-picker></color-hue-picker>
-import { ShareSlackComponent } from "./components/sharing/slack.component";
 import { SharedModule } from "../../shared/shared.module";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { MarkdownModule, } from "ngx-markdown";
@@ -33,7 +32,6 @@ import { StripMarkdownPipe } from "../../shared/pipes/strip-markdown.pipe";
 import { EllipsisPipe } from "../../shared/pipes/ellipsis.pipe";
 import { PersonalCardComponent } from "./components/summary/tab/card.component";
 import { RoleHoldersInInitiativeComponent } from "./components/summary/tab/role-holders-in-initiative.component";
-import { SlackService } from "./components/sharing/slack.service";
 import { NgbNavModule, NgbTooltipModule, NgbTypeaheadModule, NgbPopoverModule } from "@ng-bootstrap/ng-bootstrap";
 import { ColorPickerComponent } from "../../shared/components/color-picker/color-picker.component";
 import { PermissionsModule } from "../../shared/permissions.module";
@@ -62,6 +60,7 @@ import { InitiativeInputSizeComponent } from './components/data-entry/details/pa
 import { CircleMapModule } from '@maptio-circle-map/circle-map.module';
 import { MemberFormModule } from "@maptio-member-form";
 import { OnboardingMessageModule } from "../onboarding-message/onboarding-message.module";
+import { SharingComponent } from './components/sharing/sharing.component';
 // TODO: Why is this not working instead of the above line, what am I missing?
 // import { OnboardingMessageModule } from "@maptio-onboarding-message";
 
@@ -119,7 +118,7 @@ import { OnboardingMessageModule } from "../onboarding-message/onboarding-messag
         RoleHoldersInInitiativeComponent,
         InitiativeInputSizeComponent,
 
-        SearchComponent, FilterTagsComponent, ShareSlackComponent,
+        SearchComponent, FilterTagsComponent,
         TooltipComponent, ContextMenuComponent,
         ColorPickerComponent,
         EditTagsComponent,
@@ -127,10 +126,11 @@ import { OnboardingMessageModule } from "../onboarding-message/onboarding-messag
         CommonTextareaComponent,
 
         StripMarkdownPipe,
-        EllipsisPipe
+        EllipsisPipe,
+        SharingComponent
     ],
     providers: [BillingGuard, WorkspaceGuard, UIService,
-        SlackService, DataService, RoleLibraryService, MapSettingsService,
+        DataService, RoleLibraryService, MapSettingsService,
         WorkspaceComponentResolver
     ]
 })

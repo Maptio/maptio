@@ -65,38 +65,4 @@ export class ExportService {
             return <string>responseData['data'].eager[0].secure_url;
         }))
     }
-
-    sendSlackNotification(svgString: string, datasetId: string, initiative: Initiative, slack: SlackIntegration, message: string) {
-        return this.getSnapshot(svgString, datasetId).pipe(
-            map((imageUrl: string) => {
-                let attachments = [
-                    {
-                        color: "#2f81b7",
-                        pretext: message,
-                        title: `Changes to ${initiative.name}`,
-                        title_link: `https://app.maptio.com/map/${datasetId}/${initiative.getSlug()}`,
-                        image_url: imageUrl,
-                        thumb_url: imageUrl,
-                        footer: "Maptio",
-                        footer_icon: "https://app.maptio.com/assets/images/logo.png",
-                        // ts: Date.now()
-                    }]
-
-                let headers = new HttpHeaders();
-                headers.append("Content-Type", "application/json");
-                headers.append("Accept", "application/json");
-                return new HttpRequest(
-                  'POST',
-                  '/api/v1/notifications/send',
-                  {
-                    url: slack.incoming_webhook.url,
-                    attachments: attachments
-                  },
-                  { headers }
-                );
-            }),
-            mergeMap(req => this.http.request(req)),
-        );
-    }
-
 }
