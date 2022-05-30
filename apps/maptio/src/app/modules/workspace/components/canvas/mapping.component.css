@@ -50,14 +50,19 @@
   width: 3vw;
 }
 
-
-.btn.toolbar-button.select-view{
+.btn.toolbar-button.select-view {
   background-repeat:no-repeat;
   background-size: 16px 16px;
   background-position: center center;
   padding: 0;
   -webkit-transition: background-image 0.2s ease-in-out;
   transition: background-image 0.2s ease-in-out;
+}
+
+@media all and (min-width: 1401px) {
+  .btn.toolbar-button.select-view {
+    background-position: center 13px;
+  }
 }
 
 .btn.select-view.circles{
@@ -90,9 +95,8 @@
   white-space: normal;
 }
 
-.btn.toolbar-button> .icon-text-label{
-  position:absolute;
-  bottom:0
+.btn.toolbar-button > .icon-text-label{
+  position: initial;
 }
 
 .btn.toolbar-button.select-view > .icon-text-label{
