@@ -60,10 +60,6 @@
   transition: background-image 0.2s ease-in-out;
 }
 
-.btn.select-view.tree {
-  background-image: url(/assets/images/treeview.svg) ;
-}
-
 .btn.select-view.circles{
   background-image: url(/assets/images/circles.svg) ;
 }
