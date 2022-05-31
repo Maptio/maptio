@@ -35,8 +35,6 @@ export class BuildingComponent implements OnDestroy {
     searched: string;
     nodes: Array<Initiative>;
 
-    fromInitiative: Initiative;
-    toInitiative: Initiative;
 
 
     options = {
@@ -102,9 +100,12 @@ export class BuildingComponent implements OnDestroy {
 
     @ViewChild("deleteConfirmation", { static: true })
     deleteConfirmationModal: NgbModal;
+    fromInitiative: Initiative;
+    toInitiative: Initiative;
 
     @ViewChild("dragConfirmation", { static: true })
     dragConfirmationModal: NgbModal;
+    initiativeToBeDeleted: Initiative;
 
     datasetId: string;
 
@@ -251,20 +252,17 @@ export class BuildingComponent implements OnDestroy {
     }
 
     onDeleteNode(initiative: Initiative) {
+      this.initiativeToBeDeleted = initiative;
+
       this.modalService
         .open(this.deleteConfirmationModal, { centered: true })
         .result
         .then(result => {
           if (result) {
-            console.log('deleting initiative', initiative);
             this.removeNode(initiative);
-          } else {
-            console.log('not deleting initiative after all');
           }
         })
-        .catch(reason => {
-          console.error(reason);
-        });
+        .catch();
     }
 
     moveNode(node: Initiative, from: Initiative, to: Initiative) {
