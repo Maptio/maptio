@@ -147,31 +147,30 @@ tree-root .angular-tree-component-rtl .tree-children {
 
 
 .toggle-children {
-  top: 11px !important;
+  top: 9px !important;
   background-image: none !important;
   transform: rotate(0deg) !important;
   width: 6px !important;
 }
 
 .toggle-children:before {
-  color: var(--maptio-accent);
+  color: #6c757d !important;
   transform: rotate(0deg) !important;
   font-family: FontAwesome;
   font-size: 17px;
 }
 
 .toggle-children-wrapper-expanded >  .toggle-children:before {
+  content: "\f078";
+  padding-top: 0.25rem;
   font-family: "Font Awesome 5 Free";
-
   font-weight: bold;
-  content: "\f056";
 }
 
 .toggle-children-wrapper-collapsed > .toggle-children:before {
-  content: "\f055";
+  content: "\f054";
   font-family: "Font Awesome 5 Free";
   font-weight: bold;
-
 }
 
 
