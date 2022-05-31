@@ -117,18 +117,7 @@ export class InitiativeNodeComponent {
       this.delete.emit(initiative);
     }
 
-    removeChildNode(initiative: Initiative) {
-        this.node.treeModel.getNodeById(initiative.id).data.children = [];
-        let parent = this.node.treeModel.getNodeById(initiative.id).parent;
-        let index = parent.data.children.indexOf(initiative);
-        parent.data.children.splice(index, 1);
-        this.updateTreeEvent.emit(this.node.treeModel);
-        this.edited.emit(true)
-    }
-
     openNode(node: Initiative) {
         this.open.emit(node);
     }
-
-
 }
