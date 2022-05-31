@@ -100,6 +100,9 @@ export class BuildingComponent implements OnDestroy {
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
 
+    @ViewChild("deleteConfirmation", { static: true })
+    deleteConfirmationModal: NgbModal;
+
     @ViewChild("dragConfirmation", { static: true })
     dragConfirmationModal: NgbModal;
 
@@ -249,7 +252,7 @@ export class BuildingComponent implements OnDestroy {
 
     onDeleteNode(initiative: Initiative) {
       this.modalService
-        .open(this.dragConfirmationModal, { centered: true })
+        .open(this.deleteConfirmationModal, { centered: true })
         .result
         .then(result => {
           if (result) {

@@ -84,6 +84,23 @@
 </div>
 
 
+<ng-template #deleteConfirmation let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<h1>Are you sure?</h1>
+    <p>To be or not to be...</p>
+		<!-- <p>
+			Circle
+			<b>{{fromInitiative.name}}</b> and it sub-circles will be moved under
+			<b>{{toInitiative.name}}</b>
+		</p> -->
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-link" (click)="c(false)">No</button>
+		<button type="button" class="btn btn-danger" (click)="c(true)">Delete circle</button>
+	</div>
+</ng-template>
+
 <ng-template #dragConfirmation let-c="close" let-d="dismiss">
 	<div class="modal-body">
 		<h1>Are you sure?</h1>
