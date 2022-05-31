@@ -247,11 +247,27 @@ export class BuildingComponent implements OnDestroy {
         this.saveChanges();
     }
 
+    onDeleteNode(initiative: Initiative) {
+      this.modalService
+        .open(this.dragConfirmationModal, { centered: true })
+        .result
+        .then(result => {
+          if (result) {
+            console.log('deleting initiative', initiative);
+            this.removeNode(initiative);
+          } else {
+            console.log('not deleting initiative after all');
+          }
+        })
+        .catch(reason => {
+          console.error(reason);
+        });
+    }
+
     moveNode(node: Initiative, from: Initiative, to: Initiative) {
         let foundTreeNode = this.tree.treeModel.getNodeById(node.id)
         let foundToNode = this.tree.treeModel.getNodeById(to.id);
         TREE_ACTIONS.MOVE_NODE(this.tree.treeModel, foundToNode, {}, { from: foundTreeNode, to: { parent: foundToNode } })
-
     }
 
     removeNode(node: Initiative) {

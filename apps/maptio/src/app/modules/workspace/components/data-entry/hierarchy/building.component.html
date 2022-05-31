@@ -53,8 +53,17 @@
 					<div>
 						<tree-root #tree [nodes]="nodes" (updateData)="saveChanges()" [options]="options" [state]="state" (stateChange)="setState($event)">
 							<ng-template #treeNodeTemplate let-node let-index="index">
-								<initiative-node [node]="node" [datasetId]="datasetId" [team]="team" [user]="user" (edited)="saveChanges()" (update)="updateTreeModel(tree.treeModel)"
-								 (open)="openNodeDetails($event)" (add)="openNodeDetails($event)"></initiative-node>
+								<initiative-node
+                  [node]="node"
+                  [datasetId]="datasetId"
+                  [team]="team"
+                  [user]="user"
+                  (edited)="saveChanges()"
+                  (update)="updateTreeModel(tree.treeModel)"
+								  (open)="openNodeDetails($event)"
+                  (add)="openNodeDetails($event)"
+                  (delete)="onDeleteNode($event)"
+                ></initiative-node>
 							</ng-template>
 						</tree-root>
 					</div>

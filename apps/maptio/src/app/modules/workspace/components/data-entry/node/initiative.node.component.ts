@@ -30,6 +30,7 @@ export class InitiativeNodeComponent {
     @Output("update") updateTreeEvent = new EventEmitter<TreeModel>();
     @Output("open") open = new EventEmitter<Initiative>();
     @Output("add") add = new EventEmitter<Initiative>();
+    @Output() delete = new EventEmitter<Initiative>();
 
     @ViewChild("initiative") editInitiative: InitiativeComponent;
 
@@ -112,6 +113,9 @@ export class InitiativeNodeComponent {
         this.add.emit(newNode);
     }
 
+    onDeleteNode(initiative: Initiative) {
+      this.delete.emit(initiative);
+    }
 
     removeChildNode(initiative: Initiative) {
         this.node.treeModel.getNodeById(initiative.id).data.children = [];
