@@ -35,8 +35,6 @@ export class BuildingComponent implements OnDestroy {
     searched: string;
     nodes: Array<Initiative>;
 
-    fromInitiative: Initiative;
-    toInitiative: Initiative;
 
 
     options = {
@@ -100,8 +98,14 @@ export class BuildingComponent implements OnDestroy {
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
 
+    @ViewChild("deleteConfirmation", { static: true })
+    deleteConfirmationModal: NgbModal;
+    fromInitiative: Initiative;
+    toInitiative: Initiative;
+
     @ViewChild("dragConfirmation", { static: true })
     dragConfirmationModal: NgbModal;
+    initiativeToBeDeleted: Initiative;
 
     datasetId: string;
 
@@ -247,11 +251,24 @@ export class BuildingComponent implements OnDestroy {
         this.saveChanges();
     }
 
+    onDeleteNode(initiative: Initiative) {
+      this.initiativeToBeDeleted = initiative;
+
+      this.modalService
+        .open(this.deleteConfirmationModal, { centered: true })
+        .result
+        .then(result => {
+          if (result) {
+            this.removeNode(initiative);
+          }
+        })
+        .catch();
+    }
+
     moveNode(node: Initiative, from: Initiative, to: Initiative) {
         let foundTreeNode = this.tree.treeModel.getNodeById(node.id)
         let foundToNode = this.tree.treeModel.getNodeById(to.id);
         TREE_ACTIONS.MOVE_NODE(this.tree.treeModel, foundToNode, {}, { from: foundTreeNode, to: { parent: foundToNode } })
-
     }
 
     removeNode(node: Initiative) {

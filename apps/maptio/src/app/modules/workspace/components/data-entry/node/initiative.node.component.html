@@ -59,10 +59,13 @@
 
 			</div>
 			<ng-template #thenDeleteBlock>
-				<button class="btn remove border border-left-0  btn-outline-secondary" placement="top" container="body" mwlConfirmationPopover
-				 [popoverMessage]="'Remove circle and sub-circles ?'" focusbutton="cancel" appendToBody="false" (confirm)="removeChildNode(node.data)"
-				 (cancel)="cancelClicked = true" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'remove', team:teamName, teamId:teamId }"
-				 angulartics2On="click"></button>
+				<button
+          (click)="onDeleteNode(node.data)"
+          class="btn remove border border-left-0  btn-outline-secondary"
+          angularticsEvent="Map"
+          [angularticsProperties]="{mode: 'list', action:'remove', team:teamName, teamId:teamId }"
+				  angulartics2On="click"
+        ></button>
 
 			</ng-template>
 			<ng-template #elseDeleteBlock>
@@ -87,7 +90,7 @@
 			<ng-container *ngTemplateOutlet="nodeEditing"></ng-container>
 
 		</div>
-		
+
 	</ng-template>
 	<ng-template #elseMoveBlock>
 		<div class="input-group rounded" >
@@ -99,7 +102,7 @@
 			<ng-container *ngTemplateOutlet="nodeEditing"></ng-container>
 
 		</div>
-		
+
 
 	</ng-template>
 

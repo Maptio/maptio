@@ -53,8 +53,17 @@
 					<div>
 						<tree-root #tree [nodes]="nodes" (updateData)="saveChanges()" [options]="options" [state]="state" (stateChange)="setState($event)">
 							<ng-template #treeNodeTemplate let-node let-index="index">
-								<initiative-node [node]="node" [datasetId]="datasetId" [team]="team" [user]="user" (edited)="saveChanges()" (update)="updateTreeModel(tree.treeModel)"
-								 (open)="openNodeDetails($event)" (add)="openNodeDetails($event)"></initiative-node>
+								<initiative-node
+                  [node]="node"
+                  [datasetId]="datasetId"
+                  [team]="team"
+                  [user]="user"
+                  (edited)="saveChanges()"
+                  (update)="updateTreeModel(tree.treeModel)"
+								  (open)="openNodeDetails($event)"
+                  (add)="openNodeDetails($event)"
+                  (delete)="onDeleteNode($event)"
+                ></initiative-node>
 							</ng-template>
 						</tree-root>
 					</div>
@@ -75,12 +84,37 @@
 </div>
 
 
+<ng-template #deleteConfirmation let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<h1>Are you sure?</h1>
+
+    <div
+      class="alert alert-danger"
+      role="alert"
+    >
+      <i class="fas fa-exclamation-triangle"></i>
+      This cannot be undone.
+    </div>
+
+    <p class="mb-0">
+      Circle
+      <b>{{initiativeToBeDeleted.name}}</b> will be deleted
+      <b>along with its sub-circles</b>.
+    </p>
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-link" (click)="c(false)">Cancel</button>
+		<button type="button" class="btn btn-danger" (click)="c(true)">Delete circle</button>
+	</div>
+</ng-template>
+
 <ng-template #dragConfirmation let-c="close" let-d="dismiss">
 	<div class="modal-body">
 		<h1>Are you sure?</h1>
 		<p>
 			Circle
-			<b>{{fromInitiative.name}}</b> and it sub-circles will be moved under
+			<b>{{fromInitiative.name}}</b> and its sub-circles will be moved under
 			<b>{{toInitiative.name}}</b>
 		</p>
 	</div>

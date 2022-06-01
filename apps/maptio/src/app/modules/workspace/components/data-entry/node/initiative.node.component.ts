@@ -30,6 +30,7 @@ export class InitiativeNodeComponent {
     @Output("update") updateTreeEvent = new EventEmitter<TreeModel>();
     @Output("open") open = new EventEmitter<Initiative>();
     @Output("add") add = new EventEmitter<Initiative>();
+    @Output() delete = new EventEmitter<Initiative>();
 
     @ViewChild("initiative") editInitiative: InitiativeComponent;
 
@@ -112,19 +113,11 @@ export class InitiativeNodeComponent {
         this.add.emit(newNode);
     }
 
-
-    removeChildNode(initiative: Initiative) {
-        this.node.treeModel.getNodeById(initiative.id).data.children = [];
-        let parent = this.node.treeModel.getNodeById(initiative.id).parent;
-        let index = parent.data.children.indexOf(initiative);
-        parent.data.children.splice(index, 1);
-        this.updateTreeEvent.emit(this.node.treeModel);
-        this.edited.emit(true)
+    onDeleteNode(initiative: Initiative) {
+      this.delete.emit(initiative);
     }
 
     openNode(node: Initiative) {
         this.open.emit(node);
     }
-
-
 }
