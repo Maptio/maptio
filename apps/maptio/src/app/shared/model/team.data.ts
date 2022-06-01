@@ -139,8 +139,26 @@ export class Team implements Serializable<Team> {
     return slug(this.name || "", { lower: true }) || "team";
   }
 
-  getRemainingTrialDays() {
-    const cutoffDate = addDays(this.createdAt, <number>this.freeTrialLength);
+  getFreeTrialCutoffDate(): Date {
+    return addDays(this.createdAt, <number>this.freeTrialLength);
+  }
+
+  getFreeTrialTimeLeftMessage(): string {
+    const remainingTrialDays = this.getRemainingTrialDays();
+
+    if (remainingTrialDays > 1) {
+      return `Free trial time left: ${remainingTrialDays} days`;
+    } else if (remainingTrialDays === 1) {
+      return 'Your free trial ends tomorrow!';
+    } else if (remainingTrialDays === 0) {
+      return 'Your free trial ends today!';
+    } else {
+      return 'Your free trial has ended!';
+    }
+  }
+
+  private getRemainingTrialDays() {
+    const cutoffDate = this.getFreeTrialCutoffDate();
 
     const midnightAfterLastDay = set(
       addDays(cutoffDate, 1),
@@ -162,7 +180,7 @@ export class Team implements Serializable<Team> {
   }
 
   isTeamLateOnPayment() {
-    let cutoffDate = addDays(this.createdAt, <number>this.freeTrialLength);
+    const cutoffDate = this.getFreeTrialCutoffDate();
     return this.isPaying ? false : isAfter(Date.now(), cutoffDate);
   }
 }

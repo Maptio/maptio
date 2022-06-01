@@ -2,16 +2,7 @@
   class="onboarding-banner"
 >
   <div class="onboarding-banner__free-trial-text">
-    <ng-container
-      *ngIf="remainingTrialDays >= 0; else noMoreTimeInFreeTrial"
-    >
-      Free trial time left: {{ remainingTrialDays }}
-      day<span *ngIf="remainingTrialDays > 1">s</span>
-    </ng-container>
-
-    <ng-template #noMoreTimeInFreeTrial>
-      Your free trial has ended
-    </ng-template>
+    {{ remainingTrialTimeMessage }}
   </div>
 
   <a
