@@ -1,5 +1,5 @@
 import * as slug from 'slug';
-import * as parse from 'date-fns/parse';
+import { toDate } from 'date-fns';
 
 import { Serializable } from '../interfaces/serializable.interface';
 import { UserRole } from './permission.data';
@@ -109,8 +109,8 @@ export class User implements Serializable<User> {
       : UserRole.Standard;
 
     deserialized.loginsCount = input.loginsCount;
-    deserialized.lastSeenAt = input.lastSeenAt ? parse(input.lastSeenAt) : null;
-    deserialized.createdAt = input.createdAt ? parse(input.createdAt) : null;
+    deserialized.lastSeenAt = input.lastSeenAt ? toDate(input.lastSeenAt) : null;
+    deserialized.createdAt = input.createdAt ? toDate(input.createdAt) : null;
 
     deserialized.nickname = input.nickname;
     deserialized.email = input.email;

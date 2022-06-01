@@ -1,12 +1,13 @@
-import { SlackIntegration } from "./integrations.data";
+import * as slug from "slug";
+import { set, addDays, differenceInDays, isAfter } from "date-fns";
+
+import { environment } from "@maptio-config/environment";
 import { Serializable } from "./../interfaces/serializable.interface";
+
+import { SlackIntegration } from "./integrations.data";
 import { User } from "./user.data";
 import { Role } from "./role.data";
-import * as slug from "slug";
-import * as addDays from "date-fns/add_days";
-import * as differenceInDays from "date-fns/difference_in_days";
-import * as isAfter from "date-fns/is_after";
-import { environment } from "../../config/environment";
+
 
 /**
  * Represents a team
