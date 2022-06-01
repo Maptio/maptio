@@ -157,7 +157,7 @@ export class Team implements Serializable<Team> {
     }
   }
 
-  private getRemainingTrialDays() {
+  getRemainingTrialDays() {
     const cutoffDate = this.getFreeTrialCutoffDate();
 
     const midnightAfterLastDay = set(
@@ -168,13 +168,13 @@ export class Team implements Serializable<Team> {
     // Calculate days remaining based on the midnight after the last day to be
     // able to say "1 day remaining" or "your free trial ends tomorrow" on the
     // day before the trial ends
-    const daysRemaining = differenceInDays(midnightAfterLastDay, Date.now());
+    const today = Date.now();
+    let daysRemaining = differenceInDays(midnightAfterLastDay, today);
 
-    console.log('Team created at:   ', this.createdAt);
-    console.log('Free trial length: ', <number>this.freeTrialLength);
-    console.log('Cut off time:      ', cutoffDate);
-    console.log('Current time:      ', new Date());
-    console.log('Days remaining:    ', daysRemaining);
+    // Be more precise on the last day
+    if (isAfter(today, cutoffDate)) {
+      daysRemaining = -1;
+    }
 
     return daysRemaining;
   }
