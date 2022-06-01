@@ -140,8 +140,25 @@ export class Team implements Serializable<Team> {
   }
 
   getRemainingTrialDays() {
-    let cutoffDate = addDays(this.createdAt, <number>this.freeTrialLength);
-    return Math.ceil(differenceInDays(cutoffDate, Date.now()));
+    const cutoffDate = addDays(this.createdAt, <number>this.freeTrialLength);
+
+    const midnightAfterLastDay = set(
+      addDays(cutoffDate, 1),
+      { hours: 0, minutes: 0, seconds: 0 }
+    );
+
+    // Calculate days remaining based on the midnight after the last day to be
+    // able to say "1 day remaining" or "your free trial ends tomorrow" on the
+    // day before the trial ends
+    const daysRemaining = differenceInDays(midnightAfterLastDay, Date.now());
+
+    console.log('Team created at:   ', this.createdAt);
+    console.log('Free trial length: ', <number>this.freeTrialLength);
+    console.log('Cut off time:      ', cutoffDate);
+    console.log('Current time:      ', new Date());
+    console.log('Days remaining:    ', daysRemaining);
+
+    return daysRemaining;
   }
 
   isTeamLateOnPayment() {
