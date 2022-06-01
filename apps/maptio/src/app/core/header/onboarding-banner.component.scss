@@ -24,6 +24,10 @@
   }
 }
 
+.onboarding-banner__free-trial-text {
+  cursor: default;
+}
+
 .onboarding-banner__emoji {
   // Counteract the emoji having a different width in production
   width: 1.25rem;

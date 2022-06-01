@@ -1,7 +1,12 @@
 <nav
   class="onboarding-banner"
 >
-  <div class="onboarding-banner__free-trial-text">
+  <div
+    class="onboarding-banner__free-trial-text"
+    [ngbTooltip]="freeTrialCutoffDateMessage"
+    container="body"
+    placement="bottom"
+  >
     {{ remainingTrialTimeMessage }}
   </div>
 

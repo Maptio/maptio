@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from "@angular/common/http";
 import { RouterModule } from '@angular/router';
 
+import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 import { JwtModule } from '@auth0/angular-jwt';
 
 import { ErrorPageComponent } from './error/error.page';
@@ -51,6 +52,7 @@ export function tokenGetter(): string {
         CommonModule,
         RouterModule,
         HttpClientModule,
+        NgbTooltipModule,
         JwtModule.forRoot({
           config: {
             tokenGetter: tokenGetter,
