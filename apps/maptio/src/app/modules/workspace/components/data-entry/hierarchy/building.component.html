@@ -17,13 +17,13 @@
 			<ng-template ngbNavContent>
 				<div class=" d-flex flex-column">
 					<div class="card mb-3 w-100 border-0 bg-transparent">
-						<div class="card-body px-0">
+						<div class="card-body px-0 pb-1 pt-4 align-self-center">
 							<button name="" id="" class="btn btn-outline-secondary" (click)="!isToggling && toggleAll(true)" role="button">
-								<i class="fas" [class.fa-plus-circle]="!isExpanding" [class.fa-circle-notch]="isExpanding" [class.fa-spin]="isExpanding"
+								<i class="fas mr-1" [class.fa-angle-double-down]="!isExpanding" [class.fa-circle-notch]="isExpanding" [class.fa-spin]="isExpanding"
 								 aria-hidden="true"></i> Expand all
 							</button>
 							<button name="" id="" class="btn btn-outline-secondary mx-2" (click)="!isToggling && toggleAll(false)" role="button">
-								<i class="fas" [class.fa-minus-circle]="!isCollapsing" [class.fa-circle-notch]="isCollapsing" [class.fa-spin]="isCollapsing"
+								<i class="fas mr-1" [class.fa-angle-double-up]="!isCollapsing" [class.fa-circle-notch]="isCollapsing" [class.fa-spin]="isCollapsing"
 								 aria-hidden="true"></i> Collapse all
 							</button>
 

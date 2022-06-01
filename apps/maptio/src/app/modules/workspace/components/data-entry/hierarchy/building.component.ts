@@ -324,9 +324,15 @@ export class BuildingComponent implements OnDestroy {
             isExpand
                 ? this.tree.treeModel.expandAll()
                 : this.tree.treeModel.collapseAll();
+
+            // This is handled in setState already... but that doesn't fire
+            // the tree is already expanded, effectively breaking the
+            // expand/collapse all buttons - so we repeat this here
+            this.isCollapsing = false;
+            this.isExpanding = false;
+            this.isToggling = false;
+            this.cd.markForCheck();
         }, 100);
-
-
     }
 
     /**
