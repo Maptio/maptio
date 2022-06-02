@@ -1,12 +1,13 @@
-import { SlackIntegration } from "./integrations.data";
+import * as slug from "slug";
+import { set, addDays, differenceInDays, isAfter } from "date-fns";
+
+import { environment } from "@maptio-config/environment";
 import { Serializable } from "./../interfaces/serializable.interface";
+
+import { SlackIntegration } from "./integrations.data";
 import { User } from "./user.data";
 import { Role } from "./role.data";
-import * as slug from "slug";
-import * as addDays from "date-fns/add_days";
-import * as differenceInDays from "date-fns/difference_in_days";
-import * as isAfter from "date-fns/is_after";
-import { environment } from "../../config/environment";
+
 
 /**
  * Represents a team
@@ -138,13 +139,48 @@ export class Team implements Serializable<Team> {
     return slug(this.name || "", { lower: true }) || "team";
   }
 
+  getFreeTrialCutoffDate(): Date {
+    return addDays(this.createdAt, <number>this.freeTrialLength);
+  }
+
+  getFreeTrialTimeLeftMessage(): string {
+    const remainingTrialDays = this.getRemainingTrialDays();
+
+    if (remainingTrialDays > 1) {
+      return `Free trial time left: ${remainingTrialDays} days`;
+    } else if (remainingTrialDays === 1) {
+      return 'Your free trial ends tomorrow!';
+    } else if (remainingTrialDays === 0) {
+      return 'Your free trial ends today!';
+    } else {
+      return 'Your free trial has ended!';
+    }
+  }
+
   getRemainingTrialDays() {
-    let cutoffDate = addDays(this.createdAt, <number>this.freeTrialLength);
-    return Math.ceil(differenceInDays(cutoffDate, Date.now()));
+    const cutoffDate = this.getFreeTrialCutoffDate();
+
+    const midnightAfterLastDay = set(
+      addDays(cutoffDate, 1),
+      { hours: 0, minutes: 0, seconds: 0 }
+    );
+
+    // Calculate days remaining based on the midnight after the last day to be
+    // able to say "1 day remaining" or "your free trial ends tomorrow" on the
+    // day before the trial ends
+    const today = Date.now();
+    let daysRemaining = differenceInDays(midnightAfterLastDay, today);
+
+    // Be more precise on the last day
+    if (isAfter(today, cutoffDate)) {
+      daysRemaining = -1;
+    }
+
+    return daysRemaining;
   }
 
   isTeamLateOnPayment() {
-    let cutoffDate = addDays(this.createdAt, <number>this.freeTrialLength);
+    const cutoffDate = this.getFreeTrialCutoffDate();
     return this.isPaying ? false : isAfter(Date.now(), cutoffDate);
   }
 }

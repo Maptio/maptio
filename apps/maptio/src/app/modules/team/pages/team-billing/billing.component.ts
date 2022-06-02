@@ -16,7 +16,8 @@ import { LoaderService } from '../../../../shared/components/loading/loader.serv
 })
 export class TeamBillingComponent implements OnInit {
     public team: Team;
-    public remaningTrialDays: Number;
+    public remaningTrialDays: number;
+    public remaningTrialDaysMessage: string;
     public isLoading: boolean;
     public Permissions = Permissions;
     public BILLING_PORTAL = environment.BILLING_PORTAL;
@@ -41,7 +42,8 @@ export class TeamBillingComponent implements OnInit {
             }))
             .subscribe((team: Team) => {
                 this.team = team;
-                this.remaningTrialDays = team.getRemainingTrialDays();
+                this.remaningTrialDays= team.getRemainingTrialDays();
+                this.remaningTrialDaysMessage = team.getFreeTrialTimeLeftMessage();
                 this.cd.markForCheck();
                 this.loaderService.hide();
             });
