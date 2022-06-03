@@ -107,7 +107,8 @@ if (!environment.isDevelopment) {
         'https://uploads.intercomusercontent.com',
         'https://drive.google.com',
         'https://*.logrocket.io',
-        'https://slack.com/api/'
+        'https://slack.com/api/',
+        'https://*.openreplay.com',
       ],
       frameSrc:[
         'https://www.termsfeed.com',
@@ -131,7 +132,9 @@ if (!environment.isDevelopment) {
         'https://intercom-sheets.com'
       ],
       workerSrc : [
-        "'self'",'blob:'
+        "'self'",
+        'blob:',
+        'blob: https://*.openreplay.com',
       ],
       imgSrc: ['data:', "'self'", '*']
     }
