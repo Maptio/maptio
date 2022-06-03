@@ -12,6 +12,7 @@ import { map, switchMap, filter, tap } from 'rxjs/operators';
 
 import { SubSink } from "subsink";
 import { Intercom } from 'ng-intercom';
+import Tracker from '@openreplay/tracker';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { environment } from "./config/environment";
@@ -62,6 +63,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
       this.intercom.boot({ app_id: environment.INTERCOM_APP_ID });
 
+    const tracker = new Tracker({
+      projectKey: "XchYPkjBhtyztTjamVfo",
+      onStart: ({ sessionID }) => console.log("OpenReplay tracker started with session: ", sessionID),
+    });
+    tracker.start();
 
     window.onresize = (e: UIEvent) => {
       this.isMobile();
