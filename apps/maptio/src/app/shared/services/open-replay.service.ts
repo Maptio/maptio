@@ -6,4 +6,8 @@ import { Injectable } from '@angular/core';
 export class OpenReplayService {
 
   constructor() { }
+
+  public start() {
+    console.log('Starting OpenReplay service');
+  }
 }

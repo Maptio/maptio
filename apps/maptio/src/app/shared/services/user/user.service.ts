@@ -18,6 +18,7 @@ import {
   map,
   mergeMap,
   shareReplay,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 
@@ -39,6 +40,7 @@ import { Helper } from '@maptio-shared/model/helper.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { DataSet } from '@maptio-shared/model/dataset.data';
 import { Initiative } from '@maptio-shared/model/initiative.data';
+import { OpenReplayService } from '@maptio-shared/services/open-replay.service';
 import { TeamService } from '@maptio-shared/services/team/team.service';
 import { UserRole, UserRoleService, Permissions } from '@maptio-shared/model/permission.data';
 import { UserWithTeamsAndDatasets } from '@maptio-shared/model/userWithTeamsAndDatasets.interface';
@@ -82,6 +84,11 @@ export class UserService implements OnDestroy {
       }
     }),
 
+    tap(user => {
+      // TODO: Check for consent!
+      this.openReplayService.start();
+    }),
+
     catchError(this.handleLoginError),
 
     // Cache the user
@@ -115,6 +122,7 @@ export class UserService implements OnDestroy {
     private router: Router,
     private subs: SubSink,
     private auth: AuthService,
+    private openReplayService: OpenReplayService,
     private intercomService: Intercom, // :'(
     private userFactory: UserFactory,
     private teamFactory: TeamFactory,
