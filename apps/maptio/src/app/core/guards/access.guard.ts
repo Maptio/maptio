@@ -11,7 +11,7 @@ import { filter, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Intercom } from 'ng-intercom';
 
-import { environment } from '@maptio-config/environment';
+import { environment } from '@maptio-environment';
 import { User } from '@maptio-shared/model/user.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 

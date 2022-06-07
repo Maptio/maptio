@@ -5,6 +5,8 @@ export const environment = {
 
   production: true,
 
+  INTERCOM_APP_ID: "q3x5lnhp",
+
   auth: {
     domain: 'login.maptio.com',
     clientId: 'hLMoi4RU80PH686BQ2GTlTg2lInzbXEB',

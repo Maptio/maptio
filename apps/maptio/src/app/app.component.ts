@@ -14,7 +14,7 @@ import { SubSink } from "subsink";
 import { Intercom } from 'ng-intercom';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
-import { environment } from "./config/environment";
+import { environment } from "@maptio-environment";
 import { LoaderService } from "./shared/components/loading/loader.service";
 
 
