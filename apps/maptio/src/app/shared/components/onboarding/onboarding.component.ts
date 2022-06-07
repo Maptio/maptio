@@ -101,6 +101,7 @@ export class OnboardingComponent implements OnInit {
     if (this.currentStep === 'CreateTeam') {
       this.isCreatingTeam = false;
       this.cd.markForCheck();
+
       if (isEmpty(this.team.name)) {
         this.teamCreationErrorMessage = 'We need a name to continue.';
         this.nextActionName = 'Next';
@@ -111,6 +112,7 @@ export class OnboardingComponent implements OnInit {
         this.nextActionName = 'Setting up your organisation';
         this.teamCreationErrorMessage = null;
         this.cd.markForCheck();
+
         this.saveTeam(this.team).then((team) => {
           this.isCreatingTeam = false;
           this.team = team;
@@ -119,7 +121,7 @@ export class OnboardingComponent implements OnInit {
           this.cd.markForCheck();
         });
       }
-    } else if (this.currentStep === 'Terminology') {
+    } else if (this.currentStep === 'Consent') {
       this.sendOnboardingEventToMixpanel();
 
       this.isCreatingMap = true;
@@ -217,7 +219,7 @@ export class OnboardingComponent implements OnInit {
     switch (this.currentStep) {
       case 'Welcome':
         return 'Start';
-      case 'Terminology':
+      case 'Consent':
         return 'Start mapping';
       default:
         return 'Next';
