@@ -2,10 +2,7 @@ import {
   Component,
   OnInit,
   Input,
-  SimpleChanges,
   ChangeDetectorRef,
-  ViewChild,
-  ElementRef,
 } from '@angular/core';
 import { DataSet } from '../../model/dataset.data';
 import { Team } from '../../model/team.data';
@@ -18,27 +15,27 @@ import { MapService } from '../../services/map/map.service';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 @Component({
-  selector: 'common-onboarding',
+  selector: 'maptio-common-onboarding',
   templateUrl: './onboarding.component.html',
   styleUrls: ['./onboarding.component.css'],
 })
 export class OnboardingComponent implements OnInit {
-  @Input('user') user: User;
-  @Input('steps') steps: string[];
+  @Input() user: User;
+  @Input() steps: string[];
 
   currentStep: string;
-  currentIndex: number = 0;
-  nextActionName: string = 'Start';
+  currentIndex = 0;
+  nextActionName = 'Start';
   previousActionName: string = null;
   progress: string;
   progressLabel: string;
-  isClosable: boolean = true;
+  isClosable = true;
   isSkippable: boolean;
 
   teamCreationErrorMessage: string;
   mapCreationErrorMessage: string;
   isTerminologySaved: boolean;
-  COLORS: any[] = [
+  COLORS = [
     { name: '#aaa', isSelected: false },
     { name: 'blue', isSelected: false },
     { name: 'purple', isSelected: false },
@@ -205,14 +202,14 @@ export class OnboardingComponent implements OnInit {
   }
 
   getProgress() {
-    let progress = Number(
+    const progress = Number(
       Math.ceil(((this.currentIndex + 1) / this.steps.length) * 100)
     );
     return progress == 100 ? null : progress.toFixed(0);
   }
 
   getAbsoluteProgress() {
-    let stepsLeft = this.steps.length - (this.currentIndex + 1);
+    const stepsLeft = this.steps.length - (this.currentIndex + 1);
     return stepsLeft == 0 ? "You're done!" : `${stepsLeft} steps left`;
   }
 
@@ -239,7 +236,7 @@ export class OnboardingComponent implements OnInit {
     return false;
   }
 
-  onTerminologySaved(team: Team) {
+  onTerminologySaved() {
     this.isSkippable = false;
     this.cd.markForCheck();
   }
