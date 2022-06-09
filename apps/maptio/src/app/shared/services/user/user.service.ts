@@ -84,8 +84,9 @@ export class UserService implements OnDestroy {
     }),
 
     tap(user => {
-      // TODO: Check for consent!
-      this.openReplayService.start();
+      if(user.consentForSessionRecordings) {
+        this.openReplayService.start();
+      }
     }),
 
     catchError(this.handleLoginError),
