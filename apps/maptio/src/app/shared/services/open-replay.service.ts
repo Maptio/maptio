@@ -9,7 +9,24 @@ import Tracker from '@openreplay/tracker';
 export class OpenReplayService {
   public tracker?: Tracker | null;
 
-  constructor(private zone: NgZone) {
+  constructor(private zone: NgZone) {}
+
+  public start() {
+    if (!this.tracker) {
+      this.createTracker();
+    }
+
+    this.zone.runOutsideAngular(() => {
+      try {
+        return this.tracker.start();
+      } catch (error) {
+        console.error('Failed to start OpenReplay:');
+        console.error(error);
+      }
+    });
+  }
+
+  private createTracker() {
     this.zone.runOutsideAngular(() => {
       this.tracker = new Tracker({
         projectKey: "XchYPkjBhtyztTjamVfo",
@@ -21,14 +38,6 @@ export class OpenReplayService {
         obscureInputEmails: true,
         defaultInputMode: 1,
       });
-    });
-  }
-
-  public start() {
-    this.zone.runOutsideAngular(() => {
-      if (this.tracker) {
-        return this.tracker.start();
-      }
     });
   }
 }
