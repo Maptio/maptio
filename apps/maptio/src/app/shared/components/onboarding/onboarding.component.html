@@ -154,6 +154,8 @@
       the recordings private and secure.
     </p>
 
+    <maptio-consent [user]="user"></maptio-consent>
+
     <p class="text-muted">
       If you choose not to provide your consent, we'd still love to hear how
       you get on with using Maptio, so please do let us know!
@@ -180,6 +182,4 @@
   <div class="h6 d-md-none">
     <ng-container *ngTemplateOutlet="consentcontent"></ng-container>
   </div>
-
-  <maptio-consent></maptio-consent>
 </ng-template>

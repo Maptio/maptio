@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   Input,
   ChangeDetectorRef
 } from '@angular/core';
@@ -14,44 +13,44 @@ import { User } from '@maptio-shared/model/user.data';
   templateUrl: './consent.component.html',
   styleUrls: ['./consent.component.scss']
 })
-export class ConsentComponent implements OnInit {
+export class ConsentComponent {
   @Input() user: User;
 
   isTogglingConsent = false;
-  isTogglingConsentFailed = false;
+  hasTogglingConsentFailed = false;
 
   constructor(
     private cd: ChangeDetectorRef,
-    private userService: UserFactory,
+    private userFactory: UserFactory,
   ) { }
 
-  // async toggleShowingDescriptions(event: Event) {
-  //   if (this.isTogglingShowingDescriptions) {
-  //     return;
-  //   };
+  async toggleConsent(event: Event) {
+    if (this.isTogglingConsent) {
+      return;
+    };
 
-  //   this.isTogglingShowingDescriptions = true;
-  //   this.hasTogglingShowingDescriptionsFailed = false;
-  //   this.cd.markForCheck();
+    this.isTogglingConsent = true;
+    this.hasTogglingConsentFailed = false;
+    this.cd.markForCheck();
 
-  //   const target = event?.target as HTMLInputElement;
-  //   this.dataset.showDescriptions = target.checked;
+    const target = event?.target as HTMLInputElement;
+    this.user.consentForSessionRecordings = target.checked;
 
-  //   let result = false;
-  //   try {
-  //     result = await this.datasetFactory.upsert(this.dataset);
-  //   } catch {
-  //     // Error handled below
-  //     result = false;
-  //   }
+    let result = false;
+    try {
+      result = await this.userFactory.upsert(this.user);
+    } catch {
+      // Error handled below
+      result = false;
+    }
 
-  //   if (!result) {
-  //     this.hasTogglingShowingDescriptionsFailed = true;
-  //     this.dataset.showDescriptions = !this.dataset.showDescriptions;
-  //     target.checked = this.dataset.showDescriptions;
-  //   }
+    if (!result) {
+      this.hasTogglingConsentFailed = true;
+      this.user.consentForSessionRecordings = !this.user.consentForSessionRecordings;
+      target.checked = this.user.consentForSessionRecordings;
+    }
 
-  //   this.isTogglingShowingDescriptions = false;
-  //   this.cd.markForCheck();
-  // }
+    this.isTogglingConsent = false;
+    this.cd.markForCheck();
+  }
 }

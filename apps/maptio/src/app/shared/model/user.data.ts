@@ -69,6 +69,8 @@ export class User implements Serializable<User> {
 
   public onboardingProgress: OnboardingProgress;
 
+  public consentForSessionRecordings: boolean;
+
   public constructor(init?: Partial<User>) {
     Object.assign(this, init);
   }
@@ -132,6 +134,8 @@ export class User implements Serializable<User> {
         deserialized.datasets.push(d);
       });
     }
+
+    deserialized.consentForSessionRecordings = input.consentForSessionRecordings || false;
 
     deserialized.onboardingProgress = OnboardingProgress
       .create()

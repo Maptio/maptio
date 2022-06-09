@@ -1,10 +1,10 @@
-<!-- <div class="form-check mb-3">
+<div class="form-check mb-3">
   <input
     type="checkbox"
     id="showDescriptions"
     class="form-check-input"
     [disabled]="isTogglingConsent"
-    [checked]="false"
+    [checked]="user.consentForSessionRecordings"
     (change)="toggleConsent($event)"
   >
   <label
@@ -15,4 +15,19 @@
     I agree to Maptio creating anonymised session recordings of my activity
     so that the team can use them - only to improve the product
   </label>
-</div> -->
+</div>
+
+<div
+  *ngIf="hasTogglingConsentFailed"
+  class="alert alert-danger"
+  role="alert"
+>
+  There was an error when updating consent.
+  You can chat with us or email us at
+  <a
+    href="mailto:support@maptio.com?subject=Error when updating consent"
+  >
+    support@maptio.com
+  </a>
+  if you'd like to report the issue and notify us of your consent preferences.
+</div>
