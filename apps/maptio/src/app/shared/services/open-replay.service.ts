@@ -2,6 +2,8 @@ import { Injectable, NgZone } from '@angular/core';
 
 import Tracker from '@openreplay/tracker';
 
+import { environment } from '@maptio-environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,16 +14,23 @@ export class OpenReplayService {
   constructor(private zone: NgZone) {}
 
   public start() {
+    if (!environment.OPENREPLAY_PROJECT_KEY) {
+      return;
+    }
+
     if (!this.tracker) {
-      this.createTracker();
+      try {
+        this.createTracker();
+      } catch (error) {
+        console.error('Failed to initialise OpenReplay:', error);
+      }
     }
 
     this.zone.runOutsideAngular(() => {
       try {
         return this.tracker.start();
       } catch (error) {
-        console.error('Failed to start OpenReplay:');
-        console.error(error);
+        console.error('Failed to start OpenReplay recording:', error);
       }
     });
   }
@@ -29,7 +38,7 @@ export class OpenReplayService {
   private createTracker() {
     this.zone.runOutsideAngular(() => {
       this.tracker = new Tracker({
-        projectKey: "XchYPkjBhtyztTjamVfo",
+        projectKey: environment.OPENREPLAY_PROJECT_KEY,
 
         // Privacy settings
         respectDoNotTrack: true,

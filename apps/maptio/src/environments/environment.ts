@@ -13,6 +13,9 @@ export const environment = {
   // environment per production one)
   INTERCOM_APP_ID: 'vrs3fjbv',
 
+  // OpenReplay doesn't work locally, it requires https
+  OPENREPLAY_PROJECT_KEY: null,
+
   auth: {
     domain: 'maptio-dev.eu.auth0.com',
     clientId: 'rAcSdJBxn8gCq8Qtl2Xo9mI0lzTGtPIu',

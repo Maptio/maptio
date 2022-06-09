@@ -13,6 +13,8 @@ export const environment = {
   // environment per production one)
   INTERCOM_APP_ID: 'vrs3fjbv',
 
+  OPENREPLAY_PROJECT_KEY: "XchYPkjBhtyztTjamVfo",
+
   auth: {
     domain: 'maptio-staging.us.auth0.com',
     clientId: 'TlJstdtRcRi1rlPM4iBCIYcHjdzSyPiD',
