@@ -132,6 +132,10 @@
     <p class="text-muted">
       We would love to know how you get on with using Maptio.
     </p>
+  </ng-template>
+
+  <ng-template #consentcontent>
+    <br>
 
     <p class="text-muted">
       Providing your consent here will allow us to see a recording of your
@@ -163,10 +167,19 @@
     <ng-container *ngTemplateOutlet="consenttitle"></ng-container>
   </h3>
 
+  <h4 class="text-center d-none d-md-block">
+    <ng-container *ngTemplateOutlet="consentsubtitle"></ng-container>
+  </h4>
+  <h6 class="text-center d-md-none">
+    <ng-container *ngTemplateOutlet="consentsubtitle"></ng-container>
+  </h6>
+
   <div class="h5 d-none d-md-block">
-    <ng-container *ngTemplateOutlet="consentsubtitle"></ng-container>
+    <ng-container *ngTemplateOutlet="consentcontent"></ng-container>
   </div>
-  <div class="h6 text-center d-md-none">
-    <ng-container *ngTemplateOutlet="consentsubtitle"></ng-container>
+  <div class="h6 d-md-none">
+    <ng-container *ngTemplateOutlet="consentcontent"></ng-container>
   </div>
+
+  <maptio-consent></maptio-consent>
 </ng-template>
