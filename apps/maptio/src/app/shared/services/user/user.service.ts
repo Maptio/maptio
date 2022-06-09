@@ -681,7 +681,8 @@ export class UserService implements OnDestroy {
           type: "avatar",
           image_url: user.picture,
       },
-      is_invited: user.isInvitationSent
+      is_invited: user.isInvitationSent,
+      consent_for_session_recordings: user.consentForSessionRecordings,
     });
   }
 }
