@@ -14,6 +14,9 @@ import { Router } from '@angular/router';
 import { MapService } from '../../services/map/map.service';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
+import { OpenReplayService } from '@maptio-shared/services/open-replay.service';
+
+
 @Component({
   selector: 'maptio-common-onboarding',
   templateUrl: './onboarding.component.html',
@@ -56,6 +59,7 @@ export class OnboardingComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private cd: ChangeDetectorRef,
+    private openReplayService: OpenReplayService,
     private mixpanel: Angulartics2Mixpanel,
     private teamService: TeamService,
     private mapService: MapService,
@@ -122,6 +126,7 @@ export class OnboardingComponent implements OnInit {
         });
       }
     } else if (this.currentStep === 'Consent') {
+      this.startSessionRecordingIfConsentIsGiven();
       this.sendOnboardingEventToMixpanel();
 
       this.isCreatingMap = true;
@@ -144,6 +149,12 @@ export class OnboardingComponent implements OnInit {
         });
     } else {
       this.goToNextStep();
+    }
+  }
+
+  private startSessionRecordingIfConsentIsGiven() {
+    if (this.user.consentForSessionRecordings) {
+      this.openReplayService.start();
     }
   }
 
