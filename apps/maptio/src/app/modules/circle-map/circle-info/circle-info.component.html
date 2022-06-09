@@ -4,7 +4,7 @@
 >
   <div
     class="circle-info__name"
-    data-openreplay-hidden
+    data-openreplay-masked
   >
     {{ circle.data.name }}
   </div>
@@ -16,6 +16,7 @@
         *ngFor="let tag of circle.data.tags"
         [style.background-color]="tag.color"
         (click)="onTagClick($event)"
+        data-openreplay-masked
       >
         {{ tag.name }}
       </div>
