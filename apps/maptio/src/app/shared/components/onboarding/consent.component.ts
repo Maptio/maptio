@@ -35,6 +35,7 @@ export class ConsentComponent {
 
     const target = event?.target as HTMLInputElement;
     this.user.consentForSessionRecordings = target.checked;
+    this.user.consentForSessionRecordingsUpdatedAt = new Date();
 
     let result = false;
     try {
