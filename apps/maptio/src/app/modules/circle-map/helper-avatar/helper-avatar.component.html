@@ -6,7 +6,6 @@
   [satPopoverAnchor]="popover"
   [satPopoverHover]="300"
   (click)="onClick($event)"
-  data-openreplay-masked
 >
 
 <sat-popover
@@ -16,7 +15,6 @@
   <div class="helper-avatar__details">
     <div
       class="helper-avatar__name"
-      data-openreplay-masked
     >
       {{ helper.name}}
     </div>
@@ -28,7 +26,6 @@
       <li *ngFor="let role of helper.roles">
         <span
           class="helper-avatar__role"
-          data-openreplay-masked
         >
           {{ role?.title }}
         </span>
