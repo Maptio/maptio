@@ -8,7 +8,6 @@ export const environment = {
     SUPPORT_EMAIL: "support@maptio.com",
     MAPTIO_API_URL: "https://app.maptio.com/api/v1",
     MIXPANEL_TOKEN: "de90e67220137ed9cab9510a84ba7ecf",
-    INTERCOM_APP_ID: "q3x5lnhp",
     FULLSTORY_APP_ID: "8HKGB",
     LOGROCKET_APP_ID: "w3vkbz/maptio",
     CLOUDINARY_CLOUDNAME: "hgkbm0qes",

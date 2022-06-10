@@ -14,6 +14,9 @@ import { Router } from '@angular/router';
 import { MapService } from '../../services/map/map.service';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
+import { OpenReplayService } from '@maptio-shared/services/open-replay.service';
+
+
 @Component({
   selector: 'maptio-common-onboarding',
   templateUrl: './onboarding.component.html',
@@ -56,6 +59,7 @@ export class OnboardingComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private cd: ChangeDetectorRef,
+    private openReplayService: OpenReplayService,
     private mixpanel: Angulartics2Mixpanel,
     private teamService: TeamService,
     private mapService: MapService,
@@ -101,6 +105,7 @@ export class OnboardingComponent implements OnInit {
     if (this.currentStep === 'CreateTeam') {
       this.isCreatingTeam = false;
       this.cd.markForCheck();
+
       if (isEmpty(this.team.name)) {
         this.teamCreationErrorMessage = 'We need a name to continue.';
         this.nextActionName = 'Next';
@@ -111,6 +116,7 @@ export class OnboardingComponent implements OnInit {
         this.nextActionName = 'Setting up your organisation';
         this.teamCreationErrorMessage = null;
         this.cd.markForCheck();
+
         this.saveTeam(this.team).then((team) => {
           this.isCreatingTeam = false;
           this.team = team;
@@ -119,7 +125,8 @@ export class OnboardingComponent implements OnInit {
           this.cd.markForCheck();
         });
       }
-    } else if (this.currentStep === 'Terminology') {
+    } else if (this.currentStep === 'Consent') {
+      this.startSessionRecordingIfConsentIsGiven();
       this.sendOnboardingEventToMixpanel();
 
       this.isCreatingMap = true;
@@ -142,6 +149,12 @@ export class OnboardingComponent implements OnInit {
         });
     } else {
       this.goToNextStep();
+    }
+  }
+
+  private startSessionRecordingIfConsentIsGiven() {
+    if (this.user.consentForSessionRecordings) {
+      this.openReplayService.start();
     }
   }
 
@@ -217,7 +230,7 @@ export class OnboardingComponent implements OnInit {
     switch (this.currentStep) {
       case 'Welcome':
         return 'Start';
-      case 'Terminology':
+      case 'Consent':
         return 'Start mapping';
       default:
         return 'Next';

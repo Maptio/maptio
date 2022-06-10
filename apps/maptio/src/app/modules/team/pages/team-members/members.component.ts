@@ -16,7 +16,8 @@ import {
 } from 'lodash-es';
 import { Intercom } from 'ng-intercom';
 
-import { environment } from '@maptio-config/environment';
+import { environment } from '@maptio-environment';
+import { environment as config } from '@maptio-config/environment';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
 
 import { DataSet } from '@maptio-shared/model/dataset.data';
@@ -49,7 +50,7 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
   public createdUser: User;
   cancelClicked: boolean;
 
-  KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
+  KB_URL_PERMISSIONS = config.KB_URL_PERMISSIONS;
 
   constructor(
     private route: ActivatedRoute,

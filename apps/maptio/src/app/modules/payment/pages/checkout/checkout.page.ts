@@ -12,7 +12,6 @@ import { User } from '../../../../shared/model/user.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 
 import { environment } from '@maptio-environment';
-import { environment as config } from '@maptio-config/environment';
 
 @Component({
     selector: 'pricing-checkout',
@@ -50,7 +49,7 @@ export class CheckoutComponent implements OnInit {
                 this.cd.markForCheck();
 
                 this.intercom.update({
-                    app_id: config.INTERCOM_APP_ID,
+                    app_id: environment.INTERCOM_APP_ID,
                     email: user.email,
                     user_id: user.user_id,
                     company: {

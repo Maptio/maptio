@@ -18,6 +18,7 @@ import {
   map,
   mergeMap,
   shareReplay,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 
@@ -29,7 +30,6 @@ import { isEmpty, remove, sortBy, uniq } from 'lodash-es';
 import { nanoid } from 'nanoid'
 
 import { environment } from '@maptio-environment';
-import { environment as config } from '@maptio-config/environment';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
@@ -39,6 +39,7 @@ import { Helper } from '@maptio-shared/model/helper.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { DataSet } from '@maptio-shared/model/dataset.data';
 import { Initiative } from '@maptio-shared/model/initiative.data';
+import { OpenReplayService } from '@maptio-shared/services/open-replay.service';
 import { TeamService } from '@maptio-shared/services/team/team.service';
 import { UserRole, UserRoleService, Permissions } from '@maptio-shared/model/permission.data';
 import { UserWithTeamsAndDatasets } from '@maptio-shared/model/userWithTeamsAndDatasets.interface';
@@ -82,6 +83,12 @@ export class UserService implements OnDestroy {
       }
     }),
 
+    tap(user => {
+      if(user.consentForSessionRecordings) {
+        this.openReplayService.start();
+      }
+    }),
+
     catchError(this.handleLoginError),
 
     // Cache the user
@@ -115,6 +122,7 @@ export class UserService implements OnDestroy {
     private router: Router,
     private subs: SubSink,
     private auth: AuthService,
+    private openReplayService: OpenReplayService,
     private intercomService: Intercom, // :'(
     private userFactory: UserFactory,
     private teamFactory: TeamFactory,
@@ -662,7 +670,7 @@ export class UserService implements OnDestroy {
    */
   private updateUserDataInIntercom(user) {
     this.intercomService.update({
-      app_id: config.INTERCOM_APP_ID,
+      app_id: environment.INTERCOM_APP_ID,
       email: user.email,
       user_id: user.user_id,
       name: user.name,
@@ -673,7 +681,8 @@ export class UserService implements OnDestroy {
           type: "avatar",
           image_url: user.picture,
       },
-      is_invited: user.isInvitationSent
+      is_invited: user.isInvitationSent,
+      consent_for_session_recordings: user.consentForSessionRecordings,
     });
   }
 }

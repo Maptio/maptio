@@ -14,7 +14,7 @@ import { SubSink } from "subsink";
 import { Intercom } from 'ng-intercom';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
-import { environment } from "./config/environment";
+import { environment } from "@maptio-environment";
 import { LoaderService } from "./shared/components/loading/loader.service";
 
 
@@ -61,7 +61,6 @@ export class AppComponent implements OnInit, OnDestroy {
       )
 
       this.intercom.boot({ app_id: environment.INTERCOM_APP_ID });
-
 
     window.onresize = (e: UIEvent) => {
       this.isMobile();

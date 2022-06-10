@@ -13,7 +13,9 @@
   verticalAlign="below"
 >
   <div class="helper-avatar__details">
-    <div class="helper-avatar__name">
+    <div
+      class="helper-avatar__name"
+    >
       {{ helper.name}}
     </div>
 
@@ -22,7 +24,11 @@
       *ngIf="showRoles"
     >
       <li *ngFor="let role of helper.roles">
-        <span class="helper-avatar__role">{{ role?.title }}</span>
+        <span
+          class="helper-avatar__role"
+        >
+          {{ role?.title }}
+        </span>
       </li>
     </ul>
   </div>

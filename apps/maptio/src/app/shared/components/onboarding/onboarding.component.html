@@ -22,6 +22,10 @@
   <ng-container *ngIf="currentStep === 'Terminology'">
     <ng-container *ngTemplateOutlet="terminology"></ng-container>
   </ng-container>
+
+  <ng-container *ngIf="currentStep === 'Consent'">
+    <ng-container *ngTemplateOutlet="consent"></ng-container>
+  </ng-container>
 </common-modal>
 
 <ng-template #welcome>
@@ -118,5 +122,69 @@
   </div>
   <div class="h6 text-center d-md-none">
     <ng-container *ngTemplateOutlet="settingsnote"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #consent>
+  <ng-template #consenttitle>Could you help us improve Maptio?</ng-template>
+
+  <ng-template #consentcontent>
+    <img
+      src="assets/images/tom.png"
+      alt="Portrait photo of Tom Nixon"
+      class="float-left rounded-circle w-25 m-3"
+    />
+
+    <p class="text-muted pt-4">
+      Hey, it's Tom here &mdash; the founder of Maptio.
+    </p>
+
+    <p class="text-muted">
+      We're doing all we can to make Maptio ever more delightful to use.
+    </p>
+
+    <p class="text-muted">
+      With your permission, we'd like to make session recordings of your activity using Maptio.
+      This helps us spot where we can make improvements.
+    </p>
+
+    <p class="text-muted">
+      We use a very privacy-conscious service called
+      <a href="https://openreplay.com/" target="_blank">OpenReplay</a>.
+      It's open source, just like us. We trust their service to keep recordings private and secure.
+    </p>
+
+    <maptio-consent
+      [user]="user"
+      class="d-block my-4"
+    ></maptio-consent>
+
+    <p class="text-muted">
+      If you choose to continue without ticking that checkbox, we respect that.
+      We'd still love to hear how you get on with using Maptio, so please do
+      let us know if you have questions or suggestions.
+      Thank you!
+    </p>
+  </ng-template>
+
+  <h1 class="text-center d-none d-md-block">
+    <ng-container *ngTemplateOutlet="consenttitle"></ng-container>
+  </h1>
+  <h3 class="text-center d-md-none">
+    <ng-container *ngTemplateOutlet="consenttitle"></ng-container>
+  </h3>
+
+  <h4 class="text-center d-none d-md-block">
+    <ng-container *ngTemplateOutlet="consentsubtitle"></ng-container>
+  </h4>
+  <h6 class="text-center d-md-none">
+    <ng-container *ngTemplateOutlet="consentsubtitle"></ng-container>
+  </h6>
+
+  <div class="h5 d-none d-md-block">
+    <ng-container *ngTemplateOutlet="consentcontent"></ng-container>
+  </div>
+  <div class="h6 d-md-none">
+    <ng-container *ngTemplateOutlet="consentcontent"></ng-container>
   </div>
 </ng-template>

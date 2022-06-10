@@ -2,11 +2,12 @@
 
 import { NgModule, isDevMode } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { environment } from '../config/environment';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel"
 import { IntercomModule, Intercom } from 'ng-intercom';
-import * as LogRocket from "logrocket";
+
+import { environment } from "@maptio-environment";
+
 
 @NgModule({
     declarations: [

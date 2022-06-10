@@ -1,5 +1,5 @@
 import * as slug from 'slug';
-import { toDate } from 'date-fns';
+import { parseISO } from 'date-fns';
 
 import { Serializable } from '../interfaces/serializable.interface';
 import { UserRole } from './permission.data';
@@ -69,6 +69,9 @@ export class User implements Serializable<User> {
 
   public onboardingProgress: OnboardingProgress;
 
+  public consentForSessionRecordings: boolean;
+  public consentForSessionRecordingsUpdatedAt: Date | null;
+
   public constructor(init?: Partial<User>) {
     Object.assign(this, init);
   }
@@ -109,8 +112,8 @@ export class User implements Serializable<User> {
       : UserRole.Standard;
 
     deserialized.loginsCount = input.loginsCount;
-    deserialized.lastSeenAt = input.lastSeenAt ? toDate(input.lastSeenAt) : null;
-    deserialized.createdAt = input.createdAt ? toDate(input.createdAt) : null;
+    deserialized.lastSeenAt = input.lastSeenAt ? parseISO(input.lastSeenAt) : null;
+    deserialized.createdAt = input.createdAt ? parseISO(input.createdAt) : null;
 
     deserialized.nickname = input.nickname;
     deserialized.email = input.email;
@@ -132,6 +135,12 @@ export class User implements Serializable<User> {
         deserialized.datasets.push(d);
       });
     }
+
+    deserialized.consentForSessionRecordings = input.consentForSessionRecordings || false;
+    deserialized.consentForSessionRecordingsUpdatedAt =
+      input.consentForSessionRecordingsUpdatedAt ?
+      parseISO(input.consentForSessionRecordingsUpdatedAt) :
+      null;
 
     deserialized.onboardingProgress = OnboardingProgress
       .create()
