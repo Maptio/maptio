@@ -1,109 +1,122 @@
-<common-modal [nextActionName]="nextActionName" [previousActionName]="previousActionName" [isSkippable]="isSkippable"
-    [isReady]="true" [isWithProgress]="true" [isWithProgress]="false" [progress]="progress"
-    [progressLabel]="progressLabel" [isUpdating]="isCreatingTeam || isCreatingMap"
-    (next)="nextStep()" (previous)="previousStep()">
+<common-modal
+  [nextActionName]="nextActionName"
+  [previousActionName]="previousActionName"
+  [isSkippable]="isSkippable"
+  [isReady]="true"
+  [isWithProgress]="true"
+  [isWithProgress]="false"
+  [progress]="progress"
+  [progressLabel]="progressLabel"
+  [isUpdating]="isCreatingTeam || isCreatingMap"
+  (next)="nextStep()"
+  (previous)="previousStep()"
+>
+  <ng-container *ngIf="currentStep === 'Welcome'">
+    <ng-container *ngTemplateOutlet="welcome"></ng-container>
+  </ng-container>
 
-    <ng-container *ngIf="currentStep === 'Welcome'">
-        <ng-container *ngTemplateOutlet="welcome"></ng-container>
-    </ng-container>
+  <ng-container *ngIf="currentStep === 'CreateTeam'">
+    <ng-container *ngTemplateOutlet="createteam"></ng-container>
+  </ng-container>
 
-    <ng-container *ngIf="currentStep === 'CreateTeam'">
-        <ng-container *ngTemplateOutlet="createteam"></ng-container>
-    </ng-container>
-
-    <ng-container *ngIf="currentStep === 'Terminology'">
-        <ng-container *ngTemplateOutlet="terminology"></ng-container>
-    </ng-container>
+  <ng-container *ngIf="currentStep === 'Terminology'">
+    <ng-container *ngTemplateOutlet="terminology"></ng-container>
+  </ng-container>
 </common-modal>
 
 <ng-template #welcome>
-    <ng-template #yourfirstmap>
-        <span class="text-accent">👋 {{user?.firstname}}</span>, your first map is just a few clicks away!
-    </ng-template>
-    <ng-template #guide>
-        Let's set up your organisation. It will only take a minute.
-    </ng-template>
+  <ng-template #yourfirstmap>
+    <span class="text-accent">👋 {{ user?.firstname }}</span
+    >, your first map is just a few clicks away!
+  </ng-template>
+  <ng-template #guide>
+    Let's set up your organisation. It will only take a minute.
+  </ng-template>
 
+  <div class="display-3 d-none d-md-block">
+    <ng-container *ngTemplateOutlet="yourfirstmap"></ng-container>
+  </div>
+  <div class="h1 d-md-none">
+    <ng-container *ngTemplateOutlet="yourfirstmap"></ng-container>
+  </div>
 
-    <div class="display-3 d-none d-md-block">
-        <ng-container *ngTemplateOutlet="yourfirstmap"></ng-container>
-    </div>
-    <div class="h1 d-md-none">
-        <ng-container *ngTemplateOutlet="yourfirstmap"></ng-container>
-    </div>
+  <h4 class="my-4 text-muted d-none d-md-block">
+    <ng-container *ngTemplateOutlet="guide"></ng-container>
+  </h4>
 
-    <h4 class="my-4 text-muted d-none d-md-block">
-        <ng-container *ngTemplateOutlet="guide"></ng-container>
-
-    </h4>
-
-    <h6 class="my-4 text-muted d-md-none">
-        <ng-container *ngTemplateOutlet="guide"></ng-container>
-
-    </h6>
-
+  <h6 class="my-4 text-muted d-md-none">
+    <ng-container *ngTemplateOutlet="guide"></ng-container>
+  </h6>
 </ng-template>
 
 <ng-template #createteam>
-    <ng-template #createteamtitle>
-        What should we call your organisation?
-    </ng-template>
+  <ng-template #createteamtitle>
+    What should we call your organisation?
+  </ng-template>
 
-
-    <h1 class="text-center d-none d-md-block">
-        <ng-container *ngTemplateOutlet="createteamtitle"></ng-container>
-    </h1>
-    <h3 class="text-center d-md-none">
-        <ng-container *ngTemplateOutlet="createteamtitle"></ng-container>
-    </h3>
-    <div class="my-3 my-md-5">
-        <div class="form-row w-100 d-flex justify-content-center align-items-center flex-column">
-            <input [(ngModel)]="team.name" type="text" class="form-control col-12 col-md-10 col-lg-6">
-            <small *ngIf="teamCreationErrorMessage" class="form-text text-danger">{{teamCreationErrorMessage}}</small>
-        </div>
+  <h1 class="text-center d-none d-md-block">
+    <ng-container *ngTemplateOutlet="createteamtitle"></ng-container>
+  </h1>
+  <h3 class="text-center d-md-none">
+    <ng-container *ngTemplateOutlet="createteamtitle"></ng-container>
+  </h3>
+  <div class="my-3 my-md-5">
+    <div
+      class="form-row w-100 d-flex justify-content-center align-items-center flex-column"
+    >
+      <input
+        [(ngModel)]="team.name"
+        type="text"
+        class="form-control col-12 col-md-10 col-lg-6"
+      />
+      <small *ngIf="teamCreationErrorMessage" class="form-text text-danger">{{
+        teamCreationErrorMessage
+      }}</small>
     </div>
-
+  </div>
 </ng-template>
 
 <ng-template #terminology>
-    <ng-template #terminologytitle>What should we call them?</ng-template>
+  <ng-template #terminologytitle>What should we call them?</ng-template>
 
-    <ng-template #terminologysubtitle>
-        <span class="text-muted">
-          What language do you use to refer to people at <b>{{team.name}}</b>?
-        </span>
-    </ng-template>
+  <ng-template #terminologysubtitle>
+    <span class="text-muted">
+      What language do you use to refer to people at <b>{{ team.name }}</b
+      >?
+    </span>
+  </ng-template>
 
-    <ng-template #settingsnote>
-        <span class="text-muted">
-            You can always change this later in the organisation settings.
-        </span>
-    </ng-template>
+  <ng-template #settingsnote>
+    <span class="text-muted">
+      You can always change this later in the organisation settings.
+    </span>
+  </ng-template>
 
-    <h1 class="text-center d-none d-md-block">
-        <ng-container *ngTemplateOutlet="terminologytitle"></ng-container>
-    </h1>
-    <h3 class="text-center d-md-none">
-        <ng-container *ngTemplateOutlet="terminologytitle"></ng-container>
-    </h3>
+  <h1 class="text-center d-none d-md-block">
+    <ng-container *ngTemplateOutlet="terminologytitle"></ng-container>
+  </h1>
+  <h3 class="text-center d-md-none">
+    <ng-container *ngTemplateOutlet="terminologytitle"></ng-container>
+  </h3>
 
+  <h4 class="text-center d-none d-md-block">
+    <ng-container *ngTemplateOutlet="terminologysubtitle"></ng-container>
+  </h4>
+  <h6 class="text-center d-md-none">
+    <ng-container *ngTemplateOutlet="terminologysubtitle"></ng-container>
+  </h6>
 
-    <h4 class="text-center d-none d-md-block">
-        <ng-container *ngTemplateOutlet="terminologysubtitle"></ng-container>
-    </h4>
-    <h6 class="text-center d-md-none">
-        <ng-container *ngTemplateOutlet="terminologysubtitle"></ng-container>
-    </h6>
+  <div class="my-5">
+    <onboarding-add-terminology
+      [team]="team"
+      (saved)="onTerminologySaved()"
+    ></onboarding-add-terminology>
+  </div>
 
-
-    <div class="my-5">
-        <onboarding-add-terminology [team]="team" (saved)="onTerminologySaved($event)"></onboarding-add-terminology>
-    </div>
-
-    <div class="h5 text-center d-none d-md-block">
-        <ng-container *ngTemplateOutlet="settingsnote"></ng-container>
-    </div>
-    <div class="h6 text-center d-md-none">
-        <ng-container *ngTemplateOutlet="settingsnote"></ng-container>
-    </div>
+  <div class="h5 text-center d-none d-md-block">
+    <ng-container *ngTemplateOutlet="settingsnote"></ng-container>
+  </div>
+  <div class="h6 text-center d-md-none">
+    <ng-container *ngTemplateOutlet="settingsnote"></ng-container>
+  </div>
 </ng-template>
