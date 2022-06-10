@@ -128,37 +128,42 @@
 <ng-template #consent>
   <ng-template #consenttitle>Could you help us improve Maptio?</ng-template>
 
-  <ng-template #consentsubtitle>
-    <p class="text-muted">
-      We would love to know how you get on with using Maptio.
-    </p>
-  </ng-template>
-
   <ng-template #consentcontent>
-    <br>
+    <img
+      src="assets/images/tom.png"
+      alt="Portrait photo of Tom Nixon"
+      class="float-left rounded-circle w-25 m-3"
+    />
 
-    <p class="text-muted">
-      Providing your consent here will allow us to see a recording of your
-      activity.
+    <p class="text-muted pt-4">
+      Hey, it's Tom here &mdash; the founder of Maptio.
     </p>
 
     <p class="text-muted">
-      This allows us to monitor the health of the application and ensure it
-      is easy to use and understand for all of our users.
+      We're doing all we can to make Maptio ever more delightful to use.
     </p>
 
-    <p class="text-muted mb-5">
-      To enable this functionality, we use a privacy-conscious service called
+    <p class="text-muted">
+      With your permission, we'd like to make session recordings of your activity using Maptio.
+      This helps us spot where we can make improvements.
+    </p>
+
+    <p class="text-muted">
+      We use a very privacy-conscious service called
       <a href="https://openreplay.com/" target="_blank">OpenReplay</a>.
-      This tool is open source - just like Maptio - and we trust their cloud
-      service to keep the recordings private and secure.
+      It's open source, just like us. We trust their service to keep recordings private and secure.
     </p>
 
-    <maptio-consent [user]="user"></maptio-consent>
+    <maptio-consent
+      [user]="user"
+      class="d-block my-4"
+    ></maptio-consent>
 
-    <p class="text-muted mt-5">
-      If you choose not to provide your consent, we'd still love to hear how
-      you get on with using Maptio, so please do let us know!
+    <p class="text-muted">
+      If you choose to continue without ticking that checkbox, we respect that.
+      We'd still love to hear how you get on with using Maptio, so please do
+      let us know if you have questions or suggestions.
+      Thank you!
     </p>
   </ng-template>
 
