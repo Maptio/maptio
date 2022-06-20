@@ -1,15 +1,16 @@
-import { UserRole } from '../../../../shared/model/permission.data';
-import { environment } from '../../../../config/environment';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
+import { environment } from '../../../../config/environment';
+
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { TeamFactory } from '../../../../core/http/team/team.factory';
 import { UserFactory } from '../../../../core/http/user/user.factory';
 import { DataSet } from '../../../../shared/model/dataset.data';
 import { DatasetFactory } from '../../../../core/http/map/dataset.factory';
-import { User } from '../../../../shared/model/user.data';
 import { UserService } from '../../../../shared/services/user/user.service';
 import { Team } from '../../../../shared/model/team.data';
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+
 import {
   Constants,
   FileService,
@@ -23,8 +24,10 @@ import { drop } from 'lodash-es';
 })
 export class TeamImportComponent implements OnInit {
   team: Team;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @ViewChild('fileImportInput', { static: true }) fileImportInput: any;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   csvRecords: any[] = [];
   currentImportedUserIndex: number;
   importUserLength: number;
@@ -58,6 +61,7 @@ export class TeamImportComponent implements OnInit {
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fileChangeListener($event: any): void {
     this.isParsingFinished = false;
     this.isFileInvalid = false;
@@ -65,31 +69,30 @@ export class TeamImportComponent implements OnInit {
     this.importedSuccessfully = 0;
     this.importedFailed = 0;
     this.csvRecords = [];
-    let text = [];
-    let files = $event.srcElement.files;
+    const files = $event.srcElement.files;
 
     if (!this.fileService.isCSVFile(files[0])) {
       this.isFileFormatInvalid = true;
       this.fileReset();
     }
 
-    let input = $event.target as HTMLInputElement;
+    const input = $event.target as HTMLInputElement;
 
-    let reader = new FileReader();
+    const reader = new FileReader();
     reader.readAsText(input.files[0], 'utf-8');
 
-    reader.onload = (data) => {
-      let csvData = reader.result as string;
-      let csvRecordsArray = csvData
+    reader.onload = () => {
+      const csvData = reader.result as string;
+      const csvRecordsArray = csvData
         .split(/\r\n|\n|\r/)
         .filter((s: string) => s !== '');
       let headerLength = -1;
-      let headersRow = this.fileService.getHeaderArray(
+      const headersRow = this.fileService.getHeaderArray(
         csvRecordsArray,
         Constants.tokenDelimeter
       );
       headerLength = headersRow.length;
-      let isHeaderValid = this.fileService.validateHeaders(headersRow, [
+      const isHeaderValid = this.fileService.validateHeaders(headersRow, [
         'First name',
         'Last name',
         'Email',
@@ -143,22 +146,22 @@ export class TeamImportComponent implements OnInit {
     this.importedSuccessfully = 0;
     this.importedFailed = 0;
 
-    drop(this.csvRecords, 1).forEach((record, index, all) => {
+    drop(this.csvRecords, 1).forEach((record) => {
       record[4] = '';
       record[5] = false; // has finished processed
 
       this.createUser(
-        (<String>record[2]).trim(),
-        (<String>record[0]).trim(),
-        (<String>record[1]).trim()
+        (<string>record[2]).trim(),
+        (<string>record[0]).trim(),
+        (<string>record[1]).trim()
       ).then(
-        (result) => {
+        () => {
           this.importedSuccessfully += 1;
           record[4] = 'Imported';
           record[5] = true;
           this.cd.markForCheck();
         },
-        (error: any) => {
+        (error: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
           this.importedFailed += 1;
           record[4] = error.message;
           record[5] = true;
