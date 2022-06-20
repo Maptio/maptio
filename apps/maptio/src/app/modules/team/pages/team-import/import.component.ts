@@ -1,21 +1,21 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { environment } from '../../../../config/environment';
+import { environment } from '@maptio-config/environment';
 
+import { drop } from 'lodash-es';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
-import { TeamFactory } from '../../../../core/http/team/team.factory';
-import { UserFactory } from '../../../../core/http/user/user.factory';
-import { DataSet } from '../../../../shared/model/dataset.data';
-import { DatasetFactory } from '../../../../core/http/map/dataset.factory';
-import { UserService } from '../../../../shared/services/user/user.service';
-import { Team } from '../../../../shared/model/team.data';
 
+import { UserFactory } from '@maptio-core/http/user/user.factory';
+import { TeamFactory } from '@maptio-core/http/team/team.factory';
+import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
+import { UserService } from '@maptio-shared/services/user/user.service';
+import { Team } from '@maptio-shared/model/team.data';
+import { DataSet } from '@maptio-shared/model/dataset.data';
 import {
   Constants,
   FileService,
-} from '../../../../shared/services/file/file.service';
-import { drop } from 'lodash-es';
+} from '@maptio-shared/services/file/file.service';
 
 @Component({
   selector: 'maptio-team-import',
@@ -161,7 +161,8 @@ export class TeamImportComponent implements OnInit {
           record[5] = true;
           this.cd.markForCheck();
         },
-        (error: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (error: any) => {
           this.importedFailed += 1;
           record[4] = error.message;
           record[5] = true;
