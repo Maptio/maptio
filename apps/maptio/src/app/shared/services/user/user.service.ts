@@ -584,17 +584,16 @@ export class UserService implements OnDestroy {
     const name = `${firstname} ${lastname}`;
     let duplicateUsers: User[] = [];
 
-    if (email) {
-      duplicateUsers = duplicateUsers.concat(
-        teamMembers.filter(member => member.email === email)
-      );
-    } else if (name) {
-      duplicateUsers = duplicateUsers.concat(
-        teamMembers.filter(
-          member => this.areStringsAlmostIdentical(member.name, name)
-        )
-      );
-    }
+    duplicateUsers = duplicateUsers.concat(
+      teamMembers.filter(
+        (member) => {
+          const doEmailsMatch = member.email === email;
+          const doNamesMatch = this.areStringsAlmostIdentical(member.name, name)
+
+          return doEmailsMatch || doNamesMatch;
+        }
+      )
+    );
 
     return duplicateUsers;
   }
