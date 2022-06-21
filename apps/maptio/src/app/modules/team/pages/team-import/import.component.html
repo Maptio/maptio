@@ -32,15 +32,20 @@
         </div>
       </div>
 
-      <div class="small">
+      <p class="mt-4 mb-2 small">
         Required columns (in that order):
         <samp>First name</samp>
         ,
         <samp>Last name</samp>
         ,
         <samp>Email</samp>
-      </div>
-      <span class="small">
+      </p>
+
+      <p class="mb-2 small">
+        You can skip an email address by adding a comma after the last name
+      </p>
+
+      <p class="mb-2 small">
         Not sure about the format?
         <a
           class="text-green strong"
@@ -50,7 +55,7 @@
           <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
           <strong>Download a template</strong>
         </a>
-      </span>
+      </p>
 
       <div *ngIf="isFileInvalid" class="text-orange small">
         <strong>Invalid file</strong>
@@ -128,7 +133,7 @@
                 [attr.aria-valuemax]="totalRecordsToImport"
               >
                 <span *ngIf="importedFailed > 0">
-                  Failed : {{ importedFailed }}
+                  Require attention: {{ importedFailed }}
                 </span>
               </div>
             </div>
@@ -146,20 +151,24 @@
                 <a routerLink="../../members">invited</a>
                 to view and edit maps.
               </span>
-              <span class="mb-2 text-muted" *ngIf="importedFailed > 0">
-                <span class="text-orange">
+
+              <div class="mb-2 mt-3 text-muted" *ngIf="importedFailed > 0">
+                <p class="text-orange">
                   <i
                     class="fa fa-exclamation-circle mr-1"
                     aria-hidden="true"
                   ></i>
                   We couldn't import {{ importedFailed }} users!
-                </span>
-                Try again or
-                <a routerLink="../../members">
-                  skip and invite {{ importedSuccessfully }} new users to view
-                  and edit maps.
-                </a>
-              </span>
+                </p>
+
+                <p>
+                  Review the individual messages, try again or
+                  <a routerLink="../../members">
+                    skip and invite {{ importedSuccessfully }} new users to view
+                    and edit maps.
+                  </a>
+                </p>
+              </div>
             </ng-container>
           </div>
 
