@@ -263,6 +263,52 @@ export class UserService implements OnDestroy {
     return this.createUser(userId, email, firstname, lastname, picture, isAdmin);
   }
 
+  createUserAndAddToTeam(
+    team: Team,
+    email: string,
+    firstname: string,
+    lastname: string,
+    picture: string,
+    isAdmin?: boolean
+  ): Promise<boolean> {
+    const userId = this.generateNewUserId();
+    const user = this.createUser(userId, email, firstname, lastname, picture, isAdmin);
+
+    return this.datasetFactory
+      .get(team)
+      .then(
+        (datasets: DataSet[]) => {
+          user.teams = [team.team_id];
+          user.datasets = datasets.map((d) => d.datasetId);
+
+          return user;
+        },
+        (reason) => {
+          return Promise.reject(`Can't create ${email} : ${reason}`);
+        }
+      )
+      .then((user: User) => {
+        this.userFactory.create(user);
+        return user;
+      })
+      .then((user: User) => {
+        team.members.push(user);
+        this.teamFactory.upsert(team);
+      })
+      .then(() => {
+        this.intercomService.trackEvent('Create user', {
+          team: team.name,
+          teamId: team.team_id,
+          email: email,
+        });
+        return true;
+      })
+      .catch((reason) => {
+        console.error(reason);
+        throw Error(reason);
+      });
+  }
+
   private createUser(
     userId: string,
     email: string,
