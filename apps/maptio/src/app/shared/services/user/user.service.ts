@@ -467,6 +467,11 @@ export class UserService implements OnDestroy {
     return this.userFactory.upsert(user);
   }
 
+  public updateUserEmail(user: User, email: string): Promise<boolean> {
+    user.email = email;
+    return this.userFactory.upsert(user);
+  }
+
   public updateUserRole(user: User, userRole: UserRole): Promise<boolean> {
     user.userRole = userRole;
     return this.userFactory.upsert(user);
