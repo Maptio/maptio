@@ -4,11 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { environment } from '@maptio-config/environment';
 
 import { drop } from 'lodash-es';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
-
-import { UserFactory } from '@maptio-core/http/user/user.factory';
-import { TeamFactory } from '@maptio-core/http/team/team.factory';
-import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { UserService } from '@maptio-shared/services/user/user.service';
 import { Team } from '@maptio-shared/model/team.data';
 import { DataSet } from '@maptio-shared/model/dataset.data';
@@ -46,10 +41,6 @@ export class TeamImportComponent implements OnInit {
     private fileService: FileService,
     private cd: ChangeDetectorRef,
     private userService: UserService,
-    private datasetFactory: DatasetFactory,
-    private userFactory: UserFactory,
-    private teamFactory: TeamFactory,
-    private analytics: Angulartics2Mixpanel,
     private route: ActivatedRoute
   ) {}
 
@@ -61,8 +52,69 @@ export class TeamImportComponent implements OnInit {
     );
   }
 
+  /*
+   * These functions do the main work of creating users;
+   */
+
+  public createUser(email: string, firstname: string, lastname: string) {
+    // Code useful for testing error handling
+    // if (Math.random() > 0.6) {
+    //   return Promise.resolve(true);
+    // } else {
+    //   return Promise.reject(new Error('Something really bad happened!'));
+    // }
+
+    // Deal with duplication here? Separately for emails and names?
+
+    return this.userService.createUserAndAddToTeam(
+      this.team,
+      email,
+      firstname,
+      lastname,
+      '',
+      false,
+    );
+  }
+
+  /*
+   * These functions process user interactions, including reading CSV data and
+   * trigger import of each user separately
+   */
+
+  onImportUsers() {
+    this.isImportFinished = false;
+    this.importedSuccessfully = 0;
+    this.importedFailed = 0;
+
+    drop(this.csvRecords, 1).forEach((record) => {
+      record[4] = '';
+      record[5] = false; // has finished processed
+
+      this.createUser(
+        (<string>record[2]).trim(),
+        (<string>record[0]).trim(),
+        (<string>record[1]).trim()
+      ).then(
+        () => {
+          this.importedSuccessfully += 1;
+          record[4] = 'Imported';
+          record[5] = true;
+          this.cd.markForCheck();
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (error: any) => {
+          this.importedFailed += 1;
+          record[4] = error.message;
+          record[5] = true;
+          this.cd.markForCheck();
+        }
+      );
+    });
+    this.isImportFinished = true;
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fileChangeListener($event: any): void {
+  onFileChange($event: any): void {
     this.isParsingFinished = false;
     this.isFileInvalid = false;
     this.isFileFormatInvalid = false;
@@ -73,7 +125,7 @@ export class TeamImportComponent implements OnInit {
 
     if (!this.fileService.isCSVFile(files[0])) {
       this.isFileFormatInvalid = true;
-      this.fileReset();
+      this.onReset();
     }
 
     const input = $event.target as HTMLInputElement;
@@ -113,7 +165,7 @@ export class TeamImportComponent implements OnInit {
         this.totalRecordsToImport = this.csvRecords.length - 1; // remove header
         if (this.csvRecords == null) {
           // If control reached here it means csv file contains error, reset file.
-          this.fileReset();
+          this.onReset();
         }
       } catch (error) {
         console.error(error);
@@ -130,7 +182,7 @@ export class TeamImportComponent implements OnInit {
     }.bind(this);
   }
 
-  fileReset() {
+  onReset() {
     this.isFileInvalid = false;
     this.isFileFormatInvalid = false;
     this.importedSuccessfully = 0;
@@ -139,58 +191,5 @@ export class TeamImportComponent implements OnInit {
     this.fileImportInput.nativeElement.value = '';
     this.csvRecords = [];
     this.isParsingFinished = false;
-  }
-
-  importUsers() {
-    this.isImportFinished = false;
-    this.importedSuccessfully = 0;
-    this.importedFailed = 0;
-
-    drop(this.csvRecords, 1).forEach((record) => {
-      record[4] = '';
-      record[5] = false; // has finished processed
-
-      this.createUser(
-        (<string>record[2]).trim(),
-        (<string>record[0]).trim(),
-        (<string>record[1]).trim()
-      ).then(
-        () => {
-          this.importedSuccessfully += 1;
-          record[4] = 'Imported';
-          record[5] = true;
-          this.cd.markForCheck();
-        },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (error: any) => {
-          this.importedFailed += 1;
-          record[4] = error.message;
-          record[5] = true;
-          this.cd.markForCheck();
-        }
-      );
-    });
-    this.isImportFinished = true;
-  }
-
-  public createFakeUser(email: string, firstname: string, lastname: string) {
-    if (Math.random() > 0.6) {
-      return Promise.resolve(true);
-    } else {
-      return Promise.reject(new Error('Something really bad happened!'));
-    }
-  }
-
-  public createUser(email: string, firstname: string, lastname: string) {
-    // Deal with duplication here? Separately for emails and names?
-
-    return this.userService.createUserAndAddToTeam(
-      this.team,
-      email,
-      firstname,
-      lastname,
-      '',
-      false,
-    );
   }
 }
