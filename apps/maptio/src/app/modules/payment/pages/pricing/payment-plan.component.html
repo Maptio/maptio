@@ -7,9 +7,9 @@
       {{ name }}
     </div>
 
-    <div *ngIf="price; else contactUsPrice" class="card-text">
+    <div *ngIf="price; else contactUsPrice" class="card-text d-flex flex-row">
       <span class="display-4">${{ price }} </span>
-      <sup class="text-top">per month</sup>
+      <small class="ml-2 text-left align-middle align-self-center">per month,<br>per organization</small>
     </div>
 
     <ng-template #contactUsPrice>

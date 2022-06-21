@@ -24,7 +24,7 @@ export const environment = {
 
     MESSAGE_PERMISSIONS_DENIED_EDIT: "You don't have permissions to edit this",
 
-    IMPORT_USERS_TEMPLATE_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTRChvhjT24YjeIeP3WSFeYT_0fmRuJU_xlvKH1WL8R-1IUVuZVZ812E6BEzoGSwWqnI1ahIsu_1mRk/pub?output=csv",
+    IMPORT_USERS_TEMPLATE_URL: "/assets/other/Maptio - Import template - Users.csv",
 
     SLACK_CLIENT_ID: "97212882021.321753214899",
 

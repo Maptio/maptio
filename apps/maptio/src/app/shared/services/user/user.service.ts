@@ -263,6 +263,52 @@ export class UserService implements OnDestroy {
     return this.createUser(userId, email, firstname, lastname, picture, isAdmin);
   }
 
+  createUserAndAddToTeam(
+    team: Team,
+    email: string,
+    firstname: string,
+    lastname: string,
+    picture: string,
+    isAdmin?: boolean
+  ): Promise<boolean> {
+    const userId = this.generateNewUserId();
+    const user = this.createUser(userId, email, firstname, lastname, picture, isAdmin);
+
+    return this.datasetFactory
+      .get(team)
+      .then(
+        (datasets: DataSet[]) => {
+          user.teams = [team.team_id];
+          user.datasets = datasets.map((d) => d.datasetId);
+
+          return user;
+        },
+        (reason) => {
+          return Promise.reject(`Can't create ${email} : ${reason}`);
+        }
+      )
+      .then((user: User) => {
+        this.userFactory.create(user);
+        return user;
+      })
+      .then((user: User) => {
+        team.members.push(user);
+        this.teamFactory.upsert(team);
+      })
+      .then(() => {
+        this.intercomService.trackEvent('Create user', {
+          team: team.name,
+          teamId: team.team_id,
+          email: email,
+        });
+        return true;
+      })
+      .catch((reason) => {
+        console.error(reason);
+        throw Error(reason);
+      });
+  }
+
   private createUser(
     userId: string,
     email: string,
@@ -421,6 +467,11 @@ export class UserService implements OnDestroy {
     return this.userFactory.upsert(user);
   }
 
+  public updateUserEmail(user: User, email: string): Promise<boolean> {
+    user.email = email;
+    return this.userFactory.upsert(user);
+  }
+
   public updateUserRole(user: User, userRole: UserRole): Promise<boolean> {
     user.userRole = userRole;
     return this.userFactory.upsert(user);
@@ -533,17 +584,16 @@ export class UserService implements OnDestroy {
     const name = `${firstname} ${lastname}`;
     let duplicateUsers: User[] = [];
 
-    if (email) {
-      duplicateUsers = duplicateUsers.concat(
-        teamMembers.filter(member => member.email === email)
-      );
-    } else if (name) {
-      duplicateUsers = duplicateUsers.concat(
-        teamMembers.filter(
-          member => this.areStringsAlmostIdentical(member.name, name)
-        )
-      );
-    }
+    duplicateUsers = duplicateUsers.concat(
+      teamMembers.filter(
+        (member) => {
+          const doEmailsMatch = member.email === email;
+          const doNamesMatch = this.areStringsAlmostIdentical(member.name, name)
+
+          return doEmailsMatch || doNamesMatch;
+        }
+      )
+    );
 
     return duplicateUsers;
   }

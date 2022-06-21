@@ -1,0 +1,17 @@
+use('maptio');
+
+teamId = '';
+
+newMembers = [
+  {
+    "name": "",
+    "picture": "",
+    "user_id": ""
+    "nickname": ""
+  },
+]
+
+db.teams.update(
+   { _id: ObjectId(teamId) },
+   { $set: { members: newMembers } }
+)
