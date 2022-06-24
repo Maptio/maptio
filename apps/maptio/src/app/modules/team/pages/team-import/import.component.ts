@@ -53,6 +53,7 @@ export class TeamImportComponent implements OnInit {
         // or just reading the team information in a different way.
         // Related issue: https://github.com/Maptio/maptio/issues/739
         this.team = data.assets.team;
+        console.log(JSON.stringify(this.team));
       }
     );
   }

@@ -581,8 +581,15 @@ export class UserService implements OnDestroy {
     lastname: string
   ): Promise<User[]> {
     const teamMembers = team.members;
+    console.log('teamMembers', teamMembers);
     const name = `${firstname} ${lastname}`;
     let duplicateUsers: User[] = [];
+
+    console.log('\n\n\n#####################');
+    console.log('new user:');
+    console.log('name', name);
+    console.log('email', email);
+    console.log('#####################');
 
     duplicateUsers = duplicateUsers.concat(
       teamMembers.filter(
@@ -590,6 +597,14 @@ export class UserService implements OnDestroy {
           const areBothEmailsDefined = !!member.email && !!email;
           const doEmailsMatch =  areBothEmailsDefined && member.email === email;
           const doNamesMatch = this.areStringsAlmostIdentical(member.name, name)
+
+          console.log('potentialDuplicate', member);
+          console.log('potentialDuplicate STRINGIFIED!', JSON.stringify(member));
+          console.log('doEmailsMatch', doEmailsMatch, '(', member.email, '===', email, ')');
+          console.log('doNamesMatch', doNamesMatch, '(', member.name, '===', name, ')');
+
+          console.log('got a match?', doEmailsMatch || doNamesMatch);
+          console.log('----------------------------------------');
 
           return doEmailsMatch || doNamesMatch;
         }
