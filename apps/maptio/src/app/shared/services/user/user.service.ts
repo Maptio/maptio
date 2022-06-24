@@ -587,7 +587,8 @@ export class UserService implements OnDestroy {
     duplicateUsers = duplicateUsers.concat(
       teamMembers.filter(
         (member) => {
-          const doEmailsMatch = member.email === email;
+          const areBothEmailsDefined = !!member.email && !!email;
+          const doEmailsMatch =  areBothEmailsDefined && member.email === email;
           const doNamesMatch = this.areStringsAlmostIdentical(member.name, name)
 
           return doEmailsMatch || doNamesMatch;

@@ -47,6 +47,11 @@ export class TeamImportComponent implements OnInit {
   ngOnInit() {
     this.route.parent.data.subscribe(
       (data: { assets: { team: Team; datasets: DataSet[] } }) => {
+        // This version of the team object doesn't contain members email
+        // addresses, which then caused deduplication errors, ouch!
+        // We should address this - either with the state management overhaul
+        // or just reading the team information in a different way.
+        // Related issue: https://github.com/Maptio/maptio/issues/739
         this.team = data.assets.team;
       }
     );
