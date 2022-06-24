@@ -1,4 +1,7 @@
 {
+  // TODO: Reenable once we're in a good enough place to use strict mode
+	"angular.enable-strict-mode-prompt": false,
+
   // Dictionary with additional words for Code Spell Checker extension
   // https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker
 	"cSpell.words": [
