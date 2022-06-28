@@ -22,7 +22,7 @@ export class InitiativeListTagsComponent implements OnInit {
   ngOnInit(): void {}
 
   removeTag(tag: Tag) {
-    let index = this.selectedTags.findIndex((t) => t.shortid === tag.shortid);
+    const index = this.selectedTags.findIndex((t) => t.shortid === tag.shortid);
     this.selectedTags.splice(index, 1);
     this.save.emit(this.selectedTags);
   }

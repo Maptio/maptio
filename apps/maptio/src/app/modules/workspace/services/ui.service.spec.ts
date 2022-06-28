@@ -43,13 +43,13 @@ describe('ui.service.ts', function () {
     it('When parameters are given, builds circular path', inject(
       [UIService],
       (service: UIService) => {
-        let radius = 10;
-        let centerX = 0;
-        let centerY = 0;
+        const radius = 10;
+        const centerX = 0;
+        const centerY = 0;
 
-        let actual = service.getCircularPath(radius, centerX, centerY);
+        const actual = service.getCircularPath(radius, centerX, centerY);
 
-        let target = 'm 0, 0 a -10,-10 1 1,1 20,0 a -10,-10 1 1,1 -20,0';
+        const target = 'm 0, 0 a -10,-10 1 1,1 20,0 a -10,-10 1 1,1 -20,0';
 
         expect(actual).toBe(target);
       }

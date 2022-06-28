@@ -21,8 +21,8 @@ export class FileService {
   }
 
   getHeaderArray(csvRecordsArr: any[], tokenDelimeter: string) {
-    let headers = (csvRecordsArr[0] || '').split(tokenDelimeter);
-    let headerArray = [];
+    const headers = (csvRecordsArr[0] || '').split(tokenDelimeter);
+    const headerArray = [];
     for (let j = 0; j < headers.length; j++) {
       if (!this.isEmptyString(headers[j])) headerArray.push(headers[j]);
     }
@@ -50,10 +50,10 @@ export class FileService {
     validateHeaderAndRecordLengthFlag: boolean,
     tokenDelimeter: string
   ) {
-    let dataArr = [];
+    const dataArr = [];
 
     for (let i = 0; i < csvRecordsArray.length; i++) {
-      let data = csvRecordsArray[i]
+      const data = csvRecordsArray[i]
         .split(tokenDelimeter)
         .slice(0, headerLength);
       if (data.join('') === '') continue; // ignore empty lines
@@ -76,7 +76,7 @@ export class FileService {
         }
       }
 
-      let col = [];
+      const col = [];
       for (let j = 0; j < data.length; j++) {
         col.push(data[j]);
       }

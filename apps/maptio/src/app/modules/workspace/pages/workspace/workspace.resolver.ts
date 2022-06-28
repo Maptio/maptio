@@ -31,7 +31,7 @@ export class WorkspaceComponentResolver
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<{ dataset: DataSet; team: Team; members: User[]; user: User }> {
-    let datasetId = <string>route.params['mapid'];
+    const datasetId = <string>route.params['mapid'];
 
     return from(this.datasetFactory.get(datasetId)).pipe(
       map((dataset: DataSet) => {

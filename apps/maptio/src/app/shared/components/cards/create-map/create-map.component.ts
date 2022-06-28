@@ -23,13 +23,13 @@ import { environment } from '../../../../config/environment';
 })
 export class CreateMapComponent implements OnInit {
   form: FormGroup;
-  isCreatingMap: Boolean;
+  isCreatingMap: boolean;
   Permissions = Permissions;
 
   KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
 
   @Input('teams') teams: Team[];
-  @Input('isRedirect') isRedirect: Boolean;
+  @Input('isRedirect') isRedirect: boolean;
 
   @Output('close') close = new EventEmitter<void>();
   @Output('created') created = new EventEmitter<DataSet>();
@@ -67,8 +67,8 @@ export class CreateMapComponent implements OnInit {
   submit() {
     if (this.form.valid) {
       this.isCreatingMap = true;
-      let mapName = this.form.controls['mapName'].value;
-      let teamId = this.form.controls['teamId'].value;
+      const mapName = this.form.controls['mapName'].value;
+      const teamId = this.form.controls['teamId'].value;
 
       this.mapService
         .createTemplate(mapName, teamId)

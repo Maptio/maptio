@@ -20,7 +20,7 @@ export class SlackIntegration implements Serializable<SlackIntegration> {
   }
 
   deserialize(input: any): SlackIntegration {
-    let deserialized = new SlackIntegration();
+    const deserialized = new SlackIntegration();
     deserialized.access_token = input.access_token;
     deserialized.team_name = input.team_name;
     deserialized.team_id = input.team_id;
@@ -30,7 +30,7 @@ export class SlackIntegration implements Serializable<SlackIntegration> {
 
   tryDeserialize(input: any): [boolean, SlackIntegration] {
     try {
-      let slack = this.deserialize(input);
+      const slack = this.deserialize(input);
       if (slack !== undefined) {
         return [true, slack];
       } else {

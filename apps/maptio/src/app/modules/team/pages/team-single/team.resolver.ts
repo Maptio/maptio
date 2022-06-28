@@ -23,8 +23,8 @@ export class TeamComponentResolver
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<{ team: Team; datasets: DataSet[] }> {
-    let teamId: string = route.params['teamid'];
-    let team = new Team({ team_id: teamId });
+    const teamId: string = route.params['teamid'];
+    const team = new Team({ team_id: teamId });
 
     return observableFrom(
       Promise.all([

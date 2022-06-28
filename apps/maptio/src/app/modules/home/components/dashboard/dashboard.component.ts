@@ -75,7 +75,7 @@ export class DashboardComponent {
       .asObservable()
       .pipe(debounceTime(250))
       .subscribe((search) => {
-        let filtered =
+        const filtered =
           search === ''
             ? [].concat(this._datasets)
             : this._datasets.filter(
@@ -98,7 +98,7 @@ export class DashboardComponent {
   }
 
   breakdown(datasets: DataSet[]): Map<Team, DataSet[]> {
-    let a = datasets
+    const a = datasets
       .map((d, i, arr) => {
         return <[Team, DataSet[]]>[
           d.team,
@@ -149,7 +149,7 @@ export class DashboardComponent {
 
   onArchive(dataset: DataSet) {
     // TODO: This needs proper state management
-    let index = this._datasets.findIndex(
+    const index = this._datasets.findIndex(
       (d) => d.datasetId === dataset.datasetId
     );
     this._datasets.splice(index, 1);

@@ -57,7 +57,7 @@ describe('jwt.service.ts', () => {
             }
           });
 
-          let payload = { data: 'some randow data' };
+          const payload = { data: 'some randow data' };
 
           target.encode(payload).then((token) => {
             expect(token).toBe('abcdefghijklmn');

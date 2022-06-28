@@ -72,7 +72,7 @@ describe('workspace.resolver.ts', () => {
         teamFactory: TeamFactory,
         userFactory: UserFactory
       ) => {
-        let spyGetDataSet = spyOn(datasetFactory, 'get').and.callFake(
+        const spyGetDataSet = spyOn(datasetFactory, 'get').and.callFake(
           (id: string) => {
             return Promise.resolve(
               new DataSet({
@@ -86,7 +86,7 @@ describe('workspace.resolver.ts', () => {
             );
           }
         );
-        let spyGetTeam = spyOn(teamFactory, 'get').and.callFake(
+        const spyGetTeam = spyOn(teamFactory, 'get').and.callFake(
           (id: string) => {
             return Promise.resolve(
               new Team({
@@ -100,13 +100,13 @@ describe('workspace.resolver.ts', () => {
             );
           }
         );
-        let spyGetUser = spyOn(userFactory, 'get').and.callFake(
+        const spyGetUser = spyOn(userFactory, 'get').and.callFake(
           (id: string) => {
             return Promise.resolve(new User({ user_id: `user_${id}` }));
           }
         );
 
-        let snapshot = new ActivatedRouteSnapshot();
+        const snapshot = new ActivatedRouteSnapshot();
         snapshot.params = { mapid: '123' };
         target.resolve(snapshot, undefined).subscribe((data) => {
           expect(spyGetDataSet).toHaveBeenCalledWith('123');

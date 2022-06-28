@@ -118,7 +118,7 @@ export class BuildingComponent implements OnDestroy {
     },
   };
 
-  SAVING_FREQUENCY: number = 10;
+  SAVING_FREQUENCY = 10;
 
   KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
   Permissions = Permissions;
@@ -142,13 +142,13 @@ export class BuildingComponent implements OnDestroy {
 
   team: Team;
   tags: Tag[];
-  isFirstEdit: Boolean;
+  isFirstEdit: boolean;
   isExpanding: boolean;
   isCollapsing: boolean;
   isToggling: boolean;
 
   @Input('user') user: User;
-  @Input('isEmptyMap') isEmptyMap: Boolean;
+  @Input('isEmptyMap') isEmptyMap: boolean;
 
   @Output('save') save: EventEmitter<{
     initiative: Initiative;
@@ -313,8 +313,8 @@ export class BuildingComponent implements OnDestroy {
   }
 
   moveNode(node: Initiative, from: Initiative, to: Initiative) {
-    let foundTreeNode = this.tree.treeModel.getNodeById(node.id);
-    let foundToNode = this.tree.treeModel.getNodeById(to.id);
+    const foundTreeNode = this.tree.treeModel.getNodeById(node.id);
+    const foundToNode = this.tree.treeModel.getNodeById(to.id);
     TREE_ACTIONS.MOVE_NODE(
       this.tree.treeModel,
       foundToNode,
@@ -324,15 +324,15 @@ export class BuildingComponent implements OnDestroy {
   }
 
   removeNode(node: Initiative) {
-    let hasFoundNode: boolean = false;
+    let hasFoundNode = false;
 
-    let index = this.nodes[0].children.findIndex((c) => c.id === node.id);
+    const index = this.nodes[0].children.findIndex((c) => c.id === node.id);
     if (index > -1) {
       this.nodes[0].children.splice(index, 1);
     } else {
       this.nodes[0].traverse((n) => {
         if (hasFoundNode) return;
-        let index = n.children.findIndex((c) => c.id === node.id);
+        const index = n.children.findIndex((c) => c.id === node.id);
         if (index > -1) {
           hasFoundNode = true;
           n.children.splice(index, 1);
@@ -344,10 +344,10 @@ export class BuildingComponent implements OnDestroy {
   }
 
   addNodeTo(node: Initiative, subNode: Initiative) {
-    let hasFoundNode: boolean = false;
+    let hasFoundNode = false;
     if (this.nodes[0].id === node.id) {
       hasFoundNode = true;
-      let newNode = subNode;
+      const newNode = subNode;
       newNode.children = [];
       newNode.team_id = node.team_id;
       newNode.hasFocus = true;
@@ -360,7 +360,7 @@ export class BuildingComponent implements OnDestroy {
         if (hasFoundNode) return;
         if (n.id === node.id) {
           hasFoundNode = true;
-          let newNode = subNode;
+          const newNode = subNode;
           newNode.children = [];
           newNode.team_id = node.team_id;
           newNode.hasFocus = true;
@@ -430,12 +430,12 @@ export class BuildingComponent implements OnDestroy {
         // initiative in the dataset are no longer the same object
         // console.log(this.nodes[0] === dataset.initiative); // false
 
-        let queue = this.nodes[0].traversePromise(
+        const queue = this.nodes[0].traversePromise(
           function (node: Initiative) {
             let q: any = [];
             if (node.accountable) {
               q += new Promise(() => {
-                let a = users.find(
+                const a = users.find(
                   (u) => u.user_id === node.accountable.user_id
                 );
                 if (a) {
@@ -448,7 +448,7 @@ export class BuildingComponent implements OnDestroy {
             if (node.helpers) {
               node.helpers.forEach((helper) => {
                 q += new Promise(() => {
-                  let h = users.find((u) => u.user_id === helper.user_id);
+                  const h = users.find((u) => u.user_id === helper.user_id);
                   if (h) {
                     helper.picture = h.picture;
                     helper.name = h.name;

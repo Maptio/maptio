@@ -48,11 +48,11 @@ describe('export.service.ts', () => {
 
   describe('getReport', () => {
     it('exports', inject([ExportService], (target: ExportService) => {
-      let data = new Initiative().deserialize(fixtures);
-      let team = new Team({
+      const data = new Initiative().deserialize(fixtures);
+      const team = new Team({
         settings: { authority: 'dRiveR', helper: 'backSeaT' },
       });
-      let dataset = new DataSet({
+      const dataset = new DataSet({
         datasetId: 'ID',
         initiative: data,
         team: team,
@@ -100,8 +100,8 @@ describe('export.service.ts', () => {
         inject(
           [ExportService, AuthHttp],
           (target: ExportService, http: AuthHttp) => {
-            let svg = '<svg></svg>';
-            let spy = spyOn(http, 'request').and.returnValue(
+            const svg = '<svg></svg>';
+            const spy = spyOn(http, 'request').and.returnValue(
               Observable.of(
                 new Response({
                   status: 200,
@@ -120,11 +120,11 @@ describe('export.service.ts', () => {
               )
             );
 
-            let expectedHeaders = new Headers();
+            const expectedHeaders = new Headers();
             expectedHeaders.append('Content-Type', 'text/html');
             expectedHeaders.append('Accept', 'text/html');
 
-            let expectedRequest = new Request({
+            const expectedRequest = new Request({
               url: `/api/v1/images/upload/datasetId`,
               body: '<svg></svg>',
               method: RequestMethod.Post,

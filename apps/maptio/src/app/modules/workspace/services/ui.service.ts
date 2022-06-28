@@ -48,8 +48,8 @@ export class UIService {
         'Cannot defined circular path as a parameter is missing.'
       );
 
-    let rx = -radius;
-    let ry = -radius;
+    const rx = -radius;
+    const ry = -radius;
     return (
       'm ' +
       centerX +
@@ -72,23 +72,23 @@ export class UIService {
   }
 
   public getScreenCoordinates(x: any, y: any, matrix: any) {
-    var xn = matrix.e + x * matrix.a + y * matrix.c;
-    var yn = matrix.f + x * matrix.b + y * matrix.d;
+    const xn = matrix.e + x * matrix.a + y * matrix.c;
+    const yn = matrix.f + x * matrix.b + y * matrix.d;
     return { x: xn, y: yn };
   }
 
   public getContextMenuCoordinates(mouse: any, matrix: any) {
-    let m = document.getElementById('maptio-context-menu');
+    const m = document.getElementById('maptio-context-menu');
 
-    let center = { x: window.pageXOffset, y: window.pageYOffset };
-    let canvas = {
+    const center = { x: window.pageXOffset, y: window.pageYOffset };
+    const canvas = {
       width: this.getCanvasWidth(),
       height: this.getCanvasHeight(),
     };
-    let divider = 4; //because context-menu is col-3;
-    let menu = { width: m.clientWidth, height: 350 };
+    const divider = 4; //because context-menu is col-3;
+    const menu = { width: m.clientWidth, height: 350 };
 
-    let initialPosition = {
+    const initialPosition = {
       x: this.getScreenCoordinates(
         center.x + mouse.x,
         center.y + mouse.y,
@@ -101,7 +101,7 @@ export class UIService {
       ).y,
     };
 
-    let adjustments = {
+    const adjustments = {
       horizontal:
         initialPosition.x + menu.width > canvas.width ? -menu.width : 0,
       vertical:

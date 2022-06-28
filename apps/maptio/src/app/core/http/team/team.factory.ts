@@ -55,7 +55,7 @@ export class TeamFactory {
       .get('/api/v1/team/in/' + teamIds.join(','))
       .pipe(
         map((inputs: Array<any>) => {
-          let result: Array<Team> = [];
+          const result: Array<Team> = [];
           if (inputs) {
             inputs.forEach((input) => {
               result.push(Team.create().deserialize(input));
@@ -71,7 +71,7 @@ export class TeamFactory {
    * Creates a new team
    */
   create(input: Team): Promise<Team> {
-    let transformed = {
+    const transformed = {
       shortid: shortid.generate(),
       team_id: input.team_id,
       name: input.name,
@@ -105,7 +105,7 @@ export class TeamFactory {
    * @returns         True if upsert has succeded, false otherwise
    */
   upsert(team: Team): Promise<boolean> {
-    let transformed = {
+    const transformed = {
       team_id: team.team_id,
       name: team.name,
       settings: team.settings,

@@ -21,9 +21,9 @@ import { User } from '../../../../shared/model/user.data';
 })
 export class ContextMenuComponent implements OnInit {
   @Input('initiatives') initiatives: Initiative[];
-  @Input('x') x: Number;
-  @Input('y') y: Number;
-  @Input('isReadOnly') isReadOnly: Boolean;
+  @Input('x') x: number;
+  @Input('y') y: number;
+  @Input('isReadOnly') isReadOnly: boolean;
 
   @Output() add: EventEmitter<{
     node: Initiative;
@@ -34,8 +34,8 @@ export class ContextMenuComponent implements OnInit {
   @Output() openAccountable: EventEmitter<User> = new EventEmitter<User>();
 
   @ViewChild('inputNewInitiative') public inputNewInitiative: ElementRef;
-  isRemovingNode: Boolean;
-  isAddingNode: Boolean;
+  isRemovingNode: boolean;
+  isAddingNode: boolean;
   isClosed: boolean;
   Permissions = Permissions;
   KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
@@ -54,8 +54,8 @@ export class ContextMenuComponent implements OnInit {
     this.cd.markForCheck();
   }
 
-  addNode(node: Initiative, subNodeName: string, openDetailsPanel: Boolean) {
-    let subNode = new Initiative({ name: subNodeName });
+  addNode(node: Initiative, subNodeName: string, openDetailsPanel: boolean) {
+    const subNode = new Initiative({ name: subNodeName });
     this.add.emit({ node: node, subNode: subNode });
     if (openDetailsPanel) {
       this.edit.emit(subNode);

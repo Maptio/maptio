@@ -77,7 +77,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
   public height: number;
 
-  public margin: number = 100;
+  public margin = 100;
   public translateX: number;
   public translateY: number;
   public scale: number;
@@ -115,13 +115,13 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public slug: string;
   public showContextMenuOf$: Subject<{
     initiatives: Initiative[];
-    x: Number;
-    y: Number;
+    x: number;
+    y: number;
     isReadOnlyContextMenu: boolean;
   }> = new Subject<{
     initiatives: Initiative[];
-    x: Number;
-    y: Number;
+    x: number;
+    y: number;
     isReadOnlyContextMenu: boolean;
   }>();
 
@@ -132,7 +132,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     isNameOnly: boolean;
   }> = new Subject<{ initiatives: Initiative[]; isNameOnly: boolean }>();
 
-  public _isDisplayOptions: Boolean = false;
+  public _isDisplayOptions = false;
 
   constructor(
     public colorService: ColorService,
@@ -161,7 +161,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       )
       .subscribe(
         (complexData: [any, SelectableTag[], string, boolean, boolean]) => {
-          let data = <any>complexData[0].initiative;
+          const data = <any>complexData[0].initiative;
           this.datasetId = complexData[0].dataset.datasetId;
           this.settings = this.mapSettingsService.get(this.datasetId);
           this.teamName = complexData[0].team.name;
@@ -216,7 +216,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     // declares a tree layout and assigns the size
     // CAREFUL : width and height are reversed in this function
     d3.tree().size([this.width / 2, this.height]);
-    let margin = 100;
+    const margin = 100;
 
     function zoomed() {
       g.attr('transform', d3.getEvent().transform);
@@ -226,14 +226,14 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       ((-d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1)) / 500) *
       2.5;
 
-    let zooming = d3
+    const zooming = d3
       .zoom()
       .wheelDelta(wheelDelta)
       .scaleExtent([1 / 3, 3])
       .on('zoom', zoomed)
       .on('end', () => {
-        let transform = d3.getEvent().transform;
-        let tagFragment = this.tagsState
+        const transform = d3.getEvent().transform;
+        const tagFragment = this.tagsState
           .filter((t) => t.isSelected)
           .map((t) => t.shortid)
           .join(',');
@@ -247,7 +247,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         // );
       });
 
-    let svg: any = d3
+    const svg: any = d3
       .select('svg#map')
       .attr('width', '100%')
       .attr('height', '100%')
@@ -262,9 +262,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     //   .attr("x", this.uiService.getCenteredMargin())
     //   .style("overflow", "visible");
 
-    let definitions = svg.append('defs');
+    const definitions = svg.append('defs');
 
-    let g = svg
+    const g = svg
       .append('g')
       .attr('transform', `translate(${0}, ${this.height / 2}) scale(${1})`);
 
@@ -312,7 +312,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       } catch (error) {}
     });
 
-    let [clearSearchInitiative, highlightInitiative] = partition(
+    const [clearSearchInitiative, highlightInitiative] = partition(
       this.zoomInitiative$,
       (node) => node === null
     );
@@ -320,7 +320,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     highlightInitiative
       .pipe(combineLatest(this.mapColor$))
       .subscribe((zoomed: [any, string]) => {
-        let node = zoomed[0];
+        const node = zoomed[0];
         d3.selectAll(`g.node.tree-map`).classed('highlight', false);
         d3.selectAll('path.link').classed('highlight', false);
 
@@ -394,34 +394,34 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       this.init();
     }
 
-    let margin = this.margin;
-    let colorService = this.colorService;
-    let uiService = this.uiService;
-    let mapSettingsService = this.mapSettingsService;
-    let settings = this.settings;
-    let CIRCLE_RADIUS = 16;
-    let CIRCLE_MARGIN = 5;
-    let TRANSITION_DURATION = this.TRANSITION_DURATION;
-    let viewerWidth = this.width;
-    let viewerHeight = this.height;
-    let datasetId = this.datasetId;
-    let authorityLabel = this.authorityLabel;
-    let router = this.router;
-    let userFactory = this.userFactory;
-    let showDetailsOf$ = this.showDetailsOf$;
+    const margin = this.margin;
+    const colorService = this.colorService;
+    const uiService = this.uiService;
+    const mapSettingsService = this.mapSettingsService;
+    const settings = this.settings;
+    const CIRCLE_RADIUS = 16;
+    const CIRCLE_MARGIN = 5;
+    const TRANSITION_DURATION = this.TRANSITION_DURATION;
+    const viewerWidth = this.width;
+    const viewerHeight = this.height;
+    const datasetId = this.datasetId;
+    const authorityLabel = this.authorityLabel;
+    const router = this.router;
+    const userFactory = this.userFactory;
+    const showDetailsOf$ = this.showDetailsOf$;
     const canOpenInitiativeContextMenu = this.permissionsService.canOpenInitiativeContextMenu();
-    let showContextMenuOf$ = this.showContextMenuOf$;
-    let showToolipOf$ = this.showToolipOf$;
-    let g = this.g;
-    let svg = this.svg;
-    let definitions = this.definitions;
-    let zoomListener = this.zoomListener;
-    let datasetSlug = this.slug;
-    let teamName = this.teamName;
-    let setPathsToRoot = this.setPathsToRoot.bind(this);
-    let getSeedColor = this.getSeedColor.bind(this);
-    let getData = this.getData.bind(this);
-    let FADED_OPACITY = 0.1;
+    const showContextMenuOf$ = this.showContextMenuOf$;
+    const showToolipOf$ = this.showToolipOf$;
+    const g = this.g;
+    const svg = this.svg;
+    const definitions = this.definitions;
+    const zoomListener = this.zoomListener;
+    const datasetSlug = this.slug;
+    const teamName = this.teamName;
+    const setPathsToRoot = this.setPathsToRoot.bind(this);
+    const getSeedColor = this.getSeedColor.bind(this);
+    const getData = this.getData.bind(this);
+    const FADED_OPACITY = 0.1;
 
     function traverse(node: any, callback: (n: any) => void): void {
       if (node.children) {
@@ -433,7 +433,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       callback.apply(this, [node]);
     }
 
-    let treemap = d3
+    const treemap = d3
       .tree()
       .size([viewerWidth / 2, viewerHeight])
       .nodeSize([80, 1]);
@@ -452,7 +452,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     root.y0 = 0;
     root.data.accountable = new User({ name: teamName, picture: '' });
 
-    let pathsToRoot: Map<string, string[]> = new Map();
+    const pathsToRoot: Map<string, string[]> = new Map();
     root.eachAfter(function (n: any) {
       pathsToRoot.set(
         n.data.id,
@@ -502,7 +502,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         }
       }
       if (!source.children) {
-        let ix = settings.views.tree.expandedNodesIds.indexOf(source.data.id);
+        const ix = settings.views.tree.expandedNodesIds.indexOf(source.data.id);
         if (ix >= 0) {
           settings.views.tree.expandedNodesIds.splice(ix, 1);
         }
@@ -513,7 +513,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     function updateGraph(source: any, duration: number) {
       // Creates a curved (diagonal) path from parent to the child nodes
       function diagonal(s: any, d: any) {
-        let path = `M ${s.y} ${s.x}
+        const path = `M ${s.y} ${s.x}
         C ${(s.y + d.y) / 2} ${s.x},
           ${(s.y + d.y) / 2} ${d.x},
           ${d.y} ${d.x}`;
@@ -522,7 +522,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       }
 
       function centerNode(source: any) {
-        let t = d3.zoomTransform(svg.node());
+        const t = d3.zoomTransform(svg.node());
         let x = -source.y0;
         let y = -source.x0;
         x = x * t.k + margin; //+ viewerWidth / 2;
@@ -551,10 +551,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       updateState(source);
 
       // Assigns the x and y position for the nodes
-      let treeData = treemap(root);
+      const treeData = treemap(root);
 
       // Compute the new tree layout.
-      let nodes = treeData.descendants(),
+      const nodes = treeData.descendants(),
         links = treeData.descendants().slice(1);
 
       // Normalize for fixed-depth.
@@ -566,13 +566,13 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       // ****************** Nodes section ***************************
 
       // Update the nodes...
-      let node = g
+      const node = g
         .selectAll('g.node.tree-map')
         .data(nodes, function (d: any) {
           return d.id || (d.id = ++i);
         })
         .attr('id', (d: any) => d.data.id);
-      let [selectedTags, unselectedTags] = _partition(
+      const [selectedTags, unselectedTags] = _partition(
         tags,
         (t) => t.isSelected
       );
@@ -589,12 +589,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           : FADED_OPACITY;
       });
 
-      let patterns = definitions
+      const patterns = definitions
         .selectAll('pattern')
         .data(nodes, function (d: any) {
           return d.data.id;
         });
-      let enterPatterns = patterns.enter().append('pattern');
+      const enterPatterns = patterns.enter().append('pattern');
 
       enterPatterns
         .merge(patterns)
@@ -618,7 +618,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       patterns.exit().remove();
 
       // Enter any new modes at the parent's previous position.
-      let nodeEnter = node
+      const nodeEnter = node
         .enter()
         .append('g')
         .attr('class', 'node')
@@ -674,7 +674,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         // .attr("y", (d: any) => d.data.tags && d.data.tags.length > 0 ? `2.00em` : `1.00em`)
         .attr('x', CIRCLE_RADIUS * 2 + CIRCLE_MARGIN)
         .html(function (d: any) {
-          let tagsSpan = d.data.tags
+          const tagsSpan = d.data.tags
             .map(
               (tag: Tag) =>
                 `<i class="fas fa-tag mr-1" style="color: ${tag.color};"></i>`
@@ -700,7 +700,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         });
 
       // UPDATE
-      let nodeUpdate = nodeEnter.merge(node);
+      const nodeUpdate = nodeEnter.merge(node);
 
       // Transition to the proper position for the node
       nodeUpdate
@@ -744,7 +744,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .attr('height', 75)
         .style('display', 'inline')
         .html(function (d: any) {
-          let tagsSpan = d.data.tags
+          const tagsSpan = d.data.tags
             .map(
               (tag: Tag) =>
                 `<i class="fas fa-tag mr-1" style="color: ${tag.color};"></i>`
@@ -765,7 +765,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       });
 
       // Remove any exiting nodes
-      let nodeExit = node
+      const nodeExit = node
         .exit()
         .transition()
         .duration(duration)
@@ -798,16 +798,16 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           if (!canOpenInitiativeContextMenu) return;
 
           d3.getEvent().preventDefault();
-          let mousePosition = d3.mouse(this);
-          let matrix = this.getCTM().translate(
+          const mousePosition = d3.mouse(this);
+          const matrix = this.getCTM().translate(
             +this.getAttribute('cx'),
             +this.getAttribute('cy')
           );
 
-          let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 };
-          let initiative = d.data;
+          const mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 };
+          const initiative = d.data;
 
-          let circle = d3.select(this);
+          const circle = d3.select(this);
           showContextMenuOf$.next({
             initiatives: [initiative],
             x: uiService.getContextMenuCoordinates(mouse, matrix).x,
@@ -839,14 +839,14 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       // ****************** links section ***************************
 
       // Update the links...
-      let link = g
+      const link = g
         .selectAll('path.link.tree-map')
         .data(links, function (d: any) {
           return d.id;
         });
 
       // Enter any new links at the parent's previous position.
-      let linkEnter = link
+      const linkEnter = link
         .enter()
         .insert('path', 'g')
         .attr('class', 'link')
@@ -858,7 +858,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           return getSeedColor();
         })
         .attr('d', function (d: any) {
-          let o = { x: source.x0, y: source.y0 };
+          const o = { x: source.x0, y: source.y0 };
           return diagonal(o, o);
         })
         .attr('id-links', function (d: any) {
@@ -866,7 +866,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         });
 
       // UPDATE
-      let linkUpdate = linkEnter.merge(link);
+      const linkUpdate = linkEnter.merge(link);
 
       // Transition back to the parent element position
       linkUpdate
@@ -890,7 +890,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .transition()
         .duration(duration)
         .attr('d', function (d: any) {
-          let o = { x: source.x, y: source.y };
+          const o = { x: source.x, y: source.y };
           return diagonal(o, o);
         })
         .remove();

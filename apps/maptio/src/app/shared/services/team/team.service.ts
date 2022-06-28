@@ -99,7 +99,7 @@ export class TeamService {
   save(team: Team) {
     if (!team.name) return Promise.reject('Organisation name cannot be empty');
     return this.teamFactory.upsert(team).then((saved) => {
-      if (!!saved) return team;
+      if (saved) return team;
     });
   }
 

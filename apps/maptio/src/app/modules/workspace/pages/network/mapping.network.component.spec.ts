@@ -88,12 +88,12 @@ describe('mapping.network.component.ts', () => {
 
     component.analytics = { eventTrack: jest.fn() } as any;
 
-    let data = new Initiative().deserialize(fixtures);
-    let team = new Team({
+    const data = new Initiative().deserialize(fixtures);
+    const team = new Team({
       team_id: 'TEAMID',
       settings: { authority: 'King', helper: 'Minions' },
     });
-    let mockDataService = target.debugElement.injector.get(DataService);
+    const mockDataService = target.debugElement.injector.get(DataService);
     spyOn(mockDataService, 'get').and.returnValue(
       observableOf({
         initiative: data,
@@ -107,16 +107,16 @@ describe('mapping.network.component.ts', () => {
   });
 
   it('should draw SVG with correct size when data is valid', () => {
-    let svgs = document.querySelectorAll('svg#map');
+    const svgs = document.querySelectorAll('svg#map');
     expect(svgs.length).toBe(1); // these are harcoded for now
     expect(svgs.item(0).getAttribute('width')).toBe(`${component.width}`);
     expect(svgs.item(0).getAttribute('height')).toBe(`${component.height}`);
   });
 
   it('should draw SVG centered when data is valid', () => {
-    let svgs = document.querySelectorAll('svg#map');
+    const svgs = document.querySelectorAll('svg#map');
     expect(svgs.length).toBe(1);
-    let svg = svgs.item(0);
+    const svg = svgs.item(0);
 
     expect(svg.querySelector('g')).toBeDefined();
     expect(svg.querySelector('g').getAttribute('transform')).toBe(
@@ -125,9 +125,9 @@ describe('mapping.network.component.ts', () => {
   });
 
   xit('should draw SVG with correct number of node when data is valid', () => {
-    let svgs = document.querySelectorAll('svg#map');
+    const svgs = document.querySelectorAll('svg#map');
     expect(svgs.length).toBe(1);
-    let g = svgs.item(0).querySelector('g');
+    const g = svgs.item(0).querySelector('g');
     expect(g.querySelectorAll('g.nodes > g.node > circle').length).toBe(6);
   });
 });

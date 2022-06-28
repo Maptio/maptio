@@ -90,20 +90,20 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
   // isRoot: boolean = false;
 
   /**True if this node is focused on */
-  hasFocus: boolean = false;
+  hasFocus = false;
 
   /**True if this node is zoomed on */
-  isZoomedOn: boolean = false;
+  isZoomedOn = false;
 
   /**True if this node matches a search */
-  isSearchedFor: boolean = false;
+  isSearchedFor = false;
 
   /**True if this node can be dragged&dropped */
   isDraggable: boolean;
 
   isExpanded: boolean;
 
-  authorityCentricMode: boolean = true;
+  authorityCentricMode = true;
 
   public constructor(init?: Partial<Initiative>) {
     Object.assign(this, init);
@@ -186,9 +186,9 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
   traversePromise(
     callback: (n: Initiative) => Promise<void>
   ): Array<Promise<void>> {
-    let queue: Array<Promise<void>> = [];
+    const queue: Array<Promise<void>> = [];
 
-    let recursion = (node: Initiative) => {
+    const recursion = (node: Initiative) => {
       // queue.push(callback.apply(this, [node]));
       if (node.children) {
         node.children.forEach(function (child: Initiative) {
@@ -202,7 +202,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
   }
 
   flatten(): Initiative[] {
-    let array: Initiative[] = [];
+    const array: Initiative[] = [];
     this.traverse((n) => {
       array.push(n);
     });
@@ -211,7 +211,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
 
   getParent(tree: Initiative): Initiative {
     let parent: Initiative;
-    let id = this.id;
+    const id = this.id;
     tree.children = tree.children || [];
     if (
       tree.children.findIndex((c) => {

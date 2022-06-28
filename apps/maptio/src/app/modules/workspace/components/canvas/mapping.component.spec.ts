@@ -96,7 +96,7 @@ describe('mapping.component.ts', () => {
       it(
         'should set the zoom factor to 1.2',
         waitForAsync(() => {
-          let spy = spyOn(component.zoom$, 'next');
+          const spy = spyOn(component.zoom$, 'next');
           component.zoomIn();
           expect(spy).toHaveBeenCalledWith(3);
         })
@@ -107,7 +107,7 @@ describe('mapping.component.ts', () => {
       it(
         'should set the zoom factor to 0.8',
         waitForAsync(() => {
-          let spy = spyOn(component.zoom$, 'next');
+          const spy = spyOn(component.zoom$, 'next');
           component.zoomOut();
           expect(spy).toHaveBeenCalledWith(1 / 3);
         })
@@ -195,7 +195,7 @@ describe('mapping.component.ts', () => {
     });
 
     it('onActivate', () => {
-      let activated = <IDataVisualizer>(
+      const activated = <IDataVisualizer>(
         new MappingNetworkComponent(
           undefined,
           undefined,

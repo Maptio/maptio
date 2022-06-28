@@ -113,8 +113,8 @@ describe('user.factory.ts', () => {
         inject(
           [UserFactory, MockBackend],
           (target: UserFactory, mockBackend: MockBackend) => {
-            let spyCreate = spyOn(User, 'create').and.returnValue(mockUser);
-            let spyDeserialize = mockUser.deserialize.mockReturnValue(
+            const spyCreate = spyOn(User, 'create').and.returnValue(mockUser);
+            const spyDeserialize = mockUser.deserialize.mockReturnValue(
               new User({ name: 'Deserialized' })
             );
 
@@ -225,8 +225,8 @@ describe('user.factory.ts', () => {
         inject(
           [UserFactory, MockBackend],
           (target: UserFactory, mockBackend: MockBackend) => {
-            let spyCreate = spyOn(User, 'create').and.returnValue(mockUser);
-            let spyDeserialize = mockUser.deserialize.mockReturnValue(
+            const spyCreate = spyOn(User, 'create').and.returnValue(mockUser);
+            const spyDeserialize = mockUser.deserialize.mockReturnValue(
               new User({ name: 'Deserialized' })
             );
 
@@ -281,8 +281,8 @@ describe('user.factory.ts', () => {
       inject(
         [UserFactory, MockBackend],
         (target: UserFactory, mockBackend: MockBackend) => {
-          let spyCreate = spyOn(User, 'create').and.returnValue(mockUser);
-          let spyDeserialize = mockUser.deserialize.mockReturnValue(
+          const spyCreate = spyOn(User, 'create').and.returnValue(mockUser);
+          const spyDeserialize = mockUser.deserialize.mockReturnValue(
             new User({ name: 'Deserialized' })
           );
 
@@ -326,8 +326,8 @@ describe('user.factory.ts', () => {
       inject(
         [UserFactory, MockBackend],
         (target: UserFactory, mockBackend: MockBackend) => {
-          let spyCreate = spyOn(User, 'create').and.returnValue(mockUser);
-          let spyDeserialize = mockUser.deserialize.mockReturnValue(
+          const spyCreate = spyOn(User, 'create').and.returnValue(mockUser);
+          const spyDeserialize = mockUser.deserialize.mockReturnValue(
             new User({ name: 'Created' })
           );
 
@@ -355,7 +355,7 @@ describe('user.factory.ts', () => {
             }
           });
 
-          let user = new User({ user_id: '12', name: 'Me' });
+          const user = new User({ user_id: '12', name: 'Me' });
           target.create(user).then((user) => {
             expect(spyCreate).toHaveBeenCalled();
             expect(spyDeserialize).toHaveBeenCalled();
@@ -388,7 +388,7 @@ describe('user.factory.ts', () => {
             }
           });
 
-          let user = new User({ name: 'New name', user_id: 'someId' });
+          const user = new User({ name: 'New name', user_id: 'someId' });
           target.upsert(user).then((response) => {
             expect(response).toBe(true);
           });

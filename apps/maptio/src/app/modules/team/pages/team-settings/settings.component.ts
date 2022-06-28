@@ -89,7 +89,7 @@ export class TeamSettingsComponent implements OnInit {
     this.isTeamSettingSaved = false;
     this.isTeamSettingFailed = false;
     if (this.teamSettingsForm.valid && this.teamSettingsForm.dirty) {
-      let updatedTeam = new Team({
+      const updatedTeam = new Team({
         team_id: this.team.team_id,
         name: this.teamSettingsForm.controls['name'].value,
         members: this.team.members,

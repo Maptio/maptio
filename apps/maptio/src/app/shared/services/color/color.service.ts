@@ -38,7 +38,7 @@ export class ColorService implements OnInit {
     depth: number,
     seedColor: string
   ): ScaleLinear<HSLColor, string> {
-    let seed = hsl(seedColor);
+    const seed = hsl(seedColor);
     return scaleLinear<HSLColor, HSLColor>()
       .domain([-1, depth])
       .interpolate(interpolateRgb)
@@ -64,9 +64,9 @@ export class ColorService implements OnInit {
     depth: number,
     maxFontSize: number
   ): ScaleLinear<number, number> {
-    let slowInterpolator = function (a: number, b: number) {
+    const slowInterpolator = function (a: number, b: number) {
       return function (t: number) {
-        let E = Math.max(a, b);
+        const E = Math.max(a, b);
         return E * (1 - Math.exp(((t - 1) * E) / 2));
       };
     };

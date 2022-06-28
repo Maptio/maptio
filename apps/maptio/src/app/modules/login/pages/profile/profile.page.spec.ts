@@ -23,7 +23,7 @@ import { ImageModule } from '../../../../shared/image.module';
 describe('profile.page.ts', () => {
   let component: ProfilePage;
   let target: ComponentFixture<ProfilePage>;
-  let user$: Subject<User> = new Subject<User>();
+  const user$: Subject<User> = new Subject<User>();
 
   beforeEach(
     waitForAsync(() => {
@@ -91,7 +91,7 @@ describe('profile.page.ts', () => {
   });
 
   it('should send error to error service when data gathering fails', () => {
-    let spyError = spyOn(component.errorService, 'handleError').and.callFake(
+    const spyError = spyOn(component.errorService, 'handleError').and.callFake(
       () => {
         return;
       }
@@ -101,7 +101,7 @@ describe('profile.page.ts', () => {
   });
 
   it('should get rid of subscription on destroy', () => {
-    let spy = spyOn(component.subscription, 'unsubscribe');
+    const spy = spyOn(component.subscription, 'unsubscribe');
     target.destroy();
     expect(spy).toHaveBeenCalled();
   });
@@ -112,16 +112,16 @@ describe('profile.page.ts', () => {
       waitForAsync(() => {
         component.user = new User({ user_id: 'some_new_id' });
 
-        let mockUserService = target.debugElement.injector.get(UserService);
-        let mockUserFactory = target.debugElement.injector.get(UserFactory);
-        let spyUpdateUserProfile = spyOn(
+        const mockUserService = target.debugElement.injector.get(UserService);
+        const mockUserFactory = target.debugElement.injector.get(UserFactory);
+        const spyUpdateUserProfile = spyOn(
           mockUserService,
           'updateUserPictureUrl'
         ).and.returnValue(Promise.resolve(true));
-        let spyUpsert = spyOn(mockUserFactory, 'upsert').and.returnValue(
+        const spyUpsert = spyOn(mockUserFactory, 'upsert').and.returnValue(
           Promise.resolve(true)
         );
-        let spyGetUser = spyOn(
+        const spyGetUser = spyOn(
           target.debugElement.injector.get(Auth),
           'getUser'
         );
@@ -153,14 +153,14 @@ describe('profile.page.ts', () => {
       waitForAsync(() => {
         component.user = new User({ user_id: 'some_new_id' });
 
-        let mockUserService = target.debugElement.injector.get(UserService);
-        let mockUserFactory = target.debugElement.injector.get(UserFactory);
-        let spyUpdateUserProfile = spyOn(
+        const mockUserService = target.debugElement.injector.get(UserService);
+        const mockUserFactory = target.debugElement.injector.get(UserFactory);
+        const spyUpdateUserProfile = spyOn(
           mockUserService,
           'updateUserPictureUrl'
         ).and.returnValue(Promise.resolve(false));
-        let spyUpsert = spyOn(mockUserFactory, 'upsert');
-        let spyGetUser = spyOn(
+        const spyUpsert = spyOn(mockUserFactory, 'upsert');
+        const spyGetUser = spyOn(
           target.debugElement.injector.get(Auth),
           'getUser'
         );
@@ -187,16 +187,16 @@ describe('profile.page.ts', () => {
       waitForAsync(() => {
         component.user = new User({ user_id: 'some_new_id' });
 
-        let mockUserService = target.debugElement.injector.get(UserService);
-        let mockUserFactory = target.debugElement.injector.get(UserFactory);
-        let spyUpdateUserProfile = spyOn(
+        const mockUserService = target.debugElement.injector.get(UserService);
+        const mockUserFactory = target.debugElement.injector.get(UserFactory);
+        const spyUpdateUserProfile = spyOn(
           mockUserService,
           'updateUserPictureUrl'
         ).and.returnValue(Promise.resolve(true));
-        let spyUpsert = spyOn(mockUserFactory, 'upsert').and.returnValue(
+        const spyUpsert = spyOn(mockUserFactory, 'upsert').and.returnValue(
           Promise.resolve(false)
         );
-        let spyGetUser = spyOn(
+        const spyGetUser = spyOn(
           target.debugElement.injector.get(Auth),
           'getUser'
         );
@@ -233,8 +233,8 @@ describe('profile.page.ts', () => {
           lastname: '',
         });
 
-        let mockUserService = target.debugElement.injector.get(UserService);
-        let spy = spyOn(mockUserService, 'updateUserProfile');
+        const mockUserService = target.debugElement.injector.get(UserService);
+        const spy = spyOn(mockUserService, 'updateUserProfile');
 
         component.save();
 
@@ -253,16 +253,16 @@ describe('profile.page.ts', () => {
         });
         component.accountForm.markAsDirty();
 
-        let mockUserService = target.debugElement.injector.get(UserService);
-        let mockUserFactory = target.debugElement.injector.get(UserFactory);
-        let spyUpdateUserProfile = spyOn(
+        const mockUserService = target.debugElement.injector.get(UserService);
+        const mockUserFactory = target.debugElement.injector.get(UserFactory);
+        const spyUpdateUserProfile = spyOn(
           mockUserService,
           'updateUserProfile'
         ).and.returnValue(Promise.resolve(true));
-        let spyUpsert = spyOn(mockUserFactory, 'upsert').and.returnValue(
+        const spyUpsert = spyOn(mockUserFactory, 'upsert').and.returnValue(
           Promise.resolve(true)
         );
-        let spyGetUser = spyOn(
+        const spyGetUser = spyOn(
           target.debugElement.injector.get(Auth),
           'getUser'
         );
@@ -302,14 +302,14 @@ describe('profile.page.ts', () => {
         });
         component.accountForm.markAsDirty();
 
-        let mockUserService = target.debugElement.injector.get(UserService);
-        let mockUserFactory = target.debugElement.injector.get(UserFactory);
-        let spyUpdateUserProfile = spyOn(
+        const mockUserService = target.debugElement.injector.get(UserService);
+        const mockUserFactory = target.debugElement.injector.get(UserFactory);
+        const spyUpdateUserProfile = spyOn(
           mockUserService,
           'updateUserProfile'
         ).and.returnValue(Promise.resolve(false));
-        let spyUpsert = spyOn(mockUserFactory, 'upsert');
-        let spyGetUser = spyOn(
+        const spyUpsert = spyOn(mockUserFactory, 'upsert');
+        const spyGetUser = spyOn(
           target.debugElement.injector.get(Auth),
           'getUser'
         );
@@ -347,16 +347,16 @@ describe('profile.page.ts', () => {
         });
         component.accountForm.markAsDirty();
 
-        let mockUserService = target.debugElement.injector.get(UserService);
-        let mockUserFactory = target.debugElement.injector.get(UserFactory);
-        let spyUpdateUserProfile = spyOn(
+        const mockUserService = target.debugElement.injector.get(UserService);
+        const mockUserFactory = target.debugElement.injector.get(UserFactory);
+        const spyUpdateUserProfile = spyOn(
           mockUserService,
           'updateUserProfile'
         ).and.returnValue(Promise.resolve(true));
-        let spyUpsert = spyOn(mockUserFactory, 'upsert').and.returnValue(
+        const spyUpsert = spyOn(mockUserFactory, 'upsert').and.returnValue(
           Promise.resolve(false)
         );
-        let spyGetUser = spyOn(
+        const spyGetUser = spyOn(
           target.debugElement.injector.get(Auth),
           'getUser'
         );

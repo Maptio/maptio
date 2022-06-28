@@ -14,11 +14,11 @@ describe('Team Tests', () => {
   });
 
   it('should create a new team with values', () => {
-    let person1 = new User();
+    const person1 = new User();
     person1.name = 'member 1';
-    let person2 = new User();
+    const person2 = new User();
     person2.name = 'member 2';
-    let person3 = new User();
+    const person3 = new User();
     person3.name = 'member 3';
 
     team = new Team({ members: [person1, person2, person3], name: 'Team' });
@@ -30,10 +30,10 @@ describe('Team Tests', () => {
   describe('Serialization', () => {
     describe('deserialize', () => {
       it('should deserialize a valid input - no settings', () => {
-        let input = JSON.parse(
+        const input = JSON.parse(
           '{"name": "Team FTW", "_id":"unique" , "members":[{"name":"John", "user_id":"1"}, {"name":"Jane"}]}'
         );
-        let deserialized = new Team().deserialize(input);
+        const deserialized = new Team().deserialize(input);
         expect(deserialized).toBeDefined();
         expect(deserialized.name).toBe('Team FTW');
         expect(deserialized.team_id).toBe('unique');
@@ -50,10 +50,10 @@ describe('Team Tests', () => {
       });
 
       it('should deserialize a valid input - with settings', () => {
-        let input = JSON.parse(
+        const input = JSON.parse(
           '{"name": "Team FTW", "settings" : {"authority" : "Driver", "helper": "Backseat"}, "_id":"unique" , "members":[{"name":"John", "user_id":"1"}, {"name":"Jane"}]}'
         );
-        let deserialized = new Team().deserialize(input);
+        const deserialized = new Team().deserialize(input);
         expect(deserialized).toBeDefined();
         expect(deserialized.name).toBe('Team FTW');
         expect(deserialized.team_id).toBe('unique');
@@ -66,18 +66,18 @@ describe('Team Tests', () => {
       });
 
       it('should return undefined when deserializing an invalid input', () => {
-        let input = JSON.parse('{"notanid": "Team Loosers"}');
-        let deserialized = new Team().deserialize(input);
+        const input = JSON.parse('{"notanid": "Team Loosers"}');
+        const deserialized = new Team().deserialize(input);
         expect(deserialized).toBeUndefined();
       });
     });
 
     describe('tryDeserialize', () => {
       it('should return true when input is valid', () => {
-        let input = JSON.parse(
+        const input = JSON.parse(
           '{"name": "Team FTW", "_id":"unique" , "members":[{"name":"John", "user_id":"1"}, {"name":"Jane"}]}'
         );
-        let deserialized = new Team().tryDeserialize(input);
+        const deserialized = new Team().tryDeserialize(input);
         expect(deserialized).toBeDefined();
         expect(deserialized[0]).toBe(true);
         expect(deserialized[1]).toBeDefined();
@@ -85,18 +85,18 @@ describe('Team Tests', () => {
       });
 
       it('should return false when input is invalid', () => {
-        let input = JSON.parse('{"notanid": "Team Loosers"}');
-        let deserialized = new Team().tryDeserialize(input);
+        const input = JSON.parse('{"notanid": "Team Loosers"}');
+        const deserialized = new Team().tryDeserialize(input);
         expect(deserialized).toBeDefined();
         expect(deserialized[0]).toBe(false);
         expect(deserialized[1]).toBeUndefined();
       });
 
       it('should return false when parsing fails', () => {
-        let team = new Team();
-        let input = JSON.parse('{}');
+        const team = new Team();
+        const input = JSON.parse('{}');
         spyOn(team, 'deserialize').and.throwError('Cannot be parsed');
-        let deserialized = team.tryDeserialize(input);
+        const deserialized = team.tryDeserialize(input);
         expect(deserialized).toBeDefined();
         expect(deserialized[0]).toBe(false);
         expect(deserialized[1]).toBeUndefined();

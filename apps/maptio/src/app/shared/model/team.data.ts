@@ -60,9 +60,9 @@ export class Team implements Serializable<Team> {
 
   public createdAt: Date;
 
-  public freeTrialLength: Number;
+  public freeTrialLength: number;
 
-  public isPaying: Boolean;
+  public isPaying: boolean;
 
   public planName: string;
 
@@ -82,7 +82,7 @@ export class Team implements Serializable<Team> {
       return undefined;
     }
 
-    let deserialized = new Team();
+    const deserialized = new Team();
     deserialized.name = input.name;
     deserialized.team_id = input._id;
     deserialized.shortid = input.shortid;
@@ -123,7 +123,7 @@ export class Team implements Serializable<Team> {
 
   tryDeserialize(input: any): [boolean, Team] {
     try {
-      let user = this.deserialize(input);
+      const user = this.deserialize(input);
       if (user !== undefined) {
         return [true, user];
       } else {

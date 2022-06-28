@@ -29,9 +29,9 @@ import { TreeNode, TreeModel } from '@circlon/angular-tree-component';
   styleUrls: ['./initiative.node.component.css'],
 })
 export class InitiativeNodeComponent {
-  PLACEMENT: string = 'top';
-  TOGGLE: string = 'tooltip';
-  TOOLTIP_ADD: string = 'Add sub-circle';
+  PLACEMENT = 'top';
+  TOGGLE = 'tooltip';
+  TOOLTIP_ADD = 'Add sub-circle';
   KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
 
   @Input() node: TreeNode;
@@ -105,13 +105,13 @@ export class InitiativeNodeComponent {
   }
 
   addChildNode(initiative: Initiative) {
-    let treeNode = this.node.treeModel.getNodeById(initiative.id);
-    let newNode = new Initiative();
+    const treeNode = this.node.treeModel.getNodeById(initiative.id);
+    const newNode = new Initiative();
     newNode.children = [];
     newNode.team_id = initiative.team_id;
     newNode.hasFocus = true;
     if (this.user.userRole === UserRole.Standard) {
-      let helper = <Helper>this.user;
+      const helper = <Helper>this.user;
       helper.roles = [];
       helper.hasAuthorityPrivileges = true;
       newNode.helpers.push(helper);

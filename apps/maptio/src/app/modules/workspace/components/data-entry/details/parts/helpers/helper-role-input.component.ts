@@ -55,8 +55,8 @@ const noWhitespaceValidator: ValidatorFn = (
 export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
   @Input('role') role: Role;
   @Input('helper') helper: Helper;
-  @Input('isVacancy') isVacancy: boolean = false;
-  @Input('isDirectoryView') isDirectoryView: boolean = false;
+  @Input('isVacancy') isVacancy = false;
+  @Input('isDirectoryView') isDirectoryView = false;
 
   @Output('cancel') cancel = new EventEmitter<void>();
   @Output('save') save = new EventEmitter<void>();

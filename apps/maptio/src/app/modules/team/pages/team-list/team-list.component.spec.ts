@@ -28,7 +28,7 @@ import { AnalyticsModule } from '../../../../core/analytics.module';
 describe('team-list.component.ts', () => {
   let component: TeamListComponent;
   let target: ComponentFixture<TeamListComponent>;
-  let user$: Subject<User> = new Subject<User>();
+  const user$: Subject<User> = new Subject<User>();
 
   beforeEach(
     waitForAsync(() => {
@@ -132,8 +132,8 @@ describe('team-list.component.ts', () => {
   });
 
   it('should get rid of subscription on destroy', () => {
-    let spyUser = spyOn(component.userSubscription, 'unsubscribe');
-    let spyRoute = spyOn(component.routeSubscription, 'unsubscribe');
+    const spyUser = spyOn(component.userSubscription, 'unsubscribe');
+    const spyRoute = spyOn(component.routeSubscription, 'unsubscribe');
     target.destroy();
     expect(spyUser).toHaveBeenCalled();
     expect(spyRoute).toHaveBeenCalled();
@@ -148,7 +148,7 @@ describe('team-list.component.ts', () => {
 
   describe('trackByTeamId', () => {
     it('should return team_id', () => {
-      let user = new Team({ team_id: '123' });
+      const user = new Team({ team_id: '123' });
       expect(component.trackByTeamId(undefined, user)).toBe('123');
     });
   });

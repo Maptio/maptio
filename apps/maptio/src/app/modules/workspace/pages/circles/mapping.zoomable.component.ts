@@ -96,13 +96,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }> = new Subject<{ initiatives: Initiative[]; isNameOnly: boolean }>();
   public showContextMenuOf$: Subject<{
     initiatives: Initiative[];
-    x: Number;
-    y: Number;
+    x: number;
+    y: number;
     isReadOnlyContextMenu: boolean;
   }> = new Subject<{
     initiatives: Initiative[];
-    x: Number;
-    y: Number;
+    x: number;
+    y: number;
     isReadOnlyContextMenu: boolean;
   }>();
 
@@ -123,9 +123,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
   private definitions: any;
   private outerFontScale: ScaleLogarithmic<number, number>;
   private innerFontScale: ScaleLogarithmic<number, number>;
-  public isWaitingForDestinationNode: boolean = false;
-  public isTooltipDescriptionVisible: boolean = false;
-  public isFirstEditing: boolean = false;
+  public isWaitingForDestinationNode = false;
+  public isTooltipDescriptionVisible = false;
+  public isFirstEditing = false;
   public isLocked: boolean;
   public isLoading: boolean;
 
@@ -135,7 +135,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   public slug: string;
 
-  CIRCLE_RADIUS: number = 16;
+  CIRCLE_RADIUS = 16;
   MAX_TEXT_LENGTH = 35;
   TRANSITION_DURATION = 500;
   ZOOMING_TRANSITION_DURATION = 500;
@@ -151,7 +151,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   POSITION_ACCOUNTABLE_NAME = { x: 0, y: 0.45, fontRatio: 0.9 };
   DEFAULT_PICTURE_ANGLE = Math.PI - (Math.PI * 36) / 180;
 
-  counter: number = 0;
+  counter = 0;
 
   constructor(
     public colorService: ColorService,
@@ -182,7 +182,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       )
       .subscribe(
         (complexData: [any, string, SelectableTag[]]) => {
-          let data = <any>complexData[0].initiative;
+          const data = <any>complexData[0].initiative;
           this.datasetId = complexData[0].dataset.datasetId;
           this.tagsState = complexData[2];
           this.slug = data.getSlug();
@@ -346,7 +346,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       } catch (error) {}
     });
 
-    let [clearSearchInitiative, highlightInitiative] = partition(
+    const [clearSearchInitiative, highlightInitiative] = partition(
       this.zoomInitiative$,
       (node) => node === null
     );
@@ -537,10 +537,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
       this.init();
     }
 
-    let diameter = this.diameter;
-    let g = this.g;
-    let svg = this.svg;
-    let currentTransform = {
+    const diameter = this.diameter;
+    const g = this.g;
+    const svg = this.svg;
+    const currentTransform = {
       transform: {
         x: this.translateX,
         y: this.translateY,
@@ -548,33 +548,33 @@ export class MappingZoomableComponent implements IDataVisualizer {
       },
     };
 
-    let height = diameter; //svg.attr("height") * 0.99;
-    let margin = 0; //height * 0.135;
-    let definitions = this.definitions;
-    let uiService = this.uiService;
-    let zooming = this.zooming;
-    let tags = this.tagsState;
-    let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
-    let TRANSITION_DURATION = this.TRANSITION_DURATION;
-    let showToolipOf$ = this.showToolipOf$;
+    const height = diameter; //svg.attr("height") * 0.99;
+    const margin = 0; //height * 0.135;
+    const definitions = this.definitions;
+    const uiService = this.uiService;
+    const zooming = this.zooming;
+    const tags = this.tagsState;
+    const CIRCLE_RADIUS = this.CIRCLE_RADIUS;
+    const TRANSITION_DURATION = this.TRANSITION_DURATION;
+    const showToolipOf$ = this.showToolipOf$;
     const canOpenInitiativeContextMenu = this.permissionsService.canOpenInitiativeContextMenu();
-    let showContextMenuOf$ = this.showContextMenuOf$;
+    const showContextMenuOf$ = this.showContextMenuOf$;
     // let getCenteredMargin = this.getCenteredMargin.bind(this);
-    let browser = this.browser;
-    let getLastZoomedCircle = this.getLastZoomedCircle.bind(this);
-    let setLastZoomedCircle = this.setLastZoomedCircle.bind(this);
-    let POSITION_INITIATIVE_NAME = this.POSITION_INITIATIVE_NAME;
-    let DEFAULT_PICTURE_ANGLE = this.DEFAULT_PICTURE_ANGLE;
-    let PADDING_CIRCLE = 20;
-    let MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
+    const browser = this.browser;
+    const getLastZoomedCircle = this.getLastZoomedCircle.bind(this);
+    const setLastZoomedCircle = this.setLastZoomedCircle.bind(this);
+    const POSITION_INITIATIVE_NAME = this.POSITION_INITIATIVE_NAME;
+    const DEFAULT_PICTURE_ANGLE = this.DEFAULT_PICTURE_ANGLE;
+    const PADDING_CIRCLE = 20;
+    const MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
 
-    let TRANSITION_1x = d3.transition('').duration(TRANSITION_DURATION);
-    let TRANSITION_2x = d3.transition('').duration(TRANSITION_DURATION * 1);
+    const TRANSITION_1x = d3.transition('').duration(TRANSITION_DURATION);
+    const TRANSITION_2x = d3.transition('').duration(TRANSITION_DURATION * 1);
 
-    let COLOR_ADD_CIRCLE = getComputedStyle(document.body).getPropertyValue(
+    const COLOR_ADD_CIRCLE = getComputedStyle(document.body).getPropertyValue(
       '--maptio-blue'
     );
-    let COLOR_DELETE_CIRCLE = getComputedStyle(document.body).getPropertyValue(
+    const COLOR_DELETE_CIRCLE = getComputedStyle(document.body).getPropertyValue(
       '--maptio-red'
     );
 
@@ -619,7 +619,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     buildPatterns();
 
-    let path = buildPaths();
+    const path = buildPaths();
 
     let initiativeWithChildren = g
       .selectAll('g.node.initiative-map.with-children')
@@ -642,10 +642,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
     exitWithAnimations(initiativeNoChildren);
     exitWithAnimations(initiativeWithChildren);
 
-    let initiativeWithChildrenEnter = initiativeWithChildren
+    const initiativeWithChildrenEnter = initiativeWithChildren
       .enter()
       .append('g');
-    let initiativeNoChildrenEnter = initiativeNoChildren.enter().append('g');
+    const initiativeNoChildrenEnter = initiativeNoChildren.enter().append('g');
 
     enterWithAnimations(initiativeWithChildrenEnter, 'with-children');
     enterWithAnimations(initiativeNoChildrenEnter, 'no-children', () => {
@@ -684,9 +684,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
     addCircle(initiativeWithChildren);
     addCircle(initiativeNoChildren);
 
-    let circle = g.selectAll('circle.node');
+    const circle = g.selectAll('circle.node');
 
-    let textAround = initiativeWithChildren
+    const textAround = initiativeWithChildren
       .select('text.name.with-children')
       .attr('id', function (d: any) {
         return `${d.data.id}`;
@@ -695,7 +695,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return d !== root ? 'inline' : 'none';
       })
       .html(function (d: any) {
-        let radius = d.r * d.k + 1;
+        const radius = d.r * d.k + 1;
         return browser === Browsers.Firefox
           ? `<textPath path="${uiService.getCircularPath(
               radius,
@@ -730,7 +730,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style('display', 'inline')
       .style('pointer-events', 'none')
       .html((d: any): string => {
-        let fs = `${toREM(
+        const fs = `${toREM(
           (d.r * 2 * 0.95) / MAX_NUMBER_LETTERS_PER_CIRCLE
         )}rem`;
         return `<div style="font-size: ${fs}; padding-top: 5%; background: none; display: block; pointer-events: none; overflow: hidden; height:100%; line-height: 100%; text-overflow:ellipsis;">${
@@ -738,7 +738,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         }</div>`;
       });
 
-    let accountablePictureWithChildren = initiativeWithChildren
+    const accountablePictureWithChildren = initiativeWithChildren
       .select('circle.accountable.with-children')
       .attr('fill', function (d: any) {
         return d.data.accountable
@@ -749,7 +749,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return d !== root ? 'inline' : 'none';
       });
 
-    let accountablePictureWithoutChildren = initiativeNoChildren
+    const accountablePictureWithoutChildren = initiativeNoChildren
       .select('circle.accountable.no-children')
       .attr('fill', function (d: any) {
         return d.data.accountable
@@ -757,7 +757,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           : 'transparent';
       });
 
-    let node = g.selectAll('g.node');
+    const node = g.selectAll('g.node');
 
     svg.on('click', (): void => {
       zoom(root);
@@ -783,7 +783,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     if (localStorage.getItem('node_id')) {
-      let id = localStorage.getItem('node_id');
+      const id = localStorage.getItem('node_id');
       if (
         getLastZoomedCircle() &&
         getLastZoomedCircle().data.id &&
@@ -916,7 +916,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
         .style('stroke-opacity', 0)
         .on('mouseover', function (d: any) {
-          let initiative = d.data;
+          const initiative = d.data;
           d3.getEvent().stopPropagation();
           d3.getEvent().preventDefault();
           // showToolipOf$.next({ initiatives: [initiative], isNameOnly: false });
@@ -956,14 +956,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
           } else {
             mousePosition = d3.mouse(this);
           }
-          let matrix = this.getCTM().translate(
+          const matrix = this.getCTM().translate(
             +this.getAttribute('cx'),
             +this.getAttribute('cy')
           );
 
-          let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 };
-          let initiative = d.data;
-          let circle = d3.select(this);
+          const mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 };
+          const initiative = d.data;
+          const circle = d3.select(this);
           showContextMenuOf$.next({
             initiatives: [initiative],
             x: uiService.getContextMenuCoordinates(mouse, matrix).x,
@@ -1111,7 +1111,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           return `path${d.data.id}`;
         })
         .attr('d', function (d: any, i: number) {
-          let radius = d.r + 1;
+          const radius = d.r + 1;
           return uiService.getCircularPath(radius, -radius, 0);
         });
 
@@ -1119,7 +1119,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     function buildPatterns() {
-      let patterns = definitions.selectAll('pattern').data(
+      const patterns = definitions.selectAll('pattern').data(
         nodes.filter(function (d: any) {
           return d.data.accountable;
         }),
@@ -1128,7 +1128,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         }
       );
 
-      let enterPatterns = patterns
+      const enterPatterns = patterns
         .enter()
         .filter(function (d: any) {
           return d.data.accountable;
@@ -1173,7 +1173,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       if (eventName == 'contextmenu') {
         el.on('contextmenu', function (d: any): void {
           d3.getEvent().preventDefault();
-          let mouse = d3.mouse(this);
+          const mouse = d3.mouse(this);
           d3.select(`circle.node[id="${d.data.id}"]`).dispatch('contextmenu', {
             bubbles: true,
             cancelable: true,

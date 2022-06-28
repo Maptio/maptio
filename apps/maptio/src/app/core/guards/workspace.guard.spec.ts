@@ -23,9 +23,9 @@ describe('workspace.guard.ts', () => {
     it('should clean svg and return true', inject(
       [WorkspaceGuard, UIService],
       (target: WorkspaceGuard, mockUIService: UIService) => {
-        let route = TestBed.get(ActivatedRouteSnapshot);
+        const route = TestBed.get(ActivatedRouteSnapshot);
 
-        let state = TestBed.get(RouterStateSnapshot);
+        const state = TestBed.get(RouterStateSnapshot);
 
         spyOn(mockUIService, 'clean');
 

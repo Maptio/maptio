@@ -23,8 +23,8 @@ import { AnalyticsModule } from '../../../../core/analytics.module';
 describe('dashboard.component.ts', () => {
   let component: DashboardComponent;
   let target: ComponentFixture<DashboardComponent>;
-  let user$: Subject<User> = new Subject<User>();
-  let datasets$: Subject<DataSet[]> = new Subject<DataSet[]>();
+  const user$: Subject<User> = new Subject<User>();
+  const datasets$: Subject<DataSet[]> = new Subject<DataSet[]>();
 
   beforeEach(
     waitForAsync(() => {

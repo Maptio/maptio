@@ -16,7 +16,7 @@ export class MapService {
   }
 
   createTemplate(name: string, teamId: string) {
-    let template = new DataSet({
+    const template = new DataSet({
       initiative: new Initiative({
         name: name,
         team_id: teamId,
@@ -63,7 +63,7 @@ export class MapService {
   }
 
   createEmpty(name: string, teamId: string) {
-    let empty = new DataSet({
+    const empty = new DataSet({
       initiative: new Initiative({
         name: name,
         team_id: teamId,
@@ -79,7 +79,7 @@ export class MapService {
   archive(dataset: DataSet) {
     dataset.isArchived = true;
     return this.datasetFactory.upsert(dataset).then((archived) => {
-      if (!!archived) return dataset;
+      if (archived) return dataset;
     });
   }
 }

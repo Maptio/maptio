@@ -57,8 +57,8 @@ describe('team.factory.ts', () => {
       inject(
         [TeamFactory, MockBackend],
         (target: TeamFactory, mockBackend: MockBackend) => {
-          let spyCreate = spyOn(Team, 'create').and.returnValue(mockTeam);
-          let spyDeserialize = mockTeam.deserialize.mockReturnValue(
+          const spyCreate = spyOn(Team, 'create').and.returnValue(mockTeam);
+          const spyDeserialize = mockTeam.deserialize.mockReturnValue(
             new Team({ name: 'Deserialized' })
           );
 
@@ -128,7 +128,7 @@ describe('team.factory.ts', () => {
         [TeamFactory, MockBackend],
         (target: TeamFactory, mockBackend: MockBackend) => {
           spyOn(Team, 'create').and.returnValue(mockTeam);
-          let spyDeserialize = mockTeam.deserialize.mockReturnValue(
+          const spyDeserialize = mockTeam.deserialize.mockReturnValue(
             new Team({ name: 'Deserialized' })
           );
 
@@ -185,13 +185,13 @@ describe('team.factory.ts', () => {
             }
           });
 
-          let members = [
+          const members = [
             new User({ user_id: '1' }),
             new User({ user_id: '2', name: 'Two' }),
             new User({ user_id: '3', picture: 'Three' }),
             new User({ user_id: '4', nickname: 'Four' }),
           ];
-          let team = new Team({
+          const team = new Team({
             name: 'New',
             team_id: 'id',
             members: members,
@@ -273,13 +273,13 @@ describe('team.factory.ts', () => {
             }
           });
 
-          let members = [
+          const members = [
             new User({ user_id: '1' }),
             new User({ user_id: '2', name: 'Two' }),
             new User({ user_id: '3', picture: 'Three' }),
             new User({ user_id: '4', nickname: 'Four' }),
           ];
-          let team = new Team({
+          const team = new Team({
             name: 'New',
             team_id: 'id',
             members: members,

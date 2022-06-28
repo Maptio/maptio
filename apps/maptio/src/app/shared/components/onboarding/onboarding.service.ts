@@ -11,7 +11,7 @@ export class OnboardingService {
   constructor(private modalService: NgbModal) {}
 
   open(user: User) {
-    let modal = this.modalService.open(OnboardingComponent, {
+    const modal = this.modalService.open(OnboardingComponent, {
       size: 'lg',
       backdrop: 'static',
       centered: true,
@@ -26,7 +26,7 @@ export class OnboardingService {
       windowClass: 'texture',
     });
 
-    let keys = Object.keys(Steps).filter(
+    const keys = Object.keys(Steps).filter(
       (k) => typeof Steps[k as any] === 'number'
     ); // ["A", "B"]
 

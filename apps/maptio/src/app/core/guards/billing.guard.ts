@@ -46,8 +46,8 @@ export class BillingGuard implements CanActivate, CanActivateChild {
             .then(
               (value: {
                 created_at: Date;
-                freeTrialLength: Number;
-                isPaying: Boolean;
+                freeTrialLength: number;
+                isPaying: boolean;
               }) => {
                 team.createdAt = value.created_at;
                 team.freeTrialLength = value.freeTrialLength;

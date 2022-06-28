@@ -17,8 +17,8 @@ export class InitiativeHelperRoleComponent {
   @Input('role') role: Role;
   @Input('closed') closed: Role;
   @Input('showControls') showControls: boolean;
-  @Input('alwaysShowDetailsToggle') alwaysShowDetailsToggle: boolean = false;
-  @Input('isDirectoryView') isDirectoryView: boolean = false;
+  @Input('alwaysShowDetailsToggle') alwaysShowDetailsToggle = false;
+  @Input('isDirectoryView') isDirectoryView = false;
 
   @Output('edit') edit = new EventEmitter<Role>();
   @Output('remove') remove = new EventEmitter<Role>();

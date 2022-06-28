@@ -65,7 +65,7 @@ export class CreateTeamComponent implements OnInit {
         'You have reached your maximum number of teams allowed: 1. Please reach out at support@maptio.com if you need to change these settings.';
     } else {
       if (this.createForm.dirty && this.createForm.valid) {
-        let teamName = this.createForm.controls['teamName'].value;
+        const teamName = this.createForm.controls['teamName'].value;
         this.isCreating = true;
         this.teamService
           .create(teamName, this.user)

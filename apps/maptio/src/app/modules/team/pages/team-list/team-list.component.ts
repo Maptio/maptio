@@ -32,9 +32,9 @@ export class TeamListComponent implements OnInit {
 
   public createForm: FormGroup;
   public teamName: string;
-  public teamsNumber: Number;
-  public isZeroTeam: Boolean;
-  public isRedirectHome: Boolean;
+  public teamsNumber: number;
+  public isZeroTeam: boolean;
+  public isRedirectHome: boolean;
 
   Permissions = Permissions;
   KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;

@@ -138,7 +138,7 @@ describe('settings.component.ts', () => {
           authority: 'King',
           helper: 'Kong',
         });
-        let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+        const mockTeamFactory = target.debugElement.injector.get(TeamFactory);
         spyOn(mockTeamFactory, 'upsert');
 
         component.saveTeamSettings();
@@ -156,8 +156,8 @@ describe('settings.component.ts', () => {
           helper: 'Kong',
         });
         component.teamSettingsForm.markAsDirty();
-        let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
-        let spy = spyOn(mockTeamFactory, 'upsert').and.returnValue(
+        const mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+        const spy = spyOn(mockTeamFactory, 'upsert').and.returnValue(
           Promise.resolve(true)
         );
 
@@ -186,8 +186,8 @@ describe('settings.component.ts', () => {
           helper: 'Kong',
         });
         component.teamSettingsForm.markAsDirty();
-        let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
-        let spy = spyOn(mockTeamFactory, 'upsert').and.returnValue(
+        const mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+        const spy = spyOn(mockTeamFactory, 'upsert').and.returnValue(
           Promise.reject(false)
         );
 

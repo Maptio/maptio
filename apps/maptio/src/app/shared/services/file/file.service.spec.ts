@@ -13,7 +13,7 @@ describe('export.service.ts', () => {
     it('should return true when file is .csv', inject(
       [FileService],
       (target: FileService) => {
-        let actual = target.isCSVFile(<File>{ name: 'csv.csv' });
+        const actual = target.isCSVFile(<File>{ name: 'csv.csv' });
         expect(actual).toBeTruthy();
       }
     ));
@@ -21,7 +21,7 @@ describe('export.service.ts', () => {
     it('should return true when file is .csv', inject(
       [FileService],
       (target: FileService) => {
-        let actual = target.isCSVFile(<File>{ name: 'notcsv.cvs' });
+        const actual = target.isCSVFile(<File>{ name: 'notcsv.cvs' });
         expect(actual).toBeFalsy();
       }
     ));
@@ -31,11 +31,11 @@ describe('export.service.ts', () => {
     it('should return header for well-formed .csv', inject(
       [FileService],
       (target: FileService) => {
-        let csvRecordsArray = [
+        const csvRecordsArray = [
           'First name,Lastname, email',
           'one,Maptio, one@maptio.com',
         ];
-        let actual = target.getHeaderArray(
+        const actual = target.getHeaderArray(
           csvRecordsArray,
           Constants.tokenDelimeter
         );
@@ -46,8 +46,8 @@ describe('export.service.ts', () => {
     it('should return [] for empty .csv', inject(
       [FileService],
       (target: FileService) => {
-        let csvRecordsArray: string[] = [];
-        let actual = target.getHeaderArray(
+        const csvRecordsArray: string[] = [];
+        const actual = target.getHeaderArray(
           csvRecordsArray,
           Constants.tokenDelimeter
         );
@@ -60,10 +60,10 @@ describe('export.service.ts', () => {
     it('should return true when header is matching', inject(
       [FileService],
       (target: FileService) => {
-        let fileHeader = ['First name', 'Lastname', ' email'];
-        let correctHeader = ['First name', 'Lastname', ' email'];
+        const fileHeader = ['First name', 'Lastname', ' email'];
+        const correctHeader = ['First name', 'Lastname', ' email'];
 
-        let actual = target.validateHeaders(fileHeader, correctHeader);
+        const actual = target.validateHeaders(fileHeader, correctHeader);
         expect(actual).toBeTruthy();
       }
     ));
@@ -71,10 +71,10 @@ describe('export.service.ts', () => {
     it('should return false when header is in wrong order', inject(
       [FileService],
       (target: FileService) => {
-        let fileHeader = ['First name', 'Lastname', ' email'];
-        let correctHeader = [' email', 'First name', 'Lastname'];
+        const fileHeader = ['First name', 'Lastname', ' email'];
+        const correctHeader = [' email', 'First name', 'Lastname'];
 
-        let actual = target.validateHeaders(fileHeader, correctHeader);
+        const actual = target.validateHeaders(fileHeader, correctHeader);
         expect(actual).toBeFalsy();
       }
     ));
@@ -82,10 +82,10 @@ describe('export.service.ts', () => {
     it('should return false when header is of wrong length', inject(
       [FileService],
       (target: FileService) => {
-        let fileHeader = ['First name', 'Lastname', ' email'];
-        let correctHeader = ['First name', 'Lastname'];
+        const fileHeader = ['First name', 'Lastname', ' email'];
+        const correctHeader = ['First name', 'Lastname'];
 
-        let actual = target.validateHeaders(fileHeader, correctHeader);
+        const actual = target.validateHeaders(fileHeader, correctHeader);
         expect(actual).toBeFalsy();
       }
     ));
@@ -95,12 +95,12 @@ describe('export.service.ts', () => {
     it('should return correct array for well-formed csv ', inject(
       [FileService],
       (target: FileService) => {
-        let csvRecordsArray = [
+        const csvRecordsArray = [
           'First name,Lastname,email',
           'one,Maptio,one@maptio.com',
           'two,Maptio,two@maptio.com',
         ];
-        let actual = target.getDataRecordsArrayFromCSVFile(
+        const actual = target.getDataRecordsArrayFromCSVFile(
           csvRecordsArray,
           3,
           true,
@@ -116,7 +116,7 @@ describe('export.service.ts', () => {
     xit('should throw when header length is incorrect and check validateHeaderAndRecordLengthFlag= true ', inject(
       [FileService],
       (target: FileService) => {
-        let csvRecordsArray = [
+        const csvRecordsArray = [
           'First name,Lastname,email',
           'one,Maptio,one@maptio.com',
           'two,Maptio,two@maptio.com',

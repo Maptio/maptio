@@ -24,7 +24,7 @@ export class Helper extends User {
     if (!input.user_id) {
       return undefined;
     }
-    let deserialized = new User().deserialize(input) as Helper;
+    const deserialized = new User().deserialize(input) as Helper;
 
     let roles = new Array<Role>();
     if (input.roles) {
@@ -43,7 +43,7 @@ export class Helper extends User {
 
   tryDeserialize(input: any): [boolean, Helper] {
     try {
-      let helper = this.deserialize(input);
+      const helper = this.deserialize(input);
       if (helper !== undefined) {
         return [true, helper];
       } else {

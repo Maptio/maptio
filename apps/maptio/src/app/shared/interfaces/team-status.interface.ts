@@ -1,7 +1,7 @@
 export interface TeamStatus {
   created_at: Date;
   freeTrialLength: number;
-  isPaying: Boolean;
+  isPaying: boolean;
   plan: string;
   maxMembers: number;
   price: number;

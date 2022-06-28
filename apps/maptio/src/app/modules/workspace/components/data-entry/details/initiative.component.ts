@@ -175,7 +175,7 @@ export class InitiativeComponent implements OnChanges {
 
     // 3. authoriy picked from the list of current helpers, helper keeps their role
 
-    let helpersIds = this.node.helpers.map((h) => h.user_id);
+    const helpersIds = this.node.helpers.map((h) => h.user_id);
     if (!accountable) {
       this.node.accountable = null;
     } else {
@@ -188,7 +188,7 @@ export class InitiativeComponent implements OnChanges {
         accountable.roles = this.node.accountable.roles;
         this.node.accountable = accountable;
       } else {
-        let helper = this.node.helpers.filter(
+        const helper = this.node.helpers.filter(
           (h) => h.user_id === accountable.user_id
         )[0];
         this.removeHelper(helper);
@@ -217,7 +217,7 @@ export class InitiativeComponent implements OnChanges {
   }
 
   removeHelper(helper: Helper) {
-    let index = this.node.helpers.findIndex(
+    const index = this.node.helpers.findIndex(
       (user) => user.user_id === helper.user_id
     );
     this.node.helpers.splice(index, 1);

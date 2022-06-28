@@ -105,8 +105,8 @@ describe('signup.component.ts', () => {
           // isTermsAccepted: true
         });
 
-        let mockUserService = target.debugElement.injector.get(UserService);
-        let spy = spyOn(mockUserService, 'isUserExist').and.returnValue(
+        const mockUserService = target.debugElement.injector.get(UserService);
+        const spy = spyOn(mockUserService, 'isUserExist').and.returnValue(
           Promise.resolve(true)
         );
 
@@ -128,10 +128,10 @@ describe('signup.component.ts', () => {
         });
         component.signupForm.markAsDirty();
 
-        let spyEmailExists = spyOn(component, 'isEmailExist').and.returnValue(
+        const spyEmailExists = spyOn(component, 'isEmailExist').and.returnValue(
           Promise.resolve(true)
         );
-        let spyActivationPending = spyOn(
+        const spyActivationPending = spyOn(
           component,
           'isActivationPending'
         ).and.returnValue(
@@ -163,10 +163,10 @@ describe('signup.component.ts', () => {
         });
         component.signupForm.markAsDirty();
 
-        let spyEmailExists = spyOn(component, 'isEmailExist').and.returnValue(
+        const spyEmailExists = spyOn(component, 'isEmailExist').and.returnValue(
           Promise.resolve(true)
         );
-        let spyActivationPending = spyOn(
+        const spyActivationPending = spyOn(
           component,
           'isActivationPending'
         ).and.returnValue(
@@ -198,21 +198,21 @@ describe('signup.component.ts', () => {
         });
         component.signupForm.markAsDirty();
 
-        let mockUserService = target.debugElement.injector.get(UserService);
-        let spyEmailExists = spyOn(component, 'isEmailExist').and.returnValue(
+        const mockUserService = target.debugElement.injector.get(UserService);
+        const spyEmailExists = spyOn(component, 'isEmailExist').and.returnValue(
           Promise.resolve(false)
         );
-        let spyActivationPending = spyOn(
+        const spyActivationPending = spyOn(
           component,
           'isActivationPending'
         ).and.returnValue(
           Promise.resolve({ isActivationPending: false, userToken: 'token' })
         );
-        let spyCreateUser = spyOn(
+        const spyCreateUser = spyOn(
           mockUserService,
           'createUser'
         ).and.returnValue(Promise.resolve(new User({ user_id: 'new_id' })));
-        let spySendConfirmation = spyOn(
+        const spySendConfirmation = spyOn(
           mockUserService,
           'sendConfirmation'
         ).and.returnValue(Promise.resolve(true));
@@ -252,17 +252,17 @@ describe('signup.component.ts', () => {
         });
         component.signupForm.markAsDirty();
 
-        let mockUserService = target.debugElement.injector.get(UserService);
-        let spyEmailExists = spyOn(component, 'isEmailExist').and.returnValue(
+        const mockUserService = target.debugElement.injector.get(UserService);
+        const spyEmailExists = spyOn(component, 'isEmailExist').and.returnValue(
           Promise.resolve(false)
         );
-        let spyActivationPending = spyOn(
+        const spyActivationPending = spyOn(
           component,
           'isActivationPending'
         ).and.returnValue(
           Promise.resolve({ isActivationPending: false, userToken: 'token' })
         );
-        let spyCreateUser = spyOn(
+        const spyCreateUser = spyOn(
           mockUserService,
           'createUser'
         ).and.returnValue(Promise.reject('Account creation failed'));
@@ -299,21 +299,21 @@ describe('signup.component.ts', () => {
         });
         component.signupForm.markAsDirty();
 
-        let mockUserService = target.debugElement.injector.get(UserService);
-        let spyEmailExists = spyOn(component, 'isEmailExist').and.returnValue(
+        const mockUserService = target.debugElement.injector.get(UserService);
+        const spyEmailExists = spyOn(component, 'isEmailExist').and.returnValue(
           Promise.resolve(false)
         );
-        let spyActivationPending = spyOn(
+        const spyActivationPending = spyOn(
           component,
           'isActivationPending'
         ).and.returnValue(
           Promise.resolve({ isActivationPending: false, userToken: 'token' })
         );
-        let spyCreateUser = spyOn(
+        const spyCreateUser = spyOn(
           mockUserService,
           'createUser'
         ).and.returnValue(Promise.resolve(new User({ user_id: 'new_id' })));
-        let spySendConfirmation = spyOn(
+        const spySendConfirmation = spyOn(
           mockUserService,
           'sendConfirmation'
         ).and.returnValue(Promise.reject('Confirmation email failed to send'));
@@ -346,8 +346,8 @@ describe('signup.component.ts', () => {
     it(
       'returns correct values if user doesnt exist',
       waitForAsync(() => {
-        let mockUserService = target.debugElement.injector.get(UserService);
-        let spy = spyOn(
+        const mockUserService = target.debugElement.injector.get(UserService);
+        const spy = spyOn(
           mockUserService,
           'isActivationPendingByEmail'
         ).and.returnValue(
@@ -369,8 +369,8 @@ describe('signup.component.ts', () => {
     it(
       'returns correct values if user exists and activation is pending',
       waitForAsync(() => {
-        let mockUserService = target.debugElement.injector.get(UserService);
-        let spy = spyOn(
+        const mockUserService = target.debugElement.injector.get(UserService);
+        const spy = spyOn(
           mockUserService,
           'isActivationPendingByEmail'
         ).and.returnValue(
@@ -395,8 +395,8 @@ describe('signup.component.ts', () => {
     it(
       'returns correct values if user exists and activation is pending',
       waitForAsync(() => {
-        let mockUserService = target.debugElement.injector.get(UserService);
-        let spy = spyOn(
+        const mockUserService = target.debugElement.injector.get(UserService);
+        const spy = spyOn(
           mockUserService,
           'isActivationPendingByEmail'
         ).and.returnValue(
@@ -421,8 +421,8 @@ describe('signup.component.ts', () => {
 
   describe('isEmailExist', () => {
     it('should return true when email exists', () => {
-      let mockUserService = target.debugElement.injector.get(UserService);
-      let spy = spyOn(mockUserService, 'isUserExist').and.returnValue(
+      const mockUserService = target.debugElement.injector.get(UserService);
+      const spy = spyOn(mockUserService, 'isUserExist').and.returnValue(
         Promise.resolve(true)
       );
       component.isEmailExist('i@doexist.com').then((result) => {
@@ -432,8 +432,8 @@ describe('signup.component.ts', () => {
     });
 
     it('should return false when email exists', () => {
-      let mockUserService = target.debugElement.injector.get(UserService);
-      let spy = spyOn(mockUserService, 'isUserExist').and.returnValue(
+      const mockUserService = target.debugElement.injector.get(UserService);
+      const spy = spyOn(mockUserService, 'isUserExist').and.returnValue(
         Promise.resolve(false)
       );
       component.isEmailExist('i@dontexist.com').then((result) => {

@@ -37,7 +37,7 @@ export class DataSet implements Serializable<DataSet> {
 
   deserialize(input: any): DataSet {
     if (!input || !input._id) return;
-    let deserialized = new DataSet();
+    const deserialized = new DataSet();
     deserialized.shortid = input.shortid;
     deserialized.depth = input.depth;
     deserialized.datasetId = input._id;
@@ -60,7 +60,7 @@ export class DataSet implements Serializable<DataSet> {
     }
     deserialized.tags = tags;
 
-    let roles = new Array<Role>();
+    const roles = new Array<Role>();
     if (input.roles && input.roles instanceof Array && input.roles.length > 0) {
       input.roles.forEach(function (inputRole: any) {
         roles.push(new Role().deserialize(inputRole));
@@ -74,7 +74,7 @@ export class DataSet implements Serializable<DataSet> {
 
   tryDeserialize(input: any): [boolean, DataSet] {
     try {
-      let dataset = this.deserialize(input);
+      const dataset = this.deserialize(input);
       if (dataset !== undefined) {
         return [true, dataset];
       } else {

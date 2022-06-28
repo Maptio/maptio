@@ -85,7 +85,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -130,7 +130,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -175,7 +175,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -199,7 +199,7 @@ describe('user.service.ts', () => {
           configuration: AuthConfiguration,
           mockBackend: MockBackend
         ) => {
-          let webAuth = {
+          const webAuth = {
             changePassword: jest.fn(),
           };
           spyOn(configuration, 'getWebAuth').and.returnValue(webAuth);
@@ -248,7 +248,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -292,7 +292,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -338,7 +338,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -383,7 +383,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -433,7 +433,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -481,7 +481,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -525,7 +525,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -569,7 +569,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -624,7 +624,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -678,7 +678,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -731,7 +731,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -779,7 +779,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -826,7 +826,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -870,7 +870,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -914,7 +914,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -972,7 +972,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -998,7 +998,7 @@ describe('user.service.ts', () => {
           mockBackend: MockBackend,
           encoding: JwtEncoder
         ) => {
-          let spyEncoding = spyOn(encoding, 'encode').and.returnValue(
+          const spyEncoding = spyOn(encoding, 'encode').and.returnValue(
             Promise.resolve('token')
           );
           target
@@ -1036,15 +1036,15 @@ describe('user.service.ts', () => {
           encoding: JwtEncoder,
           mailing: MailingService
         ) => {
-          let spyEncoding = spyOn(encoding, 'encode').and.returnValue(
+          const spyEncoding = spyOn(encoding, 'encode').and.returnValue(
             Promise.resolve('userToken')
           );
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('accessToken'));
-          let spyMailing = spyOn(mailing, 'sendConfirmation');
-          let spyUpdateStatus = spyOn(target, 'updateActivationPendingStatus');
+          const spyMailing = spyOn(mailing, 'sendConfirmation');
+          const spyUpdateStatus = spyOn(target, 'updateActivationPendingStatus');
 
           mockBackend.connections.subscribe((connection: MockConnection) => {
             if (
@@ -1120,15 +1120,15 @@ describe('user.service.ts', () => {
           encoding: JwtEncoder,
           mailing: MailingService
         ) => {
-          let spyEncoding = spyOn(encoding, 'encode').and.returnValue(
+          const spyEncoding = spyOn(encoding, 'encode').and.returnValue(
             Promise.resolve('userToken')
           );
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('accessToken'));
-          let spyMailing = spyOn(mailing, 'sendInvitation');
-          let spyUpdateStatus = spyOn(target, 'updateInvitiationSentStatus');
+          const spyMailing = spyOn(mailing, 'sendInvitation');
+          const spyUpdateStatus = spyOn(target, 'updateInvitiationSentStatus');
 
           mockBackend.connections.subscribe((connection: MockConnection) => {
             if (
@@ -1226,7 +1226,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -1280,7 +1280,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -1334,7 +1334,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -1392,7 +1392,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));
@@ -1441,7 +1441,7 @@ describe('user.service.ts', () => {
             }
           });
 
-          let spyAccessToken = spyOn(
+          const spyAccessToken = spyOn(
             configuration,
             'getAccessToken'
           ).and.returnValue(Promise.resolve('token'));

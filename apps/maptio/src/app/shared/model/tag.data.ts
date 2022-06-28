@@ -19,7 +19,7 @@ export class Tag implements Serializable<Tag> {
 
   deserialize(input: any): Tag {
     if (!input) return;
-    let deserialized = new Tag();
+    const deserialized = new Tag();
     deserialized.name = input.name;
     deserialized.shortid = input.shortid;
     deserialized.color = input.color;
@@ -28,7 +28,7 @@ export class Tag implements Serializable<Tag> {
 
   tryDeserialize(input: any): [boolean, Tag] {
     try {
-      let tag = this.deserialize(input);
+      const tag = this.deserialize(input);
       if (tag !== undefined) {
         return [true, tag];
       } else {

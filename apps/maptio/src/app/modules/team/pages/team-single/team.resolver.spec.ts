@@ -81,7 +81,7 @@ describe('team.resolver.ts', () => {
           datasetFactory: DatasetFactory,
           teamFactory: TeamFactory
         ) => {
-          let spyGetDataSet = spyOn(datasetFactory, 'get').and.callFake(() => {
+          const spyGetDataSet = spyOn(datasetFactory, 'get').and.callFake(() => {
             return Promise.resolve([
               new DataSet({
                 datasetId: '1',
@@ -104,7 +104,7 @@ describe('team.resolver.ts', () => {
             ]);
           });
 
-          let spyGetTeam = spyOn(teamFactory, 'get').and.callFake(() => {
+          const spyGetTeam = spyOn(teamFactory, 'get').and.callFake(() => {
             return Promise.resolve(
               new Team({
                 team_id: 'team_id',
@@ -117,7 +117,7 @@ describe('team.resolver.ts', () => {
             );
           });
 
-          let snapshot = new ActivatedRouteSnapshot();
+          const snapshot = new ActivatedRouteSnapshot();
           snapshot.params = { teamid: '123' };
           target.resolve(snapshot, undefined).subscribe((data) => {
             expect(spyGetDataSet).toHaveBeenCalledWith(

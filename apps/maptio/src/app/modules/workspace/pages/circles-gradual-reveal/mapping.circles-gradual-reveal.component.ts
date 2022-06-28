@@ -67,13 +67,13 @@ export class MappingCirclesGradualRevealComponent
   }> = new Subject<{ initiatives: Initiative[]; isNameOnly: boolean }>();
   public showContextMenuOf$: Subject<{
     initiatives: Initiative[];
-    x: Number;
-    y: Number;
+    x: number;
+    y: number;
     isReadOnlyContextMenu: boolean;
   }> = new Subject<{
     initiatives: Initiative[];
-    x: Number;
-    y: Number;
+    x: number;
+    y: number;
     isReadOnlyContextMenu: boolean;
   }>();
 

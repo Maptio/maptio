@@ -217,7 +217,7 @@ export class PermissionsDirective implements OnInit, OnDestroy {
   }
 
   private isFunction(functionToCheck: any): functionToCheck is Function {
-    let getType = {};
+    const getType = {};
     return (
       !!functionToCheck &&
       functionToCheck instanceof Function &&

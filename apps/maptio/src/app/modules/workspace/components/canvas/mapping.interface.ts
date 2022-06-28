@@ -29,8 +29,8 @@ export interface IDataVisualizer {
   showToolipOf$: Subject<{ initiatives: Initiative[]; isNameOnly: boolean }>;
   showContextMenuOf$: Subject<{
     initiatives: Initiative[];
-    x: Number;
-    y: Number;
+    x: number;
+    y: number;
     isReadOnlyContextMenu: boolean;
   }>;
 

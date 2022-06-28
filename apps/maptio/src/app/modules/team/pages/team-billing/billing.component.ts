@@ -37,8 +37,8 @@ export class TeamBillingComponent implements OnInit {
             map(
               (value: {
                 created_at: Date;
-                freeTrialLength: Number;
-                isPaying: Boolean;
+                freeTrialLength: number;
+                isPaying: boolean;
                 plan: string;
                 maxMembers: number;
                 price: number;

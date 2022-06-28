@@ -13,7 +13,7 @@ import { NgModel } from '@angular/forms';
 
 @Directive({ selector: '[debounce]' })
 export class DebounceDirective implements OnInit {
-  @Input() delay: number = 750;
+  @Input() delay = 750;
   @Output() func: EventEmitter<any> = new EventEmitter();
 
   constructor(private elementRef: ElementRef, private model: NgModel) {}

@@ -12,7 +12,7 @@ export class ColorPickerComponent implements OnInit {
   @Input('label') label: string;
   @Input('default') defaultColor: string;
   @Input('isMinimal') isMinimal: boolean;
-  @Input('isDisabled') isDisabled: boolean = false;
+  @Input('isDisabled') isDisabled = false;
   @Output('change')
   changeColor: EventEmitter<string> = new EventEmitter<string>();
 

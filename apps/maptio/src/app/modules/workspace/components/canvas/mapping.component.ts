@@ -55,8 +55,8 @@ export class MappingComponent {
   isNameOnly: boolean;
   selectedInitiative: Initiative;
   selectedInitiatives: Initiative[];
-  selectedInitiativeX: Number;
-  selectedInitiativeY: Number;
+  selectedInitiativeX: number;
+  selectedInitiativeY: number;
   isReadOnlyContextMenu: boolean;
 
   isPrinting: boolean;
@@ -102,7 +102,7 @@ export class MappingComponent {
   public isZoomDisabled: boolean;
 
   @Input('tags') selectableTags: Array<SelectableTag>;
-  @Input('isEmptyMap') isEmptyMap: Boolean;
+  @Input('isEmptyMap') isEmptyMap: boolean;
 
   @Output('openDetails') openDetails = new EventEmitter<Initiative>();
 
@@ -122,7 +122,7 @@ export class MappingComponent {
   @Output('toggleSettingsPanel')
   toggleSettingsPanel = new EventEmitter<boolean>();
   @Output('toggleEditingPanelsVisibility')
-  toggleEditingPanelsVisibility = new EventEmitter<Boolean>();
+  toggleEditingPanelsVisibility = new EventEmitter<boolean>();
 
   constructor(
     private dataService: DataService,
@@ -197,14 +197,14 @@ export class MappingComponent {
       this.showContextMenu(node);
     });
 
-    let f = this.route.snapshot.fragment; //|| this.getFragment(component);
+    const f = this.route.snapshot.fragment; //|| this.getFragment(component);
     this.x = Number.parseFloat(this.uriService.parseFragment(f).get('x'));
     this.y = Number.parseFloat(this.uriService.parseFragment(f).get('y'));
     this.scale = Number.parseFloat(
       this.uriService.parseFragment(f).get('scale')
     );
 
-    let tagsState =
+    const tagsState =
       this.uriService.parseFragment(f).has('tags') &&
       this.uriService.parseFragment(f).get('tags')
         ? this.uriService
@@ -322,7 +322,7 @@ export class MappingComponent {
           this.zoomToInitiative(new Initiative({ id: <number>queryParams.id }));
         }
 
-        let fragmentTags =
+        const fragmentTags =
           this.uriService.parseFragment(fragment).has('tags') &&
           this.uriService.parseFragment(fragment).get('tags')
             ? this.uriService
@@ -337,7 +337,7 @@ export class MappingComponent {
 
         this.tags = compact<SelectableTag>(
           data.dataset.tags.map((dataTag: SelectableTag) => {
-            let searchTag = fragmentTags.find(
+            const searchTag = fragmentTags.find(
               (t) => t.shortid === dataTag.shortid
             );
             return new SelectableTag({
@@ -393,8 +393,8 @@ export class MappingComponent {
 
   showContextMenu(context: {
     initiatives: Initiative[];
-    x: Number;
-    y: Number;
+    x: number;
+    y: number;
     isReadOnlyContextMenu: boolean;
   }) {
     this.isReadOnlyContextMenu = context.isReadOnlyContextMenu;

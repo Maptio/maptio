@@ -90,8 +90,8 @@ describe('mapping.tree.component.ts', () => {
 
     component.analytics = { eventTrack: jest.fn() } as any;
 
-    let data = new Initiative().deserialize(fixtures);
-    let mockDataService = target.debugElement.injector.get(DataService);
+    const data = new Initiative().deserialize(fixtures);
+    const mockDataService = target.debugElement.injector.get(DataService);
     spyOn(mockDataService, 'get').and.returnValue(
       observableOf({
         initiative: data,
@@ -103,7 +103,7 @@ describe('mapping.tree.component.ts', () => {
       })
     );
 
-    let mockSettingsService = target.debugElement.injector.get(
+    const mockSettingsService = target.debugElement.injector.get(
       MapSettingsService
     );
     spyOn(mockSettingsService, 'get').and.returnValue({
@@ -118,16 +118,16 @@ describe('mapping.tree.component.ts', () => {
   });
 
   it('should draw SVG with correct size when data is valid', () => {
-    let svg = document.querySelectorAll('svg#map');
+    const svg = document.querySelectorAll('svg#map');
     expect(svg.length).toBe(1); // these are harcoded for now
     expect(svg.item(0).getAttribute('width')).toBe('100%');
     expect(svg.item(0).getAttribute('height')).toBe('100%');
   });
 
   it('should draw SVG with correct transform when data is valid', () => {
-    let svgs = document.querySelectorAll('svg#map');
+    const svgs = document.querySelectorAll('svg#map');
     expect(svgs.length).toBe(1);
-    let svg = svgs.item(0);
+    const svg = svgs.item(0);
 
     expect(svg.querySelector('g')).toBeDefined();
     expect(svg.querySelector('g').getAttribute('transform')).toBe(
@@ -136,27 +136,27 @@ describe('mapping.tree.component.ts', () => {
   });
 
   xit('should draw SVG with correct number of links when data is valid', () => {
-    let svgs = document.querySelectorAll('svg#map');
+    const svgs = document.querySelectorAll('svg#map');
     expect(svgs.length).toBe(1);
-    let svg = svgs.item(0);
-    let paths = svg.querySelectorAll('path.link');
+    const svg = svgs.item(0);
+    const paths = svg.querySelectorAll('path.link');
     expect(paths.length).toBe(2);
   });
 
   xit('should draw SVG with correct number of nodes when data is valid', () => {
-    let svgs = document.querySelectorAll('svg#map');
+    const svgs = document.querySelectorAll('svg#map');
     expect(svgs.length).toBe(1);
-    let svg = svgs.item(0);
-    let nodes = svg.querySelectorAll('g.node');
+    const svg = svgs.item(0);
+    const nodes = svg.querySelectorAll('g.node');
     expect(nodes.length).toBe(3);
   });
 
   xit('should draw SVG with correct text labels when data is valid', () => {
-    let svgs = document.querySelectorAll('svg#map');
+    const svgs = document.querySelectorAll('svg#map');
 
     expect(svgs.length).toBe(1);
-    let svg = svgs.item(0);
-    let nodes = svg.querySelectorAll('g.node');
+    const svg = svgs.item(0);
+    const nodes = svg.querySelectorAll('g.node');
     expect(nodes.item(0).querySelector('.name').tagName).toBe('foreignObject');
     expect(nodes.item(0).querySelector('.name').innerHTML).toContain(
       'My Company'
@@ -172,15 +172,15 @@ describe('mapping.tree.component.ts', () => {
   });
 
   xit('should draw SVG with correct pictures labels when data is valid', () => {
-    let svgs = document.querySelectorAll('svg#map');
+    const svgs = document.querySelectorAll('svg#map');
     expect(svgs.length).toBe(1);
-    let svg = svgs.item(0);
-    let nodes = svg.querySelectorAll('g.node');
+    const svg = svgs.item(0);
+    const nodes = svg.querySelectorAll('g.node');
     expect(nodes.item(0).querySelector('circle').style.fill).toBe('url(#i-0)');
     expect(nodes.item(1).querySelector('circle').style.fill).toBe('url(#i-1)');
     expect(nodes.item(2).querySelector('circle').style.fill).toBe('url(#i-2)');
 
-    let patterns = svg.querySelectorAll('defs pattern');
+    const patterns = svg.querySelectorAll('defs pattern');
     expect(patterns.item(0).querySelector('image').getAttribute('href')).toBe(
       ''
     );

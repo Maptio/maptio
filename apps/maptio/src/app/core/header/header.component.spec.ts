@@ -39,7 +39,7 @@ import { CoreModule } from '../core.module';
 fdescribe('header.component.ts', () => {
   let component: HeaderComponent;
   let target: ComponentFixture<HeaderComponent>;
-  let user$: Subject<User> = new Subject<User>();
+  const user$: Subject<User> = new Subject<User>();
 
   beforeEach(
     waitForAsync(() => {
@@ -116,11 +116,11 @@ fdescribe('header.component.ts', () => {
   xit(
     "should load user's datasets when all load",
     waitForAsync(() => {
-      let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
-      let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+      const mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
+      const mockTeamFactory = target.debugElement.injector.get(TeamFactory);
       // target.debugElement.injector.get(TeamFactory);
 
-      let spyDatasets = spyOn(mockDataSetFactory, 'get').and.callFake(
+      const spyDatasets = spyOn(mockDataSetFactory, 'get').and.callFake(
         (ids: string[]) => {
           return Promise.resolve([
             new DataSet({
@@ -161,7 +161,7 @@ fdescribe('header.component.ts', () => {
         .returnValue.then(() => {})
         .then(() => {})
         .then(() => {
-          let ds = component.datasets;
+          const ds = component.datasets;
           expect(ds.length).toBe(3);
           ds.forEach((d, index) => {
             expect(d.datasetId).toBe(`${index + 1}`);
@@ -177,11 +177,11 @@ fdescribe('header.component.ts', () => {
     "should load user's datasets when some fail",
     waitForAsync(() => {
       // component.ngOnInit();
-      let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
-      let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+      const mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
+      const mockTeamFactory = target.debugElement.injector.get(TeamFactory);
       target.debugElement.injector.get(TeamFactory);
 
-      let spyDatasets = spyOn(mockDataSetFactory, 'get').and.callFake(
+      const spyDatasets = spyOn(mockDataSetFactory, 'get').and.callFake(
         (ids: string[]) => {
           return Promise.resolve([
             new DataSet({
@@ -217,7 +217,7 @@ fdescribe('header.component.ts', () => {
         .returnValue.then(() => {})
         .then(() => {})
         .then(() => {
-          let ds = component.datasets;
+          const ds = component.datasets;
           expect(ds.length).toBe(2);
           expect(ds[0].datasetId).toBe('1');
           expect(ds[0].initiative.name).toBe(`Name 1`);
@@ -234,7 +234,7 @@ fdescribe('header.component.ts', () => {
   it('should get rid of subscription on destroy', () => {
     component.ngOnInit();
     // let spyEmitter = spyOn(component.emitterSubscription, "unsubscribe");
-    let spyUser = spyOn(component.userSubscription, 'unsubscribe');
+    const spyUser = spyOn(component.userSubscription, 'unsubscribe');
     target.destroy();
     expect(spyUser).toHaveBeenCalled();
     // expect(spyEmitter).toHaveBeenCalled();
@@ -248,33 +248,33 @@ fdescribe('header.component.ts', () => {
 
     describe('Authentication', () => {
       xit('should display LogIn button when no user is authenticated', () => {
-        let mockAuth = target.debugElement.injector.get(Auth);
-        let spyAuthService = spyOn(
+        const mockAuth = target.debugElement.injector.get(Auth);
+        const spyAuthService = spyOn(
           mockAuth,
           'allAuthenticated'
         ).and.returnValue(false);
         target.detectChanges();
 
-        let imgElement = target.debugElement.queryAll(
+        const imgElement = target.debugElement.queryAll(
           By.css('li#profileInformation')
         );
         expect(imgElement.length).toBe(0);
 
-        let button = target.debugElement.queryAll(By.css('form#loginForm'));
+        const button = target.debugElement.queryAll(By.css('form#loginForm'));
         expect(button.length).toBe(1);
         expect(spyAuthService).toHaveBeenCalled();
       });
 
       it('should display LogOut button and profile information when a user is authenticated', () => {
-        let mockAuth = target.debugElement.injector.get(Auth);
-        let spyAuthService = spyOn(
+        const mockAuth = target.debugElement.injector.get(Auth);
+        const spyAuthService = spyOn(
           mockAuth,
           'allAuthenticated'
         ).and.returnValue(true);
 
         target.detectChanges();
 
-        let button = target.debugElement.queryAll(By.css('a#logoutButton'));
+        const button = target.debugElement.queryAll(By.css('a#logoutButton'));
         expect(button.length).toBe(2);
         expect(spyAuthService).toHaveBeenCalled();
       });

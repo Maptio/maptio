@@ -147,7 +147,7 @@ describe('integrations.component.ts', () => {
           members: [],
           settings: { authority: 'A', helper: 'H' },
         });
-        let spyHttpGet = spyOn(
+        const spyHttpGet = spyOn(
           target.debugElement.injector.get(Http),
           'get'
         ).and.returnValue(
@@ -162,7 +162,7 @@ describe('integrations.component.ts', () => {
           )
         );
 
-        let spyTeamFactory = spyOn(
+        const spyTeamFactory = spyOn(
           target.debugElement.injector.get(TeamFactory),
           'upsert'
         ).and.returnValue(

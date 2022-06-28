@@ -38,7 +38,7 @@ describe('initiative.data.ts', () => {
   });
 
   it('Leaves description undefined at creation', () => {
-    let target = new Initiative();
+    const target = new Initiative();
     expect(target.description).toBeUndefined();
   });
 
@@ -47,7 +47,7 @@ describe('initiative.data.ts', () => {
       it('should return valid initiative when input is valid', () => {
         // fixture.load("serialize.json");
         // let jsonString = fixtures.json[0];
-        let initiative = new Initiative().deserialize(fixtures);
+        const initiative = new Initiative().deserialize(fixtures);
 
         expect(initiative).toBeDefined();
         expect(initiative.name).toBe('Root');
@@ -87,7 +87,7 @@ describe('initiative.data.ts', () => {
       tree.children = [node1, node2, node3];
       tree.id = 0;
 
-      let doSomethingSpy = jasmine.createSpy('doSomethingSpy');
+      const doSomethingSpy = jasmine.createSpy('doSomethingSpy');
       tree.traverse(function (n: Initiative) {
         doSomethingSpy(n.id);
       });
@@ -106,7 +106,7 @@ describe('initiative.data.ts', () => {
 
     it('traverses one node without children', () => {
       tree = new Initiative();
-      let doSomethingSpy = jasmine.createSpy('doSomethingSpy');
+      const doSomethingSpy = jasmine.createSpy('doSomethingSpy');
       tree.traverse(function (n: Initiative) {
         doSomethingSpy(n.id);
       });
@@ -141,7 +141,7 @@ describe('initiative.data.ts', () => {
 
   describe('getRoles', () => {
     it('should get roles when existging', () => {
-      let node = new Initiative();
+      const node = new Initiative();
       node.helpers = [
         new Helper({
           user_id: '1',
@@ -166,14 +166,14 @@ describe('initiative.data.ts', () => {
         ],
       });
 
-      let actual = node.getRoles('2');
+      const actual = node.getRoles('2');
       expect(actual.length).toBe(2);
       expect(actual[0].description).toBe('role 21');
       expect(actual[1].description).toBe('role 22');
     });
 
     it('should return empty array when not existing', () => {
-      let node = new Initiative();
+      const node = new Initiative();
       node.helpers = [
         new Helper({
           user_id: '1',
@@ -192,12 +192,12 @@ describe('initiative.data.ts', () => {
         ],
       });
 
-      let actual = node.getRoles('2');
+      const actual = node.getRoles('2');
       expect(actual).toEqual([]);
     });
 
     it('should return empty array when helper does not exits', () => {
-      let node = new Initiative();
+      const node = new Initiative();
       node.helpers = [
         new Helper({
           user_id: '1',
@@ -216,12 +216,12 @@ describe('initiative.data.ts', () => {
         ],
       });
 
-      let actual = node.getRoles('4');
+      const actual = node.getRoles('4');
       expect(actual).toEqual([]);
     });
 
     it('should return empty array when accountable does not exits', () => {
-      let node = new Initiative();
+      const node = new Initiative();
       node.helpers = [
         new Helper({
           user_id: '1',
@@ -233,7 +233,7 @@ describe('initiative.data.ts', () => {
         new Helper({ user_id: '2' }),
       ];
 
-      let actual = node.getRoles('3');
+      const actual = node.getRoles('3');
       expect(actual).toEqual([]);
     });
   });

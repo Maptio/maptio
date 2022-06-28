@@ -15,7 +15,7 @@ export class Role implements Serializable<Role> {
 
   deserialize(input: any): Role {
     if (!input || (!input.description && !input.title)) return;
-    let deserialized = new Role();
+    const deserialized = new Role();
     deserialized.shortid = input.shortid;
     deserialized.title = input.title;
     deserialized.description = input.description;
@@ -24,7 +24,7 @@ export class Role implements Serializable<Role> {
 
   tryDeserialize(input: any): [boolean, Role] {
     try {
-      let role = this.deserialize(input);
+      const role = this.deserialize(input);
       if (role !== undefined) {
         return [true, role];
       } else {

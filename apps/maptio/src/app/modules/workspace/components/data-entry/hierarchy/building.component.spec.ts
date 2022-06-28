@@ -108,15 +108,15 @@ describe('building.component.ts', () => {
     xit(
       'shoud loads data,  initializes tree and saveChanges',
       waitForAsync(() => {
-        let mockDataService = target.debugElement.injector.get(DatasetFactory);
-        let mockUserFactory = target.debugElement.injector.get(UserService);
+        const mockDataService = target.debugElement.injector.get(DatasetFactory);
+        const mockUserFactory = target.debugElement.injector.get(UserService);
 
-        let initiative = new Initiative().deserialize(fixtures);
-        let dataset = new DataSet({
+        const initiative = new Initiative().deserialize(fixtures);
+        const dataset = new DataSet({
           datasetId: 'someId',
           initiative: initiative,
         });
-        let team = new Team({
+        const team = new Team({
           team_id: 'ID1',
           members: [
             new User({ picture: `URL1`, name: `Name1`, user_id: '1' }),
@@ -124,7 +124,7 @@ describe('building.component.ts', () => {
             new User({ picture: `URL3`, name: `Name3`, user_id: '3' }),
           ],
         });
-        let spyDataService = spyOn(mockDataService, 'get').and.returnValue(
+        const spyDataService = spyOn(mockDataService, 'get').and.returnValue(
           Promise.resolve(dataset)
         );
         spyOn(mockUserFactory, 'getUsersInfo').and.callFake(
@@ -183,15 +183,15 @@ describe('building.component.ts', () => {
     xit(
       'shoud loads data,  initializes tree,  saveChanges and open node if provided',
       waitForAsync(() => {
-        let mockDataService = target.debugElement.injector.get(DatasetFactory);
-        let mockUserFactory = target.debugElement.injector.get(UserService);
+        const mockDataService = target.debugElement.injector.get(DatasetFactory);
+        const mockUserFactory = target.debugElement.injector.get(UserService);
 
-        let initiative = new Initiative().deserialize(fixtures);
-        let dataset = new DataSet({
+        const initiative = new Initiative().deserialize(fixtures);
+        const dataset = new DataSet({
           datasetId: 'someId',
           initiative: initiative,
         });
-        let team = new Team({
+        const team = new Team({
           team_id: 'ID1',
           members: [
             new User({ picture: `URL1`, name: `Name1`, user_id: '1' }),
@@ -199,7 +199,7 @@ describe('building.component.ts', () => {
             new User({ picture: `URL3`, name: `Name3`, user_id: '3' }),
           ],
         });
-        let spyDataService = spyOn(mockDataService, 'get').and.returnValue(
+        const spyDataService = spyOn(mockDataService, 'get').and.returnValue(
           Promise.resolve(dataset)
         );
         spyOn(mockUserFactory, 'getUsersInfo').and.callFake(
@@ -255,7 +255,7 @@ describe('building.component.ts', () => {
   describe('Tree manipulation', () => {
     describe('Update', () => {
       it('should update tree component', () => {
-        let treeModel = {
+        const treeModel = {
           update: jest.fn(),
         };
         component.updateTreeModel(treeModel);
@@ -265,20 +265,20 @@ describe('building.component.ts', () => {
 
     describe('Validate', () => {
       it("should check that the root's name is valid", () => {
-        let root = new Initiative();
+        const root = new Initiative();
         component.nodes = [root];
         expect(component.isRootValid()).toBe(false);
       });
 
       it("should check that the root's name is valid", () => {
-        let root = new Initiative();
+        const root = new Initiative();
         root.name = 'anything';
         component.nodes = [root];
         expect(component.isRootValid()).toBe(true);
       });
 
       it("should check that the root's name is valid", () => {
-        let root = new Initiative();
+        const root = new Initiative();
         root.name = '     ';
         component.nodes = [root];
         expect(component.isRootValid()).toBe(false);
@@ -289,8 +289,8 @@ describe('building.component.ts', () => {
   describe('Save changes', () => {
     describe('saveChanges', () => {
       it('should emit data to save', () => {
-        let spyEmit = spyOn(component.save, 'emit');
-        let root = new Initiative();
+        const spyEmit = spyOn(component.save, 'emit');
+        const root = new Initiative();
         component.nodes = [root];
         component.saveChanges();
         expect(spyEmit).toHaveBeenCalledWith({
@@ -317,8 +317,8 @@ describe('building.component.ts', () => {
 
   describe('Open Details', () => {
     it('should emit selected node', () => {
-      let spy = spyOn(component.openDetails, 'emit');
-      let newNode = new Initiative({ name: 'newly updated' });
+      const spy = spyOn(component.openDetails, 'emit');
+      const newNode = new Initiative({ name: 'newly updated' });
       component.openNodeDetails(newNode);
       expect(spy).toHaveBeenCalledWith(newNode);
     });
@@ -326,7 +326,7 @@ describe('building.component.ts', () => {
 
   describe('Remove node', () => {
     it('should remove from root node', () => {
-      let root = new Initiative(),
+      const root = new Initiative(),
         node1 = new Initiative(),
         node2 = new Initiative(),
         node3 = new Initiative();
@@ -351,7 +351,7 @@ describe('building.component.ts', () => {
     });
 
     it('should remove from children nodes', () => {
-      let root = new Initiative(),
+      const root = new Initiative(),
         node1 = new Initiative(),
         node2 = new Initiative(),
         node3 = new Initiative();
@@ -380,7 +380,7 @@ describe('building.component.ts', () => {
 
   describe('Add node', () => {
     it('should add to root node in first place', () => {
-      let root = new Initiative(),
+      const root = new Initiative(),
         node1 = new Initiative(),
         node2 = new Initiative(),
         node3 = new Initiative();
@@ -411,7 +411,7 @@ describe('building.component.ts', () => {
     });
 
     it('should add to children nodes in first place', () => {
-      let root = new Initiative(),
+      const root = new Initiative(),
         node1 = new Initiative(),
         node2 = new Initiative(),
         node3 = new Initiative();

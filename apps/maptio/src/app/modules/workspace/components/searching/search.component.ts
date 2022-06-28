@@ -114,12 +114,12 @@ export class SearchComponent implements OnInit {
         this.cd.markForCheck();
       }),
       map((search) => {
-        let usersHeader = <SearchResult>{
+        const usersHeader = <SearchResult>{
           type: SearchResultType.User,
           result: null,
           header: 'People',
         };
-        let circlesHeader = <SearchResult>{
+        const circlesHeader = <SearchResult>{
           type: SearchResultType.Initiative,
           result: null,
           header: 'Circles',
@@ -146,7 +146,7 @@ export class SearchComponent implements OnInit {
   select(event: NgbTypeaheadSelectItemEvent) {
     if (!event.item || !event.item.result) return;
     if (event.item.type === SearchResultType.Initiative) {
-      let initiative = event.item.result;
+      const initiative = event.item.result;
       this.isSearching = false;
       this.cd.markForCheck();
       this.selectInitiative.emit(initiative);

@@ -5,11 +5,11 @@ import { Directive, ElementRef, Renderer2 } from '@angular/core';
 })
 export class ClosableDirective {
   constructor(elr: ElementRef, private renderer: Renderer2) {
-    let i = renderer.createElement('i');
+    const i = renderer.createElement('i');
     renderer.addClass(i, 'fas');
     renderer.addClass(i, 'fa-times');
 
-    let closingSpan = renderer.createElement('button');
+    const closingSpan = renderer.createElement('button');
     renderer.addClass(closingSpan, 'position-absolute');
     renderer.addClass(closingSpan, 'text-muted');
     renderer.addClass(closingSpan, 'top-right');

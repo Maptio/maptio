@@ -93,7 +93,7 @@ describe('dataset.factory.ts', () => {
               }
             });
 
-            let user = new User({ user_id: 'uniqueId' });
+            const user = new User({ user_id: 'uniqueId' });
 
             target.get(user).then((datasets) => {
               expect(datasets.length).toBe(3);
@@ -128,7 +128,7 @@ describe('dataset.factory.ts', () => {
               }
             });
 
-            let user = new User({ user_id: 'uniqueId' });
+            const user = new User({ user_id: 'uniqueId' });
 
             target.get(user).then((datasets) => {
               expect(datasets.length).toBe(0);
@@ -164,7 +164,7 @@ describe('dataset.factory.ts', () => {
               }
             });
 
-            let team = new Team({ team_id: 'teamId' });
+            const team = new Team({ team_id: 'teamId' });
 
             target.get(team).then((datasets) => {
               expect(datasets.length).toBe(3);
@@ -199,7 +199,7 @@ describe('dataset.factory.ts', () => {
               }
             });
 
-            let user = new User({ user_id: 'uniqueId' });
+            const user = new User({ user_id: 'uniqueId' });
 
             target.get(user).then((datasets) => {
               expect(datasets.length).toBe(0);
@@ -302,7 +302,7 @@ describe('dataset.factory.ts', () => {
       inject(
         [DatasetFactory, MockBackend],
         (target: DatasetFactory, mockBackend: MockBackend) => {
-          let dataset = new DataSet({
+          const dataset = new DataSet({
             datasetId: 'some_unique_id',
             initiative: new Initiative({ name: 'Project' }),
           });
@@ -397,8 +397,8 @@ describe('dataset.factory.ts', () => {
               );
             }
           });
-          let dataset = new DataSet({ datasetId: 'did' });
-          let user = new User({ user_id: 'uid' });
+          const dataset = new DataSet({ datasetId: 'did' });
+          const user = new User({ user_id: 'uid' });
           target.add(dataset, user).then((result: boolean) => {
             expect(result).toBe(true);
           });
@@ -461,7 +461,7 @@ describe('dataset.factory.ts', () => {
       inject(
         [DatasetFactory, MockBackend],
         (target: DatasetFactory, mockBackend: MockBackend) => {
-          let dataset = new DataSet({
+          const dataset = new DataSet({
             datasetId: 'some_unique_id',
             initiative: new Initiative({ name: 'Project' }),
           });
@@ -502,7 +502,7 @@ describe('dataset.factory.ts', () => {
       inject(
         [DatasetFactory, MockBackend],
         (target: DatasetFactory, mockBackend: MockBackend) => {
-          let dataset = new DataSet({
+          const dataset = new DataSet({
             datasetId: 'some_unique_id',
             initiative: new Initiative({ name: 'Project' }),
           });

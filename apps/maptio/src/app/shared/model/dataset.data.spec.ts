@@ -7,7 +7,7 @@ describe('Dataset Tests', () => {
   describe('Serialization', () => {
     describe('deserialize', () => {
       it('should deserialize a valid input', () => {
-        let deserialized = new DataSet().deserialize(fixtures);
+        const deserialized = new DataSet().deserialize(fixtures);
 
         expect(deserialized).toBeDefined();
         expect(deserialized.datasetId).toBe('uniqueId');
@@ -19,24 +19,24 @@ describe('Dataset Tests', () => {
     });
     describe('tryDeserialize', () => {
       it('should return true when input is valid', () => {
-        let deserialized = new DataSet().tryDeserialize(fixtures);
+        const deserialized = new DataSet().tryDeserialize(fixtures);
         expect(deserialized).toBeDefined();
         expect(deserialized[0]).toBe(true);
         expect(deserialized[1]).toBeDefined();
       });
 
       it('should return false when input is invalid', () => {
-        let deserialized = new DataSet().tryDeserialize('{}');
+        const deserialized = new DataSet().tryDeserialize('{}');
         expect(deserialized).toBeDefined();
         expect(deserialized[0]).toBe(false);
         expect(deserialized[1]).toBeUndefined();
       });
 
       it('should return false when parsing fails', () => {
-        let dataset = new DataSet();
-        let input = JSON.parse('{}');
+        const dataset = new DataSet();
+        const input = JSON.parse('{}');
         spyOn(dataset, 'deserialize').and.throwError('Cannot be parsed');
-        let deserialized = dataset.tryDeserialize(input);
+        const deserialized = dataset.tryDeserialize(input);
         expect(deserialized).toBeDefined();
         expect(deserialized[0]).toBe(false);
         expect(deserialized[1]).toBeUndefined();

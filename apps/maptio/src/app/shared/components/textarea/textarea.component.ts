@@ -19,14 +19,14 @@ export class CommonTextareaComponent implements OnInit {
   @Input('placeholder') placeholder: string;
   @Input('text') text: string;
   @Input('rows') rows: number;
-  @Input('label') label: string = 'Edit';
+  @Input('label') label = 'Edit';
   @Input('isUnauthorized') isUnauthorized: boolean;
   @Input('isHeader') isHeader: boolean;
 
   @Output('save') save: EventEmitter<string> = new EventEmitter<string>();
 
   isEditMode: boolean;
-  isTextEmpty: boolean = true;
+  isTextEmpty = true;
   showUnauthorized: boolean;
 
   KB_URL_MARKDOWN = environment.KB_URL_MARKDOWN;

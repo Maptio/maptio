@@ -29,7 +29,7 @@ export class DataService {
 }
 
 export class CounterService {
-  private _counter$: ReplaySubject<{ datasetId: String; time: any }>;
+  private _counter$: ReplaySubject<{ datasetId: string; time: any }>;
 
   // private updateMap: Map<String, number>;
   constructor() {
@@ -37,11 +37,11 @@ export class CounterService {
     // this.updateMap = new Map<String, number>();
   }
 
-  set(data: { datasetId: String; time: any }): void {
+  set(data: { datasetId: string; time: any }): void {
     this._counter$.next(data);
   }
 
-  get(datasetId: String): Observable<{ datasetId: String; time: any }> {
+  get(datasetId: string): Observable<{ datasetId: string; time: any }> {
     return this._counter$
       .asObservable()
       .pipe(filter((c) => c.datasetId === datasetId));

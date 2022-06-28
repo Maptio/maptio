@@ -36,7 +36,7 @@ describe('personal.component.ts', () => {
     target = TestBed.createComponent(PersonalSummaryComponent);
     component = target.componentInstance;
 
-    let mockDataService = target.debugElement.injector.get(DataService);
+    const mockDataService = target.debugElement.injector.get(DataService);
     jest
       .spyOn(mockDataService, 'get')
       .mockResolvedValue(

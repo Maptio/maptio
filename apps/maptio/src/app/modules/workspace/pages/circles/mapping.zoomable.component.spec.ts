@@ -97,8 +97,8 @@ describe('mapping.zoomable.component.ts', () => {
     component.zoomInitiative$ = observableOf(new Initiative());
     component.isLocked$ = observableOf(true);
 
-    let data = new Initiative().deserialize(fixtures);
-    let mockDataService = target.debugElement.injector.get(DataService);
+    const data = new Initiative().deserialize(fixtures);
+    const mockDataService = target.debugElement.injector.get(DataService);
     spyOn(mockDataService, 'get').and.returnValue(
       observableOf({
         initiative: data,
@@ -124,16 +124,16 @@ describe('mapping.zoomable.component.ts', () => {
   // });
 
   it('should draw SVG with correct size when data is valid', () => {
-    let svgs = document.querySelectorAll('svg#map');
+    const svgs = document.querySelectorAll('svg#map');
     expect(svgs.length).toBe(1);
     expect(svgs.item(0).getAttribute('width')).toBe(`100%`);
     expect(svgs.item(0).getAttribute('height')).toBe(`100%`);
   });
 
   xit('should draw SVG centered when data is valid', () => {
-    let svgs = document.querySelectorAll('svg#map');
+    const svgs = document.querySelectorAll('svg#map');
     expect(svgs.length).toBe(1);
-    let svg = svgs.item(0);
+    const svg = svgs.item(0);
 
     expect(svg.querySelector('g')).toBeDefined();
     expect(svg.querySelector('g').getAttribute('transform')).toBe(
@@ -142,17 +142,17 @@ describe('mapping.zoomable.component.ts', () => {
   });
 
   xit('should draw SVG with correct number of circles when data is valid', () => {
-    let svgs = document.querySelectorAll('svg#map');
+    const svgs = document.querySelectorAll('svg#map');
     expect(svgs.length).toBe(1);
-    let g = svgs.item(0).querySelector('g');
+    const g = svgs.item(0).querySelector('g');
     expect(g.querySelectorAll('circle.node.node--root').length).toBe(1);
     expect(g.querySelectorAll('circle.node').length).toBe(3);
   });
 
   xit('should draw SVG with correct text labels  when data is valid', () => {
-    let svgs = document.querySelectorAll('svg#map');
+    const svgs = document.querySelectorAll('svg#map');
     expect(svgs.length).toBe(1);
-    let g = svgs.item(0).querySelector('g');
+    const g = svgs.item(0).querySelector('g');
     expect(g.querySelectorAll('.name').length).toBe(3);
     expect(g.querySelectorAll('.name')[0].textContent).toBe('');
     expect(
@@ -165,8 +165,8 @@ describe('mapping.zoomable.component.ts', () => {
 
   xit('should calculate paths when data is valid', () => {
     expect(component.uiService.getCircularPath).toHaveBeenCalledTimes(3);
-    let svg = document.querySelectorAll('svg#map').item(0);
-    let defs = svg.querySelector('defs');
+    const svg = document.querySelectorAll('svg#map').item(0);
+    const defs = svg.querySelector('defs');
     expect(defs.querySelectorAll('path').length).toBe(3);
     expect(defs.querySelectorAll('path#path0')).toBeDefined();
     expect(defs.querySelectorAll('path#path1')).toBeDefined();

@@ -60,8 +60,8 @@ export class EditTagsComponent implements OnInit {
 
   addTag() {
     if (this.newTagForm.dirty && this.newTagForm.valid) {
-      let name = this.newTagForm.controls['name'].value;
-      let tag = new Tag().create(name, this.newTagColor);
+      const name = this.newTagForm.controls['name'].value;
+      const tag = new Tag().create(name, this.newTagColor);
 
       this.tags.unshift(<SelectableTag>tag);
       this.edit.emit(this.tags);
@@ -75,7 +75,7 @@ export class EditTagsComponent implements OnInit {
   }
 
   removeTag(tag: Tag) {
-    let index = this.tags.findIndex((t) => t.shortid === tag.shortid);
+    const index = this.tags.findIndex((t) => t.shortid === tag.shortid);
     if (index >= 0) {
       this.tags.splice(index, 1);
       this.analytics.eventTrack('Map', {

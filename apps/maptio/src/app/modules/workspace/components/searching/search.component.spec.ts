@@ -35,9 +35,9 @@ describe('search.component.ts', () => {
 
     component = target.componentInstance;
 
-    let boss = new Helper({ user_id: 'boss', name: 'Boss' });
-    let helper1 = new Helper({ user_id: 'helper1', name: 'Helper1' });
-    let helper2 = new Helper({ user_id: 'helper2', name: 'Helper2' });
+    const boss = new Helper({ user_id: 'boss', name: 'Boss' });
+    const helper1 = new Helper({ user_id: 'helper1', name: 'Helper1' });
+    const helper2 = new Helper({ user_id: 'helper2', name: 'Helper2' });
 
     component.list = [
       new Initiative({
@@ -79,7 +79,7 @@ describe('search.component.ts', () => {
   });
 
   it('shoud format results correctly', () => {
-    let actual = component.formatter(component.list[0]);
+    const actual = component.formatter(component.list[0]);
     expect(actual).toBe('One');
   });
 
@@ -97,24 +97,24 @@ describe('search.component.ts', () => {
 
   describe('Filter', () => {
     it('should return correct results when searching name', () => {
-      let term = 'one';
-      let actual = component.findInitiatives(term);
+      const term = 'one';
+      const actual = component.findInitiatives(term);
       expect(actual.length).toBe(1);
       expect(actual[0].type).toEqual(SearchResultType.Initiative);
       expect(actual[0].result).toEqual(component.list[0]);
     });
 
     it('should return correct results when searching description', () => {
-      let term = 'deux';
-      let actual = component.findInitiatives(term);
+      const term = 'deux';
+      const actual = component.findInitiatives(term);
       expect(actual.length).toBe(1);
       expect(actual[0].type).toEqual(SearchResultType.Initiative);
       expect(actual[0].result).toEqual(component.list[1]);
     });
 
     it('should return correct results when searching person', () => {
-      let term = 'boss';
-      let actual = component.findInitiatives(term);
+      const term = 'boss';
+      const actual = component.findInitiatives(term);
       expect(actual.length).toBe(4);
 
       expect(actual[0].type).toEqual(SearchResultType.Initiative);
@@ -128,8 +128,8 @@ describe('search.component.ts', () => {
     });
 
     it('should return correct results when searching person', () => {
-      let term = 'helper';
-      let actual = component.findInitiatives(term);
+      const term = 'helper';
+      const actual = component.findInitiatives(term);
       expect(actual.length).toBe(4);
       expect(actual[0].type).toEqual(SearchResultType.Initiative);
       expect(actual[0].result).toEqual(component.list[0]);
@@ -146,14 +146,14 @@ describe('search.component.ts', () => {
     it(
       'calls correct dependencies',
       waitForAsync(() => {
-        let spyObj = {
+        const spyObj = {
           debounceTime: jest.fn().mockReturnThis(),
           distinctUntilChanged: jest.fn().mockReturnThis(),
           do: jest.fn().mockReturnThis(),
           map: jest.fn().mockReturnThis(),
         } as any;
 
-        let spyFilter = spyOn(component, 'findInitiatives').and.returnValue([]);
+        const spyFilter = spyOn(component, 'findInitiatives').and.returnValue([]);
 
         component.search(spyObj);
 

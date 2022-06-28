@@ -89,8 +89,8 @@ export class PersonalSummaryComponent implements OnInit {
   }
 
   getSummary() {
-    let authorities: Initiative[] = [];
-    let helps: Initiative[] = [];
+    const authorities: Initiative[] = [];
+    const helps: Initiative[] = [];
 
     this._initiative.traverse(
       function (i: Initiative) {
@@ -161,7 +161,7 @@ export class PersonalSummaryComponent implements OnInit {
 
   setColumnNumber(columns: number) {
     this.columnNumber = columns;
-    let settings = this.mapSettingsService.get(this._dataset.datasetId);
+    const settings = this.mapSettingsService.get(this._dataset.datasetId);
     settings.directoryColumnsNumber = columns;
     this.mapSettingsService.set(this._dataset.datasetId, settings);
 

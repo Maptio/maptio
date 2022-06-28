@@ -16,15 +16,15 @@ export class ExportService {
   constructor(private http: HttpClient) {}
 
   getReport(dataset: DataSet): Observable<string> {
-    let list = hierarchy(dataset.initiative).descendants(); // flatten with lodash if possible
-    let exportString: string =
+    const list = hierarchy(dataset.initiative).descendants(); // flatten with lodash if possible
+    let exportString =
       'Depth,Circle,Parent Circle,Type,Person,Participants,Helpers,Tags';
 
     dataset.initiative.traverse((i) => {
-      let inList = list.find((l) => l.data.id === i.id);
-      let nbrHelpers = i.helpers.length;
-      let nbrAll = nbrHelpers + (i.accountable ? 1 : 0);
-      let tags = i.tags.map((t) => t.name).join('/');
+      const inList = list.find((l) => l.data.id === i.id);
+      const nbrHelpers = i.helpers.length;
+      const nbrAll = nbrHelpers + (i.accountable ? 1 : 0);
+      const tags = i.tags.map((t) => t.name).join('/');
 
       exportString += `\n"${inList.depth}","${i.name}","${
         inList.parent.data.name
@@ -60,10 +60,10 @@ export class ExportService {
   // }
 
   getSnapshot(svgString: string, datasetId: string) {
-    let headers = new HttpHeaders();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'text/html');
     headers.append('Accept', 'text/html');
-    let req = new HttpRequest(
+    const req = new HttpRequest(
       'POST',
       `/api/v1/images/upload/${datasetId}`,
       svgString,

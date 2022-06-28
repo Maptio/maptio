@@ -111,21 +111,21 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public slug: string;
   public team: Team;
 
-  public _isDisplayOptions: Boolean = false;
+  public _isDisplayOptions = false;
   private isAuthorityCentricMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     true
   );
-  public _isAuthorityCentricMode: boolean = true;
+  public _isAuthorityCentricMode = true;
 
   public showContextMenuOf$: Subject<{
     initiatives: Initiative[];
-    x: Number;
-    y: Number;
+    x: number;
+    y: number;
     isReadOnlyContextMenu: boolean;
   }> = new Subject<{
     initiatives: Initiative[];
-    x: Number;
-    y: Number;
+    x: number;
+    y: number;
     isReadOnlyContextMenu: boolean;
   }>();
 
@@ -149,7 +149,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   T: any;
   TRANSITION_DURATION = 250;
 
-  CIRCLE_RADIUS: number = 32;
+  CIRCLE_RADIUS = 32;
   LINE_WEIGHT = 5;
   FADED_OPACITY = 0.05;
   private svg: any;
@@ -199,7 +199,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .subscribe(([dataset, color, authorityCentricMode]) => {
         this.dataset = dataset.dataset;
 
-        let data = <any>dataset.initiative;
+        const data = <any>dataset.initiative;
         this.rootNode = dataset.initiative;
         this.team = dataset.team;
         this.slug = data.getSlug();
@@ -233,11 +233,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   init() {
     this.uiService.clean();
 
-    let svg: any = d3
+    const svg: any = d3
       .select('svg#map')
       .attr('width', this.width)
       .attr('height', this.height);
-    let g = svg
+    const g = svg
       .append('g')
       .attr('width', this.width)
       .attr('height', this.height)
@@ -276,14 +276,14 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       ((-d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1)) / 500) *
       2.5;
 
-    let zooming = d3
+    const zooming = d3
       .zoom()
       .wheelDelta(wheelDelta)
       .scaleExtent([1 / 10, 4])
       .on('zoom', zoomed)
       .on('end', () => {
-        let transform = d3.getEvent().transform;
-        let tagFragment = this.tagsState
+        const transform = d3.getEvent().transform;
+        const tagFragment = this.tagsState
           .filter((t) => t.isSelected)
           .map((t) => t.shortid)
           .join(',');
@@ -343,7 +343,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           );
       });
 
-    let [clearSearchInitiative, highlightInitiative] = partition(
+    const [clearSearchInitiative, highlightInitiative] = partition(
       this.zoomInitiative$,
       (node) => node === null
     );
@@ -351,8 +351,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     clearSearchInitiative
       .pipe(combineLatest(this.isAuthorityCentricMode$.asObservable()))
       .subscribe((zoomed: [Initiative, boolean]) => {
-        let node = zoomed[0];
-        let isAuthorityCentricMode = zoomed[1];
+        const node = zoomed[0];
+        const isAuthorityCentricMode = zoomed[1];
 
         g.selectAll('path.edge')
           .style('stroke-opacity', function (d: any) {
@@ -368,10 +368,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     highlightInitiative
       .pipe(combineLatest(this.isAuthorityCentricMode$.asObservable()))
       .subscribe((zoomed: [Initiative, boolean]) => {
-        let node = zoomed[0];
-        let isAuthorityCentricMode = zoomed[1];
-        let highlightElement = this.highlightElement;
-        let FADED_OPACITY = this.FADED_OPACITY;
+        const node = zoomed[0];
+        const isAuthorityCentricMode = zoomed[1];
+        const highlightElement = this.highlightElement;
+        const FADED_OPACITY = this.FADED_OPACITY;
 
         g.selectAll('path.edge').each(function (d: any) {
           highlightElement(
@@ -386,16 +386,16 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     this.selectableTags$
       .pipe(combineLatest(this.isAuthorityCentricMode$.asObservable()))
       .subscribe((value) => {
-        let tags = value[0];
-        let isAuthorityCentricMode = value[1];
-        let highlightElement = this.highlightElement;
+        const tags = value[0];
+        const isAuthorityCentricMode = value[1];
+        const highlightElement = this.highlightElement;
 
-        let [selectedTags, unselectedTags] = _partition(
+        const [selectedTags, unselectedTags] = _partition(
           tags,
           (t) => t.isSelected
         );
-        let uiService = this.uiService;
-        let FADED_OPACITY = this.FADED_OPACITY;
+        const uiService = this.uiService;
+        const FADED_OPACITY = this.FADED_OPACITY;
         g.selectAll('path.edge').each(function (d: any) {
           highlightElement(
             d3.select(this),
@@ -434,9 +434,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   }
 
   private prepareAuthorityCentric(initiativeList: HierarchyNode<Initiative>[]) {
-    let nodesRaw = initiativeList
+    const nodesRaw = initiativeList
       .map((d) => {
-        let all = flatten([...[d.data.accountable], d.data.helpers]);
+        const all = flatten([...[d.data.accountable], d.data.helpers]);
         return uniqBy(remove(all), (a) => {
           return a.user_id;
         });
@@ -454,7 +454,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         };
       });
 
-    let rawlinks = initiativeList
+    const rawlinks = initiativeList
       .map((i) => {
         return i.data;
       })
@@ -471,7 +471,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         });
       })
       .reduce((pre, cur) => {
-        let reduced = remove([...pre, ...cur]);
+        const reduced = remove([...pre, ...cur]);
 
         return reduced;
       })
@@ -486,7 +486,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         };
       });
 
-    let links = _map(
+    const links = _map(
       groupBy(rawlinks, 'linkid'),
       (items: Array<any>, linkid: string) => {
         return {
@@ -511,9 +511,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   }
 
   private prepareHelperCentric(initiativeList: HierarchyNode<Initiative>[]) {
-    let nodesRaw = initiativeList
+    const nodesRaw = initiativeList
       .map((d) => {
-        let all = flatten([...[d.data.accountable], d.data.helpers]);
+        const all = flatten([...[d.data.accountable], d.data.helpers]);
         return uniqBy(remove(all), (a) => {
           return a.user_id;
         });
@@ -531,14 +531,14 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         };
       });
 
-    let rawlinks = initiativeList
+    const rawlinks = initiativeList
       .map((i) => {
         return i.data;
       })
       .map((i) => {
-        let allWorkers = remove(flatten([...[i.accountable], i.helpers]));
+        const allWorkers = remove(flatten([...[i.accountable], i.helpers]));
 
-        let result: any[] = [];
+        const result: any[] = [];
         allWorkers.forEach((w, ix, arr) => {
           arr.forEach((o) => {
             if (o.user_id !== w.user_id) {
@@ -555,7 +555,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         return result;
       })
       .reduce((pre, cur) => {
-        let reduced = remove([...pre, ...cur]);
+        const reduced = remove([...pre, ...cur]);
 
         return reduced;
       })
@@ -573,10 +573,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         };
       });
 
-    let links = _map(
+    const links = _map(
       groupBy(rawlinks, 'linkid'),
       (items: any, linkid: string) => {
-        let uniqueItems = uniqBy(items, (i: any) => i.initiative);
+        const uniqueItems = uniqBy(items, (i: any) => i.initiative);
         return {
           source: uniqueItems[0].source,
           target: uniqueItems[0].target,
@@ -646,32 +646,32 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       this.init();
     }
 
-    let g = this.g;
-    let svg = this.svg;
-    let fontSize = this.fontSize;
-    let width = this.width;
-    let height = this.height;
-    let bilinks: Array<any> = [];
-    let uiService = this.uiService;
-    let showDetailsOf$ = this.showDetailsOf$;
-    let showToolipOf$ = this.showToolipOf$;
+    const g = this.g;
+    const svg = this.svg;
+    const fontSize = this.fontSize;
+    const width = this.width;
+    const height = this.height;
+    const bilinks: Array<any> = [];
+    const uiService = this.uiService;
+    const showDetailsOf$ = this.showDetailsOf$;
+    const showToolipOf$ = this.showToolipOf$;
     const canOpenInitiativeContextMenu = this.permissionsService.canOpenInitiativeContextMenu();
-    let showContextMenuOf$ = this.showContextMenuOf$;
-    let datasetSlug = this.slug;
-    let datasetId = this.datasetId;
-    let getTags = this.getTags.bind(this);
-    let setIsNoNodes = this.setIsNoNodes.bind(this);
-    let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
-    let LINE_WEIGHT = this.LINE_WEIGHT;
-    let FADED_OPACITY = this.FADED_OPACITY;
-    let hideOptions$ = this.hideOptions$;
-    let highlightElement = this.highlightElement;
+    const showContextMenuOf$ = this.showContextMenuOf$;
+    const datasetSlug = this.slug;
+    const datasetId = this.datasetId;
+    const getTags = this.getTags.bind(this);
+    const setIsNoNodes = this.setIsNoNodes.bind(this);
+    const CIRCLE_RADIUS = this.CIRCLE_RADIUS;
+    const LINE_WEIGHT = this.LINE_WEIGHT;
+    const FADED_OPACITY = this.FADED_OPACITY;
+    const hideOptions$ = this.hideOptions$;
+    const highlightElement = this.highlightElement;
 
-    let initiativesList: HierarchyNode<Initiative>[] = d3
+    const initiativesList: HierarchyNode<Initiative>[] = d3
       .hierarchy(data)
       .descendants();
 
-    let graph = isAuthorityCentricMode
+    const graph = isAuthorityCentricMode
       ? this.prepareAuthorityCentric(initiativesList)
       : this.prepareHelperCentric(initiativesList);
     if (graph.nodes.length === 0) {
@@ -679,10 +679,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       return;
     }
 
-    let router = this.router;
-    let slug = this.slug;
+    const router = this.router;
+    const slug = this.slug;
 
-    let simulation = d3
+    const simulation = d3
       .forceSimulation()
       .force(
         'link',
@@ -703,7 +703,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     svg.selectAll('defs > marker').style('fill', seedColor);
 
-    let patterns = g.select('defs').selectAll('pattern').data(graph.nodes);
+    const patterns = g.select('defs').selectAll('pattern').data(graph.nodes);
     patterns
       .enter()
       .append('pattern')
@@ -720,13 +720,13 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         return d.picture;
       });
 
-    let nodes = graph.nodes,
+    const nodes = graph.nodes,
       nodeById = d3.d3Map(nodes, function (d: any) {
         return d.id;
       }),
       links = graph.links;
 
-    let [selectedTags, unselectedTags] = _partition(
+    const [selectedTags, unselectedTags] = _partition(
       getTags(),
       (t: SelectableTag) => t.isSelected
     );
@@ -739,7 +739,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       initiatives: Array<string>;
       tags: Array<string>;
     }) {
-      let s = (link.source = <any>nodeById.get(link.source)),
+      const s = (link.source = <any>nodeById.get(link.source)),
         t = (link.target = <any>nodeById.get(link.target)),
         i = {},
         weight = link.weight,
@@ -851,7 +851,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .on('mouseover', function (d: any) {
         d3.select(this).style('fill', d3.color(seedColor).darker(1).toString());
 
-        let sourceNode = `${d.id}`;
+        const sourceNode = `${d.id}`;
         let connectedNodes: string[] = [];
         let connectedInitiatives: number[] = [];
         // highlight connected paths
@@ -878,7 +878,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           );
         });
 
-        let list = initiativesList
+        const list = initiativesList
           .map((i) => i.data)
           .filter((i) => {
             return connectedInitiatives.indexOf(i.id) > -1;
@@ -919,7 +919,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .on('mouseover', function (d: any) {
         d3.getEvent().stopPropagation();
 
-        let path = d3.select(this);
+        const path = d3.select(this);
         path
           .style('stroke-opacity', 1)
           .style('stroke', d3.color(seedColor).darker(1).toString())
@@ -931,9 +931,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         //   .node()
         //   .getPointAtLength(0.5 * path.node().getTotalLength());
 
-        let ids: any[] = d[4];
+        const ids: any[] = d[4];
 
-        let list = initiativesList
+        const list = initiativesList
           .map((i) => i.data)
           .filter((i) => {
             return ids.indexOf(i.id) > -1;
@@ -944,7 +944,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         hideOptions$.next(true);
       })
       .on('mouseout', function (d: any) {
-        let path = d3.select(this);
+        const path = d3.select(this);
         path
           .style('stroke-opacity', 1)
           .style('stroke', seedColor)
@@ -965,23 +965,23 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         if (!canOpenInitiativeContextMenu) return;
 
         d3.getEvent().preventDefault();
-        let mousePosition = d3.mouse(this);
-        let matrix = this.getCTM().translate(
+        const mousePosition = d3.mouse(this);
+        const matrix = this.getCTM().translate(
           +this.getAttribute('cx'),
           +this.getAttribute('cy')
         );
 
-        let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 };
+        const mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 };
 
-        let ids: any[] = d[4];
+        const ids: any[] = d[4];
 
-        let list = initiativesList
+        const list = initiativesList
           .map((i) => i.data)
           .filter((i) => {
             return ids.indexOf(i.id) > -1;
           });
 
-        let path = d3.select(this);
+        const path = d3.select(this);
         showContextMenuOf$.next({
           initiatives: list,
           x: uiService.getContextMenuCoordinates(mouse, matrix).x,
@@ -1034,11 +1034,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     // }
 
     function positionLink(d: any) {
-      let source = d[0],
+      const source = d[0],
         target = d[2];
       // // fit path like you've been doing
       //   path.attr("d", function(d){
-      let dx = target.x - source.x,
+      const dx = target.x - source.x,
         dy = target.y - source.y,
         dr = Math.sqrt(dx * dx + dy * dy);
       return (
@@ -1058,18 +1058,18 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     }
 
     function positionArrow(d: any) {
-      let source = d[0],
+      const source = d[0],
         target = d[2],
         weight = d[3];
       // length of current path
-      let pl = this.getTotalLength(),
+      const pl = this.getTotalLength(),
         // radius of circle plus marker head
         r =
           CIRCLE_RADIUS * 1.5 +
           Math.sqrt(CIRCLE_RADIUS * 2 + CIRCLE_RADIUS * 2), // 16.97 is the "size" of the marker Math.sqrt(12**2 + 12 **2)
         // position close to where path intercepts circle
         m = this.getPointAtLength(pl - r);
-      let dx = m.x - source.x,
+      const dx = m.x - source.x,
         dy = m.y - source.y,
         dr = Math.sqrt(dx * dx + dy * dy);
 

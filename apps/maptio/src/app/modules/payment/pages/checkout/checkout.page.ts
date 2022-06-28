@@ -42,12 +42,12 @@ export class CheckoutComponent implements OnInit {
         combineLatest(this.userService.user$),
 
         tap((data) => {
-          let params = data[0];
-          let user = data[1];
+          const params = data[0];
+          const user = data[1];
 
-          let subscriptionId = params['sub_id'];
-          let customerId = params['customer_id'];
-          let planId = params['plan_id'];
+          const subscriptionId = params['sub_id'];
+          const customerId = params['customer_id'];
+          const planId = params['plan_id'];
           this.planPrice = params['plan_price'] / 100;
           this.customerEmail = params['customer_email'];
           this.renewalDate = params['renewal_date'];

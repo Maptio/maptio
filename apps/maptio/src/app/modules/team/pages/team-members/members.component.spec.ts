@@ -307,10 +307,10 @@ describe('members.component.ts', () => {
             new User({ user_id: '3' }),
           ],
         });
-        let user = new User({ user_id: '2' });
+        const user = new User({ user_id: '2' });
 
-        let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
-        let spyUpsert = spyOn(mockTeamFactory, 'upsert').and.returnValue(
+        const mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+        const spyUpsert = spyOn(mockTeamFactory, 'upsert').and.returnValue(
           Promise.resolve(true)
         );
         spyOn(component, 'getAllMembers');
@@ -331,10 +331,10 @@ describe('members.component.ts', () => {
           name: 'My team',
           members: [new User({ user_id: '1' })],
         });
-        let user = new User({ user_id: '1' });
+        const user = new User({ user_id: '1' });
 
-        let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
-        let spyUpsert = spyOn(mockTeamFactory, 'upsert').and.returnValue(
+        const mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+        const spyUpsert = spyOn(mockTeamFactory, 'upsert').and.returnValue(
           Promise.resolve(true)
         );
         spyOn(component, 'getAllMembers');
@@ -363,7 +363,7 @@ describe('members.component.ts', () => {
         lastname: 'Last',
       });
       component.inviteForm.markAsDirty();
-      let spy = spyOn(component, 'createUserFullDetails').and.returnValue(
+      const spy = spyOn(component, 'createUserFullDetails').and.returnValue(
         Promise.resolve(true)
       );
       spyOn(component, 'getAllMembers');
