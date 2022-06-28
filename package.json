@@ -30,6 +30,7 @@
     "format": "nx format:write",
     "format:write": "nx format:write",
     "format:check": "nx format:check",
+    "format-all": "prettier --ignore-path .gitignore \"**/*.+(js|ts|html|css|scss|json)\" --write",
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
