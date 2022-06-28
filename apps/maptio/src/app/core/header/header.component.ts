@@ -72,8 +72,8 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
             map(
               (value: {
                 created_at: Date;
-                freeTrialLength: Number; // eslint-disable-line @typescript-eslint/ban-types
-                isPaying: Boolean; // eslint-disable-line @typescript-eslint/ban-types
+                freeTrialLength: number;
+                isPaying: boolean;
               }) => {
                 team.createdAt = value.created_at;
                 team.freeTrialLength = value.freeTrialLength;
