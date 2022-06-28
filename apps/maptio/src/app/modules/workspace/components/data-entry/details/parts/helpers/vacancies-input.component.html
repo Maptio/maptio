@@ -4,44 +4,89 @@
 
 <div class="d-flex flex-column">
   <div class="d-flex align-items-baseline justify-content-start">
-      <span class="d-flex align-items-baseline text-gray-light mr-1">
-          <i class="fas fa-user-plus mr-1"></i>
-          <span class="text-uppercase text-bold small">Vacancies</span>
-      </span>
+    <span class="d-flex align-items-baseline text-gray-light mr-1">
+      <i class="fas fa-user-plus mr-1"></i>
+      <span class="text-uppercase text-bold small">Vacancies</span>
+    </span>
 
-       <span *ngIf="isUnauthorized" class="text-gray-light small" [stickyPopover]="editTipContent" placement='right'>
-          <i class="fas fa-lock"></i>
-      </span>
+    <span
+      *ngIf="isUnauthorized"
+      class="text-gray-light small"
+      [stickyPopover]="editTipContent"
+      placement="right"
+    >
+      <i class="fas fa-lock"></i>
+    </span>
 
-      <button *ngIf="isPickRoleMode" class="btn btn-link btn-sm" (click)="isPickRoleMode=false">Cancel</button>
-      <button [class.invisible]="isPickRoleMode || isCreateRoleMode || isEditRoleMode || isUnauthorized" class="btn btn-link btn-sm"
-          (click)="!isUnauthorized && isPickRoleMode=true">Add role vacancy</button>
+    <button
+      *ngIf="isPickRoleMode"
+      class="btn btn-link btn-sm"
+      (click)="isPickRoleMode = false"
+    >
+      Cancel
+    </button>
+    <button
+      [class.invisible]="
+        isPickRoleMode || isCreateRoleMode || isEditRoleMode || isUnauthorized
+      "
+      class="btn btn-link btn-sm"
+      (click)="!isUnauthorized && (isPickRoleMode = true)"
+    >
+      Add role vacancy
+    </button>
   </div>
 
-  <initiative-helper-role-select *ngIf="isPickRoleMode" [roles]="initiative?.vacancies" (pick)="onPickRole($event)"
-      (create)="onCreateRole($event)">
-  </initiative-helper-role-select>
+  <initiative-helper-role-select
+    *ngIf="isPickRoleMode"
+    [roles]="initiative?.vacancies"
+    (pick)="onPickRole($event)"
+    (create)="onCreateRole($event)"
+  ></initiative-helper-role-select>
 
   <ng-container *ngIf="isCreateRoleMode">
-      <initiative-helper-role-input [role]="newRole" [isVacancy]="true" (cancel)="onCancelCreatingNewRole()"
-          (save)="onSaveNewRole()">
-      </initiative-helper-role-input>
+    <initiative-helper-role-input
+      [role]="newRole"
+      [isVacancy]="true"
+      (cancel)="onCancelCreatingNewRole()"
+      (save)="onSaveNewRole()"
+    ></initiative-helper-role-input>
 
-      <hr class="role-divider my-1">
+    <hr class="role-divider my-1" />
   </ng-container>
 
   <div *ngIf="showVacanciesList()" class="bg-light rounded p-2">
-    <ng-container *ngFor="let role of initiative?.vacancies; let roleIndex = index; let last = last">
-        <initiative-helper-role-input *ngIf="isEditRoleMode && role === roleBeingEdited" [role]="role" [isVacancy]="true"
-            (cancel)="onCancelEditingRole()" (save)="onChangeRole()">
-        </initiative-helper-role-input>
+    <ng-container
+      *ngFor="
+        let role of initiative?.vacancies;
+        let roleIndex = index;
+        let last = last
+      "
+    >
+      <initiative-helper-role-input
+        *ngIf="isEditRoleMode && role === roleBeingEdited"
+        [role]="role"
+        [isVacancy]="true"
+        (cancel)="onCancelEditingRole()"
+        (save)="onChangeRole()"
+      ></initiative-helper-role-input>
 
-        <initiative-helper-role *ngIf="role !== roleBeingEdited" [role]="role"
-            [showControls]="!isUnauthorized && !isPickRoleMode && !isCreateRoleMode && !isEditRoleMode"
-            (edit)="onEditRole($event)" (remove)="onRemoveRole($event)">
-        </initiative-helper-role>
+      <initiative-helper-role
+        *ngIf="role !== roleBeingEdited"
+        [role]="role"
+        [showControls]="
+          !isUnauthorized &&
+          !isPickRoleMode &&
+          !isCreateRoleMode &&
+          !isEditRoleMode
+        "
+        (edit)="onEditRole($event)"
+        (remove)="onRemoveRole($event)"
+      ></initiative-helper-role>
 
-        <hr *ngIf="!last && initiative?.vacancies[roleIndex +1]" class="role-divider my-1">
+      <hr
+        *ngIf="!last && initiative?.vacancies[roleIndex + 1]"
+        class="role-divider my-1"
+      />
     </ng-container>
   </div>
 

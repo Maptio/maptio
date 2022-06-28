@@ -1,6 +1,4 @@
-
-.nodeDiv
-{
+.nodeDiv {
   background-color: #eee;
   border-radius: 3px;
 }
@@ -10,9 +8,9 @@
   width: 100%;
 }
 
-inpu, textarea{
-  font-size:1rem;
-
+inpu,
+textarea {
+  font-size: 1rem;
 }
 
 .pull-right {
@@ -20,8 +18,8 @@ inpu, textarea{
   right: 10px;
 }
 
-.initiative{
-  clear:both;
+.initiative {
+  clear: both;
 }
 
 .building {
@@ -35,8 +33,6 @@ inpu, textarea{
   left: 13%; */
   /* overflow-y: auto; */
 }
-
-
 
 /*.form-control {
 border: 1px solid #333;

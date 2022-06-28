@@ -1,32 +1,36 @@
-import { Input, Directive, Inject, ElementRef, OnInit, OnChanges } from "@angular/core"
-
+import {
+  Input,
+  Directive,
+  Inject,
+  ElementRef,
+  OnInit,
+  OnChanges,
+} from '@angular/core';
 
 @Directive({
-    selector: "[focusif]"
+  selector: '[focusif]',
 })
 export class FocusIfDirective implements OnChanges, OnInit {
-    @Input("focusif") focusif: string;
+  @Input('focusif') focusif: string;
 
-    constructor( @Inject(ElementRef) private element: ElementRef) { }
-    public ngOnChanges() {
+  constructor(@Inject(ElementRef) private element: ElementRef) {}
+  public ngOnChanges() {
+    this.applyFocus();
+  }
+  public ngOnInit() {
+    this.applyFocus();
+  }
 
-        this.applyFocus();
+  private applyFocus() {
+    if (this.isTrue(this.focusif)) {
+      this.element.nativeElement.focus();
+    } else {
+      this.element.nativeElement.blur();
     }
-    public ngOnInit() {
-        this.applyFocus();
-    }
+  }
 
-    private applyFocus() {
-        if (this.isTrue(this.focusif)) {
-            this.element.nativeElement.focus();
-        } else {
-            this.element.nativeElement.blur();
-        }
-    }
-
-    // TODO : to extract to a shared service
-    private isTrue(value: string) {
-        return (value === "true" || value === "1");
-    }
-
+  // TODO : to extract to a shared service
+  private isTrue(value: string) {
+    return value === 'true' || value === '1';
+  }
 }

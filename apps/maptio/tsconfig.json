@@ -37,9 +37,9 @@
       "@maptio-circle-map/*": ["app/modules/circle-map/*"],
       "@maptio-member": ["app/modules/member"],
       "@maptio-member-form": ["app/modules/member-form"],
-      "@maptio-onboarding-message": ["app/modules/onboarding-message"],
+      "@maptio-onboarding-message": ["app/modules/onboarding-message"]
     }
-  },
+  }
   // TODO: Reenable strict compilation options once the code is fixed
   // "angularCompilerOptions": {
   //   "strictInjectionParameters": true,

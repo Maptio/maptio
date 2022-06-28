@@ -1,17 +1,44 @@
 <div class="card" [class.overflow-hidden]="team.isExample">
-    <div *ngIf="team.isExample" class="corner-ribbon top-right bg-accent box-shadow text-bold">Demo</div>
+  <div
+    *ngIf="team.isExample"
+    class="corner-ribbon top-right bg-accent box-shadow text-bold"
+  >
+    Demo
+  </div>
 
-    <div class="card-body">
-        <div class="card-title d-flex justify-content-between">
-            <a class="lead" routerLink="/teams/{{team.team_id}}/{{team.getSlug()}}"> {{team?.name}}</a>
-            <small class="text-muted">{{team.members?.length}} {{team.members?.length === 1 ? "person" :"people" }}</small>
-
-        </div>
-        <ul class="list-inline d-flex flex-row-reverse picture-list my-1 flex-wrap justify-content-end">
-            <li class="list-inline-item rounded-circle border-thick border-white my-1" *ngFor="let member of sortedMembers();trackBy:trackByMemberId" [class.deleted]="member.isDeleted">
-                    <img class="avatar" width="40" height="40" src="{{member.picture}}" alt="{{member.name}}"
-                        title="{{member.name}}" placement="top" container="body" ngbTooltip="{{member.name}}">
-            </li>
-        </ul>
+  <div class="card-body">
+    <div class="card-title d-flex justify-content-between">
+      <a
+        class="lead"
+        routerLink="/teams/{{ team.team_id }}/{{ team.getSlug() }}"
+      >
+        {{ team?.name }}
+      </a>
+      <small class="text-muted">
+        {{ team.members?.length }}
+        {{ team.members?.length === 1 ? 'person' : 'people' }}
+      </small>
     </div>
+    <ul
+      class="list-inline d-flex flex-row-reverse picture-list my-1 flex-wrap justify-content-end"
+    >
+      <li
+        class="list-inline-item rounded-circle border-thick border-white my-1"
+        *ngFor="let member of sortedMembers(); trackBy: trackByMemberId"
+        [class.deleted]="member.isDeleted"
+      >
+        <img
+          class="avatar"
+          width="40"
+          height="40"
+          src="{{ member.picture }}"
+          alt="{{ member.name }}"
+          title="{{ member.name }}"
+          placement="top"
+          container="body"
+          ngbTooltip="{{ member.name }}"
+        />
+      </li>
+    </ul>
+  </div>
 </div>

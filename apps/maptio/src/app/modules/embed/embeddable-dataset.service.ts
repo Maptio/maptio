@@ -6,9 +6,8 @@ import { catchError } from 'rxjs/operators';
 
 import { DataSet } from '@maptio-shared/model/dataset.data';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EmbeddableDatasetService {
   public dataset = new BehaviorSubject<any | null | undefined>(undefined); // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -17,14 +16,17 @@ export class EmbeddableDatasetService {
 
   getDataset(datasetId: string | null) {
     if (datasetId) {
-      this.http.get('/api/v1/embeddable-dataset/' + datasetId)
+      this.http
+        .get('/api/v1/embeddable-dataset/' + datasetId)
         .pipe(
-          catchError((error: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+          catchError((error: any) => {
+            // eslint-disable-line @typescript-eslint/no-explicit-any
             console.error(error);
             return of(null);
           })
         )
-        .subscribe((dataset: DataSet) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+        .subscribe((dataset: DataSet) => {
+          // eslint-disable-line @typescript-eslint/no-explicit-any
           if (dataset) {
             this.dataset.next(dataset);
           } else {

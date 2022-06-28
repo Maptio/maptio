@@ -1,59 +1,60 @@
-<div class="mt-5 mt-md-0 row h-100 overflow-y overflow-y pt-2 pt-md-4 cursor-auto overflow-x-hidden justify-content-center" id="summary-canvas" >
-    <div class="d-flex flex-column col-11 px-5">
-        <h1 class="mb-3">Directory</h1>
+<div
+  class="mt-5 mt-md-0 row h-100 overflow-y overflow-y pt-2 pt-md-4 cursor-auto overflow-x-hidden justify-content-center"
+  id="summary-canvas"
+>
+  <div class="d-flex flex-column col-11 px-5">
+    <h1 class="mb-3">Directory</h1>
 
-        <div class="w-100" role="navigation">
-            <ul class="nav nav-tabs my-3" role="tablist">
-                <li class="nav-item mr-1">
-                    <a
-                        routerLink="./people"
-                        routerLinkActive="active"
-                        id="people-tab"
-                        class="nav-link d-flex flex-column align-items-center" 
-                        role="tab"
-                        aria-controls="people"
-                        aria-selected="true">
-                        <span>People</span>
-                    </a>
-                </li>
+    <div class="w-100" role="navigation">
+      <ul class="nav nav-tabs my-3" role="tablist">
+        <li class="nav-item mr-1">
+          <a
+            routerLink="./people"
+            routerLinkActive="active"
+            id="people-tab"
+            class="nav-link d-flex flex-column align-items-center"
+            role="tab"
+            aria-controls="people"
+            aria-selected="true"
+          >
+            <span>People</span>
+          </a>
+        </li>
 
-                <li class="nav-item d-flex flex-column align-items-center">
-                    <a 
-                        routerLink="./roles"
-                        routerLinkActive="active"
-                        id="roles-tab"
-                        class="nav-link d-flex flex-column align-items-center"
-                        role="tab"
-                        aria-controls="roles"
-                        aria-selected="false"
-                    >
-                        <span>Roles</span>
-                    </a>
-                </li>
+        <li class="nav-item d-flex flex-column align-items-center">
+          <a
+            routerLink="./roles"
+            routerLinkActive="active"
+            id="roles-tab"
+            class="nav-link d-flex flex-column align-items-center"
+            role="tab"
+            aria-controls="roles"
+            aria-selected="false"
+          >
+            <span>Roles</span>
+          </a>
+        </li>
 
-                <li class="nav-item d-flex flex-column align-items-center">
-                    <a 
-                        routerLink="./vacancies"
-                        routerLinkActive="active"
-                        id="vacancies-tab" 
-                        class="nav-link d-flex flex-column align-items-center"
-                        role="tab"
-                        aria-controls="vacancies"
-                        aria-selected="false"
-                    >
-                        <span>Vacancies</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <div
-            id="tab-content"
-            class="tab-content mt-3"
-        >
-            <div class="pb-3">
-                <router-outlet></router-outlet>
-            </div>
-        </div>
+        <li class="nav-item d-flex flex-column align-items-center">
+          <a
+            routerLink="./vacancies"
+            routerLinkActive="active"
+            id="vacancies-tab"
+            class="nav-link d-flex flex-column align-items-center"
+            role="tab"
+            aria-controls="vacancies"
+            aria-selected="false"
+          >
+            <span>Vacancies</span>
+          </a>
+        </li>
+      </ul>
     </div>
-</div> 
+
+    <div id="tab-content" class="tab-content mt-3">
+      <div class="pb-3">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

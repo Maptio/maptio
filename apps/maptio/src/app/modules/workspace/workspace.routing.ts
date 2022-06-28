@@ -20,7 +20,6 @@ import { PeopleSummaryComponent } from './components/summary/overview/people.com
 import { RolesSummaryComponent } from './components/summary/overview/roles.component';
 import { VacanciesSummaryComponent } from './components/summary/overview/vacancies.component';
 
-
 const routes: Routes = [
   {
     path: '',

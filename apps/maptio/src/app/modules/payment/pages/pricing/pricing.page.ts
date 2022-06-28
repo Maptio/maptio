@@ -5,10 +5,9 @@ import { UserService } from '@maptio-shared/services/user/user.service';
 
 import { BillingSchedule } from './billing-schedule.enum';
 
-
 @Component({
   selector: 'maptio-pricing',
-  templateUrl: './pricing.page.html'
+  templateUrl: './pricing.page.html',
 })
 export class PricingComponent {
   BILLING_PLANS = environment.BILLING_PLANS;
@@ -16,5 +15,5 @@ export class PricingComponent {
 
   billingScheduleChoice = BillingSchedule.MONTHLY;
 
-  constructor(public userService: UserService) { }
+  constructor(public userService: UserService) {}
 }

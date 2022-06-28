@@ -1,65 +1,111 @@
 <div class="row d-flex justify-content-between flex-column flex-md-row mt-5">
+  <div class="col-12 col-md-3 rounded border-right">
+    <ul class="nav flex-row row flex-wrap flex-md-column nav-pills">
+      <li class="nav-item col-12">
+        <span class="nav-link disabled pb-4 p-0 text-center">
+          <span class="h4 text-muted">{{ team.name }}</span>
+          <h6 class="text-muted small">
+            {{ team.members.length }}
+            {{ team.members.length === 1 ? 'person' : 'people' }}
+          </h6>
+        </span>
+      </li>
 
-    <div class="col-12 col-md-3 rounded border-right ">
+      <ng-container>
+        <li class="nav-item col-6 col-md-12">
+          <a
+            class="nav-link py-4 rounded"
+            data-toggle="tab"
+            routerLink="./people"
+            queryParamsHandling="merge"
+            #rlaMembers="routerLinkActive"
+            routerLinkActive="active"
+            role="tab"
+          >
+            People
+          </a>
+        </li>
+      </ng-container>
+      <ng-container *ngIf="!team.isExample">
+        <li
+          class="nav-item d-none d-md-block col-md-12"
+          *permissionsOnly="Permissions.canAddUser"
+        >
+          <a
+            class="nav-link py-4 rounded"
+            data-toggle="tab"
+            routerLink="./import"
+            queryParamsHandling="merge"
+            #rlaImport="routerLinkActive"
+            routerLinkActive="active"
+            role="tab"
+          >
+            Import
+          </a>
+        </li>
+      </ng-container>
+      <ng-container>
+        <li class="nav-item d-none d-md-block col-md-12">
+          <a
+            class="nav-link py-4 rounded"
+            data-toggle="tab"
+            routerLink="./maps"
+            queryParamsHandling="merge"
+            routerLinkActive="active"
+            #rlaMaps="routerLinkActive"
+            role="tab"
+          >
+            Maps
+          </a>
+        </li>
+      </ng-container>
+      <li class="nav-item d-none d-md-block col-md-12">
+        <a
+          class="nav-link py-4 rounded"
+          data-toggle="tab"
+          routerLink="./settings"
+          queryParamsHandling="merge"
+          #rlaTerminology="routerLinkActive"
+          routerLinkActive="active"
+          role="tab"
+        >
+          Name &amp; Terminology
+        </a>
+      </li>
+      <li class="nav-item col-md-12 d-none d-md-block">
+        <a
+          class="nav-link py-4 rounded"
+          data-toggle="tab"
+          routerLink="./integrations"
+          queryParamsHandling="merge"
+          routerLinkActive="active"
+          #rlaIntegrations="routerLinkActive"
+          role="tab"
+        >
+          Integrations
+        </a>
+      </li>
 
-        <ul class="nav flex-row row flex-wrap flex-md-column  nav-pills">
-            <li class="nav-item col-12 ">
-                <span class="nav-link disabled pb-4 p-0 text-center">
-                        <span class="h4 text-muted">{{team.name}}</span>
-                        <h6 class="text-muted small">{{team.members.length}}
-                            {{team.members.length ===1 ? "person" : "people"}}</h6>
-                    
-                </span>
-                    
-            </li>
+      <li class="nav-item col-6 col-md-12" *ngIf="!team.isExample">
+        <a
+          class="nav-link py-4 rounded"
+          data-toggle="tab"
+          routerLink="./billing"
+          routerLinkActive="active"
+          #rlaBilling="routerLinkActive"
+          queryParamsHandling="merge"
+          role="tab"
+        >
+          Billing
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="col-12 col-md-9 mt-4 mt-md-0">
+    <h4 class="d-none d-md-block text-uppercase text-muted mb-4">
+      {{ pageName }}
+    </h4>
 
-
-            <ng-container>
-                <li class="nav-item col-6 col-md-12">
-                    <a class="nav-link py-4 rounded" data-toggle="tab" routerLink="./people"
-                        queryParamsHandling="merge" #rlaMembers="routerLinkActive" routerLinkActive="active" role="tab">
-                        People</a>
-                </li>
-            </ng-container>
-            <ng-container *ngIf="!team.isExample">
-                <li class="nav-item d-none d-md-block col-md-12 " *permissionsOnly="Permissions.canAddUser">
-                    <a class="nav-link py-4 rounded" data-toggle="tab" routerLink="./import"
-                        queryParamsHandling="merge" #rlaImport="routerLinkActive" routerLinkActive="active" role="tab">
-                        Import </a>
-                </li>
-            </ng-container>
-            <ng-container>
-                <li class="nav-item d-none d-md-block col-md-12 ">
-                    <a class="nav-link py-4 rounded " data-toggle="tab" routerLink="./maps"
-                        queryParamsHandling="merge" routerLinkActive="active" #rlaMaps="routerLinkActive" role="tab">
-                        Maps</a>
-                </li>
-            </ng-container>
-            <li class="nav-item d-none d-md-block col-md-12 " >
-                <a class="nav-link py-4 rounded" data-toggle="tab" routerLink="./settings"
-                    queryParamsHandling="merge" #rlaTerminology="routerLinkActive" routerLinkActive="active" role="tab">
-                    Name &amp; Terminology</a>
-            </li>
-            <li class="nav-item col-md-12 d-none d-md-block">
-                <a class="nav-link py-4 rounded " data-toggle="tab" routerLink="./integrations"
-                    queryParamsHandling="merge" routerLinkActive="active" #rlaIntegrations="routerLinkActive"
-                    role="tab">
-                    Integrations</a>
-            </li>
-
-            <li class="nav-item col-6  col-md-12 " *ngIf="!team.isExample">
-                <a class="nav-link py-4 rounded" data-toggle="tab" routerLink="./billing" routerLinkActive="active"
-                    #rlaBilling="routerLinkActive" queryParamsHandling="merge" role="tab">
-                    Billing</a>
-            </li>
-
-        </ul>
-    </div>
-    <div class="col-12 col-md-9 mt-4 mt-md-0 ">
-        <h4 class="d-none d-md-block text-uppercase text-muted mb-4">{{pageName}}</h4>
-
-            <router-outlet (activate)="onActivate($event)"></router-outlet>
-    
-    </div>
-
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
+  </div>
 </div>

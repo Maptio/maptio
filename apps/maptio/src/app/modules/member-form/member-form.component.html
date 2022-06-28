@@ -1,8 +1,4 @@
-<form
-  class="mt-2 mb-3"
-  [formGroup]="memberForm"
-  (submit)="save()"
->
+<form class="mt-2 mb-3" [formGroup]="memberForm" (submit)="save()">
   <div class="form-group">
     <label
       class="mb-0 text-uppercase text-bold text-gray-light small"
@@ -20,7 +16,9 @@
       placeholder="First name"
     />
 
-    <small class="invalid-feedback">Please enter at least 2 characters. This field is required.</small>
+    <small class="invalid-feedback">
+      Please enter at least 2 characters. This field is required.
+    </small>
   </div>
 
   <div class="form-group">
@@ -44,9 +42,7 @@
   </div>
 
   <div class="form-group">
-    <label
-      class="mb-0 text-uppercase text-bold text-gray-light small"
-    >
+    <label class="mb-0 text-uppercase text-bold text-gray-light small">
       Profile Image
     </label>
 
@@ -89,19 +85,20 @@
         formControlName="isTermsAccepted"
         class="custom-control-input"
         [class.is-invalid]="isFieldInvalid('isTermsAccepted')"
-      >
+      />
 
       <label class="custom-control-label" for="inputIsTermsAccepted">
         I agree to Maptio's
-        <a href="{{ TERMS_AND_CONDITIONS_URL}}" target="_blank">
+        <a href="{{ TERMS_AND_CONDITIONS_URL }}" target="_blank">
           Terms of Service
-        </a> and
-        <a href="{{ PRIVACY_POLICY_URL }}" target="_blank">
-          Privacy Policy
         </a>
+        and
+        <a href="{{ PRIVACY_POLICY_URL }}" target="_blank">Privacy Policy</a>
       </label>
 
-      <small class="invalid-feedback">Please acknowledge accepting the terms before proceeding</small>
+      <small class="invalid-feedback">
+        Please acknowledge accepting the terms before proceeding
+      </small>
     </div>
   </div>
 
@@ -114,17 +111,11 @@
     Successfully saved!
   </span>
 
-  <span
-    *ngIf="savingFailedMessage"
-    class="text-danger mx-1 small"
-  >
+  <span *ngIf="savingFailedMessage" class="text-danger mx-1 small">
     {{ savingFailedMessage }}
   </span>
 
-  <div
-    *ngIf="!duplicateUsers.length"
-    class="d-flex justify-content-end mt-2"
-  >
+  <div *ngIf="!duplicateUsers.length" class="d-flex justify-content-end mt-2">
     <button
       *ngIf="showCancelButton && !(memberForm.dirty || isNewImageUploaded)"
       type="button"
@@ -142,7 +133,9 @@
       container="body"
       mwlConfirmationPopover
       [popoverTitle]="'Warning'"
-      [popoverMessage]="'Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?'"
+      [popoverMessage]="
+        'Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?'
+      "
       (confirm)="onCancel()"
       focusbutton="cancel"
       appendToBody="false"
@@ -165,7 +158,11 @@
   </span>
 
   <div
-    *ngIf="duplicateUsers.length && !isDeduplicationTriggeredInternally && !errorMessage"
+    *ngIf="
+      duplicateUsers.length &&
+      !isDeduplicationTriggeredInternally &&
+      !errorMessage
+    "
     class="alert alert-warning"
     role="alert"
   >
@@ -204,29 +201,34 @@
   </div>
 
   <div
-    *ngIf="duplicateUsers.length && isDeduplicationTriggeredInternally && !errorMessage"
+    *ngIf="
+      duplicateUsers.length &&
+      isDeduplicationTriggeredInternally &&
+      !errorMessage
+    "
     class="alert alert-warning"
     role="alert"
   >
     <p>
-      <span *ngIf="duplicateUsers.length === 1; else multiplePeople">A person</span>
+      <span *ngIf="duplicateUsers.length === 1; else multiplePeople">
+        A person
+      </span>
       with this
-      <span *ngIf="memberForm.controls['email'].value; else duplicationOnName">email address </span>
+      <span *ngIf="memberForm.controls['email'].value; else duplicationOnName">
+        email address
+      </span>
       <span *ngIf="duplicateUsers.length === 1; else are">is</span>
       already
       <span *ngIf="duplicateUsers.length === 1; else members">a member</span>
-      of your organisation.
-      Would you like to add them instead?
+      of your organisation. Would you like to add them instead?
     </p>
 
     <ng-template #multiplePeople>Multiple people</ng-template>
-    <ng-template #duplicationOnName>name </ng-template>
+    <ng-template #duplicationOnName>name</ng-template>
     <ng-template #are>are</ng-template>
     <ng-template #members>members</ng-template>
 
-    <div
-      *ngFor="let duplicateUser of duplicateUsers"
-    >
+    <div *ngFor="let duplicateUser of duplicateUsers">
       <maptio-member
         [member]="duplicateUser"
         [isVertical]="true"
@@ -261,11 +263,7 @@
     </div>
   </div>
 
-  <div
-    *ngIf="errorMessage"
-    class="alert alert-danger fade show"
-    role="alert"
-  >
+  <div *ngIf="errorMessage" class="alert alert-danger fade show" role="alert">
     {{ errorMessage }}
   </div>
 </form>

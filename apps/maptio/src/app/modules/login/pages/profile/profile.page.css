@@ -1,26 +1,26 @@
 .in:before {
-    content: "";
-    font-family: FontAwesome;
+  content: '';
+  font-family: FontAwesome;
 }
 
 .panel-heading {
-    width: 100%
+  width: 100%;
 }
 
 .profile {
-    padding: 0;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 72%;
-    margin: 0;
-    border-radius: 10px;
+  padding: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 72%;
+  margin: 0;
+  border-radius: 10px;
 }
 
 .name {
-    line-height: 12vh;
+  line-height: 12vh;
 }
 
 .cover {
-    background-size: cover !important;
-    width: 3vw;
+  background-size: cover !important;
+  width: 3vw;
 }

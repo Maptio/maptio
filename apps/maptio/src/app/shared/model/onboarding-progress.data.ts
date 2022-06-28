@@ -1,7 +1,6 @@
-import { Serializable } from "../interfaces/serializable.interface";
+import { Serializable } from '../interfaces/serializable.interface';
 
-import { isEmpty } from "lodash-es";
-
+import { isEmpty } from 'lodash-es';
 
 export class OnboardingProgress implements Serializable<OnboardingProgress> {
   showEditingPanelMessage = false;
@@ -20,9 +19,12 @@ export class OnboardingProgress implements Serializable<OnboardingProgress> {
     const deserialized = new OnboardingProgress();
 
     if (!isEmpty(input)) {
-      deserialized.showEditingPanelMessage = input.showEditingPanelMessage ?? false;
-      deserialized.showCircleDetailsPanelMessage = input.showCircleDetailsPanelMessage ?? false;
-      deserialized.showCircleCanvasMessage = input.showCircleCanvasMessage ?? false;
+      deserialized.showEditingPanelMessage =
+        input.showEditingPanelMessage ?? false;
+      deserialized.showCircleDetailsPanelMessage =
+        input.showCircleDetailsPanelMessage ?? false;
+      deserialized.showCircleCanvasMessage =
+        input.showCircleCanvasMessage ?? false;
     }
 
     return deserialized;
@@ -33,13 +35,11 @@ export class OnboardingProgress implements Serializable<OnboardingProgress> {
       const onboardingProgress = this.deserialize(input);
       if (onboardingProgress !== undefined) {
         return [true, onboardingProgress];
+      } else {
+        return [false, undefined];
       }
-      else {
-        return [false, undefined]
-      }
+    } catch (Exception) {
+      return [false, undefined];
     }
-    catch (Exception) {
-      return [false, undefined]
-    }
-  };
+  }
 }

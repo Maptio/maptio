@@ -1,32 +1,74 @@
-<div class="modal-header d-flex justify-content-center border-bottom-0 " *ngIf="isClosable">
-
-    <button type="button" class="close btn" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
-        <i class="fa fa-times"></i>
-    </button>
+<div
+  class="modal-header d-flex justify-content-center border-bottom-0"
+  *ngIf="isClosable"
+>
+  <button
+    type="button"
+    class="close btn"
+    data-dismiss="modal"
+    aria-label="Close"
+    (click)="closeModal()"
+  >
+    <i class="fa fa-times"></i>
+  </button>
 </div>
 <div class="modal-body fixed-height">
-    <div class="card h-100 border-0 bg-transparent">
-        <div class="card-body h-100 overflow-auto">
-            <ng-content> </ng-content>
-        </div>
-
+  <div class="card h-100 border-0 bg-transparent">
+    <div class="card-body h-100 overflow-auto">
+      <ng-content></ng-content>
     </div>
+  </div>
 </div>
-<div class="modal-footer d-flex flex-column flex-md-row justify-content-md-between align-items-md-stretch" [class.border-top-0]="!nextActionName">
-    <div class="d-flex justify-content-start col-12 col-md-6 h-100" *ngIf="isWithProgress && progress">
-        <div class="d-flex flex-column justify-content-end align-items-center w-100" *ngIf="progress!=='100'">
-            <div class="progress w-100" [style.height.px]="20">
-                <div class="progress-bar bg-gray" role="progressbar" [style.width.%]="progress"></div>
-            </div>
-            <small>{{progressLabel}}</small>
-        </div>
+<div
+  class="modal-footer d-flex flex-column flex-md-row justify-content-md-between align-items-md-stretch"
+  [class.border-top-0]="!nextActionName"
+>
+  <div
+    class="d-flex justify-content-start col-12 col-md-6 h-100"
+    *ngIf="isWithProgress && progress"
+  >
+    <div
+      class="d-flex flex-column justify-content-end align-items-center w-100"
+      *ngIf="progress !== '100'"
+    >
+      <div class="progress w-100" [style.height.px]="20">
+        <div
+          class="progress-bar bg-gray"
+          role="progressbar"
+          [style.width.%]="progress"
+        ></div>
+      </div>
+      <small>{{ progressLabel }}</small>
     </div>
-    <div class="d-flex justify-content-end col-12 col-md mt-3 mt-md-0">
-        <button type="button" class="btn btn-lg btn-outline-secondary mx-1" [class.invisible]="!previousActionName" [disabled]="isUpdating" (click)="previousStep()">{{previousActionName}}</button>
-        <button type="button" *ngIf="isSkippable" class="btn btn-lg btn-link mx-1" (click)="nextStep()">I'll do this later</button>
-        <button type="button" *ngIf="!isSkippable" class="btn btn-lg btn-success" [class.invisible]="!nextActionName" [disabled]="isUpdating" (click)="nextStep()">
-          <i *ngIf="isUpdating" class="fas fa-circle-notch fa-spin"></i>
-          {{nextActionName}}
-        </button>
-    </div>
+  </div>
+  <div class="d-flex justify-content-end col-12 col-md mt-3 mt-md-0">
+    <button
+      type="button"
+      class="btn btn-lg btn-outline-secondary mx-1"
+      [class.invisible]="!previousActionName"
+      [disabled]="isUpdating"
+      (click)="previousStep()"
+    >
+      {{ previousActionName }}
+    </button>
+    <button
+      type="button"
+      *ngIf="isSkippable"
+      class="btn btn-lg btn-link mx-1"
+      (click)="nextStep()"
+    >
+      I'll do this later
+    </button>
+    <button
+      type="button"
+      *ngIf="!isSkippable"
+      class="btn btn-lg btn-success"
+      [class.invisible]="!nextActionName"
+      [disabled]="isUpdating"
+      (click)="nextStep()"
+    >
+      <i *ngIf="isUpdating" class="fas fa-circle-notch fa-spin"></i>
+      {{ nextActionName }}
+    </button>
+  </div>
 </div>

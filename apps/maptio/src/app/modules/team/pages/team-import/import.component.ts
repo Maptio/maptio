@@ -85,34 +85,46 @@ export class TeamImportComponent implements OnInit {
         firstname,
         lastname,
         '',
-        false,
+        false
       );
     }
 
     if (duplicateUsers.length > 1) {
-      return Promise.reject(new Error('Multiple existing people with this email or name found'));
+      return Promise.reject(
+        new Error('Multiple existing people with this email or name found')
+      );
     }
 
     const existingUser = duplicateUsers[0];
     const name = `${firstname} ${lastname}`;
 
     if (existingUser.email === email) {
-      return Promise.reject(new Error('A person with the same email is already a member of your organization'));
-    } else if (
-      !existingUser.email
-      && email
-      && existingUser.name === name
-    ) {
+      return Promise.reject(
+        new Error(
+          'A person with the same email is already a member of your organization'
+        )
+      );
+    } else if (!existingUser.email && email && existingUser.name === name) {
       try {
         this.userService.updateUserEmail(existingUser, email);
-        return Promise.reject(new Error('Added email address to existing person with the same name'));
+        return Promise.reject(
+          new Error('Added email address to existing person with the same name')
+        );
       } catch {
-        return Promise.reject(new Error('An unexpected duplication-related error occurred'));
+        return Promise.reject(
+          new Error('An unexpected duplication-related error occurred')
+        );
       }
     } else if (existingUser.name === name) {
-      return Promise.reject(new Error('A person with the same name is already a member of your organization'));
+      return Promise.reject(
+        new Error(
+          'A person with the same name is already a member of your organization'
+        )
+      );
     } else {
-      return Promise.reject(new Error('An unexpected duplication error occurred'));
+      return Promise.reject(
+        new Error('An unexpected duplication error occurred')
+      );
     }
   }
 

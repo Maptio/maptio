@@ -1,5 +1,5 @@
 import { DebounceDirective } from './directives/debounce.directive';
-import { NgModule, ModuleWithProviders } from "@angular/core";
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -25,50 +25,39 @@ import { FocusIfDirective } from './directives/focusif.directive';
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
 
-
 @NgModule({
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        CommonModule,
-        RouterModule,
-        NgbPopoverModule,
-        NgProgressModule,
-        NgProgressRouterModule
-    ],
-    declarations: [
-        DebounceDirective,
-        ClosableDirective,
-        FocusIfDirective
-    ],
-    exports: [
-        DebounceDirective,
-        ClosableDirective,
-        FocusIfDirective
-
-    ]
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    RouterModule,
+    NgbPopoverModule,
+    NgProgressModule,
+    NgProgressRouterModule,
+  ],
+  declarations: [DebounceDirective, ClosableDirective, FocusIfDirective],
+  exports: [DebounceDirective, ClosableDirective, FocusIfDirective],
 })
 export class SharedModule {
-    static forRoot(): ModuleWithProviders<SharedModule> {
-        return {
-            ngModule: SharedModule,
-            providers: [
-                UserRoleService,
-                JwtEncoder,
-                ErrorService,
-                ExportService,
-                FileService,
-                LoaderService,
-                URIService,
-                UserService,
-                BillingService,
-                TeamService,
-                MapService,
-                ColorService,
-                IntercomService,
-                MarkdownUtilsService,
-            ]
-        };
-    }
-
+  static forRoot(): ModuleWithProviders<SharedModule> {
+    return {
+      ngModule: SharedModule,
+      providers: [
+        UserRoleService,
+        JwtEncoder,
+        ErrorService,
+        ExportService,
+        FileService,
+        LoaderService,
+        URIService,
+        UserService,
+        BillingService,
+        TeamService,
+        MapService,
+        ColorService,
+        IntercomService,
+        MarkdownUtilsService,
+      ],
+    };
+  }
 }

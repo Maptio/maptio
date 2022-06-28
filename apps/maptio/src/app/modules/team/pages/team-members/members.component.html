@@ -1,12 +1,11 @@
 <ng-template #adminTipContent>
-  <span class="text-orange"
-    >You don't have permission to do this.
+  <span class="text-orange">
+    You don't have permission to do this.
     <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
   </span>
 </ng-template>
 
 <div class="">
-
   <div class="card w-100 mb-3 border" *permissionsOnly="Permissions.canAddUser">
     <div class="card-body">
       <div class="card-title lead">Add people</div>
@@ -16,8 +15,7 @@
         [team]="team"
         [disableDeduplication]="true"
         (addMember)="onAddMember($event)"
-      >
-      </maptio-member-form>
+      ></maptio-member-form>
     </div>
   </div>
 
@@ -32,8 +30,12 @@
     one person's changes will make another's temporarily disappear. Don't worry
     if this happens - no data is lost, just send us a chat message and we'll
     restore it for you. We're working on an upgrade to handle multiple Admins
-    better. In the meantime, <b>if you have multiple Admin users, communicate
-    among yourselves to avoid making changes at the same time</b>.
+    better. In the meantime,
+    <b>
+      if you have multiple Admin users, communicate among yourselves to avoid
+      making changes at the same time
+    </b>
+    .
   </div>
 
   <div class="my-4">
@@ -53,9 +55,13 @@
           ></button>
         </div>
 
-        <div class="col-3 text-uppercase text-bold text-gray-light small">Name</div>
+        <div class="col-3 text-uppercase text-bold text-gray-light small">
+          Name
+        </div>
 
-        <div class="col-4 text-uppercase text-bold text-gray-light small">Email</div>
+        <div class="col-4 text-uppercase text-bold text-gray-light small">
+          Email
+        </div>
 
         <a
           class="col-2 nowrap mb-0 text-uppercase text-bold text-gray-light small text-decoration-none"

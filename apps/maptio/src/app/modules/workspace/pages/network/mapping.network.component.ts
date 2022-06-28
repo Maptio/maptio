@@ -1,37 +1,60 @@
-import {filter, combineLatest, map} from 'rxjs/operators';
-import { Team } from "../../../../shared/model/team.data";
-import { Role } from "../../../../shared/model/role.data";
-import { User } from "../../../../shared/model/user.data";
-import { ColorService } from "@maptio-shared/services/color/color.service";
-import { UIService } from "../../services/ui.service";
-import { Router } from "@angular/router";
-import { DataService } from "../../services/data.service";
-import { URIService } from "../../../../shared/services/uri/uri.service";
-import { PermissionsService } from "../../../../shared/services/permissions/permissions.service";
-import { Tag, SelectableTag } from "../../../../shared/model/tag.data";
-import { Initiative } from "../../../../shared/model/initiative.data";
-import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
-import { Subject, BehaviorSubject ,  Subscription ,  Observable, partition } from "rxjs";
+import { filter, combineLatest, map } from 'rxjs/operators';
+import { Team } from '../../../../shared/model/team.data';
+import { Role } from '../../../../shared/model/role.data';
+import { User } from '../../../../shared/model/user.data';
+import { ColorService } from '@maptio-shared/services/color/color.service';
+import { UIService } from '../../services/ui.service';
+import { Router } from '@angular/router';
+import { DataService } from '../../services/data.service';
+import { URIService } from '../../../../shared/services/uri/uri.service';
+import { PermissionsService } from '../../../../shared/services/permissions/permissions.service';
+import { Tag, SelectableTag } from '../../../../shared/model/tag.data';
+import { Initiative } from '../../../../shared/model/initiative.data';
+import { DatasetFactory } from '../../../../core/http/map/dataset.factory';
+import {
+  Subject,
+  BehaviorSubject,
+  Subscription,
+  Observable,
+  partition,
+} from 'rxjs';
 import {
   Component,
   OnInit,
   ViewEncapsulation,
   ChangeDetectorRef,
-  ChangeDetectionStrategy
-} from "@angular/core";
-import { IDataVisualizer } from "../../components/canvas/mapping.interface";
-import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
-import { flatten, uniqBy, remove, partition as _partition, groupBy, map as _map, flattenDeep } from "lodash-es";
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { IDataVisualizer } from '../../components/canvas/mapping.interface';
+import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
+import {
+  flatten,
+  uniqBy,
+  remove,
+  partition as _partition,
+  groupBy,
+  map as _map,
+  flattenDeep,
+} from 'lodash-es';
 
-import { transition } from "d3-transition";
-import { select, selectAll, event, mouse } from "d3-selection";
-import { zoom, zoomIdentity, zoomTransform } from "d3-zoom";
-import { tree, hierarchy, HierarchyNode } from "d3-hierarchy";
-import { color } from "d3-color";
-import { forceSimulation, forceLink, forceManyBody, forceCenter, ForceLink } from "d3-force"
-import { map as d3Map } from "d3-collection"
-import { drag } from "d3-drag"
-import { MapSettings, MapSettingsService } from "../../services/map-settings.service";
+import { transition } from 'd3-transition';
+import { select, selectAll, event, mouse } from 'd3-selection';
+import { zoom, zoomIdentity, zoomTransform } from 'd3-zoom';
+import { tree, hierarchy, HierarchyNode } from 'd3-hierarchy';
+import { color } from 'd3-color';
+import {
+  forceSimulation,
+  forceLink,
+  forceManyBody,
+  forceCenter,
+  ForceLink,
+} from 'd3-force';
+import { map as d3Map } from 'd3-collection';
+import { drag } from 'd3-drag';
+import {
+  MapSettings,
+  MapSettingsService,
+} from '../../services/map-settings.service';
 
 const d3 = Object.assign(
   {},
@@ -46,20 +69,24 @@ const d3 = Object.assign(
     tree,
     hierarchy,
     color,
-    forceSimulation, forceLink, forceManyBody, forceCenter,
+    forceSimulation,
+    forceLink,
+    forceManyBody,
+    forceCenter,
     d3Map,
     drag,
-    getEvent() { return require("d3-selection").event }
+    getEvent() {
+      return require('d3-selection').event;
+    },
   }
-)
-
+);
 
 @Component({
-  selector: "network",
-  templateUrl: "./mapping.network.component.html",
-  styleUrls: ["./mapping.network.component.css"],
+  selector: 'network',
+  templateUrl: './mapping.network.component.html',
+  styleUrls: ['./mapping.network.component.css'],
   encapsulation: ViewEncapsulation.Emulated,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public datasetId: string;
@@ -80,29 +107,36 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   // public isLocked$: Observable<boolean>;
   public isReset$: Observable<boolean>;
 
-
   public rootNode: Initiative;
   public slug: string;
   public team: Team;
 
-
   public _isDisplayOptions: Boolean = false;
-  private isAuthorityCentricMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  private isAuthorityCentricMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    true
+  );
   public _isAuthorityCentricMode: boolean = true;
 
   public showContextMenuOf$: Subject<{
-    initiatives: Initiative[], x: Number, y: Number,
-    isReadOnlyContextMenu: boolean
+    initiatives: Initiative[];
+    x: Number;
+    y: Number;
+    isReadOnlyContextMenu: boolean;
   }> = new Subject<{
-    initiatives: Initiative[], x: Number, y: Number,
-    isReadOnlyContextMenu: boolean
+    initiatives: Initiative[];
+    x: Number;
+    y: Number;
+    isReadOnlyContextMenu: boolean;
   }>();
 
   public hideOptions$: Subject<boolean> = new Subject<boolean>();
   public isOptionsVisible: boolean;
 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
-  public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
+  public showToolipOf$: Subject<{
+    initiatives: Initiative[];
+    isNameOnly: boolean;
+  }> = new Subject<{ initiatives: Initiative[]; isNameOnly: boolean }>();
   public analytics: Angulartics2Mixpanel;
 
   private zoomSubscription: Subscription;
@@ -111,7 +145,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
   public isSaving: boolean;
   public dataset: any;
-
 
   T: any;
   TRANSITION_DURATION = 250;
@@ -139,22 +172,30 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     private datasetFactory: DatasetFactory,
     private mapSettingsService: MapSettingsService,
     private permissionsService: PermissionsService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
     this.init();
 
     this.dataSubscription = this.dataService
-      .get().pipe(
-      map(dataset => {
-        this.datasetId = dataset.dataset.datasetId;
-        this.settings = this.mapSettingsService.get(this.datasetId);
-        this.isAuthorityCentricMode$.next(this.settings.views.network ? this.settings.views.network.isAuthorityCentricMode : true);
-        return dataset;
-      }),
-      combineLatest(this.mapColor$, this.isAuthorityCentricMode$.asObservable()),)
+      .get()
+      .pipe(
+        map((dataset) => {
+          this.datasetId = dataset.dataset.datasetId;
+          this.settings = this.mapSettingsService.get(this.datasetId);
+          this.isAuthorityCentricMode$.next(
+            this.settings.views.network
+              ? this.settings.views.network.isAuthorityCentricMode
+              : true
+          );
+          return dataset;
+        }),
+        combineLatest(
+          this.mapColor$,
+          this.isAuthorityCentricMode$.asObservable()
+        )
+      )
       .subscribe(([dataset, color, authorityCentricMode]) => {
         this.dataset = dataset.dataset;
 
@@ -164,17 +205,17 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         this.slug = data.getSlug();
         this._isAuthorityCentricMode = authorityCentricMode;
         this.update(data, color, this._isAuthorityCentricMode);
-        this.analytics.eventTrack("Map", {
-          action: "viewing",
-          view: "connections",
+        this.analytics.eventTrack('Map', {
+          action: 'viewing',
+          view: 'connections',
           team: (<Team>dataset.team).name,
-          teamId: (<Team>dataset.team).team_id
+          teamId: (<Team>dataset.team).team_id,
         });
         this.isLoading = false;
         this.cd.markForCheck();
       });
 
-    this.selectableTags$.subscribe(tags => this.tagsState = tags)
+    this.selectableTags$.subscribe((tags) => (this.tagsState = tags));
   }
 
   ngOnDestroy() {
@@ -192,60 +233,60 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   init() {
     this.uiService.clean();
 
-
     let svg: any = d3
-      .select("svg#map")
-      .attr("width", this.width)
-      .attr("height", this.height);
+      .select('svg#map')
+      .attr('width', this.width)
+      .attr('height', this.height);
     let g = svg
-      .append("g")
-      .attr("width", this.width)
-      .attr("height", this.height)
+      .append('g')
+      .attr('width', this.width)
+      .attr('height', this.height)
       .attr(
-        "transform",
+        'transform',
         `translate(${0}, ${-this.height / 4}) scale(${this.scale})`
       );
-    g.append("g").attr("class", "links");
+    g.append('g').attr('class', 'links');
     // g.append("g").attr("class", "labels");
-    g.append("g").attr("class", "nodes");
-    g.append("defs");
+    g.append('g').attr('class', 'nodes');
+    g.append('defs');
 
     svg
-      .append("svg:defs")
-      .selectAll("marker")
+      .append('svg:defs')
+      .selectAll('marker')
       .data([
-        { id: "arrow", opacity: 1 },
-        { id: "arrow-fade", opacity: this.FADED_OPACITY },
-        { id: "arrow-hover", opacity: 1 }
+        { id: 'arrow', opacity: 1 },
+        { id: 'arrow-fade', opacity: this.FADED_OPACITY },
+        { id: 'arrow-hover', opacity: 1 },
       ])
       .enter()
-      .append("marker")
-      .attr("id", (d: any) => d.id)
-      .attr("viewBox", "0 -5 10 10")
-      .attr("refX", 0)
-      .attr("refY", 0)
-      .attr("markerWidth", this.CIRCLE_RADIUS)
-      .attr("markerHeight", this.CIRCLE_RADIUS)
-      .attr("markerUnits", "userSpaceOnUse")
-      .attr("orient", "auto")
-      .append("svg:path")
-      .attr("d", "M0,-5L10,0L0,5")
-      .style("opacity", (d: any) => d.opacity);
+      .append('marker')
+      .attr('id', (d: any) => d.id)
+      .attr('viewBox', '0 -5 10 10')
+      .attr('refX', 0)
+      .attr('refY', 0)
+      .attr('markerWidth', this.CIRCLE_RADIUS)
+      .attr('markerHeight', this.CIRCLE_RADIUS)
+      .attr('markerUnits', 'userSpaceOnUse')
+      .attr('orient', 'auto')
+      .append('svg:path')
+      .attr('d', 'M0,-5L10,0L0,5')
+      .style('opacity', (d: any) => d.opacity);
 
-    const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 2.5;
-
+    const wheelDelta = () =>
+      ((-d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1)) / 500) *
+      2.5;
 
     let zooming = d3
       .zoom()
       .wheelDelta(wheelDelta)
       .scaleExtent([1 / 10, 4])
-      .on("zoom", zoomed)
-      .on("end", () => {
+      .on('zoom', zoomed)
+      .on('end', () => {
         let transform = d3.getEvent().transform;
         let tagFragment = this.tagsState
-          .filter(t => t.isSelected)
-          .map(t => t.shortid)
-          .join(",");
+          .filter((t) => t.isSelected)
+          .map((t) => t.shortid)
+          .join(',');
         // location.hash = this.uriService.buildFragment(
         //   new Map([
         //     ["x", transform.x],
@@ -257,7 +298,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       });
 
     function zoomed() {
-      g.attr("transform", d3.getEvent().transform);
+      g.attr('transform', d3.getEvent().transform);
     }
 
     try {
@@ -265,152 +306,167 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       // svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
       svg.call(
         zooming.transform,
-        d3.zoomIdentity
-          .translate(0, -this.height / 4)
-          .scale(1)
+        d3.zoomIdentity.translate(0, -this.height / 4).scale(1)
       );
       svg.call(zooming);
-    } catch (error) { }
+    } catch (error) {}
 
     this.zoomSubscription = this.zoom$.subscribe((zf: number) => {
       try {
         // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
         if (zf) {
-          zooming.scaleBy(svg.transition().duration(this.TRANSITION_DURATION), zf);
+          zooming.scaleBy(
+            svg.transition().duration(this.TRANSITION_DURATION),
+            zf
+          );
         } else {
-          svg.transition().duration(this.TRANSITION_DURATION).call(
+          svg
+            .transition()
+            .duration(this.TRANSITION_DURATION)
+            .call(
+              zooming.transform,
+              d3.zoomIdentity.translate(0, -this.height / 4)
+            );
+        }
+      } catch (error) {}
+    });
+
+    this.resetSubscription = this.isReset$
+      .pipe(filter((r) => r))
+      .subscribe((isReset) => {
+        svg
+          .transition()
+          .duration(this.TRANSITION_DURATION)
+          .call(
             zooming.transform,
             d3.zoomIdentity.translate(0, -this.height / 4)
           );
-        }
-      } catch (error) { }
-    });
-
-    this.resetSubscription = this.isReset$.pipe(filter(r => r)).subscribe(isReset => {
-      svg.transition().duration(this.TRANSITION_DURATION).call(
-        zooming.transform,
-        d3.zoomIdentity.translate(0, -this.height / 4)
-      );
-    });
+      });
 
     let [clearSearchInitiative, highlightInitiative] = partition(
       this.zoomInitiative$,
-      node => node === null
+      (node) => node === null
     );
 
-    clearSearchInitiative.pipe(
-      combineLatest(this.isAuthorityCentricMode$.asObservable()))
+    clearSearchInitiative
+      .pipe(combineLatest(this.isAuthorityCentricMode$.asObservable()))
       .subscribe((zoomed: [Initiative, boolean]) => {
         let node = zoomed[0];
-        let isAuthorityCentricMode = zoomed[1]
+        let isAuthorityCentricMode = zoomed[1];
 
-        g.selectAll("path.edge")
-          .style("stroke-opacity", function (d: any) {
+        g.selectAll('path.edge')
+          .style('stroke-opacity', function (d: any) {
             return 1;
           })
           // .style("opacity", function (d: any) {
           //   return 1;
           // })
-          .attr("marker-end", function (d: any) {
-            if (isAuthorityCentricMode)
-              return "url(#arrow)";
+          .attr('marker-end', function (d: any) {
+            if (isAuthorityCentricMode) return 'url(#arrow)';
           });
       });
-    highlightInitiative.pipe(
-      combineLatest(this.isAuthorityCentricMode$.asObservable()))
+    highlightInitiative
+      .pipe(combineLatest(this.isAuthorityCentricMode$.asObservable()))
       .subscribe((zoomed: [Initiative, boolean]) => {
-
         let node = zoomed[0];
         let isAuthorityCentricMode = zoomed[1];
         let highlightElement = this.highlightElement;
-        let FADED_OPACITY = this.FADED_OPACITY
+        let FADED_OPACITY = this.FADED_OPACITY;
 
-        g.selectAll("path.edge")
-          .each(function (d: any) {
-            highlightElement(
-              d3.select(this),
-              d[4].includes(node.id),
-              FADED_OPACITY,
-              isAuthorityCentricMode)
-          })
-
+        g.selectAll('path.edge').each(function (d: any) {
+          highlightElement(
+            d3.select(this),
+            d[4].includes(node.id),
+            FADED_OPACITY,
+            isAuthorityCentricMode
+          );
+        });
       });
 
-    this.selectableTags$.pipe(combineLatest(this.isAuthorityCentricMode$.asObservable())).subscribe(value => {
-      let tags = value[0];
-      let isAuthorityCentricMode = value[1];
-      let highlightElement = this.highlightElement;
+    this.selectableTags$
+      .pipe(combineLatest(this.isAuthorityCentricMode$.asObservable()))
+      .subscribe((value) => {
+        let tags = value[0];
+        let isAuthorityCentricMode = value[1];
+        let highlightElement = this.highlightElement;
 
-      let [selectedTags, unselectedTags] = _partition(tags, t => t.isSelected);
-      let uiService = this.uiService
-      let FADED_OPACITY = this.FADED_OPACITY
-      g.selectAll("path.edge")
-        .each(function (d: any) {
+        let [selectedTags, unselectedTags] = _partition(
+          tags,
+          (t) => t.isSelected
+        );
+        let uiService = this.uiService;
+        let FADED_OPACITY = this.FADED_OPACITY;
+        g.selectAll('path.edge').each(function (d: any) {
           highlightElement(
             d3.select(this),
             uiService.filter(selectedTags, unselectedTags, d[5]),
             FADED_OPACITY,
-            isAuthorityCentricMode)
-        })
-    })
+            isAuthorityCentricMode
+          );
+        });
+      });
 
     this.svg = svg;
     this.g = g;
   }
 
-  private highlightElement(element: any, isSelected: boolean, unselectedOpacity: number, isAuthorityCentricMode: boolean) {
+  private highlightElement(
+    element: any,
+    isSelected: boolean,
+    unselectedOpacity: number,
+    isAuthorityCentricMode: boolean
+  ) {
     element
-      .style("stroke-opacity", function (d: any) {
+      .style('stroke-opacity', function (d: any) {
         return isSelected ? 1 : unselectedOpacity;
       })
-      .style("fill-opacity", function (d: any) {
+      .style('fill-opacity', function (d: any) {
         return isSelected ? 1 : unselectedOpacity;
       })
       // .style("opacity", function (d: any) {
       //   return isSelected ? 1 : unselectedOpacity;
       // })
-      .attr("marker-end", function (d: any) {
+      .attr('marker-end', function (d: any) {
         if (isAuthorityCentricMode) {
-          return isSelected ? "url(#arrow)" : "url(#arrow-fade)";
+          return isSelected ? 'url(#arrow)' : 'url(#arrow-fade)';
         }
       });
   }
 
-
   private prepareAuthorityCentric(initiativeList: HierarchyNode<Initiative>[]) {
     let nodesRaw = initiativeList
-      .map(d => {
+      .map((d) => {
         let all = flatten([...[d.data.accountable], d.data.helpers]);
-        return uniqBy(remove(all), a => {
+        return uniqBy(remove(all), (a) => {
           return a.user_id;
         });
       })
       .reduce((pre, cur) => {
         return [...pre, ...cur];
       })
-      .map(u => {
+      .map((u) => {
         return {
           name: u.name,
           id: u.user_id,
           picture: u.picture,
           shortid: u.shortid,
-          slug: u.getSlug()
+          slug: u.getSlug(),
         };
       });
 
     let rawlinks = initiativeList
-      .map(i => {
+      .map((i) => {
         return i.data;
       })
-      .map(i => {
-        return i.helpers.map(h => {
+      .map((i) => {
+        return i.helpers.map((h) => {
           if (i.accountable && h.user_id !== i.accountable.user_id)
             return {
               source: h.user_id,
               target: i.accountable ? i.accountable.user_id : undefined,
-              type: "helps",
+              type: 'helps',
               initiative: i.id,
-              tags: i.tags
+              tags: i.tags,
             };
         });
       })
@@ -419,20 +475,19 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         return reduced;
       })
-      .map(l => {
+      .map((l) => {
         return {
           linkid: `${l.source}-${l.target}`,
           source: l.source,
           target: l.target,
           initiative: l.initiative,
           type: l.type,
-          tags: l.tags
+          tags: l.tags,
         };
       });
 
-
     let links = _map(
-      groupBy(rawlinks, "linkid"),
+      groupBy(rawlinks, 'linkid'),
       (items: Array<any>, linkid: string) => {
         return {
           source: items[0].source,
@@ -442,60 +497,61 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           initiatives: items.map((item: any) => item.initiative),
           tags: flattenDeep(items.map((item: any) => item.tags)).map(
             (t: Tag) => t.shortid
-          )
+          ),
         };
-      })
+      }
+    );
 
     return {
-      nodes: uniqBy(nodesRaw, u => {
+      nodes: uniqBy(nodesRaw, (u) => {
         return u.id;
       }),
-      links: links
+      links: links,
     };
   }
 
   private prepareHelperCentric(initiativeList: HierarchyNode<Initiative>[]) {
     let nodesRaw = initiativeList
-      .map(d => {
+      .map((d) => {
         let all = flatten([...[d.data.accountable], d.data.helpers]);
-        return uniqBy(remove(all), a => {
+        return uniqBy(remove(all), (a) => {
           return a.user_id;
         });
       })
       .reduce((pre, cur) => {
         return [...pre, ...cur];
       })
-      .map(u => {
+      .map((u) => {
         return {
           name: u.name,
           id: u.user_id,
           picture: u.picture,
           shortid: u.shortid,
-          slug: u.getSlug()
+          slug: u.getSlug(),
         };
       });
 
     let rawlinks = initiativeList
-      .map(i => {
+      .map((i) => {
         return i.data;
       })
-      .map(i => {
-        let allWorkers = remove(flatten([...[i.accountable], i.helpers]))
+      .map((i) => {
+        let allWorkers = remove(flatten([...[i.accountable], i.helpers]));
 
-        let result: any[] = []
+        let result: any[] = [];
         allWorkers.forEach((w, ix, arr) => {
-          arr.forEach(o => {
+          arr.forEach((o) => {
             if (o.user_id !== w.user_id) {
               result.push({
                 source: w.user_id,
                 target: o.user_id,
-                type: "works with",
+                type: 'works with',
                 initiative: i.id,
-                tags: i.tags
-              })
+                tags: i.tags,
+              });
             }
-          })
-        })
+          });
+        });
         return result;
       })
       .reduce((pre, cur) => {
@@ -503,19 +559,22 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         return reduced;
       })
-      .map(l => {
+      .map((l) => {
         return {
-          linkid: l.source < l.target ? `${l.source}-${l.target}` : `${l.target}-${l.source}`,
+          linkid:
+            l.source < l.target
+              ? `${l.source}-${l.target}`
+              : `${l.target}-${l.source}`,
           source: l.source,
           target: l.target,
           initiative: l.initiative,
           type: l.type,
-          tags: l.tags
+          tags: l.tags,
         };
       });
 
     let links = _map(
-      groupBy(rawlinks, "linkid"),
+      groupBy(rawlinks, 'linkid'),
       (items: any, linkid: string) => {
         let uniqueItems = uniqBy(items, (i: any) => i.initiative);
         return {
@@ -526,22 +585,22 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           initiatives: uniqueItems.map((item: any) => item.initiative),
           tags: flattenDeep(uniqueItems.map((item: any) => item.tags)).map(
             (t: Tag) => t.shortid
-          )
+          ),
         };
-      })
+      }
+    );
 
     return {
-      nodes: uniqBy(nodesRaw, u => {
+      nodes: uniqBy(nodesRaw, (u) => {
         return u.id;
       }),
-      links: links
+      links: links,
     };
   }
 
   getTags() {
     return this.tagsState;
   }
-
 
   public switch(value: boolean) {
     this.isAuthorityCentricMode$.next(value);
@@ -551,20 +610,26 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   saveChanges(authorityCentricMode: boolean) {
     this.isSaving = true;
     const settings = this.settings;
-    settings.views.network.isAuthorityCentricMode = authorityCentricMode
+    settings.views.network.isAuthorityCentricMode = authorityCentricMode;
 
-    this.mapSettingsService.set(this.datasetId, settings)
+    this.mapSettingsService.set(this.datasetId, settings);
     // this.dataset.initiative.authorityCentricMode = authorityCentricMode;
 
     if (!this.dataset) {
       return;
     }
 
-    this.datasetFactory.upsert(this.dataset, this.dataset.datasetId)
-      .then((hasSaved: boolean) => {
-        // this.dataService.set(this.dataset);
-        return hasSaved;
-      }, (reason) => { console.error(reason) })
+    this.datasetFactory
+      .upsert(this.dataset, this.dataset.datasetId)
+      .then(
+        (hasSaved: boolean) => {
+          // this.dataService.set(this.dataset);
+          return hasSaved;
+        },
+        (reason) => {
+          console.error(reason);
+        }
+      )
       .then(() => {
         this.isSaving = false;
       });
@@ -577,7 +642,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   }
 
   public update(data: any, seedColor: string, isAuthorityCentricMode: boolean) {
-    if (d3.selectAll("g").empty()) {
+    if (d3.selectAll('g').empty()) {
       this.init();
     }
 
@@ -595,7 +660,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let datasetSlug = this.slug;
     let datasetId = this.datasetId;
     let getTags = this.getTags.bind(this);
-    let setIsNoNodes = this.setIsNoNodes.bind(this)
+    let setIsNoNodes = this.setIsNoNodes.bind(this);
     let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
     let LINE_WEIGHT = this.LINE_WEIGHT;
     let FADED_OPACITY = this.FADED_OPACITY;
@@ -606,8 +671,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .hierarchy(data)
       .descendants();
 
-
-    let graph = isAuthorityCentricMode ? this.prepareAuthorityCentric(initiativesList) : this.prepareHelperCentric(initiativesList);
+    let graph = isAuthorityCentricMode
+      ? this.prepareAuthorityCentric(initiativesList)
+      : this.prepareHelperCentric(initiativesList);
     if (graph.nodes.length === 0) {
       setIsNoNodes();
       return;
@@ -619,13 +685,13 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let simulation = d3
       .forceSimulation()
       .force(
-        "link",
+        'link',
         d3.forceLink().id(function (d: any) {
           return d.id;
         })
       )
       .force(
-        "charge",
+        'charge',
         d3
           .forceManyBody()
           .distanceMax(400)
@@ -633,28 +699,24 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             return -600;
           })
       )
-      .force("center", d3.forceCenter(width / 2, height / 2));
+      .force('center', d3.forceCenter(width / 2, height / 2));
 
-    svg.selectAll("defs > marker")
-      .style("fill", seedColor)
+    svg.selectAll('defs > marker').style('fill', seedColor);
 
-    let patterns = g
-      .select("defs")
-      .selectAll("pattern")
-      .data(graph.nodes);
+    let patterns = g.select('defs').selectAll('pattern').data(graph.nodes);
     patterns
       .enter()
-      .append("pattern")
+      .append('pattern')
       .merge(patterns)
-      .attr("id", function (d: any) {
-        return "image" + d.id;
+      .attr('id', function (d: any) {
+        return 'image' + d.id;
       })
-      .attr("width", "100%")
-      .attr("height", "100%")
-      .append("image")
-      .attr("width", CIRCLE_RADIUS * 2)
-      .attr("height", CIRCLE_RADIUS * 2)
-      .attr("xlink:href", function (d: any) {
+      .attr('width', '100%')
+      .attr('height', '100%')
+      .append('image')
+      .attr('width', CIRCLE_RADIUS * 2)
+      .attr('height', CIRCLE_RADIUS * 2)
+      .attr('xlink:href', function (d: any) {
         return d.picture;
       });
 
@@ -664,7 +726,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       }),
       links = graph.links;
 
-    let [selectedTags, unselectedTags] = _partition(getTags(), (t: SelectableTag) => t.isSelected);
+    let [selectedTags, unselectedTags] = _partition(
+      getTags(),
+      (t: SelectableTag) => t.isSelected
+    );
 
     links.forEach(function (link: {
       source: string;
@@ -689,8 +754,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     });
 
     let link = g
-      .select("g.links")
-      .selectAll("path.edge")
+      .select('g.links')
+      .selectAll('path.edge')
       .data(bilinks, function (d: any) {
         return d[5];
       });
@@ -698,42 +763,45 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     link = link
       .enter()
-      .append("path")
-      .attr("class", "edge")
+      .append('path')
+      .attr('class', 'edge')
       .merge(link)
-      .attr("data-initiatives", function (d: any) {
-        return d[4].join(" ");
+      .attr('data-initiatives', function (d: any) {
+        return d[4].join(' ');
       })
-      .attr("data-tags", function (d: any) {
-        return d[5].join(",");
+      .attr('data-tags', function (d: any) {
+        return d[5].join(',');
       })
-      .attr("data-source", function (d: any) {
+      .attr('data-source', function (d: any) {
         return d[0].id;
       })
-      .attr("data-target", function (d: any) {
+      .attr('data-target', function (d: any) {
         return d[2].id;
       })
-      .attr("stroke-width", function (d: any) {
+      .attr('stroke-width', function (d: any) {
         return `${LINE_WEIGHT * d[3]}px`;
       })
       // .style("opacity", function (d: any) {
       //   return uiService.filter(selectedTags, unselectedTags, d[5]) ? 1 : FADED_OPACITY;
       // })
-      .style("stroke-opacity", function (d: any) {
-        return uiService.filter(selectedTags, unselectedTags, d[5]) ? 1 : FADED_OPACITY;
+      .style('stroke-opacity', function (d: any) {
+        return uiService.filter(selectedTags, unselectedTags, d[5])
+          ? 1
+          : FADED_OPACITY;
       })
-      .attr("id", function (d: any) {
+      .attr('id', function (d: any) {
         return d[6];
       })
-      .attr("marker-end", function (d: any) {
+      .attr('marker-end', function (d: any) {
         if (isAuthorityCentricMode)
-          return uiService.filter(selectedTags, unselectedTags, d[5]) ? "url(#arrow)" : "url(#arrow-fade)";
+          return uiService.filter(selectedTags, unselectedTags, d[5])
+            ? 'url(#arrow)'
+            : 'url(#arrow-fade)';
       });
 
-
     let node = g
-      .select("g.nodes")
-      .selectAll("g.node")
+      .select('g.nodes')
+      .selectAll('g.node')
       .data(
         nodes.filter(function (d) {
           return d.id;
@@ -743,121 +811,121 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     node = node
       .enter()
-      .append("g")
-      .attr("class", "node")
-      .attr("id", (d: any) => d.id)
+      .append('g')
+      .attr('class', 'node')
+      .attr('id', (d: any) => d.id)
       .merge(node)
-      .on("dblclick", releaseNode)
+      .on('dblclick', releaseNode)
       .call(
-        d3.drag<SVGElement, any>()
-          .on("start", dragstarted)
-          .on("drag", dragged)
-          .on("end", dragended)
+        d3
+          .drag<SVGElement, any>()
+          .on('start', dragstarted)
+          .on('drag', dragged)
+          .on('end', dragended)
       );
 
-    node.append("circle");
-    node.append("text").attr("class", "authority-name");
+    node.append('circle');
+    node.append('text').attr('class', 'authority-name');
 
     node
-      .select("circle")
-      .attr("r", CIRCLE_RADIUS)
-      .attr("fill", function (d: any) {
-        return "url(#image" + d.id + ")";
+      .select('circle')
+      .attr('r', CIRCLE_RADIUS)
+      .attr('fill', function (d: any) {
+        return 'url(#image' + d.id + ')';
       })
-      .attr("pointer-events", "auto")
-      .attr("cursor", "move");
+      .attr('pointer-events', 'auto')
+      .attr('cursor', 'move');
 
     node
-      .select("text.authority-name")
-      .attr("pointer-events", "auto")
-      .attr("cursor", "pointer")
+      .select('text.authority-name')
+      .attr('pointer-events', 'auto')
+      .attr('cursor', 'pointer')
       // .style("font-weight", "initial")
-      .attr("dx", CIRCLE_RADIUS + 3)
-      .attr("dy", CIRCLE_RADIUS / 2)
+      .attr('dx', CIRCLE_RADIUS + 3)
+      .attr('dy', CIRCLE_RADIUS / 2)
       .text(function (d: any) {
         return d.name;
       });
 
     node
-      .on("mouseover", function (d: any) {
-        d3.select(this).style("fill", d3.color(seedColor).darker(1).toString());
+      .on('mouseover', function (d: any) {
+        d3.select(this).style('fill', d3.color(seedColor).darker(1).toString());
 
         let sourceNode = `${d.id}`;
         let connectedNodes: string[] = [];
         let connectedInitiatives: number[] = [];
         // highlight connected paths
-        g.selectAll(`path.edge`)
-          .each(function (d: any) {
-            highlightElement(
-              d3.select(this),
-              d[0].id === sourceNode || d[2].id === sourceNode,
-              FADED_OPACITY,
-              isAuthorityCentricMode);
-            if (d[0].id === sourceNode || d[2].id === sourceNode) {
-              connectedNodes = connectedNodes.concat([d[0].id, d[2].id]);
-              connectedInitiatives = connectedInitiatives.concat(d[4])
-            }
-          })
+        g.selectAll(`path.edge`).each(function (d: any) {
+          highlightElement(
+            d3.select(this),
+            d[0].id === sourceNode || d[2].id === sourceNode,
+            FADED_OPACITY,
+            isAuthorityCentricMode
+          );
+          if (d[0].id === sourceNode || d[2].id === sourceNode) {
+            connectedNodes = connectedNodes.concat([d[0].id, d[2].id]);
+            connectedInitiatives = connectedInitiatives.concat(d[4]);
+          }
+        });
 
         // highlight node
-        g.selectAll(`g.node`)
-          .each(function (d: any) {
-            highlightElement(
-              d3.select(this),
-              d.id === sourceNode || connectedNodes.indexOf(d.id) > -1,
-              FADED_OPACITY,
-              isAuthorityCentricMode)
-          })
-
-
-        let list = initiativesList.map(i => i.data).filter(i => {
-          return connectedInitiatives.indexOf(i.id) > -1;
+        g.selectAll(`g.node`).each(function (d: any) {
+          highlightElement(
+            d3.select(this),
+            d.id === sourceNode || connectedNodes.indexOf(d.id) > -1,
+            FADED_OPACITY,
+            isAuthorityCentricMode
+          );
         });
+
+        let list = initiativesList
+          .map((i) => i.data)
+          .filter((i) => {
+            return connectedInitiatives.indexOf(i.id) > -1;
+          });
 
         // showToolipOf$.next({ initiatives: list, isNameOnly: true });
 
         hideOptions$.next(true);
-
       })
-      .on("mouseout", function (d: any) {
-        d3.select(this).style("fill", "initial");
-        g.selectAll("path.edge").style("stroke-opacity", 1).attr("marker-end", function (d: any) {
-          if (isAuthorityCentricMode) {
-            return "url(#arrow)";
-          }
-        });
+      .on('mouseout', function (d: any) {
+        d3.select(this).style('fill', 'initial');
+        g.selectAll('path.edge')
+          .style('stroke-opacity', 1)
+          .attr('marker-end', function (d: any) {
+            if (isAuthorityCentricMode) {
+              return 'url(#arrow)';
+            }
+          });
 
-        g.selectAll(`g.node`).style("fill-opacity", 1);
+        g.selectAll(`g.node`).style('fill-opacity', 1);
 
         // showToolipOf$.next({ initiatives: null, isNameOnly: true });
 
         hideOptions$.next(false);
       })
-      .on("click", function (d: any) {
+      .on('click', function (d: any) {
         // showToolipOf$.next({ initiatives: null, isNameOnly: true });
         hideOptions$.next(false);
 
         router.navigateByUrl(
           `/map/${datasetId}/${slug}/directory?member=${d.shortid}`
         );
-      })
-      ;
+      });
 
-    g.selectAll("path")
-      .style("stroke-opacity", 1)
-      .style("stroke", seedColor)
-      .on("mouseover", function (d: any) {
+    g.selectAll('path')
+      .style('stroke-opacity', 1)
+      .style('stroke', seedColor)
+      .on('mouseover', function (d: any) {
         d3.getEvent().stopPropagation();
 
         let path = d3.select(this);
         path
-          .style("stroke-opacity", 1)
-          .style("stroke", d3.color(seedColor).darker(1).toString())
-          .attr("marker-end", function (d: any) {
-            if (isAuthorityCentricMode)
-              return "url(#arrow-hover)";
+          .style('stroke-opacity', 1)
+          .style('stroke', d3.color(seedColor).darker(1).toString())
+          .attr('marker-end', function (d: any) {
+            if (isAuthorityCentricMode) return 'url(#arrow-hover)';
           });
-
 
         // let p = path
         //   .node()
@@ -865,23 +933,23 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         let ids: any[] = d[4];
 
-        let list = initiativesList.map(i => i.data).filter(i => {
-          return ids.indexOf(i.id) > -1;
-        });
+        let list = initiativesList
+          .map((i) => i.data)
+          .filter((i) => {
+            return ids.indexOf(i.id) > -1;
+          });
 
         // showToolipOf$.next({ initiatives: list, isNameOnly: true });
 
         hideOptions$.next(true);
       })
-      .on("mouseout", function (d: any) {
-
+      .on('mouseout', function (d: any) {
         let path = d3.select(this);
         path
-          .style("stroke-opacity", 1)
-          .style("stroke", seedColor)
-          .attr("marker-end", function (d: any) {
-            if (isAuthorityCentricMode)
-              return "url(#arrow)";
+          .style('stroke-opacity', 1)
+          .style('stroke', seedColor)
+          .attr('marker-end', function (d: any) {
+            if (isAuthorityCentricMode) return 'url(#arrow)';
           });
         // showToolipOf$.next({ initiatives: null, isNameOnly: true });
 
@@ -890,66 +958,66 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           initiatives: null,
           x: 0,
           y: 0,
-          isReadOnlyContextMenu: true
+          isReadOnlyContextMenu: true,
         });
       })
-      .on("contextmenu", function (d: any) {
+      .on('contextmenu', function (d: any) {
         if (!canOpenInitiativeContextMenu) return;
 
         d3.getEvent().preventDefault();
         let mousePosition = d3.mouse(this);
         let matrix = this.getCTM().translate(
-          +this.getAttribute("cx"),
-          +this.getAttribute("cy")
+          +this.getAttribute('cx'),
+          +this.getAttribute('cy')
         );
 
         let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 };
 
         let ids: any[] = d[4];
 
-        let list = initiativesList.map(i => i.data).filter(i => {
-          return ids.indexOf(i.id) > -1;
-        });
+        let list = initiativesList
+          .map((i) => i.data)
+          .filter((i) => {
+            return ids.indexOf(i.id) > -1;
+          });
 
         let path = d3.select(this);
         showContextMenuOf$.next({
           initiatives: list,
           x: uiService.getContextMenuCoordinates(mouse, matrix).x,
           y: uiService.getContextMenuCoordinates(mouse, matrix).y,
-          isReadOnlyContextMenu: true
+          isReadOnlyContextMenu: true,
         });
 
-        d3.select(".context-menu")
-          .on("mouseenter", function (d: any) {
+        d3.select('.context-menu')
+          .on('mouseenter', function (d: any) {
             showContextMenuOf$.next({
               initiatives: list,
               x: uiService.getContextMenuCoordinates(mouse, matrix).x,
               y: uiService.getContextMenuCoordinates(mouse, matrix).y,
-              isReadOnlyContextMenu: true
+              isReadOnlyContextMenu: true,
             });
-            path.dispatch("mouseover");
+            path.dispatch('mouseover');
           })
-          .on("mouseleave", function (d: any) {
+          .on('mouseleave', function (d: any) {
             showContextMenuOf$.next({
               initiatives: null,
               x: 0,
               y: 0,
-              isReadOnlyContextMenu: true
+              isReadOnlyContextMenu: true,
             });
-            path.dispatch("mouseout");
-          })
-
+            path.dispatch('mouseout');
+          });
       });
 
+    simulation.nodes(graph.nodes as any).on('tick', ticked);
 
-    simulation.nodes(graph.nodes as any).on("tick", ticked);
-
-    simulation.force<ForceLink<any, any>>("link").links(graph.links);
+    simulation.force<ForceLink<any, any>>('link').links(graph.links);
 
     function ticked() {
-      link.attr("d", positionLink);
-      link.attr("d", positionArrow);
-      node.attr("transform", positionNode);
+      link.attr('d', positionLink);
+      link.attr('d', positionArrow);
+      node.attr('transform', positionNode);
       // label.attr("transform", positionLabel);
     }
 
@@ -966,38 +1034,68 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     // }
 
     function positionLink(d: any) {
-      let source = d[0], target = d[2]
+      let source = d[0],
+        target = d[2];
       // // fit path like you've been doing
       //   path.attr("d", function(d){
       let dx = target.x - source.x,
         dy = target.y - source.y,
         dr = Math.sqrt(dx * dx + dy * dy);
-      return "M" + source.x + "," + source.y + "A" + dr + "," + dr + " 0 0,1 " + target.x + "," + target.y;
+      return (
+        'M' +
+        source.x +
+        ',' +
+        source.y +
+        'A' +
+        dr +
+        ',' +
+        dr +
+        ' 0 0,1 ' +
+        target.x +
+        ',' +
+        target.y
+      );
     }
 
     function positionArrow(d: any) {
-      let source = d[0], target = d[2], weight = d[3]
+      let source = d[0],
+        target = d[2],
+        weight = d[3];
       // length of current path
       let pl = this.getTotalLength(),
         // radius of circle plus marker head
-        r = CIRCLE_RADIUS * 1.5 + Math.sqrt(CIRCLE_RADIUS * 2 + CIRCLE_RADIUS * 2), // 16.97 is the "size" of the marker Math.sqrt(12**2 + 12 **2)
+        r =
+          CIRCLE_RADIUS * 1.5 +
+          Math.sqrt(CIRCLE_RADIUS * 2 + CIRCLE_RADIUS * 2), // 16.97 is the "size" of the marker Math.sqrt(12**2 + 12 **2)
         // position close to where path intercepts circle
-        m = this.getPointAtLength(pl - r)
-        ;
+        m = this.getPointAtLength(pl - r);
       let dx = m.x - source.x,
         dy = m.y - source.y,
         dr = Math.sqrt(dx * dx + dy * dy);
 
-      return "M" + source.x + "," + source.y + "A" + dr + "," + dr + " 0 0,1 " + m.x + "," + m.y;
+      return (
+        'M' +
+        source.x +
+        ',' +
+        source.y +
+        'A' +
+        dr +
+        ',' +
+        dr +
+        ' 0 0,1 ' +
+        m.x +
+        ',' +
+        m.y
+      );
     }
 
     function positionNode(d: any) {
-      return "translate(" + d.x + "," + d.y + ")";
+      return 'translate(' + d.x + ',' + d.y + ')';
     }
 
     function dragstarted(d: any) {
       if (!d3.getEvent().active) simulation.alphaTarget(0.3).restart();
-      d3.select(this).classed("fixed", (d.fixed = true));
+      d3.select(this).classed('fixed', (d.fixed = true));
       d.fx = d.x;
       d.fy = d.y;
     }
@@ -1014,11 +1112,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     }
 
     function releaseNode(d: any) {
-      d3.select(this).classed("fixed", (d.fixed = false));
+      d3.select(this).classed('fixed', (d.fixed = false));
       d.fx = null;
       d.fy = null;
       d3.getEvent().stopPropagation();
     }
-
   }
 }

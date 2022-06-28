@@ -3,24 +3,21 @@
   class="container-fluid h-100 overflow-auto bg-texture"
   [class.unavailable]="(loader.progressRef?.state | async).active"
 >
-	<div class="d-flex flex-column h-100">
-		<maptio-header>
-		</maptio-header>
-		<div class="container-fluid h-100 overflow-x-hidden bg-transparent">
-			<div class="row h-100">
-				<div class="col-12 h-100">
-					<loader></loader>
-					<router-outlet></router-outlet>
-				</div>
-			</div>
-
-		</div>
-		<footer [isMobile]="isMobile()"></footer>
-	</div>
+  <div class="d-flex flex-column h-100">
+    <maptio-header></maptio-header>
+    <div class="container-fluid h-100 overflow-x-hidden bg-transparent">
+      <div class="row h-100">
+        <div class="col-12 h-100">
+          <loader></loader>
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+    <footer [isMobile]="isMobile()"></footer>
+  </div>
 </div>
 
 <router-outlet name="empty"></router-outlet>
-
 
 <!-- <div *ngIf="isMobile()" class="container-fluid h-100 overflow-auto bg-gradient-inverse" [class.unavailable]="(progress.state$ | async).active">
 

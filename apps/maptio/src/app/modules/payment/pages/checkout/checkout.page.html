@@ -1,46 +1,50 @@
-<div *ngIf="true" class="d-flex justify-content-center align-items-center flex-column row ">
-    <!-- <div class="d-flex flex-column justify-content-center align-items-center col-12"> -->
-        <div class="d-flex flex-column justify-content-center align-items-center col-12 col-md-6 card bg-white border-0">
-            <!-- <div class="my-3 card bg-white border-0 "> -->
-                <div class="card-body">
-                    <div class="d-flex justify-content-center align-items-center flex-column text-gradient">
-                        <i class="fas fa-glass-cheers d-none d-md-block icon-ending"></i>
-                        <i class="fas fa-glass-cheers d-md-none icon-ending-xs"></i>
-                        <h1 class="my-3">Thank you!</h1>
-                    </div>
+<div
+  *ngIf="true"
+  class="d-flex justify-content-center align-items-center flex-column row"
+>
+  <!-- <div class="d-flex flex-column justify-content-center align-items-center col-12"> -->
+  <div
+    class="d-flex flex-column justify-content-center align-items-center col-12 col-md-6 card bg-white border-0"
+  >
+    <!-- <div class="my-3 card bg-white border-0 "> -->
+    <div class="card-body">
+      <div
+        class="d-flex justify-content-center align-items-center flex-column text-gradient"
+      >
+        <i class="fas fa-glass-cheers d-none d-md-block icon-ending"></i>
+        <i class="fas fa-glass-cheers d-md-none icon-ending-xs"></i>
+        <h1 class="my-3">Thank you!</h1>
+      </div>
 
-                    <h4 class="text-muted my-3 ">
-                        A confirmation email was sent to
-                        <b>{{customerEmail}}</b>
+      <h4 class="text-muted my-3">
+        A confirmation email was sent to
+        <b>{{customerEmail}}</b>
+      </h4>
 
-                    </h4>
+      <div class="d-flex align-items-center flex-column">
+        <div>
+          Organisation
+          <a routerLink="/team/{{team?.team_id}}/billing">{{team?.name}}</a>
+          's subscription is active and the next renewal will be on
+          {{renewalDate}}. You will be charged ${{planPrice}} every month.
+        </div>
+      </div>
+    </div>
+    <div
+      class="card-footer d-flex flex-wrap flex-column flex-md-row justify-content-center align-items-center bg-white border-0 mt-3"
+    >
+      <a
+        class="btn btn-lg btn-success text-white"
+        target="blank"
+        href="{{ FEATURE_REQUEST_EMAIL }}"
+      >
+        Tell us what to work on next
+      </a>
+      <span class="m-2">or</span>
+      <a class="btn btn-lg btn-link" routerLink="/home">Continue mapping</a>
+    </div>
+  </div>
 
-                    <div class="d-flex align-items-center flex-column">
-                        <div>
-                            Organisation
-                            <a routerLink="/team/{{team?.team_id}}/billing">{{team?.name}}</a>'s subscription is active and the next renewal will be on {{renewalDate}}.
-                            You will be charged ${{planPrice}} every month.
-                        </div>
-                    </div>
-
-                </div>
-                <div class="card-footer d-flex flex-wrap flex-column flex-md-row justify-content-center align-items-center bg-white border-0 mt-3">
-
-                        <a class="btn btn-lg btn-success text-white" target="blank" href="{{ FEATURE_REQUEST_EMAIL }}">
-                          Tell us what to work on next
-                        </a>
-<span class="m-2">or</span>
-                    <a class="btn btn-lg btn-link" routerLink="/home">Continue mapping</a>
-                </div>
-            </div>
-
-
-
-
-
-
-
-
-        <!-- </div> -->
-    <!-- </div> -->
+  <!-- </div> -->
+  <!-- </div> -->
 </div>

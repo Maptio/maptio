@@ -1,9 +1,9 @@
 .edit {
-    border: none;
+  border: none;
 }
 
 .edit:before {
-    content: "\f304";
-    font-family: "Font Awesome 5 Free";
-    font-weight: bold;
+  content: '\f304';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: bold;
 }

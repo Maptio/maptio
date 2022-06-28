@@ -6,30 +6,29 @@ import {
   ViewEncapsulation,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
-} from "@angular/core";
+} from '@angular/core';
 
-import { BehaviorSubject, combineLatest, Observable } from "rxjs";
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 
 import { SubSink } from 'subsink';
 import { HierarchyNode, pack } from 'd3-hierarchy';
-import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
+import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
-import { CircleMapData } from "@maptio-shared/model/circle-map-data.interface";
-import { DataSet } from "@maptio-shared/model/dataset.data";
-import { Initiative } from "@maptio-shared/model/initiative.data";
-import { ColorService } from "@maptio-shared/services/color/color.service";
+import { CircleMapData } from '@maptio-shared/model/circle-map-data.interface';
+import { DataSet } from '@maptio-shared/model/dataset.data';
+import { Initiative } from '@maptio-shared/model/initiative.data';
+import { ColorService } from '@maptio-shared/services/color/color.service';
 
 import { InitiativeViewModel, InitiativeNode } from './initiative.model';
 import { CircleMapService } from './circle-map.service';
-import { map } from "rxjs/operators";
-
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'maptio-circle-map',
   templateUrl: './circle-map.component.html',
   styleUrls: ['./circle-map.component.css'],
   encapsulation: ViewEncapsulation.Emulated,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CircleMapComponent implements OnInit, OnDestroy {
   // All the data comes in as a single package
@@ -64,7 +63,7 @@ export class CircleMapComponent implements OnInit, OnDestroy {
   constructor(
     public colorService: ColorService,
     private cd: ChangeDetectorRef,
-    private circleMapService: CircleMapService,
+    private circleMapService: CircleMapService
   ) {}
 
   ngOnInit() {
@@ -87,12 +86,14 @@ export class CircleMapComponent implements OnInit, OnDestroy {
     this.showDescriptions$ = combineLatest([
       this.selectedCircleDescription$,
       this.selectedCircleName$,
-      this.dataset$
+      this.dataset$,
     ]).pipe(
       map(([description, name, dataset]) => {
-        return this.showDetailsPanel // setting to only show panel in sharing mode
-          && dataset.showDescriptions // map-specific user setting
-          && (!!description || !!name); // is there something to show?
+        return (
+          this.showDetailsPanel && // setting to only show panel in sharing mode
+          dataset.showDescriptions && // map-specific user setting
+          (!!description || !!name)
+        ); // is there something to show?
       })
     );
 
@@ -102,9 +103,11 @@ export class CircleMapComponent implements OnInit, OnDestroy {
       this.onInputChanges();
     });
 
-    this.subs.sink = this.circleMapService.changeDetectionTrigger$.subscribe(() => {
-      this.cd.markForCheck();
-    });
+    this.subs.sink = this.circleMapService.changeDetectionTrigger$.subscribe(
+      () => {
+        this.cd.markForCheck();
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -129,9 +132,11 @@ export class CircleMapComponent implements OnInit, OnDestroy {
     this.identifyCircleTypes();
     this.assignColorsToCircles();
 
-    const lastSelectedCircle = this.circleMapService.getLastSelectedCircle(this.circles);
+    const lastSelectedCircle = this.circleMapService.getLastSelectedCircle(
+      this.circles
+    );
 
-    if(this.isFirstLoad) {
+    if (this.isFirstLoad) {
       this.circleMapService.resetZoom();
       this.subs.sink = this.circleMapService.selectedCircle.subscribe(() => {
         this.adjustPrimaryCircleSelectionBasedOnSelectedCircle();
@@ -145,7 +150,7 @@ export class CircleMapComponent implements OnInit, OnDestroy {
       this.adjustPrimaryCircleSelectionBasedOnSelectedCircle();
     }
 
-    if(lastSelectedCircle) {
+    if (lastSelectedCircle) {
       this.circleMapService.selectCircle(lastSelectedCircle);
       this.circleMapService.zoomToCircle(lastSelectedCircle);
     }
@@ -160,14 +165,17 @@ export class CircleMapComponent implements OnInit, OnDestroy {
 
     const packInitiatives = pack<InitiativeViewModel>()
       .size([diameter - margin, diameter - margin])
-      .padding(function () { // eslint-disable-line @typescript-eslint/no-explicit-any
+      .padding(function () {
+        // eslint-disable-line @typescript-eslint/no-explicit-any
         return PADDING_CIRCLE;
       });
 
-    const rootHierarchyNode = this.circleMapService.calculateD3RootHierarchyNode(this.rootInitiative);
+    const rootHierarchyNode = this.circleMapService.calculateD3RootHierarchyNode(
+      this.rootInitiative
+    );
 
     // We perform this type conversion to later populate each node's data with some view-specific properties
-    const rootHierarchyNodeViewModel = rootHierarchyNode as unknown as HierarchyNode<InitiativeViewModel>;
+    const rootHierarchyNodeViewModel = (rootHierarchyNode as unknown) as HierarchyNode<InitiativeViewModel>;
 
     this.circles = packInitiatives(rootHierarchyNodeViewModel).descendants();
 
@@ -177,7 +185,9 @@ export class CircleMapComponent implements OnInit, OnDestroy {
   identifyCircleTypes() {
     if (this.circles) {
       this.rootCircle = this.circles[0];
-      this.primaryCircles = this.rootCircle.children ? this.rootCircle.children : [];
+      this.primaryCircles = this.rootCircle.children
+        ? this.rootCircle.children
+        : [];
     }
 
     this.circles.forEach((circle) => {
@@ -191,25 +201,30 @@ export class CircleMapComponent implements OnInit, OnDestroy {
 
       primaryCircle.children?.forEach((childOfPrimaryCircle) => {
         childOfPrimaryCircle.data.isChildOfPrimary = true;
-      })
+      });
     });
   }
 
   calculateMaxDepth() {
     let maxDepth = 0;
     this.rootCircle?.eachAfter((node): void => {
-        maxDepth = maxDepth > node.depth ? maxDepth : node.depth;
+      maxDepth = maxDepth > node.depth ? maxDepth : node.depth;
     });
     return maxDepth;
   }
 
   assignColorsToCircles() {
     const maxDepth = this.calculateMaxDepth();
-    const colorRange = this.colorService.getColorRangeNew(maxDepth, this.seedColor);
+    const colorRange = this.colorService.getColorRangeNew(
+      maxDepth,
+      this.seedColor
+    );
 
     this.circles.forEach((circle) => {
       const isPrimaryCircle = this.primaryCircles.includes(circle);
-      const isChildOfPrimaryCircle = circle.parent ? this.primaryCircles.includes(circle.parent) : false;
+      const isChildOfPrimaryCircle = circle.parent
+        ? this.primaryCircles.includes(circle.parent)
+        : false;
 
       if (circle.data.isLeaf && !isPrimaryCircle && !isChildOfPrimaryCircle) {
         circle.data.color = '#ffffff';
@@ -234,13 +249,13 @@ export class CircleMapComponent implements OnInit, OnDestroy {
   }
 
   markPrimaryCirclesAsSelected() {
-    this.primaryCircles.forEach(primaryCircle => {
+    this.primaryCircles.forEach((primaryCircle) => {
       this.circleMapService.markCircleAsSelected(primaryCircle);
     });
   }
 
   markPrimaryCirclesAsNotSelected() {
-    this.primaryCircles.forEach(primaryCircle => {
+    this.primaryCircles.forEach((primaryCircle) => {
       this.circleMapService.markCircleAsNotSelected(primaryCircle);
     });
   }

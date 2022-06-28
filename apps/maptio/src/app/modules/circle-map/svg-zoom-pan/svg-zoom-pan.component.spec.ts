@@ -8,9 +8,8 @@ describe('SvgZoomPanComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SvgZoomPanComponent ]
-    })
-    .compileComponents();
+      declarations: [SvgZoomPanComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -1,18 +1,12 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  ChangeDetectorRef
-} from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 
 import { DataSet } from '@maptio-shared/model/dataset.data';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 
-
 @Component({
   selector: 'maptio-sharing',
   templateUrl: './sharing.component.html',
-  styleUrls: ['./sharing.component.scss']
+  styleUrls: ['./sharing.component.scss'],
 })
 export class SharingComponent implements OnInit {
   @Input() dataset: DataSet;
@@ -26,7 +20,7 @@ export class SharingComponent implements OnInit {
 
   constructor(
     private cd: ChangeDetectorRef,
-    private datasetFactory: DatasetFactory,
+    private datasetFactory: DatasetFactory
   ) {}
 
   ngOnInit() {
@@ -78,7 +72,7 @@ export class SharingComponent implements OnInit {
   async toggleShowingDescriptions(event: Event) {
     if (this.isTogglingShowingDescriptions) {
       return;
-    };
+    }
 
     this.isTogglingShowingDescriptions = true;
     this.hasTogglingShowingDescriptionsFailed = false;
@@ -104,6 +98,4 @@ export class SharingComponent implements OnInit {
     this.isTogglingShowingDescriptions = false;
     this.cd.markForCheck();
   }
-
-
 }

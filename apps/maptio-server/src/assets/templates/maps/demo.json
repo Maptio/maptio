@@ -1,47 +1,262 @@
 {
-    "helpers": [],
-    "tags": [],
-    "hasFocus": false,
-    "isZoomedOn": false,
-    "isSearchedFor": false,
-    "id": 3181164440950,
-    "name": "The Example App Company",
-    "team_id": "${teamId}",
-    "children": [
+  "helpers": [],
+  "tags": [],
+  "hasFocus": false,
+  "isZoomedOn": false,
+  "isSearchedFor": false,
+  "id": 3181164440950,
+  "name": "The Example App Company",
+  "team_id": "${teamId}",
+  "children": [
+    {
+      "description": "Our vision is to make the best software for making an example out of people.",
+      "helpers": [
         {
-            "description": "Our vision is to make the best software for making an example out of people.",
-            "helpers": [
+          "isActivationPending": false,
+          "isInvitationSent": false,
+          "isDeleted": false,
+          "shortid": "HJ1L0F8yN",
+          "firstname": "Dave",
+          "lastname": "Parton",
+          "name": "Dave Parton",
+          "userRole": 0,
+          "lastSeenAt": null,
+          "createdAt": null,
+          "nickname": "dave.parton.maptio",
+          "email": "dave.parton.maptio@gmail.com",
+          "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
+          "user_id": "google-oauth2|114631860882417255120",
+          "teams": ["${teamId}"],
+          "datasets": [],
+          "hasAuthorityPrivileges": false,
+          "roles": []
+        }
+      ],
+      "tags": [],
+      "hasFocus": false,
+      "isZoomedOn": false,
+      "isSearchedFor": false,
+      "id": 6012847243692,
+      "name": "Creating apps that makes an example out of all of us",
+      "team_id": "${teamId}",
+      "accountable": {
+        "isActivationPending": false,
+        "isInvitationSent": false,
+        "isDeleted": false,
+        "shortid": "rJU7hcUk4",
+        "firstname": "Jackie",
+        "lastname": "Noble",
+        "name": "Jackie Noble",
+        "userRole": 0,
+        "lastSeenAt": null,
+        "createdAt": null,
+        "nickname": "Jackie Noble",
+        "email": "jackie.noble.maptio@gmail.com",
+        "picture": "https://lh6.googleusercontent.com/-f4XY249J1_g/AAAAAAAAAAI/AAAAAAAAAAc/tZae3OxvZvg/photo.jpg",
+        "user_id": "auth0|5c091c1e14668e36dcc5fee5",
+        "teams": ["${teamId}"],
+        "datasets": ["5c090eb28dabfa0013ab6b39"],
+        "hasAuthorityPrivileges": false,
+        "roles": []
+      },
+      "children": [
+        {
+          "helpers": [
+            {
+              "isActivationPending": false,
+              "isInvitationSent": false,
+              "isDeleted": false,
+              "shortid": "HJ1L0F8yN",
+              "firstname": "Dave",
+              "lastname": "Parton",
+              "name": "Dave Parton",
+              "userRole": 0,
+              "lastSeenAt": null,
+              "createdAt": null,
+              "nickname": "dave.parton.maptio",
+              "email": "dave.parton.maptio@gmail.com",
+              "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
+              "user_id": "google-oauth2|114631860882417255120",
+              "teams": ["${teamId}"],
+              "datasets": [],
+              "hasAuthorityPrivileges": false,
+              "roles": []
+            }
+          ],
+          "tags": [],
+          "hasFocus": false,
+          "isZoomedOn": false,
+          "isSearchedFor": false,
+          "id": 3367487774652,
+          "name": "Complying with data privacy regulations",
+          "team_id": "${teamId}",
+          "accountable": {
+            "isActivationPending": false,
+            "isInvitationSent": false,
+            "isDeleted": false,
+            "shortid": "rkVc958yE",
+            "firstname": "Eric",
+            "lastname": "Davies",
+            "name": "Eric Davies",
+            "userRole": 0,
+            "lastSeenAt": null,
+            "createdAt": null,
+            "nickname": "Eric Davies",
+            "email": "eric.davies.maptio@gmail.com",
+            "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
+            "user_id": "auth0|5c091a8b4d578823ecbfde5d",
+            "teams": ["${teamId}"],
+            "datasets": ["5c090eb28dabfa0013ab6b39"],
+            "hasAuthorityPrivileges": false,
+            "roles": []
+          },
+          "children": []
+        },
+        {
+          "description": "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can right-click (or ctrl+click on a Mac) any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
+          "helpers": [],
+          "tags": [],
+          "hasFocus": false,
+          "isZoomedOn": false,
+          "isSearchedFor": false,
+          "id": 2541053996631,
+          "name": "Managing our money",
+          "team_id": "${teamId}",
+          "accountable": {
+            "isActivationPending": false,
+            "isInvitationSent": false,
+            "isDeleted": false,
+            "shortid": "HJ1L0F8yN",
+            "firstname": "Dave",
+            "lastname": "Parton",
+            "name": "Dave Parton",
+            "userRole": 0,
+            "lastSeenAt": null,
+            "createdAt": null,
+            "nickname": "dave.parton.maptio",
+            "email": "dave.parton.maptio@gmail.com",
+            "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
+            "user_id": "google-oauth2|114631860882417255120",
+            "teams": ["${teamId}"],
+            "datasets": [],
+            "hasAuthorityPrivileges": false,
+            "roles": []
+          },
+          "children": [
+            {
+              "helpers": [],
+              "tags": [],
+              "hasFocus": false,
+              "isZoomedOn": false,
+              "isSearchedFor": false,
+              "id": 1048421063099,
+              "name": "Producing and filing our accounts",
+              "team_id": "${teamId}",
+              "accountable": {
+                "isActivationPending": false,
+                "isInvitationSent": false,
+                "isDeleted": false,
+                "shortid": "rkVc958yE",
+                "firstname": "Eric",
+                "lastname": "Davies",
+                "name": "Eric Davies",
+                "userRole": 0,
+                "lastSeenAt": null,
+                "createdAt": null,
+                "nickname": "Eric Davies",
+                "email": "eric.davies.maptio@gmail.com",
+                "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
+                "user_id": "auth0|5c091a8b4d578823ecbfde5d",
+                "teams": ["${teamId}"],
+                "datasets": ["5c090eb28dabfa0013ab6b39"],
+                "hasAuthorityPrivileges": false,
+                "roles": []
+              },
+              "children": []
+            },
+            {
+              "helpers": [
                 {
-                    "isActivationPending": false,
-                    "isInvitationSent": false,
-                    "isDeleted": false,
-                    "shortid": "HJ1L0F8yN",
-                    "firstname": "Dave",
-                    "lastname": "Parton",
-                    "name": "Dave Parton",
-                    "userRole": 0,
-                    "lastSeenAt": null,
-                    "createdAt": null,
-                    "nickname": "dave.parton.maptio",
-                    "email": "dave.parton.maptio@gmail.com",
-                    "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
-                    "user_id": "google-oauth2|114631860882417255120",
-                    "teams": [
-                        "${teamId}"
-                    ],
-                    "datasets": [],
-                    "hasAuthorityPrivileges": false,
-                    "roles": []
+                  "isActivationPending": false,
+                  "isInvitationSent": false,
+                  "isDeleted": false,
+                  "shortid": "HJ1L0F8yN",
+                  "firstname": "Dave",
+                  "lastname": "Parton",
+                  "name": "Dave Parton",
+                  "userRole": 0,
+                  "lastSeenAt": null,
+                  "createdAt": null,
+                  "nickname": "dave.parton.maptio",
+                  "email": "dave.parton.maptio@gmail.com",
+                  "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
+                  "user_id": "google-oauth2|114631860882417255120",
+                  "teams": ["${teamId}"],
+                  "datasets": ["5c090eb28dabfa0013ab6b39"],
+                  "hasAuthorityPrivileges": true,
+                  "roles": []
                 }
-            ],
-            "tags": [],
-            "hasFocus": false,
-            "isZoomedOn": false,
-            "isSearchedFor": false,
-            "id": 6012847243692,
-            "name": "Creating apps that makes an example out of all of us",
-            "team_id": "${teamId}",
-            "accountable": {
+              ],
+              "tags": [],
+              "hasFocus": false,
+              "isZoomedOn": false,
+              "isSearchedFor": false,
+              "id": 1991187191762,
+              "name": "Keeping accurate financial records",
+              "team_id": "${teamId}",
+              "accountable": {
+                "isActivationPending": false,
+                "isInvitationSent": false,
+                "isDeleted": false,
+                "shortid": "rkVc958yE",
+                "firstname": "Eric",
+                "lastname": "Davies",
+                "name": "Eric Davies",
+                "userRole": 0,
+                "lastSeenAt": null,
+                "createdAt": null,
+                "nickname": "Eric Davies",
+                "email": "eric.davies.maptio@gmail.com",
+                "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
+                "user_id": "auth0|5c091a8b4d578823ecbfde5d",
+                "teams": ["${teamId}"],
+                "datasets": ["5c090eb28dabfa0013ab6b39"],
+                "hasAuthorityPrivileges": false,
+                "roles": []
+              },
+              "children": []
+            },
+            {
+              "helpers": [
+                {
+                  "isActivationPending": false,
+                  "isInvitationSent": false,
+                  "isDeleted": false,
+                  "shortid": "HJ1L0F8yN",
+                  "firstname": "Dave",
+                  "lastname": "Parton",
+                  "name": "Dave Parton",
+                  "userRole": 0,
+                  "lastSeenAt": null,
+                  "createdAt": null,
+                  "nickname": "dave.parton.maptio",
+                  "email": "dave.parton.maptio@gmail.com",
+                  "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
+                  "user_id": "google-oauth2|114631860882417255120",
+                  "teams": ["${teamId}"],
+                  "datasets": ["5c090eb28dabfa0013ab6b39"],
+                  "hasAuthorityPrivileges": true,
+                  "roles": []
+                }
+              ],
+              "tags": [],
+              "hasFocus": false,
+              "isZoomedOn": false,
+              "isSearchedFor": false,
+              "id": 7880212277298,
+              "name": "Managing our compensation process",
+              "team_id": "${teamId}",
+              "accountable": {
                 "isActivationPending": false,
                 "isInvitationSent": false,
                 "isDeleted": false,
@@ -56,1257 +271,886 @@
                 "email": "jackie.noble.maptio@gmail.com",
                 "picture": "https://lh6.googleusercontent.com/-f4XY249J1_g/AAAAAAAAAAI/AAAAAAAAAAc/tZae3OxvZvg/photo.jpg",
                 "user_id": "auth0|5c091c1e14668e36dcc5fee5",
-                "teams": [
-                    "${teamId}"
-                ],
-                "datasets": [
-                    "5c090eb28dabfa0013ab6b39"
-                ],
+                "teams": ["${teamId}"],
+                "datasets": ["5c090eb28dabfa0013ab6b39"],
                 "hasAuthorityPrivileges": false,
                 "roles": []
+              },
+              "children": []
+            }
+          ],
+          "isDraggable": false
+        },
+        {
+          "description": "",
+          "helpers": [
+            {
+              "isActivationPending": false,
+              "isInvitationSent": false,
+              "isDeleted": false,
+              "shortid": "rJU7hcUk4",
+              "firstname": "Jackie",
+              "lastname": "Noble",
+              "name": "Jackie Noble",
+              "userRole": 0,
+              "lastSeenAt": null,
+              "createdAt": null,
+              "nickname": "Jackie Noble",
+              "email": "jackie.noble.maptio@gmail.com",
+              "picture": "https://lh6.googleusercontent.com/-f4XY249J1_g/AAAAAAAAAAI/AAAAAAAAAAc/tZae3OxvZvg/photo.jpg",
+              "user_id": "auth0|5c091c1e14668e36dcc5fee5",
+              "teams": ["${teamId}"],
+              "datasets": ["5c090eb28dabfa0013ab6b39"],
+              "hasAuthorityPrivileges": false,
+              "roles": []
+            }
+          ],
+          "tags": [],
+          "hasFocus": false,
+          "isZoomedOn": false,
+          "isSearchedFor": false,
+          "id": 7420039065626,
+          "name": "Developing the Example App product",
+          "team_id": "${teamId}",
+          "accountable": {
+            "isActivationPending": false,
+            "isInvitationSent": false,
+            "isDeleted": false,
+            "shortid": "H1HR85IJN",
+            "firstname": "Linda",
+            "lastname": "Philips",
+            "name": "Linda Philips",
+            "userRole": 0,
+            "lastSeenAt": null,
+            "createdAt": null,
+            "nickname": "Linda Philips",
+            "email": "linda.philips.maptio@gmail.com",
+            "picture": "https://lh5.googleusercontent.com/-sTzjTwenLSI/AAAAAAAAAAI/AAAAAAAAAAc/yk4DtGyhWb8/photo.jpg",
+            "user_id": "auth0|5c0916cc0b53141eaedcaf99",
+            "teams": ["${teamId}"],
+            "datasets": ["5c090eb28dabfa0013ab6b39"],
+            "hasAuthorityPrivileges": false,
+            "roles": []
+          },
+          "children": [
+            {
+              "helpers": [],
+              "tags": [],
+              "hasFocus": false,
+              "isZoomedOn": false,
+              "isSearchedFor": false,
+              "id": 1559961232331,
+              "name": "Developing partnerships",
+              "team_id": "${teamId}",
+              "accountable": {
+                "isActivationPending": false,
+                "isInvitationSent": false,
+                "isDeleted": false,
+                "shortid": "rJU7hcUk4",
+                "firstname": "Jackie",
+                "lastname": "Noble",
+                "name": "Jackie Noble",
+                "userRole": 0,
+                "lastSeenAt": null,
+                "createdAt": null,
+                "nickname": "Jackie Noble",
+                "email": "jackie.noble.maptio@gmail.com",
+                "picture": "https://lh6.googleusercontent.com/-f4XY249J1_g/AAAAAAAAAAI/AAAAAAAAAAc/tZae3OxvZvg/photo.jpg",
+                "user_id": "auth0|5c091c1e14668e36dcc5fee5",
+                "teams": ["${teamId}"],
+                "datasets": ["5c090eb28dabfa0013ab6b39"],
+                "hasAuthorityPrivileges": false,
+                "roles": []
+              },
+              "children": []
             },
-            "children": [
+            {
+              "helpers": [
                 {
-                    "helpers": [
-                        {
-                            "isActivationPending": false,
-                            "isInvitationSent": false,
-                            "isDeleted": false,
-                            "shortid": "HJ1L0F8yN",
-                            "firstname": "Dave",
-                            "lastname": "Parton",
-                            "name": "Dave Parton",
-                            "userRole": 0,
-                            "lastSeenAt": null,
-                            "createdAt": null,
-                            "nickname": "dave.parton.maptio",
-                            "email": "dave.parton.maptio@gmail.com",
-                            "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
-                            "user_id": "google-oauth2|114631860882417255120",
-                            "teams": [
-                                "${teamId}"
-                            ],
-                            "datasets": [],
-                            "hasAuthorityPrivileges": false,
-                            "roles": []
-                        }
-                    ],
-                    "tags": [],
-                    "hasFocus": false,
-                    "isZoomedOn": false,
-                    "isSearchedFor": false,
-                    "id": 3367487774652,
-                    "name": "Complying with data privacy regulations",
-                    "team_id": "${teamId}",
-                    "accountable": {
-                        "isActivationPending": false,
-                        "isInvitationSent": false,
-                        "isDeleted": false,
-                        "shortid": "rkVc958yE",
-                        "firstname": "Eric",
-                        "lastname": "Davies",
-                        "name": "Eric Davies",
-                        "userRole": 0,
-                        "lastSeenAt": null,
-                        "createdAt": null,
-                        "nickname": "Eric Davies",
-                        "email": "eric.davies.maptio@gmail.com",
-                        "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
-                        "user_id": "auth0|5c091a8b4d578823ecbfde5d",
-                        "teams": [
-                            "${teamId}"
-                        ],
-                        "datasets": [
-                            "5c090eb28dabfa0013ab6b39"
-                        ],
-                        "hasAuthorityPrivileges": false,
-                        "roles": []
-                    },
-                    "children": []
-                },
-                {
-                    "description": "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can right-click (or ctrl+click on a Mac) any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
-                    "helpers": [],
-                    "tags": [],
-                    "hasFocus": false,
-                    "isZoomedOn": false,
-                    "isSearchedFor": false,
-                    "id": 2541053996631,
-                    "name": "Managing our money",
-                    "team_id": "${teamId}",
-                    "accountable": {
-                        "isActivationPending": false,
-                        "isInvitationSent": false,
-                        "isDeleted": false,
-                        "shortid": "HJ1L0F8yN",
-                        "firstname": "Dave",
-                        "lastname": "Parton",
-                        "name": "Dave Parton",
-                        "userRole": 0,
-                        "lastSeenAt": null,
-                        "createdAt": null,
-                        "nickname": "dave.parton.maptio",
-                        "email": "dave.parton.maptio@gmail.com",
-                        "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
-                        "user_id": "google-oauth2|114631860882417255120",
-                        "teams": [
-                            "${teamId}"
-                        ],
-                        "datasets": [],
-                        "hasAuthorityPrivileges": false,
-                        "roles": []
-                    },
-                    "children": [
-                        {
-                            "helpers": [],
-                            "tags": [],
-                            "hasFocus": false,
-                            "isZoomedOn": false,
-                            "isSearchedFor": false,
-                            "id": 1048421063099,
-                            "name": "Producing and filing our accounts",
-                            "team_id": "${teamId}",
-                            "accountable": {
-                                "isActivationPending": false,
-                                "isInvitationSent": false,
-                                "isDeleted": false,
-                                "shortid": "rkVc958yE",
-                                "firstname": "Eric",
-                                "lastname": "Davies",
-                                "name": "Eric Davies",
-                                "userRole": 0,
-                                "lastSeenAt": null,
-                                "createdAt": null,
-                                "nickname": "Eric Davies",
-                                "email": "eric.davies.maptio@gmail.com",
-                                "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
-                                "user_id": "auth0|5c091a8b4d578823ecbfde5d",
-                                "teams": [
-                                    "${teamId}"
-                                ],
-                                "datasets": [
-                                    "5c090eb28dabfa0013ab6b39"
-                                ],
-                                "hasAuthorityPrivileges": false,
-                                "roles": []
-                            },
-                            "children": []
-                        },
-                        {
-                            "helpers": [
-                                {
-                                    "isActivationPending": false,
-                                    "isInvitationSent": false,
-                                    "isDeleted": false,
-                                    "shortid": "HJ1L0F8yN",
-                                    "firstname": "Dave",
-                                    "lastname": "Parton",
-                                    "name": "Dave Parton",
-                                    "userRole": 0,
-                                    "lastSeenAt": null,
-                                    "createdAt": null,
-                                    "nickname": "dave.parton.maptio",
-                                    "email": "dave.parton.maptio@gmail.com",
-                                    "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
-                                    "user_id": "google-oauth2|114631860882417255120",
-                                    "teams": [
-                                        "${teamId}"
-                                    ],
-                                    "datasets": [
-                                        "5c090eb28dabfa0013ab6b39"
-                                    ],
-                                    "hasAuthorityPrivileges": true,
-                                    "roles": []
-                                }
-                            ],
-                            "tags": [],
-                            "hasFocus": false,
-                            "isZoomedOn": false,
-                            "isSearchedFor": false,
-                            "id": 1991187191762,
-                            "name": "Keeping accurate financial records",
-                            "team_id": "${teamId}",
-                            "accountable": {
-                                "isActivationPending": false,
-                                "isInvitationSent": false,
-                                "isDeleted": false,
-                                "shortid": "rkVc958yE",
-                                "firstname": "Eric",
-                                "lastname": "Davies",
-                                "name": "Eric Davies",
-                                "userRole": 0,
-                                "lastSeenAt": null,
-                                "createdAt": null,
-                                "nickname": "Eric Davies",
-                                "email": "eric.davies.maptio@gmail.com",
-                                "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
-                                "user_id": "auth0|5c091a8b4d578823ecbfde5d",
-                                "teams": [
-                                    "${teamId}"
-                                ],
-                                "datasets": [
-                                    "5c090eb28dabfa0013ab6b39"
-                                ],
-                                "hasAuthorityPrivileges": false,
-                                "roles": []
-                            },
-                            "children": []
-                        },
-                        {
-                            "helpers": [
-                                {
-                                    "isActivationPending": false,
-                                    "isInvitationSent": false,
-                                    "isDeleted": false,
-                                    "shortid": "HJ1L0F8yN",
-                                    "firstname": "Dave",
-                                    "lastname": "Parton",
-                                    "name": "Dave Parton",
-                                    "userRole": 0,
-                                    "lastSeenAt": null,
-                                    "createdAt": null,
-                                    "nickname": "dave.parton.maptio",
-                                    "email": "dave.parton.maptio@gmail.com",
-                                    "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
-                                    "user_id": "google-oauth2|114631860882417255120",
-                                    "teams": [
-                                        "${teamId}"
-                                    ],
-                                    "datasets": [
-                                        "5c090eb28dabfa0013ab6b39"
-                                    ],
-                                    "hasAuthorityPrivileges": true,
-                                    "roles": []
-                                }
-                            ],
-                            "tags": [],
-                            "hasFocus": false,
-                            "isZoomedOn": false,
-                            "isSearchedFor": false,
-                            "id": 7880212277298,
-                            "name": "Managing our compensation process",
-                            "team_id": "${teamId}",
-                            "accountable": {
-                                "isActivationPending": false,
-                                "isInvitationSent": false,
-                                "isDeleted": false,
-                                "shortid": "rJU7hcUk4",
-                                "firstname": "Jackie",
-                                "lastname": "Noble",
-                                "name": "Jackie Noble",
-                                "userRole": 0,
-                                "lastSeenAt": null,
-                                "createdAt": null,
-                                "nickname": "Jackie Noble",
-                                "email": "jackie.noble.maptio@gmail.com",
-                                "picture": "https://lh6.googleusercontent.com/-f4XY249J1_g/AAAAAAAAAAI/AAAAAAAAAAc/tZae3OxvZvg/photo.jpg",
-                                "user_id": "auth0|5c091c1e14668e36dcc5fee5",
-                                "teams": [
-                                    "${teamId}"
-                                ],
-                                "datasets": [
-                                    "5c090eb28dabfa0013ab6b39"
-                                ],
-                                "hasAuthorityPrivileges": false,
-                                "roles": []
-                            },
-                            "children": []
-                        }
-                    ],
-                    "isDraggable": false
-                },
-                {
-                    "description": "",
-                    "helpers": [
-                        {
-                            "isActivationPending": false,
-                            "isInvitationSent": false,
-                            "isDeleted": false,
-                            "shortid": "rJU7hcUk4",
-                            "firstname": "Jackie",
-                            "lastname": "Noble",
-                            "name": "Jackie Noble",
-                            "userRole": 0,
-                            "lastSeenAt": null,
-                            "createdAt": null,
-                            "nickname": "Jackie Noble",
-                            "email": "jackie.noble.maptio@gmail.com",
-                            "picture": "https://lh6.googleusercontent.com/-f4XY249J1_g/AAAAAAAAAAI/AAAAAAAAAAc/tZae3OxvZvg/photo.jpg",
-                            "user_id": "auth0|5c091c1e14668e36dcc5fee5",
-                            "teams": [
-                                "${teamId}"
-                            ],
-                            "datasets": [
-                                "5c090eb28dabfa0013ab6b39"
-                            ],
-                            "hasAuthorityPrivileges": false,
-                            "roles": []
-                        }
-                    ],
-                    "tags": [],
-                    "hasFocus": false,
-                    "isZoomedOn": false,
-                    "isSearchedFor": false,
-                    "id": 7420039065626,
-                    "name": "Developing the Example App product",
-                    "team_id": "${teamId}",
-                    "accountable": {
-                        "isActivationPending": false,
-                        "isInvitationSent": false,
-                        "isDeleted": false,
-                        "shortid": "H1HR85IJN",
-                        "firstname": "Linda",
-                        "lastname": "Philips",
-                        "name": "Linda Philips",
-                        "userRole": 0,
-                        "lastSeenAt": null,
-                        "createdAt": null,
-                        "nickname": "Linda Philips",
-                        "email": "linda.philips.maptio@gmail.com",
-                        "picture": "https://lh5.googleusercontent.com/-sTzjTwenLSI/AAAAAAAAAAI/AAAAAAAAAAc/yk4DtGyhWb8/photo.jpg",
-                        "user_id": "auth0|5c0916cc0b53141eaedcaf99",
-                        "teams": [
-                            "${teamId}"
-                        ],
-                        "datasets": [
-                            "5c090eb28dabfa0013ab6b39"
-                        ],
-                        "hasAuthorityPrivileges": false,
-                        "roles": []
-                    },
-                    "children": [
-                        {
-                            "helpers": [],
-                            "tags": [],
-                            "hasFocus": false,
-                            "isZoomedOn": false,
-                            "isSearchedFor": false,
-                            "id": 1559961232331,
-                            "name": "Developing partnerships",
-                            "team_id": "${teamId}",
-                            "accountable": {
-                                "isActivationPending": false,
-                                "isInvitationSent": false,
-                                "isDeleted": false,
-                                "shortid": "rJU7hcUk4",
-                                "firstname": "Jackie",
-                                "lastname": "Noble",
-                                "name": "Jackie Noble",
-                                "userRole": 0,
-                                "lastSeenAt": null,
-                                "createdAt": null,
-                                "nickname": "Jackie Noble",
-                                "email": "jackie.noble.maptio@gmail.com",
-                                "picture": "https://lh6.googleusercontent.com/-f4XY249J1_g/AAAAAAAAAAI/AAAAAAAAAAc/tZae3OxvZvg/photo.jpg",
-                                "user_id": "auth0|5c091c1e14668e36dcc5fee5",
-                                "teams": [
-                                    "${teamId}"
-                                ],
-                                "datasets": [
-                                    "5c090eb28dabfa0013ab6b39"
-                                ],
-                                "hasAuthorityPrivileges": false,
-                                "roles": []
-                            },
-                            "children": []
-                        },
-                        {
-                            "helpers": [
-                                {
-                                    "isActivationPending": false,
-                                    "isInvitationSent": false,
-                                    "isDeleted": false,
-                                    "shortid": "rkVc958yE",
-                                    "firstname": "Eric",
-                                    "lastname": "Davies",
-                                    "name": "Eric Davies",
-                                    "userRole": 0,
-                                    "lastSeenAt": null,
-                                    "createdAt": null,
-                                    "nickname": "Eric Davies",
-                                    "email": "eric.davies.maptio@gmail.com",
-                                    "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
-                                    "user_id": "auth0|5c091a8b4d578823ecbfde5d",
-                                    "teams": [
-                                        "${teamId}"
-                                    ],
-                                    "datasets": [
-                                        "5c090eb28dabfa0013ab6b39"
-                                    ],
-                                    "hasAuthorityPrivileges": false,
-                                    "roles": []
-                                }
-                            ],
-                            "tags": [],
-                            "hasFocus": false,
-                            "isZoomedOn": false,
-                            "isSearchedFor": false,
-                            "id": 763346725150,
-                            "name": "Supporting our customers",
-                            "team_id": "${teamId}",
-                            "accountable": {
-                                "isActivationPending": false,
-                                "isInvitationSent": false,
-                                "isDeleted": false,
-                                "shortid": "rk89t58yN",
-                                "firstname": "Jane",
-                                "lastname": "Smith",
-                                "name": "Jane Smith",
-                                "userRole": 0,
-                                "lastSeenAt": null,
-                                "createdAt": null,
-                                "nickname": "Jane Smith",
-                                "email": "jane.smith.maptio@gmail.com",
-                                "picture": "https://lh5.googleusercontent.com/-BNIJd-7j5L0/AAAAAAAAAAI/AAAAAAAAAAc/QGQ2-X-nPCQ/photo.jpg",
-                                "user_id": "auth0|5c09198dfb5415347c72b78c",
-                                "teams": [
-                                    "${teamId}"
-                                ],
-                                "datasets": [
-                                    "5c090eb28dabfa0013ab6b39"
-                                ],
-                                "hasAuthorityPrivileges": false,
-                                "roles": []
-                            },
-                            "children": []
-                        },
-                        {
-                            "helpers": [
-                                {
-                                    "isActivationPending": false,
-                                    "isInvitationSent": false,
-                                    "isDeleted": false,
-                                    "shortid": "H1HR85IJN",
-                                    "firstname": "Linda",
-                                    "lastname": "Philips",
-                                    "name": "Linda Philips",
-                                    "userRole": 0,
-                                    "lastSeenAt": null,
-                                    "createdAt": null,
-                                    "nickname": "Linda Philips",
-                                    "email": "linda.philips.maptio@gmail.com",
-                                    "picture": "https://lh5.googleusercontent.com/-sTzjTwenLSI/AAAAAAAAAAI/AAAAAAAAAAc/yk4DtGyhWb8/photo.jpg",
-                                    "user_id": "auth0|5c0916cc0b53141eaedcaf99",
-                                    "teams": [
-                                        "${teamId}"
-                                    ],
-                                    "datasets": [
-                                        "5c090eb28dabfa0013ab6b39"
-                                    ],
-                                    "hasAuthorityPrivileges": false,
-                                    "roles": []
-                                },
-                                {
-                                    "isActivationPending": false,
-                                    "isInvitationSent": false,
-                                    "isDeleted": false,
-                                    "shortid": "HJ1L0F8yN",
-                                    "firstname": "Dave",
-                                    "lastname": "Parton",
-                                    "name": "Dave Parton",
-                                    "userRole": 0,
-                                    "lastSeenAt": null,
-                                    "createdAt": null,
-                                    "nickname": "dave.parton.maptio",
-                                    "email": "dave.parton.maptio@gmail.com",
-                                    "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
-                                    "user_id": "google-oauth2|114631860882417255120",
-                                    "teams": [
-                                        "${teamId}"
-                                    ],
-                                    "datasets": [
-                                        "5c090eb28dabfa0013ab6b39"
-                                    ],
-                                    "hasAuthorityPrivileges": true,
-                                    "roles": []
-                                }
-                            ],
-                            "tags": [],
-                            "hasFocus": false,
-                            "isZoomedOn": false,
-                            "isSearchedFor": false,
-                            "id": 3354703509936,
-                            "name": "Ensuring potential customers know about us",
-                            "team_id": "${teamId}",
-                            "accountable": {
-                                "isActivationPending": false,
-                                "isInvitationSent": false,
-                                "isDeleted": false,
-                                "shortid": "rJU7hcUk4",
-                                "firstname": "Jackie",
-                                "lastname": "Noble",
-                                "name": "Jackie Noble",
-                                "userRole": 0,
-                                "lastSeenAt": null,
-                                "createdAt": null,
-                                "nickname": "Jackie Noble",
-                                "email": "jackie.noble.maptio@gmail.com",
-                                "picture": "https://lh6.googleusercontent.com/-f4XY249J1_g/AAAAAAAAAAI/AAAAAAAAAAc/tZae3OxvZvg/photo.jpg",
-                                "user_id": "auth0|5c091c1e14668e36dcc5fee5",
-                                "teams": [
-                                    "${teamId}"
-                                ],
-                                "datasets": [
-                                    "5c090eb28dabfa0013ab6b39"
-                                ],
-                                "hasAuthorityPrivileges": false,
-                                "roles": []
-                            },
-                            "children": [
-                                {
-                                    "helpers": [],
-                                    "tags": [],
-                                    "hasFocus": false,
-                                    "isZoomedOn": false,
-                                    "isSearchedFor": false,
-                                    "id": 8453775517964,
-                                    "name": "Running paid ad campaigns",
-                                    "team_id": "${teamId}",
-                                    "accountable": {
-                                        "isActivationPending": false,
-                                        "isInvitationSent": false,
-                                        "isDeleted": false,
-                                        "shortid": "rk89t58yN",
-                                        "firstname": "Jane",
-                                        "lastname": "Smith",
-                                        "name": "Jane Smith",
-                                        "userRole": 0,
-                                        "lastSeenAt": null,
-                                        "createdAt": null,
-                                        "nickname": "Jane Smith",
-                                        "email": "jane.smith.maptio@gmail.com",
-                                        "picture": "https://lh5.googleusercontent.com/-BNIJd-7j5L0/AAAAAAAAAAI/AAAAAAAAAAc/QGQ2-X-nPCQ/photo.jpg",
-                                        "user_id": "auth0|5c09198dfb5415347c72b78c",
-                                        "teams": [
-                                            "${teamId}"
-                                        ],
-                                        "datasets": [
-                                            "5c090eb28dabfa0013ab6b39"
-                                        ],
-                                        "hasAuthorityPrivileges": false,
-                                        "roles": []
-                                    },
-                                    "children": []
-                                },
-                                {
-                                    "helpers": [],
-                                    "tags": [],
-                                    "hasFocus": false,
-                                    "isZoomedOn": false,
-                                    "isSearchedFor": false,
-                                    "id": 156412774072,
-                                    "name": "Developing the marketing website",
-                                    "team_id": "${teamId}",
-                                    "accountable": {
-                                        "isActivationPending": false,
-                                        "isInvitationSent": false,
-                                        "isDeleted": false,
-                                        "shortid": "H1HR85IJN",
-                                        "firstname": "Linda",
-                                        "lastname": "Philips",
-                                        "name": "Linda Philips",
-                                        "userRole": 0,
-                                        "lastSeenAt": null,
-                                        "createdAt": null,
-                                        "nickname": "Linda Philips",
-                                        "email": "linda.philips.maptio@gmail.com",
-                                        "picture": "https://lh5.googleusercontent.com/-sTzjTwenLSI/AAAAAAAAAAI/AAAAAAAAAAc/yk4DtGyhWb8/photo.jpg",
-                                        "user_id": "auth0|5c0916cc0b53141eaedcaf99",
-                                        "teams": [
-                                            "${teamId}"
-                                        ],
-                                        "datasets": [
-                                            "5c090eb28dabfa0013ab6b39"
-                                        ],
-                                        "hasAuthorityPrivileges": false,
-                                        "roles": []
-                                    },
-                                    "children": []
-                                }
-                            ]
-                        },
-                        {
-                            "description": "",
-                            "helpers": [
-                                {
-                                    "isActivationPending": false,
-                                    "isInvitationSent": false,
-                                    "isDeleted": false,
-                                    "shortid": "rkVc958yE",
-                                    "firstname": "Eric",
-                                    "lastname": "Davies",
-                                    "name": "Eric Davies",
-                                    "userRole": 0,
-                                    "lastSeenAt": null,
-                                    "createdAt": null,
-                                    "nickname": "Eric Davies",
-                                    "email": "eric.davies.maptio@gmail.com",
-                                    "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
-                                    "user_id": "auth0|5c091a8b4d578823ecbfde5d",
-                                    "teams": [
-                                        "${teamId}"
-                                    ],
-                                    "datasets": [
-                                        "5c090eb28dabfa0013ab6b39"
-                                    ],
-                                    "hasAuthorityPrivileges": false,
-                                    "roles": []
-                                },
-                                {
-                                    "isActivationPending": false,
-                                    "isInvitationSent": false,
-                                    "isDeleted": false,
-                                    "shortid": "rk89t58yN",
-                                    "firstname": "Jane",
-                                    "lastname": "Smith",
-                                    "name": "Jane Smith",
-                                    "userRole": 0,
-                                    "lastSeenAt": null,
-                                    "createdAt": null,
-                                    "nickname": "Jane Smith",
-                                    "email": "jane.smith.maptio@gmail.com",
-                                    "picture": "https://lh5.googleusercontent.com/-BNIJd-7j5L0/AAAAAAAAAAI/AAAAAAAAAAc/QGQ2-X-nPCQ/photo.jpg",
-                                    "user_id": "auth0|5c09198dfb5415347c72b78c",
-                                    "teams": [
-                                        "${teamId}"
-                                    ],
-                                    "datasets": [
-                                        "5c090eb28dabfa0013ab6b39"
-                                    ],
-                                    "hasAuthorityPrivileges": false,
-                                    "roles": []
-                                }
-                            ],
-                            "tags": [],
-                            "hasFocus": false,
-                            "isZoomedOn": false,
-                            "isSearchedFor": false,
-                            "id": 1085900571429,
-                            "name": "Developing the technology",
-                            "team_id": "${teamId}",
-                            "accountable": {
-                                "isActivationPending": false,
-                                "isInvitationSent": false,
-                                "isDeleted": false,
-                                "shortid": "rJU7hcUk4",
-                                "firstname": "Jackie",
-                                "lastname": "Noble",
-                                "name": "Jackie Noble",
-                                "userRole": 0,
-                                "lastSeenAt": null,
-                                "createdAt": null,
-                                "nickname": "Jackie Noble",
-                                "email": "jackie.noble.maptio@gmail.com",
-                                "picture": "https://lh6.googleusercontent.com/-f4XY249J1_g/AAAAAAAAAAI/AAAAAAAAAAc/tZae3OxvZvg/photo.jpg",
-                                "user_id": "auth0|5c091c1e14668e36dcc5fee5",
-                                "teams": [
-                                    "${teamId}"
-                                ],
-                                "datasets": [
-                                    "5c090eb28dabfa0013ab6b39"
-                                ],
-                                "hasAuthorityPrivileges": false,
-                                "roles": []
-                            },
-                            "children": [
-                                {
-                                    "helpers": [],
-                                    "tags": [],
-                                    "hasFocus": false,
-                                    "isZoomedOn": false,
-                                    "isSearchedFor": false,
-                                    "id": 8357843658396,
-                                    "name": "Managing our hosting",
-                                    "team_id": "${teamId}",
-                                    "accountable": {
-                                        "isActivationPending": false,
-                                        "isInvitationSent": false,
-                                        "isDeleted": false,
-                                        "shortid": "rkVc958yE",
-                                        "firstname": "Eric",
-                                        "lastname": "Davies",
-                                        "name": "Eric Davies",
-                                        "userRole": 0,
-                                        "lastSeenAt": null,
-                                        "createdAt": null,
-                                        "nickname": "Eric Davies",
-                                        "email": "eric.davies.maptio@gmail.com",
-                                        "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
-                                        "user_id": "auth0|5c091a8b4d578823ecbfde5d",
-                                        "teams": [
-                                            "${teamId}"
-                                        ],
-                                        "datasets": [
-                                            "5c090eb28dabfa0013ab6b39"
-                                        ],
-                                        "hasAuthorityPrivileges": false,
-                                        "roles": []
-                                    },
-                                    "children": []
-                                },
-                                {
-                                    "helpers": [],
-                                    "tags": [],
-                                    "hasFocus": false,
-                                    "isZoomedOn": false,
-                                    "isSearchedFor": false,
-                                    "id": 652248466714,
-                                    "name": "Running dev-ops",
-                                    "team_id": "${teamId}",
-                                    "accountable": {
-                                        "isActivationPending": false,
-                                        "isInvitationSent": false,
-                                        "isDeleted": false,
-                                        "shortid": "rJU7hcUk4",
-                                        "firstname": "Jackie",
-                                        "lastname": "Noble",
-                                        "name": "Jackie Noble",
-                                        "userRole": 0,
-                                        "lastSeenAt": null,
-                                        "createdAt": null,
-                                        "nickname": "Jackie Noble",
-                                        "email": "jackie.noble.maptio@gmail.com",
-                                        "picture": "https://lh6.googleusercontent.com/-f4XY249J1_g/AAAAAAAAAAI/AAAAAAAAAAc/tZae3OxvZvg/photo.jpg",
-                                        "user_id": "auth0|5c091c1e14668e36dcc5fee5",
-                                        "teams": [
-                                            "${teamId}"
-                                        ],
-                                        "datasets": [
-                                            "5c090eb28dabfa0013ab6b39"
-                                        ],
-                                        "hasAuthorityPrivileges": false,
-                                        "roles": []
-                                    },
-                                    "children": []
-                                },
-                                {
-                                    "helpers": [],
-                                    "tags": [],
-                                    "hasFocus": false,
-                                    "isZoomedOn": false,
-                                    "isSearchedFor": false,
-                                    "id": 3212526747698,
-                                    "name": "Engineering the product",
-                                    "team_id": "${teamId}",
-                                    "accountable": {
-                                        "isActivationPending": false,
-                                        "isInvitationSent": false,
-                                        "isDeleted": false,
-                                        "shortid": "rJU7hcUk4",
-                                        "firstname": "Jackie",
-                                        "lastname": "Noble",
-                                        "name": "Jackie Noble",
-                                        "userRole": 0,
-                                        "lastSeenAt": null,
-                                        "createdAt": null,
-                                        "nickname": "Jackie Noble",
-                                        "email": "jackie.noble.maptio@gmail.com",
-                                        "picture": "https://lh6.googleusercontent.com/-f4XY249J1_g/AAAAAAAAAAI/AAAAAAAAAAc/tZae3OxvZvg/photo.jpg",
-                                        "user_id": "auth0|5c091c1e14668e36dcc5fee5",
-                                        "teams": [
-                                            "${teamId}"
-                                        ],
-                                        "datasets": [
-                                            "5c090eb28dabfa0013ab6b39"
-                                        ],
-                                        "hasAuthorityPrivileges": false,
-                                        "roles": []
-                                    },
-                                    "children": []
-                                }
-                            ]
-                        },
-                        {
-                            "description": "",
-                            "helpers": [],
-                            "tags": [],
-                            "hasFocus": false,
-                            "isZoomedOn": false,
-                            "isSearchedFor": false,
-                            "id": 6869825543908,
-                            "name": "Designing the User Experience",
-                            "team_id": "${teamId}",
-                            "accountable": {
-                                "isActivationPending": false,
-                                "isInvitationSent": false,
-                                "isDeleted": false,
-                                "shortid": "rkVc958yE",
-                                "firstname": "Eric",
-                                "lastname": "Davies",
-                                "name": "Eric Davies",
-                                "userRole": 0,
-                                "lastSeenAt": null,
-                                "createdAt": null,
-                                "nickname": "Eric Davies",
-                                "email": "eric.davies.maptio@gmail.com",
-                                "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
-                                "user_id": "auth0|5c091a8b4d578823ecbfde5d",
-                                "teams": [
-                                    "${teamId}"
-                                ],
-                                "datasets": [
-                                    "5c090eb28dabfa0013ab6b39"
-                                ],
-                                "hasAuthorityPrivileges": false,
-                                "roles": []
-                            },
-                            "children": [
-                                {
-                                    "helpers": [
-                                        {
-                                            "isActivationPending": false,
-                                            "isInvitationSent": false,
-                                            "isDeleted": false,
-                                            "shortid": "HJ1L0F8yN",
-                                            "firstname": "Dave",
-                                            "lastname": "Parton",
-                                            "name": "Dave Parton",
-                                            "userRole": 0,
-                                            "lastSeenAt": null,
-                                            "createdAt": null,
-                                            "nickname": "dave.parton.maptio",
-                                            "email": "dave.parton.maptio@gmail.com",
-                                            "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
-                                            "user_id": "google-oauth2|114631860882417255120",
-                                            "teams": [
-                                                "${teamId}"
-                                            ],
-                                            "datasets": [
-                                                "5c090eb28dabfa0013ab6b39"
-                                            ],
-                                            "hasAuthorityPrivileges": true,
-                                            "roles": []
-                                        }
-                                    ],
-                                    "tags": [],
-                                    "hasFocus": false,
-                                    "isZoomedOn": false,
-                                    "isSearchedFor": false,
-                                    "id": 1358026071424,
-                                    "name": "Creating the emotional design of the app",
-                                    "team_id": "${teamId}",
-                                    "accountable": {
-                                        "isActivationPending": false,
-                                        "isInvitationSent": false,
-                                        "isDeleted": false,
-                                        "shortid": "rkVc958yE",
-                                        "firstname": "Eric",
-                                        "lastname": "Davies",
-                                        "name": "Eric Davies",
-                                        "userRole": 0,
-                                        "lastSeenAt": null,
-                                        "createdAt": null,
-                                        "nickname": "Eric Davies",
-                                        "email": "eric.davies.maptio@gmail.com",
-                                        "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
-                                        "user_id": "auth0|5c091a8b4d578823ecbfde5d",
-                                        "teams": [
-                                            "${teamId}"
-                                        ],
-                                        "datasets": [
-                                            "5c090eb28dabfa0013ab6b39"
-                                        ],
-                                        "hasAuthorityPrivileges": false,
-                                        "roles": []
-                                    },
-                                    "children": []
-                                },
-                                {
-                                    "helpers": [
-                                        {
-                                            "isActivationPending": false,
-                                            "isInvitationSent": false,
-                                            "isDeleted": false,
-                                            "shortid": "HJ1L0F8yN",
-                                            "firstname": "Dave",
-                                            "lastname": "Parton",
-                                            "name": "Dave Parton",
-                                            "userRole": 0,
-                                            "lastSeenAt": null,
-                                            "createdAt": null,
-                                            "nickname": "dave.parton.maptio",
-                                            "email": "dave.parton.maptio@gmail.com",
-                                            "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
-                                            "user_id": "google-oauth2|114631860882417255120",
-                                            "teams": [
-                                                "${teamId}"
-                                            ],
-                                            "datasets": [
-                                                "5c090eb28dabfa0013ab6b39"
-                                            ],
-                                            "hasAuthorityPrivileges": true,
-                                            "roles": []
-                                        }
-                                    ],
-                                    "tags": [],
-                                    "hasFocus": false,
-                                    "isZoomedOn": false,
-                                    "isSearchedFor": false,
-                                    "id": 7642054245641,
-                                    "name": "Designing the UI",
-                                    "team_id": "${teamId}",
-                                    "accountable": {
-                                        "isActivationPending": false,
-                                        "isInvitationSent": false,
-                                        "isDeleted": false,
-                                        "shortid": "rkVc958yE",
-                                        "firstname": "Eric",
-                                        "lastname": "Davies",
-                                        "name": "Eric Davies",
-                                        "userRole": 0,
-                                        "lastSeenAt": null,
-                                        "createdAt": null,
-                                        "nickname": "Eric Davies",
-                                        "email": "eric.davies.maptio@gmail.com",
-                                        "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
-                                        "user_id": "auth0|5c091a8b4d578823ecbfde5d",
-                                        "teams": [
-                                            "${teamId}"
-                                        ],
-                                        "datasets": [
-                                            "5c090eb28dabfa0013ab6b39"
-                                        ],
-                                        "hasAuthorityPrivileges": false,
-                                        "roles": []
-                                    },
-                                    "children": []
-                                },
-                                {
-                                    "helpers": [
-                                        {
-                                            "isActivationPending": false,
-                                            "isInvitationSent": false,
-                                            "isDeleted": false,
-                                            "shortid": "rkVc958yE",
-                                            "firstname": "Eric",
-                                            "lastname": "Davies",
-                                            "name": "Eric Davies",
-                                            "userRole": 0,
-                                            "lastSeenAt": null,
-                                            "createdAt": null,
-                                            "nickname": "Eric Davies",
-                                            "email": "eric.davies.maptio@gmail.com",
-                                            "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
-                                            "user_id": "auth0|5c091a8b4d578823ecbfde5d",
-                                            "teams": [
-                                                "${teamId}"
-                                            ],
-                                            "datasets": [
-                                                "5c090eb28dabfa0013ab6b39"
-                                            ],
-                                            "hasAuthorityPrivileges": false,
-                                            "roles": []
-                                        }
-                                    ],
-                                    "tags": [],
-                                    "hasFocus": false,
-                                    "isZoomedOn": false,
-                                    "isSearchedFor": false,
-                                    "id": 425971627524,
-                                    "name": "Researching user needs",
-                                    "team_id": "${teamId}",
-                                    "accountable": {
-                                        "isActivationPending": false,
-                                        "isInvitationSent": false,
-                                        "isDeleted": false,
-                                        "shortid": "HJ1L0F8yN",
-                                        "firstname": "Dave",
-                                        "lastname": "Parton",
-                                        "name": "Dave Parton",
-                                        "userRole": 0,
-                                        "lastSeenAt": null,
-                                        "createdAt": null,
-                                        "nickname": "dave.parton.maptio",
-                                        "email": "dave.parton.maptio@gmail.com",
-                                        "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
-                                        "user_id": "google-oauth2|114631860882417255120",
-                                        "teams": [
-                                            "${teamId}"
-                                        ],
-                                        "datasets": [],
-                                        "hasAuthorityPrivileges": false,
-                                        "roles": []
-                                    },
-                                    "children": []
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "description": "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can right-click (or ctrl+click on a Mac) any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
-                    "helpers": [
-                        {
-                            "isActivationPending": false,
-                            "isInvitationSent": false,
-                            "isDeleted": false,
-                            "shortid": "rJU7hcUk4",
-                            "firstname": "Jackie",
-                            "lastname": "Noble",
-                            "name": "Jackie Noble",
-                            "userRole": 0,
-                            "lastSeenAt": null,
-                            "createdAt": null,
-                            "nickname": "Jackie Noble",
-                            "email": "jackie.noble.maptio@gmail.com",
-                            "picture": "https://lh6.googleusercontent.com/-f4XY249J1_g/AAAAAAAAAAI/AAAAAAAAAAc/tZae3OxvZvg/photo.jpg",
-                            "user_id": "auth0|5c091c1e14668e36dcc5fee5",
-                            "teams": [
-                                "${teamId}"
-                            ],
-                            "datasets": [
-                                "5c090eb28dabfa0013ab6b39"
-                            ],
-                            "hasAuthorityPrivileges": false,
-                            "roles": []
-                        },
-                        {
-                            "isActivationPending": false,
-                            "isInvitationSent": false,
-                            "isDeleted": false,
-                            "shortid": "HJ1L0F8yN",
-                            "firstname": "Dave",
-                            "lastname": "Parton",
-                            "name": "Dave Parton",
-                            "userRole": 0,
-                            "lastSeenAt": null,
-                            "createdAt": null,
-                            "nickname": "dave.parton.maptio",
-                            "email": "dave.parton.maptio@gmail.com",
-                            "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
-                            "user_id": "google-oauth2|114631860882417255120",
-                            "teams": [
-                                "${teamId}"
-                            ],
-                            "datasets": [],
-                            "hasAuthorityPrivileges": false,
-                            "roles": []
-                        }
-                    ],
-                    "tags": [],
-                    "hasFocus": false,
-                    "isZoomedOn": false,
-                    "isSearchedFor": false,
-                    "id": 1587779851626,
-                    "name": "Developing a world-class team",
-                    "team_id": "${teamId}",
-                    "accountable": {
-                        "isActivationPending": false,
-                        "isInvitationSent": false,
-                        "isDeleted": false,
-                        "shortid": "rk89t58yN",
-                        "firstname": "Jane",
-                        "lastname": "Smith",
-                        "name": "Jane Smith",
-                        "userRole": 0,
-                        "lastSeenAt": null,
-                        "createdAt": null,
-                        "nickname": "Jane Smith",
-                        "email": "jane.smith.maptio@gmail.com",
-                        "picture": "https://lh5.googleusercontent.com/-BNIJd-7j5L0/AAAAAAAAAAI/AAAAAAAAAAc/QGQ2-X-nPCQ/photo.jpg",
-                        "user_id": "auth0|5c09198dfb5415347c72b78c",
-                        "teams": [
-                            "${teamId}"
-                        ],
-                        "datasets": [
-                            "5c090eb28dabfa0013ab6b39"
-                        ],
-                        "hasAuthorityPrivileges": false,
-                        "roles": []
-                    },
-                    "children": [
-                        {
-                            "helpers": [],
-                            "tags": [],
-                            "hasFocus": false,
-                            "isZoomedOn": false,
-                            "isSearchedFor": false,
-                            "id": 6822625716627,
-                            "name": "Ensuring we have a great office to work in",
-                            "team_id": "${teamId}",
-                            "children": [],
-                            "isDraggable": true,
-                            "accountable": {
-                                "isActivationPending": false,
-                                "isInvitationSent": false,
-                                "isDeleted": false,
-                                "shortid": "H1HR85IJN",
-                                "firstname": "Linda",
-                                "lastname": "Philips",
-                                "name": "Linda Philips",
-                                "userRole": 0,
-                                "lastSeenAt": null,
-                                "createdAt": null,
-                                "nickname": "Linda Philips",
-                                "email": "linda.philips.maptio@gmail.com",
-                                "picture": "https://ui-avatars.com/api/?rounded=true&background=a301b2&name=Linda+Philips&font-size=0.35&color=ffffff&size=128",
-                                "user_id": "auth0|5c0916cc0b53141eaedcaf99",
-                                "teams": [
-                                    "${teamId}"
-                                ],
-                                "datasets": [
-                                    "5c090eb28dabfa0013ab6b39"
-                                ],
-                                "roles": []
-                            }
-                        },
-                        {
-                            "helpers": [],
-                            "tags": [],
-                            "hasFocus": false,
-                            "isZoomedOn": false,
-                            "isSearchedFor": false,
-                            "id": 1667084152895,
-                            "name": "Managing employment law issues",
-                            "team_id": "${teamId}",
-                            "children": [],
-                            "isDraggable": true,
-                            "accountable": {
-                                "isActivationPending": false,
-                                "isInvitationSent": false,
-                                "isDeleted": false,
-                                "shortid": "HJ1L0F8yN",
-                                "firstname": "Dave",
-                                "lastname": "Parton",
-                                "name": "Dave Parton",
-                                "userRole": 0,
-                                "lastSeenAt": null,
-                                "createdAt": null,
-                                "nickname": "dave.parton.maptio",
-                                "email": "dave.parton.maptio@gmail.com",
-                                "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
-                                "user_id": "google-oauth2|114631860882417255120",
-                                "teams": [
-                                    "${teamId}"
-                                ],
-                                "datasets": [],
-                                "roles": []
-                            }
-                        },
-                        {
-                            "helpers": [
-                                {
-                                    "isActivationPending": false,
-                                    "isInvitationSent": false,
-                                    "isDeleted": false,
-                                    "shortid": "HJ1L0F8yN",
-                                    "firstname": "Dave",
-                                    "lastname": "Parton",
-                                    "name": "Dave Parton",
-                                    "userRole": 0,
-                                    "lastSeenAt": null,
-                                    "createdAt": null,
-                                    "nickname": "dave.parton.maptio",
-                                    "email": "dave.parton.maptio@gmail.com",
-                                    "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
-                                    "user_id": "google-oauth2|114631860882417255120",
-                                    "teams": [
-                                        "${teamId}"
-                                    ],
-                                    "datasets": [
-                                        "5c090eb28dabfa0013ab6b39"
-                                    ],
-                                    "hasAuthorityPrivileges": true,
-                                    "roles": []
-                                }
-                            ],
-                            "tags": [],
-                            "hasFocus": false,
-                            "isZoomedOn": false,
-                            "isSearchedFor": false,
-                            "id": 1212801998332,
-                            "name": "Championing wellbeing in the team",
-                            "team_id": "${teamId}",
-                            "children": [],
-                            "isDraggable": true,
-                            "accountable": {
-                                "isActivationPending": false,
-                                "isInvitationSent": false,
-                                "isDeleted": false,
-                                "shortid": "rJU7hcUk4",
-                                "firstname": "Jackie",
-                                "lastname": "Noble",
-                                "name": "Jackie Noble",
-                                "userRole": 0,
-                                "lastSeenAt": null,
-                                "createdAt": null,
-                                "nickname": "Jackie Noble",
-                                "email": "jackie.noble.maptio@gmail.com",
-                                "picture": "https://ui-avatars.com/api/?rounded=true&background=0197b2&name=Jackie+Noble&font-size=0.35&color=ffffff&size=128",
-                                "user_id": "auth0|5c091c1e14668e36dcc5fee5",
-                                "teams": [
-                                    "${teamId}"
-                                ],
-                                "datasets": [
-                                    "5c090eb28dabfa0013ab6b39"
-                                ],
-                                "roles": []
-                            }
-                        },
-                        {
-                            "helpers": [
-                                {
-                                    "isActivationPending": false,
-                                    "isInvitationSent": false,
-                                    "isDeleted": false,
-                                    "shortid": "HJ1L0F8yN",
-                                    "firstname": "Dave",
-                                    "lastname": "Parton",
-                                    "name": "Dave Parton",
-                                    "userRole": 0,
-                                    "lastSeenAt": null,
-                                    "createdAt": null,
-                                    "nickname": "dave.parton.maptio",
-                                    "email": "dave.parton.maptio@gmail.com",
-                                    "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
-                                    "user_id": "google-oauth2|114631860882417255120",
-                                    "teams": [
-                                        "${teamId}"
-                                    ],
-                                    "datasets": [
-                                        "5c090eb28dabfa0013ab6b39"
-                                    ],
-                                    "hasAuthorityPrivileges": true,
-                                    "roles": []
-                                }
-                            ],
-                            "tags": [],
-                            "hasFocus": false,
-                            "isZoomedOn": false,
-                            "isSearchedFor": false,
-                            "id": 3800665040497,
-                            "name": "Running our recruitment programme",
-                            "team_id": "${teamId}",
-                            "children": [],
-                            "isDraggable": true,
-                            "accountable": {
-                                "isActivationPending": false,
-                                "isInvitationSent": false,
-                                "isDeleted": false,
-                                "shortid": "rk89t58yN",
-                                "firstname": "Jane",
-                                "lastname": "Smith",
-                                "name": "Jane Smith",
-                                "userRole": 0,
-                                "lastSeenAt": null,
-                                "createdAt": null,
-                                "nickname": "Jane Smith",
-                                "email": "jane.smith.maptio@gmail.com",
-                                "picture": "https://ui-avatars.com/api/?rounded=true&background=0401b2&name=Jane+Smith&font-size=0.35&color=ffffff&size=128",
-                                "user_id": "auth0|5c09198dfb5415347c72b78c",
-                                "teams": [
-                                    "${teamId}"
-                                ],
-                                "datasets": [
-                                    "5c090eb28dabfa0013ab6b39"
-                                ],
-                                "roles": []
-                            }
-                        }
-                    ]
+                  "isActivationPending": false,
+                  "isInvitationSent": false,
+                  "isDeleted": false,
+                  "shortid": "rkVc958yE",
+                  "firstname": "Eric",
+                  "lastname": "Davies",
+                  "name": "Eric Davies",
+                  "userRole": 0,
+                  "lastSeenAt": null,
+                  "createdAt": null,
+                  "nickname": "Eric Davies",
+                  "email": "eric.davies.maptio@gmail.com",
+                  "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
+                  "user_id": "auth0|5c091a8b4d578823ecbfde5d",
+                  "teams": ["${teamId}"],
+                  "datasets": ["5c090eb28dabfa0013ab6b39"],
+                  "hasAuthorityPrivileges": false,
+                  "roles": []
                 }
-            ],
-            "isDraggable": false
+              ],
+              "tags": [],
+              "hasFocus": false,
+              "isZoomedOn": false,
+              "isSearchedFor": false,
+              "id": 763346725150,
+              "name": "Supporting our customers",
+              "team_id": "${teamId}",
+              "accountable": {
+                "isActivationPending": false,
+                "isInvitationSent": false,
+                "isDeleted": false,
+                "shortid": "rk89t58yN",
+                "firstname": "Jane",
+                "lastname": "Smith",
+                "name": "Jane Smith",
+                "userRole": 0,
+                "lastSeenAt": null,
+                "createdAt": null,
+                "nickname": "Jane Smith",
+                "email": "jane.smith.maptio@gmail.com",
+                "picture": "https://lh5.googleusercontent.com/-BNIJd-7j5L0/AAAAAAAAAAI/AAAAAAAAAAc/QGQ2-X-nPCQ/photo.jpg",
+                "user_id": "auth0|5c09198dfb5415347c72b78c",
+                "teams": ["${teamId}"],
+                "datasets": ["5c090eb28dabfa0013ab6b39"],
+                "hasAuthorityPrivileges": false,
+                "roles": []
+              },
+              "children": []
+            },
+            {
+              "helpers": [
+                {
+                  "isActivationPending": false,
+                  "isInvitationSent": false,
+                  "isDeleted": false,
+                  "shortid": "H1HR85IJN",
+                  "firstname": "Linda",
+                  "lastname": "Philips",
+                  "name": "Linda Philips",
+                  "userRole": 0,
+                  "lastSeenAt": null,
+                  "createdAt": null,
+                  "nickname": "Linda Philips",
+                  "email": "linda.philips.maptio@gmail.com",
+                  "picture": "https://lh5.googleusercontent.com/-sTzjTwenLSI/AAAAAAAAAAI/AAAAAAAAAAc/yk4DtGyhWb8/photo.jpg",
+                  "user_id": "auth0|5c0916cc0b53141eaedcaf99",
+                  "teams": ["${teamId}"],
+                  "datasets": ["5c090eb28dabfa0013ab6b39"],
+                  "hasAuthorityPrivileges": false,
+                  "roles": []
+                },
+                {
+                  "isActivationPending": false,
+                  "isInvitationSent": false,
+                  "isDeleted": false,
+                  "shortid": "HJ1L0F8yN",
+                  "firstname": "Dave",
+                  "lastname": "Parton",
+                  "name": "Dave Parton",
+                  "userRole": 0,
+                  "lastSeenAt": null,
+                  "createdAt": null,
+                  "nickname": "dave.parton.maptio",
+                  "email": "dave.parton.maptio@gmail.com",
+                  "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
+                  "user_id": "google-oauth2|114631860882417255120",
+                  "teams": ["${teamId}"],
+                  "datasets": ["5c090eb28dabfa0013ab6b39"],
+                  "hasAuthorityPrivileges": true,
+                  "roles": []
+                }
+              ],
+              "tags": [],
+              "hasFocus": false,
+              "isZoomedOn": false,
+              "isSearchedFor": false,
+              "id": 3354703509936,
+              "name": "Ensuring potential customers know about us",
+              "team_id": "${teamId}",
+              "accountable": {
+                "isActivationPending": false,
+                "isInvitationSent": false,
+                "isDeleted": false,
+                "shortid": "rJU7hcUk4",
+                "firstname": "Jackie",
+                "lastname": "Noble",
+                "name": "Jackie Noble",
+                "userRole": 0,
+                "lastSeenAt": null,
+                "createdAt": null,
+                "nickname": "Jackie Noble",
+                "email": "jackie.noble.maptio@gmail.com",
+                "picture": "https://lh6.googleusercontent.com/-f4XY249J1_g/AAAAAAAAAAI/AAAAAAAAAAc/tZae3OxvZvg/photo.jpg",
+                "user_id": "auth0|5c091c1e14668e36dcc5fee5",
+                "teams": ["${teamId}"],
+                "datasets": ["5c090eb28dabfa0013ab6b39"],
+                "hasAuthorityPrivileges": false,
+                "roles": []
+              },
+              "children": [
+                {
+                  "helpers": [],
+                  "tags": [],
+                  "hasFocus": false,
+                  "isZoomedOn": false,
+                  "isSearchedFor": false,
+                  "id": 8453775517964,
+                  "name": "Running paid ad campaigns",
+                  "team_id": "${teamId}",
+                  "accountable": {
+                    "isActivationPending": false,
+                    "isInvitationSent": false,
+                    "isDeleted": false,
+                    "shortid": "rk89t58yN",
+                    "firstname": "Jane",
+                    "lastname": "Smith",
+                    "name": "Jane Smith",
+                    "userRole": 0,
+                    "lastSeenAt": null,
+                    "createdAt": null,
+                    "nickname": "Jane Smith",
+                    "email": "jane.smith.maptio@gmail.com",
+                    "picture": "https://lh5.googleusercontent.com/-BNIJd-7j5L0/AAAAAAAAAAI/AAAAAAAAAAc/QGQ2-X-nPCQ/photo.jpg",
+                    "user_id": "auth0|5c09198dfb5415347c72b78c",
+                    "teams": ["${teamId}"],
+                    "datasets": ["5c090eb28dabfa0013ab6b39"],
+                    "hasAuthorityPrivileges": false,
+                    "roles": []
+                  },
+                  "children": []
+                },
+                {
+                  "helpers": [],
+                  "tags": [],
+                  "hasFocus": false,
+                  "isZoomedOn": false,
+                  "isSearchedFor": false,
+                  "id": 156412774072,
+                  "name": "Developing the marketing website",
+                  "team_id": "${teamId}",
+                  "accountable": {
+                    "isActivationPending": false,
+                    "isInvitationSent": false,
+                    "isDeleted": false,
+                    "shortid": "H1HR85IJN",
+                    "firstname": "Linda",
+                    "lastname": "Philips",
+                    "name": "Linda Philips",
+                    "userRole": 0,
+                    "lastSeenAt": null,
+                    "createdAt": null,
+                    "nickname": "Linda Philips",
+                    "email": "linda.philips.maptio@gmail.com",
+                    "picture": "https://lh5.googleusercontent.com/-sTzjTwenLSI/AAAAAAAAAAI/AAAAAAAAAAc/yk4DtGyhWb8/photo.jpg",
+                    "user_id": "auth0|5c0916cc0b53141eaedcaf99",
+                    "teams": ["${teamId}"],
+                    "datasets": ["5c090eb28dabfa0013ab6b39"],
+                    "hasAuthorityPrivileges": false,
+                    "roles": []
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "description": "",
+              "helpers": [
+                {
+                  "isActivationPending": false,
+                  "isInvitationSent": false,
+                  "isDeleted": false,
+                  "shortid": "rkVc958yE",
+                  "firstname": "Eric",
+                  "lastname": "Davies",
+                  "name": "Eric Davies",
+                  "userRole": 0,
+                  "lastSeenAt": null,
+                  "createdAt": null,
+                  "nickname": "Eric Davies",
+                  "email": "eric.davies.maptio@gmail.com",
+                  "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
+                  "user_id": "auth0|5c091a8b4d578823ecbfde5d",
+                  "teams": ["${teamId}"],
+                  "datasets": ["5c090eb28dabfa0013ab6b39"],
+                  "hasAuthorityPrivileges": false,
+                  "roles": []
+                },
+                {
+                  "isActivationPending": false,
+                  "isInvitationSent": false,
+                  "isDeleted": false,
+                  "shortid": "rk89t58yN",
+                  "firstname": "Jane",
+                  "lastname": "Smith",
+                  "name": "Jane Smith",
+                  "userRole": 0,
+                  "lastSeenAt": null,
+                  "createdAt": null,
+                  "nickname": "Jane Smith",
+                  "email": "jane.smith.maptio@gmail.com",
+                  "picture": "https://lh5.googleusercontent.com/-BNIJd-7j5L0/AAAAAAAAAAI/AAAAAAAAAAc/QGQ2-X-nPCQ/photo.jpg",
+                  "user_id": "auth0|5c09198dfb5415347c72b78c",
+                  "teams": ["${teamId}"],
+                  "datasets": ["5c090eb28dabfa0013ab6b39"],
+                  "hasAuthorityPrivileges": false,
+                  "roles": []
+                }
+              ],
+              "tags": [],
+              "hasFocus": false,
+              "isZoomedOn": false,
+              "isSearchedFor": false,
+              "id": 1085900571429,
+              "name": "Developing the technology",
+              "team_id": "${teamId}",
+              "accountable": {
+                "isActivationPending": false,
+                "isInvitationSent": false,
+                "isDeleted": false,
+                "shortid": "rJU7hcUk4",
+                "firstname": "Jackie",
+                "lastname": "Noble",
+                "name": "Jackie Noble",
+                "userRole": 0,
+                "lastSeenAt": null,
+                "createdAt": null,
+                "nickname": "Jackie Noble",
+                "email": "jackie.noble.maptio@gmail.com",
+                "picture": "https://lh6.googleusercontent.com/-f4XY249J1_g/AAAAAAAAAAI/AAAAAAAAAAc/tZae3OxvZvg/photo.jpg",
+                "user_id": "auth0|5c091c1e14668e36dcc5fee5",
+                "teams": ["${teamId}"],
+                "datasets": ["5c090eb28dabfa0013ab6b39"],
+                "hasAuthorityPrivileges": false,
+                "roles": []
+              },
+              "children": [
+                {
+                  "helpers": [],
+                  "tags": [],
+                  "hasFocus": false,
+                  "isZoomedOn": false,
+                  "isSearchedFor": false,
+                  "id": 8357843658396,
+                  "name": "Managing our hosting",
+                  "team_id": "${teamId}",
+                  "accountable": {
+                    "isActivationPending": false,
+                    "isInvitationSent": false,
+                    "isDeleted": false,
+                    "shortid": "rkVc958yE",
+                    "firstname": "Eric",
+                    "lastname": "Davies",
+                    "name": "Eric Davies",
+                    "userRole": 0,
+                    "lastSeenAt": null,
+                    "createdAt": null,
+                    "nickname": "Eric Davies",
+                    "email": "eric.davies.maptio@gmail.com",
+                    "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
+                    "user_id": "auth0|5c091a8b4d578823ecbfde5d",
+                    "teams": ["${teamId}"],
+                    "datasets": ["5c090eb28dabfa0013ab6b39"],
+                    "hasAuthorityPrivileges": false,
+                    "roles": []
+                  },
+                  "children": []
+                },
+                {
+                  "helpers": [],
+                  "tags": [],
+                  "hasFocus": false,
+                  "isZoomedOn": false,
+                  "isSearchedFor": false,
+                  "id": 652248466714,
+                  "name": "Running dev-ops",
+                  "team_id": "${teamId}",
+                  "accountable": {
+                    "isActivationPending": false,
+                    "isInvitationSent": false,
+                    "isDeleted": false,
+                    "shortid": "rJU7hcUk4",
+                    "firstname": "Jackie",
+                    "lastname": "Noble",
+                    "name": "Jackie Noble",
+                    "userRole": 0,
+                    "lastSeenAt": null,
+                    "createdAt": null,
+                    "nickname": "Jackie Noble",
+                    "email": "jackie.noble.maptio@gmail.com",
+                    "picture": "https://lh6.googleusercontent.com/-f4XY249J1_g/AAAAAAAAAAI/AAAAAAAAAAc/tZae3OxvZvg/photo.jpg",
+                    "user_id": "auth0|5c091c1e14668e36dcc5fee5",
+                    "teams": ["${teamId}"],
+                    "datasets": ["5c090eb28dabfa0013ab6b39"],
+                    "hasAuthorityPrivileges": false,
+                    "roles": []
+                  },
+                  "children": []
+                },
+                {
+                  "helpers": [],
+                  "tags": [],
+                  "hasFocus": false,
+                  "isZoomedOn": false,
+                  "isSearchedFor": false,
+                  "id": 3212526747698,
+                  "name": "Engineering the product",
+                  "team_id": "${teamId}",
+                  "accountable": {
+                    "isActivationPending": false,
+                    "isInvitationSent": false,
+                    "isDeleted": false,
+                    "shortid": "rJU7hcUk4",
+                    "firstname": "Jackie",
+                    "lastname": "Noble",
+                    "name": "Jackie Noble",
+                    "userRole": 0,
+                    "lastSeenAt": null,
+                    "createdAt": null,
+                    "nickname": "Jackie Noble",
+                    "email": "jackie.noble.maptio@gmail.com",
+                    "picture": "https://lh6.googleusercontent.com/-f4XY249J1_g/AAAAAAAAAAI/AAAAAAAAAAc/tZae3OxvZvg/photo.jpg",
+                    "user_id": "auth0|5c091c1e14668e36dcc5fee5",
+                    "teams": ["${teamId}"],
+                    "datasets": ["5c090eb28dabfa0013ab6b39"],
+                    "hasAuthorityPrivileges": false,
+                    "roles": []
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "description": "",
+              "helpers": [],
+              "tags": [],
+              "hasFocus": false,
+              "isZoomedOn": false,
+              "isSearchedFor": false,
+              "id": 6869825543908,
+              "name": "Designing the User Experience",
+              "team_id": "${teamId}",
+              "accountable": {
+                "isActivationPending": false,
+                "isInvitationSent": false,
+                "isDeleted": false,
+                "shortid": "rkVc958yE",
+                "firstname": "Eric",
+                "lastname": "Davies",
+                "name": "Eric Davies",
+                "userRole": 0,
+                "lastSeenAt": null,
+                "createdAt": null,
+                "nickname": "Eric Davies",
+                "email": "eric.davies.maptio@gmail.com",
+                "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
+                "user_id": "auth0|5c091a8b4d578823ecbfde5d",
+                "teams": ["${teamId}"],
+                "datasets": ["5c090eb28dabfa0013ab6b39"],
+                "hasAuthorityPrivileges": false,
+                "roles": []
+              },
+              "children": [
+                {
+                  "helpers": [
+                    {
+                      "isActivationPending": false,
+                      "isInvitationSent": false,
+                      "isDeleted": false,
+                      "shortid": "HJ1L0F8yN",
+                      "firstname": "Dave",
+                      "lastname": "Parton",
+                      "name": "Dave Parton",
+                      "userRole": 0,
+                      "lastSeenAt": null,
+                      "createdAt": null,
+                      "nickname": "dave.parton.maptio",
+                      "email": "dave.parton.maptio@gmail.com",
+                      "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
+                      "user_id": "google-oauth2|114631860882417255120",
+                      "teams": ["${teamId}"],
+                      "datasets": ["5c090eb28dabfa0013ab6b39"],
+                      "hasAuthorityPrivileges": true,
+                      "roles": []
+                    }
+                  ],
+                  "tags": [],
+                  "hasFocus": false,
+                  "isZoomedOn": false,
+                  "isSearchedFor": false,
+                  "id": 1358026071424,
+                  "name": "Creating the emotional design of the app",
+                  "team_id": "${teamId}",
+                  "accountable": {
+                    "isActivationPending": false,
+                    "isInvitationSent": false,
+                    "isDeleted": false,
+                    "shortid": "rkVc958yE",
+                    "firstname": "Eric",
+                    "lastname": "Davies",
+                    "name": "Eric Davies",
+                    "userRole": 0,
+                    "lastSeenAt": null,
+                    "createdAt": null,
+                    "nickname": "Eric Davies",
+                    "email": "eric.davies.maptio@gmail.com",
+                    "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
+                    "user_id": "auth0|5c091a8b4d578823ecbfde5d",
+                    "teams": ["${teamId}"],
+                    "datasets": ["5c090eb28dabfa0013ab6b39"],
+                    "hasAuthorityPrivileges": false,
+                    "roles": []
+                  },
+                  "children": []
+                },
+                {
+                  "helpers": [
+                    {
+                      "isActivationPending": false,
+                      "isInvitationSent": false,
+                      "isDeleted": false,
+                      "shortid": "HJ1L0F8yN",
+                      "firstname": "Dave",
+                      "lastname": "Parton",
+                      "name": "Dave Parton",
+                      "userRole": 0,
+                      "lastSeenAt": null,
+                      "createdAt": null,
+                      "nickname": "dave.parton.maptio",
+                      "email": "dave.parton.maptio@gmail.com",
+                      "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
+                      "user_id": "google-oauth2|114631860882417255120",
+                      "teams": ["${teamId}"],
+                      "datasets": ["5c090eb28dabfa0013ab6b39"],
+                      "hasAuthorityPrivileges": true,
+                      "roles": []
+                    }
+                  ],
+                  "tags": [],
+                  "hasFocus": false,
+                  "isZoomedOn": false,
+                  "isSearchedFor": false,
+                  "id": 7642054245641,
+                  "name": "Designing the UI",
+                  "team_id": "${teamId}",
+                  "accountable": {
+                    "isActivationPending": false,
+                    "isInvitationSent": false,
+                    "isDeleted": false,
+                    "shortid": "rkVc958yE",
+                    "firstname": "Eric",
+                    "lastname": "Davies",
+                    "name": "Eric Davies",
+                    "userRole": 0,
+                    "lastSeenAt": null,
+                    "createdAt": null,
+                    "nickname": "Eric Davies",
+                    "email": "eric.davies.maptio@gmail.com",
+                    "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
+                    "user_id": "auth0|5c091a8b4d578823ecbfde5d",
+                    "teams": ["${teamId}"],
+                    "datasets": ["5c090eb28dabfa0013ab6b39"],
+                    "hasAuthorityPrivileges": false,
+                    "roles": []
+                  },
+                  "children": []
+                },
+                {
+                  "helpers": [
+                    {
+                      "isActivationPending": false,
+                      "isInvitationSent": false,
+                      "isDeleted": false,
+                      "shortid": "rkVc958yE",
+                      "firstname": "Eric",
+                      "lastname": "Davies",
+                      "name": "Eric Davies",
+                      "userRole": 0,
+                      "lastSeenAt": null,
+                      "createdAt": null,
+                      "nickname": "Eric Davies",
+                      "email": "eric.davies.maptio@gmail.com",
+                      "picture": "https://lh5.googleusercontent.com/-tTBT0KIIbs8/AAAAAAAAAAI/AAAAAAAAAAc/4fSh8Y1CfCM/photo.jpg",
+                      "user_id": "auth0|5c091a8b4d578823ecbfde5d",
+                      "teams": ["${teamId}"],
+                      "datasets": ["5c090eb28dabfa0013ab6b39"],
+                      "hasAuthorityPrivileges": false,
+                      "roles": []
+                    }
+                  ],
+                  "tags": [],
+                  "hasFocus": false,
+                  "isZoomedOn": false,
+                  "isSearchedFor": false,
+                  "id": 425971627524,
+                  "name": "Researching user needs",
+                  "team_id": "${teamId}",
+                  "accountable": {
+                    "isActivationPending": false,
+                    "isInvitationSent": false,
+                    "isDeleted": false,
+                    "shortid": "HJ1L0F8yN",
+                    "firstname": "Dave",
+                    "lastname": "Parton",
+                    "name": "Dave Parton",
+                    "userRole": 0,
+                    "lastSeenAt": null,
+                    "createdAt": null,
+                    "nickname": "dave.parton.maptio",
+                    "email": "dave.parton.maptio@gmail.com",
+                    "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
+                    "user_id": "google-oauth2|114631860882417255120",
+                    "teams": ["${teamId}"],
+                    "datasets": [],
+                    "hasAuthorityPrivileges": false,
+                    "roles": []
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "description": "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can right-click (or ctrl+click on a Mac) any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
+          "helpers": [
+            {
+              "isActivationPending": false,
+              "isInvitationSent": false,
+              "isDeleted": false,
+              "shortid": "rJU7hcUk4",
+              "firstname": "Jackie",
+              "lastname": "Noble",
+              "name": "Jackie Noble",
+              "userRole": 0,
+              "lastSeenAt": null,
+              "createdAt": null,
+              "nickname": "Jackie Noble",
+              "email": "jackie.noble.maptio@gmail.com",
+              "picture": "https://lh6.googleusercontent.com/-f4XY249J1_g/AAAAAAAAAAI/AAAAAAAAAAc/tZae3OxvZvg/photo.jpg",
+              "user_id": "auth0|5c091c1e14668e36dcc5fee5",
+              "teams": ["${teamId}"],
+              "datasets": ["5c090eb28dabfa0013ab6b39"],
+              "hasAuthorityPrivileges": false,
+              "roles": []
+            },
+            {
+              "isActivationPending": false,
+              "isInvitationSent": false,
+              "isDeleted": false,
+              "shortid": "HJ1L0F8yN",
+              "firstname": "Dave",
+              "lastname": "Parton",
+              "name": "Dave Parton",
+              "userRole": 0,
+              "lastSeenAt": null,
+              "createdAt": null,
+              "nickname": "dave.parton.maptio",
+              "email": "dave.parton.maptio@gmail.com",
+              "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
+              "user_id": "google-oauth2|114631860882417255120",
+              "teams": ["${teamId}"],
+              "datasets": [],
+              "hasAuthorityPrivileges": false,
+              "roles": []
+            }
+          ],
+          "tags": [],
+          "hasFocus": false,
+          "isZoomedOn": false,
+          "isSearchedFor": false,
+          "id": 1587779851626,
+          "name": "Developing a world-class team",
+          "team_id": "${teamId}",
+          "accountable": {
+            "isActivationPending": false,
+            "isInvitationSent": false,
+            "isDeleted": false,
+            "shortid": "rk89t58yN",
+            "firstname": "Jane",
+            "lastname": "Smith",
+            "name": "Jane Smith",
+            "userRole": 0,
+            "lastSeenAt": null,
+            "createdAt": null,
+            "nickname": "Jane Smith",
+            "email": "jane.smith.maptio@gmail.com",
+            "picture": "https://lh5.googleusercontent.com/-BNIJd-7j5L0/AAAAAAAAAAI/AAAAAAAAAAc/QGQ2-X-nPCQ/photo.jpg",
+            "user_id": "auth0|5c09198dfb5415347c72b78c",
+            "teams": ["${teamId}"],
+            "datasets": ["5c090eb28dabfa0013ab6b39"],
+            "hasAuthorityPrivileges": false,
+            "roles": []
+          },
+          "children": [
+            {
+              "helpers": [],
+              "tags": [],
+              "hasFocus": false,
+              "isZoomedOn": false,
+              "isSearchedFor": false,
+              "id": 6822625716627,
+              "name": "Ensuring we have a great office to work in",
+              "team_id": "${teamId}",
+              "children": [],
+              "isDraggable": true,
+              "accountable": {
+                "isActivationPending": false,
+                "isInvitationSent": false,
+                "isDeleted": false,
+                "shortid": "H1HR85IJN",
+                "firstname": "Linda",
+                "lastname": "Philips",
+                "name": "Linda Philips",
+                "userRole": 0,
+                "lastSeenAt": null,
+                "createdAt": null,
+                "nickname": "Linda Philips",
+                "email": "linda.philips.maptio@gmail.com",
+                "picture": "https://ui-avatars.com/api/?rounded=true&background=a301b2&name=Linda+Philips&font-size=0.35&color=ffffff&size=128",
+                "user_id": "auth0|5c0916cc0b53141eaedcaf99",
+                "teams": ["${teamId}"],
+                "datasets": ["5c090eb28dabfa0013ab6b39"],
+                "roles": []
+              }
+            },
+            {
+              "helpers": [],
+              "tags": [],
+              "hasFocus": false,
+              "isZoomedOn": false,
+              "isSearchedFor": false,
+              "id": 1667084152895,
+              "name": "Managing employment law issues",
+              "team_id": "${teamId}",
+              "children": [],
+              "isDraggable": true,
+              "accountable": {
+                "isActivationPending": false,
+                "isInvitationSent": false,
+                "isDeleted": false,
+                "shortid": "HJ1L0F8yN",
+                "firstname": "Dave",
+                "lastname": "Parton",
+                "name": "Dave Parton",
+                "userRole": 0,
+                "lastSeenAt": null,
+                "createdAt": null,
+                "nickname": "dave.parton.maptio",
+                "email": "dave.parton.maptio@gmail.com",
+                "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
+                "user_id": "google-oauth2|114631860882417255120",
+                "teams": ["${teamId}"],
+                "datasets": [],
+                "roles": []
+              }
+            },
+            {
+              "helpers": [
+                {
+                  "isActivationPending": false,
+                  "isInvitationSent": false,
+                  "isDeleted": false,
+                  "shortid": "HJ1L0F8yN",
+                  "firstname": "Dave",
+                  "lastname": "Parton",
+                  "name": "Dave Parton",
+                  "userRole": 0,
+                  "lastSeenAt": null,
+                  "createdAt": null,
+                  "nickname": "dave.parton.maptio",
+                  "email": "dave.parton.maptio@gmail.com",
+                  "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
+                  "user_id": "google-oauth2|114631860882417255120",
+                  "teams": ["${teamId}"],
+                  "datasets": ["5c090eb28dabfa0013ab6b39"],
+                  "hasAuthorityPrivileges": true,
+                  "roles": []
+                }
+              ],
+              "tags": [],
+              "hasFocus": false,
+              "isZoomedOn": false,
+              "isSearchedFor": false,
+              "id": 1212801998332,
+              "name": "Championing wellbeing in the team",
+              "team_id": "${teamId}",
+              "children": [],
+              "isDraggable": true,
+              "accountable": {
+                "isActivationPending": false,
+                "isInvitationSent": false,
+                "isDeleted": false,
+                "shortid": "rJU7hcUk4",
+                "firstname": "Jackie",
+                "lastname": "Noble",
+                "name": "Jackie Noble",
+                "userRole": 0,
+                "lastSeenAt": null,
+                "createdAt": null,
+                "nickname": "Jackie Noble",
+                "email": "jackie.noble.maptio@gmail.com",
+                "picture": "https://ui-avatars.com/api/?rounded=true&background=0197b2&name=Jackie+Noble&font-size=0.35&color=ffffff&size=128",
+                "user_id": "auth0|5c091c1e14668e36dcc5fee5",
+                "teams": ["${teamId}"],
+                "datasets": ["5c090eb28dabfa0013ab6b39"],
+                "roles": []
+              }
+            },
+            {
+              "helpers": [
+                {
+                  "isActivationPending": false,
+                  "isInvitationSent": false,
+                  "isDeleted": false,
+                  "shortid": "HJ1L0F8yN",
+                  "firstname": "Dave",
+                  "lastname": "Parton",
+                  "name": "Dave Parton",
+                  "userRole": 0,
+                  "lastSeenAt": null,
+                  "createdAt": null,
+                  "nickname": "dave.parton.maptio",
+                  "email": "dave.parton.maptio@gmail.com",
+                  "picture": "https://lh6.googleusercontent.com/-e2E65R_JAu8/AAAAAAAAAAI/AAAAAAAAAA8/-PDEg3zLR2Q/photo.jpg",
+                  "user_id": "google-oauth2|114631860882417255120",
+                  "teams": ["${teamId}"],
+                  "datasets": ["5c090eb28dabfa0013ab6b39"],
+                  "hasAuthorityPrivileges": true,
+                  "roles": []
+                }
+              ],
+              "tags": [],
+              "hasFocus": false,
+              "isZoomedOn": false,
+              "isSearchedFor": false,
+              "id": 3800665040497,
+              "name": "Running our recruitment programme",
+              "team_id": "${teamId}",
+              "children": [],
+              "isDraggable": true,
+              "accountable": {
+                "isActivationPending": false,
+                "isInvitationSent": false,
+                "isDeleted": false,
+                "shortid": "rk89t58yN",
+                "firstname": "Jane",
+                "lastname": "Smith",
+                "name": "Jane Smith",
+                "userRole": 0,
+                "lastSeenAt": null,
+                "createdAt": null,
+                "nickname": "Jane Smith",
+                "email": "jane.smith.maptio@gmail.com",
+                "picture": "https://ui-avatars.com/api/?rounded=true&background=0401b2&name=Jane+Smith&font-size=0.35&color=ffffff&size=128",
+                "user_id": "auth0|5c09198dfb5415347c72b78c",
+                "teams": ["${teamId}"],
+                "datasets": ["5c090eb28dabfa0013ab6b39"],
+                "roles": []
+              }
+            }
+          ]
         }
-    ]
+      ],
+      "isDraggable": false
+    }
+  ]
 }

@@ -1,32 +1,44 @@
 <ng-template #links>
-    <span class="navbar-text d-none d-md-flex">
-        <div>
-            <a class="small mr-1" routerLink="/legal/terms">
-                <span >Terms</span>
-            </a>|
-            <a class="small mr-1" routerLink="/legal/privacy">
-                <span>Privacy</span>
-            </a>|
-            <a class="small mr-1" href="{{ BLOG_URL }}" target="blank">
-                <span>Blog</span>
-            </a>|
-            <a class="small mr-1" href="{{ KB_URL_HOME }}" target="blank">
-                <span>Help</span>
-            </a>|
-            <a class="small mr-1" routerLink="/pricing">
-                <span>Pricing</span>
-            </a>
-        </div>
-    </span>
-    <span class="navbar-text text-muted">
-        <small class="">Copyright
-            <i class="far fa-copyright" aria-hidden="true"></i> {{today | date:'yyyy'}} Maptio Ltd</small>
-    </span>
+  <span class="navbar-text d-none d-md-flex">
+    <div>
+      <a class="small mr-1" routerLink="/legal/terms">
+        <span>Terms</span>
+      </a>
+      |
+      <a class="small mr-1" routerLink="/legal/privacy">
+        <span>Privacy</span>
+      </a>
+      |
+      <a class="small mr-1" href="{{ BLOG_URL }}" target="blank">
+        <span>Blog</span>
+      </a>
+      |
+      <a class="small mr-1" href="{{ KB_URL_HOME }}" target="blank">
+        <span>Help</span>
+      </a>
+      |
+      <a class="small mr-1" routerLink="/pricing">
+        <span>Pricing</span>
+      </a>
+    </div>
+  </span>
+  <span class="navbar-text text-muted">
+    <small class="">
+      Copyright
+      <i class="far fa-copyright" aria-hidden="true"></i>
+      {{ today | date: 'yyyy' }} Maptio Ltd
+    </small>
+  </span>
 </ng-template>
 
-<nav [class.flex-column]="isMobile" [class.flex-row]="!isMobile"
-[class.text-white]="isMobile"  [class.text-muted]="!isMobile" class="footer navbar bg-transparent d-flex justify-content-center justify-content-md-between col-11 ">
-      <ng-container *ngTemplateOutlet="links"></ng-container>
+<nav
+  [class.flex-column]="isMobile"
+  [class.flex-row]="!isMobile"
+  [class.text-white]="isMobile"
+  [class.text-muted]="!isMobile"
+  class="footer navbar bg-transparent d-flex justify-content-center justify-content-md-between col-11"
+>
+  <ng-container *ngTemplateOutlet="links"></ng-container>
 </nav>
 <!-- <nav *ngIf="!isMobile" class="footer navbar bg-transparent d-flex flex-row justify-content-between col-11 text-muted">
       <ng-container *ngTemplateOutlet="links"></ng-container>

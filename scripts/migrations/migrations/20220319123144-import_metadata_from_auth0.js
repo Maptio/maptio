@@ -9,11 +9,15 @@ module.exports = {
 
     let cursor = db.collection('users').find();
     for await (let user of cursor) {
-      console.log(`Migrating data for user with email: ${user.email} and auth0 id: ${user.user_id}`);
+      console.log(
+        `Migrating data for user with email: ${user.email} and auth0 id: ${user.user_id}`
+      );
       console.log('User data in MongoDB:', user);
       console.log();
 
-      const auth0User = auth0Export.find(auth0User => auth0User.Id === user.user_id);
+      const auth0User = auth0Export.find(
+        (auth0User) => auth0User.Id === user.user_id
+      );
       console.log('User data in Auth0:', auth0User);
       console.log();
 
@@ -38,7 +42,7 @@ module.exports = {
       }
 
       let userRole;
-      switch(userRoleString) {
+      switch (userRoleString) {
         case 'Admin':
           userRole = 1;
           break;
@@ -67,16 +71,17 @@ module.exports = {
             isActivationPending,
             isInvitationSent,
             userRole,
-          }
+          },
         }
       );
 
       console.log('Result of MongoDB update', updateResult);
       console.log();
 
-      const userAfterUpdate = await db.collection('users').find(
-        { _id: user._id }
-      ).toArray();
+      const userAfterUpdate = await db
+        .collection('users')
+        .find({ _id: user._id })
+        .toArray();
       console.log('User data after update:', userAfterUpdate);
 
       console.log('\n\n\n');
@@ -86,5 +91,5 @@ module.exports = {
   // Rolling back the above migration (if possible)
   async down(db, client) {
     // Sadly not possible in this case...
-  }
+  },
 };

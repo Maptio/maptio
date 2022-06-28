@@ -1,10 +1,12 @@
 <ng-template #editTipContent>
-	You don't have permission to edit this.
-	<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+  You don't have permission to edit this.
+  <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
 </ng-template>
 
 <div class="input-size d-flex flex-column">
-  <div class="input-size__label d-flex align-items-baseline justify-content-start">
+  <div
+    class="input-size__label d-flex align-items-baseline justify-content-start"
+  >
     <span class="d-flex align-items-baseline text-gray-light mr-1">
       <i class="fas fa-ruler-combined mr-1"></i>
       <span class="text-uppercase text-bold small">Circle size adjustment</span>
@@ -14,7 +16,7 @@
       *ngIf="isUnauthorized"
       class="text-gray-light small"
       [stickyPopover]="editTipContent"
-      placement='right'
+      placement="right"
     >
       <i class="fas fa-lock"></i>
     </span>
@@ -29,21 +31,16 @@
       <i class="fas fa-minus"></i>
     </button>
 
-    <div
-      class="input-size__input-wrapper w-100"
-    >
+    <div class="input-size__input-wrapper w-100">
       <input
         type="number"
         [readonly]="isUnauthorized"
         [value]="size || 'Default'"
         (change)="onEdit($event.target.value)"
         class="input-size__input form-control bg-light"
-      >
+      />
 
-      <span
-        class="input-size__default-value-placeholder"
-        *ngIf="!size"
-      >
+      <span class="input-size__default-value-placeholder" *ngIf="!size">
         Default size
       </span>
     </div>
@@ -66,7 +63,7 @@
       focusbutton="cancel"
       appendToBody="false"
       (confirm)="onReset()"
-      (cancel)="cancelClicked=true"
+      (cancel)="cancelClicked = true"
     >
       <i class="fas fa-undo"></i>
     </button>

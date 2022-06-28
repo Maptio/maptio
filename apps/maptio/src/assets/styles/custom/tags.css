@@ -1,30 +1,30 @@
 .tags {
-    list-style: none;
-    margin: 0;
-    overflow: hidden;
-    padding: 0;
-  }
-  
-  .tags li {
-    float: left;
-  }
+  list-style: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+}
 
-  .btn.tag:hover {
-    background-color: initial;
-  }
-  
-  .btn-tag {
-  }
-  
-  .btn-tag.active {
-    color: #f8f9fa !important;
-  }
-  
-  li a.tag {
-    background: transparent;
-    border:0;
-  }
+.tags li {
+  float: left;
+}
 
-  .dot-tags {
-    font-family: FontAwesome;
-  }
+.btn.tag:hover {
+  background-color: initial;
+}
+
+.btn-tag {
+}
+
+.btn-tag.active {
+  color: #f8f9fa !important;
+}
+
+li a.tag {
+  background: transparent;
+  border: 0;
+}
+
+.dot-tags {
+  font-family: FontAwesome;
+}

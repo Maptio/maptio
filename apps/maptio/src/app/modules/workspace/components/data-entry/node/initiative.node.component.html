@@ -1,113 +1,178 @@
 <ng-template #dragAndDropTipContent>
-	<span class="">You don't have permission to drag-and-drop.
-		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
-	</span>
+  <span class="">
+    You don't have permission to drag-and-drop.
+    <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
+  </span>
 </ng-template>
 <ng-template #createTipContent>
-	<span class="text-orange">You don't have permission to add this.
-		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
-	</span>
+  <span class="text-orange">
+    You don't have permission to add this.
+    <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
+  </span>
 </ng-template>
 <ng-template #editTipContent>
-	<span class="text-orange">You don't have permission to edit this.
-		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
-	</span>You don't have permission to edit this.
+  <span class="text-orange">
+    You don't have permission to edit this.
+    <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
+  </span>
+  You don't have permission to edit this.
 </ng-template>
 <ng-template #deleteTipContent>
-	<span class="text-orange">You don't have permission to delete this.
-		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
-	</span>
+  <span class="text-orange">
+    You don't have permission to delete this.
+    <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
+  </span>
 </ng-template>
 
 <ng-template #nodeEditing>
-	<div *permissionsOnly="Permissions.canEditInitiativeName;initiative node.data; else elseNameBlock; then thenNameBlock; "></div>
-	<ng-template #thenNameBlock>
-		<input class="form-control input inputNodeName box-shadow-0 border-left-0 border-right-0 text-truncate" type="text" [focusif]="node.data.hasFocus"
-		 [ngModel]="node.data.name" (focus)="node.data.isDraggable=false;openNode(node.data)" (blur)="node.data.isDraggable=true"
-		 debounce (func)="saveNodeName($event, node.data)" />
-	</ng-template>
-	<ng-template #elseNameBlock>
-		<input class="text-muted form-control input inputNodeName box-shadow-0 border-left-0 border-right-0 text-truncate" type="text"
-		 [ngModel]="node.data.name" (keydown)="$event.preventDefault();isEditWarningToggled=true" (focus)="node.data.isDraggable=false;openNode(node.data)"
-		 (blur)="node.data.isDraggable=true" />
-	</ng-template>
+  <div
+    *permissionsOnly="
+      Permissions.canEditInitiativeName;
+      initiative: node.data;
+      else: elseNameBlock;
+      then: thenNameBlock
+    "
+  ></div>
+  <ng-template #thenNameBlock>
+    <input
+      class="form-control input inputNodeName box-shadow-0 border-left-0 border-right-0 text-truncate"
+      type="text"
+      [focusif]="node.data.hasFocus"
+      [ngModel]="node.data.name"
+      (focus)="node.data.isDraggable = false; openNode(node.data)"
+      (blur)="node.data.isDraggable = true"
+      debounce
+      (func)="saveNodeName($event, node.data)"
+    />
+  </ng-template>
+  <ng-template #elseNameBlock>
+    <input
+      class="text-muted form-control input inputNodeName box-shadow-0 border-left-0 border-right-0 text-truncate"
+      type="text"
+      [ngModel]="node.data.name"
+      (keydown)="$event.preventDefault(); isEditWarningToggled = true"
+      (focus)="node.data.isDraggable = false; openNode(node.data)"
+      (blur)="node.data.isDraggable = true"
+    />
+  </ng-template>
 
-	<div class="input-group-append">
-		<ng-template #addButtonTooltip>
-			<p *ngIf="isRoot()">Create outer circle</p>
-			<p *ngIf="!isRoot()">Add sub-circle</p>
-		</ng-template>
+  <div class="input-group-append">
+    <ng-template #addButtonTooltip>
+      <p *ngIf="isRoot()">Create outer circle</p>
+      <p *ngIf="!isRoot()">Add sub-circle</p>
+    </ng-template>
 
-		<ng-container *ngIf="!isRoot()">
-			<div *permissionsOnly="Permissions.canCreateInitiative; initiative node.data; else elseCreateBlock; then thenCreateBlock; "></div>
+    <ng-container *ngIf="!isRoot()">
+      <div
+        *permissionsOnly="
+          Permissions.canCreateInitiative;
+          initiative: node.data;
+          else: elseCreateBlock;
+          then: thenCreateBlock
+        "
+      ></div>
 
-			<ng-template #thenCreateBlock>
-				<button class="btn add border border-left-0 border-right-0 btn-outline-secondary" (click)="addChildNode(node.data)" placement="top"
-				[ngbTooltip]="addButtonTooltip" container="body" angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'add', team:teamName, teamId:teamId  }"></button>
-				<!-- <button class="btn edit border border-left-0 border-right-0 btn-outline-secondary" *ngIf="!isRoot()" (click)="openNode(node.data)"
-				placement="top" container="body" ngbTooltip="Open circle" angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'edit', team:teamName, teamId:teamId }"></button> -->
-			</ng-template>
-
-			<ng-template #elseCreateBlock>
-				<button class="btn add border border-left-0 border-right-0 btn-outline-secondary disabled cursor-not-allowed" placement="top" [stickyPopover]="createTipContent" container="body"></button>
-			</ng-template>
-		</ng-container>
-
-
-		<ng-container *ngIf="!isRoot()">
-			<div *permissionsOnly="Permissions.canDeleteInitiative; initiative node.data; else elseDeleteBlock;then thenDeleteBlock; ">
-
-			</div>
-			<ng-template #thenDeleteBlock>
-				<button
-          (click)="onDeleteNode(node.data)"
-          class="btn remove border border-left-0  btn-outline-secondary"
+      <ng-template #thenCreateBlock>
+        <button
+          class="btn add border border-left-0 border-right-0 btn-outline-secondary"
+          (click)="addChildNode(node.data)"
+          placement="top"
+          [ngbTooltip]="addButtonTooltip"
+          container="body"
+          angulartics2On="click"
           angularticsEvent="Map"
-          [angularticsProperties]="{mode: 'list', action:'remove', team:teamName, teamId:teamId }"
-				  angulartics2On="click"
+          [angularticsProperties]="{
+            mode: 'list',
+            action: 'add',
+            team: teamName,
+            teamId: teamId
+          }"
         ></button>
+        <!-- <button class="btn edit border border-left-0 border-right-0 btn-outline-secondary" *ngIf="!isRoot()" (click)="openNode(node.data)"
+				placement="top" container="body" ngbTooltip="Open circle" angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'edit', team:teamName, teamId:teamId }"></button> -->
+      </ng-template>
 
-			</ng-template>
-			<ng-template #elseDeleteBlock>
-				<button class="btn remove border border-left-0  btn-outline-secondary disabled cursor-not-allowed" placement="top" [stickyPopover]="deleteTipContent">
+      <ng-template #elseCreateBlock>
+        <button
+          class="btn add border border-left-0 border-right-0 btn-outline-secondary disabled cursor-not-allowed"
+          placement="top"
+          [stickyPopover]="createTipContent"
+          container="body"
+        ></button>
+      </ng-template>
+    </ng-container>
 
-				</button>
-			</ng-template>
-		</ng-container>
-	</div>
+    <ng-container *ngIf="!isRoot()">
+      <div
+        *permissionsOnly="
+          Permissions.canDeleteInitiative;
+          initiative: node.data;
+          else: elseDeleteBlock;
+          then: thenDeleteBlock
+        "
+      ></div>
+      <ng-template #thenDeleteBlock>
+        <button
+          (click)="onDeleteNode(node.data)"
+          class="btn remove border border-left-0 btn-outline-secondary"
+          angularticsEvent="Map"
+          [angularticsProperties]="{
+            mode: 'list',
+            action: 'remove',
+            team: teamName,
+            teamId: teamId
+          }"
+          angulartics2On="click"
+        ></button>
+      </ng-template>
+      <ng-template #elseDeleteBlock>
+        <button
+          class="btn remove border border-left-0 btn-outline-secondary disabled cursor-not-allowed"
+          placement="top"
+          [stickyPopover]="deleteTipContent"
+        ></button>
+      </ng-template>
+    </ng-container>
+  </div>
 </ng-template>
 
 <div class="w-100 pl-2">
+  <div
+    *permissionsOnly="
+      Permissions.canMoveInitiative;
+      else elseMoveBlock;
+      then: thenMoveBlock
+    "
+  ></div>
+  <ng-template #thenMoveBlock>
+    <div
+      class="input-group rounded"
+      [class.box-shadow-small]="isDraggable()"
+      (mouseover)="node.data.isDraggable = true"
+      (mouseout)="node.data.isDraggable = false"
+    >
+      <div class="input-group-prepend">
+        <span class="input-group-text knurled text-secondary cursor-move">
+          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+        </span>
+      </div>
+      <ng-container *ngTemplateOutlet="nodeEditing"></ng-container>
+    </div>
+  </ng-template>
+  <ng-template #elseMoveBlock>
+    <div class="input-group rounded">
+      <div class="input-group-prepend">
+        <span
+          class="input-group-text knurled text-secondary p-0 border-right-0"
+        >
+          <i class="fa fa-ellipsis-v invisible" aria-hidden="true"></i>
+        </span>
+      </div>
+      <ng-container *ngTemplateOutlet="nodeEditing"></ng-container>
+    </div>
+  </ng-template>
 
-	<div *permissionsOnly="Permissions.canMoveInitiative; else elseMoveBlock; then thenMoveBlock; "></div>
-	<ng-template #thenMoveBlock>
-		<div class="input-group rounded" [class.box-shadow-small]="isDraggable()" (mouseover)="node.data.isDraggable=true" (mouseout)="node.data.isDraggable=false">
-			<div class="input-group-prepend">
-				<span class="input-group-text knurled text-secondary cursor-move ">
-					<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-				</span>
-			</div>
-			<ng-container *ngTemplateOutlet="nodeEditing"></ng-container>
-
-		</div>
-
-	</ng-template>
-	<ng-template #elseMoveBlock>
-		<div class="input-group rounded" >
-			<div class="input-group-prepend">
-				<span class="input-group-text knurled text-secondary p-0 border-right-0 ">
-					<i class="fa fa-ellipsis-v invisible" aria-hidden="true"></i>
-				</span>
-			</div>
-			<ng-container *ngTemplateOutlet="nodeEditing"></ng-container>
-
-		</div>
-
-
-	</ng-template>
-
-
-	<!-- <div class="input-group rounded" [class.box-shadow]="isDraggable()" (mouseover)="node.data.isDraggable=true" (mouseout)="node.data.isDraggable=false">
+  <!-- <div class="input-group rounded" [class.box-shadow]="isDraggable()" (mouseover)="node.data.isDraggable=true" (mouseout)="node.data.isDraggable=false">
 		<div class="input-group-prepend">
 			<ng-container *ngIf="!isRoot()">
 				<div *permissionsOnly="Permissions.canMoveInitiative; else elseMoveBlock; then thenMoveBlock; "></div>

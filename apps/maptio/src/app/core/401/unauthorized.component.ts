@@ -1,8 +1,7 @@
-import { Component } from "@angular/core";
-
+import { Component } from '@angular/core';
 
 @Component({
-    selector: "maptio-unauthorized",
-    templateUrl: "./unauthorized.component.html"
+  selector: 'maptio-unauthorized',
+  templateUrl: './unauthorized.component.html',
 })
 export class UnauthorizedComponent {}

@@ -1,35 +1,40 @@
-import { SelectableTag } from "../../../../shared/model/tag.data";
-import { Initiative } from "../../../../shared/model/initiative.data";
-import { Subject ,  Observable } from "rxjs";
-import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
+import { SelectableTag } from '../../../../shared/model/tag.data';
+import { Initiative } from '../../../../shared/model/initiative.data';
+import { Subject, Observable } from 'rxjs';
+import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 export interface IDataVisualizer {
-    datasetId: string;
+  datasetId: string;
 
-    width: number;
+  width: number;
 
-    height: number;
+  height: number;
 
-    margin: number;
+  margin: number;
 
-    zoom$: Observable<number>;
+  zoom$: Observable<number>;
 
-    mapColor$: Observable<string>;
+  mapColor$: Observable<string>;
 
-    zoomInitiative$: Observable<Initiative>;
-    selectableTags$: Observable<Array<SelectableTag>>;
-    isReset$: Observable<boolean>;
+  zoomInitiative$: Observable<Initiative>;
+  selectableTags$: Observable<Array<SelectableTag>>;
+  isReset$: Observable<boolean>;
 
-    translateX: number;
-    translateY: number;
-    scale: number;
-    tagsState: Array<SelectableTag>;
+  translateX: number;
+  translateY: number;
+  scale: number;
+  tagsState: Array<SelectableTag>;
 
-    showDetailsOf$: Subject<Initiative>;
-    showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }>;
-    showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }>;
+  showDetailsOf$: Subject<Initiative>;
+  showToolipOf$: Subject<{ initiatives: Initiative[]; isNameOnly: boolean }>;
+  showContextMenuOf$: Subject<{
+    initiatives: Initiative[];
+    x: Number;
+    y: Number;
+    isReadOnlyContextMenu: boolean;
+  }>;
 
-    analytics: Angulartics2Mixpanel;
+  analytics: Angulartics2Mixpanel;
 
-    init(): void;
+  init(): void;
 }

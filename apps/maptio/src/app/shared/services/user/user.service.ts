@@ -3,13 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import {
-  BehaviorSubject,
-  combineLatest,
-  EMPTY,
-  from,
-  of,
-} from 'rxjs';
+import { BehaviorSubject, combineLatest, EMPTY, from, of } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -27,7 +21,7 @@ import { AuthService } from '@auth0/auth0-angular';
 import { Intercom } from 'ng-intercom';
 import { UUID } from 'angular2-uuid/index';
 import { isEmpty, remove, sortBy, uniq } from 'lodash-es';
-import { nanoid } from 'nanoid'
+import { nanoid } from 'nanoid';
 
 import { environment } from '@maptio-environment';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
@@ -41,13 +35,16 @@ import { DataSet } from '@maptio-shared/model/dataset.data';
 import { Initiative } from '@maptio-shared/model/initiative.data';
 import { OpenReplayService } from '@maptio-shared/services/open-replay.service';
 import { TeamService } from '@maptio-shared/services/team/team.service';
-import { UserRole, UserRoleService, Permissions } from '@maptio-shared/model/permission.data';
+import {
+  UserRole,
+  UserRoleService,
+  Permissions,
+} from '@maptio-shared/model/permission.data';
 import { UserWithTeamsAndDatasets } from '@maptio-shared/model/userWithTeamsAndDatasets.interface';
 import { LoaderService } from '@maptio-shared/components/loading/loader.service';
 
 import { MultipleUserDuplicationError } from './multiple-user-duplication.error';
 import { DuplicationError } from './duplication.error';
-
 
 @Injectable()
 export class UserService implements OnDestroy {
@@ -59,7 +56,7 @@ export class UserService implements OnDestroy {
 
   public userFromAuth0Profile$ = this.auth.user$.pipe(
     // Proceed only when Auth0 returns profile information
-    filter(profile => Boolean(profile)),
+    filter((profile) => Boolean(profile)),
 
     // Limit unnecessary emissions, see discussion here:
     // https://github.com/auth0/auth0-angular/issues/105
@@ -83,8 +80,8 @@ export class UserService implements OnDestroy {
       }
     }),
 
-    tap(user => {
-      if(user.consentForSessionRecordings) {
+    tap((user) => {
+      if (user.consentForSessionRecordings) {
         this.openReplayService.start();
       }
     }),
@@ -92,7 +89,7 @@ export class UserService implements OnDestroy {
     catchError(this.handleLoginError),
 
     // Cache the user
-    shareReplay(1),
+    shareReplay(1)
   );
 
   private refreshUserDataSubject = new BehaviorSubject<void>(null);
@@ -103,15 +100,15 @@ export class UserService implements OnDestroy {
     this.userFromAuth0Profile$,
     this.refreshUserDataAction$,
   ]).pipe(
-    concatMap(([user,]) => {
+    concatMap(([user]) => {
       return this.gatherUserData(user);
-    }),
-  )
+    })
+  );
 
   public user$ = this.userWithTeamsAndDatasets$.pipe(
     map((userWithTeamsAndDatasets: UserWithTeamsAndDatasets) => {
       return userWithTeamsAndDatasets.user;
-    }),
+    })
   );
 
   userDatasets: DataSet[];
@@ -130,22 +127,23 @@ export class UserService implements OnDestroy {
     private datasetFactory: DatasetFactory,
     private userRoleService: UserRoleService,
     private loaderService: LoaderService,
-    @Inject(DOCUMENT) private doc: Document,
+    @Inject(DOCUMENT) private doc: Document
   ) {
     // TODO: This is the solution to token expiry actually recommended by Auth0
     // here: https://github.com/auth0/auth0-angular#handling-errors but it's
     // ugly and it'd be great to improve on this
-    this.subs.sink = this.auth.error$.pipe(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      filter(error => (error as any).error === 'login_required'),
-      mergeMap(() => this.login())
-    ).subscribe();
+    this.subs.sink = this.auth.error$
+      .pipe(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        filter((error) => (error as any).error === 'login_required'),
+        mergeMap(() => this.login())
+      )
+      .subscribe();
   }
 
   ngOnDestroy() {
     this.subs.unsubscribe();
   }
-
 
   /*
    * Login, signup, logout and associated data preparation
@@ -163,7 +161,7 @@ export class UserService implements OnDestroy {
 
   signup() {
     return this.auth.loginWithRedirect({
-      screen_hint: 'signup'
+      screen_hint: 'signup',
     });
   }
 
@@ -180,19 +178,25 @@ export class UserService implements OnDestroy {
     this.permissions = this.userRoleService.get(user.userRole);
 
     const datasetIds = await this.datasetFactory.get(user);
-    user.datasets = uniq(datasetIds)
+    user.datasets = uniq(datasetIds);
 
-    let teams = isEmpty(user.teams) ? [] : await this.teamFactory.get(user.teams);
-    teams = sortBy(teams, team => team.name);
+    let teams = isEmpty(user.teams)
+      ? []
+      : await this.teamFactory.get(user.teams);
+    teams = sortBy(teams, (team) => team.name);
 
-    this.userDatasets = isEmpty(user.datasets) ? [] : await this.datasetFactory.get(user.datasets, false);
+    this.userDatasets = isEmpty(user.datasets)
+      ? []
+      : await this.datasetFactory.get(user.datasets, false);
     let datasets = this.userDatasets
-      .filter(dataset => !dataset.isArchived)
-      .map(dataset => {
-        dataset.team = teams.find(team => dataset.initiative.team_id === team.team_id);
+      .filter((dataset) => !dataset.isArchived)
+      .map((dataset) => {
+        dataset.team = teams.find(
+          (team) => dataset.initiative.team_id === team.team_id
+        );
         return dataset;
       });
-    datasets = sortBy(datasets, dataset => dataset.initiative.name);
+    datasets = sortBy(datasets, (dataset) => dataset.initiative.name);
 
     return { datasets, teams, user };
   }
@@ -203,8 +207,8 @@ export class UserService implements OnDestroy {
     if (user.teams.length > 0) {
       const userTeams = await this.teamFactory.get(user.teams);
       exampleTeamIds = userTeams
-        .filter(team => team.isExample)
-        .map(team => team.team_id)
+        .filter((team) => team.isExample)
+        .map((team) => team.team_id);
     }
 
     return exampleTeamIds;
@@ -217,7 +221,6 @@ export class UserService implements OnDestroy {
     return EMPTY;
   }
 
-
   /*
    * User data refresh
    */
@@ -226,7 +229,6 @@ export class UserService implements OnDestroy {
     this.refreshUserDataSubject.next();
   }
 
-
   /*
    * User permissions
    */
@@ -234,7 +236,6 @@ export class UserService implements OnDestroy {
   public getPermissions(): Permissions[] {
     return this.permissions;
   }
-
 
   /*
    * User creation
@@ -248,7 +249,7 @@ export class UserService implements OnDestroy {
       profile.family_name,
       profile.picture,
       true,
-      true, // isInAuth0
+      true // isInAuth0
     );
   }
 
@@ -260,7 +261,14 @@ export class UserService implements OnDestroy {
     isAdmin?: boolean
   ): User {
     const userId = this.generateNewUserId();
-    return this.createUser(userId, email, firstname, lastname, picture, isAdmin);
+    return this.createUser(
+      userId,
+      email,
+      firstname,
+      lastname,
+      picture,
+      isAdmin
+    );
   }
 
   createUserAndAddToTeam(
@@ -272,7 +280,14 @@ export class UserService implements OnDestroy {
     isAdmin?: boolean
   ): Promise<boolean> {
     const userId = this.generateNewUserId();
-    const user = this.createUser(userId, email, firstname, lastname, picture, isAdmin);
+    const user = this.createUser(
+      userId,
+      email,
+      firstname,
+      lastname,
+      picture,
+      isAdmin
+    );
 
     return this.datasetFactory
       .get(team)
@@ -316,9 +331,11 @@ export class UserService implements OnDestroy {
     lastname: string,
     picture?: string,
     isAdmin?: boolean,
-    isInAuth0 = false,
+    isInAuth0 = false
   ): User {
-    const imageUrl = picture ? picture : this.generateUserAvatarLink(firstname, lastname);
+    const imageUrl = picture
+      ? picture
+      : this.generateUserAvatarLink(firstname, lastname);
 
     const newUserData = {
       isInAuth0,
@@ -339,12 +356,11 @@ export class UserService implements OnDestroy {
         showEditingPanelMessage: true,
         showCircleDetailsPanelMessage: true,
         showCircleCanvasMessage: true,
-      }
+      },
     };
 
     return User.create().deserialize(newUserData);
   }
-
 
   /*
    * User creation: small helper methods
@@ -433,7 +449,6 @@ export class UserService implements OnDestroy {
     return userId.replace('auth0|', '');
   }
 
-
   /*
    * Updating user information
    */
@@ -444,7 +459,7 @@ export class UserService implements OnDestroy {
     lastname: string,
     email: string,
     picture: string,
-    isActivationPending?: boolean,
+    isActivationPending?: boolean
   ): Promise<boolean> {
     if (user.email !== email && user.isInAuth0) {
       throw new Error('Cannot update email of user already in Auth0.');
@@ -485,7 +500,6 @@ export class UserService implements OnDestroy {
     return this.userFactory.upsert(user);
   }
 
-
   /*
    * Invitations
    */
@@ -498,7 +512,10 @@ export class UserService implements OnDestroy {
     const duplicateUsers = await this.checkForDuplication(user);
 
     if (duplicateUsers.length > 0) {
-      throw new DuplicationError('Duplicate users have been found.', duplicateUsers);
+      throw new DuplicationError(
+        'Duplicate users have been found.',
+        duplicateUsers
+      );
     }
 
     const userDataInAuth0Format = this.convertUserToAuth0Format(user);
@@ -510,7 +527,9 @@ export class UserService implements OnDestroy {
     // When creating a user in Auth0, we need to remove the "auth0|" prefix,
     // from the user id, see comment for `addAuth0IdPrefix` for more details.
     if (createUser) {
-      userDataInAuth0Format.user_id = this.removeAuth0IdPrefix(userDataInAuth0Format.user_id);
+      userDataInAuth0Format.user_id = this.removeAuth0IdPrefix(
+        userDataInAuth0Format.user_id
+      );
     }
 
     const inviteData = {
@@ -518,16 +537,16 @@ export class UserService implements OnDestroy {
       teamName,
       invitedBy,
       createUser,
-    }
+    };
 
     return this.http
       .post(`/api/v1/invite`, inviteData)
       .toPromise()
-      .then(success => {
+      .then((success) => {
         if (success) {
           return this.updateInvitationSentStatus(user, true);
         }
-      })
+      });
   }
 
   private convertUserToAuth0Format(user: User) {
@@ -549,7 +568,7 @@ export class UserService implements OnDestroy {
         given_name: user.firstname,
         family_name: user.lastname,
       },
-    }
+    };
 
     return userInAuth0Format;
   }
@@ -569,7 +588,6 @@ export class UserService implements OnDestroy {
     return this.userFactory.upsert(user);
   }
 
-
   /*
    * Detecting and handling duplication
    */
@@ -585,26 +603,26 @@ export class UserService implements OnDestroy {
     let duplicateUsers: User[] = [];
 
     duplicateUsers = duplicateUsers.concat(
-      teamMembers.filter(
-        (member) => {
-          const areBothEmailsDefined = !!member.email && !!email;
-          const doEmailsMatch =  areBothEmailsDefined && member.email === email;
-          const doNamesMatch = this.areStringsAlmostIdentical(member.name, name)
+      teamMembers.filter((member) => {
+        const areBothEmailsDefined = !!member.email && !!email;
+        const doEmailsMatch = areBothEmailsDefined && member.email === email;
+        const doNamesMatch = this.areStringsAlmostIdentical(member.name, name);
 
-          return doEmailsMatch || doNamesMatch;
-        }
-      )
+        return doEmailsMatch || doNamesMatch;
+      })
     );
 
     return duplicateUsers;
   }
 
   private areStringsAlmostIdentical(string1: string, string2: string): boolean {
-    return string1.trim().localeCompare(
-      string2.trim(),
-      undefined, // locale not specified
-      { sensitivity: 'base' } // case insensitive, among other things
-    ) === 0;
+    return (
+      string1.trim().localeCompare(
+        string2.trim(),
+        undefined, // locale not specified
+        { sensitivity: 'base' } // case insensitive, among other things
+      ) === 0
+    );
   }
 
   public async checkForDuplication(user: User): Promise<User[]> {
@@ -612,15 +630,17 @@ export class UserService implements OnDestroy {
 
     if (user.email) {
       // Find all users in the DB with the same email address
-      await this.userFactory.getAllByEmail(user.email).then(usersWithGivenEmail => {
-        duplicateUsers = usersWithGivenEmail.filter(
-          userFromDB => userFromDB.user_id !== user.user_id
-        );
-      });
+      await this.userFactory
+        .getAllByEmail(user.email)
+        .then((usersWithGivenEmail) => {
+          duplicateUsers = usersWithGivenEmail.filter(
+            (userFromDB) => userFromDB.user_id !== user.user_id
+          );
+        });
 
       // Ignore users not already in Auth0
       duplicateUsers = duplicateUsers.filter(
-        userFromDB => userFromDB.isInAuth0
+        (userFromDB) => userFromDB.isInAuth0
       );
 
       if (duplicateUsers.length > 1) {
@@ -646,20 +666,22 @@ export class UserService implements OnDestroy {
 
     const replacementUser = duplicateUsers[0];
 
-    await this.teamService.replaceMember(team, userToBeReplaced, replacementUser);
-
-    // Get datasets for the current team
-    const teamDatasets = this.userDatasets.filter(
-      dataset => {
-        if (!dataset.initiative) {
-          return false;
-        }
-
-        return dataset.initiative.team_id === team.team_id
-      }
+    await this.teamService.replaceMember(
+      team,
+      userToBeReplaced,
+      replacementUser
     );
 
-    teamDatasets.forEach(async dataset => {
+    // Get datasets for the current team
+    const teamDatasets = this.userDatasets.filter((dataset) => {
+      if (!dataset.initiative) {
+        return false;
+      }
+
+      return dataset.initiative.team_id === team.team_id;
+    });
+
+    teamDatasets.forEach(async (dataset) => {
       dataset.team = team;
 
       dataset.initiative.traverse((initiative: Initiative) => {
@@ -667,16 +689,22 @@ export class UserService implements OnDestroy {
           this.replaceUser(initiative.accountable, replacementUser);
 
           if (this.isUserAHelperInInitiative(replacementUser, initiative)) {
-            remove(initiative.helpers, helper => helper.user_id === replacementUser.user_id);
+            remove(
+              initiative.helpers,
+              (helper) => helper.user_id === replacementUser.user_id
+            );
           }
         }
 
         if (this.isUserAHelperInInitiative(userToBeReplaced, initiative)) {
           if (
-            this.isUserAccountableOfInitiative(replacementUser, initiative)
-            || this.isUserAHelperInInitiative(replacementUser, initiative)
+            this.isUserAccountableOfInitiative(replacementUser, initiative) ||
+            this.isUserAHelperInInitiative(replacementUser, initiative)
           ) {
-            remove(initiative.helpers, helper => helper.user_id === userToBeReplaced.user_id);
+            remove(
+              initiative.helpers,
+              (helper) => helper.user_id === userToBeReplaced.user_id
+            );
           } else {
             initiative.helpers.forEach((helper) => {
               if (helper.user_id === userToBeReplaced.user_id) {
@@ -690,7 +718,9 @@ export class UserService implements OnDestroy {
       try {
         await this.datasetFactory.upsert(dataset);
       } catch {
-        throw new Error('Failed to update dataset while replacing duplicate users.');
+        throw new Error(
+          'Failed to update dataset while replacing duplicate users.'
+        );
       }
     });
 
@@ -699,10 +729,7 @@ export class UserService implements OnDestroy {
     this.refreshUserData();
   }
 
-  private replaceUser(
-    initiativeHelper: Helper,
-    replacementUser: User,
-  ) {
+  private replaceUser(initiativeHelper: Helper, replacementUser: User) {
     initiativeHelper = Object.assign(initiativeHelper, replacementUser);
   }
 
@@ -711,9 +738,7 @@ export class UserService implements OnDestroy {
   }
 
   private isUserAHelperInInitiative(user: User, initiative: Initiative) {
-    return initiative.helpers.some(
-      helper => helper.user_id === user.user_id
-    );
+    return initiative.helpers.some((helper) => helper.user_id === user.user_id);
   }
 
   /**
@@ -726,11 +751,11 @@ export class UserService implements OnDestroy {
       user_id: user.user_id,
       name: user.name,
       first_name: user.firstname,
-      "First Name": user.firstname,
-      "Last Name": user.lastname,
+      'First Name': user.firstname,
+      'Last Name': user.lastname,
       avatar: {
-          type: "avatar",
-          image_url: user.picture,
+        type: 'avatar',
+        image_url: user.picture,
       },
       is_invited: user.isInvitationSent,
       consent_for_session_recordings: user.consentForSessionRecordings,

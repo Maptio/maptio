@@ -11,7 +11,6 @@ $shadow-scale-default: 1;
 $shadow-scale-selected-not-hovered: 1;
 $shadow-scale-selected: 1.008;
 
-
 .circle {
   fill-opacity: 0.15;
   cursor: pointer;
@@ -59,7 +58,7 @@ $shadow-scale-selected: 1.008;
   > .circle__info {
     opacity: 1;
     pointer-events: auto;
-    transform: scale($info-scale-selected-not-hovered)
+    transform: scale($info-scale-selected-not-hovered);
   }
 }
 
@@ -75,7 +74,7 @@ $shadow-scale-selected: 1.008;
   }
 
   > .circle__info {
-    transform: scale($info-scale-selected)
+    transform: scale($info-scale-selected);
   }
 }
 
@@ -161,7 +160,6 @@ $shadow-scale-selected: 1.008;
     transform: scale($info-scale-selected);
   }
 }
-
 
 .circle__popover {
   // Styles copied from .mat-tooltip @ 11.2.8

@@ -5,7 +5,6 @@ import { SatPopover } from '@ncstate/sat-popover';
 import { CircleMapService } from '../circle-map.service';
 import { InitiativeNode } from '../initiative.model';
 
-
 @Component({
   selector: 'g[maptioCircle]', // eslint-disable-line @angular-eslint/component-selector
   templateUrl: './circle.component.html',
@@ -44,10 +43,12 @@ export class CircleComponent implements OnInit {
       this.y = (this.circle.y - this.circle.parent.y) / 10 / parentScale;
       this.scale = this.circle.r / this.circle.parent.r;
     } else {
-      console.error('It should be impossible for a circle that is not a primary circle to not have a parent!');
+      console.error(
+        'It should be impossible for a circle that is not a primary circle to not have a parent!'
+      );
     }
 
-    this.infoSize = this.defaultRadius * 2 / Math.sqrt(2);
+    this.infoSize = (this.defaultRadius * 2) / Math.sqrt(2);
     this.infoX = -this.defaultRadius / Math.sqrt(2);
     this.infoY = -this.defaultRadius / Math.sqrt(2);
   }
@@ -68,8 +69,8 @@ export class CircleComponent implements OnInit {
   onPopoverOpen() {
     const isReadable = this.scale > 0.25;
     const isSelectedOrOpened =
-      this.circle.data.isOpened
-      || (this.circle.data.isSelected && !this.circle.data.isPrimary); // Primary circles always start selected
+      this.circle.data.isOpened ||
+      (this.circle.data.isSelected && !this.circle.data.isPrimary); // Primary circles always start selected
 
     if (isReadable || isSelectedOrOpened) {
       this.popover?.close();

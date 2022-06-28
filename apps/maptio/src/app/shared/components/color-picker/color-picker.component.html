@@ -1,31 +1,56 @@
 <ng-container *ngIf="!isMinimal && !isDisabled">
   <div class="form-group form-inline mb-0">
-    <label for="example-time-input" class="col-form-label col-auto">{{label}}</label>
-    <color-hue-picker [color]="color" [width]="255" (onChangeComplete)="pickColor($event)"></color-hue-picker>
-    <button class="btn btn-outline-secondary ml-2 col-auto" (click)="reset()">Reset</button>
+    <label for="example-time-input" class="col-form-label col-auto">
+      {{ label }}
+    </label>
+    <color-hue-picker
+      [color]="color"
+      [width]="255"
+      (onChangeComplete)="pickColor($event)"
+    ></color-hue-picker>
+    <button class="btn btn-outline-secondary ml-2 col-auto" (click)="reset()">
+      Reset
+    </button>
   </div>
 </ng-container>
 
 <ng-container *ngIf="isMinimal && !isDisabled">
   <ng-template #popContent>
-    <color-hue-picker [color]="color" [width]="255" (onChangeComplete)="pickColor($event)"></color-hue-picker>
+    <color-hue-picker
+      [color]="color"
+      [width]="255"
+      (onChangeComplete)="pickColor($event)"
+    ></color-hue-picker>
   </ng-template>
 
-  <button type="button" [style.color]="color" [style.border-color]="color" class="btn btn-outline-secondary" [autoClose]="'outside'"
-    [ngbPopover]="popContent" popoverClass="popover-color-picker">
+  <button
+    type="button"
+    [style.color]="color"
+    [style.border-color]="color"
+    class="btn btn-outline-secondary"
+    [autoClose]="'outside'"
+    [ngbPopover]="popContent"
+    popoverClass="popover-color-picker"
+  >
     <i class="fas fa-palette"></i>
   </button>
 </ng-container>
 
 <ng-container *ngIf="isDisabled">
   <ng-template #editTipContent>
-    <span class="text-orange">You don't have permission to edit this.
-      <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+    <span class="text-orange">
+      You don't have permission to edit this.
+      <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
     </span>
   </ng-template>
 
-  <button type="button" [style.color]="color" [style.border-color]="color" class="btn btn-outline-secondary disabled cursor-not-allowed"
-    [stickyPopover]="editTipContent">
+  <button
+    type="button"
+    [style.color]="color"
+    [style.border-color]="color"
+    class="btn btn-outline-secondary disabled cursor-not-allowed"
+    [stickyPopover]="editTipContent"
+  >
     <i class="fas fa-palette"></i>
   </button>
 </ng-container>

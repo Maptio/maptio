@@ -1,6 +1,6 @@
 <div
   [ngClass]="{
-    'column': isVertical,
+    column: isVertical,
     'row align-items-center': !isVertical
   }"
 >
@@ -11,10 +11,7 @@
     }"
   >
     <div class="d-flex align-items-center">
-      <img
-        class="avatar mr-1"
-        src="{{ member.picture }}"
-      />
+      <img class="avatar mr-1" src="{{ member.picture }}" />
       {{ member.name }}
     </div>
   </div>

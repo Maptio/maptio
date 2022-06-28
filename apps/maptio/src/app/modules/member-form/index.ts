@@ -1,1 +1,1 @@
-export { MemberFormModule } from "./member-form.module";
+export { MemberFormModule } from './member-form.module';

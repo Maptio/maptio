@@ -1,7 +1,13 @@
 <div class="d-flex justify-content-center align-items-center flex-column row">
-  <div class="d-flex flex-column justify-content-center align-items-center col-12">
-    <h1 class="w-100 d-none d-md-block  text-left text-md-center mb-md-0">Choose your plan</h1>
-    <h3 class="w-100 d-block d-md-none text-left text-md-center mb-md-0">Choose your plan</h3>
+  <div
+    class="d-flex flex-column justify-content-center align-items-center col-12"
+  >
+    <h1 class="w-100 d-none d-md-block text-left text-md-center mb-md-0">
+      Choose your plan
+    </h1>
+    <h3 class="w-100 d-block d-md-none text-left text-md-center mb-md-0">
+      Choose your plan
+    </h3>
 
     <div class="col-12 px-0 col-md-auto">
       <button
@@ -15,7 +21,8 @@
     </div>
 
     <p class="text-center text-muted my-5">
-      Pricing in US Dollars. All major credit cards accepted.<br>
+      Pricing in US Dollars. All major credit cards accepted.
+      <br />
       No minimum contract length.
     </p>
 
@@ -33,7 +40,7 @@
           'btn-success' : 'btn-light'
         "
       >
-        <input ngbButton type="radio" [value]="BillingSchedule.ANNUAL">
+        <input ngbButton type="radio" [value]="BillingSchedule.ANNUAL" />
         Annual billing
       </label>
 
@@ -45,12 +52,14 @@
           'btn-success' : 'btn-light'
         "
       >
-        <input ngbButton type="radio" [value]="BillingSchedule.MONTHLY">
+        <input ngbButton type="radio" [value]="BillingSchedule.MONTHLY" />
         Monthly billing
       </label>
     </div>
 
-    <div class="d-flex flex-column flex-md-row justify-content-center align-items-stretch">
+    <div
+      class="d-flex flex-column flex-md-row justify-content-center align-items-stretch"
+    >
       <maptio-payment-plan
         [name]="'Starter'"
         [text]="'1 - 12 people'"
@@ -63,8 +72,7 @@
           MONTHLY: BILLING_PLANS.STARTER_MONTHLY_URL,
           ANNUAL: BILLING_PLANS.STARTER_ANNUAL_URL
         }"
-      >
-      </maptio-payment-plan>
+      ></maptio-payment-plan>
 
       <maptio-payment-plan
         [name]="'Small'"
@@ -78,8 +86,7 @@
           MONTHLY: BILLING_PLANS.SMALL_MONTHLY_URL,
           ANNUAL: BILLING_PLANS.SMALL_ANNUAL_URL
         }"
-      >
-      </maptio-payment-plan>
+      ></maptio-payment-plan>
 
       <maptio-payment-plan
         [name]="'Standard plan'"
@@ -93,24 +100,20 @@
           MONTHLY: BILLING_PLANS.STANDARD_MONTHLY_URL,
           ANNUAL: BILLING_PLANS.STANDARD_ANNUAL_URL
         }"
-      >
-      </maptio-payment-plan>
+      ></maptio-payment-plan>
 
       <maptio-payment-plan
         [name]="'Larger organizations'"
         [text]="'200+ people'"
-      >
-      </maptio-payment-plan>
+      ></maptio-payment-plan>
     </div>
 
     <p class="text-center text-muted my-5">
       <!-- <div class="d-flex justify-content-center align-items-stretch text-muted my-5"> -->
       Struggling to afford this? Let's talk and work something out.
-      <a href="mailto:support@maptio.com?subject=Deal request">
-        Contact us.
-      </a>
-      <br>
-      <br>
+      <a href="mailto:support@maptio.com?subject=Deal request">Contact us.</a>
+      <br />
+      <br />
       Our mission is to serve the most cause-driven organizations on the planet.
       Discounts available for non-profits.
     </p>

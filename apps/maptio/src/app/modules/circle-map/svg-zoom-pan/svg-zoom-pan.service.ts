@@ -3,12 +3,13 @@ import { BehaviorSubject, Subject } from 'rxjs';
 
 import { InitiativeNode } from '../initiative.model';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SvgZoomPanService {
-  zoomedInitiativeNode = new BehaviorSubject<InitiativeNode | undefined>(undefined);
+  zoomedInitiativeNode = new BehaviorSubject<InitiativeNode | undefined>(
+    undefined
+  );
   zoomScaleFactor = new Subject<number>();
   isClickFromPanning = false;
 

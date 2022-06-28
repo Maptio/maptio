@@ -1,14 +1,11 @@
 <div class="d-flex align-items-center flex-column h-100 row">
   <div class="col-12 col-md-6 col-xl-4">
-    <h1 class="text-left text-md-center mb-4 mt-5">
-      Complete your profile
-    </h1>
+    <h1 class="text-left text-md-center mb-4 mt-5">Complete your profile</h1>
 
     <maptio-member-form
       *ngIf="(user$ | async) as user"
       [member]="user"
       [disableEmailInput]="true"
-    >
-    </maptio-member-form>
+    ></maptio-member-form>
   </div>
 </div>

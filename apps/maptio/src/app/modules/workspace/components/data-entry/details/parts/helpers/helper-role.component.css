@@ -1,18 +1,18 @@
 .helper-role__title {
-    padding: 0.375rem 0;
+  padding: 0.375rem 0;
 }
 
 .edit {
-    border: none;
+  border: none;
 }
 
 .edit:hover {
-    background:initial;
-    color: var(--maptio-green);
+  background: initial;
+  color: var(--maptio-green);
 }
 
 .edit:before {
-    content: "\f304";
-    font-family: "Font Awesome 5 Free";
-    font-weight: bold;
+  content: '\f304';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: bold;
 }

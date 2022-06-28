@@ -13,7 +13,6 @@ import { ActivationGuard } from '@maptio-core/guards/activation.guard';
 import { LoginGuard } from './login.guard';
 import { SignupGuard } from './signup.guard';
 
-
 const routes: Routes = [
   {
     path: '',
@@ -30,7 +29,7 @@ const routes: Routes = [
       {
         path: 'signup',
         canActivate: [SignupGuard],
-        component: SignupComponent
+        component: SignupComponent,
       },
 
       { path: 'logout', component: LogoutComponent },
@@ -44,7 +43,6 @@ const routes: Routes = [
     ],
   },
 ];
-
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

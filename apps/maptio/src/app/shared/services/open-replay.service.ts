@@ -4,9 +4,8 @@ import Tracker from '@openreplay/tracker';
 
 import { environment } from '@maptio-environment';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OpenReplayService {
   public tracker?: Tracker | null;

@@ -4,13 +4,13 @@ import { UserService } from '@maptio-shared/services/user/user.service';
 
 import { BillingSchedule } from './billing-schedule.enum';
 
-
 @Component({
   selector: 'maptio-payment-plan',
   templateUrl: './payment-plan.component.html',
 })
 export class PaymentPlanComponent implements OnChanges {
-  @HostBinding('class') classes = 'col-12 col-md-3 accent-blue rounded-bottom box-shadow mx-2 my-3';
+  @HostBinding('class') classes =
+    'col-12 col-md-3 accent-blue rounded-bottom box-shadow mx-2 my-3';
 
   @Input() name: string;
   @Input() text: number;
@@ -21,7 +21,7 @@ export class PaymentPlanComponent implements OnChanges {
   price: number;
   billingLink: string;
 
-  constructor(public userService: UserService) { }
+  constructor(public userService: UserService) {}
 
   ngOnChanges() {
     if (this.prices && this.billingLinks && this.billingSchedule) {

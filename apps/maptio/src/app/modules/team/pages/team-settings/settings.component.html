@@ -1,59 +1,111 @@
 <ng-template #adminTipContent>
-    <span class="text-orange">You don't have permission to edit this.
-        <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
-    </span>
+  <span class="text-orange">
+    You don't have permission to edit this.
+    <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
+  </span>
 </ng-template>
 
-<form class="form-group" [formGroup]="teamSettingsForm" (submit)="saveTeamSettings()">
-    <fieldset *permissionsOnly="Permissions.canEditTeam;authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
-        <!-- <legend class="mt-3">Name</legend> -->
-        <div class="form-group">
-            <label class="col-form-label" for="inputTeamName">Organisation name</label>
-            <input type="text" [class.is-invalid]="teamSettingsForm.controls['name'].invalid  && (teamSettingsForm.controls['name'].dirty || teamSettingsForm.controls['name'].touched)"
-                class="col-6 col-xl-4 form-control form-control-warning" [(ngModel)]="teamName" formControlName="name" required>
-            <small class="invalid-feedback">
-                Required
-            </small>
-        </div>
-        <ng-container *permissionsOnly="Permissions.canEditTeam; then thenMessageBlock; else elseMessageBlock"></ng-container>
-        <ng-template #thenMessageBlock>
-            <!-- <legend class="mt-3">Terminology</legend> -->
-        </ng-template>
-        <ng-template #elseMessageBlock>
-            <!-- <legend class="mt-3">Terminology
+<form
+  class="form-group"
+  [formGroup]="teamSettingsForm"
+  (submit)="saveTeamSettings()"
+>
+  <fieldset
+    *permissionsOnly="
+      Permissions.canEditTeam;
+      authorisedStrategy: enableFieldset;
+      unauthorisedStrategy: disableFieldset
+    "
+  >
+    <!-- <legend class="mt-3">Name</legend> -->
+    <div class="form-group">
+      <label class="col-form-label" for="inputTeamName">
+        Organisation name
+      </label>
+      <input
+        type="text"
+        [class.is-invalid]="
+          teamSettingsForm.controls['name'].invalid &&
+          (teamSettingsForm.controls['name'].dirty ||
+            teamSettingsForm.controls['name'].touched)
+        "
+        class="col-6 col-xl-4 form-control form-control-warning"
+        [(ngModel)]="teamName"
+        formControlName="name"
+        required
+      />
+      <small class="invalid-feedback">Required</small>
+    </div>
+    <ng-container
+      *permissionsOnly="
+        Permissions.canEditTeam;
+        then thenMessageBlock;
+        else elseMessageBlock
+      "
+    ></ng-container>
+    <ng-template #thenMessageBlock>
+      <!-- <legend class="mt-3">Terminology</legend> -->
+    </ng-template>
+    <ng-template #elseMessageBlock>
+      <!-- <legend class="mt-3">Terminology
                 <small class="text-muted" [stickyPopover]="adminTipContent">
                     <i class="fas fa-lock mr-1"></i>
                 </small>
             </legend> -->
-        </ng-template>
-        <div class="form-group w-50">
-            <label class="col-form-label" for="inputAuthorityName">Authority</label>
-            <div class="">
-                <input type="text" class="mr-2 col-xl-4 col-6 form-control form-control-warning " [(ngModel)]="teamAuthority" formControlName="authority"
-                    placeholder="e.g. Beloved leader" maxlength="25">
-                <small class="form-text text-muted">
-                    What does your organisation call the person in the main key role for each circle? e.g. Lead, Authority, Driver, Lead link,
-                    Source.
-                </small>
-            </div>
-        </div>
+    </ng-template>
+    <div class="form-group w-50">
+      <label class="col-form-label" for="inputAuthorityName">Authority</label>
+      <div class="">
+        <input
+          type="text"
+          class="mr-2 col-xl-4 col-6 form-control form-control-warning"
+          [(ngModel)]="teamAuthority"
+          formControlName="authority"
+          placeholder="e.g. Beloved leader"
+          maxlength="25"
+        />
+        <small class="form-text text-muted">
+          What does your organisation call the person in the main key role for
+          each circle? e.g. Lead, Authority, Driver, Lead link, Source.
+        </small>
+      </div>
+    </div>
 
-        <div class="form-group w-50">
-            <label class="col-form-label" for="inputHelperName">Helper</label>
-            <div class="">
-                <input type="text" class="mr-2 form-control col-xl-4 col-6  form-control-warning " [(ngModel)]="teamHelper" formControlName="helper" placeholder="e.g. Backseat driver"
-                    maxlength="25">
-                <small class="form-text text-muted">And what do you call others contributing to an circle? e.g. Contributor, Helper, Role-holder, Sub-source.
-                </small>
-            </div>
-        </div>
+    <div class="form-group w-50">
+      <label class="col-form-label" for="inputHelperName">Helper</label>
+      <div class="">
+        <input
+          type="text"
+          class="mr-2 form-control col-xl-4 col-6 form-control-warning"
+          [(ngModel)]="teamHelper"
+          formControlName="helper"
+          placeholder="e.g. Backseat driver"
+          maxlength="25"
+        />
+        <small class="form-text text-muted">
+          And what do you call others contributing to an circle? e.g.
+          Contributor, Helper, Role-holder, Sub-source.
+        </small>
+      </div>
+    </div>
 
-        <button *permissionsOnly="Permissions.canEditTeam" type="submit" class="btn btn-success">Save</button>
-        <span class="text-green mx-1 flash small" *ngIf="isTeamSettingSaved"  [class.show]="isTeamSettingSaved">
-            <i class="fas fa-save"></i>Saved!
-        </span>
-        <span class="text-danger mx-1 small" *ngIf="isTeamSettingFailed">Error while saving settings</span>
-
-
-    </fieldset>
+    <button
+      *permissionsOnly="Permissions.canEditTeam"
+      type="submit"
+      class="btn btn-success"
+    >
+      Save
+    </button>
+    <span
+      class="text-green mx-1 flash small"
+      *ngIf="isTeamSettingSaved"
+      [class.show]="isTeamSettingSaved"
+    >
+      <i class="fas fa-save"></i>
+      Saved!
+    </span>
+    <span class="text-danger mx-1 small" *ngIf="isTeamSettingFailed">
+      Error while saving settings
+    </span>
+  </fieldset>
 </form>

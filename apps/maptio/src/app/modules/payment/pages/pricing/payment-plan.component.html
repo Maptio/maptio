@@ -1,6 +1,8 @@
 <div
   class="card border-0"
-  *ngIf="{ isAuthenticated: userService.isAuthenticated$ | async } as observables"
+  *ngIf="{
+    isAuthenticated: userService.isAuthenticated$ | async
+  } as observables"
 >
   <div class="card-body border-0 bg-white text-center">
     <div class="card-title border-bottom h4 py-4">
@@ -8,8 +10,12 @@
     </div>
 
     <div *ngIf="price; else contactUsPrice" class="card-text d-flex flex-row">
-      <span class="display-4">${{ price }} </span>
-      <small class="ml-2 text-left align-middle align-self-center">per month,<br>per organization</small>
+      <span class="display-4">${{ price }}</span>
+      <small class="ml-2 text-left align-middle align-self-center">
+        per month,
+        <br />
+        per organization
+      </small>
     </div>
 
     <ng-template #contactUsPrice>

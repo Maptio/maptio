@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { Helper } from '../initiative.model';
 import { CircleMapService } from '../circle-map.service';
 
-
 @Component({
   selector: 'maptio-helper-avatar',
   templateUrl: './helper-avatar.component.html',
@@ -19,7 +18,10 @@ export class HelperAvatarComponent implements OnInit {
 
   directoryLink?: string;
 
-  constructor(private router: Router, private circleMapService: CircleMapService) {};
+  constructor(
+    private router: Router,
+    private circleMapService: CircleMapService
+  ) {}
 
   ngOnInit(): void {
     this.helper.roles.forEach((role) => {
@@ -40,7 +42,9 @@ export class HelperAvatarComponent implements OnInit {
     if (this.directoryLink) {
       this.router.navigateByUrl(this.directoryLink);
     } else {
-      console.error('Helper does not have shortid set or unable to get directory URL');
+      console.error(
+        'Helper does not have shortid set or unable to get directory URL'
+      );
     }
   }
 
