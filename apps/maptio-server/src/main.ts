@@ -171,16 +171,16 @@ app.use(compression());
 //
 // API routes
 //
-var datasets = require('./routes/datasets');
-var embeddableDatasets = require('./routes/embeddable-datasets');
-var users = require('./routes/users');
-var teams = require('./routes/teams');
-var inviting = require('./routes/invite');
-var encoding = require('./routes/encoding');
-var images = require('./routes/images');
-var notifications = require('./routes/notifications');
-var oauth = require('./routes/oauth');
-var intercom = require('./routes/intercom');
+const datasets = require('./routes/datasets');
+const embeddableDatasets = require('./routes/embeddable-datasets');
+const users = require('./routes/users');
+const teams = require('./routes/teams');
+const inviting = require('./routes/invite');
+const encoding = require('./routes/encoding');
+const images = require('./routes/images');
+const notifications = require('./routes/notifications');
+const oauth = require('./routes/oauth');
+const intercom = require('./routes/intercom');
 
 app.use('/api/v1/jwt/', encoding);
 
