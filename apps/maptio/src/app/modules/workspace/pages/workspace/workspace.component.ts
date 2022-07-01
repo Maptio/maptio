@@ -151,7 +151,24 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   //     this.cd.markForCheck();
   // }
 
-  saveChanges(change: { initiative: Initiative; tags: Array<Tag> }) {
+  async saveChanges(change: { initiative: Initiative; tags: Array<Tag> }) {
+    console.log('Saving dataset;')
+
+    const remoteDataset = await this.datasetFactory.get(this.datasetId);
+
+    console.log('Remote version last edited at', remoteDataset.lastEditedAt);
+    console.log('Remote version last edited by', remoteDataset.lastEditedBy);
+    console.log('Current version last edited at', this.dataset.lastEditedAt);
+    console.log('Current version last edited by', this.dataset.lastEditedBy);
+
+    if (remoteDataset.lastEditedAt !== this.dataset.lastEditedAt) {
+      alert('boom');
+      return;
+    } else {
+      this.dataset.lastEditedAt = new Date().getTime();
+      this.dataset.lastEditedBy = this.user;
+    }
+
     this.isEmptyMap =
       !change.initiative.children || change.initiative.children.length === 0;
     this.isSaving = true;
