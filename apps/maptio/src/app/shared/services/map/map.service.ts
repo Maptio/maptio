@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { DatasetFactory } from '../../../core/http/map/dataset.factory';
-import { DataSet } from '../../model/dataset.data';
 import { Intercom } from 'ng-intercom';
 import { Initiative } from '../../model/initiative.data';
+
+import { DataSet } from '@maptio-shared/model/dataset.data';
+import { User } from '@maptio-shared/model/user.data';
 
 @Injectable()
 export class MapService {
@@ -14,6 +16,47 @@ export class MapService {
   private create(dataset: DataSet) {
     return this.datasetFactory.create(dataset);
   }
+
+  get(datasetId: string): Promise<DataSet> {
+    return this.datasetFactory.get(datasetId);
+  }
+
+  /*
+   * Workaround for handling multiple people editing at the same time
+   */
+  async isDatasetOutdated(localDataset: DataSet, user?: User) {
+    const datasetId = localDataset.datasetId;
+
+    const remoteDataset = await this.datasetFactory.get(datasetId);
+
+    console.log('Remote version last edited at', remoteDataset.lastEditedAt);
+    console.log('Remote version last edited by', remoteDataset.lastEditedBy);
+    console.log('Current version last edited at', localDataset.lastEditedAt);
+    console.log('Current version last edited by', localDataset.lastEditedBy);
+
+    if (remoteDataset.lastEditedAt !== localDataset.lastEditedAt) {
+      alert(
+        'This dataset has been updated by another user. Please copy your latest change, reload the page, and apply your change again. Apologies for the inconvenience. We are working on a new realtime multi-user version of the application.'
+      );
+      return true;
+    } else {
+      localDataset.lastEditedAt = new Date().getTime();
+      localDataset.lastEditedBy = user;
+    }
+
+    return false;
+  }
+
+  archive(dataset: DataSet) {
+    dataset.isArchived = true;
+    return this.datasetFactory.upsert(dataset).then((archived) => {
+      if (archived) return dataset;
+    });
+  }
+
+  /*
+   * Creating template, example, and empty datasets
+   */
 
   createTemplate(name: string, teamId: string) {
     const template = new DataSet({
@@ -70,16 +113,5 @@ export class MapService {
       }),
     });
     return this.create(empty);
-  }
-
-  get(datasetId: string): Promise<DataSet> {
-    return this.datasetFactory.get(datasetId);
-  }
-
-  archive(dataset: DataSet) {
-    dataset.isArchived = true;
-    return this.datasetFactory.upsert(dataset).then((archived) => {
-      if (archived) return dataset;
-    });
   }
 }

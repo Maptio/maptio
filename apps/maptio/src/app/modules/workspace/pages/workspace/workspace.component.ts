@@ -25,6 +25,8 @@ import { Role } from '../../../../shared/model/role.data';
 import { Intercom } from 'ng-intercom';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
+import { MapService } from '@maptio-shared/services/map/map.service';
+
 @Component({
   selector: 'maptio-workspace',
   templateUrl: 'workspace.component.html',
@@ -73,6 +75,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     private datasetFactory: DatasetFactory,
     private teamFactory: TeamFactory,
     private dataService: DataService,
+    private mapService: MapService,
     private roleLibrary: RoleLibraryService,
     private cd: ChangeDetectorRef,
     private mixpanel: Angulartics2Mixpanel,
@@ -152,22 +155,19 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   // }
 
   async saveChanges(change: { initiative: Initiative; tags: Array<Tag> }) {
-    console.log('Saving dataset;')
+    console.log('Saving dataset');
+    const isLocalDatasetOutdated = await this.mapService.isDatasetOutdated(
+      this.dataset,
+      this.user
+    );
 
-    const remoteDataset = await this.datasetFactory.get(this.datasetId);
+    console.log('isLocalDatasetOutdated', isLocalDatasetOutdated);
 
-    console.log('Remote version last edited at', remoteDataset.lastEditedAt);
-    console.log('Remote version last edited by', remoteDataset.lastEditedBy);
-    console.log('Current version last edited at', this.dataset.lastEditedAt);
-    console.log('Current version last edited by', this.dataset.lastEditedBy);
-
-    if (remoteDataset.lastEditedAt !== this.dataset.lastEditedAt) {
-      alert('boom');
+    if (isLocalDatasetOutdated) {
+      console.log('not saving...');
       return;
-    } else {
-      this.dataset.lastEditedAt = new Date().getTime();
-      this.dataset.lastEditedBy = this.user;
     }
+    console.log('saving indeed...');
 
     this.isEmptyMap =
       !change.initiative.children || change.initiative.children.length === 0;
