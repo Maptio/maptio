@@ -36,7 +36,7 @@ export class MapService {
 
     if (remoteDataset.lastEditedAt !== localDataset.lastEditedAt) {
       alert(
-        'This dataset has been updated by another user. Please copy your latest change, reload the page, and apply your change again. Apologies for the inconvenience. We are working on a new realtime multi-user version of the application.'
+        'Your changes cannot be saved because your local version of the map is outdated. Please copy your latest change, reload the page, and apply your change again. Apologies for the inconvenience. We are working on a new realtime multi-user version of the application.'
       );
       return true;
     } else {
