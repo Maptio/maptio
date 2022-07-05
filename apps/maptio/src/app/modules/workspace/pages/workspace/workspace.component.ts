@@ -155,19 +155,21 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   // }
 
   async saveChanges(change: { initiative: Initiative; tags: Array<Tag> }) {
-    console.log('Saving dataset');
+    // console.log('Saving dataset');
+
     const isLocalDatasetOutdated = await this.mapService.isDatasetOutdated(
       this.dataset,
       this.user
     );
 
-    console.log('isLocalDatasetOutdated', isLocalDatasetOutdated);
+    // console.log('isLocalDatasetOutdated', isLocalDatasetOutdated);
 
     if (isLocalDatasetOutdated) {
-      console.log('not saving...');
+      // console.log('Not saving because dataset is outdated');
       return;
     }
-    console.log('saving indeed...');
+
+    // console.log('Saving because dataset is not outdated');
 
     this.isEmptyMap =
       !change.initiative.children || change.initiative.children.length === 0;

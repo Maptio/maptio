@@ -29,10 +29,10 @@ export class MapService {
 
     const remoteDataset = await this.datasetFactory.get(datasetId);
 
-    console.log('Remote version last edited at', remoteDataset.lastEditedAt);
-    console.log('Remote version last edited by', remoteDataset.lastEditedBy);
-    console.log('Current version last edited at', localDataset.lastEditedAt);
-    console.log('Current version last edited by', localDataset.lastEditedBy);
+    // console.log('Remote version last edited at', remoteDataset.lastEditedAt);
+    // console.log('Remote version last edited by', remoteDataset.lastEditedBy);
+    // console.log('Current version last edited at', localDataset.lastEditedAt);
+    // console.log('Current version last edited by', localDataset.lastEditedBy);
 
     if (remoteDataset.lastEditedAt !== localDataset.lastEditedAt) {
       alert(
