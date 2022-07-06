@@ -155,21 +155,17 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   // }
 
   async saveChanges(change: { initiative: Initiative; tags: Array<Tag> }) {
-    // console.log('Saving dataset');
-
     const isLocalDatasetOutdated = await this.mapService.isDatasetOutdated(
       this.dataset,
       this.user
     );
 
-    // console.log('isLocalDatasetOutdated', isLocalDatasetOutdated);
-
     if (isLocalDatasetOutdated) {
-      // console.log('Not saving because dataset is outdated');
+      alert(
+        'A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version, then you can make your edits. You can copy any text you just entered, ready to paste it in again after the refresh. Sorry for the hassle.'
+      );
       return;
     }
-
-    // console.log('Saving because dataset is not outdated');
 
     this.isEmptyMap =
       !change.initiative.children || change.initiative.children.length === 0;
