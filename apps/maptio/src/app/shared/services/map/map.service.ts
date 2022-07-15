@@ -37,9 +37,8 @@ export class MapService {
     } else {
       localDataset.lastEditedAt = new Date().getTime();
       localDataset.lastEditedBy = user;
+      return false;
     }
-
-    return false;
   }
 
   /**
