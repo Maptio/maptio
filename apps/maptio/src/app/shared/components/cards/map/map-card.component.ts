@@ -133,6 +133,8 @@ export class MapCardComponent implements OnInit, OnChanges {
     this.isArchiving = true;
     this.cd.markForCheck();
     this.dataset.isArchived = true;
+
+    // TODO: Add map lock
     return this.datasetFactory
       .upsert(this.dataset)
       .then((result) => {
@@ -150,6 +152,8 @@ export class MapCardComponent implements OnInit, OnChanges {
     this.isRestoring = true;
     this.cd.markForCheck();
     this.dataset.isArchived = false;
+
+    // TODO: Add map lock
     return this.datasetFactory
       .upsert(this.dataset)
       .then((result) => {

@@ -69,6 +69,7 @@ export class MapService {
 
   archive(dataset: DataSet) {
     dataset.isArchived = true;
+    // TODO: Add map lock - or remove, this is never used, right?
     return this.datasetFactory.upsert(dataset).then((archived) => {
       if (archived) return dataset;
     });
