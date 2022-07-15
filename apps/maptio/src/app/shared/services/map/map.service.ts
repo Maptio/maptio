@@ -8,6 +8,9 @@ import { User } from '@maptio-shared/model/user.data';
 
 @Injectable()
 export class MapService {
+  lastOutdatedSaveDatasetLastEditedAt: number;
+  lastOutdatedSaveAlertTime: number;
+
   constructor(
     private datasetFactory: DatasetFactory,
     private intercom: Intercom
@@ -36,6 +39,32 @@ export class MapService {
       localDataset.lastEditedBy = user;
     }
 
+    return false;
+  }
+
+  /**
+   * Use this to prevent too many alerts from being shown one right after
+   * another in cases when that is likely because of how data saves are
+   * triggered.
+   */
+  hasOutdatedAlertBeenShownRecently(localDataset: DataSet) {
+    const alertRepetitionDelay = 3000;
+
+    const isSaveAttemptWithinRepetitionDelay =
+      Date.now() < this.lastOutdatedSaveAlertTime + alertRepetitionDelay;
+    const isAlertAboutTheSameChange =
+      this.lastOutdatedSaveDatasetLastEditedAt === localDataset.lastEditedAt;
+
+    if (isAlertAboutTheSameChange && isSaveAttemptWithinRepetitionDelay) {
+      // Alert has been shown recently, so should not be shown again
+      return true;
+    }
+
+    // Make a note of what version of the dataset we're showing the alert for
+    this.lastOutdatedSaveDatasetLastEditedAt = localDataset.lastEditedAt;
+
+    // Alert has not been shown recently, so it should be shown now
+    this.lastOutdatedSaveAlertTime = Date.now();
     return false;
   }
 
