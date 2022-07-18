@@ -11,8 +11,6 @@ export class RoleLibraryService {
   roleEdited = new Subject<Role>();
   roleDeleted = new Subject<Role>();
 
-  constructor() {}
-
   setRoles(roles: Role[]): void {
     // Filter out stale non-library roles
     roles = roles.filter((role) => role.isLibraryRole());

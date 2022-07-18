@@ -1,6 +1,7 @@
 import { Initiative } from './initiative.data';
 import { Serializable } from './../interfaces/serializable.interface';
 import { Tag, DEFAULT_TAGS } from './tag.data';
+import { User } from './user.data';
 import { Role } from './role.data';
 import { Team } from './team.data';
 
@@ -27,6 +28,9 @@ export class DataSet implements Serializable<DataSet> {
   isEmbeddable = false;
   showDescriptions = false;
 
+  lastEditedAt: number;
+  lastEditedBy: User;
+
   public constructor(init?: Partial<DataSet>) {
     Object.assign(this, init);
   }
@@ -49,6 +53,11 @@ export class DataSet implements Serializable<DataSet> {
     deserialized.showDescriptions = input.showDescriptions
       ? input.showDescriptions
       : false;
+
+    deserialized.lastEditedAt = input.lastEditedAt;
+    deserialized.lastEditedBy = input.lastEditedBy
+      ? User.create().deserialize(input.lastEditedBy)
+      : undefined;
 
     let tags = new Array<Tag>();
     if (input.tags && input.tags instanceof Array && input.tags.length > 0) {

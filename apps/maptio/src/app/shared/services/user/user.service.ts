@@ -716,6 +716,7 @@ export class UserService implements OnDestroy {
       });
 
       try {
+        // TODO: Add map lock
         await this.datasetFactory.upsert(dataset);
       } catch {
         throw new Error(
