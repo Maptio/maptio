@@ -23,6 +23,7 @@ import { environment } from '@maptio-config/environment';
 import { Role } from '../../../../../../../shared/model/role.data';
 import { Helper } from '../../../../../../../shared/model/helper.data';
 import { RoleLibraryService } from '../../../../../services/role-library.service';
+import { MapService } from '@maptio-shared/services/map/map.service';
 
 const eitherTitleOrDescriptionProvided: ValidatorFn = (
   control: FormGroup
@@ -77,7 +78,8 @@ export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
 
   constructor(
     private cd: ChangeDetectorRef,
-    private roleLibrary: RoleLibraryService
+    private roleLibrary: RoleLibraryService,
+    private mapService: MapService
   ) {
     this.roleForm = new FormGroup({
       title: this.title,
@@ -187,10 +189,10 @@ export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
       this.role.isCustomRole()
     ) {
       this.role.convertToLibraryRole();
+      this.mapService.setNextSaveAsMultisaveOperation();
       this.roleLibrary.addRoleToLibrary(this.role);
-    }
-
-    if (this.saveAsLibraryRole.value && this.role.isLibraryRole()) {
+    } else if (this.saveAsLibraryRole.value && this.role.isLibraryRole()) {
+      this.mapService.setNextSaveAsMultisaveOperation();
       this.roleLibrary.editRole(this.role);
     }
 

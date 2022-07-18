@@ -11,6 +11,10 @@ export class MapService {
   lastOutdatedSaveDatasetLastEditedAt: number;
   lastOutdatedSaveAlertTime: number;
 
+  isNextSaveAMultiSaveOperation = false;
+  isMultisaveOutdatedCheckCompleted: boolean;
+  resultOfMultisaveOutdatedCheck: boolean;
+
   constructor(
     private datasetFactory: DatasetFactory,
     private intercom: Intercom
@@ -32,11 +36,22 @@ export class MapService {
 
     const remoteDataset = await this.datasetFactory.get(datasetId);
 
+    if (this.isNextSaveAMultiSaveOperation) {
+      if (this.isMultisaveOutdatedCheckCompleted) {
+        this.isNextSaveAMultiSaveOperation = false;
+        return this.resultOfMultisaveOutdatedCheck;
+      } else {
+        this.isMultisaveOutdatedCheckCompleted = true;
+      }
+    }
+
     if (remoteDataset.lastEditedAt !== localDataset.lastEditedAt) {
+      this.resultOfMultisaveOutdatedCheck = true;
       return true;
     } else {
       localDataset.lastEditedAt = new Date().getTime();
       localDataset.lastEditedBy = user;
+      this.resultOfMultisaveOutdatedCheck = false;
       return false;
     }
   }
@@ -65,6 +80,11 @@ export class MapService {
     // Alert has not been shown recently, so it should be shown now
     this.lastOutdatedSaveAlertTime = Date.now();
     return false;
+  }
+
+  setNextSaveAsMultisaveOperation() {
+    this.isNextSaveAMultiSaveOperation = true;
+    this.isMultisaveOutdatedCheckCompleted = false;
   }
 
   archive(dataset: DataSet) {
