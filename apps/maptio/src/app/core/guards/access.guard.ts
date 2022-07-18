@@ -15,18 +15,17 @@ import { environment } from '@maptio-environment';
 import { User } from '@maptio-shared/model/user.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 
-
 @Injectable()
 export class AccessGuard implements CanActivate, CanActivateChild {
   constructor(
     private router: Router,
     private intercom: Intercom,
-    private userService: UserService,
+    private userService: UserService
   ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot, // eslint-disable-line @typescript-eslint/no-unused-vars
+    state: RouterStateSnapshot // eslint-disable-line @typescript-eslint/no-unused-vars
   ): Observable<boolean> {
     const dataset = route.params['mapid'];
     const team = route.params['teamid'];

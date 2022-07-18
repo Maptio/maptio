@@ -1,15 +1,21 @@
-<ng-container *ngIf="role"> <!-- Fail gracefully on incorrect database data leading to undefined roles -->
+<ng-container *ngIf="role">
+  <!-- Fail gracefully on incorrect database data leading to undefined roles -->
   <div class="d-flex flex-row align-items-center">
-    <div class="helper-role__title text-bold" [class.text-gray-light]="!role.title && isDescriptionVisible">
-      <ng-container *ngIf="role.title; else titleBasedOnDescription">{{ role.title }}</ng-container>
+    <div
+      class="helper-role__title text-bold"
+      [class.text-gray-light]="!role.title && isDescriptionVisible"
+    >
+      <ng-container *ngIf="role.title; else titleBasedOnDescription">
+        {{ role.title }}
+      </ng-container>
 
       <ng-template #titleBasedOnDescription>
-        <ng-container *ngIf="!isDescriptionVisible; else showUntitledRoleLabel">{{ role.description | stripMarkdown | ellipsis:50 }}</ng-container>
+        <ng-container *ngIf="!isDescriptionVisible; else showUntitledRoleLabel">
+          {{ role.description | stripMarkdown | ellipsis: 50 }}
+        </ng-container>
       </ng-template>
 
-      <ng-template #showUntitledRoleLabel>
-        Untitled role
-      </ng-template>
+      <ng-template #showUntitledRoleLabel>Untitled role</ng-template>
     </div>
 
     <button
@@ -47,7 +53,9 @@
     </ng-container>
   </div>
 
-  <markdown *ngIf="role.description && isDescriptionVisible" class="cursor-text d-block border-0 w-100 h-100 mb-2"
-    [data]="role.description">
-  </markdown>
+  <markdown
+    *ngIf="role.description && isDescriptionVisible"
+    class="cursor-text d-block border-0 w-100 h-100 mb-2"
+    [data]="role.description"
+  ></markdown>
 </ng-container>

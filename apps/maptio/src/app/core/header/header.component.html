@@ -8,15 +8,16 @@
   <a
     class="btn btn-link px-0"
     routerLink="profile/{{ user?.shortid }}/{{ user?.getSlug() || 'profile' }}"
-    >Profile</a
   >
+    Profile
+  </a>
 </ng-template>
 
 <maptio-onboarding-banner
   *ngIf="
-    (userService.isAuthenticated$ | async)
-    && (isMap() || isHome() || isTeam())
-    && team?.isPaying === false
+    (userService.isAuthenticated$ | async) &&
+    (isMap() || isHome() || isTeam()) &&
+    team?.isPaying === false
   "
   [team]="team"
 ></maptio-onboarding-banner>
@@ -70,10 +71,7 @@
         class="navbar-text d-none d-md-flex align-items-center position-relative ml-auto mr-auto"
         *ngIf="team && isMap()"
       >
-        <span
-          *ngIf="team?.name"
-          class="text-muted mr-1"
-        >
+        <span *ngIf="team?.name" class="text-muted mr-1">
           Organisation
           <a routerLink="/teams/{{ team?.team_id }}/{{ team?.getSlug() }}">
             {{ team?.name }}
@@ -164,8 +162,9 @@
               class="dropdown-item"
               *ngFor="let team of teams | slice: 1:5"
               routerLink="/teams/{{ team.team_id }}/{{ team?.getSlug() }}"
-              >{{ team?.name }}</a
             >
+              {{ team?.name }}
+            </a>
 
             <a class="dropdown-item" routerLink="/teams">More ...</a>
           </ng-container>
@@ -175,12 +174,13 @@
             routerLink="/teams/{{ teams[0]?.team_id }}/{{
               teams[0]?.getSlug()
             }}"
-            >{{ teams[0]?.name }}</a
           >
+            {{ teams[0]?.name }}
+          </a>
 
           <div class="dropdown-divider"></div>
           <div class="dropdown-item d-flex align-items-center">
-            <ng-container *ngTemplateOutlet="logout"> </ng-container>
+            <ng-container *ngTemplateOutlet="logout"></ng-container>
           </div>
         </div>
       </li>
@@ -189,9 +189,7 @@
         *ngIf="(userService.isAuthenticated$ | async) === false && !isSignUp()"
         class="nav-item d-flex align-items-center"
       >
-        <a maptioLoginRedirect class="btn btn-link px-0">
-          Log in
-        </a>
+        <a maptioLoginRedirect class="btn btn-link px-0">Log in</a>
       </li>
 
       <li class="nav-item d-md-none">
@@ -233,8 +231,9 @@
           <a
             class="btn btn-link px-0"
             routerLink="/teams/{{ team.team_id }}/{{ team.getSlug() }}"
-            >{{ team.name }}</a
           >
+            {{ team.name }}
+          </a>
         </li>
 
         <li class="nav-item d-md-none" *ngIf="teams?.length > 3">
@@ -242,8 +241,9 @@
             *ngIf="teams?.length > 1"
             class="btn btn-link px-0"
             routerLink="/teams"
-            >All organizations...</a
           >
+            All organizations...
+          </a>
         </li>
       </ng-container>
 

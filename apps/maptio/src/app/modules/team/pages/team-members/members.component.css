@@ -1,60 +1,59 @@
 .member {
-    float: left;
-    background: 50% 50% no-repeat;
-    background-size: auto 100%;
-    width: 32px;
+  float: left;
+  background: 50% 50% no-repeat;
+  background-size: auto 100%;
+  width: 32px;
 }
 
 .list-inline-item:not(:last-child) {
-    margin-right: 0;
+  margin-right: 0;
 }
 
 .panel {
-    background-color: #808C8A;
-    border-color: #808C8A;
+  background-color: #808c8a;
+  border-color: #808c8a;
 }
 
 .team-list-panel {
-    border-right: 2px solid #eee;
+  border-right: 2px solid #eee;
 }
 
-
 tr:first-child > td[_ngcontent-c8] {
-    border-top: 0;
+  border-top: 0;
 }
 
 td.delete {
-    font-size: 1em;
-    margin-left: 1vw;
-    min-width: 2vw;
+  font-size: 1em;
+  margin-left: 1vw;
+  min-width: 2vw;
 }
 
-tr.deleted{
-    font-weight: 100;
+tr.deleted {
+  font-weight: 100;
 }
 
 .indicator {
-    text-align: center;
-    margin-right: 1vw;
-    margin-top: 1vh;
-    position: relative;
+  text-align: center;
+  margin-right: 1vw;
+  margin-top: 1vh;
+  position: relative;
 }
 
 .wrap {
-    word-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .border-right {
-    border-right: 1px solid #f8f9fa
+  border-right: 1px solid #f8f9fa;
 }
 
 .first-row {
-    background-color: #2f81b778;
+  background-color: #2f81b778;
 }
 
-.overflow{
-    overflow-y: auto;
+.overflow {
+  overflow-y: auto;
 }
-.bold{
-    font-weight: bold;
+.bold {
+  font-weight: bold;
 }

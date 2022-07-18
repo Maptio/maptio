@@ -12,13 +12,9 @@ import { Intercom } from 'ng-intercom';
 import { User } from '@maptio-shared/model/user.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 import { MultipleUserDuplicationError } from '@maptio-shared/services/user/multiple-user-duplication.error';
-import {
-  UserRole,
-  Permissions,
-} from '@maptio-shared/model/permission.data';
+import { UserRole, Permissions } from '@maptio-shared/model/permission.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { DuplicationError } from '@maptio-shared/services/user/duplication.error';
-
 
 @Component({
   selector: 'maptio-member-single',
@@ -72,20 +68,19 @@ export class MemberSingleComponent {
       this.showMultipleAdminsWarning = false;
     }
 
-    this.userService
-      .updateUserRole(this.member, userRole)
-      .then(() => {
-        this.isDisplayUpdatingLoader = false;
-        this.refreshMembersList.emit();
-        this.cd.markForCheck();
-      });
+    this.userService.updateUserRole(this.member, userRole).then(() => {
+      this.isDisplayUpdatingLoader = false;
+      this.refreshMembersList.emit();
+      this.cd.markForCheck();
+    });
   }
 
   inviteUser(): Promise<void> {
     this.wasInvitationAttempted = true;
 
     if (!this.member.email) {
-      this.errorMessage = 'Please enter an email address to send the invitation to.';
+      this.errorMessage =
+        'Please enter an email address to send the invitation to.';
       this.cd.markForCheck();
       return;
     }
@@ -95,11 +90,7 @@ export class MemberSingleComponent {
     this.cd.markForCheck();
 
     return this.userService
-      .sendInvite(
-        this.member,
-        this.team.name,
-        this.user.name
-      )
+      .sendInvite(this.member, this.team.name, this.user.name)
       .then((isSent) => {
         this.member.isInvitationSent = isSent;
         this.isDisplaySendingLoader = false;

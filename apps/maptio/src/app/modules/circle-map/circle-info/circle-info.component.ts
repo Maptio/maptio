@@ -2,7 +2,6 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { InitiativeNode } from '../initiative.model';
 
-
 @Component({
   selector: 'g[maptioCircleInfo]', // eslint-disable-line @angular-eslint/component-selector
   templateUrl: './circle-info.component.html',

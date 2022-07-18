@@ -21,7 +21,6 @@ import { UserService } from '@maptio-shared/services/user/user.service';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
 
-
 @Component({
   selector: 'maptio-member-form',
   templateUrl: './member-form.component.html',
@@ -76,17 +75,16 @@ export class MemberFormComponent implements OnInit {
     private teamFactory: TeamFactory,
     private userService: UserService,
     private analytics: Angulartics2Mixpanel,
-    private intercom: Intercom,
+    private intercom: Intercom
   ) {}
 
   ngOnInit(): void {
     this.memberForm = new FormGroup({
-      firstname: new FormControl(
-        '',
-        { validators: [ Validators.required, Validators.minLength(2) ] }
-      ),
-      lastname: new FormControl('', { validators: [ Validators.minLength(2) ] }),
-      email: new FormControl('', { validators: [ Validators.email ] }),
+      firstname: new FormControl('', {
+        validators: [Validators.required, Validators.minLength(2)],
+      }),
+      lastname: new FormControl('', { validators: [Validators.minLength(2)] }),
+      email: new FormControl('', { validators: [Validators.email] }),
     });
 
     if (this.member) {
@@ -94,7 +92,9 @@ export class MemberFormComponent implements OnInit {
       // name input in the circle details panel. This is meant to be replaced
       // in the future by a single name field!
       if (this.splitName) {
-        const [firstWord, ...remainingWords] = this.member.firstname.split(' ').filter(Boolean);
+        const [firstWord, ...remainingWords] = this.member.firstname
+          .split(' ')
+          .filter(Boolean);
         this.memberForm.controls['firstname'].setValue(firstWord);
         this.memberForm.controls['lastname'].setValue(remainingWords.join(' '));
       } else {
@@ -113,7 +113,10 @@ export class MemberFormComponent implements OnInit {
     }
 
     // Email shouldn't be editable once a team member is already in Auth0
-    if (this.disableEmailInput || (this.member instanceof User && this.member.isInAuth0)) {
+    if (
+      this.disableEmailInput ||
+      (this.member instanceof User && this.member.isInAuth0)
+    ) {
       this.memberForm.get('email').disable();
     }
 
@@ -123,8 +126,8 @@ export class MemberFormComponent implements OnInit {
 
       this.memberForm.addControl(
         'isTermsAccepted',
-        new FormControl(false, { validators: [ Validators.requiredTrue ] }),
-      )
+        new FormControl(false, { validators: [Validators.requiredTrue] })
+      );
     }
   }
 
@@ -132,9 +135,13 @@ export class MemberFormComponent implements OnInit {
     const field = this.memberForm.get(fieldName);
 
     const isDirtyOrTouched = field.dirty || field.touched;
-    const isDirtyOrTouchedAfterSubmission = isDirtyOrTouched && this.isSubmissionAttempted;
+    const isDirtyOrTouchedAfterSubmission =
+      isDirtyOrTouched && this.isSubmissionAttempted;
 
-    return (isDirtyOrTouchedAfterSubmission || this.isSubmissionAttempted) && field.invalid;
+    return (
+      (isDirtyOrTouchedAfterSubmission || this.isSubmissionAttempted) &&
+      field.invalid
+    );
   }
 
   onImageUpload(imageUrl: string) {
@@ -158,10 +165,10 @@ export class MemberFormComponent implements OnInit {
     this.email = this.memberForm.controls['email'].value;
 
     if (
-      performDeduplication
-      && !this.disableDeduplication
-      && !this.isEditingExistingUser
-      && !this.isUserSignUp
+      performDeduplication &&
+      !this.disableDeduplication &&
+      !this.isEditingExistingUser &&
+      !this.isUserSignUp
     ) {
       this.duplicateUsers = await this.checkForDuplicateTeamMembers();
 
@@ -192,7 +199,7 @@ export class MemberFormComponent implements OnInit {
       this.team,
       this.email,
       this.firstname,
-      this.lastname,
+      this.lastname
     );
   }
 
@@ -208,19 +215,22 @@ export class MemberFormComponent implements OnInit {
       this.email,
       this.firstname,
       this.lastname,
-      this.picture,
+      this.picture
     );
 
-    return this.datasetFactory.get(this.team)
-      .then((datasets: DataSet[]) => {
-        this.createdUser.teams = [this.team.team_id];
-        this.createdUser.datasets = datasets.map((d) => d.datasetId);
+    return this.datasetFactory
+      .get(this.team)
+      .then(
+        (datasets: DataSet[]) => {
+          this.createdUser.teams = [this.team.team_id];
+          this.createdUser.datasets = datasets.map((d) => d.datasetId);
 
-        return this.createdUser;
-      },
-      (reason) => {
-        return Promise.reject(`Can't create ${this.email} : ${reason}`);
-      })
+          return this.createdUser;
+        },
+        (reason) => {
+          return Promise.reject(`Can't create ${this.email} : ${reason}`);
+        }
+      )
       .then((user: User) => {
         this.userFactory.create(user);
         return user;
@@ -271,7 +281,7 @@ export class MemberFormComponent implements OnInit {
           this.lastname,
           this.email,
           this.picture,
-          false,
+          false
         );
       } else {
         this.isSavingSuccess = await this.userService.updateUser(
@@ -279,7 +289,7 @@ export class MemberFormComponent implements OnInit {
           this.firstname,
           this.lastname,
           this.email,
-          this.picture,
+          this.picture
         );
       }
     } catch (error) {
@@ -293,7 +303,8 @@ export class MemberFormComponent implements OnInit {
       this.isSavingSuccess = false;
 
       if (!this.savingFailedMessage) {
-        this.savingFailedMessage = 'Cannot update profile information, please try again later or contact us.';
+        this.savingFailedMessage =
+          'Cannot update profile information, please try again later or contact us.';
       }
 
       return;
@@ -344,8 +355,11 @@ export class MemberFormComponent implements OnInit {
         this.member,
         this.team
       );
-    } catch(error) {
-      console.error('Error while attempting to replace user with duplicate', error);
+    } catch (error) {
+      console.error(
+        'Error while attempting to replace user with duplicate',
+        error
+      );
       this.errorMessage = `
         The application encountered an unexpected error while attempting user
         de-duplication. Please contact us for help and quote this error

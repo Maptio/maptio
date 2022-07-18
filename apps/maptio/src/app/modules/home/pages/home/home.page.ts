@@ -14,7 +14,6 @@ import { UserService } from '@maptio-shared/services/user/user.service';
 import { LoaderService } from '@maptio-shared/components/loading/loader.service';
 import { OnboardingService } from '@maptio-shared/components/onboarding/onboarding.service';
 
-
 @Component({
   selector: 'maptio-home',
   templateUrl: './home.page.html',
@@ -39,40 +38,43 @@ export class HomeComponent implements OnInit, OnDestroy {
     public teamFactory: TeamFactory,
     public userService: UserService,
     public loaderService: LoaderService,
-    private onboardingService: OnboardingService,
+    private onboardingService: OnboardingService
   ) {}
 
   ngOnInit(): void {
     // TODO: This can be written much more cleanly!
-    this.subs.sink = this.userService.isAuthenticated$.subscribe((isAuthenticated) => {
-      if(isAuthenticated) {
-        this.loaderService.show();
-        this.isLoading = true;
-        this.isOnboarding = true;
-        this.cd.markForCheck();
+    this.subs.sink = this.userService.isAuthenticated$.subscribe(
+      (isAuthenticated) => {
+        if (isAuthenticated) {
+          this.loaderService.show();
+          this.isLoading = true;
+          this.isOnboarding = true;
+          this.cd.markForCheck();
 
-        this.subs.sink = this.userService.userWithTeamsAndDatasets$
-          .subscribe((data: { datasets: DataSet[]; teams: Team[]; user: User }) => {
-            if (!data) return;
+          this.subs.sink = this.userService.userWithTeamsAndDatasets$.subscribe(
+            (data: { datasets: DataSet[]; teams: Team[]; user: User }) => {
+              if (!data) return;
 
-            this.teams = data.teams;
-            this.datasets = data.datasets;
-            this.user = data.user;
+              this.teams = data.teams;
+              this.datasets = data.datasets;
+              this.user = data.user;
 
-            this.isLoading = false;
+              this.isLoading = false;
 
-            this.isOnboarding = isEmpty(this.teams);
-            if (this.isOnboarding) {
-              this.onboardingService.open(this.user);
+              this.isOnboarding = isEmpty(this.teams);
+              if (this.isOnboarding) {
+                this.onboardingService.open(this.user);
+              }
+
+              EmitterService.get('currentTeam').emit(this.teams[0]);
+
+              this.cd.markForCheck();
+              this.loaderService.hide();
             }
-
-            EmitterService.get('currentTeam').emit(this.teams[0]);
-
-            this.cd.markForCheck();
-            this.loaderService.hide();
-          });
+          );
+        }
       }
-    });
+    );
   }
 
   ngOnDestroy(): void {

@@ -14,7 +14,8 @@
   word-break: break-word;
   color: white;
 
-  .circle--type-leaf:not(.circle--type-primary):not(.circle--type-child-of-primary) & {
+  .circle--type-leaf:not(.circle--type-primary):not(.circle--type-child-of-primary)
+    & {
     color: black;
   }
 }

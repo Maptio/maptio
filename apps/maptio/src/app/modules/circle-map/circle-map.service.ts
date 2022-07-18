@@ -10,13 +10,16 @@ import { InitiativeNode } from './initiative.model';
 import { SvgZoomPanService } from './svg-zoom-pan/svg-zoom-pan.service';
 import { HierarchyNode } from 'd3-hierarchy';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CircleMapService {
-  public selectedCircle = new BehaviorSubject<InitiativeNode | undefined>(undefined);
-  public openedCircle = new BehaviorSubject<InitiativeNode | undefined>(undefined);
+  public selectedCircle = new BehaviorSubject<InitiativeNode | undefined>(
+    undefined
+  );
+  public openedCircle = new BehaviorSubject<InitiativeNode | undefined>(
+    undefined
+  );
 
   public datasetId?: string;
   public dataset?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -24,9 +27,7 @@ export class CircleMapService {
 
   changeDetectionTrigger$ = new EventEmitter();
 
-  constructor(
-    private svgZoomPanService: SvgZoomPanService,
-  ) {}
+  constructor(private svgZoomPanService: SvgZoomPanService) {}
 
   setDataset(datasetId: string, dataset: any) {
     this.datasetId = datasetId;
@@ -37,19 +38,39 @@ export class CircleMapService {
     this.circles = circles;
   }
 
-  calculateD3RootHierarchyNode(datasetInitiative: Initiative): HierarchyNode<Initiative> {
+  calculateD3RootHierarchyNode(
+    datasetInitiative: Initiative
+  ): HierarchyNode<Initiative> {
     const root = hierarchy(datasetInitiative);
 
-    root.each((node) => { node.data.computedSizeAdjustment = node.data.sizeAdjustment ?? 0 });
+    root.each((node) => {
+      node.data.computedSizeAdjustment = node.data.sizeAdjustment ?? 0;
+    });
     root.each(this.propagateSizeAdjustment);
 
     root
       .sum(function (d) {
-        const accountableContribution = (Object.prototype.hasOwnProperty.call(d, 'accountable')? 1 : 0);
-        const helpersContribution = (Object.prototype.hasOwnProperty.call(d, 'helpers') ? d.helpers.length : 0);
-        const sizeAdjustmentContribution = d.computedSizeAdjustment ? Number(d.computedSizeAdjustment) : 0;
+        const accountableContribution = Object.prototype.hasOwnProperty.call(
+          d,
+          'accountable'
+        )
+          ? 1
+          : 0;
+        const helpersContribution = Object.prototype.hasOwnProperty.call(
+          d,
+          'helpers'
+        )
+          ? d.helpers.length
+          : 0;
+        const sizeAdjustmentContribution = d.computedSizeAdjustment
+          ? Number(d.computedSizeAdjustment)
+          : 0;
 
-        let size = accountableContribution + helpersContribution + sizeAdjustmentContribution + 1;
+        let size =
+          accountableContribution +
+          helpersContribution +
+          sizeAdjustmentContribution +
+          1;
 
         // Don't let leaf node size fall below zero, or the circle will disappear altogether
         size = size <= 0 ? 1 : size;
@@ -71,13 +92,16 @@ export class CircleMapService {
   private propagateSizeAdjustment(node: HierarchyNode<Initiative>) {
     if (node.children && node.data.computedSizeAdjustment) {
       node.children.forEach((child) => {
-        child.data.computedSizeAdjustment += node.data.computedSizeAdjustment / node.children.length
+        child.data.computedSizeAdjustment +=
+          node.data.computedSizeAdjustment / node.children.length;
       });
     }
   }
 
   onCircleClick(circle: InitiativeNode) {
-    const isSelected = this.selectedCircle.value ? circle.data.id === this.selectedCircle.value.data.id : false;
+    const isSelected = this.selectedCircle.value
+      ? circle.data.id === this.selectedCircle.value.data.id
+      : false;
     const isOpened = circle.data.isOpened;
     const isPrimary = circle.data.isPrimary;
     const isLeaf = circle.data.isLeaf;
@@ -135,7 +159,9 @@ export class CircleMapService {
   }
 
   onHighlightInitiative(node: any) {
-    const highlightedCircle = this.circles.find((circle) => circle.data.id === node.id);
+    const highlightedCircle = this.circles.find(
+      (circle) => circle.data.id === node.id
+    );
     if (highlightedCircle) {
       this.clearCircleStates();
       this.selectCircle(highlightedCircle);
@@ -183,8 +209,12 @@ export class CircleMapService {
 
   getLastSelectedCircle(circles: InitiativeNode[]) {
     const lastSelectedCircleIdString = localStorage.getItem('node_id');
-    const lastSelectedCircleId = lastSelectedCircleIdString ? parseInt(lastSelectedCircleIdString) : lastSelectedCircleIdString;
-    let lastSelectedCircle = circles.find((circle) => circle.data.id === lastSelectedCircleId);
+    const lastSelectedCircleId = lastSelectedCircleIdString
+      ? parseInt(lastSelectedCircleIdString)
+      : lastSelectedCircleIdString;
+    let lastSelectedCircle = circles.find(
+      (circle) => circle.data.id === lastSelectedCircleId
+    );
 
     // If the root circle was selected (e.g. in the old expanded map view by
     // clicking "reset" in the search box), we should ignore this
@@ -257,11 +287,14 @@ export class CircleMapService {
     }
 
     const datasetId = this.datasetId;
-    const initiativeSlug = this.dataset ? this.dataset?.initiative?.getSlug() : undefined;
+    const initiativeSlug = this.dataset
+      ? this.dataset?.initiative?.getSlug()
+      : undefined;
 
-    const summaryUrlRoot = initiativeSlug && datasetId
-      ? `/map/${datasetId}/${initiativeSlug}/directory`
-      : '';
+    const summaryUrlRoot =
+      initiativeSlug && datasetId
+        ? `/map/${datasetId}/${initiativeSlug}/directory`
+        : '';
 
     return summaryUrlRoot;
   }

@@ -11,15 +11,11 @@ import { map } from 'rxjs/operators';
 
 import { AuthService } from '@auth0/auth0-angular';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class LoginGuard implements CanActivate, CanActivateChild {
-  constructor(
-    private router: Router,
-    private auth: AuthService,
-  ) {}
+  constructor(private router: Router, private auth: AuthService) {}
 
   canActivate(): Observable<boolean | UrlTree> {
     return this.redirectHomeIfAuthenticated();
@@ -35,7 +31,9 @@ export class LoginGuard implements CanActivate, CanActivateChild {
         if (loggedIn) {
           return this.router.parseUrl('/home');
         } else {
-          console.error('Not authenticated in the login page guard, this should never happen');
+          console.error(
+            'Not authenticated in the login page guard, this should never happen'
+          );
           return false;
         }
       })

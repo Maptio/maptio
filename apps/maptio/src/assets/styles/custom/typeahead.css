@@ -1,16 +1,17 @@
-.dropdown-item{
-    cursor:auto;
+.dropdown-item {
+  cursor: auto;
 }
 
-.dropdown-item.active, .dropdown-item:active {
-    /* color: #fff; */
-    text-decoration: none;
-    /* font-style: italic; */
-    cursor: pointer;
-    background-color: var(--maptio-blue) !important;
-  }
+.dropdown-item.active,
+.dropdown-item:active {
+  /* color: #fff; */
+  text-decoration: none;
+  /* font-style: italic; */
+  cursor: pointer;
+  background-color: var(--maptio-blue) !important;
+}
 
-  /* :host ::ng-deep button.dropdown-item:nth-child(even) {
+/* :host ::ng-deep button.dropdown-item:nth-child(even) {
     background: #f8f9fa;
   }
    */

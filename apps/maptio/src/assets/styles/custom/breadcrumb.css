@@ -1,27 +1,25 @@
-
-.breadcrumbs__container{
-    display: inline-flex;
-    padding: 0;
+.breadcrumbs__container {
+  display: inline-flex;
+  padding: 0;
 }
 
-li.breadcrumbs__item{
-    list-style: none;
+li.breadcrumbs__item {
+  list-style: none;
 }
 
 li.breadcrumbs__item::before {
-    content: "\f105" !important;
-    font-family: "Font Awesome 5 Free";
-    font-weight: bold;
-    color: var(--gray) !important ;
-    padding-right: .5rem;
-    padding-left: .5rem;
+  content: '\f105' !important;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: bold;
+  color: var(--gray) !important ;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
 }
 
 li.breadcrumbs__item:first-child::before {
-    display: none;
+  display: none;
 }
 
 /**
 GLOBALOBA
 **/
-

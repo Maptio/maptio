@@ -2,7 +2,7 @@
 // `ng build --configuration=staging` replaces `environment.ts` with `environment.staging.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import { commonEnvironment } from "./environment.common";
+import { commonEnvironment } from './environment.common';
 
 export const environment = {
   ...commonEnvironment,
@@ -13,7 +13,7 @@ export const environment = {
   // environment per production one)
   INTERCOM_APP_ID: 'vrs3fjbv',
 
-  OPENREPLAY_PROJECT_KEY: "XchYPkjBhtyztTjamVfo",
+  OPENREPLAY_PROJECT_KEY: 'XchYPkjBhtyztTjamVfo',
 
   auth: {
     domain: 'maptio-staging.us.auth0.com',

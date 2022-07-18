@@ -25,6 +25,8 @@ import { Role } from '../../../../shared/model/role.data';
 import { Intercom } from 'ng-intercom';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
+import { MapService } from '@maptio-shared/services/map/map.service';
+
 @Component({
   selector: 'maptio-workspace',
   templateUrl: 'workspace.component.html',
@@ -73,6 +75,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     private datasetFactory: DatasetFactory,
     private teamFactory: TeamFactory,
     private dataService: DataService,
+    private mapService: MapService,
     private roleLibrary: RoleLibraryService,
     private cd: ChangeDetectorRef,
     private mixpanel: Angulartics2Mixpanel,
@@ -151,7 +154,21 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   //     this.cd.markForCheck();
   // }
 
-  saveChanges(change: { initiative: Initiative; tags: Array<Tag> }) {
+  async saveChanges(change: { initiative: Initiative; tags: Array<Tag> }) {
+    const isLocalDatasetOutdated = await this.mapService.isDatasetOutdated(
+      this.dataset,
+      this.user
+    );
+
+    if (isLocalDatasetOutdated) {
+      if (!this.mapService.hasOutdatedAlertBeenShownRecently(this.dataset)) {
+        alert(
+          'A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version, then you can make your edits. You can copy any text you just entered, ready to paste it in again after the refresh. Sorry for the hassle.'
+        );
+      }
+      return;
+    }
+
     this.isEmptyMap =
       !change.initiative.children || change.initiative.children.length === 0;
     this.isSaving = true;

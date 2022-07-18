@@ -1,13 +1,12 @@
-import * as slug from "slug";
-import { set, addDays, differenceInDays, isAfter } from "date-fns";
+import * as slug from 'slug';
+import { set, addDays, differenceInDays, isAfter } from 'date-fns';
 
-import { environment } from "@maptio-config/environment";
-import { Serializable } from "./../interfaces/serializable.interface";
+import { environment } from '@maptio-config/environment';
+import { Serializable } from './../interfaces/serializable.interface';
 
-import { SlackIntegration } from "./integrations.data";
-import { User } from "./user.data";
-import { Role } from "./role.data";
-
+import { SlackIntegration } from './integrations.data';
+import { User } from './user.data';
+import { Role } from './role.data';
 
 /**
  * Represents a team
@@ -61,9 +60,9 @@ export class Team implements Serializable<Team> {
 
   public createdAt: Date;
 
-  public freeTrialLength: Number;
+  public freeTrialLength: number;
 
-  public isPaying: Boolean;
+  public isPaying: boolean;
 
   public planName: string;
 
@@ -83,7 +82,7 @@ export class Team implements Serializable<Team> {
       return undefined;
     }
 
-    let deserialized = new Team();
+    const deserialized = new Team();
     deserialized.name = input.name;
     deserialized.team_id = input._id;
     deserialized.shortid = input.shortid;
@@ -98,7 +97,7 @@ export class Team implements Serializable<Team> {
     const roles = new Array<Role>();
     if (input.roles && input.roles instanceof Array && input.roles.length > 0) {
       input.roles.forEach(function (inputRole: any) {
-        roles.push(new Role().deserialize(inputRole))
+        roles.push(new Role().deserialize(inputRole));
       });
     }
     deserialized.roles = roles;
@@ -107,7 +106,7 @@ export class Team implements Serializable<Team> {
     deserialized.isExample = input.isExample;
     deserialized.settings = {
       authority: environment.DEFAULT_AUTHORITY_TERMINOLOGY,
-      helper: environment.DEFAULT_HELPER_TERMINOLOGY
+      helper: environment.DEFAULT_HELPER_TERMINOLOGY,
     };
     deserialized.settings.authority = input.settings
       ? input.settings.authority || environment.DEFAULT_AUTHORITY_TERMINOLOGY
@@ -124,7 +123,7 @@ export class Team implements Serializable<Team> {
 
   tryDeserialize(input: any): [boolean, Team] {
     try {
-      let user = this.deserialize(input);
+      const user = this.deserialize(input);
       if (user !== undefined) {
         return [true, user];
       } else {
@@ -136,7 +135,7 @@ export class Team implements Serializable<Team> {
   }
 
   getSlug(): string {
-    return slug(this.name || "", { lower: true }) || "team";
+    return slug(this.name || '', { lower: true }) || 'team';
   }
 
   getFreeTrialCutoffDate(): Date {
@@ -160,10 +159,11 @@ export class Team implements Serializable<Team> {
   getRemainingTrialDays() {
     const cutoffDate = this.getFreeTrialCutoffDate();
 
-    const midnightAfterLastDay = set(
-      addDays(cutoffDate, 1),
-      { hours: 0, minutes: 0, seconds: 0 }
-    );
+    const midnightAfterLastDay = set(addDays(cutoffDate, 1), {
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    });
 
     // Calculate days remaining based on the midnight after the last day to be
     // able to say "1 day remaining" or "your free trial ends tomorrow" on the

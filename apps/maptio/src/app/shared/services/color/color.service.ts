@@ -1,13 +1,14 @@
-import { Injectable, OnInit } from "@angular/core";
-import { hsl, HSLColor } from "d3-color";
-import { scaleLinear, ScaleLinear } from "d3-scale";
-import { interpolateRgb, interpolateHcl, interpolateNumber } from "d3-interpolate";
-
-
+import { Injectable, OnInit } from '@angular/core';
+import { hsl, HSLColor } from 'd3-color';
+import { scaleLinear, ScaleLinear } from 'd3-scale';
+import {
+  interpolateRgb,
+  interpolateHcl,
+  interpolateNumber,
+} from 'd3-interpolate';
 
 @Injectable()
 export class ColorService implements OnInit {
-
   FRONT_COLOR: HSLColor;
   BACK_COLOR: HSLColor;
 
@@ -37,17 +38,20 @@ export class ColorService implements OnInit {
     depth: number,
     seedColor: string
   ): ScaleLinear<HSLColor, string> {
-    let seed = hsl(seedColor);
+    const seed = hsl(seedColor);
     return scaleLinear<HSLColor, HSLColor>()
       .domain([-1, depth])
       .interpolate(interpolateRgb)
       .range([this.BACK_COLOR, seed]);
   }
 
-  getColorRangeNew(depth: number, seedColor: string): ScaleLinear<HSLColor, string> {
+  getColorRangeNew(
+    depth: number,
+    seedColor: string
+  ): ScaleLinear<HSLColor, string> {
     const seedColorHsl = hsl(seedColor);
     const endColorHsl = hsl(seedColor);
-    endColorHsl.l = .25;
+    endColorHsl.l = 0.25;
     endColorHsl.h = 0;
 
     return scaleLinear<HSLColor, string>()
@@ -60,10 +64,10 @@ export class ColorService implements OnInit {
     depth: number,
     maxFontSize: number
   ): ScaleLinear<number, number> {
-    let slowInterpolator = function(a: number, b: number) {
-      return function(t: number) {
-        let E = Math.max(a, b);
-        return E * (1 - Math.exp((t - 1) * E / 2));
+    const slowInterpolator = function (a: number, b: number) {
+      return function (t: number) {
+        const E = Math.max(a, b);
+        return E * (1 - Math.exp(((t - 1) * E) / 2));
       };
     };
     return scaleLinear<number, number>()

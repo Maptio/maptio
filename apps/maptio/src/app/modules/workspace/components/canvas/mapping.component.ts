@@ -1,5 +1,4 @@
-
-import {distinct, map, combineLatest, tap} from 'rxjs/operators';
+import { distinct, map, combineLatest, tap } from 'rxjs/operators';
 
 import {
   ChangeDetectionStrategy,
@@ -11,35 +10,38 @@ import {
   Output,
   ViewChild,
   ElementRef,
-} from "@angular/core";
-import { ActivatedRoute, Router, Params } from "@angular/router";
-import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
-import { compact } from "lodash-es";
-import { BehaviorSubject, ReplaySubject, Subject, Subscription } from "rxjs";
+} from '@angular/core';
+import { ActivatedRoute, Router, Params } from '@angular/router';
+import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
+import { compact } from 'lodash-es';
+import { BehaviorSubject, ReplaySubject, Subject, Subscription } from 'rxjs';
 
-import { Initiative } from "../../../../shared/model/initiative.data";
-import { SelectableTag, Tag } from "../../../../shared/model/tag.data";
-import { Team } from "../../../../shared/model/team.data";
-import { DataService } from "../../services/data.service";
-import { UIService } from "../../services/ui.service";
-import { URIService } from "../../../../shared/services/uri/uri.service";
-import { IDataVisualizer } from "./mapping.interface";
-import { ExportService } from "../../../../shared/services/export/export.service";
-import { Intercom } from "ng-intercom";
-import { User } from "../../../../shared/model/user.data";
-import { Permissions } from "../../../../shared/model/permission.data";
-import { MappingSummaryComponent } from "../../pages/directory/summary.component";
-import { MappingCirclesGradualRevealComponent } from "../../pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component";
-import { environment } from "../../../../config/environment";
+import { Initiative } from '../../../../shared/model/initiative.data';
+import { SelectableTag, Tag } from '../../../../shared/model/tag.data';
+import { Team } from '../../../../shared/model/team.data';
+import { DataService } from '../../services/data.service';
+import { UIService } from '../../services/ui.service';
+import { URIService } from '../../../../shared/services/uri/uri.service';
+import { IDataVisualizer } from './mapping.interface';
+import { ExportService } from '../../../../shared/services/export/export.service';
+import { Intercom } from 'ng-intercom';
+import { User } from '../../../../shared/model/user.data';
+import { Permissions } from '../../../../shared/model/permission.data';
+import { MappingSummaryComponent } from '../../pages/directory/summary.component';
+import { MappingCirclesGradualRevealComponent } from '../../pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component';
+import { environment } from '../../../../config/environment';
 import * as screenfull from 'screenfull';
-import { DataSet } from "../../../../shared/model/dataset.data";
-import { MapSettingsService, MapSettings } from "../../services/map-settings.service";
+import { DataSet } from '../../../../shared/model/dataset.data';
+import {
+  MapSettingsService,
+  MapSettings,
+} from '../../services/map-settings.service';
 
 @Component({
-  selector: "mapping",
-  templateUrl: "./mapping.component.html",
-  styleUrls: ["./mapping.component.css"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'mapping',
+  templateUrl: './mapping.component.html',
+  styleUrls: ['./mapping.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MappingComponent {
   isFirstEdit: boolean;
@@ -53,8 +55,8 @@ export class MappingComponent {
   isNameOnly: boolean;
   selectedInitiative: Initiative;
   selectedInitiatives: Initiative[];
-  selectedInitiativeX: Number;
-  selectedInitiativeY: Number;
+  selectedInitiativeX: number;
+  selectedInitiativeY: number;
   isReadOnlyContextMenu: boolean;
 
   isPrinting: boolean;
@@ -99,23 +101,28 @@ export class MappingComponent {
   public isShareDisabled: boolean;
   public isZoomDisabled: boolean;
 
+  @Input('tags') selectableTags: Array<SelectableTag>;
+  @Input('isEmptyMap') isEmptyMap: boolean;
 
-  @Input("tags") selectableTags: Array<SelectableTag>;
-  @Input("isEmptyMap") isEmptyMap: Boolean;
+  @Output('openDetails') openDetails = new EventEmitter<Initiative>();
 
-  @Output("openDetails") openDetails = new EventEmitter<Initiative>();
-
-  @Output("addInitiative") addInitiative = new EventEmitter<{ node: Initiative, subNode: Initiative }>();
-  @Output("removeInitiative") removeInitiative = new EventEmitter<Initiative>();
-  @Output("moveInitiative") moveInitiative = new EventEmitter<{
-    node: Initiative; from: Initiative; to: Initiative;
+  @Output('addInitiative') addInitiative = new EventEmitter<{
+    node: Initiative;
+    subNode: Initiative;
+  }>();
+  @Output('removeInitiative') removeInitiative = new EventEmitter<Initiative>();
+  @Output('moveInitiative') moveInitiative = new EventEmitter<{
+    node: Initiative;
+    from: Initiative;
+    to: Initiative;
   }>();
 
-  @Output("openTreePanel") openTreePanel = new EventEmitter<boolean>();
-  @Output("expandTree") expandTree = new EventEmitter<boolean>();
-  @Output("toggleSettingsPanel") toggleSettingsPanel = new EventEmitter<boolean>();
-  @Output("toggleEditingPanelsVisibility") toggleEditingPanelsVisibility = new EventEmitter<Boolean>();
-
+  @Output('openTreePanel') openTreePanel = new EventEmitter<boolean>();
+  @Output('expandTree') expandTree = new EventEmitter<boolean>();
+  @Output('toggleSettingsPanel')
+  toggleSettingsPanel = new EventEmitter<boolean>();
+  @Output('toggleEditingPanelsVisibility')
+  toggleEditingPanelsVisibility = new EventEmitter<boolean>();
 
   constructor(
     private dataService: DataService,
@@ -132,35 +139,39 @@ export class MappingComponent {
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
     this.selectableTags$ = new ReplaySubject<Array<SelectableTag>>();
-    this.mapColor$ = new BehaviorSubject<string>("");
+    this.mapColor$ = new BehaviorSubject<string>('');
     this.zoomToInitiative$ = new Subject();
   }
 
   ngAfterViewInit() {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       if (params.reload) {
         this.changeMapColor(params.color);
       }
     });
 
-    this.fullScreenLib.on("change", () => {
+    this.fullScreenLib.on('change', () => {
       this.isFullScreen = this.fullScreenLib.isFullscreen;
 
-      if (document.querySelector("svg#map")) {
-        document.querySelector("svg#map").setAttribute("width", `${this.uiService.getCanvasWidth()}`)
-        document.querySelector("svg#map").setAttribute("height", `${this.uiService.getCanvasHeight()}`);
-      }
-      else {
-        if (document.querySelector("#summary-canvas"))
-          (document.querySelector("#summary-canvas") as HTMLElement).style.maxHeight = this.isFullScreen ? null : `${this.uiService.getCanvasHeight() * 0.95}px`;
+      if (document.querySelector('svg#map')) {
+        document
+          .querySelector('svg#map')
+          .setAttribute('width', `${this.uiService.getCanvasWidth()}`);
+        document
+          .querySelector('svg#map')
+          .setAttribute('height', `${this.uiService.getCanvasHeight()}`);
+      } else {
+        if (document.querySelector('#summary-canvas'))
+          (document.querySelector(
+            '#summary-canvas'
+          ) as HTMLElement).style.maxHeight = this.isFullScreen
+            ? null
+            : `${this.uiService.getCanvasHeight() * 0.95}px`;
         this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
         this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
-
       }
       this.cd.markForCheck();
-    })
-
-
+    });
   }
 
   onActivate(component: IDataVisualizer) {
@@ -169,35 +180,40 @@ export class MappingComponent {
     this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
     this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
 
-    component.showToolipOf$.asObservable().subscribe((tooltip: { initiatives: Initiative[], isNameOnly: boolean }) => {
-      if(tooltip.initiatives) this.openDetails.emit(tooltip.initiatives[0]);
-    })
+    component.showToolipOf$
+      .asObservable()
+      .subscribe(
+        (tooltip: { initiatives: Initiative[]; isNameOnly: boolean }) => {
+          if (tooltip.initiatives)
+            this.openDetails.emit(tooltip.initiatives[0]);
+        }
+      );
 
-    component.showDetailsOf$.asObservable().subscribe(node => {
+    component.showDetailsOf$.asObservable().subscribe((node) => {
       this.openDetails.emit(node);
-    })
+    });
 
-    component.showContextMenuOf$.asObservable().subscribe(node => {
+    component.showContextMenuOf$.asObservable().subscribe((node) => {
       this.showContextMenu(node);
-    })
+    });
 
-    let f = this.route.snapshot.fragment ; //|| this.getFragment(component);
-    this.x = Number.parseFloat(this.uriService.parseFragment(f).get("x"));
-    this.y = Number.parseFloat(this.uriService.parseFragment(f).get("y"));
+    const f = this.route.snapshot.fragment; //|| this.getFragment(component);
+    this.x = Number.parseFloat(this.uriService.parseFragment(f).get('x'));
+    this.y = Number.parseFloat(this.uriService.parseFragment(f).get('y'));
     this.scale = Number.parseFloat(
-      this.uriService.parseFragment(f).get("scale")
+      this.uriService.parseFragment(f).get('scale')
     );
 
-    let tagsState =
-      this.uriService.parseFragment(f).has("tags") &&
-        this.uriService.parseFragment(f).get("tags")
+    const tagsState =
+      this.uriService.parseFragment(f).has('tags') &&
+      this.uriService.parseFragment(f).get('tags')
         ? this.uriService
-          .parseFragment(f)
-          .get("tags")
-          .split(",")
-          .map(
-            (s: string) => new SelectableTag({ shortid: s, isSelected: true })
-          )
+            .parseFragment(f)
+            .get('tags')
+            .split(',')
+            .map(
+              (s: string) => new SelectableTag({ shortid: s, isSelected: true })
+            )
         : [];
 
     component.width = this.VIEWPORT_WIDTH;
@@ -226,24 +242,22 @@ export class MappingComponent {
       this.isFilterDisabled = true;
       this.isZoomDisabled = false;
       this.isShareDisabled = false;
-      this.toggleEditingPanelsVisibility.emit(true)
+      this.toggleEditingPanelsVisibility.emit(true);
     } else {
       this.isMapSettingsDisabled = false;
       this.isSearchDisabled = false;
       this.isFilterDisabled = false;
       this.isZoomDisabled = false;
       this.isShareDisabled = true;
-      this.toggleEditingPanelsVisibility.emit(true)
+      this.toggleEditingPanelsVisibility.emit(true);
     }
   }
 
   onDeactivate(component: any) {
     // this.settings = this.mapSettingsService.get(this.datasetId);
-
     // let position = this.uriService.parseFragment(this.route.snapshot.fragment);
     // position.delete("tags");
     // let lastPosition = this.uriService.buildFragment(position);
-
     // switch (component.constructor) {
     //   case MappingZoomableComponent:
     //     this.settings.lastPosition.circles = lastPosition;
@@ -258,7 +272,6 @@ export class MappingComponent {
     //     break;
     // }
     // this.mapSettingsService.set(this.datasetId, this.settings);
-
     // this.cd.markForCheck();
   }
 
@@ -266,30 +279,41 @@ export class MappingComponent {
     this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
     this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
 
+    this.subscription = this.route.params
+      .pipe(
+        tap((params: Params) => {
+          if (this.datasetId !== params['mapid']) {
+            this.showTooltip(null, null);
+            this.showContextMenu({
+              initiatives: null,
+              x: 0,
+              y: 0,
+              isReadOnlyContextMenu: null,
+            });
+          }
+          this.datasetId = params['mapid'];
+          this.slug = params['mapslug'];
+          this.settings = this.mapSettingsService.get(this.datasetId);
+          this.mapColor$.next(this.settings.mapColor);
 
-    this.subscription = this.route.params.pipe(
-      tap((params: Params) => {
-        if (this.datasetId !== params["mapid"]) {
-          this.showTooltip(null, null);
-          this.showContextMenu({ initiatives: null, x: 0, y: 0, isReadOnlyContextMenu: null })
-
-        }
-        this.datasetId = params["mapid"];
-        this.slug = params["mapslug"];
-        this.settings = this.mapSettingsService.get(this.datasetId);
-        this.mapColor$.next(this.settings.mapColor)
-
-        this.cd.markForCheck();
-      }),
-      combineLatest(this.dataService.get()),
-      map(data => data[1]),
-      combineLatest(this.route.fragment, this.route.queryParams.pipe(distinct())),) // PEFORMACE : with latest changes
+          this.cd.markForCheck();
+        }),
+        combineLatest(this.dataService.get()),
+        map((data) => data[1]),
+        combineLatest(
+          this.route.fragment,
+          this.route.queryParams.pipe(distinct())
+        )
+      ) // PEFORMACE : with latest changes
       .subscribe(([data, fragment, queryParams]) => {
-        if (!data.initiative.children || !data.initiative.children[0] || !data.initiative.children[0].children) {
+        if (
+          !data.initiative.children ||
+          !data.initiative.children[0] ||
+          !data.initiative.children[0].children
+        ) {
           this.isFirstEdit = true;
           this.cd.markForCheck();
-        }
-        else {
+        } else {
           this.isFirstEdit = false;
           this.cd.markForCheck();
         }
@@ -298,29 +322,29 @@ export class MappingComponent {
           this.zoomToInitiative(new Initiative({ id: <number>queryParams.id }));
         }
 
-        let fragmentTags =
-          this.uriService.parseFragment(fragment).has("tags") &&
-            this.uriService.parseFragment(fragment).get("tags")
+        const fragmentTags =
+          this.uriService.parseFragment(fragment).has('tags') &&
+          this.uriService.parseFragment(fragment).get('tags')
             ? this.uriService
-              .parseFragment(fragment)
-              .get("tags")
-              .split(",")
-              .map(
-                (s: string) =>
-                  new SelectableTag({ shortid: s, isSelected: true })
-              )
+                .parseFragment(fragment)
+                .get('tags')
+                .split(',')
+                .map(
+                  (s: string) =>
+                    new SelectableTag({ shortid: s, isSelected: true })
+                )
             : <SelectableTag[]>[];
 
         this.tags = compact<SelectableTag>(
           data.dataset.tags.map((dataTag: SelectableTag) => {
-            let searchTag = fragmentTags.find(
-              t => t.shortid === dataTag.shortid
+            const searchTag = fragmentTags.find(
+              (t) => t.shortid === dataTag.shortid
             );
             return new SelectableTag({
               shortid: dataTag.shortid,
               name: dataTag.name,
               color: dataTag.color,
-              isSelected: searchTag !== undefined
+              isSelected: searchTag !== undefined,
             });
           })
         );
@@ -332,7 +356,7 @@ export class MappingComponent {
         this.cd.markForCheck();
       });
 
-    this.route.fragment.subscribe(f => { });
+    this.route.fragment.subscribe((f) => {});
   }
 
   ngOnDestroy() {
@@ -367,7 +391,12 @@ export class MappingComponent {
   //   }
   // }
 
-  showContextMenu(context: { initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }) {
+  showContextMenu(context: {
+    initiatives: Initiative[];
+    x: number;
+    y: number;
+    isReadOnlyContextMenu: boolean;
+  }) {
     this.isReadOnlyContextMenu = context.isReadOnlyContextMenu;
     this.selectedInitiatives = context.initiatives;
     this.selectedInitiativeX = context.x;
@@ -384,68 +413,76 @@ export class MappingComponent {
 
   zoomOut() {
     this.zoom$.next(1 / 3);
-    this.analytics.eventTrack("Map", {
-      action: "zoom out",
-      mode: "button",
+    this.analytics.eventTrack('Map', {
+      action: 'zoom out',
+      mode: 'button',
       team: this.team.name,
-      teamId: this.team.team_id
+      teamId: this.team.team_id,
     });
   }
 
   zoomIn() {
     this.zoom$.next(3);
-    this.analytics.eventTrack("Map", {
-      action: "zoom in",
-      mode: "button",
+    this.analytics.eventTrack('Map', {
+      action: 'zoom in',
+      mode: 'button',
       team: this.team.name,
-      teamId: this.team.team_id
+      teamId: this.team.team_id,
     });
   }
 
   resetZoom() {
     this.isReset$.next(true);
-    this.analytics.eventTrack("Map", {
-      action: "reset zoom",
-      mode: "button",
+    this.analytics.eventTrack('Map', {
+      action: 'reset zoom',
+      mode: 'button',
       team: this.team.name,
-      teamId: this.team.team_id
+      teamId: this.team.team_id,
     });
   }
 
   fullScreen() {
-    this.fullScreenLib.toggle(document.querySelector("#mapping-canvas"))
+    this.fullScreenLib.toggle(document.querySelector('#mapping-canvas'));
   }
 
   changeMapColor(color: string) {
     this.mapColor$.next(color);
     this.settings.mapColor = color;
-    this.mapSettingsService.set(this.datasetId, this.settings)
+    this.mapSettingsService.set(this.datasetId, this.settings);
 
-    this.analytics.eventTrack("Map", {
-      action: "change map color",
+    this.analytics.eventTrack('Map', {
+      action: 'change map color',
       color: color,
       team: this.team.name,
-      teamId: this.team.team_id
+      teamId: this.team.team_id,
     });
   }
 
   addFirstNode() {
-    this.addInitiative.emit({ node: this.initiative, subNode: new Initiative() });
+    this.addInitiative.emit({
+      node: this.initiative,
+      subNode: new Initiative(),
+    });
     this.openTreePanel.emit(true);
     this.expandTree.emit(true);
-    this.analytics.eventTrack("Map", { mode: "instruction", action: "add", team: this.team.name, teamId: this.team.team_id });
+    this.analytics.eventTrack('Map', {
+      mode: 'instruction',
+      action: 'add',
+      team: this.team.name,
+      teamId: this.team.team_id,
+    });
   }
 
-  emitAddInitiative(context: { node: Initiative, subNode: Initiative }) {
-    this.addInitiative.emit({ node: context.node, subNode: context.subNode })
+  emitAddInitiative(context: { node: Initiative; subNode: Initiative }) {
+    this.addInitiative.emit({ node: context.node, subNode: context.subNode });
   }
 
   emitOpenInitiative(node: Initiative) {
-    this.openDetails.emit(node)
+    this.openDetails.emit(node);
   }
 
   emitRemoveInitiative(node: Initiative) {
-    this.removeInitiative.emit(node)
+    this.removeInitiative.emit(node);
   }
 
   broadcastTagsSelection(tags: SelectableTag[]) {
@@ -471,7 +508,8 @@ export class MappingComponent {
     this.isSearchDisabled = true;
     this.showTooltip(null, null);
     this.cd.markForCheck();
-    this.router.navigateByUrl(`/map/${this.datasetId}/${this.slug}/directory?member=${selected.shortid}`);
-
+    this.router.navigateByUrl(
+      `/map/${this.datasetId}/${this.slug}/directory?member=${selected.shortid}`
+    );
   }
 }

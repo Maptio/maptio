@@ -1,25 +1,25 @@
 .unresizable {
-    resize: none;
-    background-color: white;
+  resize: none;
+  background-color: white;
 }
 
 .help-popup::before {
-    content: "\f05a";
-    font-family: "Font Awesome 5 Free";
-    color: #ccc;
-    font-weight: bold;
+  content: '\f05a';
+  font-family: 'Font Awesome 5 Free';
+  color: #ccc;
+  font-weight: bold;
 }
 
 span.help-popup {
-    background: transparent;
+  background: transparent;
 }
 
 .authority {
-    width: 20px;
+  width: 20px;
 }
 
 .transparent {
-    background: transparent;
+  background: transparent;
 }
 
 /* @media only screen and (max-height: 800px) {
@@ -47,31 +47,28 @@ span.help-popup {
 } */
 
 .background {
-    background-size: contain !important;
-    padding-left: 3vw;
+  background-size: contain !important;
+  padding-left: 3vw;
 }
 
 .invisible {
-    opacity: 0;
-    height: 0
+  opacity: 0;
+  height: 0;
 }
 
 textarea {
-    background-color: white;
+  background-color: white;
 }
 
 .remove {
-    background-color: white;
+  background-color: white;
 }
 
-.btn-link:focus, .btn-link:active {
-    box-shadow: none!important;
+.btn-link:focus,
+.btn-link:active {
+  box-shadow: none !important;
 }
 
 .edit-description {
-    text-align: right;
+  text-align: right;
 }
-
-
-
-

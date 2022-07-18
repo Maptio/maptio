@@ -1,77 +1,76 @@
 .profile {
-    width: 45px
+  width: 45px;
 }
 
 .helper {
-    float: left;
-    background: 50% 50% no-repeat;
-    background-size: auto 100%;
-    max-width: 32px;
+  float: left;
+  background: 50% 50% no-repeat;
+  background-size: auto 100%;
+  max-width: 32px;
 }
 
 .authority {
-    background: 50% 50% no-repeat;
-    background-size: auto 100%;
-    max-width: 32px;
+  background: 50% 50% no-repeat;
+  background-size: auto 100%;
+  max-width: 32px;
 }
 
 .borderless {
-    border: none
+  border: none;
 }
 
 .no-padding {
-    padding: 0
+  padding: 0;
 }
 
-
-.btn-link:focus, .btn-link:active {
-    box-shadow: none!important;
+.btn-link:focus,
+.btn-link:active {
+  box-shadow: none !important;
 }
 
 .wrap {
-    text-align: left;
-    white-space: normal;
+  text-align: left;
+  white-space: normal;
 }
 
-.no-cursor{
-    pointer-events: none;
+.no-cursor {
+  pointer-events: none;
 }
 
 .hide {
-    display: none;
+  display: none;
 }
 
 .summary {
-    background-color: white;
-    margin-left: 3vw;
-    margin-top: 9vh;
+  background-color: white;
+  margin-left: 3vw;
+  margin-top: 9vh;
 }
 
 .summary:focus {
-    outline: 0;
+  outline: 0;
 }
 
 .card-columns {
-
-    -webkit-column-gap: 1.25rem;
-    -moz-column-gap: 1.25rem;
-    column-gap: 1.25rem;
+  -webkit-column-gap: 1.25rem;
+  -moz-column-gap: 1.25rem;
+  column-gap: 1.25rem;
 }
 
-.card-columns.one-column{
-    -webkit-column-count: 1;
-    -moz-column-count: 1;
-    column-count: 1;
+.card-columns.one-column {
+  -webkit-column-count: 1;
+  -moz-column-count: 1;
+  column-count: 1;
 }
 
-.card-columns.two-column{
-    -webkit-column-count: 2;
-    -moz-column-count: 2;
-    column-count: 2;
+.card-columns.two-column {
+  -webkit-column-count: 2;
+  -moz-column-count: 2;
+  column-count: 2;
 }
 
-.card-columns.three-column{
-    -webkit-column-count: 3;
-    -moz-column-count: 3;
-    column-count: 3;
+.card-columns.three-column {
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
+  column-count: 3;
 }

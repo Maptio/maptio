@@ -27,7 +27,6 @@ import { DatasetFactory } from '../http/map/dataset.factory';
 import { TeamFactory } from '../http/team/team.factory';
 import { EmitterService } from '../services/emitter.service';
 
-
 @Component({
   selector: 'maptio-header',
   templateUrl: './header.component.html',
@@ -59,7 +58,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     public loaderService: LoaderService,
     private cd: ChangeDetectorRef,
-    private billingService: BillingService,
+    private billingService: BillingService
   ) {
     const [teamDefined, teamUndefined] = partition(
       from(EmitterService.get('currentTeam')),
@@ -73,8 +72,8 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
             map(
               (value: {
                 created_at: Date;
-                freeTrialLength: Number; // eslint-disable-line @typescript-eslint/ban-types
-                isPaying: Boolean; // eslint-disable-line @typescript-eslint/ban-types
+                freeTrialLength: number;
+                isPaying: boolean;
               }) => {
                 team.createdAt = value.created_at;
                 team.freeTrialLength = value.freeTrialLength;

@@ -1,125 +1,188 @@
 <div class="h-100 pt-3">
-  <maptio-onboarding-message
-    [messageKey]="'showEditingPanelMessage'"
-  >
-    Edit your circle structure here.
-    Try clicking Expand All.
+  <maptio-onboarding-message [messageKey]="'showEditingPanelMessage'">
+    Edit your circle structure here. Try clicking Expand All.
   </maptio-onboarding-message>
 
-	<ul
-    ngbNav
-    #nav="ngbNav"
-    class="nav-pills nav-fill"
-  >
-		<li ngbNavItem="circles-tab">
+  <ul ngbNav #nav="ngbNav" class="nav-pills nav-fill">
+    <li ngbNavItem="circles-tab">
       <a ngbNavLink>Circles</a>
 
-			<ng-template ngbNavContent>
-				<div class=" d-flex flex-column">
-					<div class="card mb-3 w-100 border-0 bg-transparent">
-						<div class="card-body px-0 pb-1 pt-4 align-self-center">
-							<button name="" id="" class="btn btn-outline-secondary" (click)="!isToggling && toggleAll(true)" role="button">
-								<i class="fas mr-1" [class.fa-angle-double-down]="!isExpanding" [class.fa-circle-notch]="isExpanding" [class.fa-spin]="isExpanding"
-								 aria-hidden="true"></i> Expand all
-							</button>
-							<button name="" id="" class="btn btn-outline-secondary mx-2" (click)="!isToggling && toggleAll(false)" role="button">
-								<i class="fas mr-1" [class.fa-angle-double-up]="!isCollapsing" [class.fa-circle-notch]="isCollapsing" [class.fa-spin]="isCollapsing"
-								 aria-hidden="true"></i> Collapse all
-							</button>
+      <ng-template ngbNavContent>
+        <div class="d-flex flex-column">
+          <div class="card mb-3 w-100 border-0 bg-transparent">
+            <div class="card-body px-0 pb-1 pt-4 align-self-center">
+              <button
+                name=""
+                id=""
+                class="btn btn-outline-secondary"
+                (click)="!isToggling && toggleAll(true)"
+                role="button"
+              >
+                <i
+                  class="fas mr-1"
+                  [class.fa-angle-double-down]="!isExpanding"
+                  [class.fa-circle-notch]="isExpanding"
+                  [class.fa-spin]="isExpanding"
+                  aria-hidden="true"
+                ></i>
+                Expand all
+              </button>
+              <button
+                name=""
+                id=""
+                class="btn btn-outline-secondary mx-2"
+                (click)="!isToggling && toggleAll(false)"
+                role="button"
+              >
+                <i
+                  class="fas mr-1"
+                  [class.fa-angle-double-up]="!isCollapsing"
+                  [class.fa-circle-notch]="isCollapsing"
+                  [class.fa-spin]="isCollapsing"
+                  aria-hidden="true"
+                ></i>
+                Collapse all
+              </button>
 
-							<ng-container *permissionsOnly="Permissions.canCreateRootInitiative; else elseFirstNodeBlock; then thenFirstNodeBlock">main</ng-container>
+              <ng-container
+                *permissionsOnly="
+                  Permissions.canCreateRootInitiative;
+                  else elseFirstNodeBlock;
+                  then: thenFirstNodeBlock
+                "
+              >
+                main
+              </ng-container>
 
-							<ng-template #thenFirstNodeBlock>
-								<button *ngIf="isEmptyMap" name="" id="" class="btn btn-outline-secondary ml-auto" (click)="addRootNode()" role="button"
-								placement="top" container="body" ngbTooltip="Add a new circle">
-									<i class="fa fa-plus large" aria-hidden="true"></i> New outer circle
-								</button>
-							</ng-template>
+              <ng-template #thenFirstNodeBlock>
+                <button
+                  *ngIf="isEmptyMap"
+                  name=""
+                  id=""
+                  class="btn btn-outline-secondary ml-auto"
+                  (click)="addRootNode()"
+                  role="button"
+                  placement="top"
+                  container="body"
+                  ngbTooltip="Add a new circle"
+                >
+                  <i class="fa fa-plus large" aria-hidden="true"></i>
+                  New outer circle
+                </button>
+              </ng-template>
 
-							<ng-template #permissionsTipContent>
-								<span class="text-orange">You don't have permission to do this.
-								<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
-								</span>
-							</ng-template>
+              <ng-template #permissionsTipContent>
+                <span class="text-orange">
+                  You don't have permission to do this.
+                  <a href="{{ KB_URL_PERMISSIONS }}" target="blank">
+                    Learn more.
+                  </a>
+                </span>
+              </ng-template>
 
-							<ng-template #elseFirstNodeBlock>
-								<button *ngIf="isEmptyMap" name="" id="" class="btn btn-outline-secondary ml-auto disabled cursor-not-allowed" role="button"
-								placement="top" container="body" [stickyPopover]="permissionsTipContent">
-									<i class="fa fa-plus large" aria-hidden="true"></i> New outer circle
-								</button>
-							</ng-template>
-						</div>
-					</div>
-					<div>
-						<tree-root #tree [nodes]="nodes" (updateData)="saveChanges()" [options]="options" [state]="state" (stateChange)="setState($event)">
-							<ng-template #treeNodeTemplate let-node let-index="index">
-								<initiative-node
+              <ng-template #elseFirstNodeBlock>
+                <button
+                  *ngIf="isEmptyMap"
+                  name=""
+                  id=""
+                  class="btn btn-outline-secondary ml-auto disabled cursor-not-allowed"
+                  role="button"
+                  placement="top"
+                  container="body"
+                  [stickyPopover]="permissionsTipContent"
+                >
+                  <i class="fa fa-plus large" aria-hidden="true"></i>
+                  New outer circle
+                </button>
+              </ng-template>
+            </div>
+          </div>
+          <div>
+            <tree-root
+              #tree
+              [nodes]="nodes"
+              (updateData)="saveChanges()"
+              [options]="options"
+              [state]="state"
+              (stateChange)="setState($event)"
+            >
+              <ng-template #treeNodeTemplate let-node let-index="index">
+                <initiative-node
                   [node]="node"
                   [datasetId]="datasetId"
                   [team]="team"
                   [user]="user"
                   (edited)="saveChanges()"
                   (update)="updateTreeModel(tree.treeModel)"
-								  (open)="openNodeDetails($event)"
+                  (open)="openNodeDetails($event)"
                   (add)="openNodeDetails($event)"
                   (delete)="onDeleteNode($event)"
                 ></initiative-node>
-							</ng-template>
-						</tree-root>
-					</div>
-				</div>
-			</ng-template>
-		</li>
+              </ng-template>
+            </tree-root>
+          </div>
+        </div>
+      </ng-template>
+    </li>
 
-		<li ngbNavItem="tags-tab">
+    <li ngbNavItem="tags-tab">
       <a ngbNavLink>Tags</a>
 
-			<ng-template ngbNavContent>
-				<edit-tags [tags]="tags" [team]="team" (edit)="onEditingTags($event)"></edit-tags>
-			</ng-template>
-		</li>
-	</ul>
+      <ng-template ngbNavContent>
+        <edit-tags
+          [tags]="tags"
+          [team]="team"
+          (edit)="onEditingTags($event)"
+        ></edit-tags>
+      </ng-template>
+    </li>
+  </ul>
 
   <div [ngbNavOutlet]="nav"></div>
 </div>
 
-
 <ng-template #deleteConfirmation let-c="close" let-d="dismiss">
-	<div class="modal-body">
-		<h1>Are you sure?</h1>
+  <div class="modal-body">
+    <h1>Are you sure?</h1>
 
-    <div
-      class="alert alert-danger"
-      role="alert"
-    >
+    <div class="alert alert-danger" role="alert">
       <i class="fas fa-exclamation-triangle"></i>
       This cannot be undone.
     </div>
 
     <p class="mb-0">
       Circle
-      <b>{{initiativeToBeDeleted.name}}</b> will be deleted
-      <b>along with its sub-circles</b>.
+      <b>{{ initiativeToBeDeleted.name }}</b>
+      will be deleted
+      <b>along with its sub-circles</b>
+      .
     </p>
-	</div>
+  </div>
 
-	<div class="modal-footer">
-		<button type="button" class="btn btn-link" (click)="c(false)">Cancel</button>
-		<button type="button" class="btn btn-danger" (click)="c(true)">Delete circle</button>
-	</div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-link" (click)="c(false)">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-danger" (click)="c(true)">
+      Delete circle
+    </button>
+  </div>
 </ng-template>
 
 <ng-template #dragConfirmation let-c="close" let-d="dismiss">
-	<div class="modal-body">
-		<h1>Are you sure?</h1>
-		<p>
-			Circle
-			<b>{{fromInitiative.name}}</b> and its sub-circles will be moved under
-			<b>{{toInitiative.name}}</b>
-		</p>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-link" (click)="c(false)">No</button>
-		<button type="button" class="btn btn-danger" (click)="c(true)">Move circle</button>
-	</div>
+  <div class="modal-body">
+    <h1>Are you sure?</h1>
+    <p>
+      Circle
+      <b>{{ fromInitiative.name }}</b>
+      and its sub-circles will be moved under
+      <b>{{ toInitiative.name }}</b>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-link" (click)="c(false)">No</button>
+    <button type="button" class="btn btn-danger" (click)="c(true)">
+      Move circle
+    </button>
+  </div>
 </ng-template>

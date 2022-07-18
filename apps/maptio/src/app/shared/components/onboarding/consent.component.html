@@ -6,27 +6,20 @@
     [disabled]="isTogglingConsent"
     [checked]="user.consentForSessionRecordings"
     (change)="toggleConsent($event)"
-  >
+  />
   <label
     for="showDescriptions"
     class="form-check-label"
     [class.text-muted]="isTogglingConsent"
   >
-    I agree to Maptio creating session recordings of my activity so the team
-    can use them - only to improve the product, never never to share in public
+    I agree to Maptio creating session recordings of my activity so the team can
+    use them - only to improve the product, never never to share in public
   </label>
 </div>
 
-<div
-  *ngIf="hasTogglingConsentFailed"
-  class="alert alert-danger"
-  role="alert"
->
-  There was an error when updating consent.
-  You can chat with us or email us at
-  <a
-    href="mailto:support@maptio.com?subject=Error when updating consent"
-  >
+<div *ngIf="hasTogglingConsentFailed" class="alert alert-danger" role="alert">
+  There was an error when updating consent. You can chat with us or email us at
+  <a href="mailto:support@maptio.com?subject=Error when updating consent">
     support@maptio.com
   </a>
   if you'd like to report the issue and notify us of your consent preferences.

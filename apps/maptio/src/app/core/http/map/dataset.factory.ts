@@ -11,7 +11,6 @@ import { Initiative } from '@maptio-shared/model/initiative.data';
 import { User } from '@maptio-shared/model/user.data';
 import { Team } from '@maptio-shared/model/team.data';
 
-
 @Injectable()
 export class DatasetFactory {
   constructor(private http: HttpClient) {}
@@ -106,7 +105,9 @@ export class DatasetFactory {
     isMinimal?: boolean
   ): Promise<DataSet> | Promise<DataSet[]> | Promise<string[]> {
     if (!idOrUserOrTeam)
-      return Promise.reject('Parameter missing - on dataset retrieval') as Promise<DataSet>;
+      return Promise.reject(
+        'Parameter missing - on dataset retrieval'
+      ) as Promise<DataSet>;
     if (idOrUserOrTeam instanceof User) {
       return this.getWithUser(<User>idOrUserOrTeam);
     }

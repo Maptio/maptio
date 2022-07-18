@@ -5,16 +5,15 @@ import {
   EventEmitter,
   ChangeDetectorRef,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 
-import { environment } from "@maptio-config/environment";
-
+import { environment } from '@maptio-config/environment';
 
 @Component({
   selector: 'initiative-input-size',
   templateUrl: './input-size.component.html',
-  styleUrls: ['./input-size.component.scss']
+  styleUrls: ['./input-size.component.scss'],
 })
 export class InitiativeInputSizeComponent implements OnChanges {
   @Input() sizeAdjustment: string;
@@ -26,11 +25,13 @@ export class InitiativeInputSizeComponent implements OnChanges {
 
   size = 0;
 
-  constructor(private cd: ChangeDetectorRef) { }
+  constructor(private cd: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.sizeAdjustment) {
-      this.size = changes.sizeAdjustment.currentValue ? Number.parseInt(changes.sizeAdjustment.currentValue) : 0;
+      this.size = changes.sizeAdjustment.currentValue
+        ? Number.parseInt(changes.sizeAdjustment.currentValue)
+        : 0;
       this.cd.markForCheck();
     }
   }

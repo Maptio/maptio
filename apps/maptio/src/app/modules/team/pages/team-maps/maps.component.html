@@ -1,31 +1,49 @@
 <div class="w-100">
-    <ul class="list-inline row d-flex align-items-stretch">
-        <li class="col-6 my-2" *ngIf="teams && !isCreateMapForbidden">
-            <div class="card bg-gradient text-white border-0 h-100">
-                <div class="card-body">
-                    <common-create-map [teams]="teams" [isRedirect]="true" (created)="onNewMap($event)"></common-create-map>
-                </div>
-            </div>
-        </li>
+  <ul class="list-inline row d-flex align-items-stretch">
+    <li class="col-6 my-2" *ngIf="teams && !isCreateMapForbidden">
+      <div class="card bg-gradient text-white border-0 h-100">
+        <div class="card-body">
+          <common-create-map
+            [teams]="teams"
+            [isRedirect]="true"
+            (created)="onNewMap($event)"
+          ></common-create-map>
+        </div>
+      </div>
+    </li>
 
+    <ng-container
+      *permissionsOnly="
+        Permissions.canEditMapName;
+        then canEditMapThen;
+        else canEditMapElse
+      "
+    ></ng-container>
 
+    <ng-template #canEditMapThen>
+      <li class="col-6 my-2" *ngFor="let dataset of datasets">
+        <maptio-map-card
+          [dataset]="dataset"
+          [isExportAvailable]="true"
+          [isTeamDisplayed]="false"
+          [isEdit]="true"
+          (archived)="onArchive($event)"
+          (restored)="onRestore($event)"
+        ></maptio-map-card>
+      </li>
+    </ng-template>
 
-        <ng-container *permissionsOnly="Permissions.canEditMapName; then canEditMapThen; else canEditMapElse"></ng-container>
-
-        <ng-template #canEditMapThen>
-            <li class="col-6 my-2" *ngFor="let dataset of datasets">
-                <maptio-map-card [dataset]="dataset" [isExportAvailable]="true" [isTeamDisplayed]="false" [isEdit]="true" (archived)="onArchive($event)"
-                    (restored)="onRestore($event)"></maptio-map-card>
-            </li>
-        </ng-template>
-
-        <ng-template #canEditMapElse>
-            <li class="col-6 my-2" *ngFor="let dataset of datasets">
-                <ng-container *ngIf="!dataset.isArchived">
-                    <maptio-map-card [dataset]="dataset" [isExportAvailable]="true" [isTeamDisplayed]="false" [isEdit]="false"></maptio-map-card>
-
-                </ng-container>
-            </li>
-        </ng-template>
-    </ul>
+    <ng-template #canEditMapElse>
+      <li class="col-6 my-2" *ngFor="let dataset of datasets">
+        <ng-container *ngIf="!dataset.isArchived">
+          <maptio-map-card
+            [dataset]="dataset"
+            [isExportAvailable]="true"
+            [isTeamDisplayed]="false"
+            [isEdit]="false"
+          ></maptio-map-card>
+        </ng-container>
+      </li>
+    </ng-template>
+  </ul>
 </div>

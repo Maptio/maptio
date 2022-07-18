@@ -9,11 +9,10 @@ import {
 
 import { environment } from '@maptio-config/environment';
 
-
 @Component({
   selector: 'maptio-image-upload',
   templateUrl: './image-upload.component.html',
-  styleUrls: ['./image-upload.component.scss']
+  styleUrls: ['./image-upload.component.scss'],
 })
 export class ImageUploadComponent implements OnInit {
   public uploader: FileUploader;
@@ -45,9 +44,7 @@ export class ImageUploadComponent implements OnInit {
   @Output() uploadedImageUrl = new EventEmitter<string>();
   @Output() errorMessage = new EventEmitter<string>();
 
-  constructor(
-    private cloudinary: Cloudinary,
-  ) {}
+  constructor(private cloudinary: Cloudinary) {}
 
   ngOnInit(): void {
     this.uploader = new FileUploader(this.uploaderOptions);
@@ -58,14 +55,14 @@ export class ImageUploadComponent implements OnInit {
 
     this.uploader.onWhenAddingFileFailed = (
       item: FileLikeObject,
-      filter: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+      filter: any // eslint-disable-line @typescript-eslint/no-explicit-any
     ) => {
       this.handleError(item, filter);
     };
 
     this.uploader.onCompleteItem = (
       item: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-      response: string,
+      response: string
     ) => {
       try {
         const pictureURL = JSON.parse(response).secure_url;
@@ -76,7 +73,9 @@ export class ImageUploadComponent implements OnInit {
 
         this.updatePicture(pictureURL);
       } catch {
-        this.errorMessage.emit('Image upload was unsuccessful, please try again later.');
+        this.errorMessage.emit(
+          'Image upload was unsuccessful, please try again later.'
+        );
       }
 
       this.isRefreshingPicture = false;
@@ -90,7 +89,7 @@ export class ImageUploadComponent implements OnInit {
       // TODO: This never seems to fire, even when errors clearly occur, how
       // to better handle errors from this library?
       console.error(error);
-    }
+    };
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

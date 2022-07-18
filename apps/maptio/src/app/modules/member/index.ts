@@ -1,1 +1,1 @@
-export { MemberModule } from "./member.module";
+export { MemberModule } from './member.module';

@@ -1,14 +1,10 @@
 <ng-template #rt let-r="result" let-t="term">
   <span *ngIf="r.user_id">
-    <img
-      src="{{ r.picture }}"
-      class="avatar"
-      alt="{{ r.name }}"
-    />
+    <img src="{{ r.picture }}" class="avatar" alt="{{ r.name }}" />
     {{ r.name }}
   </span>
 
-  <span *ngIf="!r.user_id && t">{{t}} (Add a new team member)</span>
+  <span *ngIf="!r.user_id && t">{{ t }} (Add a new team member)</span>
   <span *ngIf="!r.user_id && !t">Add a new team member</span>
 </ng-template>
 
@@ -70,6 +66,5 @@
     [showCancelButton]="true"
     (addMember)="onCreateNewMember($event)"
     (cancel)="onCancelAddingMember($event)"
-  >
-  </maptio-member-form>
+  ></maptio-member-form>
 </ng-template>

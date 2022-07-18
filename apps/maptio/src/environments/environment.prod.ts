@@ -1,13 +1,13 @@
-import { commonEnvironment } from "./environment.common";
+import { commonEnvironment } from './environment.common';
 
 export const environment = {
   ...commonEnvironment,
 
   production: true,
 
-  INTERCOM_APP_ID: "q3x5lnhp",
+  INTERCOM_APP_ID: 'q3x5lnhp',
 
-  OPENREPLAY_PROJECT_KEY: "jHhcrPKRhucyTwTAnTsg",
+  OPENREPLAY_PROJECT_KEY: 'jHhcrPKRhucyTwTAnTsg',
 
   auth: {
     domain: 'login.maptio.com',

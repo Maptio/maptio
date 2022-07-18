@@ -1,25 +1,26 @@
 p.markdown {
-    /* margin-bottom: 0; */
-    /* padding-left: 0.25rem; */
+  /* margin-bottom: 0; */
+  /* padding-left: 0.25rem; */
 }
 
-p.markdown:last-child, p.markdown:only-child {
-    margin-bottom: 0;
+p.markdown:last-child,
+p.markdown:only-child {
+  margin-bottom: 0;
 }
 
-markdown.no-margin > p.markdown{
-    margin-bottom: 0!important;
+markdown.no-margin > p.markdown {
+  margin-bottom: 0 !important;
 }
 
 li.task-list-item {
-    list-style: none;
-    margin-left: -1.2rem;
+  list-style: none;
+  margin-left: -1.2rem;
 }
 
 .markdown-link {
-    white-space: pre-wrap;
-    white-space: -moz-pre-wrap;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
-    word-wrap: break-word;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
 }

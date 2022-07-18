@@ -12,15 +12,11 @@ import { concatMap, map } from 'rxjs/operators';
 import { User } from '@maptio-shared/model/user.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class ActivationGuard implements CanActivate, CanActivateChild {
-  constructor(
-    private router: Router,
-    private user: UserService,
-  ) {}
+  constructor(private router: Router, private user: UserService) {}
 
   canActivate(): Observable<boolean | UrlTree> {
     return this.redirectToSignupIfNotActivated();
@@ -32,7 +28,7 @@ export class ActivationGuard implements CanActivate, CanActivateChild {
 
   private redirectToSignupIfNotActivated(): Observable<boolean | UrlTree> {
     return this.user.isAuthenticated$.pipe(
-      concatMap(isAuthenticated => {
+      concatMap((isAuthenticated) => {
         if (!isAuthenticated) {
           return of(false);
         } else {

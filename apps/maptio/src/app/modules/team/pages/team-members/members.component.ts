@@ -1,19 +1,9 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 
-import {
-  cloneDeep,
-  compact,
-  uniqBy,
-  sortBy,
-} from 'lodash-es';
+import { cloneDeep, compact, uniqBy, sortBy } from 'lodash-es';
 import { Intercom } from 'ng-intercom';
 
 import { environment } from '@maptio-environment';
@@ -27,7 +17,6 @@ import { TeamService } from '@maptio-shared/services/team/team.service';
 import { Permissions, UserRole } from '@maptio-shared/model/permission.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { LoaderService } from '@maptio-shared/components/loading/loader.service';
-
 
 @Component({
   selector: 'maptio-members',
@@ -59,7 +48,7 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
     private teamService: TeamService,
     private intercom: Intercom,
     private cd: ChangeDetectorRef,
-    private loaderService: LoaderService,
+    private loaderService: LoaderService
   ) {}
 
   ngOnInit() {
@@ -103,9 +92,9 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
       this.updateCreatedUsersInIntercom(members.length);
       this.loaderService.hide();
 
-      this.numberOfAdminUsers = members
-        .filter((member) => member.userRole === UserRole.Admin)
-        .length;
+      this.numberOfAdminUsers = members.filter(
+        (member) => member.userRole === UserRole.Admin
+      ).length;
 
       if (this.numberOfAdminUsers > 1) {
         this.showMultipleAdminsWarning = true;
@@ -114,7 +103,7 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
       }
 
       this.membersSubject$.next(members);
-    } catch(error) {
+    } catch (error) {
       console.error('Error retrieving all members', error);
       this.cd.markForCheck();
       this.membersSubject$.next([]);

@@ -15,7 +15,6 @@ import { Helper } from '@maptio-shared/model/helper.data';
 
 import { CommonAutocompleteComponent } from '@maptio-shared/components/autocomplete/autocomplete.component';
 
-
 @Component({
   selector: 'maptio-initiative-authority-select',
   templateUrl: './authority-select.component.html',
@@ -67,7 +66,9 @@ export class InitiativeAuthoritySelectComponent implements OnChanges {
   onCreateNewMember(user: User) {
     this.isCreateNewMemberMode = false;
 
-    const teamMember = this.team.members.find(member => member.user_id === user.user_id);
+    const teamMember = this.team.members.find(
+      (member) => member.user_id === user.user_id
+    );
 
     if (teamMember) {
       this.onSelect(teamMember as Helper);
@@ -85,27 +86,30 @@ export class InitiativeAuthoritySelectComponent implements OnChanges {
    * See : https://stackoverflow.com/a/54169646/7092722
    */
   filterMembers = (term: string) => {
-    const filteredTeamMembers = term.length < 1
-      ? this.authority
-        ? this.team.members.filter((m) => m.user_id !== this.authority.user_id)
-        : this.team.members
-      : (this.authority
+    const filteredTeamMembers =
+      term.length < 1
+        ? this.authority
           ? this.team.members.filter(
               (m) => m.user_id !== this.authority.user_id
             )
           : this.team.members
-        ).filter(
-          (v) =>
-            new RegExp(term, 'gi').test(v.name) ||
-            new RegExp(term, 'gi').test(v.email)
-        );
+        : (this.authority
+            ? this.team.members.filter(
+                (m) => m.user_id !== this.authority.user_id
+              )
+            : this.team.members
+          ).filter(
+            (v) =>
+              new RegExp(term, 'gi').test(v.name) ||
+              new RegExp(term, 'gi').test(v.email)
+          );
 
     this.newMemberData = {
       firstname: term,
       lastname: '',
       email: '',
       picture: '',
-    }
+    };
 
     return [this.newMemberData, ...filteredTeamMembers];
   };

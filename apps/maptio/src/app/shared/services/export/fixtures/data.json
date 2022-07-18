@@ -1,81 +1,81 @@
 {
-    "name": "My Company",
-    "id": "0",
-    "children": [
+  "name": "My Company",
+  "id": "0",
+  "children": [
+    {
+      "name": "Tech",
+      "id": "1",
+      "accountable": {
+        "name": "CTO",
+        "user_id": "1"
+      },
+      "tags": [
         {
-            "name": "Tech",
-            "id": "1",
-            "accountable": {
-                "name": "CTO",
-                "user_id": "1"
-            },
-            "tags": [
-                {
-                    "name": "tag 1",
-                    "color": "red"
-                }
-            ],
-            "helpers": [
-                {
-                    "name": "CTO1",
-                    "user_id": "11"
-                },
-                {
-                    "name": "CTO2",
-                    "user_id": "12"
-                }
-            ]
-        },
-        {
-            "name": "Marketing",
-            "id": "2",
-            "accountable": {
-                "name": "CMO",
-                "user_id": "2"
-            },
-            "tags": [
-                {
-                    "name": "tag 1",
-                    "color": "red"
-                },
-                {
-                    "name": "tag 2",
-                    "color": "blue"
-                }
-            ],
-            "helpers": [
-                {
-                    "name": "CMO1",
-                    "user_id": "21"
-                },
-                {
-                    "name": "CMO2",
-                    "user_id": "22",
-                    "roles": [
-                        {
-                            "description": "helping with something"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "Finance",
-            "id": "3",
-            "accountable": {
-                "name": "CFO",
-                "user_id": "3"
-            },
-            "helpers": [
-                {
-                    "name": "CFO1",
-                    "user_id": "31"
-                },
-                {
-                    "name": "CFO2",
-                    "user_id": "32"
-                }
-            ]
+          "name": "tag 1",
+          "color": "red"
         }
-    ]
+      ],
+      "helpers": [
+        {
+          "name": "CTO1",
+          "user_id": "11"
+        },
+        {
+          "name": "CTO2",
+          "user_id": "12"
+        }
+      ]
+    },
+    {
+      "name": "Marketing",
+      "id": "2",
+      "accountable": {
+        "name": "CMO",
+        "user_id": "2"
+      },
+      "tags": [
+        {
+          "name": "tag 1",
+          "color": "red"
+        },
+        {
+          "name": "tag 2",
+          "color": "blue"
+        }
+      ],
+      "helpers": [
+        {
+          "name": "CMO1",
+          "user_id": "21"
+        },
+        {
+          "name": "CMO2",
+          "user_id": "22",
+          "roles": [
+            {
+              "description": "helping with something"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Finance",
+      "id": "3",
+      "accountable": {
+        "name": "CFO",
+        "user_id": "3"
+      },
+      "helpers": [
+        {
+          "name": "CFO1",
+          "user_id": "31"
+        },
+        {
+          "name": "CFO2",
+          "user_id": "32"
+        }
+      ]
+    }
+  ]
 }

@@ -8,37 +8,32 @@ import { Steps } from './onboarding.enum';
 
 @Injectable()
 export class OnboardingService {
+  constructor(private modalService: NgbModal) {}
 
-    constructor(private modalService: NgbModal) {
+  open(user: User) {
+    const modal = this.modalService.open(OnboardingComponent, {
+      size: 'lg',
+      backdrop: 'static',
+      centered: true,
+      beforeDismiss: () => {
+        document.querySelector('.modal-content').classList.add('shake');
+        setTimeout(() => {
+          document.querySelector('.modal-content').classList.remove('shake');
+        }, 1000);
+        modal.componentInstance.escape = true;
+        return false;
+      },
+      windowClass: 'texture',
+    });
 
-    }
+    const keys = Object.keys(Steps).filter(
+      (k) => typeof Steps[k as any] === 'number'
+    ); // ["A", "B"]
 
-    open(user: User) {
-        let modal = this.modalService.open(
-            OnboardingComponent,
-            {
-                size: 'lg',
-                backdrop: 'static',
-                centered: true,
-                beforeDismiss: () => {
-                    document.querySelector(".modal-content").classList.add("shake");
-                    setTimeout(() => {
-                        document.querySelector(".modal-content").classList.remove("shake")
-                    }, 1000)
-                    modal.componentInstance.escape = true; 
-                    return false
-                },
-                windowClass:"texture"
-            });
-
-
-        let keys = Object.keys(Steps).filter(k => typeof Steps[k as any] === "number"); // ["A", "B"]
-
-        modal.componentInstance.user = user;
-        modal.componentInstance.steps = keys;
-        // modal.componentInstance.team = team;
-        // modal.componentInstance.members = members;
-        // modal.componentInstance.dataset = dataset;
-
-    }
+    modal.componentInstance.user = user;
+    modal.componentInstance.steps = keys;
+    // modal.componentInstance.team = team;
+    // modal.componentInstance.members = members;
+    // modal.componentInstance.dataset = dataset;
+  }
 }

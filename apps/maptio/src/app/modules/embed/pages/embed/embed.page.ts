@@ -2,18 +2,17 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Meta } from '@angular/platform-browser';
 
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject } from 'rxjs';
 
 import { SubSink } from 'subsink';
 
 import { CircleMapData } from '@maptio-shared/model/circle-map-data.interface';
 import { EmbeddableDatasetService } from '../../embeddable-dataset.service';
 
-
 @Component({
-    selector: "maptio-embed",
-    templateUrl: "./embed.page.html",
-    styleUrls: ["./embed.page.scss"]
+  selector: 'maptio-embed',
+  templateUrl: './embed.page.html',
+  styleUrls: ['./embed.page.scss'],
 })
 export class EmbedComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
@@ -33,20 +32,23 @@ export class EmbedComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
     private metaTagService: Meta,
-    private datasetService: EmbeddableDatasetService,
+    private datasetService: EmbeddableDatasetService
   ) {}
 
   ngOnInit(): void {
     // Disable browser zooming because it is then almost impossible to get out
     // of as we're overriding pinch gestures to offer in-app zooming
-    this.metaTagService.updateTag(
-      { name: 'viewport', content: 'width=device-width, user-scalable=no' }
-    );
+    this.metaTagService.updateTag({
+      name: 'viewport',
+      content: 'width=device-width, user-scalable=no',
+    });
 
     this.datasetId = this.route.snapshot.paramMap.get('id');
 
-    this.subs.sink = this.datasetService.getDataset(this.datasetId)
-      .subscribe((dataset: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+    this.subs.sink = this.datasetService
+      .getDataset(this.datasetId)
+      .subscribe((dataset: any) => {
+        // eslint-disable-line @typescript-eslint/no-explicit-any
         this.dataset = dataset;
 
         if (this.dataset && this.dataset.initiative) {

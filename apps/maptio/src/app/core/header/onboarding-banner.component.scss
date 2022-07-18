@@ -6,7 +6,11 @@
   padding: 0.75rem;
   margin: 0 -15px; // Break out of container
 
-  background-image: linear-gradient(to left, var(--maptio-accent), var(--maptio-blue));
+  background-image: linear-gradient(
+    to left,
+    var(--maptio-accent),
+    var(--maptio-blue)
+  );
   color: white;
 
   @media (min-width: 768px) {
@@ -15,7 +19,7 @@
   }
 }
 
-.onboarding-banner >  * + * {
+.onboarding-banner > * + * {
   margin-top: 0.5rem;
 
   @media (min-width: 768px) {

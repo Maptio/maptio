@@ -1,27 +1,27 @@
 {
-    "_id":"uniqueId",
-    "name": "Root",
-    "accountable": "CEO",
-    "helpers": [
-        {
-            "user_id": "helper_id",
-            "name": "Helper"
-        }
-    ],
-    "size": "1",
-    "description": "Something",
-    "children": [
-        {
-            "name": "Tech",
-            "accountable": {
-                "user_id": "cto_id",
-                "name": "CTO"
-            },
-            "size": "1"
-        },
-        {
-            "name": "The rest",
-            "size": "1"
-        }
-    ]
+  "_id": "uniqueId",
+  "name": "Root",
+  "accountable": "CEO",
+  "helpers": [
+    {
+      "user_id": "helper_id",
+      "name": "Helper"
+    }
+  ],
+  "size": "1",
+  "description": "Something",
+  "children": [
+    {
+      "name": "Tech",
+      "accountable": {
+        "user_id": "cto_id",
+        "name": "CTO"
+      },
+      "size": "1"
+    },
+    {
+      "name": "The rest",
+      "size": "1"
+    }
+  ]
 }

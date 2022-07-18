@@ -1,7 +1,7 @@
-import { Pipe, PipeTransform } from "@angular/core";
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: "ellipsis"
+  name: 'ellipsis',
 })
 export class EllipsisPipe implements PipeTransform {
   transform(value: string, desiredLength: number) {
@@ -10,7 +10,7 @@ export class EllipsisPipe implements PipeTransform {
     }
 
     if (value.length > desiredLength) {
-      return value.substring(0, desiredLength) + "...";
+      return value.substring(0, desiredLength) + '...';
     } else {
       return value;
     }

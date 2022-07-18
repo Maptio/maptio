@@ -1,42 +1,50 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  SimpleChanges,
+  ChangeDetectorRef,
+} from '@angular/core';
 
 import { environment } from '@maptio-config/environment';
 
 @Component({
-    selector: 'common-textarea',
-    templateUrl: './textarea.component.html',
-    // styleUrls: ['./textarea.component.scss']
+  selector: 'common-textarea',
+  templateUrl: './textarea.component.html',
+  // styleUrls: ['./textarea.component.scss']
 })
 export class CommonTextareaComponent implements OnInit {
+  @Input('placeholder') placeholder: string;
+  @Input('text') text: string;
+  @Input('rows') rows: number;
+  @Input('label') label = 'Edit';
+  @Input('isUnauthorized') isUnauthorized: boolean;
+  @Input('isHeader') isHeader: boolean;
 
-    @Input("placeholder") placeholder: string;
-    @Input("text") text: string;
-    @Input("rows") rows: number;
-    @Input("label") label: string = "Edit";
-    @Input("isUnauthorized") isUnauthorized:boolean;
-    @Input("isHeader") isHeader:boolean;
+  @Output('save') save: EventEmitter<string> = new EventEmitter<string>();
 
-    @Output("save") save: EventEmitter<string> = new EventEmitter<string>();
+  isEditMode: boolean;
+  isTextEmpty = true;
+  showUnauthorized: boolean;
 
-    isEditMode: boolean;
-    isTextEmpty:boolean =true;
-    showUnauthorized:boolean;
+  KB_URL_MARKDOWN = environment.KB_URL_MARKDOWN;
 
-    KB_URL_MARKDOWN = environment.KB_URL_MARKDOWN;
+  constructor(private cd: ChangeDetectorRef) {}
 
-    constructor(private cd:ChangeDetectorRef) { }
+  ngOnInit(): void {}
 
-    ngOnInit(): void { }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if(changes.text){
-            this.isTextEmpty = !changes.text.currentValue || changes.text.currentValue.trim() === '';
-        }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.text) {
+      this.isTextEmpty =
+        !changes.text.currentValue || changes.text.currentValue.trim() === '';
     }
+  }
 
-    onChange(text: string) {
-        this.text = text;
-        this.save.emit(text);
-        this.cd.markForCheck();
-    }
+  onChange(text: string) {
+    this.text = text;
+    this.save.emit(text);
+    this.cd.markForCheck();
+  }
 }

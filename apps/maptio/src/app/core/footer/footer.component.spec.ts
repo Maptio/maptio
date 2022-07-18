@@ -1,37 +1,39 @@
-import { environment } from "../../config/environment";
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import { FooterComponent } from "./footer.component";
-import { NO_ERRORS_SCHEMA } from "@angular/core"
+import { environment } from '../../config/environment';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FooterComponent } from './footer.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-describe("footer.component.ts", () => {
+describe('footer.component.ts', () => {
+  let component: FooterComponent;
+  let target: ComponentFixture<FooterComponent>;
 
-    let component: FooterComponent;
-    let target: ComponentFixture<FooterComponent>;
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [FooterComponent],
+        imports: [],
+        schemas: [NO_ERRORS_SCHEMA],
+      })
+        .overrideComponent(FooterComponent, {
+          set: {
+            providers: [],
+          },
+        })
+        .compileComponents();
+    })
+  );
 
-    beforeEach(waitForAsync(() => {
+  beforeEach(() => {
+    target = TestBed.createComponent(FooterComponent);
 
-        TestBed.configureTestingModule({
-            declarations: [FooterComponent],
-            imports : [],
-            schemas : [NO_ERRORS_SCHEMA]
-        }).overrideComponent(FooterComponent, {
-            set: {
-                providers: [
-                ]
-            }
-        }).compileComponents();
-    }));
+    component = target.componentInstance;
+  });
 
-    beforeEach(() => {
-        target = TestBed.createComponent(FooterComponent);
-
-        component = target.componentInstance;
-    });
-
-    it("should gets correct links ", () => {
-        expect(component.TERMS_AND_CONDITIONS_URL).toBe(environment.TERMS_AND_CONDITIONS_URL);
-        expect(component.PRIVACY_POLICY_URL).toBe(environment.PRIVACY_POLICY_URL);
-        expect(component.BLOG_URL).toBe(environment.BLOG_URL);
-    });
-
+  it('should gets correct links ', () => {
+    expect(component.TERMS_AND_CONDITIONS_URL).toBe(
+      environment.TERMS_AND_CONDITIONS_URL
+    );
+    expect(component.PRIVACY_POLICY_URL).toBe(environment.PRIVACY_POLICY_URL);
+    expect(component.BLOG_URL).toBe(environment.BLOG_URL);
+  });
 });

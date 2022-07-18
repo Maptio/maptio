@@ -3,24 +3,19 @@ import { Routes, RouterModule } from '@angular/router';
 import { TermsComponent } from './pages/tos/terms.page';
 import { PrivacyComponent } from './pages/privacy/privacy.page';
 
-
 const routes: Routes = [
-    {
-        path: "",
-        children: [
+  {
+    path: '',
+    children: [
+      { path: 'terms', component: TermsComponent },
 
-            { path: "terms", component: TermsComponent },
-
-            { path: "privacy", component: PrivacyComponent },
-         
-        ]
-
-    }
+      { path: 'privacy', component: PrivacyComponent },
+    ],
+  },
 ];
-
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class LegalRoutingModule { }
+export class LegalRoutingModule {}

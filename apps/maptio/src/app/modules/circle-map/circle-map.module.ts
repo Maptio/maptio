@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SatPopoverModule } from '@ncstate/sat-popover';
-import { MarkdownModule, } from "ngx-markdown";
+import { MarkdownModule } from 'ngx-markdown';
 
 import { SvgZoomPanComponent } from './svg-zoom-pan/svg-zoom-pan.component';
 import { CircleMapComponent } from './circle-map.component';
@@ -18,13 +18,7 @@ import { HelperAvatarComponent } from './helper-avatar/helper-avatar.component';
     CircleInfoComponent,
     HelperAvatarComponent,
   ],
-  imports: [
-    CommonModule,
-    MarkdownModule.forChild(),
-    SatPopoverModule,
-  ],
-  exports: [
-    CircleMapComponent,
-  ]
+  imports: [CommonModule, MarkdownModule.forChild(), SatPopoverModule],
+  exports: [CircleMapComponent],
 })
-export class CircleMapModule { }
+export class CircleMapModule {}

@@ -5,7 +5,6 @@ import { Serializable } from '../interfaces/serializable.interface';
 import { UserRole } from './permission.data';
 import { OnboardingProgress } from './onboarding-progress.data';
 
-
 /**
  * A user
  */
@@ -112,7 +111,9 @@ export class User implements Serializable<User> {
       : UserRole.Standard;
 
     deserialized.loginsCount = input.loginsCount;
-    deserialized.lastSeenAt = input.lastSeenAt ? parseISO(input.lastSeenAt) : null;
+    deserialized.lastSeenAt = input.lastSeenAt
+      ? parseISO(input.lastSeenAt)
+      : null;
     deserialized.createdAt = input.createdAt ? parseISO(input.createdAt) : null;
 
     deserialized.nickname = input.nickname;
@@ -124,32 +125,35 @@ export class User implements Serializable<User> {
 
     deserialized.teams = [];
     if (input.teams) {
-      input.teams.forEach((t: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+      input.teams.forEach((t: any) => {
+        // eslint-disable-line @typescript-eslint/no-explicit-any
         deserialized.teams.push(t);
       });
     }
 
     deserialized.datasets = [];
     if (input.datasets) {
-      input.datasets.forEach((d: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+      input.datasets.forEach((d: any) => {
+        // eslint-disable-line @typescript-eslint/no-explicit-any
         deserialized.datasets.push(d);
       });
     }
 
-    deserialized.consentForSessionRecordings = input.consentForSessionRecordings || false;
-    deserialized.consentForSessionRecordingsUpdatedAt =
-      input.consentForSessionRecordingsUpdatedAt ?
-      parseISO(input.consentForSessionRecordingsUpdatedAt) :
-      null;
+    deserialized.consentForSessionRecordings =
+      input.consentForSessionRecordings || false;
+    deserialized.consentForSessionRecordingsUpdatedAt = input.consentForSessionRecordingsUpdatedAt
+      ? parseISO(input.consentForSessionRecordingsUpdatedAt)
+      : null;
 
-    deserialized.onboardingProgress = OnboardingProgress
-      .create()
-      .deserialize(input.onboardingProgress);
+    deserialized.onboardingProgress = OnboardingProgress.create().deserialize(
+      input.onboardingProgress
+    );
 
     return deserialized;
   }
 
-  tryDeserialize(input: any): [boolean, User] { // eslint-disable-line @typescript-eslint/no-explicit-any
+  tryDeserialize(input: any): [boolean, User] {
+    // eslint-disable-line @typescript-eslint/no-explicit-any
     try {
       const user = this.deserialize(input);
       if (user !== undefined) {

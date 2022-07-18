@@ -19,7 +19,6 @@ import { TeamIntegrationsComponent } from './pages/team-integrations/integration
 import { TeamSettingsComponent } from './pages/team-settings/settings.component';
 import { TeamBillingComponent } from './pages/team-billing/billing.component';
 
-
 const routes: Routes = [
   {
     path: '',

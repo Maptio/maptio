@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { DataSet } from '../../model/dataset.data';
 import { Team } from '../../model/team.data';
 import { isEmpty } from 'lodash';
@@ -15,7 +10,6 @@ import { MapService } from '../../services/map/map.service';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 import { OpenReplayService } from '@maptio-shared/services/open-replay.service';
-
 
 @Component({
   selector: 'maptio-common-onboarding',

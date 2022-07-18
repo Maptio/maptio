@@ -30,8 +30,8 @@
 
 <ng-template #welcome>
   <ng-template #yourfirstmap>
-    <span class="text-accent">👋 {{ user?.firstname }}</span
-    >, your first map is just a few clicks away!
+    <span class="text-accent">👋 {{ user?.firstname }}</span>
+    , your first map is just a few clicks away!
   </ng-template>
   <ng-template #guide>
     Let's set up your organisation. It will only take a minute.
@@ -73,9 +73,9 @@
         type="text"
         class="form-control col-12 col-md-10 col-lg-6"
       />
-      <small *ngIf="teamCreationErrorMessage" class="form-text text-danger">{{
-        teamCreationErrorMessage
-      }}</small>
+      <small *ngIf="teamCreationErrorMessage" class="form-text text-danger">
+        {{ teamCreationErrorMessage }}
+      </small>
     </div>
   </div>
 </ng-template>
@@ -85,8 +85,9 @@
 
   <ng-template #terminologysubtitle>
     <span class="text-muted">
-      What language do you use to refer to people at <b>{{ team.name }}</b
-      >?
+      What language do you use to refer to people at
+      <b>{{ team.name }}</b>
+      ?
     </span>
   </ng-template>
 
@@ -144,26 +145,23 @@
     </p>
 
     <p class="text-muted">
-      With your permission, we'd like to make session recordings of your activity using Maptio.
-      This helps us spot where we can make improvements.
+      With your permission, we'd like to make session recordings of your
+      activity using Maptio. This helps us spot where we can make improvements.
     </p>
 
     <p class="text-muted">
       We use a very privacy-conscious service called
-      <a href="https://openreplay.com/" target="_blank">OpenReplay</a>.
-      It's open source, just like us. We trust their service to keep recordings private and secure.
+      <a href="https://openreplay.com/" target="_blank">OpenReplay</a>
+      . It's open source, just like us. We trust their service to keep
+      recordings private and secure.
     </p>
 
-    <maptio-consent
-      [user]="user"
-      class="d-block my-4"
-    ></maptio-consent>
+    <maptio-consent [user]="user" class="d-block my-4"></maptio-consent>
 
     <p class="text-muted">
       If you choose to continue without ticking that checkbox, we respect that.
-      We'd still love to hear how you get on with using Maptio, so please do
-      let us know if you have questions or suggestions.
-      Thank you!
+      We'd still love to hear how you get on with using Maptio, so please do let
+      us know if you have questions or suggestions. Thank you!
     </p>
   </ng-template>
 

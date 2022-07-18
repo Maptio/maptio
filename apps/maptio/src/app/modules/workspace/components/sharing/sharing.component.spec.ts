@@ -8,9 +8,8 @@ describe('SharingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SharingComponent ]
-    })
-    .compileComponents();
+      declarations: [SharingComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -18,7 +18,6 @@ import { DataSet } from '@maptio-shared/model/dataset.data';
 import { ExportService } from '@maptio-shared/services/export/export.service';
 import { Permissions } from '@maptio-shared/model/permission.data';
 
-
 @Component({
   selector: 'maptio-map-card',
   templateUrl: './map-card.component.html',
@@ -95,20 +94,18 @@ export class MapCardComponent implements OnInit, OnChanges {
       this.isUpdateFailed = false;
 
       this.dataset.initiative.name = this.form.controls['mapName'].value;
-      this.datasetFactory
-        .upsert(this.dataset)
-        .then((success: boolean) => {
-          if (success) {
-            this.form.reset();
-            this.isEditing = false;
-            this.cd.markForCheck();
-          } else {
-            this.isUpdateFailed = true;
-            this.cd.markForCheck();
-          }
-        })
-        // TODO: No error handling, need to change this!
-        // .catch(() => {});
+      this.datasetFactory.upsert(this.dataset).then((success: boolean) => {
+        if (success) {
+          this.form.reset();
+          this.isEditing = false;
+          this.cd.markForCheck();
+        } else {
+          this.isUpdateFailed = true;
+          this.cd.markForCheck();
+        }
+      });
+      // TODO: No error handling, need to change this!
+      // .catch(() => {});
     }
   }
 
@@ -136,6 +133,8 @@ export class MapCardComponent implements OnInit, OnChanges {
     this.isArchiving = true;
     this.cd.markForCheck();
     this.dataset.isArchived = true;
+
+    // TODO: Add map lock
     return this.datasetFactory
       .upsert(this.dataset)
       .then((result) => {
@@ -153,6 +152,8 @@ export class MapCardComponent implements OnInit, OnChanges {
     this.isRestoring = true;
     this.cd.markForCheck();
     this.dataset.isArchived = false;
+
+    // TODO: Add map lock
     return this.datasetFactory
       .upsert(this.dataset)
       .then((result) => {

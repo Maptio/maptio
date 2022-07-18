@@ -13,12 +13,18 @@
         <i class="fas fa-unlink text-muted" aria-hidden="true"></i>
       </h3>
 
-      <ng-container *ngIf="userService.isAuthenticated$ | async; else loggedOut">
-        <p class="lead d-flex justify-content-center mb-6">Logging you out now.</p>
+      <ng-container
+        *ngIf="userService.isAuthenticated$ | async; else loggedOut"
+      >
+        <p class="lead d-flex justify-content-center mb-6">
+          Logging you out now.
+        </p>
       </ng-container>
 
       <ng-template #loggedOut>
-        <p class="lead d-flex justify-content-center">You are now logged out.</p>
+        <p class="lead d-flex justify-content-center">
+          You are now logged out.
+        </p>
 
         <button maptioLoginRedirect class="btn btn-success btn-lg mt-3 mb-5">
           Log back in
@@ -61,7 +67,7 @@
                 >
                   the Maptio guide to initiative mapping
                 </a>
-                <span> and</span>
+                <span>and</span>
                 <a
                   href="https://medium.com/maptio"
                   target="blank"

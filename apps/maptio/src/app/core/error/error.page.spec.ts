@@ -8,9 +8,8 @@ describe('ErrorPage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ErrorPage ]
-    })
-    .compileComponents();
+      declarations: [ErrorPage],
+    }).compileComponents();
   });
 
   beforeEach(() => {

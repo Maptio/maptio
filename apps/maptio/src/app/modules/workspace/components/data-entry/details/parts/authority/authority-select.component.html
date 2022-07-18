@@ -8,7 +8,7 @@
     {{ r.name }}
   </span>
 
-  <span *ngIf="!r.user_id && t">{{t}} (Add a new team member)</span>
+  <span *ngIf="!r.user_id && t">{{ t }} (Add a new team member)</span>
   <span *ngIf="!r.user_id && !t">Add a new team member</span>
 </ng-template>
 
@@ -32,9 +32,7 @@
   *ngIf="!isCreateNewMemberMode; else newMemberForm"
   class="d-flex justify-content-start align-items-center bg-light rounded p-2"
 >
-  <div
-    class="d-flex justify-content-start align-items-center flex-grow-1"
-  >
+  <div class="d-flex justify-content-start align-items-center flex-grow-1">
     <div class="w-100">
       <common-autocomplete
         #autocomplete
@@ -55,13 +53,10 @@
           [routerLink]="summaryUrlRoot"
           [queryParams]="{ member: authority?.shortid }"
         >
-          <img
-            src="{{ authority?.picture }}"
-            class="avatar"
-          />
+          <img src="{{ authority?.picture }}" class="avatar" />
           {{ authority?.name }}
         </a>
-        <span *ngIf="!authority"> No {{ team?.settings.authority }} </span>
+        <span *ngIf="!authority">No {{ team?.settings.authority }}</span>
       </common-autocomplete>
     </div>
   </div>
@@ -75,6 +70,5 @@
     [showCancelButton]="true"
     (addMember)="onCreateNewMember($event)"
     (cancel)="onCancelAddingMember($event)"
-  >
-  </maptio-member-form>
+  ></maptio-member-form>
 </ng-template>

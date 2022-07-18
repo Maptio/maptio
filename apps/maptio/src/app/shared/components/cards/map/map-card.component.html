@@ -17,7 +17,11 @@
       <div class="d-flex justify-content-between align-items-baseline">
         <div class="w-100">
           <div *ngIf="!isEditing" class="lead">
-            <a routerLink="/map/{{ dataset?.datasetId }}/{{ dataset?.initiative.getSlug() }}">
+            <a
+              routerLink="/map/{{ dataset?.datasetId }}/{{
+                dataset?.initiative.getSlug()
+              }}"
+            >
               {{ dataset?.initiative.name }}
             </a>
           </div>
@@ -42,7 +46,7 @@
               type="text"
             />
 
-            <small class="invalid-feedback"> Required </small>
+            <small class="invalid-feedback">Required</small>
 
             <small class="text-danger" *ngIf="isUpdateFailed">
               Update failed!
@@ -80,12 +84,16 @@
               Led by
               <img
                 class="avatar mx-1"
-                src="{{ dataset?.initiative.children[0]?.accountable?.picture }}"
+                src="{{
+                  dataset?.initiative.children[0]?.accountable?.picture
+                }}"
                 alt="{{ dataset?.initiative.children[0]?.accountable?.name }}"
               />
               <a
                 class="text-muted"
-                routerLink="/map/{{ dataset?.datasetId }}/{{ dataset?.initiative.getSlug() }}/directory"
+                routerLink="/map/{{ dataset?.datasetId }}/{{
+                  dataset?.initiative.getSlug()
+                }}/directory"
                 [queryParams]="{
                   member: dataset?.initiative.children[0]?.accountable?.shortid
                 }"
@@ -106,7 +114,11 @@
 
       <div class="card-subtitle my-2" *ngIf="isTeamDisplayed">
         Organisation
-        <a routerLink="/teams/{{ dataset?.team?.team_id }}/{{dataset?.team?.getSlug()}}">
+        <a
+          routerLink="/teams/{{ dataset?.team?.team_id }}/{{
+            dataset?.team?.getSlug()
+          }}"
+        >
           {{ dataset?.team?.name }}
         </a>
       </div>
@@ -128,7 +140,9 @@
     >
       <i class="fas fa-table mr-1" aria-hidden="true"></i>
       <span class="d-none d-md-block" *ngIf="!isExporting">Export</span>
-      <span class="text-muted d-none d-md-block" *ngIf="isExporting">Exporting</span>
+      <span class="text-muted d-none d-md-block" *ngIf="isExporting">
+        Exporting
+      </span>
     </button>
 
     <!-- All buttons other then the export button -->
@@ -163,11 +177,15 @@
       >
         <i class="fas fa-copy mr-1"></i>
         <span class="d-none d-md-block" *ngIf="!isCopying">Copy</span>
-        <span class="text-muted d-none d-md-block" *ngIf="isCopying">Copying</span>
+        <span class="text-muted d-none d-md-block" *ngIf="isCopying">
+          Copying
+        </span>
       </button>
 
       <button
-        *ngIf="!dataset.isArchived && isEditAvailable && !dataset?.team?.isExample"
+        *ngIf="
+          !dataset.isArchived && isEditAvailable && !dataset?.team?.isExample
+        "
         class="btn btn-link btn-sm pr-0 underline-on-hover"
         [class.invisible]="isEditing"
         mwlConfirmationPopover
@@ -191,8 +209,8 @@
         [class.invisible]="isEditing"
         (click)="restore()"
       >
-        <i class="fas fa-undo mr-1"></i
-        ><span class="d-none d-md-block">Restore</span>
+        <i class="fas fa-undo mr-1"></i>
+        <span class="d-none d-md-block">Restore</span>
       </button>
     </ng-container>
   </div>
@@ -211,22 +229,21 @@
         class="ml-2"
         width="50px"
         height="64px"
-        style="width: 50px; height: 64px;"
+        style="width: 50px; height: 64px"
         src="assets/images/share-button.png"
         alt="Screenshot of button used for sharing a publc verision of a map"
       />
     </div>
 
     <div class="d-flex flex-row w-100 mt-3 justify-content-end">
-      <button
-        class="btn btn-link"
-        (click)="toggleConfiguringEmbedding()"
-      >
+      <button class="btn btn-link" (click)="toggleConfiguringEmbedding()">
         Cancel
       </button>
 
       <a
-        routerLink="/map/{{ dataset?.datasetId }}/{{ dataset?.initiative.getSlug() }}"
+        routerLink="/map/{{ dataset?.datasetId }}/{{
+          dataset?.initiative.getSlug()
+        }}"
         class="btn btn-success text-white"
       >
         Take me there

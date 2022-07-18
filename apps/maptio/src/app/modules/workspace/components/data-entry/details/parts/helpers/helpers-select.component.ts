@@ -15,7 +15,6 @@ import { Team } from '@maptio-shared/model/team.data';
 import { Helper } from '@maptio-shared/model/helper.data';
 import { User, MemberFormFields } from '@maptio-shared/model/user.data';
 
-
 @Component({
   selector: 'maptio-initiative-helpers-select',
   templateUrl: './helpers-select.component.html',
@@ -29,7 +28,9 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
   @Input() isEditMode: boolean;
   @Input() isUnauthorized: boolean;
 
-  @Output() save: EventEmitter<Array<Helper>> = new EventEmitter<Array<Helper>>();
+  @Output() save: EventEmitter<Array<Helper>> = new EventEmitter<
+    Array<Helper>
+  >();
   @Output() createNewMember: EventEmitter<boolean> = new EventEmitter();
 
   placeholder: string;
@@ -96,7 +97,9 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
   onCreateNewMember(user: User) {
     this.isCreateNewMemberMode = false;
 
-    const teamMember = this.team.members.find(member => member.user_id === user.user_id);
+    const teamMember = this.team.members.find(
+      (member) => member.user_id === user.user_id
+    );
 
     if (teamMember) {
       this.onAddingHelper(teamMember as Helper);
@@ -118,20 +121,21 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
    * See : https://stackoverflow.com/a/54169646/7092722
    */
   filterMembers = (term: string) => {
-    const filteredTeamMembers = term.length < 1
-      ? this.team.members
-      : this.team.members.filter(
-          (v) =>
-            new RegExp(term, 'gi').test(v.name) ||
-            new RegExp(term, 'gi').test(v.email)
-        );
+    const filteredTeamMembers =
+      term.length < 1
+        ? this.team.members
+        : this.team.members.filter(
+            (v) =>
+              new RegExp(term, 'gi').test(v.name) ||
+              new RegExp(term, 'gi').test(v.email)
+          );
 
     this.newMemberData = {
       firstname: term,
       lastname: '',
       email: '',
       picture: '',
-    }
+    };
 
     return [this.newMemberData, ...filteredTeamMembers];
   };

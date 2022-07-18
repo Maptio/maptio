@@ -11,15 +11,11 @@ import { map, switchMap, tap } from 'rxjs/operators';
 
 import { UserService } from '@maptio-shared/services/user/user.service';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class SignupGuard implements CanActivate, CanActivateChild {
-  constructor(
-    private router: Router,
-    private user: UserService,
-  ) {}
+  constructor(private router: Router, private user: UserService) {}
 
   canActivate(): Observable<boolean | UrlTree> {
     return this.redirectHomeIfActivatedOrToAuth0IfNotAuthenticated();
@@ -29,7 +25,9 @@ export class SignupGuard implements CanActivate, CanActivateChild {
     return this.redirectHomeIfActivatedOrToAuth0IfNotAuthenticated();
   }
 
-  private redirectHomeIfActivatedOrToAuth0IfNotAuthenticated(): Observable<boolean | UrlTree> {
+  private redirectHomeIfActivatedOrToAuth0IfNotAuthenticated(): Observable<
+    boolean | UrlTree
+  > {
     return this.user.isAuthenticated$.pipe(
       tap((isAuthenticated) => {
         // Redirect unauthenticated users to the signup page

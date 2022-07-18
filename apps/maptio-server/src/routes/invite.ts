@@ -10,13 +10,11 @@ const path = require('path');
 const templating = require('lodash/template');
 require('dotenv').config();
 
-
 // New imports
-import { Request, Response, NextFunction } from 'express'
+import { Request, Response, NextFunction } from 'express';
 
 import { environment } from '../environments/environment';
 import { getAuth0MangementClient } from '../auth/management-client';
-
 
 // TODO: Dry just like the Auth0 code has been dried
 const ses = new aws.SES({
@@ -26,7 +24,6 @@ const ses = new aws.SES({
   region: process.env.AWS_DEFAULT_REGION,
   endpoint: process.env.AWS_DEFAULT_ENDPOINT,
 });
-
 
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   let inviteData;
@@ -46,7 +43,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     invitedBy = inviteData.invitedBy;
     teamName = inviteData.teamName;
     createUser = inviteData.createUser;
-  } catch(error) {
+  } catch (error) {
     error.message = 'Error parsing invite data: ' + error.message;
     return next(error);
   }
@@ -57,16 +54,15 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
 
   if (createUser) {
     try {
-      createdUser = await auth0ManagementClient
-        .createUser(userData)
-    } catch(error) {
+      createdUser = await auth0ManagementClient.createUser(userData);
+    } catch (error) {
       error.message = 'Error creating invited user in Auth0: ' + error.message;
       return next(error);
     }
 
     try {
       userId = createdUser.user_id;
-    } catch(error) {
+    } catch (error) {
       error.message = 'Error getting ID of created user: ' + error.message;
       return next(error);
     }
@@ -75,13 +71,14 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   let changePasswordTicketResponse;
 
   try {
-    changePasswordTicketResponse = await auth0ManagementClient
-      .tickets
-      .changePassword({
+    changePasswordTicketResponse = await auth0ManagementClient.tickets.changePassword(
+      {
         user_id: userId,
-      })
-  } catch(error) {
-    error.message = 'Error getting ticket from Auth0 for user invitation' +
+      }
+    );
+  } catch (error) {
+    error.message =
+      'Error getting ticket from Auth0 for user invitation' +
       `(password change for user with user id "${userId}"): ${error.message}`;
     return next(error);
   }
@@ -90,8 +87,10 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
 
   try {
     changePasswordTicket = changePasswordTicketResponse.ticket;
-  } catch(error) {
-    error.message = 'Error processing password change ticket response from Auth0: ' + error.message;
+  } catch (error) {
+    error.message =
+      'Error processing password change ticket response from Auth0: ' +
+      error.message;
     return next(error);
   }
 
@@ -102,15 +101,16 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
       userEmail,
       invitedBy,
       teamName,
-      changePasswordTicket,
-    )
-  } catch(error) {
+      changePasswordTicket
+    );
+  } catch (error) {
     error.message = 'Error sending invitation email: ' + error.message;
     return next(error);
   }
 
   // TODO: Inherited from FE code but might be worth digging into whether this is the best way to do this
-  const sendInvitationEmailSuccess = sendInvitationEmailResponse.MessageId !== undefined;
+  const sendInvitationEmailSuccess =
+    sendInvitationEmailResponse.MessageId !== undefined;
 
   res.send(sendInvitationEmailSuccess);
 });
@@ -119,7 +119,9 @@ function sendInvitationEmail(userEmail, invitedBy, team, url) {
   const from = process.env.SUPPORT_EMAIL;
 
   // Send email to developer when running locally
-  const to = environment.isDevelopment ? process.env.DEVELOPMENT_EMAIL : userEmail;
+  const to = environment.isDevelopment
+    ? process.env.DEVELOPMENT_EMAIL
+    : userEmail;
 
   const subject = `${invitedBy} invited you to join organisation "${team}" on Maptio`;
 
@@ -130,20 +132,22 @@ function sendInvitationEmail(userEmail, invitedBy, team, url) {
   );
   const htmlBody = template({ url, team });
 
-  return ses.sendEmail({
-    Source: from,
-    Destination: { ToAddresses: [to] },
-    Message: {
-      Body: {
-        Html: {
-          Data: htmlBody,
+  return ses
+    .sendEmail({
+      Source: from,
+      Destination: { ToAddresses: [to] },
+      Message: {
+        Body: {
+          Html: {
+            Data: htmlBody,
+          },
+        },
+        Subject: {
+          Data: subject,
         },
       },
-      Subject: {
-        Data: subject,
-      },
-    },
-  }).promise();
+    })
+    .promise();
 }
 
 module.exports = router;

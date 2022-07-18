@@ -1,5 +1,5 @@
 .loader-hidden {
-    visibility: hidden;
+  visibility: hidden;
 }
 .loader-overlay {
   background-color: #f8f9fa;
@@ -13,12 +13,12 @@
   /* padding-bottom: 40px; */
 }
 
-h1{
-  color:#2980b9;
+h1 {
+  color: #2980b9;
 }
-h1 > img{
-  width:6vh;
-  margin-bottom:2vh;
+h1 > img {
+  width: 6vh;
+  margin-bottom: 2vh;
   visibility: hidden;
 }
 
@@ -39,49 +39,60 @@ h1 > img{
   font-size: 3.5em;
   opacity: 0;
   animation: showHideDot 2.5s ease-in-out infinite;
-color:#2980b9;
- 
+  color: #2980b9;
 }
 
-.dot.one { animation-delay: 0.2s; }
-.dot.two { animation-delay: 0.4s; }
-.dot.three { animation-delay: 0.6s; }
+.dot.one {
+  animation-delay: 0.2s;
+}
+.dot.two {
+  animation-delay: 0.4s;
+}
+.dot.three {
+  animation-delay: 0.6s;
+}
 @keyframes showHideDot {
-  0% { opacity: 0; }
-  50% { opacity: 1; }
-  60% { opacity: 1; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
-
-
 
 @keyframes spinner {
-    to {
-      transform: rotate(360deg);
-    }
+  to {
+    transform: rotate(360deg);
   }
-  
-  .loading {
-    position: absolute;
-    top: 45%;
-    left: 45%;
-    background: url(/assets/images/logo.png) no-repeat;
-    width: 150px;
-    height: 150px;
-  }
-  
-  .loading:before {
-    content: '';
-    box-sizing: border-box;
-    position: absolute;
-    top: -34%;
-    left: -30%;
-    width: 192px;
-    height: 192px;
-    margin-top: -10px;
-    margin-left: -10px;
-    border-radius: 50%;
-    border: 3px solid #2980b9;
-    border-top-color: #f8f9fa;
-    animation: spinner 1s linear infinite
-  }
+}
+
+.loading {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+  background: url(/assets/images/logo.png) no-repeat;
+  width: 150px;
+  height: 150px;
+}
+
+.loading:before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: -34%;
+  left: -30%;
+  width: 192px;
+  height: 192px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 3px solid #2980b9;
+  border-top-color: #f8f9fa;
+  animation: spinner 1s linear infinite;
+}

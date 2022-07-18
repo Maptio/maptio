@@ -8,11 +8,10 @@ import { User } from '@maptio-shared/model/user.data';
 import { UserRole } from '@maptio-shared/model/permission.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 
-
 @Component({
   selector: 'maptio-onboarding-message',
   templateUrl: './onboarding-message.component.html',
-  styleUrls: ['./onboarding-message.component.scss']
+  styleUrls: ['./onboarding-message.component.scss'],
 })
 export class OnboardingMessageComponent {
   @Input() floating = false;
@@ -43,7 +42,10 @@ export class OnboardingMessageComponent {
         user &&
         messageKey &&
         user.userRole === UserRole.Admin &&
-        Object.prototype.hasOwnProperty.call(user.onboardingProgress, messageKey)
+        Object.prototype.hasOwnProperty.call(
+          user.onboardingProgress,
+          messageKey
+        )
       ) {
         this.helpPageUrl = environment.ONBOARDING_MESSAGES[messageKey];
         return user.onboardingProgress[messageKey];
@@ -53,7 +55,7 @@ export class OnboardingMessageComponent {
     })
   );
 
-  constructor(public userService: UserService) {};
+  constructor(public userService: UserService) {}
 
   dismissMessage() {
     const messageKey = this.messageKey$.value;
@@ -62,7 +64,10 @@ export class OnboardingMessageComponent {
       const onboardingProgress = this.user.onboardingProgress;
       onboardingProgress[messageKey] = false;
 
-      this.userService.updateUserOnboardingProgress(this.user, onboardingProgress);
+      this.userService.updateUserOnboardingProgress(
+        this.user,
+        onboardingProgress
+      );
       this.hideMessageManually$.next(true);
     }
   }

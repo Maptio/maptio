@@ -1,6 +1,11 @@
 <form (ngSubmit)="onSave()" [formGroup]="roleForm" class="mt-2 mb-3">
   <div class="form-group">
-    <label for="inputTitle" class="mb-0 text-uppercase text-bold text-gray-light small">Role title</label>
+    <label
+      for="inputTitle"
+      class="mb-0 text-uppercase text-bold text-gray-light small"
+    >
+      Role title
+    </label>
     <input
       formControlName="title"
       class="form-control mb-2"
@@ -9,13 +14,24 @@
       [class.is-invalid]="showTitleFieldError()"
     />
     <small class="invalid-feedback">
-      <ng-container *ngIf="(saveAsLibraryRole.value || isDirectoryView); else titleErrorForCustomRoles">Role titles are required for library roles</ng-container>
-      <ng-template #titleErrorForCustomRoles>Please fill out either the title or the description</ng-template>
+      <ng-container
+        *ngIf="
+          saveAsLibraryRole.value || isDirectoryView;
+          else titleErrorForCustomRoles
+        "
+      >
+        Role titles are required for library roles
+      </ng-container>
+      <ng-template #titleErrorForCustomRoles>
+        Please fill out either the title or the description
+      </ng-template>
     </small>
   </div>
 
   <div class="form-group mb-0">
-    <label class="mb-0 text-uppercase text-bold text-gray-light small">Role description</label>
+    <label class="mb-0 text-uppercase text-bold text-gray-light small">
+      Role description
+    </label>
     <textarea
       formControlName="description"
       class="form-control"
@@ -34,9 +50,7 @@
 
   <small class="text-default text-muted">
     How to
-    <a href="{{ KB_URL_MARKDOWN }}" target="_blank">
-      add links and formatting
-    </a>
+    <a href="{{ KB_URL_MARKDOWN }}" target="_blank">add links and formatting</a>
   </small>
 
   <div *ngIf="!isDirectoryView" class="my-2">
@@ -61,7 +75,14 @@
       />
 
       <label class="custom-control-label" [for]="getCustomRoleInputId()">
-        <ng-container *ngIf="isAlreadySavedInLibrary; else radioCustomRoleChoiceTextForCustomRoles">Convert to custom role</ng-container>
+        <ng-container
+          *ngIf="
+            isAlreadySavedInLibrary;
+            else radioCustomRoleChoiceTextForCustomRoles
+          "
+        >
+          Convert to custom role
+        </ng-container>
         <ng-template #radioCustomRoleChoiceTextForCustomRoles>
           Custom role for this
           <ng-container *ngIf="!isVacancy; else vacancy">person</ng-container>
@@ -80,28 +101,71 @@
       />
 
       <label class="custom-control-label" [for]="getLibraryRoleInputId()">
-        <ng-container *ngIf="isAlreadySavedInLibrary; else radioLibraryRoleChoiceTextForCustomRoles">Edit role for ALL holders</ng-container>
-        <ng-template #radioLibraryRoleChoiceTextForCustomRoles>Add to role library</ng-template>
+        <ng-container
+          *ngIf="
+            isAlreadySavedInLibrary;
+            else radioLibraryRoleChoiceTextForCustomRoles
+          "
+        >
+          Edit role for ALL holders
+        </ng-container>
+        <ng-template #radioLibraryRoleChoiceTextForCustomRoles>
+          Add to role library
+        </ng-template>
       </label>
     </div>
   </div>
 
   <div class="d-flex justify-content-end mt-2">
-    <button *ngIf="!roleForm.dirty" type="button" class="btn btn-outline-secondary mr-2" (click)="onCancel()">Cancel</button>
-    <button *ngIf="roleForm.dirty" type="button" class="btn btn-outline-secondary mr-2" placement="top" container="body" mwlConfirmationPopover
-      [popoverTitle]="'Warning'"
-      [popoverMessage]="'Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?'"
-      (confirm)="onCancel()" focusbutton="cancel" appendToBody="false">
+    <button
+      *ngIf="!roleForm.dirty"
+      type="button"
+      class="btn btn-outline-secondary mr-2"
+      (click)="onCancel()"
+    >
       Cancel
     </button>
-    <button type="submit" class="btn btn-success" [disabled]="isSubmissionAttempted && !roleForm.valid">Save</button>
+    <button
+      *ngIf="roleForm.dirty"
+      type="button"
+      class="btn btn-outline-secondary mr-2"
+      placement="top"
+      container="body"
+      mwlConfirmationPopover
+      [popoverTitle]="'Warning'"
+      [popoverMessage]="
+        'Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?'
+      "
+      (confirm)="onCancel()"
+      focusbutton="cancel"
+      appendToBody="false"
+    >
+      Cancel
+    </button>
+    <button
+      type="submit"
+      class="btn btn-success"
+      [disabled]="isSubmissionAttempted && !roleForm.valid"
+    >
+      Save
+    </button>
   </div>
 
   <div class="d-flex justify-content-end mt-2" *ngIf="showDeleteButton()">
-    <button type="button" class="btn btn-danger ml-auto" placement="top" container="body" mwlConfirmationPopover
+    <button
+      type="button"
+      class="btn btn-danger ml-auto"
+      placement="top"
+      container="body"
+      mwlConfirmationPopover
       [popoverTitle]="'Warning'"
-      [popoverMessage]="'This will remove the role from ALL holders in the organisation and delete it from the list of roles. This cannot be undone. Are you sure?'"
-      (confirm)="onDelete()" focusbutton="cancel" appendToBody="false">
+      [popoverMessage]="
+        'This will remove the role from ALL holders in the organisation and delete it from the list of roles. This cannot be undone. Are you sure?'
+      "
+      (confirm)="onDelete()"
+      focusbutton="cancel"
+      appendToBody="false"
+    >
       Delete this role
     </button>
   </div>

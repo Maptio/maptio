@@ -1,9 +1,14 @@
-import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ChangeDetectorRef,
+  OnDestroy,
+} from '@angular/core';
 import { Router } from '@angular/router';
 
 import { timer } from 'rxjs';
 import { SubSink } from 'subsink';
-
 
 @Component({
   selector: 'maptio-error-page',

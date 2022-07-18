@@ -12,11 +12,10 @@ import { SubSink } from 'subsink';
 import { SvgZoomPanService } from './svg-zoom-pan.service';
 import { InitiativeNode } from '../initiative.model';
 
-
 @Component({
   selector: 'maptio-svg-zoom-pan',
   templateUrl: './svg-zoom-pan.component.html',
-  styleUrls: ['./svg-zoom-pan.component.scss']
+  styleUrls: ['./svg-zoom-pan.component.scss'],
 })
 export class SvgZoomPanComponent implements OnInit, OnDestroy {
   @ViewChild('map') private svgElement: ElementRef;
@@ -42,23 +41,27 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
 
   constructor(
     private svgZoomPanService: SvgZoomPanService,
-    private changeDetector: ChangeDetectorRef,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.subs.sink = this.svgZoomPanService.zoomedInitiativeNode.subscribe((node?: InitiativeNode) => {
-      if (node) {
-        this.zoomToCircle(node.x, node.y, node.r);
-      } else {
-        this.zoomToCircle(500, 500, 450);
+    this.subs.sink = this.svgZoomPanService.zoomedInitiativeNode.subscribe(
+      (node?: InitiativeNode) => {
+        if (node) {
+          this.zoomToCircle(node.x, node.y, node.r);
+        } else {
+          this.zoomToCircle(500, 500, 450);
+        }
       }
-    });
+    );
 
-    this.subs.sink = this.svgZoomPanService.zoomScaleFactor.subscribe((scaleChange: number) => {
-      if (scaleChange) {
-        this.onZoomButtonPress(scaleChange);
+    this.subs.sink = this.svgZoomPanService.zoomScaleFactor.subscribe(
+      (scaleChange: number) => {
+        if (scaleChange) {
+          this.onZoomButtonPress(scaleChange);
+        }
       }
-    });
+    );
   }
 
   ngOnDestroy() {
@@ -87,7 +90,10 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     }
 
     const panningThreshold = 3;
-    if (Math.abs($event.deltaX) >= panningThreshold || Math.abs($event.deltaY) >= panningThreshold) {
+    if (
+      Math.abs($event.deltaX) >= panningThreshold ||
+      Math.abs($event.deltaY) >= panningThreshold
+    ) {
       this.isPanning = true;
       this.isClickSideEffectOfPanning = true;
     }
@@ -118,7 +124,11 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   onWheel($event: WheelEvent) {
-    this.zoomAroundPoint($event.clientX, $event.clientY, $event.deltaY / $event.screenY * 2);
+    this.zoomAroundPoint(
+      $event.clientX,
+      $event.clientY,
+      ($event.deltaY / $event.screenY) * 2
+    );
     $event.preventDefault();
   }
 
@@ -135,7 +145,13 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   onPinch($event: TouchInput) {
     const stepSize = this.lastRelativePinchScale - $event.scale;
     this.lastRelativePinchScale = $event.scale;
-    this.zoomAndMove($event.center.x, $event.center.y, $event.deltaX, $event.deltaY, stepSize);
+    this.zoomAndMove(
+      $event.center.x,
+      $event.center.y,
+      $event.deltaX,
+      $event.deltaY,
+      stepSize
+    );
   }
 
   onPinchEnd() {
@@ -209,7 +225,13 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     this.setTransform();
   }
 
-  private zoomAndMove(centerX: number, centerY: number, deltaX: number, deltaY: number, stepSize: number) {
+  private zoomAndMove(
+    centerX: number,
+    centerY: number,
+    deltaX: number,
+    deltaY: number,
+    stepSize: number
+  ) {
     if (!this.svgCTM) {
       return;
     }
@@ -233,8 +255,10 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
 
     // Translate values are scaled and so when the scale changes we need to
     // rescale them
-    const pinchStartXRescaled = this.pinchStartX * this.scale / this.pinchStartScale;
-    const pinchStartYRescaled = this.pinchStartY * this.scale / this.pinchStartScale;
+    const pinchStartXRescaled =
+      (this.pinchStartX * this.scale) / this.pinchStartScale;
+    const pinchStartYRescaled =
+      (this.pinchStartY * this.scale) / this.pinchStartScale;
 
     this.translateX = pinchStartXRescaled + deltaX / this.svgCTM.a / 10;
     this.translateY = pinchStartYRescaled + deltaY / this.svgCTM.a / 10;
@@ -247,7 +271,6 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     this.setTransform();
   }
 
-
   private refreshScreenCTM() {
     return this.svgElement.nativeElement.getScreenCTM();
   }
@@ -259,9 +282,7 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
     zoomCenterInDomCoordinates.x = clientX;
     zoomCenterInDomCoordinates.y = clientY;
 
-    return zoomCenterInDomCoordinates.matrixTransform(
-      this.svgCTM.inverse()
-    );
+    return zoomCenterInDomCoordinates.matrixTransform(this.svgCTM.inverse());
   }
 
   zoomToCircle(x: number, y: number, r: number) {
@@ -273,10 +294,17 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   private scaleCoordinatesAndConvertToPercentages(coordinate: number) {
-    return 100 * this.scale * coordinate / 1000;
+    return (100 * this.scale * coordinate) / 1000;
   }
 
   setTransform() {
-    this.transform = 'translate(' + this.translateX + '%, ' + this.translateY + '%) scale(' + this.scale + ')';
+    this.transform =
+      'translate(' +
+      this.translateX +
+      '%, ' +
+      this.translateY +
+      '%) scale(' +
+      this.scale +
+      ')';
   }
 }

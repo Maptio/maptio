@@ -1,29 +1,29 @@
 .tab-content > .active {
-    display: flex;
+  display: flex;
 }
 
-ul.columns{
-    -moz-column-count: 4;
-    -moz-column-gap: 20px;
-    -webkit-column-count: 4;
-    -webkit-column-gap: 20px;
-    column-count: 4;
-    column-width: 30px;
-    column-gap: 20px;
+ul.columns {
+  -moz-column-count: 4;
+  -moz-column-gap: 20px;
+  -webkit-column-count: 4;
+  -webkit-column-gap: 20px;
+  column-count: 4;
+  column-width: 30px;
+  column-gap: 20px;
 }
 
-ul.columns li{
-    list-style: none;
+ul.columns li {
+  list-style: none;
 }
 
 .card-columns.five-columns {
-    column-count: 5;
+  column-count: 5;
 }
 
 .card-columns.one-column {
-    column-count: 1;
+  column-count: 1;
 }
 
-a.card:hover{
-    background-color: var(--light);
+a.card:hover {
+  background-color: var(--light);
 }

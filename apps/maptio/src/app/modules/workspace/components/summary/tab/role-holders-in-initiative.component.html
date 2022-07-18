@@ -1,113 +1,113 @@
 <div class="card">
-    <div class="card-body">
-        <div
-            class="card-title d-flex justify-content-between align-items-baseline"
-            [class.mb-0]="hideMembers"
-        >
-            <span
-                class="btn-link cursor-pointer"
-                (click)="openInitiative(initiative)"
-            >
-                {{initiative.name}}
-            </span>
-        </div>
+  <div class="card-body">
+    <div
+      class="card-title d-flex justify-content-between align-items-baseline"
+      [class.mb-0]="hideMembers"
+    >
+      <span
+        class="btn-link cursor-pointer"
+        (click)="openInitiative(initiative)"
+      >
+        {{ initiative.name }}
+      </span>
+    </div>
 
-        <div
-            class="card-text"
-            *ngIf="!hideMembers"
+    <div class="card-text" *ngIf="!hideMembers">
+      <div
+        *ngIf="roleHolders?.length !== 0"
+        class="row"
+        [class.bg-light]="isShowRoles"
+      >
+        <a
+          class="btn btn-link px-3 text-left"
+          data-toggle="collapse"
+          [attr.data-target]="'.' + getMultipleCollapseClass()"
+          [attr.aria-controls]="getMultipleCollapseId()"
+          (click)="isShowRoles = !isShowRoles"
+          aria-expanded="false"
+          role="button"
         >
-            <div
-                *ngIf="(roleHolders?.length !== 0)"
-                class="row"
-                [class.bg-light]="isShowRoles"
-            >
-                <a
-                    class="btn btn-link px-3 text-left"
-                    data-toggle="collapse"
-                    [attr.data-target]="'.'+getMultipleCollapseClass()"
-                    [attr.aria-controls]="getMultipleCollapseId()"
-                    (click)="isShowRoles=!isShowRoles"
-                    aria-expanded="false"
-                    role="button"
+          <i
+            class="fa"
+            [class.fa-caret-right]="!isShowRoles"
+            [class.fa-caret-down]="isShowRoles"
+            aria-hidden="true"
+          ></i>
+        </a>
+
+        <div>
+          <!-- Members list when expanded -->
+          <div
+            class="collapse {{ getMultipleCollapseClass() }} w-100"
+            id="{{ getWithDescriptionId() }}"
+          >
+            <div *ngFor="let h of roleHolders">
+              <div class="d-flex my-1 align-items-baseline my-2">
+                <button
+                  (click)="onSelectMember(h)"
+                  class="btn btn-link p-0 border-0"
                 >
-                    <i
-                        class="fa"
-                        [class.fa-caret-right]="!isShowRoles"
-                        [class.fa-caret-down]="isShowRoles"
-                        aria-hidden="true"
-                    ></i>
+                  <img
+                    class="avatar"
+                    src="{{ h.picture }}"
+                    alt="{{ h.name }}"
+                    title="{{ h.name }}"
+                    placement="top"
+                    container="body"
+                  />
+                </button>
+
+                <a
+                  (click)="onSelectMember(h)"
+                  class="mb-2 ml-2"
+                  style="cursor: pointer"
+                >
+                  {{ h.name }}
                 </a>
 
-                <div>
-                    <!-- Members list when expanded -->
-                    <div
-                        class="collapse {{getMultipleCollapseClass()}} w-100"
-                        id="{{getWithDescriptionId()}}"
-                    >
-                        <div *ngFor="let h of roleHolders">
-                            <div class="d-flex my-1 align-items-baseline my-2">
-                                <button
-                                    (click)="onSelectMember(h)"
-                                    class="btn btn-link p-0 border-0"
-                                >
-                                    <img
-                                        class="avatar"
-                                        src="{{ h.picture }}"
-                                        alt="{{ h.name }}"
-                                        title="{{ h.name }}"
-                                        placement="top"
-                                        container="body"
-                                    >
-                                </button>
-
-                                <a
-                                    (click)="onSelectMember(h)"
-                                    class="mb-2 ml-2"
-                                    style="cursor: pointer"
-                                >
-                                    {{ h.name }}
-                                </a>
-
-                                <span
-                                    class="text-muted mx-1"
-                                    *ngIf="h === initiative.accountable"
-                                >
-                                    ({{team?.settings.authority | titlecase }})
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Members list when collapsed -->
-                    <div
-                        class="collapse {{getMultipleCollapseClass()}} w-100 show"
-                        id="{{getNoDescriptionId()}}"
-                    >
-                        <div class="d-flex justify-content-start flex-wrap">
-                            <ul class="list-inline d-flex flex-row-reverse picture-list my-1 flex-wrap">
-                                <li
-                                    class="list-inline-item rounded-circle border-thick border-white"
-                                    *ngFor="let h of roleHolders"
-                                >
-                                    <button
-                                        (click)="onSelectMember(h)"
-                                        class="btn btn-link p-0 border-0"
-                                    >
-                                        <img
-                                            class="avatar"
-                                            src="{{h.picture}}" alt="{{h.name}}"
-                                            title="{{h.name}}"
-                                            placement="top"
-                                            container="body"
-                                            ngbTooltip="{{h.name}}"
-                                        >
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                <span
+                  class="text-muted mx-1"
+                  *ngIf="h === initiative.accountable"
+                >
+                  ({{ team?.settings.authority | titlecase }})
+                </span>
+              </div>
             </div>
+          </div>
+
+          <!-- Members list when collapsed -->
+          <div
+            class="collapse {{ getMultipleCollapseClass() }} w-100 show"
+            id="{{ getNoDescriptionId() }}"
+          >
+            <div class="d-flex justify-content-start flex-wrap">
+              <ul
+                class="list-inline d-flex flex-row-reverse picture-list my-1 flex-wrap"
+              >
+                <li
+                  class="list-inline-item rounded-circle border-thick border-white"
+                  *ngFor="let h of roleHolders"
+                >
+                  <button
+                    (click)="onSelectMember(h)"
+                    class="btn btn-link p-0 border-0"
+                  >
+                    <img
+                      class="avatar"
+                      src="{{ h.picture }}"
+                      alt="{{ h.name }}"
+                      title="{{ h.name }}"
+                      placement="top"
+                      container="body"
+                      ngbTooltip="{{ h.name }}"
+                    />
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>

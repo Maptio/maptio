@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { isEmpty, intersection } from "lodash-es"
+import { Injectable } from '@angular/core';
+import { isEmpty, intersection } from 'lodash-es';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import * as screenfull from 'screenfull';
-import { select, selectAll } from "d3-selection"
+import { select, selectAll } from 'd3-selection';
 
 export enum Browsers {
   Firefox,
@@ -11,14 +11,12 @@ export enum Browsers {
   IE,
   Edge,
   Opera,
-  Unknown
+  Unknown,
 }
-
 
 @Injectable()
 export class UIService {
-  constructor(private deviceService: DeviceDetectorService) {
-  }
+  constructor(private deviceService: DeviceDetectorService) {}
 
   getCanvasXMargin() {
     return 130;
@@ -31,108 +29,112 @@ export class UIService {
   getCanvasWidth() {
     return (screenfull as any).isFullscreen
       ? window.outerWidth
-      : document.getElementById("main")
-        ? document.getElementById("main").clientWidth
-        : window.screen.availWidth;
+      : document.getElementById('main')
+      ? document.getElementById('main').clientWidth
+      : window.screen.availWidth;
   }
 
   getCanvasHeight() {
     return (screenfull as any).isFullscreen
       ? window.outerHeight
-      : document.getElementById("main")
-        ? document.getElementById("main").clientHeight
-        : window.screen.availHeight;
+      : document.getElementById('main')
+      ? document.getElementById('main').clientHeight
+      : window.screen.availHeight;
   }
 
   getCircularPath(radius: number, centerX: number, centerY: number) {
     if (radius === undefined || centerX === undefined || centerY === undefined)
       throw new Error(
-        "Cannot defined circular path as a parameter is missing."
+        'Cannot defined circular path as a parameter is missing.'
       );
 
-    let rx = -radius;
-    let ry = -radius;
+    const rx = -radius;
+    const ry = -radius;
     return (
-      "m " +
+      'm ' +
       centerX +
-      ", " +
+      ', ' +
       centerY +
-      " a " +
+      ' a ' +
       rx +
-      "," +
+      ',' +
       ry +
-      " 1 1,1 " +
+      ' 1 1,1 ' +
       radius * 2 +
-      ",0 a -" +
+      ',0 a -' +
       radius +
-      ",-" +
+      ',-' +
       radius +
-      " 1 1,1 -" +
+      ' 1 1,1 -' +
       radius * 2 +
-      ",0"
+      ',0'
     );
   }
 
   public getScreenCoordinates(x: any, y: any, matrix: any) {
-    var xn = matrix.e + x * matrix.a + y * matrix.c;
-    var yn = matrix.f + x * matrix.b + y * matrix.d;
+    const xn = matrix.e + x * matrix.a + y * matrix.c;
+    const yn = matrix.f + x * matrix.b + y * matrix.d;
     return { x: xn, y: yn };
   }
 
   public getContextMenuCoordinates(mouse: any, matrix: any) {
+    const m = document.getElementById('maptio-context-menu');
 
-    let m = document.getElementById("maptio-context-menu");
+    const center = { x: window.pageXOffset, y: window.pageYOffset };
+    const canvas = {
+      width: this.getCanvasWidth(),
+      height: this.getCanvasHeight(),
+    };
+    const divider = 4; //because context-menu is col-3;
+    const menu = { width: m.clientWidth, height: 350 };
 
-    let center = { x: window.pageXOffset, y: window.pageYOffset };
-    let canvas = { width: this.getCanvasWidth(), height: this.getCanvasHeight() };
-    let divider = 4; //because context-menu is col-3;
-    let menu = { width: m.clientWidth, height: 350 }
+    const initialPosition = {
+      x: this.getScreenCoordinates(
+        center.x + mouse.x,
+        center.y + mouse.y,
+        matrix
+      ).x,
+      y: this.getScreenCoordinates(
+        center.x + mouse.x,
+        center.y + mouse.y,
+        matrix
+      ).y,
+    };
 
-    let initialPosition = {
-      x: this.getScreenCoordinates(center.x + mouse.x, center.y + mouse.y, matrix).x,
-      y: this.getScreenCoordinates(center.x + mouse.x, center.y + mouse.y, matrix).y
-    }
-
-    let adjustments = {
-      horizontal: initialPosition.x + menu.width > canvas.width
-        ? -menu.width
-        : 0
-      ,
-
-      vertical: initialPosition.y + menu.height > canvas.height
-        ? -canvas.height / divider
-        : 0
-    }
+    const adjustments = {
+      horizontal:
+        initialPosition.x + menu.width > canvas.width ? -menu.width : 0,
+      vertical:
+        initialPosition.y + menu.height > canvas.height
+          ? -canvas.height / divider
+          : 0,
+    };
 
     return {
       x: initialPosition.x + adjustments.horizontal,
-      y: initialPosition.y + adjustments.vertical
-    }
+      y: initialPosition.y + adjustments.vertical,
+    };
   }
 
   public clean() {
-    selectAll("svg")
-      .selectAll("*")
-      .remove();
-    selectAll("div.arrow_box").remove();
+    selectAll('svg').selectAll('*').remove();
+    selectAll('div.arrow_box').remove();
   }
 
-
   public getBrowser(): Browsers {
-
     switch (this.deviceService.browser) {
-      case "chrome":
+      case 'chrome':
         return Browsers.Chrome;
 
-      case "firefox":
+      case 'firefox':
         return Browsers.Firefox;
-      case "safari":
+      case 'safari':
         return Browsers.Safari;
-      case "opera":
+      case 'opera':
         return Browsers.Opera;
-      case "ie":
+      case 'ie':
         return Browsers.IE;
-      case "ms-edge":
+      case 'ms-edge':
         return Browsers.Edge;
       default:
         return Browsers.Unknown;
@@ -147,11 +149,13 @@ export class UIService {
     return isEmpty(selectedTags) // all tags are unselected by default
       ? true
       : isEmpty(selection) // the circle doesnt have any tags
-        ? false
-        : intersection(selectedTags.map(t => t.shortid), selection).length ===
-          0
-          ? false
-          : true;
+      ? false
+      : intersection(
+          selectedTags.map((t) => t.shortid),
+          selection
+        ).length === 0
+      ? false
+      : true;
   }
 
   // getCenteredMargin(isReset?: boolean): string {

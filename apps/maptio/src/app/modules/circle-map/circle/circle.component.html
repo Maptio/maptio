@@ -27,10 +27,7 @@
   />
 
   <g class="circle__children">
-    <g maptioCircle
-      *ngFor="let child of circle.children"
-      [circle]="child"
-    ></g>
+    <g maptioCircle *ngFor="let child of circle.children" [circle]="child"></g>
   </g>
 
   <g class="circle__info">
@@ -40,12 +37,9 @@
       [attr.width]="infoSize"
       [attr.height]="infoSize"
     >
-      <g maptioCircleInfo
-        [circle]="circle"
-      ></g>
+      <g maptioCircleInfo [circle]="circle"></g>
     </foreignObject>
   </g>
-
 </svg:g>
 
 <sat-popover
@@ -54,7 +48,10 @@
   (opened)="onPopoverOpen()"
   (closed)="onPopoverClose()"
 >
-  <div class="circle__popover" [class.circle__popover--hidden]="isPopoverHidden">
+  <div
+    class="circle__popover"
+    [class.circle__popover--hidden]="isPopoverHidden"
+  >
     <div class="circle__popover-name">
       {{ circle.data.name }}
     </div>

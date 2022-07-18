@@ -1,6 +1,5 @@
 import { HierarchyCircularNode } from 'd3-hierarchy';
 
-
 export interface InitiativeViewModel {
   id: number;
 
@@ -33,7 +32,7 @@ export interface Helper {
 
 export interface Role {
   title?: string;
-  description?: string
+  description?: string;
 }
 
 export type InitiativeNode = HierarchyCircularNode<InitiativeViewModel>;

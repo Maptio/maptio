@@ -7,7 +7,6 @@ import { map, first } from 'rxjs/operators';
 import { Team } from '@maptio-shared/model/team.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 
-
 @Injectable()
 export class TeamListComponentResolver implements Resolve<Team[]> {
   constructor(private userService: UserService) {}
@@ -20,9 +19,9 @@ export class TeamListComponentResolver implements Resolve<Team[]> {
     // refactoring) where I'm making this change.
     return this.userService.userWithTeamsAndDatasets$.pipe(
       first(),
-      map(userWithTeamsAndDatasets => {
+      map((userWithTeamsAndDatasets) => {
         return userWithTeamsAndDatasets.teams;
-      }),
+      })
     );
   }
 }
