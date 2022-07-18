@@ -619,7 +619,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       return;
     }
 
-    // TODO: Add map lock?
     this.datasetFactory
       .upsert(this.dataset, this.dataset.datasetId)
       .then(

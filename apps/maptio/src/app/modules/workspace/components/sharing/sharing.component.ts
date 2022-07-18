@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 
 import { DataSet } from '@maptio-shared/model/dataset.data';
-import { MapService } from '@maptio-shared/services/map/map.service';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 
 @Component({
@@ -21,8 +20,7 @@ export class SharingComponent implements OnInit {
 
   constructor(
     private cd: ChangeDetectorRef,
-    private datasetFactory: DatasetFactory,
-    private mapService: MapService
+    private datasetFactory: DatasetFactory
   ) {}
 
   ngOnInit() {
@@ -46,13 +44,8 @@ export class SharingComponent implements OnInit {
     await this.toggleEmbedding(false);
   }
 
-  private async toggleEmbedding(isEmbeddable: boolean) {
+  private toggleEmbedding(isEmbeddable: boolean) {
     if (this.isTogglingEmbedding) return;
-
-    if (await this.mapService.isDatasetOutdated(this.dataset)) {
-      this.alertAboutOutdatedDataset();
-      return;
-    }
 
     this.isTogglingEmbedding = true;
     this.isTogglingEmbeddingFailed = false;
@@ -81,18 +74,11 @@ export class SharingComponent implements OnInit {
       return;
     }
 
-    const target = event?.target as HTMLInputElement;
-
-    if (await this.mapService.isDatasetOutdated(this.dataset)) {
-      this.alertAboutOutdatedDataset();
-      target.checked = !target.checked;
-      return;
-    }
-
     this.isTogglingShowingDescriptions = true;
     this.hasTogglingShowingDescriptionsFailed = false;
     this.cd.markForCheck();
 
+    const target = event?.target as HTMLInputElement;
     this.dataset.showDescriptions = target.checked;
 
     let result = false;
@@ -111,11 +97,5 @@ export class SharingComponent implements OnInit {
 
     this.isTogglingShowingDescriptions = false;
     this.cd.markForCheck();
-  }
-
-  private alertAboutOutdatedDataset() {
-    alert(
-      'A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before changing map sharing settings. Sorry for the hassle.'
-    );
   }
 }
