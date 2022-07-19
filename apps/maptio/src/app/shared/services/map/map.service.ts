@@ -87,14 +87,6 @@ export class MapService {
     this.isMultisaveOutdatedCheckCompleted = false;
   }
 
-  archive(dataset: DataSet) {
-    dataset.isArchived = true;
-    // TODO: Add map lock - or remove, this is never used, right?
-    return this.datasetFactory.upsert(dataset).then((archived) => {
-      if (archived) return dataset;
-    });
-  }
-
   /*
    * Creating template, example, and empty datasets
    */
