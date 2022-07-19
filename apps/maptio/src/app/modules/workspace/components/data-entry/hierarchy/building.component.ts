@@ -332,7 +332,7 @@ export class BuildingComponent implements OnDestroy {
     } else {
       this.nodes[0].traverse((n) => {
         if (hasFoundNode) return;
-        const index = n.children.findIndex((c) => c.id === node.id);
+        const index = n.children?.findIndex((c) => c.id === node.id);
         if (index > -1) {
           hasFoundNode = true;
           n.children.splice(index, 1);
