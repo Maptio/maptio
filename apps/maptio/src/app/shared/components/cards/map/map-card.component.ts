@@ -177,7 +177,7 @@ export class MapCardComponent implements OnInit, OnChanges {
 
   private alertAboutOutdatedDataset() {
     alert(
-      'A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before changing map sharing settings. Sorry for the hassle.'
+      'A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before archiving or restoring your map. Sorry for the hassle.'
     );
   }
 }
