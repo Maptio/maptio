@@ -677,12 +677,12 @@ export class UserService implements OnDestroy {
       return dataset.initiative.team_id === team.team_id;
     });
 
-    const outdatedStatusesForEachTeamDataset = await Promise.all(
+    const outdatedStatusForEachTeamDataset = await Promise.all(
       teamDatasets.map(async (dataset) =>
         this.mapService.isDatasetOutdated(dataset)
       )
     );
-    const isAnyDatasetOutdated = outdatedStatusesForEachTeamDataset.some(
+    const isAnyDatasetOutdated = outdatedStatusForEachTeamDataset.some(
       Boolean
     );
 
@@ -734,7 +734,6 @@ export class UserService implements OnDestroy {
       });
 
       try {
-        // TODO: Add map lock
         await this.datasetFactory.upsert(dataset);
       } catch {
         throw new Error(
