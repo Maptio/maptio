@@ -32,7 +32,7 @@ export class UserFactory {
     }
 
     return this.http
-      .get(`/api/v1/user/all/${email}`)
+      .get(`/api/v1/user/all/email/${email}`)
       .pipe(map(this.createUsersFromResponseData))
       .toPromise();
   }

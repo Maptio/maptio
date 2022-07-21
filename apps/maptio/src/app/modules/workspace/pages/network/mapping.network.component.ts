@@ -55,6 +55,7 @@ import {
   MapSettings,
   MapSettingsService,
 } from '../../services/map-settings.service';
+import { MapService } from '@maptio-shared/services/map/map.service';
 
 const d3 = Object.assign(
   {},
@@ -170,6 +171,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     private dataService: DataService,
     private uriService: URIService,
     private datasetFactory: DatasetFactory,
+    private mapService: MapService,
     private mapSettingsService: MapSettingsService,
     private permissionsService: PermissionsService
   ) {}
@@ -607,7 +609,18 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     this.saveChanges(value);
   }
 
-  saveChanges(authorityCentricMode: boolean) {
+  async saveChanges(authorityCentricMode: boolean) {
+    if (!this.dataset) {
+      return;
+    }
+
+    if (await this.mapService.isDatasetOutdated(this.dataset)) {
+      alert(
+        'A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before changing network view settings. Sorry for the hassle.'
+      );
+      return;
+    }
+
     this.isSaving = true;
     const settings = this.settings;
     settings.views.network.isAuthorityCentricMode = authorityCentricMode;
@@ -615,11 +628,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     this.mapSettingsService.set(this.datasetId, settings);
     // this.dataset.initiative.authorityCentricMode = authorityCentricMode;
 
-    if (!this.dataset) {
-      return;
-    }
-
-    // TODO: Add map lock?
     this.datasetFactory
       .upsert(this.dataset, this.dataset.datasetId)
       .then(

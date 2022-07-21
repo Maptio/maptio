@@ -35,6 +35,7 @@ import { DataSet } from '@maptio-shared/model/dataset.data';
 import { Initiative } from '@maptio-shared/model/initiative.data';
 import { OpenReplayService } from '@maptio-shared/services/open-replay.service';
 import { TeamService } from '@maptio-shared/services/team/team.service';
+import { MapService } from '@maptio-shared/services/map/map.service';
 import {
   UserRole,
   UserRoleService,
@@ -125,6 +126,7 @@ export class UserService implements OnDestroy {
     private teamFactory: TeamFactory,
     private teamService: TeamService,
     private datasetFactory: DatasetFactory,
+    private mapService: MapService,
     private userRoleService: UserRoleService,
     private loaderService: LoaderService,
     @Inject(DOCUMENT) private doc: Document
@@ -666,12 +668,6 @@ export class UserService implements OnDestroy {
 
     const replacementUser = duplicateUsers[0];
 
-    await this.teamService.replaceMember(
-      team,
-      userToBeReplaced,
-      replacementUser
-    );
-
     // Get datasets for the current team
     const teamDatasets = this.userDatasets.filter((dataset) => {
       if (!dataset.initiative) {
@@ -680,6 +676,28 @@ export class UserService implements OnDestroy {
 
       return dataset.initiative.team_id === team.team_id;
     });
+
+    const outdatedStatusForEachTeamDataset = await Promise.all(
+      teamDatasets.map(async (dataset) =>
+        this.mapService.isDatasetOutdated(dataset)
+      )
+    );
+    const isAnyDatasetOutdated = outdatedStatusForEachTeamDataset.some(
+      Boolean
+    );
+
+    if (isAnyDatasetOutdated) {
+      alert(
+        'A friendly heads-up: One or more of your maps has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before adding an existing user. Sorry for the hassle.'
+      );
+      return;
+    }
+
+    await this.teamService.replaceMember(
+      team,
+      userToBeReplaced,
+      replacementUser
+    );
 
     teamDatasets.forEach(async (dataset) => {
       dataset.team = team;
@@ -716,7 +734,6 @@ export class UserService implements OnDestroy {
       });
 
       try {
-        // TODO: Add map lock
         await this.datasetFactory.upsert(dataset);
       } catch {
         throw new Error(

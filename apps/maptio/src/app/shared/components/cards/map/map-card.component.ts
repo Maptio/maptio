@@ -15,6 +15,7 @@ import { saveAs } from 'file-saver';
 
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { DataSet } from '@maptio-shared/model/dataset.data';
+import { MapService } from '@maptio-shared/services/map/map.service';
 import { ExportService } from '@maptio-shared/services/export/export.service';
 import { Permissions } from '@maptio-shared/model/permission.data';
 
@@ -49,9 +50,10 @@ export class MapCardComponent implements OnInit, OnChanges {
   isConfiguringEmbedding = false;
 
   constructor(
-    private exportService: ExportService,
+    private cd: ChangeDetectorRef,
     private datasetFactory: DatasetFactory,
-    private cd: ChangeDetectorRef
+    private mapService: MapService,
+    private exportService: ExportService
   ) {}
 
   ngOnInit(): void {
@@ -127,14 +129,18 @@ export class MapCardComponent implements OnInit, OnChanges {
     }
   }
 
-  archive() {
+  async archive() {
     if (this.isArchiving) return;
+
+    if (await this.mapService.isDatasetOutdated(this.dataset)) {
+      this.alertAboutOutdatedDataset();
+      return;
+    }
 
     this.isArchiving = true;
     this.cd.markForCheck();
     this.dataset.isArchived = true;
 
-    // TODO: Add map lock
     return this.datasetFactory
       .upsert(this.dataset)
       .then((result) => {
@@ -146,14 +152,18 @@ export class MapCardComponent implements OnInit, OnChanges {
       });
   }
 
-  restore() {
+  async restore() {
     if (this.isRestoring) return;
+
+    if (await this.mapService.isDatasetOutdated(this.dataset)) {
+      this.alertAboutOutdatedDataset();
+      return;
+    }
 
     this.isRestoring = true;
     this.cd.markForCheck();
     this.dataset.isArchived = false;
 
-    // TODO: Add map lock
     return this.datasetFactory
       .upsert(this.dataset)
       .then((result) => {
@@ -163,5 +173,11 @@ export class MapCardComponent implements OnInit, OnChanges {
         this.isRestoring = false;
         this.cd.markForCheck();
       });
+  }
+
+  private alertAboutOutdatedDataset() {
+    alert(
+      'A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before archiving or restoring your map. Sorry for the hassle.'
+    );
   }
 }
