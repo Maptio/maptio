@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
-  <file original="ng2.template" datatype="plaintext" xml:space="preserve" source-language="en-US" target-language="fr">
+  <file original="ng2.template" datatype="plaintext" xml:space="preserve" source-language="en-US" target-language="en_US">
     <header>
       <tool tool-id="lokalise.com" tool-name="Lokalise"/>
     </header>
     <body>
       <trans-unit id="e4760987e2a554c951e849da6f56aee546b1c5c2" datatype="html">
         <source> Maptio helps you organise without traditional management hierarchy </source>
-        <target></target>
+        <target> Maptio helps you organise without traditional management hierarchy </target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
           <context context-type="linenumber">30,31</context>
@@ -15,7 +15,7 @@
       </trans-unit>
       <trans-unit id="61129a94187d7e8d3d797f038579dc8e4dec4748" datatype="html">
         <source>Visualise your organisation in nested circles</source>
-        <target></target>
+        <target>Visualise your organisation in nested circles</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
           <context context-type="linenumber">32</context>
@@ -23,7 +23,7 @@
       </trans-unit>
       <trans-unit id="8df4d123c6c5401f0f1b62cf2ddb41ee50ce5a3f" datatype="html">
         <source>Keep track of everyone’s roles</source>
-        <target></target>
+        <target>Keep track of everyone’s roles</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
           <context context-type="linenumber">33</context>
@@ -31,7 +31,7 @@
       </trans-unit>
       <trans-unit id="d8f703df39c3423649671d4879cc15e6953344a1" datatype="html">
         <source> Get started - try Maptio for free </source>
-        <target></target>
+        <target> Get started - try Maptio for free </target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
           <context context-type="linenumber">41,42</context>
@@ -43,7 +43,7 @@
       </trans-unit>
       <trans-unit id="3010759c682780f9c847a27ee814f9357d0ba047" datatype="html">
         <source>Already use Maptio?</source>
-        <target></target>
+        <target>Already use Maptio?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
           <context context-type="linenumber">53</context>
@@ -51,7 +51,7 @@
       </trans-unit>
       <trans-unit id="c3d8513e4b6135023ed5f6ed0b6811d81fb0d70e" datatype="html">
         <source> Log in </source>
-        <target></target>
+        <target> Log in </target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
           <context context-type="linenumber">55,56</context>
@@ -59,7 +59,7 @@
       </trans-unit>
       <trans-unit id="69b37e500b69dce3ca94e2cd0390b044e890e712" datatype="html">
         <source>Screenshot of Maptio visualization of nested circles</source>
-        <target></target>
+        <target>Screenshot of Maptio visualization of nested circles</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
           <context context-type="linenumber">71</context>
@@ -67,7 +67,7 @@
       </trans-unit>
       <trans-unit id="ngb.alert.close" datatype="html">
         <source>Close</source>
-        <target></target>
+        <target>Close</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/alert/alert.ts</context>
           <context context-type="linenumber">58,59</context>
@@ -75,7 +75,7 @@
       </trans-unit>
       <trans-unit id="ngb.carousel.slide-number" datatype="html">
         <source> Slide <x id="INTERPOLATION" equiv-text="cused$ = new Be"/> of <x id="INTERPOLATION_1" equiv-text="private _pau"/> </source>
-        <target></target>
+        <target> Slide <x id="INTERPOLATION" equiv-text="cused$ = new Be"/> of <x id="INTERPOLATION_1" equiv-text="private _pau"/> </target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/carousel/carousel.ts</context>
           <context context-type="linenumber">113,117</context>
@@ -84,7 +84,7 @@
       </trans-unit>
       <trans-unit id="ngb.carousel.previous" datatype="html">
         <source>Previous</source>
-        <target></target>
+        <target>Previous</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/carousel/carousel.ts</context>
           <context context-type="linenumber">130,132</context>
@@ -92,7 +92,7 @@
       </trans-unit>
       <trans-unit id="ngb.carousel.next" datatype="html">
         <source>Next</source>
-        <target></target>
+        <target>Next</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/carousel/carousel.ts</context>
           <context context-type="linenumber">146,147</context>
@@ -100,7 +100,7 @@
       </trans-unit>
       <trans-unit id="ngb.datepicker.select-month" datatype="html">
         <source>Select month</source>
-        <target></target>
+        <target>Select month</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/datepicker/datepicker-navigation-select.ts</context>
           <context context-type="linenumber">43,47</context>
@@ -112,7 +112,7 @@
       </trans-unit>
       <trans-unit id="ngb.datepicker.select-year" datatype="html">
         <source>Select year</source>
-        <target></target>
+        <target>Select year</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/datepicker/datepicker-navigation-select.ts</context>
           <context context-type="linenumber">59,62</context>
@@ -124,7 +124,7 @@
       </trans-unit>
       <trans-unit id="ngb.datepicker.previous-month" datatype="html">
         <source>Previous month</source>
-        <target></target>
+        <target>Previous month</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/datepicker/datepicker-navigation.ts</context>
           <context context-type="linenumber">24,27</context>
@@ -136,7 +136,7 @@
       </trans-unit>
       <trans-unit id="ngb.datepicker.next-month" datatype="html">
         <source>Next month</source>
-        <target></target>
+        <target>Next month</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/datepicker/datepicker-navigation.ts</context>
           <context context-type="linenumber">44,48</context>
@@ -148,7 +148,7 @@
       </trans-unit>
       <trans-unit id="ngb.pagination.first" datatype="html">
         <source>««</source>
-        <target></target>
+        <target>««</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/pagination/pagination.ts</context>
           <context context-type="linenumber">181,182</context>
@@ -156,7 +156,7 @@
       </trans-unit>
       <trans-unit id="ngb.pagination.previous" datatype="html">
         <source>«</source>
-        <target></target>
+        <target>«</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/pagination/pagination.ts</context>
           <context context-type="linenumber">186,188</context>
@@ -164,7 +164,7 @@
       </trans-unit>
       <trans-unit id="ngb.pagination.next" datatype="html">
         <source>»</source>
-        <target></target>
+        <target>»</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/pagination/pagination.ts</context>
           <context context-type="linenumber">193,195</context>
@@ -172,7 +172,7 @@
       </trans-unit>
       <trans-unit id="ngb.pagination.last" datatype="html">
         <source>»»</source>
-        <target></target>
+        <target>»»</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/pagination/pagination.ts</context>
           <context context-type="linenumber">201,203</context>
@@ -180,7 +180,7 @@
       </trans-unit>
       <trans-unit id="ngb.pagination.first-aria" datatype="html">
         <source>First</source>
-        <target></target>
+        <target>First</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/pagination/pagination.ts</context>
           <context context-type="linenumber">207,208</context>
@@ -188,7 +188,7 @@
       </trans-unit>
       <trans-unit id="ngb.pagination.previous-aria" datatype="html">
         <source>Previous</source>
-        <target></target>
+        <target>Previous</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/pagination/pagination.ts</context>
           <context context-type="linenumber">214,215</context>
@@ -196,7 +196,7 @@
       </trans-unit>
       <trans-unit id="ngb.pagination.next-aria" datatype="html">
         <source>Next</source>
-        <target></target>
+        <target>Next</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/pagination/pagination.ts</context>
           <context context-type="linenumber">224,228</context>
@@ -204,7 +204,7 @@
       </trans-unit>
       <trans-unit id="ngb.pagination.last-aria" datatype="html">
         <source>Last</source>
-        <target></target>
+        <target>Last</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/pagination/pagination.ts</context>
           <context context-type="linenumber">231,232</context>
@@ -212,7 +212,7 @@
       </trans-unit>
       <trans-unit id="ngb.progressbar.value" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="(): number { re"/></source>
-        <target></target>
+        <target><x id="INTERPOLATION" equiv-text="(): number { re"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/progressbar/progressbar.ts</context>
           <context context-type="linenumber">31,35</context>
@@ -220,7 +220,7 @@
       </trans-unit>
       <trans-unit id="ngb.timepicker.HH" datatype="html">
         <source>HH</source>
-        <target></target>
+        <target>HH</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
           <context context-type="linenumber">40,41</context>
@@ -228,7 +228,7 @@
       </trans-unit>
       <trans-unit id="ngb.timepicker.hours" datatype="html">
         <source>Hours</source>
-        <target></target>
+        <target>Hours</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
           <context context-type="linenumber">46</context>
@@ -236,7 +236,7 @@
       </trans-unit>
       <trans-unit id="ngb.timepicker.MM" datatype="html">
         <source>MM</source>
-        <target></target>
+        <target>MM</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
           <context context-type="linenumber">50,53</context>
@@ -244,7 +244,7 @@
       </trans-unit>
       <trans-unit id="ngb.timepicker.minutes" datatype="html">
         <source>Minutes</source>
-        <target></target>
+        <target>Minutes</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
           <context context-type="linenumber">58,59</context>
@@ -252,7 +252,7 @@
       </trans-unit>
       <trans-unit id="ngb.timepicker.increment-hours" datatype="html">
         <source>Increment hours</source>
-        <target></target>
+        <target>Increment hours</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
           <context context-type="linenumber">63,64</context>
@@ -260,7 +260,7 @@
       </trans-unit>
       <trans-unit id="ngb.timepicker.decrement-hours" datatype="html">
         <source>Decrement hours</source>
-        <target></target>
+        <target>Decrement hours</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
           <context context-type="linenumber">68,70</context>
@@ -268,7 +268,7 @@
       </trans-unit>
       <trans-unit id="ngb.timepicker.increment-minutes" datatype="html">
         <source>Increment minutes</source>
-        <target></target>
+        <target>Increment minutes</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
           <context context-type="linenumber">76,77</context>
@@ -276,7 +276,7 @@
       </trans-unit>
       <trans-unit id="ngb.timepicker.decrement-minutes" datatype="html">
         <source>Decrement minutes</source>
-        <target></target>
+        <target>Decrement minutes</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
           <context context-type="linenumber">82,84</context>
@@ -284,7 +284,7 @@
       </trans-unit>
       <trans-unit id="ngb.timepicker.SS" datatype="html">
         <source>SS</source>
-        <target></target>
+        <target>SS</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
           <context context-type="linenumber">86,87</context>
@@ -292,7 +292,7 @@
       </trans-unit>
       <trans-unit id="ngb.timepicker.seconds" datatype="html">
         <source>Seconds</source>
-        <target></target>
+        <target>Seconds</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
           <context context-type="linenumber">92,93</context>
@@ -300,7 +300,7 @@
       </trans-unit>
       <trans-unit id="ngb.timepicker.increment-seconds" datatype="html">
         <source>Increment seconds</source>
-        <target></target>
+        <target>Increment seconds</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
           <context context-type="linenumber">98,100</context>
@@ -308,7 +308,7 @@
       </trans-unit>
       <trans-unit id="ngb.timepicker.decrement-seconds" datatype="html">
         <source>Decrement seconds</source>
-        <target></target>
+        <target>Decrement seconds</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
           <context context-type="linenumber">105,106</context>
@@ -317,7 +317,8 @@
       <trans-unit id="ngb.timepicker.PM" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="number;
   priv"/></source>
-        <target></target>
+        <target><x id="INTERPOLATION" equiv-text="number;
+  priv"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
           <context context-type="linenumber">118,123</context>
@@ -326,7 +327,8 @@
       <trans-unit id="ngb.timepicker.AM" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="ssor,
     OnCh"/></source>
-        <target></target>
+        <target><x id="INTERPOLATION" equiv-text="ssor,
+    OnCh"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
           <context context-type="linenumber">141,116</context>
@@ -334,7 +336,7 @@
       </trans-unit>
       <trans-unit id="ngb.toast.close-aria" datatype="html">
         <source>Close</source>
-        <target></target>
+        <target>Close</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/toast/toast.ts</context>
           <context context-type="linenumber">76,82</context>
