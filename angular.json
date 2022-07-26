@@ -33,6 +33,12 @@
   },
   "projects": {
     "maptio": {
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "fr": "src/locale/messages.fr.xlf"
+        }
+      },
       "projectType": "application",
       "root": "apps/maptio",
       "sourceRoot": "apps/maptio/src",
@@ -41,6 +47,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "localize": ["fr"],
             "outputPath": "dist/apps/maptio",
             "index": "apps/maptio/src/index.html",
             "main": "apps/maptio/src/main.ts",
