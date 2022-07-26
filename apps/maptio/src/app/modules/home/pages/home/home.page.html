@@ -26,21 +26,23 @@
         *ngIf="(userService.isAuthenticated$ | async) === false"
         class="text-blue text-center d-flex flex-column align-items-center mt-5 mt-md-0"
       >
-        <h1>
+        <h1 i18n>
           Maptio helps you organise without traditional management hierarchy
         </h1>
-        <h4>Visualise your organisation in nested circles</h4>
-        <h4>Keep track of everyone’s roles</h4>
+        <h4 i18n>Visualise your organisation in nested circles</h4>
+        <h4 i18n>Keep track of everyone’s roles</h4>
 
         <button
           class="btn btn-success d-md-none btn-lg my-3 btn-block"
           maptioLoginRedirect
+          i18n
           [isSignup]="true"
         >
           Get started - try Maptio for free
         </button>
         <button
           maptioLoginRedirect
+          i18n
           [isSignup]="true"
           class="btn btn-success d-none d-md-block btn-lg my-3"
         >
@@ -48,8 +50,10 @@
         </button>
 
         <div class="text-muted">
-          Already use Maptio?
-          <a maptioLoginRedirect role="button" class="link-primary">Log in</a>
+          <span i18n>Already use Maptio?</span>
+          <a maptioLoginRedirect i18n role="button" class="link-primary">
+            Log in
+          </a>
         </div>
       </div>
     </div>
@@ -61,7 +65,12 @@
       <picture>
         <source [srcset]="SCREENSHOT_URL | safe" type="image/webp" />
         <source [srcset]="SCREENSHOT_URL_FALLBACK | safe" type="image/jpeg" />
-        <img class="w-99" [src]="SCREENSHOT_URL_FALLBACK | safe" alt="" />
+        <img
+          class="w-99"
+          [src]="SCREENSHOT_URL_FALLBACK | safe"
+          alt="Screenshot of Maptio visualization of nested circles"
+          i18n-alt
+        />
       </picture>
     </div>
   </ng-template>
