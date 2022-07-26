@@ -215,27 +215,6 @@
   {{ errorMessage }}
 </div>
 
-<div
-  *ngIf="showMultipleAdminsWarning"
-  class="alert alert-warning alert-dismissible fade show"
-  role="alert"
->
-  <button type="button" class="close" data-dismiss="alert">&times;</button>
-
-  <b>We recommend that you only have one Admin user at any one time</b>
-  because if two people edit the map at the same moment, it's possible that one
-  person's changes will make another's temporarily disappear. Don't worry if
-  this happens - no data is lost, just send us a chat message and we'll restore
-  it for you. We're working on an upgrade to handle multiple Admins better. In
-  the meantime,
-  <b>
-    if you have multiple Admin users, communicate among yourselves to avoid
-    making changes at the same time
-  </b>
-  . You can close this message now; we've left a reminder at the top of the
-  page.
-</div>
-
 <!-- TODO: Extract the two additional non-form fields from here too -->
 <!-- <div class="bg-light py-2" *ngIf="isEditToggled">
   <form

@@ -19,25 +19,6 @@
     </div>
   </div>
 
-  <div
-    *ngIf="showMultipleAdminsWarning"
-    class="alert alert-warning fade show mt-5 mb-0"
-    role="alert"
-  >
-    Your organisation has multiple Admin users.
-    <b>We recommend that you only have one Admin user at any one time</b>
-    because if two people edit the map at the same moment, it's possible that
-    one person's changes will make another's temporarily disappear. Don't worry
-    if this happens - no data is lost, just send us a chat message and we'll
-    restore it for you. We're working on an upgrade to handle multiple Admins
-    better. In the meantime,
-    <b>
-      if you have multiple Admin users, communicate among yourselves to avoid
-      making changes at the same time
-    </b>
-    .
-  </div>
-
   <div class="my-4">
     <div class="d-none d-md-block border-bottom pt-4 text-muted">
       <div class="d-flex align-items-center">
@@ -90,8 +71,6 @@
           [user]="user"
           [member]="member"
           [team]="team"
-          [numberOfAdminUsers]="numberOfAdminUsers"
-          (refreshMembersList)="getAllMembers()"
           (delete)="deleteMember(member)"
         ></maptio-member-single>
 
