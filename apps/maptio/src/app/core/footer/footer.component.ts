@@ -9,14 +9,13 @@ import { environment as config } from '@maptio-config/environment';
   styleUrls: ['./footer.component.css'],
 })
 export class FooterComponent {
-  @Input('isMobile') isMobile: boolean;
+  @Input() isMobile: boolean;
 
   public TERMS_AND_CONDITIONS_URL: string =
     environment.TERMS_AND_CONDITIONS_URL;
   public PRIVACY_POLICY_URL: string = environment.PRIVACY_POLICY_URL;
   public BLOG_URL: string = config.BLOG_URL;
+  public GITHUB_URL: string = config.GITHUB_URL;
   public KB_URL_HOME: string = config.KB_URL_HOME;
   public today = Date.now();
-
-  constructor() {}
 }

@@ -5,6 +5,7 @@
 
 export const environment = {
   BLOG_URL: 'https://medium.com/maptio',
+  GITHUB_URL: 'https://github.com/maptio/maptio',
   SUPPORT_EMAIL: 'support@maptio.com',
   MAPTIO_API_URL: 'https://app.maptio.com/api/v1',
   MIXPANEL_TOKEN: 'de90e67220137ed9cab9510a84ba7ecf',
