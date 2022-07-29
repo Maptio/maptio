@@ -1,5 +1,5 @@
 <ng-template #logout>
-  <a class="btn btn-link px-0" routerLink="/logout" id="logoutButton">
+  <a class="btn btn-link px-0" id="logoutButton" routerLink="/logout" i18n>
     Log out
   </a>
 </ng-template>
@@ -8,6 +8,7 @@
   <a
     class="btn btn-link px-0"
     routerLink="profile/{{ user?.shortid }}/{{ user?.getSlug() || 'profile' }}"
+    i18n
   >
     Profile
   </a>
@@ -33,6 +34,7 @@
       class="d-inline-block align-center"
       src="/assets/images/logo.png"
       alt="Home"
+      i18n-alt
     />
   </a>
   <div
@@ -49,6 +51,7 @@
     aria-controls="navbarSupportedContent"
     aria-expanded="false"
     aria-label="Toggle navigation"
+    i18n-aria-label
     (click)="isMenuOpened = !isMenuOpened"
   >
     <i
@@ -71,7 +74,7 @@
         class="navbar-text d-none d-md-flex align-items-center position-relative ml-auto mr-auto"
         *ngIf="team && isMap()"
       >
-        <span *ngIf="team?.name" class="text-muted mr-1">
+        <span *ngIf="team?.name" class="text-muted mr-1" i18n>
           Organisation
           <a routerLink="/teams/{{ team?.team_id }}/{{ team?.getSlug() }}">
             {{ team?.name }}
@@ -83,7 +86,7 @@
         class="nav-item d-none d-md-flex align-items-center mr-3"
         *ngIf="team"
       >
-        <a routerLink="/teams/{{ team?.team_id }}/{{ team?.getSlug() }}">
+        <a routerLink="/teams/{{ team?.team_id }}/{{ team?.getSlug() }}" i18n>
           Settings
         </a>
       </li>
@@ -102,6 +105,7 @@
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
+          i18n
         >
           Maps
         </a>
@@ -154,7 +158,7 @@
 
           <div class="dropdown-divider" *ngIf="teams?.length > 0"></div>
 
-          <h6 class="dropdown-header" *ngIf="teams?.length > 0">
+          <h6 class="dropdown-header" *ngIf="teams?.length > 0" i18n>
             Organisations
           </h6>
           <ng-container *ngIf="teams?.length > 1">
@@ -166,7 +170,7 @@
               {{ team?.name }}
             </a>
 
-            <a class="dropdown-item" routerLink="/teams">More ...</a>
+            <a class="dropdown-item" routerLink="/teams" i18n>More ...</a>
           </ng-container>
           <a
             class="dropdown-item"
@@ -189,7 +193,7 @@
         *ngIf="(userService.isAuthenticated$ | async) === false && !isSignUp()"
         class="nav-item d-flex align-items-center"
       >
-        <a maptioLoginRedirect class="btn btn-link px-0">Log in</a>
+        <a maptioLoginRedirect class="btn btn-link px-0" i18n>Log in</a>
       </li>
 
       <li class="nav-item d-md-none">
@@ -199,7 +203,7 @@
       <ng-container *ngIf="datasets?.length > 0">
         <li class="d-md-none dropdown-divider"></li>
 
-        <li class="d-md-none dropdown-header px-0 text-uppercase">Maps</li>
+        <li class="d-md-none dropdown-header px-0 text-uppercase" i18n>Maps</li>
 
         <li
           class="nav-item d-md-none"
@@ -216,14 +220,14 @@
         </li>
 
         <li class="nav-item d-md-none" *ngIf="datasets?.length > 3">
-          <a class="btn btn-link px-0" routerLink="/home">All maps ...</a>
+          <a class="btn btn-link px-0" routerLink="/home" i18n>All maps ...</a>
         </li>
       </ng-container>
 
       <ng-container *ngIf="teams?.length > 0">
         <li class="d-md-none dropdown-divider"></li>
 
-        <li class="d-md-none dropdown-header px-0 text-uppercase">
+        <li class="d-md-none dropdown-header px-0 text-uppercase" i18n>
           Organizations
         </li>
 
@@ -241,6 +245,7 @@
             *ngIf="teams?.length > 1"
             class="btn btn-link px-0"
             routerLink="/teams"
+            i18n
           >
             All organizations...
           </a>
@@ -250,19 +255,21 @@
       <li class="d-md-none dropdown-divider"></li>
 
       <li class="nav-item d-md-none">
-        <a class="btn btn-link px-0" routerLink="/legal/terms">Terms</a>
+        <a class="btn btn-link px-0" routerLink="/legal/terms" i18n>Terms</a>
       </li>
       <li class="nav-item d-md-none">
-        <a class="btn btn-link px-0" routerLink="/legal/privacy">Privacy</a>
+        <a class="btn btn-link px-0" routerLink="/legal/privacy" i18n>
+          Privacy
+        </a>
       </li>
       <li class="nav-item d-md-none">
-        <a class="btn btn-link px-0" href="{{ BLOG_URL }}">Blog</a>
+        <a class="btn btn-link px-0" href="{{ BLOG_URL }}" i18n>Blog</a>
       </li>
       <li class="nav-item d-md-none">
-        <a class="btn btn-link px-0" routerLink="/help">Help</a>
+        <a class="btn btn-link px-0" routerLink="/help" i18n>Help</a>
       </li>
       <li class="nav-item d-md-none">
-        <a class="btn btn-link px-0" routerLink="/pricing">Pricing</a>
+        <a class="btn btn-link px-0" routerLink="/pricing" i18n>Pricing</a>
       </li>
 
       <ng-container *ngIf="userService.isAuthenticated$ | async">
