@@ -48,7 +48,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "localize": ["pl"],
+            "localize": ["en-US", "fr", "pl"],
             "outputPath": "dist/apps/maptio",
             "index": "apps/maptio/src/index.html",
             "main": "apps/maptio/src/main.ts",

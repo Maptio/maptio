@@ -27,7 +27,7 @@ export const environment = {
   MESSAGE_PERMISSIONS_DENIED_EDIT: "You don't have permissions to edit this",
 
   IMPORT_USERS_TEMPLATE_URL:
-    '/assets/other/Maptio - Import template - Users.csv',
+    'assets/other/Maptio - Import template - Users.csv',
 
   SLACK_CLIENT_ID: '97212882021.321753214899',
 
@@ -51,6 +51,6 @@ export const environment = {
     '#242c2e',
   ],
   DEFAULT_PRESETS_LABEL: ' ',
-  SCREENSHOT_URL: '/assets/images/screenshot.webp',
-  SCREENSHOT_URL_FALLBACK: '/assets/images/screenshot.png',
+  SCREENSHOT_URL: 'assets/images/screenshot.webp',
+  SCREENSHOT_URL_FALLBACK: 'assets/images/screenshot.png',
 };
