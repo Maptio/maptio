@@ -17,9 +17,12 @@ dotenv.config();
 const app = express();
 
 const DIST_DIR = path.join(__dirname, '../maptio/');
-const HTML_FILE = path.join(DIST_DIR, 'index.html');
-const DEFAULT_PORT = 3000;
+const HTML_FILE_NAME = 'index.html';
 
+const LOCALES = ['en-US', 'fr', 'pl'];
+const DEFAULT_LOCALE = 'en-US';
+
+const DEFAULT_PORT = 3000;
 const port = process.env.PORT || DEFAULT_PORT;
 
 const audience = process.env.AUTH0_AUDIENCE;
@@ -204,6 +207,7 @@ app.use('/api/v1/embeddable-dataset/', embeddableDatasets);
 //
 // Server
 //
+
 app.set('port', port);
 app.get(cache('5 seconds'));
 
@@ -217,12 +221,28 @@ if (!environment.isDevelopment) {
     next();
   });
 
+  // If a supported locale is present in the path, we will use that to send the
+  // appropriate index.html for that locale
+  let localePath = '';
+  LOCALES.forEach((locale) => {
+    app.use(`/${locale}/`, function (req, res, next) {
+      localePath = locale;
+      next();
+    });
+  });
+
   // For any other requests, serve the static Angular bundle
   app.get('*', function (req, res, next) {
     if (req.header('x-forwarded-proto') !== 'https') {
       return res.redirect(['https://', req.get('Host'), req.url].join(''));
     }
 
+    // Default to English if no locale is present
+    if (localePath === '') {
+      localePath = DEFAULT_LOCALE;
+    }
+
+    const HTML_FILE = path.join(DIST_DIR, localePath, HTML_FILE_NAME);
     res.sendFile(HTML_FILE);
   });
 }
