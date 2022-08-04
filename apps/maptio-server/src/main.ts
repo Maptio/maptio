@@ -10,6 +10,7 @@ import sslRedirect from 'heroku-ssl-redirect';
 import compression from 'compression';
 
 import { environment } from './environments/environment';
+import { getClosestSupportedLocale } from './i18n/get-closest-supported-locale';
 import { setUpAuth0ManagementClient } from './auth/management-client';
 
 dotenv.config();
@@ -229,9 +230,14 @@ if (!environment.isDevelopment) {
       return res.redirect(['https://', req.get('Host'), req.url].join(''));
     }
 
-    // Default to English if no locale is present
+    // Set locale based on language headers or default to English if we don't
+    // support  a matching locale
     if (localePath === '') {
-      localePath = DEFAULT_LOCALE;
+      localePath = getClosestSupportedLocale(
+        req.acceptsLanguages(),
+        LOCALES,
+        DEFAULT_LOCALE
+      );
     }
 
     const HTML_FILE = path.join(DIST_DIR, localePath, HTML_FILE_NAME);
