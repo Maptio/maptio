@@ -28,14 +28,6 @@ const port = process.env.PORT || DEFAULT_PORT;
 const audience = process.env.AUTH0_AUDIENCE;
 const issuer = process.env.AUTH0_ISSUER;
 
-if (environment.isDevelopment) {
-  console.log('Running server in DEVELOPMENT mode.');
-} else {
-  console.log('Running server in PRODUCTION mode.');
-}
-console.log('environment.isDevelopment: ', environment.isDevelopment);
-console.log('process.env.NODE_ENV: ', process.env.NODE_ENV);
-
 //
 // Auth0 Management API Client
 //
