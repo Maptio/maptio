@@ -36,6 +36,7 @@ import { OnboardingModule } from '../shared/onboarding.module';
 import { OnboardingComponent } from '../shared/components/onboarding/onboarding.component';
 import { LoginModule } from 'app/modules/login/login.module';
 import { LoginErrorPageComponent } from './login-error/login-error.page';
+import { LanguagePickerComponent } from './header/language-picker.component';
 
 export function tokenGetter(): string {
   return localStorage.getItem('maptio_api_token');
@@ -51,6 +52,7 @@ export function tokenGetter(): string {
     NotFoundComponent,
     LoginErrorPageComponent,
     ErrorPageComponent,
+    LanguagePickerComponent,
   ],
   imports: [
     CommonModule,
