@@ -8,6 +8,7 @@ import jwksRsa from 'jwks-rsa';
 import apicache from 'apicache';
 import sslRedirect from 'heroku-ssl-redirect';
 import compression from 'compression';
+import cookieParser from 'cookie-parser';
 
 import { environment } from './environments/environment';
 import { getClosestSupportedLocale } from './i18n/get-closest-supported-locale';
@@ -163,6 +164,7 @@ app.use(express.text({ type: 'text/html', limit: '5mb' }));
 app.use(express.json({ limit: '1mb' }));
 app.use(sslRedirect());
 app.use(compression());
+app.use(cookieParser());
 
 //
 // API routes
@@ -226,15 +228,20 @@ if (!environment.isDevelopment) {
 
   // For any other requests, serve the static Angular bundle
   app.get('*', function (req, res, next) {
-    if (req.header('x-forwarded-proto') !== 'https') {
-      return res.redirect(['https://', req.get('Host'), req.url].join(''));
-    }
 
-    // Set locale based on language headers or default to English if we don't
-    // support  a matching locale
+    // Set locale based on cookie (if set previously by language picker) or
+    // language headers or default to English if we don't support  a matching
+    // locale
     if (localePath === '') {
+      let preferredLocales = [];
+
+      if (req.cookies.locale) {
+        preferredLocales.push(req.cookies.locale);
+      }
+      preferredLocales = preferredLocales.concat(req.acceptsLanguages());
+
       localePath = getClosestSupportedLocale(
-        req.acceptsLanguages(),
+        preferredLocales,
         LOCALES,
         DEFAULT_LOCALE
       );

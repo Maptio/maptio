@@ -76,6 +76,7 @@
     "cloudinary": "1.11.0",
     "cloudinary-core": "^2.3.0",
     "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
     "core-js": "^2.6.3",
     "d3-array": "^2.0.3",
     "d3-collection": "^1.0.7",
