@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { JwtModule } from '@auth0/angular-jwt';
+import { CookieService } from 'ngx-cookie-service';
 
 import { ErrorPageComponent } from './error/error.page';
 
@@ -78,6 +79,7 @@ export function tokenGetter(): string {
     OnboardingComponent,
   ],
   providers: [
+    CookieService,
     AccessGuard,
     ActivationGuard,
     BillingGuard,
