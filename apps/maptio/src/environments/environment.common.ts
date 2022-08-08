@@ -2,6 +2,12 @@
 // environments
 
 export const commonEnvironment = {
+  LOCALES: [
+    { code: 'en-US', name: 'English (United States)', shortLabel: 'EN' },
+    { code: 'fr', name: 'Français', shortLabel: 'FR' },
+    { code: 'pl', name: 'Polski', shortLabel: 'PL' },
+  ],
+
   TERMS_AND_CONDITIONS_URL:
     'https://termsfeed.com/terms-conditions/f0e548940bde8842b1fb58637ae048c0',
   PRIVACY_POLICY_URL:

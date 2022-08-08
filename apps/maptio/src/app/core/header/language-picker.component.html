@@ -7,16 +7,18 @@
   i18n
   (click)="onClick()"
 >
-  EN
+  {{ currentLocale?.shortLabel }}
 </a>
 
 <div
   class="dropdown-menu dropdown-menu-right overflow"
   aria-labelledby="languageListDropdownLink"
 >
-  <a class="dropdown-item" [href]="'/en-US' + currentLocation">
-    English (United States)
+  <a
+    class="dropdown-item"
+    *ngFor="let locale of LOCALES"
+    [href]="'/' + locale.code + currentLocation"
+  >
+    {{ locale.name }}
   </a>
-  <a class="dropdown-item" [href]="'/fr' + currentLocation">French</a>
-  <a class="dropdown-item" [href]="'/pl' + currentLocation">Polish</a>
 </div>
