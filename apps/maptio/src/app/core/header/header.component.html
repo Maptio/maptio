@@ -4,16 +4,6 @@
   </a>
 </ng-template>
 
-<ng-template #profile>
-  <a
-    class="btn btn-link px-0"
-    routerLink="profile/{{ user?.shortid }}/{{ user?.getSlug() || 'profile' }}"
-    i18n
-  >
-    Profile
-  </a>
-</ng-template>
-
 <maptio-onboarding-banner
   *ngIf="
     (userService.isAuthenticated$ | async) &&
@@ -156,9 +146,15 @@
           class="dropdown-menu dropdown-menu-right"
           aria-labelledby="profileDropdownLink"
         >
-          <div class="dropdown-item">
-            <ng-container *ngTemplateOutlet="profile"></ng-container>
-          </div>
+          <a
+            class="dropdown-item py-2"
+            routerLink="profile/{{ user?.shortid }}/{{
+              user?.getSlug() || 'profile'
+            }}"
+            i18n
+          >
+            Profile
+          </a>
 
           <div class="dropdown-divider" *ngIf="teams?.length > 0"></div>
 
@@ -201,7 +197,15 @@
       </li>
 
       <li class="nav-item d-md-none">
-        <ng-container *ngTemplateOutlet="profile"></ng-container>
+        <a
+          class="btn btn-link px-0"
+          routerLink="profile/{{ user?.shortid }}/{{
+            user?.getSlug() || 'profile'
+          }}"
+          i18n
+        >
+          Profile
+        </a>
       </li>
 
       <ng-container *ngIf="datasets?.length > 0">
