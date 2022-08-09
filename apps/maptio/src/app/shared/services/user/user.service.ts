@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, Inject } from '@angular/core';
+import { Injectable, OnDestroy, Inject, LOCALE_ID } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -129,7 +129,8 @@ export class UserService implements OnDestroy {
     private mapService: MapService,
     private userRoleService: UserRoleService,
     private loaderService: LoaderService,
-    @Inject(DOCUMENT) private doc: Document
+    @Inject(DOCUMENT) private doc: Document,
+    @Inject(LOCALE_ID) public currentLocaleCode: string
   ) {
     // TODO: This is the solution to token expiry actually recommended by Auth0
     // here: https://github.com/auth0/auth0-angular#handling-errors but it's
@@ -152,7 +153,9 @@ export class UserService implements OnDestroy {
    */
 
   login() {
-    return this.auth.loginWithRedirect();
+    return this.auth.loginWithRedirect({
+      ui_locales: this.currentLocaleCode,
+    });
   }
 
   logout() {
@@ -164,6 +167,7 @@ export class UserService implements OnDestroy {
   signup() {
     return this.auth.loginWithRedirect({
       screen_hint: 'signup',
+      ui_locales: this.currentLocaleCode,
     });
   }
 
@@ -682,9 +686,7 @@ export class UserService implements OnDestroy {
         this.mapService.isDatasetOutdated(dataset)
       )
     );
-    const isAnyDatasetOutdated = outdatedStatusForEachTeamDataset.some(
-      Boolean
-    );
+    const isAnyDatasetOutdated = outdatedStatusForEachTeamDataset.some(Boolean);
 
     if (isAnyDatasetOutdated) {
       alert(
