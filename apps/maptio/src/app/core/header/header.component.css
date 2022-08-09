@@ -133,6 +133,10 @@ span.navbar-text a {
   cursor: pointer;
 }
 
+.dropdown-menu {
+  cursor: default;
+}
+
 .member {
   float: left;
   background: 50% 50% no-repeat;
