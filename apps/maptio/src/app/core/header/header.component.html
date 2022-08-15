@@ -146,9 +146,8 @@
             routerLink="profile/{{ user?.shortid }}/{{
               user?.getSlug() || 'profile'
             }}"
-            i18n
           >
-            Profile
+            <ng-container i18n>Profile</ng-container>
           </a>
 
           <div class="dropdown-divider" *ngIf="teams?.length > 0"></div>
@@ -205,9 +204,8 @@
           routerLink="profile/{{ user?.shortid }}/{{
             user?.getSlug() || 'profile'
           }}"
-          i18n
         >
-          Profile
+          <ng-container i18n>Profile</ng-container>
         </a>
       </li>
 
