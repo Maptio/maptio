@@ -93,6 +93,7 @@
         >
           Maps
         </a>
+
         <div
           class="dropdown-menu dropdown-menu-right overflow"
           aria-labelledby="mapsListDropdownLink"
@@ -155,6 +156,7 @@
           <h6 class="dropdown-header" *ngIf="teams?.length > 0" i18n>
             Organisations
           </h6>
+
           <ng-container *ngIf="teams?.length > 1">
             <a
               class="dropdown-item"
@@ -166,6 +168,7 @@
 
             <a class="dropdown-item" routerLink="/teams" i18n>More ...</a>
           </ng-container>
+
           <a
             class="dropdown-item"
             *ngIf="teams?.length === 1"
