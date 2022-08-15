@@ -10,7 +10,7 @@
       </a>
       |
       <a class="small mr-1" href="{{ GITHUB_URL }}" target="blank">
-        <span i18n>Github</span>
+        <span>Github</span>
       </a>
       |
       <a class="small mr-1" href="{{ BLOG_URL }}" target="blank">
@@ -26,9 +26,10 @@
       </a>
     </div>
   </span>
+
   <span class="navbar-text text-muted">
-    <small i18n>
-      Copyright
+    <small>
+      <span i18n>Copyright</span>
       <i class="far fa-copyright" aria-hidden="true"></i>
       {{ today | date: 'yyyy' }} Maptio Ltd
     </small>
@@ -44,6 +45,3 @@
 >
   <ng-container *ngTemplateOutlet="links"></ng-container>
 </nav>
-<!-- <nav *ngIf="!isMobile" class="footer navbar bg-transparent d-flex flex-row justify-content-between col-11 text-muted">
-      <ng-container *ngTemplateOutlet="links"></ng-container>
-</nav> -->
