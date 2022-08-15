@@ -206,7 +206,7 @@ app.use('/api/v1/embeddable-dataset/', embeddableDatasets);
 app.set('port', port);
 app.get(cache('5 seconds'));
 
-if (!environment.isDevelopment) {
+if (environment.isDevelopment) {
   app.use(express.static(DIST_DIR));
 
   // Make it possible to use the /embed/ route in an iframe by removing the
@@ -228,6 +228,9 @@ if (!environment.isDevelopment) {
 
   // For any other requests, serve the static Angular bundle
   app.get('*', function (req, res, next) {
+    // if (req.header('x-forwarded-proto') !== 'https') {
+    //   return res.redirect(['https://', req.get('Host'), req.url].join(''));
+    // }
 
     // Set locale based on cookie (if set previously by language picker) or
     // language headers or default to English if we don't support  a matching
