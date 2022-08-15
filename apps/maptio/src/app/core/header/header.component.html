@@ -58,8 +58,8 @@
         class="navbar-text d-none d-md-flex align-items-center position-relative ml-auto mr-auto"
         *ngIf="team && isMap()"
       >
-        <span *ngIf="team?.name" class="text-muted mr-1" i18n>
-          Organisation
+        <span *ngIf="team?.name" class="text-muted mr-1">
+          <span i18n>Organisation</span>
           <a routerLink="/teams/{{ team?.team_id }}/{{ team?.getSlug() }}">
             {{ team?.name }}
           </a>
