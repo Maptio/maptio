@@ -49,14 +49,6 @@
           <context context-type="linenumber">53</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="c3d8513e4b6135023ed5f6ed0b6811d81fb0d70e" datatype="html">
-        <source> Log in </source>
-        <target> Zaloguj się </target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
-          <context context-type="linenumber">55,56</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="69b37e500b69dce3ca94e2cd0390b044e890e712" datatype="html">
         <source>Screenshot of Maptio visualization of nested circles</source>
         <target>Zrzut ekranu wizualizacji Maptio z zagnieżdżonymi okręgami</target>
@@ -65,279 +57,238 @@
           <context context-type="linenumber">71</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.alert.close" datatype="html">
-        <source>Close</source>
-        <target>Zamknij</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/alert/alert.ts</context>
-          <context context-type="linenumber">58,59</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ngb.carousel.slide-number" datatype="html">
-        <source> Slide <x id="INTERPOLATION" equiv-text="cused$ = new Be"/> of <x id="INTERPOLATION_1" equiv-text="private _pau"/> </source>
-        <target> Slajd <x id="INTERPOLATION" equiv-text="cused$ = new Be"/> z <x id="INTERPOLATION_1" equiv-text="private _pau"/> </target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/carousel/carousel.ts</context>
-          <context context-type="linenumber">113,117</context>
-        </context-group>
-        <note priority="1" from="description">Currently selected slide number read by screen reader</note>
-      </trans-unit>
-      <trans-unit id="ngb.carousel.previous" datatype="html">
-        <source>Previous</source>
-        <target>Poprzedni</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/carousel/carousel.ts</context>
-          <context context-type="linenumber">130,132</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ngb.carousel.next" datatype="html">
-        <source>Next</source>
-        <target>Następny</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/carousel/carousel.ts</context>
-          <context context-type="linenumber">146,147</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ngb.datepicker.select-month" datatype="html">
-        <source>Select month</source>
-        <target>Wybierz miesiąc</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/datepicker/datepicker-navigation-select.ts</context>
-          <context context-type="linenumber">43,47</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/datepicker/datepicker-navigation-select.ts</context>
-          <context context-type="linenumber">47,50</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ngb.datepicker.select-year" datatype="html">
-        <source>Select year</source>
-        <target>Wybierz rok</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/datepicker/datepicker-navigation-select.ts</context>
-          <context context-type="linenumber">59,62</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/datepicker/datepicker-navigation-select.ts</context>
-          <context context-type="linenumber">69,74</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ngb.datepicker.previous-month" datatype="html">
-        <source>Previous month</source>
-        <target>Poprzedni miesiąc</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/datepicker/datepicker-navigation.ts</context>
-          <context context-type="linenumber">24,27</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/datepicker/datepicker-navigation.ts</context>
-          <context context-type="linenumber">35</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ngb.datepicker.next-month" datatype="html">
-        <source>Next month</source>
-        <target>Następny miesiąc</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/datepicker/datepicker-navigation.ts</context>
-          <context context-type="linenumber">44,48</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/datepicker/datepicker-navigation.ts</context>
-          <context context-type="linenumber">57,61</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ngb.pagination.first" datatype="html">
-        <source>««</source>
+      <trans-unit id="69580f2c2dbf4edf7096820ba8c393367352d774" datatype="html">
+        <source>Terms</source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">181,182</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">267</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.pagination.previous" datatype="html">
-        <source>«</source>
+      <trans-unit id="3c78b53bca33467190c0b7a01320bc093a2b1427" datatype="html">
+        <source>Privacy</source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">186,188</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
+          <context context-type="linenumber">9</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.pagination.next" datatype="html">
-        <source>»</source>
+      <trans-unit id="013acfd8797bf5ade4a15c71fa24178f913c4cae" datatype="html">
+        <source>Blog</source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">193,195</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">278</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.pagination.last" datatype="html">
-        <source>»»</source>
+      <trans-unit id="85b79c9064aed1ead31ace985f31aa1363f6bdaf" datatype="html">
+        <source>Help</source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">201,203</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">281</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.pagination.first-aria" datatype="html">
-        <source>First</source>
+      <trans-unit id="b051eeff3ae30cba4fbd1885ebb58fc22fb0d587" datatype="html">
+        <source>Pricing</source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">207,208</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">284</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.pagination.previous-aria" datatype="html">
-        <source>Previous</source>
+      <trans-unit id="cc82fa89983785cb60daa0a7516c611fc02b5cd1" datatype="html">
+        <source>Copyright</source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">214,215</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.pagination.next-aria" datatype="html">
-        <source>Next</source>
+      <trans-unit id="92eee6be6de0b11c924e3ab27db30257159c0a7c" datatype="html">
+        <source>Home</source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">224,228</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.pagination.last-aria" datatype="html">
-        <source>Last</source>
+      <trans-unit id="319e0745bcbc132451569294fa2fa21bf10f555a" datatype="html">
+        <source>Toggle navigation</source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">231,232</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.progressbar.value" datatype="html">
-        <source><x id="INTERPOLATION" equiv-text="(): number { re"/></source>
+      <trans-unit id="c82bcd1b91ad8ef9ad838452b70bc14081907d01" datatype="html">
+        <source>Organisation</source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/progressbar/progressbar.ts</context>
-          <context context-type="linenumber">31,35</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">62</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.HH" datatype="html">
-        <source>HH</source>
+      <trans-unit id="f2d11ba5c599061eca2405ac09dc467f7c3adbcf" datatype="html">
+        <source> Settings </source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">40,41</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">74,75</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.hours" datatype="html">
-        <source>Hours</source>
+      <trans-unit id="0087a0e69682ed726d81ba871f42823440c79879" datatype="html">
+        <source> Maps </source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">94,95</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.MM" datatype="html">
-        <source>MM</source>
+      <trans-unit id="994363f08f9fbfa3b3994ff7b35c6904fdff18d8" datatype="html">
+        <source>Profile</source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">50,53</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">150</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">208</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.minutes" datatype="html">
-        <source>Minutes</source>
+      <trans-unit id="bf3cae65277c5ea4caa6b76b40c1d57e7782b199" datatype="html">
+        <source> Organisations </source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">58,59</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">156,157</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.increment-hours" datatype="html">
-        <source>Increment hours</source>
+      <trans-unit id="a3a1d87649a0bcfe77259b11af7621e6f2c25912" datatype="html">
+        <source>More ...</source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">63,64</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">168</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.decrement-hours" datatype="html">
-        <source>Decrement hours</source>
+      <trans-unit id="6326f9ce2365bfe97668c4aa146fbbb762497c1a" datatype="html">
+        <source> Log out </source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">68,70</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">189,190</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">297,298</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.increment-minutes" datatype="html">
-        <source>Increment minutes</source>
+      <trans-unit id="f093d9574ab746b231504bd2cbb65f04bd7b00db" datatype="html">
+        <source>Log in</source>
+        <target>Zaloguj się</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">198</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="595aff5564b0119a1eeda9b4d7aaf21c5da69de3" datatype="html">
+        <source>Maps</source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">76,77</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">215</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.decrement-minutes" datatype="html">
-        <source>Decrement minutes</source>
+      <trans-unit id="d9fdd7fe5922c64f2cb0d705f474480d546258a0" datatype="html">
+        <source>All maps ...</source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">82,84</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">232</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.SS" datatype="html">
-        <source>SS</source>
+      <trans-unit id="499e340c6f959d401d9e027e4d78f1cb19f66c6e" datatype="html">
+        <source> Organizations </source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">86,87</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">240,241</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.seconds" datatype="html">
-        <source>Seconds</source>
+      <trans-unit id="b4d7491d66bd2a5eb3cea884df1b365cd1909faf" datatype="html">
+        <source> All organizations... </source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">92,93</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">259,260</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.increment-seconds" datatype="html">
-        <source>Increment seconds</source>
+      <trans-unit id="13fed01b1b423a92af56a1bad816a7d73e702f2b" datatype="html">
+        <source> Privacy </source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">98,100</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">271,272</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.decrement-seconds" datatype="html">
-        <source>Decrement seconds</source>
+      <trans-unit id="95a00f0306e433b192aa1175f33bf5ccb3ad1690" datatype="html">
+        <source>Github</source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">105,106</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">275</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.PM" datatype="html">
-        <source><x id="INTERPOLATION" equiv-text="number;
-  priv"/></source>
+      <trans-unit id="d300ec4658d242f9218551687482605db878162d" datatype="html">
+        <source> <x id="INTERPOLATION" equiv-text="{{ currentLocale?.shortLabel }}"/>
+</source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">118,123</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/language-picker.component.html</context>
+          <context context-type="linenumber">8,10</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.AM" datatype="html">
-        <source><x id="INTERPOLATION" equiv-text="ssor,
-    OnCh"/></source>
+      <trans-unit id="c9f75cbbe9d893e709e01cd4e5fa3d486b90b035" datatype="html">
+        <source> We move fast and sometimes we break things, but we are always happy to help get you back on track. </source>
         <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">141,116</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
+          <context context-type="linenumber">18,20</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.toast.close-aria" datatype="html">
-        <source>Close</source>
-        <target>Zamknij</target>
+      <trans-unit id="debeb99cab8e5e01339f329a38a6df134955c6f4" datatype="html">
+        <source> You will be redirected to the <x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>homepage<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> in <x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> seconds. </source>
+        <target></target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/toast/toast.ts</context>
-          <context context-type="linenumber">76,82</context>
+          <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
+          <context context-type="linenumber">33,36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="45f033b4ba61d8393d5f7b1f2372aa8d74ca4e5f" datatype="html">
+        <source> Chat with us or email us at <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Support request&quot;&gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> if the issue persists.
+</source>
+        <target>Napisz do nas na czacie albo na e-mail <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Support request&quot;&gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> jeśli problem nie zniknie.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
+          <context context-type="linenumber">43,48</context>
         </context-group>
       </trans-unit>
     </body>
