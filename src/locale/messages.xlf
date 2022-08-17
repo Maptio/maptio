@@ -2,6 +2,20 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en-US" datatype="plaintext" original="ng2.template">
     <body>
+      <trans-unit id="8b06788d3accc7f7ac5ded29399b43a0ef3f8209" datatype="html">
+        <source>You cannot see this!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/401/unauthorized.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="01bbbd0d1e4ed56b4c07ab5711a1bea1247309ee" datatype="html">
+        <source>This page does not exist!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/404/not-found.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="b0e8a2f4ca23077f39bd8eb69d069ad245897fc5" datatype="html">
         <source> Despite our best efforts, things will sometimes break, but we are always happy to help get you back on track. </source>
         <context-group purpose="location">
@@ -203,6 +217,13 @@
           <context context-type="linenumber">274</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="ae1a43feec972e85ff934326e77e1da8eeabf499" datatype="html">
+        <source>A login error occurred</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/login-error/login-error.page.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="e4760987e2a554c951e849da6f56aee546b1c5c2" datatype="html">
         <source> Maptio helps you organise without traditional management hierarchy </source>
         <context-group purpose="location">
@@ -248,7 +269,6 @@
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
           <context context-type="linenumber">71</context>
         </context-group>
-      </trans-unit>
       </trans-unit>
     </body>
   </file>
