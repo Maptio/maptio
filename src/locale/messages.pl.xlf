@@ -266,14 +266,6 @@
           <context context-type="linenumber">8,10</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="c9f75cbbe9d893e709e01cd4e5fa3d486b90b035" datatype="html">
-        <source> We move fast and sometimes we break things, but we are always happy to help get you back on track. </source>
-        <target></target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
-          <context context-type="linenumber">18,20</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="debeb99cab8e5e01339f329a38a6df134955c6f4" datatype="html">
         <source> You will be redirected to the <x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>homepage<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> in <x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> seconds. </source>
         <target> Będziesz przekierowany na <x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>stronę główną<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> za <x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> sekund. </target>
@@ -289,6 +281,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
           <context context-type="linenumber">43,48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b0e8a2f4ca23077f39bd8eb69d069ad245897fc5" datatype="html">
+        <source> Despite our best efforts, things will sometimes break, but we are always happy to help get you back on track. </source>
+        <target> Mimo naszych starań czasami coś się w Maptio psuje, ale jesteśmy zawsze chętni, żeby pomóc rozwiązać problem. </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
+          <context context-type="linenumber">18,20</context>
         </context-group>
       </trans-unit>
     </body>
