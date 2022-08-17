@@ -276,7 +276,7 @@
       </trans-unit>
       <trans-unit id="debeb99cab8e5e01339f329a38a6df134955c6f4" datatype="html">
         <source> You will be redirected to the <x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>homepage<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> in <x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> seconds. </source>
-        <target></target>
+        <target> Będziesz przekierowany na <x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>stronę główną<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> za <x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> sekund. </target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
           <context context-type="linenumber">33,36</context>
