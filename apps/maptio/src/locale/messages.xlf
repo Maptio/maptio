@@ -217,11 +217,15 @@
           <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="e4760987e2a554c951e849da6f56aee546b1c5c2" datatype="html">
+      <trans-unit id="tagline" datatype="html">
         <source> Maptio helps you organise without traditional management hierarchy </source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
           <context context-type="linenumber">30,31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/login/pages/logout/logout.page.html</context>
+          <context context-type="linenumber">9,10</context>
         </context-group>
       </trans-unit>
       <trans-unit id="61129a94187d7e8d3d797f038579dc8e4dec4748" datatype="html">
@@ -263,13 +267,6 @@
           <context context-type="linenumber">72</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="43877645b70a1db5ba5ca63d1fd706e9d33f68ae" datatype="html">
-        <source> Maptio helps you organise without traditional management hierarchy </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/login/pages/logout/logout.page.html</context>
-          <context context-type="linenumber">9,10</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="b713c3182059ae81cec52c834cb698ab1382d85f" datatype="html">
         <source> Logging you out now. </source>
         <context-group purpose="location">
@@ -302,7 +299,7 @@
         <source>Tell us what to work on next.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/login/pages/logout/logout.page.html</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">51</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ba9727a61f22a5e1c94c954c2925b8bab61bc536" datatype="html">
@@ -317,7 +314,7 @@
                 &gt;"/> our blog <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/login/pages/logout/logout.page.html</context>
-          <context context-type="linenumber">62,77</context>
+          <context context-type="linenumber">63,78</context>
         </context-group>
       </trans-unit>
     </body>
