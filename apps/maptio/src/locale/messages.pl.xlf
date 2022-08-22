@@ -1,302 +1,159 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
-  <file original="ng2.template" datatype="plaintext" xml:space="preserve" source-language="en-US" target-language="pl">
-    <header>
-      <tool tool-id="lokalise.com" tool-name="Lokalise"/>
-    </header>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="ng2.template" datatype="plaintext" source-language="en-US" target-language="pl">
     <body>
-      <trans-unit id="e4760987e2a554c951e849da6f56aee546b1c5c2" datatype="html">
-        <source> Maptio helps you organise without traditional management hierarchy </source>
-        <target>Maptio pomaga organizować się bez tradycyjnej hierarchii zarządzania</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
-          <context context-type="linenumber">30,31</context>
-        </context-group>
+      <trans-unit id="013acfd8797bf5ade4a15c71fa24178f913c4cae">
+        <source xml:lang="en-US">Blog</source>
+        <target xml:lang="pl">Blog</target>
       </trans-unit>
-      <trans-unit id="61129a94187d7e8d3d797f038579dc8e4dec4748" datatype="html">
-        <source>Visualise your organisation in nested circles</source>
-        <target>Wizualizuj swoją organizację w zagnieżdżonych kręgach</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
-          <context context-type="linenumber">32</context>
-        </context-group>
+      <trans-unit id="01bbbd0d1e4ed56b4c07ab5711a1bea1247309ee">
+        <source xml:lang="en-US">This page does not exist!</source>
+        <target xml:lang="pl">Ta strona nie istnieje!</target>
       </trans-unit>
-      <trans-unit id="8df4d123c6c5401f0f1b62cf2ddb41ee50ce5a3f" datatype="html">
-        <source>Keep track of everyone’s roles</source>
-        <target>Śledź role wszystkich osób</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
-          <context context-type="linenumber">33</context>
-        </context-group>
+      <trans-unit id="13fed01b1b423a92af56a1bad816a7d73e702f2b">
+        <source xml:lang="en-US"> Privacy </source>
+        <target xml:lang="pl">Prywatność</target>
       </trans-unit>
-      <trans-unit id="d8f703df39c3423649671d4879cc15e6953344a1" datatype="html">
-        <source> Get started - try Maptio for free </source>
-        <target>Zacznij — wypróbuj Maptio za darmo</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
-          <context context-type="linenumber">41,42</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
-          <context context-type="linenumber">49,50</context>
-        </context-group>
+      <trans-unit id="16b5c4e39b00e588dadb55d0d8885e3d1e1e9332">
+        <source xml:lang="en-US"> Log back in </source>
+        <target xml:lang="pl">Zaloguj się ponownie</target>
       </trans-unit>
-      <trans-unit id="3010759c682780f9c847a27ee814f9357d0ba047" datatype="html">
-        <source>Already use Maptio?</source>
-        <target>Korzystasz już z Maptio?</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
-          <context context-type="linenumber">53</context>
-        </context-group>
+      <trans-unit id="1e33da51bc6418a98a701b85d13527944178ed35">
+        <source xml:lang="en-US"> We want to make Maptio even better. </source>
+        <target xml:lang="pl">Chcemy żeby Maptio było jeszcze lepsze.</target>
       </trans-unit>
-      <trans-unit id="69b37e500b69dce3ca94e2cd0390b044e890e712" datatype="html">
-        <source>Screenshot of Maptio visualization of nested circles</source>
-        <target>Zrzut ekranu wizualizacji Maptio z zagnieżdżonymi okręgami</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
-          <context context-type="linenumber">71</context>
-        </context-group>
+      <trans-unit id="3010759c682780f9c847a27ee814f9357d0ba047">
+        <source xml:lang="en-US">Already use Maptio?</source>
+        <target xml:lang="pl">Korzystasz już z Maptio?</target>
       </trans-unit>
-      <trans-unit id="69580f2c2dbf4edf7096820ba8c393367352d774" datatype="html">
-        <source>Terms</source>
-        <target>Regulamin</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
-          <context context-type="linenumber">5</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">267</context>
-        </context-group>
+      <trans-unit id="319e0745bcbc132451569294fa2fa21bf10f555a">
+        <source xml:lang="en-US">Toggle navigation</source>
+        <target xml:lang="pl">Nawigacja</target>
       </trans-unit>
-      <trans-unit id="3c78b53bca33467190c0b7a01320bc093a2b1427" datatype="html">
-        <source>Privacy</source>
-        <target>Prywatność</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
-          <context context-type="linenumber">9</context>
-        </context-group>
+      <trans-unit id="3c78b53bca33467190c0b7a01320bc093a2b1427">
+        <source xml:lang="en-US">Privacy</source>
+        <target xml:lang="pl">Prywatność</target>
       </trans-unit>
-      <trans-unit id="013acfd8797bf5ade4a15c71fa24178f913c4cae" datatype="html">
-        <source>Blog</source>
-        <target>Blog</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
-          <context context-type="linenumber">17</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">278</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="85b79c9064aed1ead31ace985f31aa1363f6bdaf" datatype="html">
-        <source>Help</source>
-        <target>Pomoc</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
-          <context context-type="linenumber">21</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">281</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="b051eeff3ae30cba4fbd1885ebb58fc22fb0d587" datatype="html">
-        <source>Pricing</source>
-        <target>Ceny</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
-          <context context-type="linenumber">25</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">284</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="cc82fa89983785cb60daa0a7516c611fc02b5cd1" datatype="html">
-        <source>Copyright</source>
-        <target></target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
-          <context context-type="linenumber">32</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="92eee6be6de0b11c924e3ab27db30257159c0a7c" datatype="html">
-        <source>Home</source>
-        <target>Strona główna</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">20</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="319e0745bcbc132451569294fa2fa21bf10f555a" datatype="html">
-        <source>Toggle navigation</source>
-        <target>Nawigacja</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">37</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="c82bcd1b91ad8ef9ad838452b70bc14081907d01" datatype="html">
-        <source>Organisation</source>
-        <target>Organizacja</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">62</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="f2d11ba5c599061eca2405ac09dc467f7c3adbcf" datatype="html">
-        <source> Settings </source>
-        <target>Ustawienia</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">74,75</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="994363f08f9fbfa3b3994ff7b35c6904fdff18d8" datatype="html">
-        <source>Profile</source>
-        <target>Profil</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">150</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">208</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="bf3cae65277c5ea4caa6b76b40c1d57e7782b199" datatype="html">
-        <source> Organisations </source>
-        <target>Organizacje</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">156,157</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="a3a1d87649a0bcfe77259b11af7621e6f2c25912" datatype="html">
-        <source>More ...</source>
-        <target>Więcej...</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">168</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6326f9ce2365bfe97668c4aa146fbbb762497c1a" datatype="html">
-        <source> Log out </source>
-        <target> Wyloguj się </target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">189,190</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">297,298</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="f093d9574ab746b231504bd2cbb65f04bd7b00db" datatype="html">
-        <source>Log in</source>
-        <target>Zaloguj się</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">198</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="595aff5564b0119a1eeda9b4d7aaf21c5da69de3" datatype="html">
-        <source>Maps</source>
-        <target>Mapy</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">215</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="d9fdd7fe5922c64f2cb0d705f474480d546258a0" datatype="html">
-        <source>All maps ...</source>
-        <target>Wszystkie mapy...</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">232</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="499e340c6f959d401d9e027e4d78f1cb19f66c6e" datatype="html">
-        <source> Organizations </source>
-        <target>Organizacje</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">240,241</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="b4d7491d66bd2a5eb3cea884df1b365cd1909faf" datatype="html">
-        <source> All organizations... </source>
-        <target> Wszystkie organizacje... </target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">259,260</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="13fed01b1b423a92af56a1bad816a7d73e702f2b" datatype="html">
-        <source> Privacy </source>
-        <target>Prywatność</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">271,272</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="95a00f0306e433b192aa1175f33bf5ccb3ad1690" datatype="html">
-        <source>Github</source>
-        <target></target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">275</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="debeb99cab8e5e01339f329a38a6df134955c6f4" datatype="html">
-        <source> You will be redirected to the <x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>homepage<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> in <x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> seconds. </source>
-        <target> Będziesz przekierowany na <x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>stronę główną<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> za <x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> sekund. </target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
-          <context context-type="linenumber">33,36</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="45f033b4ba61d8393d5f7b1f2372aa8d74ca4e5f" datatype="html">
-        <source> Chat with us or email us at <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Support request&quot;&gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> if the issue persists.
+      <trans-unit id="45f033b4ba61d8393d5f7b1f2372aa8d74ca4e5f">
+        <source xml:lang="en-US"> Chat with us or email us at <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Support request&quot;&gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> if the issue persists.
 </source>
-        <target>Napisz do nas na czacie albo na e-mail <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Support request&quot;&gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> jeśli problem nie zniknie.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
-          <context context-type="linenumber">43,48</context>
-        </context-group>
+        <target xml:lang="pl">Napisz do nas na czacie albo na e-mail <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Support request&quot;&gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> jeśli problem nie zniknie.</target>
       </trans-unit>
-      <trans-unit id="b0e8a2f4ca23077f39bd8eb69d069ad245897fc5" datatype="html">
-        <source> Despite our best efforts, things will sometimes break, but we are always happy to help get you back on track. </source>
-        <target> Mimo naszych starań czasami coś się w Maptio psuje, ale jesteśmy zawsze chętni, żeby pomóc rozwiązać problem. </target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
-          <context context-type="linenumber">18,20</context>
-        </context-group>
+      <trans-unit id="499e340c6f959d401d9e027e4d78f1cb19f66c6e">
+        <source xml:lang="en-US"> Organizations </source>
+        <target xml:lang="pl">Organizacje</target>
       </trans-unit>
-      <trans-unit id="8b06788d3accc7f7ac5ded29399b43a0ef3f8209" datatype="html">
-        <source>You cannot see this!</source>
-        <target>Nie posiadasz wystarczających uprawnien żeby to zobaczyć!</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/401/unauthorized.component.html</context>
-          <context context-type="linenumber">4</context>
-        </context-group>
+      <trans-unit id="595aff5564b0119a1eeda9b4d7aaf21c5da69de3">
+        <source xml:lang="en-US">Maps</source>
+        <target xml:lang="pl">Mapy</target>
       </trans-unit>
-      <trans-unit id="ae1a43feec972e85ff934326e77e1da8eeabf499" datatype="html">
-        <source>A login error occurred</source>
-        <target>Nastąpił błąd podczas procesu logowania</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/login-error/login-error.page.html</context>
-          <context context-type="linenumber">3</context>
-        </context-group>
+      <trans-unit id="61129a94187d7e8d3d797f038579dc8e4dec4748">
+        <source xml:lang="en-US">Visualise your organisation in nested circles</source>
+        <target xml:lang="pl">Wizualizuj swoją organizację w zagnieżdżonych kręgach</target>
       </trans-unit>
-      <trans-unit id="01bbbd0d1e4ed56b4c07ab5711a1bea1247309ee" datatype="html">
-        <source>This page does not exist!</source>
-        <target>Ta strona nie istnieje!</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/404/not-found.component.html</context>
-          <context context-type="linenumber">3</context>
-        </context-group>
+      <trans-unit id="6326f9ce2365bfe97668c4aa146fbbb762497c1a">
+        <source xml:lang="en-US"> Log out </source>
+        <target xml:lang="pl"> Wyloguj się </target>
+      </trans-unit>
+      <trans-unit id="69580f2c2dbf4edf7096820ba8c393367352d774">
+        <source xml:lang="en-US">Terms</source>
+        <target xml:lang="pl">Regulamin</target>
+      </trans-unit>
+      <trans-unit id="69b37e500b69dce3ca94e2cd0390b044e890e712">
+        <source xml:lang="en-US">Screenshot of Maptio visualization of nested circles</source>
+        <target xml:lang="pl">Zrzut ekranu wizualizacji Maptio z zagnieżdżonymi okręgami</target>
+      </trans-unit>
+      <trans-unit id="85b79c9064aed1ead31ace985f31aa1363f6bdaf">
+        <source xml:lang="en-US">Help</source>
+        <target xml:lang="pl">Pomoc</target>
+      </trans-unit>
+      <trans-unit id="8b06788d3accc7f7ac5ded29399b43a0ef3f8209">
+        <source xml:lang="en-US">You cannot see this!</source>
+        <target xml:lang="pl">Nie posiadasz wystarczających uprawnien żeby to zobaczyć!</target>
+      </trans-unit>
+      <trans-unit id="8df4d123c6c5401f0f1b62cf2ddb41ee50ce5a3f">
+        <source xml:lang="en-US">Keep track of everyone’s roles</source>
+        <target xml:lang="pl">Śledź role wszystkich osób</target>
+      </trans-unit>
+      <trans-unit id="92eee6be6de0b11c924e3ab27db30257159c0a7c">
+        <source xml:lang="en-US">Home</source>
+        <target xml:lang="pl">Strona główna</target>
+      </trans-unit>
+      <trans-unit id="994363f08f9fbfa3b3994ff7b35c6904fdff18d8">
+        <source xml:lang="en-US">Profile</source>
+        <target xml:lang="pl">Profil</target>
+      </trans-unit>
+      <trans-unit id="a3a1d87649a0bcfe77259b11af7621e6f2c25912">
+        <source xml:lang="en-US">More ...</source>
+        <target xml:lang="pl">Więcej...</target>
+      </trans-unit>
+      <trans-unit id="ae1a43feec972e85ff934326e77e1da8eeabf499">
+        <source xml:lang="en-US">A login error occurred</source>
+        <target xml:lang="pl">Nastąpił błąd podczas procesu logowania</target>
+      </trans-unit>
+      <trans-unit id="b051eeff3ae30cba4fbd1885ebb58fc22fb0d587">
+        <source xml:lang="en-US">Pricing</source>
+        <target xml:lang="pl">Ceny</target>
+      </trans-unit>
+      <trans-unit id="b0e8a2f4ca23077f39bd8eb69d069ad245897fc5">
+        <source xml:lang="en-US"> Despite our best efforts, things will sometimes break, but we are always happy to help get you back on track. </source>
+        <target xml:lang="pl"> Mimo naszych starań czasami coś się w Maptio psuje, ale jesteśmy zawsze chętni, żeby pomóc rozwiązać problem. </target>
+      </trans-unit>
+      <trans-unit id="b4d7491d66bd2a5eb3cea884df1b365cd1909faf">
+        <source xml:lang="en-US"> All organizations... </source>
+        <target xml:lang="pl"> Wszystkie organizacje... </target>
+      </trans-unit>
+      <trans-unit id="b713c3182059ae81cec52c834cb698ab1382d85f">
+        <source xml:lang="en-US"> Logging you out now. </source>
+        <target xml:lang="pl">Wylogowywujemy Cię.</target>
+      </trans-unit>
+      <trans-unit id="ba9727a61f22a5e1c94c954c2925b8bab61bc536">
+        <source xml:lang="en-US"> Check out <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                   href=&quot;https://fieldmapping.org/&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/> the Maptio guide to initiative mapping <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>and<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_LINK_1" equiv-text="&lt;a                   href=&quot;https://medium.com/maptio&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/> our blog <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
+        <target xml:lang="pl">Przeczytaj <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                   href=&quot;https://fieldmapping.org/&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/> nasz przewodnik mapowania inicjatyw <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/> i <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> <x id="START_LINK_1" equiv-text="&lt;a                   href=&quot;https://medium.com/maptio&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/> nasz blog<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
+      </trans-unit>
+      <trans-unit id="bf3cae65277c5ea4caa6b76b40c1d57e7782b199">
+        <source xml:lang="en-US"> Organisations </source>
+        <target xml:lang="pl">Organizacje</target>
+      </trans-unit>
+      <trans-unit id="c06264e0851b3d9de3480d0e7c68dc5f13131bc6">
+        <source xml:lang="en-US"> You are now logged out. </source>
+        <target xml:lang="pl">Jesteś wylogowany.</target>
+      </trans-unit>
+      <trans-unit id="c82bcd1b91ad8ef9ad838452b70bc14081907d01">
+        <source xml:lang="en-US">Organisation</source>
+        <target xml:lang="pl">Organizacja</target>
+      </trans-unit>
+      <trans-unit id="cc82fa89983785cb60daa0a7516c611fc02b5cd1">
+        <source xml:lang="en-US">Copyright</source>
+        <target xml:lang="pl">Wszelkie prawa zastrzeżone</target>
+      </trans-unit>
+      <trans-unit id="d8f703df39c3423649671d4879cc15e6953344a1">
+        <source xml:lang="en-US"> Get started - try Maptio for free </source>
+        <target xml:lang="pl">Zacznij — wypróbuj Maptio za darmo</target>
+      </trans-unit>
+      <trans-unit id="d9fdd7fe5922c64f2cb0d705f474480d546258a0">
+        <source xml:lang="en-US">All maps ...</source>
+        <target xml:lang="pl">Wszystkie mapy...</target>
+      </trans-unit>
+      <trans-unit id="dc814c71355108c2c1a3e305b599c4cfd6fdf65d">
+        <source xml:lang="en-US">Tell us what to work on next.</source>
+        <target xml:lang="pl">Daj nam znać nad czym powinniśmy pracować.</target>
+      </trans-unit>
+      <trans-unit id="debeb99cab8e5e01339f329a38a6df134955c6f4">
+        <source xml:lang="en-US"> You will be redirected to the <x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>homepage<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> in <x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> seconds. </source>
+        <target xml:lang="pl"> Będziesz przekierowany na <x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>stronę główną<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> za <x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> sekund. </target>
+      </trans-unit>
+      <trans-unit id="e4760987e2a554c951e849da6f56aee546b1c5c2">
+        <source xml:lang="en-US"> Maptio helps you organise without traditional management hierarchy </source>
+        <target xml:lang="pl">Maptio pomaga organizować się bez tradycyjnej hierarchii zarządzania</target>
+      </trans-unit>
+      <trans-unit id="f093d9574ab746b231504bd2cbb65f04bd7b00db">
+        <source xml:lang="en-US">Log in</source>
+        <target xml:lang="pl">Zaloguj się</target>
+      </trans-unit>
+      <trans-unit id="f2d11ba5c599061eca2405ac09dc467f7c3adbcf">
+        <source xml:lang="en-US"> Settings </source>
+        <target xml:lang="pl">Ustawienia</target>
       </trans-unit>
     </body>
   </file>
