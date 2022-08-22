@@ -1,0 +1,13 @@
+phrase:
+  access_token: f389128203cac3672e56bff2e6aac8cc79d55e3369a1c0873f2424892c9eb353
+  project_id: d9582030417d77fe926bf18cdb2ce009
+  push:
+    sources:
+    - file: ./apps/maptio/src/locale/messages.xlf
+      params:
+        file_format: xlf
+  pull:
+    targets:
+    - file: ./apps/maptio/src/locale/messages.<locale_name>.xlf
+      params:
+        file_format: xlf
