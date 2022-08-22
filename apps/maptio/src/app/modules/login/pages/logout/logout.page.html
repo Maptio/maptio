@@ -5,7 +5,7 @@
     class="d-flex flex-column justify-content-center align-items-center my-5 col-12 col-xl-6"
   >
     <div class="text-center">
-      <h1 class="text-blue">
+      <h1 class="text-blue" i18n>
         Maptio helps you organise without traditional management hierarchy
       </h1>
 
@@ -16,17 +16,17 @@
       <ng-container
         *ngIf="userService.isAuthenticated$ | async; else loggedOut"
       >
-        <p class="lead d-flex justify-content-center mb-6">
+        <p class="lead d-flex justify-content-center mb-6" i18n>
           Logging you out now.
         </p>
       </ng-container>
 
       <ng-template #loggedOut>
-        <p class="lead d-flex justify-content-center">
+        <p class="lead d-flex justify-content-center" i18n>
           You are now logged out.
         </p>
 
-        <button maptioLoginRedirect class="btn btn-success btn-lg mt-3 mb-5">
+        <button maptioLoginRedirect class="btn btn-success btn-lg mt-3 mb-5" i18n>
           Log back in
         </button>
       </ng-template>
@@ -44,10 +44,11 @@
               </h5>
 
               <div class="card-text">
-                <span class="text-muted">
+                <span class="text-muted" i18n>
                   We want to make Maptio even better.
                 </span>
-                <span class="text-blue">Tell us what to work on next.</span>
+                <span>&nbsp;</span>
+                <span class="text-blue" i18n>Tell us what to work on next.</span>
               </div>
             </div>
           </a>
@@ -58,7 +59,7 @@
               <h5 class="card-title d-flex justify-content-center text-blue">
                 <i class="fa fa-rss fa-3x" aria-hidden="true"></i>
               </h5>
-              <div class="card-text text-muted">
+              <div class="card-text text-muted" i18n>
                 Check out
                 <a
                   href="https://fieldmapping.org/"
