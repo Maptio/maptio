@@ -509,6 +509,20 @@
           <context context-type="linenumber">306,307</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="3705838132380871308" datatype="html">
+        <source>Image upload was unsuccessful, please try again later.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/image-upload/image-upload.component.ts</context>
+          <context context-type="linenumber">77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1314196081644452786" datatype="html">
+        <source>The image size must not exceed 2 MB.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/image-upload/image-upload.component.ts</context>
+          <context context-type="linenumber">98</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

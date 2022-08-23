@@ -74,7 +74,7 @@ export class ImageUploadComponent implements OnInit {
         this.updatePicture(pictureURL);
       } catch {
         this.errorMessage.emit(
-          'Image upload was unsuccessful, please try again later.'
+          $localize`Image upload was unsuccessful, please try again later.`
         );
       }
 
@@ -95,7 +95,7 @@ export class ImageUploadComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private handleError(item: FileLikeObject, filter: any) {
     if (filter.name === 'fileSize') {
-      this.errorMessage.emit('The image size must not exceed 2mb.');
+      this.errorMessage.emit($localize`The image size must not exceed 2 MB.`);
     }
   }
 
