@@ -3,6 +3,7 @@
     <label
       class="mb-0 text-uppercase text-bold text-gray-light small"
       for="inputFirstname"
+      i18n="@@firstName"
     >
       First name
     </label>
@@ -14,9 +15,10 @@
       class="form-control form-control-warning"
       [class.is-invalid]="isFieldInvalid('firstname')"
       placeholder="First name"
+      i18n-placeholder="@@firstName"
     />
 
-    <small class="invalid-feedback">
+    <small class="invalid-feedback" i18n>
       Please enter at least 2 characters. This field is required.
     </small>
   </div>
@@ -25,6 +27,7 @@
     <label
       class="mb-0 text-uppercase text-bold text-gray-light small"
       for="inputFirstname"
+      i18n="@@lastName"
     >
       Last name
     </label>
@@ -36,13 +39,14 @@
       class="form-control form-control-warning"
       [class.is-invalid]="isFieldInvalid('lastname')"
       placeholder="Last name"
+      i18n-placeholder="@@lastName"
     />
 
-    <small class="invalid-feedback">Please enter at least 2 characters.</small>
+    <small class="invalid-feedback" i18n>Please enter at least 2 characters.</small>
   </div>
 
   <div class="form-group">
-    <label class="mb-0 text-uppercase text-bold text-gray-light small">
+    <label class="mb-0 text-uppercase text-bold text-gray-light small" i18n>
       Profile Image
     </label>
 
@@ -61,6 +65,7 @@
     <label
       class="mb-0 text-uppercase text-bold text-gray-light small"
       for="inputEmail"
+      i18n="@@email"
     >
       Email
     </label>
@@ -72,9 +77,10 @@
       class="form-control form-control-warning"
       [class.is-invalid]="isFieldInvalid('email')"
       placeholder="Email"
+      i18n-placeholder="@@email"
     />
 
-    <small class="invalid-feedback">Please enter a valid email</small>
+    <small class="invalid-feedback" i18n>Please enter a valid email</small>
   </div>
 
   <div *ngIf="isUserSignUp" class="form-group mt-4">
@@ -87,7 +93,7 @@
         [class.is-invalid]="isFieldInvalid('isTermsAccepted')"
       />
 
-      <label class="custom-control-label" for="inputIsTermsAccepted">
+      <label class="custom-control-label" for="inputIsTermsAccepted" i18n>
         I agree to Maptio's
         <a href="{{ TERMS_AND_CONDITIONS_URL }}" target="_blank">
           Terms of Service
@@ -96,7 +102,7 @@
         <a href="{{ PRIVACY_POLICY_URL }}" target="_blank">Privacy Policy</a>
       </label>
 
-      <small class="invalid-feedback">
+      <small class="invalid-feedback" i18n>
         Please acknowledge accepting the terms before proceeding
       </small>
     </div>
@@ -108,7 +114,7 @@
     [class.show]="isSavingSuccess"
   >
     <i class="fas fa-save"></i>
-    Successfully saved!
+    <ng-container i18n>Successfully saved!</ng-container>
   </span>
 
   <span *ngIf="savingFailedMessage" class="text-danger mx-1 small">
@@ -121,6 +127,7 @@
       type="button"
       class="btn btn-outline-secondary mr-2"
       (click)="onCancel()"
+      i18n="@@cancel"
     >
       Cancel
     </button>
@@ -132,13 +139,16 @@
       placement="top"
       container="body"
       mwlConfirmationPopover
-      [popoverTitle]="'Warning'"
-      [popoverMessage]="
-        'Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?'
+      popoverTitle="Warning"
+      popoverMessage="
+        Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?
       "
       (confirm)="onCancel()"
       focusbutton="cancel"
       appendToBody="false"
+      i18n="@@cancel"
+      i18n-popoverTitle
+      i18n-popoverMessage
     >
       Cancel
     </button>
@@ -147,6 +157,7 @@
       type="submit"
       class="btn btn-success"
       [disabled]="isSubmissionAttempted && !memberForm.valid"
+      i18n="@@save"
     >
       Save
     </button>
@@ -154,7 +165,7 @@
 
   <span class="text-green" *ngIf="isSaving">
     <i class="fas fa-circle-notch fa-spin mx-1"></i>
-    Creating
+    <ng-container i18n>Creating</ng-container>
   </span>
 
   <div
@@ -166,7 +177,7 @@
     class="alert alert-warning"
     role="alert"
   >
-    <p>
+    <p i18n>
       This email address is already associated with an existing Maptio user:
     </p>
 
@@ -176,7 +187,7 @@
       class="d-block mb-2"
     ></maptio-member>
 
-    <p>
+    <p i18n>
       Would you like to add this user to your organisation, or change to a
       different email address?
     </p>
@@ -186,6 +197,7 @@
         type="button"
         class="btn btn-outline-secondary mr-2"
         (click)="onCancelDeduplication()"
+        i18n
       >
         Change email
       </button>
@@ -194,6 +206,7 @@
         type="button"
         class="btn btn-success"
         (click)="onMergeDuplicateUsers()"
+        i18n
       >
         Add existing user
       </button>
@@ -239,6 +252,7 @@
         type="button"
         class="btn btn-success mt-0 mb-4"
         (click)="onChooseMemberViaDeduplication(duplicateUser)"
+        i18n
       >
         Yes, add this person instead
       </button>
@@ -249,6 +263,7 @@
         type="button"
         class="btn btn-outline-secondary mr-2"
         (click)="onIgnoreDeduplicationWarning()"
+        i18n
       >
         No, add new person
       </button>
@@ -257,6 +272,7 @@
         type="button"
         class="btn btn-outline-secondary"
         (click)="onCancelDeduplication()"
+        i18n="@@cancel"
       >
         Cancel
       </button>
