@@ -571,7 +571,7 @@
       <trans-unit id="4175524537305120095" datatype="html">
         <source>Updating profile information failed
         with error: &quot;<x id="PH" equiv-text="error.message"/>&quot;, please try again later or contact us.</source>
-        <target>Nastąpił błąd przy zapisywaniu profilu: &quot;<x id="PH" equiv-text="error.message"/>&quot;, spróbuj ponownie trochę później, albo skontaktuj się z nami.</target>
+        <target>Nastąpił błąd przy zapisywaniu profilu: &quot;<x id="PH" equiv-text="error.message"/>&quot;, spróbuj ponownie trochę później, albo skontaktuj się z nami</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">297,298</context>
@@ -584,6 +584,54 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">306,307</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3705838132380871308" datatype="html">
+        <source>Image upload was unsuccessful, please try again later.</source>
+        <target>Przesłanie pliku nie powiodło się, spróbuj ponownie trochę później.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/image-upload/image-upload.component.ts</context>
+          <context context-type="linenumber">77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1314196081644452786" datatype="html">
+        <source>The image size must not exceed 2 MB.</source>
+        <target>Rozmiar zdjęcia nie może przekroczyć 2 MB.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/image-upload/image-upload.component.ts</context>
+          <context context-type="linenumber">98</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1374576901432673248" datatype="html">
+        <source>Can&apos;t create <x id="PH" equiv-text="this.email"/> : <x id="PH_1" equiv-text="reason"/></source>
+        <target>Nie udało się utworzyć użytkownika <x id="PH" equiv-text="this.email"/> : <x id="PH_1" equiv-text="reason"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
+          <context context-type="linenumber">232</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="446132272462225944" datatype="html">
+        <source>
+        The application encountered an unexpected input error while attempting
+        user de-duplication. Please contact us for help and quote this error
+        message.
+      </source>
+        <target>Nastąpił nieoczekiwany błąd danych wejściowych podczas deduplikacji użytkowników. Skontaktuj się z nami, cytując ten błąd.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
+          <context context-type="linenumber">341,345</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7213896273750754706" datatype="html">
+        <source>
+        The application encountered an unexpected error while attempting user
+        de-duplication. Please contact us for help and quote this error
+        message.
+      </source>
+        <target>Nastąpił nieoczekiwany błąd podczas deduplikacji użytkowników. Skontaktuj się z nami, cytując ten błąd.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
+          <context context-type="linenumber">365,369</context>
         </context-group>
       </trans-unit>
     </body>

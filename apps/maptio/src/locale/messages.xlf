@@ -493,12 +493,19 @@
           <context context-type="linenumber">268,269</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="1374576901432673248" datatype="html">
+        <source>Can&apos;t create <x id="PH" equiv-text="this.email"/> : <x id="PH_1" equiv-text="reason"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
+          <context context-type="linenumber">232</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="4175524537305120095" datatype="html">
         <source>Updating profile information failed
         with error: &quot;<x id="PH" equiv-text="error.message"/>&quot;, please try again later or contact us.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
-          <context context-type="linenumber">297,298</context>
+          <context context-type="linenumber">299,300</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4439374930555787286" datatype="html">
@@ -506,7 +513,29 @@
           please try again later or contact us.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
-          <context context-type="linenumber">306,307</context>
+          <context context-type="linenumber">308,309</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="446132272462225944" datatype="html">
+        <source>
+        The application encountered an unexpected input error while attempting
+        user de-duplication. Please contact us for help and quote this error
+        message.
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
+          <context context-type="linenumber">341,345</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7213896273750754706" datatype="html">
+        <source>
+        The application encountered an unexpected error while attempting user
+        de-duplication. Please contact us for help and quote this error
+        message.
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
+          <context context-type="linenumber">365,369</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3705838132380871308" datatype="html">
