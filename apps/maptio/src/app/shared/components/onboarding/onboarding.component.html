@@ -29,11 +29,11 @@
 </common-modal>
 
 <ng-template #welcome>
-  <ng-template #yourfirstmap>
+  <ng-template #yourfirstmap i18n>
     <span class="text-accent">👋 {{ user?.firstname }}</span>
-    , your first map is just a few clicks away!
+    <ng-container>, your first map is just a few clicks away!</ng-container>
   </ng-template>
-  <ng-template #guide>
+  <ng-template #guide i18n>
     Let's set up your organisation. It will only take a minute.
   </ng-template>
 

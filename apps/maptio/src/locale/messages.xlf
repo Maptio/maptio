@@ -444,8 +444,8 @@
           <context context-type="linenumber">164,165</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="114b5f92b9192b229ffc9a450319a97ccca2aa5c" datatype="html">
-        <source>Creating</source>
+      <trans-unit id="21dccd6ad9cf8081fadc1a00a81f37366a9c3537" datatype="html">
+        <source>Setting up your account</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">170</context>
@@ -594,6 +594,20 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/image-upload/image-upload.component.ts</context>
           <context context-type="linenumber">98</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9cfb85760b57f292bf043398464228fc2963c47b" datatype="html">
+        <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-accent&quot;&gt;"/>👋 <x id="INTERPOLATION" equiv-text="{{ user?.firstname }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;ng-container&gt;"/>, your first map is just a few clicks away!<x id="CLOSE_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;/ng-container&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
+          <context context-type="linenumber">33,34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b19165fd56e1c4104ed744e28b2a114bf38966d6" datatype="html">
+        <source> Let&apos;s set up your organisation. It will only take a minute. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
+          <context context-type="linenumber">37,38</context>
         </context-group>
       </trans-unit>
     </body>
