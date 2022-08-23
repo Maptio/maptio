@@ -678,6 +678,14 @@
           <context context-type="linenumber">232</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="7be556e581ded78c3e1385099fee326accaa0a34" datatype="html">
+        <source>Choose image</source>
+        <target>Wybierz zdjęcie</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/image-upload/image-upload.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
