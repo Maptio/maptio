@@ -410,14 +410,6 @@
           <context context-type="linenumber">41</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="25d59ee63895e755224037597c228c5945702254" datatype="html">
-        <source>Please enter at least 2 characters.</source>
-        <target>Podaj przynajmniej 2 znaki.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
-          <context context-type="linenumber">45</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="72aea858ccd625b7589bcb9ce50d8c46795ff3ba" datatype="html">
         <source> Profile Image </source>
         <target>Zdjęcie profilowe</target>
@@ -632,6 +624,58 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">365,369</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="59e52385a4b29a11d4df3ffa4a44302d5f39bcea" datatype="html">
+        <source> Please enter at least 2 characters. </source>
+        <target>Podaj przynajmniej 2 znaki.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
+          <context context-type="linenumber">46,47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="08fa5750a60011645da4388afd16dfbdb563d0b6" datatype="html">
+        <source>{"one":"A person","other":"Multiple people"}</source>
+        <target>{VAR_PLURAL, plural, one {Jedna osoba} other {Kilka osób}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
+          <context context-type="linenumber">228</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="68e2d566f5cacb705b091edf02fdde3f36a0690b" datatype="html">
+        <source>{"one":"is","other":"are"}</source>
+        <target>{VAR_PLURAL, plural, one {jest} other {jest}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
+          <context context-type="linenumber">229,230</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="27eae39d70fb0f049505cdfe08d4aadf3433a3f3" datatype="html">
+        <source>{"one":"a member","other":"members"}</source>
+        <target>{VAR_PLURAL, plural, one {członkiem} other {członkami}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
+          <context context-type="linenumber">230,231</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2908a94538e6813824b78a2edaf472d7de4eadec" datatype="html">
+        <source> <x id="ICU" equiv-text="{duplicateUsers.length, plural, =1 {A person} other {Multiple people}}"/> with this name or email address <x id="ICU_1" equiv-text="{duplicateUsers.length, plural, =1 {is}
+      other {are}}"/> already <x id="ICU_2" equiv-text="{duplicateUsers.length, plural, =1 {a member} other
+      {members}}"/> of your organisation. Would you like to add <x id="ICU_3" equiv-text="{duplicateUsers.length, plural, other {them}}"/> instead? </source>
+        <target><x id="ICU" equiv-text="{duplicateUsers.length, plural, =1 {A person} other {Multiple people}}"/> z tym imieniem lub nazwiskiem <x id="ICU_1" equiv-text="{duplicateUsers.length, plural, =1 {is}
+      other {are}}"/> już <x id="ICU_2" equiv-text="{duplicateUsers.length, plural, =1 {a member} other
+      {members}}"/> Twojej organizacji. Czy chcesz dodać <x id="ICU_3" equiv-text="{duplicateUsers.length, plural, other {them}}"/> zamiast nowej osoby?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
+          <context context-type="linenumber">228,233</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c93637b30e3d4b731391fa0daadb8da01d2c1583" datatype="html">
+        <source>{"one":"","other":"them"}</source>
+        <target>{VAR_PLURAL, plural, one {ją} other {którąś z nich}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
+          <context context-type="linenumber">232</context>
         </context-group>
       </trans-unit>
     </body>

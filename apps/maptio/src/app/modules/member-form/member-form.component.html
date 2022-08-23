@@ -42,7 +42,9 @@
       i18n-placeholder="@@lastName"
     />
 
-    <small class="invalid-feedback" i18n>Please enter at least 2 characters.</small>
+    <small class="invalid-feedback" i18n>
+      Please enter at least 2 characters.
+    </small>
   </div>
 
   <div class="form-group">
@@ -222,24 +224,13 @@
     class="alert alert-warning"
     role="alert"
   >
-    <p>
-      <span *ngIf="duplicateUsers.length === 1; else multiplePeople">
-        A person
-      </span>
-      with this
-      <span *ngIf="memberForm.controls['email'].value; else duplicationOnName">
-        email address
-      </span>
-      <span *ngIf="duplicateUsers.length === 1; else are">is</span>
-      already
-      <span *ngIf="duplicateUsers.length === 1; else members">a member</span>
-      of your organisation. Would you like to add them instead?
+    <p i18n>
+      {duplicateUsers.length, plural, =1 {A person} other {Multiple people}}
+      with this name or email address {duplicateUsers.length, plural, =1 {is}
+      other {are}} already {duplicateUsers.length, plural, =1 {a member} other
+      {members}} of your organisation. Would you like to add
+      {duplicateUsers.length, plural, other {them}} instead?
     </p>
-
-    <ng-template #multiplePeople>Multiple people</ng-template>
-    <ng-template #duplicationOnName>name</ng-template>
-    <ng-template #are>are</ng-template>
-    <ng-template #members>members</ng-template>
 
     <div *ngFor="let duplicateUser of duplicateUsers">
       <maptio-member
