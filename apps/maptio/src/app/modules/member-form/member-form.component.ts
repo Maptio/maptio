@@ -294,8 +294,8 @@ export class MemberFormComponent implements OnInit {
       }
     } catch (error) {
       this.isSavingSuccess = false;
-      this.savingFailedMessage = `Updating profile information failed with
-        error: "${error.message}", please try again later or contact us.`;
+      this.savingFailedMessage = $localize`Updating profile information failed
+        with error: "${error.message}", please try again later or contact us.`;
       console.error(this.savingFailedMessage, error);
     }
 
@@ -303,8 +303,8 @@ export class MemberFormComponent implements OnInit {
       this.isSavingSuccess = false;
 
       if (!this.savingFailedMessage) {
-        this.savingFailedMessage =
-          'Cannot update profile information, please try again later or contact us.';
+        this.savingFailedMessage = $localize`Cannot update profile information,
+          please try again later or contact us.`;
       }
 
       return;

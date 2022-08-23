@@ -568,6 +568,24 @@
           <context context-type="linenumber">268,269</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="4175524537305120095" datatype="html">
+        <source>Updating profile information failed
+        with error: &quot;<x id="PH" equiv-text="error.message"/>&quot;, please try again later or contact us.</source>
+        <target>Nastąpił błąd przy zapisywaniu profilu: &quot;<x id="PH" equiv-text="error.message"/>&quot;, spróbuj ponownie trochę później, albo skontaktuj się z nami.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
+          <context context-type="linenumber">297,298</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4439374930555787286" datatype="html">
+        <source>Cannot update profile information,
+          please try again later or contact us.</source>
+        <target>Zapisywanie zmian w profilu nie powiodło się, spróbuj ponownie trochę później, albo skontaktuj się z nami.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
+          <context context-type="linenumber">306,307</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
