@@ -837,6 +837,46 @@
         <note priority="1" from="description">Helper text for onboarding screen on lead and helper
         terminology</note>
       </trans-unit>
+      <trans-unit id="onboarding-terminology-6" datatype="html">
+        <source>Lead</source>
+        <target>Prowadzący</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/config/environment.ts</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onboarding-terminology-7" datatype="html">
+        <source>Contributor</source>
+        <target>Pomocnik</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/config/environment.ts</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onboarding-terminology-4" datatype="html">
+        <source> What does your organisation call the person in the main key role for each circle? e.g. Lead, Authority, Driver, Lead link, Source. </source>
+        <target>Jak nazywasz w Twojej organizacji osobę, która odgrywa główną rolę w danym kole? Na przykład: Prowadzący, Kierownik, Zarządca, Źródło.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-settings/settings.component.html</context>
+          <context context-type="linenumber">68,70</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/add-terminology.component.html</context>
+          <context context-type="linenumber">22,24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onboarding-terminology-5" datatype="html">
+        <source> And what do you call others contributing to an circle? e.g. Contributor, Helper, Role-holder, Sub-source. </source>
+        <target>Jak nazywasz innych, którzy pomagają w danym kole? Na przykład: Współpracownik, Pomocnik.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-settings/settings.component.html</context>
+          <context context-type="linenumber">86,88</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/add-terminology.component.html</context>
+          <context context-type="linenumber">43,45</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

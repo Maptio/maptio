@@ -2,6 +2,20 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en-US" target-language="en-US" datatype="plaintext" original="ng2.template">
     <body>
+      <trans-unit id="onboarding-terminology-6" datatype="html">
+        <source>Lead</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/config/environment.ts</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onboarding-terminology-7" datatype="html">
+        <source>Contributor</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/config/environment.ts</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="8b06788d3accc7f7ac5ded29399b43a0ef3f8209" datatype="html">
         <source>You cannot see this!</source>
         <context-group purpose="location">
@@ -573,6 +587,28 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">365,369</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onboarding-terminology-4" datatype="html">
+        <source> What does your organisation call the person in the main key role for each circle? e.g. Lead, Authority, Driver, Lead link, Source. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-settings/settings.component.html</context>
+          <context context-type="linenumber">68,70</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/add-terminology.component.html</context>
+          <context context-type="linenumber">22,24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onboarding-terminology-5" datatype="html">
+        <source> And what do you call others contributing to an circle? e.g. Contributor, Helper, Role-holder, Sub-source. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-settings/settings.component.html</context>
+          <context context-type="linenumber">86,88</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/add-terminology.component.html</context>
+          <context context-type="linenumber">43,45</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7be556e581ded78c3e1385099fee326accaa0a34" datatype="html">
