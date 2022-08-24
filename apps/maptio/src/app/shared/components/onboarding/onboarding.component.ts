@@ -22,11 +22,9 @@ export class OnboardingComponent implements OnInit {
 
   currentStep: string;
   currentIndex = 0;
-  nextActionName = 'Start';
+  nextActionName = $localize`:onboarding|Button to start onboarding process@@start:Start`;
   previousActionName: string = null;
   progress: string;
-  progressLabel: string;
-  isClosable = true;
   isSkippable: boolean;
 
   teamCreationErrorMessage: string;
@@ -64,11 +62,9 @@ export class OnboardingComponent implements OnInit {
     this.currentStep = this.steps[this.currentIndex];
     this.members = [this.user];
     this.progress = this.getProgress();
-    this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
 
     if (this.user.teams.length === 0) {
       this.team = new Team({ name: '' });
-      console.log('creating team', this.team);
     } else {
       // TODO: In the future, when we get rid of all old data with
       // example teams, we will be able to remove this.
@@ -101,13 +97,13 @@ export class OnboardingComponent implements OnInit {
       this.cd.markForCheck();
 
       if (isEmpty(this.team.name)) {
-        this.teamCreationErrorMessage = 'We need a name to continue.';
-        this.nextActionName = 'Next';
+        this.teamCreationErrorMessage = $localize`:onboarding|Error message when an organisation name isn't provided:We need a name to continue.`;
+        this.nextActionName = $localize`:onboarding|Button to progress to next step of onbaording@@next:Next`;
         this.cd.markForCheck();
         return;
       } else {
         this.isCreatingTeam = true;
-        this.nextActionName = 'Setting up your organisation';
+        this.nextActionName = $localize`:onboarding|Message shown after the organisation name is entered and the "Next" button is pressed:Setting up your organisation`;
         this.teamCreationErrorMessage = null;
         this.cd.markForCheck();
 
@@ -124,7 +120,7 @@ export class OnboardingComponent implements OnInit {
       this.sendOnboardingEventToMixpanel();
 
       this.isCreatingMap = true;
-      this.nextActionName = 'Creating your map';
+      this.nextActionName = $localize`:onboarding|Message shown after the last step of onboarding:Creating your map`;
 
       return this.createMap(this.mapName)
         .then((dataset) => {
@@ -167,10 +163,8 @@ export class OnboardingComponent implements OnInit {
     this.currentStep = this.steps[this.currentIndex];
     this.nextActionName = this.getNextActionName();
     this.previousActionName = this.getPreviousActionName();
-    this.isClosable = this.getIsClosable();
     this.isSkippable = this.getIsSkippable();
     this.progress = this.getProgress();
-    this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
 
     this.cd.markForCheck();
   }
@@ -180,10 +174,8 @@ export class OnboardingComponent implements OnInit {
     this.currentStep = this.steps[this.currentIndex];
     this.nextActionName = this.getNextActionName();
     this.previousActionName = this.getPreviousActionName();
-    this.isClosable = this.getIsClosable();
     this.isSkippable = this.getIsSkippable();
     this.progress = this.getProgress();
-    this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
 
     this.cd.markForCheck();
   }
@@ -215,28 +207,19 @@ export class OnboardingComponent implements OnInit {
     return progress == 100 ? null : progress.toFixed(0);
   }
 
-  getAbsoluteProgress() {
-    const stepsLeft = this.steps.length - (this.currentIndex + 1);
-    return stepsLeft == 0 ? "You're done!" : `${stepsLeft} steps left`;
-  }
-
   getNextActionName() {
     switch (this.currentStep) {
       case 'Welcome':
-        return 'Start';
+        return $localize`:@@start:Start`;
       case 'Consent':
-        return 'Start mapping';
+        return $localize`:onboarding|Button to exit the onboarding process and start using the app:Start mapping`;
       default:
-        return 'Next';
+        return $localize`:@@next:Next`;
     }
   }
 
   getPreviousActionName() {
-    return this.currentStep === 'Welcome' ? null : 'Back';
-  }
-
-  getIsClosable() {
-    return this.currentStep === 'Welcome';
+    return this.currentStep === 'Welcome' ? null : $localize`Back`;
   }
 
   getIsSkippable() {

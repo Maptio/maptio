@@ -95,7 +95,7 @@
       </trans-unit>
       <trans-unit id="b051eeff3ae30cba4fbd1885ebb58fc22fb0d587" datatype="html">
         <source>Pricing</source>
-        <target>Ceny</target>
+        <target>Cennik</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
           <context context-type="linenumber">25</context>
@@ -680,7 +680,7 @@
       </trans-unit>
       <trans-unit id="21dccd6ad9cf8081fadc1a00a81f37366a9c3537" datatype="html">
         <source>Setting up your account</source>
-        <target>Tworzymy konto</target>
+        <target>Tworzymy Twoje konto</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">170</context>
@@ -696,10 +696,86 @@
       </trans-unit>
       <trans-unit id="9cfb85760b57f292bf043398464228fc2963c47b" datatype="html">
         <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-accent&quot;&gt;"/>👋 <x id="INTERPOLATION" equiv-text="{{ user?.firstname }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;ng-container&gt;"/>, your first map is just a few clicks away!<x id="CLOSE_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;/ng-container&gt;"/></source>
-        <target><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-accent&quot;&gt;"/>👋 <x id="INTERPOLATION" equiv-text="{{ user?.firstname }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;ng-container&gt;"/>, jesteś kilka kliknięć od stworzenia pierwszej mapy!<x id="CLOSE_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;/ng-container&gt;"/></target>
+        <target><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-accent&quot;&gt;"/>👋 <x id="INTERPOLATION" equiv-text="{{ user?.firstname }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;ng-container&gt;"/>, jesteś kilka kliknięć od pierwszej mapy!<x id="CLOSE_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;/ng-container&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
           <context context-type="linenumber">33,34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5943529683669508093" datatype="html">
+        <source>We need a name to continue.</source>
+        <target>Podaj nazwę organizacji, żeby kontynuować</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.ts</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+        <note priority="1" from="description">Error message when an organisation name isn&apos;t provided</note>
+        <note priority="1" from="meaning">onboarding</note>
+      </trans-unit>
+      <trans-unit id="next" datatype="html">
+        <source>Next</source>
+        <target>Dalej</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.ts</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.ts</context>
+          <context context-type="linenumber">217</context>
+        </context-group>
+        <note priority="1" from="description">Button to progress to next step of onbaording</note>
+        <note priority="1" from="meaning">onboarding</note>
+      </trans-unit>
+      <trans-unit id="84119493365020070" datatype="html">
+        <source>Setting up your organisation</source>
+        <target>Tworzymy Twoją organizację</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.ts</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+        <note priority="1" from="description">Message shown after the organisation name is entered and the &quot;Next&quot; button is pressed</note>
+        <note priority="1" from="meaning">onboarding</note>
+      </trans-unit>
+      <trans-unit id="3761093640207195064" datatype="html">
+        <source>Creating your map</source>
+        <target>Tworzymy Twoją pierwszą mapę</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.ts</context>
+          <context context-type="linenumber">123</context>
+        </context-group>
+        <note priority="1" from="description">Message shown after the last step of onboarding</note>
+        <note priority="1" from="meaning">onboarding</note>
+      </trans-unit>
+      <trans-unit id="start" datatype="html">
+        <source>Start</source>
+        <target>Rozpocznij</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.ts</context>
+          <context context-type="linenumber">213</context>
+        </context-group>
+        <note priority="1" from="description">Button to start onboarding process</note>
+        <note priority="1" from="meaning">onboarding</note>
+      </trans-unit>
+      <trans-unit id="8665655848767127997" datatype="html">
+        <source>Start mapping</source>
+        <target>Rozpocznij tworzenie mapy</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.ts</context>
+          <context context-type="linenumber">215</context>
+        </context-group>
+        <note priority="1" from="description">Button to exit the onboarding process and start using the app</note>
+        <note priority="1" from="meaning">onboarding</note>
+      </trans-unit>
+      <trans-unit id="8890553633144307762" datatype="html">
+        <source>Back</source>
+        <target>Cofnij</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.ts</context>
+          <context context-type="linenumber">222</context>
         </context-group>
       </trans-unit>
     </body>
