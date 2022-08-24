@@ -86,13 +86,20 @@
 <ng-template #terminology>
   <ng-template
     #terminologytitle
-    i18n="Onboarding - Heading of one of the onboarding screens"
+    i18n="
+      Heading of onboarding screen on lead and helper terminology
+      @@onboarding-terminology-1"
   >
     What should we call them?
   </ng-template>
 
   <ng-template #terminologysubtitle>
-    <span class="text-muted">
+    <span
+      class="text-muted"
+      i18n="
+        Subheading of onboarding screen on lead and helper terminology
+        @@onboarding-terminology-2"
+    >
       What language do you use to refer to people at
       <b>{{ team.name }}</b>
       ?
@@ -100,7 +107,12 @@
   </ng-template>
 
   <ng-template #settingsnote>
-    <span class="text-muted">
+    <span
+      class="text-muted"
+      i18n="
+        Helper text for onboarding screen on lead and helper terminology
+        @@onboarding-terminology-3"
+    >
       You can always change this later in the organisation settings.
     </span>
   </ng-template>
