@@ -778,6 +778,65 @@
           <context context-type="linenumber">222</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="91e6f2fcd0780a64d69c72b5723ae9625d87d8ad" datatype="html">
+        <source> What should we call your organisation? </source>
+        <target>Jak nazywa się Twoja. organizacja?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
+          <context context-type="linenumber">61,62</context>
+        </context-group>
+        <note priority="1" from="description">Heading of one of the onboarding screen</note>
+        <note priority="1" from="meaning">onboarding</note>
+      </trans-unit>
+      <trans-unit id="6367594969348ca31f44476a4bc3f70edc63cc10" datatype="html">
+        <source> What should we call them? </source>
+        <target>Jakich terminów używasz?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
+          <context context-type="linenumber">91,92</context>
+        </context-group>
+        <note priority="1" from="description">Heading of one of the onboarding screen</note>
+        <note priority="1" from="meaning">onboarding</note>
+      </trans-unit>
+      <trans-unit id="591adf2be86a9b4787c5f023f86fea70fe3daf90" datatype="html">
+        <source> What should we call your organisation? </source>
+        <target>Jak nazywa się Twoja organizacja?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
+          <context context-type="linenumber">61,62</context>
+        </context-group>
+        <note priority="1" from="description">Onboarding - Heading of one of the onboarding screens</note>
+      </trans-unit>
+      <trans-unit id="onboarding-terminology-1" datatype="html">
+        <source> What should we call them? </source>
+        <target>Jakich terminów używasz?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
+          <context context-type="linenumber">93,94</context>
+        </context-group>
+        <note priority="1" from="description">Heading of onboarding screen on lead and helper
+      terminology</note>
+      </trans-unit>
+      <trans-unit id="onboarding-terminology-2" datatype="html">
+        <source> What language do you use to refer to people at <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION" equiv-text="{{ team.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/> ? </source>
+        <target>Jakiej terminologii używasz odnosząc się do ludzi w <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION" equiv-text="{{ team.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/>?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
+          <context context-type="linenumber">103,106</context>
+        </context-group>
+        <note priority="1" from="description">Subheading of onboarding screen on lead and helper
+        terminology</note>
+      </trans-unit>
+      <trans-unit id="onboarding-terminology-3" datatype="html">
+        <source> You can always change this later in the organisation settings. </source>
+        <target>Możesz zawsze zmienić terminologię w ustawieniach organizacji.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
+          <context context-type="linenumber">116,117</context>
+        </context-group>
+        <note priority="1" from="description">Helper text for onboarding screen on lead and helper
+        terminology</note>
+      </trans-unit>
     </body>
   </file>
 </xliff>
