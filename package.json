@@ -36,7 +36,7 @@
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
     "doc": "npx compodoc -p apps/maptio/tsconfig.doc.json -d doc/code-map -s",
-    "i18n": "ng extract-i18n --output-path apps/maptio/src/locale",
+    "i18n": "ng extract-i18n --output-path apps/maptio/src/locale && node scripts/i18n/remove-white-space.js",
     "help": "nx help"
   },
   "private": true,
