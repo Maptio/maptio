@@ -147,7 +147,12 @@
 </ng-template>
 
 <ng-template #consent>
-  <ng-template #consenttitle>Could you help us improve Maptio?</ng-template>
+  <ng-template
+    #consenttitle
+    i18n="Heading for consent screen during onboarding@@onboarding-consent-1"
+  >
+    Could you help us improve Maptio?
+  </ng-template>
 
   <ng-template #consentcontent>
     <img
@@ -156,20 +161,32 @@
       class="float-left rounded-circle w-25 m-3"
     />
 
-    <p class="text-muted pt-4">
+    <p
+      class="text-muted pt-4"
+      i18n="Text for consent screen during onboarding@@onboarding-consent-2"
+    >
       Hey, it's Tom here &mdash; the founder of Maptio.
     </p>
 
-    <p class="text-muted">
+    <p
+      class="text-muted"
+      i18n="Text for consent screen during onboarding@@onboarding-consent-3"
+    >
       We're doing all we can to make Maptio ever more delightful to use.
     </p>
 
-    <p class="text-muted">
+    <p
+      class="text-muted"
+      i18n="Text for consent screen during onboarding@@onboarding-consent-4"
+    >
       With your permission, we'd like to make session recordings of your
       activity using Maptio. This helps us spot where we can make improvements.
     </p>
 
-    <p class="text-muted">
+    <p
+      class="text-muted"
+      i18n="Text for consent screen during onboarding@@onboarding-consent-5"
+    >
       We use a very privacy-conscious service called
       <a href="https://openreplay.com/" target="_blank">OpenReplay</a>
       . It's open source, just like us. We trust their service to keep
@@ -178,7 +195,10 @@
 
     <maptio-consent [user]="user" class="d-block my-4"></maptio-consent>
 
-    <p class="text-muted">
+    <p
+      class="text-muted"
+      i18n="Text for consent screen during onboarding@@onboarding-consent-6"
+    >
       If you choose to continue without ticking that checkbox, we respect that.
       We'd still love to hear how you get on with using Maptio, so please do let
       us know if you have questions or suggestions. Thank you!

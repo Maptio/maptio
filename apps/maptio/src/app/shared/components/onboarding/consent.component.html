@@ -11,13 +11,21 @@
     for="showDescriptions"
     class="form-check-label"
     [class.text-muted]="isTogglingConsent"
+    i18n="
+      Text for consent checkbox during onboarding@@onboarding-consent-checkbox"
   >
     I agree to Maptio creating session recordings of my activity so the team can
-    use them - only to improve the product, never never to share in public
+    use them - only to improve the product, never to share in public
   </label>
 </div>
 
-<div *ngIf="hasTogglingConsentFailed" class="alert alert-danger" role="alert">
+<div
+  *ngIf="hasTogglingConsentFailed"
+  class="alert alert-danger"
+  role="alert"
+  i18n="
+    Error text for consent checkbox during onboarding@@onboarding-consent-error"
+>
   There was an error when updating consent. You can chat with us or email us at
   <a href="mailto:support@maptio.com?subject=Error when updating consent">
     support@maptio.com
