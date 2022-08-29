@@ -12,7 +12,7 @@ export class OnboardingBannerComponent {
   @Input() set team(team: Team) {
     this.remainingTrialTimeMessage = team.getFreeTrialTimeLeftMessage();
     const freeTrialCutoffDate = team.getFreeTrialCutoffDate();
-    this.freeTrialCutoffDateMessage = `
+    this.freeTrialCutoffDateMessage = $localize`
       Free trial ends on ${freeTrialCutoffDate.toLocaleDateString()}
       at ${freeTrialCutoffDate.toLocaleTimeString()}
     `;

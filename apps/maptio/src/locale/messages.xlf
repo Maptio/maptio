@@ -223,6 +223,36 @@
           <context context-type="linenumber">270,271</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="eff51037b421db3615f783b54c102a4187f998e1" datatype="html">
+        <source>Request more time</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/onboarding-banner.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="714c28817a63a5277d95a198efb288fcfd34dc15" datatype="html">
+        <source>Subscribe now</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/onboarding-banner.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="87393a823b4f57b0894f88417b92c09533ee8d63" datatype="html">
+        <source>Book free Zoom help call</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/onboarding-banner.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5418917483835358219" datatype="html">
+        <source>      Free trial ends on <x id="PH" equiv-text="freeTrialCutoffDate.toLocaleDateString()"/>
+      at <x id="PH_1" equiv-text="freeTrialCutoffDate.toLocaleTimeString()"/>
+   </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/onboarding-banner.component.ts</context>
+          <context context-type="linenumber">15,18</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="ae1a43feec972e85ff934326e77e1da8eeabf499" datatype="html">
         <source>A login error occurred</source>
         <context-group purpose="location">
@@ -585,6 +615,20 @@
           <context context-type="linenumber">365,369</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="learnMore" datatype="html">
+        <source>Learn more</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/onboarding-message/onboarding-message/onboarding-message.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ok" datatype="html">
+        <source>OK</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/onboarding-message/onboarding-message/onboarding-message.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="onboarding-terminology-4" datatype="html">
         <source>What does your organisation call the person in the main key role for each circle? e.g. Lead, Authority, Driver, Lead link, Source.</source>
         <context-group purpose="location">
@@ -605,6 +649,27 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/add-terminology.component.html</context>
           <context context-type="linenumber">43,45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3bdbd4a927d534fd44f1bd656d3fbe96fc11cfb2" datatype="html">
+        <source>See and edit a circle&apos;s details here.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/initiative.component.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="26a80b49cfc3bc6ede26e383248f267996471831" datatype="html">
+        <source>Edit your circle structure here. Try clicking Expand All.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
+          <context context-type="linenumber">3,4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fd9fc34d62559631c556ecb79c42594d0740ad07" datatype="html">
+        <source>This is your map. Click to zoom and explore.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component.html</context>
+          <context context-type="linenumber">6,7</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7be556e581ded78c3e1385099fee326accaa0a34" datatype="html">
@@ -808,6 +873,34 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.ts</context>
           <context context-type="linenumber">222</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="208613992662614010" datatype="html">
+        <source>Free trial time left: <x id="PH" equiv-text="remainingTrialDays"/> days</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/model/team.data.ts</context>
+          <context context-type="linenumber">149</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5264840670012221055" datatype="html">
+        <source>Your free trial ends tomorrow!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/model/team.data.ts</context>
+          <context context-type="linenumber">151</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8111639168618991429" datatype="html">
+        <source>Your free trial ends today!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/model/team.data.ts</context>
+          <context context-type="linenumber">153</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7918977675758313298" datatype="html">
+        <source>Your free trial has ended!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/model/team.data.ts</context>
+          <context context-type="linenumber">155</context>
         </context-group>
       </trans-unit>
     </body>

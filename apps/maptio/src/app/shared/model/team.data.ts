@@ -146,13 +146,13 @@ export class Team implements Serializable<Team> {
     const remainingTrialDays = this.getRemainingTrialDays();
 
     if (remainingTrialDays > 1) {
-      return `Free trial time left: ${remainingTrialDays} days`;
+      return $localize`Free trial time left: ${remainingTrialDays} days`;
     } else if (remainingTrialDays === 1) {
-      return 'Your free trial ends tomorrow!';
+      return $localize`Your free trial ends tomorrow!`;
     } else if (remainingTrialDays === 0) {
-      return 'Your free trial ends today!';
+      return $localize`Your free trial ends today!`;
     } else {
-      return 'Your free trial has ended!';
+      return $localize`Your free trial has ended!`;
     }
   }
 
