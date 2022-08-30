@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file source-language="en-US" target-language="en-US" datatype="plaintext" original="ng2.template">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
     <body>
       <trans-unit id="onboarding-terminology-6" datatype="html">
         <source>Lead</source>
@@ -260,8 +260,72 @@
           <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="c3d4de943e9007c1df3c003b1042299a702aeee8" datatype="html">
+        <source><x id="START_LINK" ctype="x-a" equiv-text="&lt;a target=&quot;blank&quot; href=&quot;https://fieldmapping.org&quot;&gt;"/>Read our free guide<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> to mapping your organisation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">8,10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bc62472dbcba9966542f5dd985016e9ca113846f" datatype="html">
+        <source><x id="START_LINK" ctype="x-a" equiv-text="&lt;a target=&quot;blank&quot; href=&quot;https://calendly.com/tomnixon/maptio-help&quot;&gt;"/> Book a free Zoom help call <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> with Maptio founder Tom Nixon</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">19,23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9f217f16f99c005ed1a59592e6f1059353aab938" datatype="html">
+        <source><x id="START_LINK" ctype="x-a" equiv-text="&lt;a target=&quot;blank&quot; href=&quot;{{ KB_URL_HOME }}&quot;&gt;"/>Visit our Learning Hub<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> for videos explaining every Maptio feature</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">32,34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="eb51c926d6bb67ea92cd13078f53611080725272" datatype="html">
+        <source>You don&apos;t have any maps!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">55,56</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">58,59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f0c751dba195167bb5e23b740f401e34e7fc664a" datatype="html">
+        <source>We&apos;ll guide you through creating your first map , it should only take a few minutes.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">65,67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="026ca2ed12cf15aa1df471c2239c733c49194531" datatype="html">
+        <source>Resume setup</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">74,75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a1f2f8ff86cbb627d49d2fb572381a4296ec6f59" datatype="html">
+        <source>{VAR_PLURAL, plural, =1 {map} other {maps}}</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">93</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0f585bd897b947653aa35f815ca047764b06e5d4" datatype="html">
+        <source>Welcome to Maptio!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">128</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="tagline" datatype="html">
         <source>Maptio helps you organise without traditional management hierarchy</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">130,131</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
           <context context-type="linenumber">30,31</context>
@@ -269,6 +333,49 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/login/pages/logout/logout.page.html</context>
           <context context-type="linenumber">9,10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6f82fe138f05a6b56a69600ba782f8bec300f1ce" datatype="html">
+        <source>Organisation <x id="START_LINK" ctype="x-a" equiv-text="&lt;a
+                            routerLink=&quot;/teams/{{
+                              _nonExampleTeams[0].team_id
+                            }}/team&quot;
+                          &gt;"/> <x id="INTERPOLATION" equiv-text="{{ _nonExampleTeams[0].name }}"/> <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> set up</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">153,162</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="882abad90854a65216cacf9923cb06cb69eb789b" datatype="html">
+        <source>Map <x id="START_LINK" ctype="x-a" equiv-text="&lt;a
+                              routerLink=&quot;/map/{{ datasets[0]?.datasetId }}/{{
+                                datasets[0]?.initiative.getSlug()
+                              }}&quot;
+                            &gt;"/> <x id="INTERPOLATION" equiv-text="{{ datasets[0]?.initiative.name }}"/> <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> is now active</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">181,190</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="162738572d0a78c786d80959fcf30a8c18aaccb1" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ mapsCount }}"/> active maps</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">192,194</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c63886016080466fd3ca6e8aa3f42125d3576890" datatype="html">
+        <source>Find a map</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">210</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d98628af6e98858be31af5d8884b26e93952218c" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ getCount(filteredMaps) }}"/>/<x id="INTERPOLATION_1" equiv-text="{{ datasets?.length }}"/> maps</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">223,225</context>
         </context-group>
       </trans-unit>
       <trans-unit id="61129a94187d7e8d3d797f038579dc8e4dec4748" datatype="html">
