@@ -175,7 +175,7 @@
       </trans-unit>
       <trans-unit id="6326f9ce2365bfe97668c4aa146fbbb762497c1a" datatype="html">
         <source>Log out</source>
-        <target> Wyloguj się </target>
+        <target>Wyloguj się</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">188,189</context>
@@ -227,7 +227,7 @@
       </trans-unit>
       <trans-unit id="b4d7491d66bd2a5eb3cea884df1b365cd1909faf" datatype="html">
         <source>All organizations...</source>
-        <target> Wszystkie organizacje... </target>
+        <target>Wszystkie organizacje...</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">258,259</context>
@@ -243,7 +243,7 @@
       </trans-unit>
       <trans-unit id="debeb99cab8e5e01339f329a38a6df134955c6f4" datatype="html">
         <source>You will be redirected to the <x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>homepage<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> in <x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> seconds.</source>
-        <target> Będziesz przekierowany na <x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>stronę główną<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> za <x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> sekund. </target>
+        <target>Będziesz przekierowany na <x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>stronę główną<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> za <x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> sekund. </target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
           <context context-type="linenumber">33,36</context>
@@ -259,7 +259,7 @@
       </trans-unit>
       <trans-unit id="b0e8a2f4ca23077f39bd8eb69d069ad245897fc5" datatype="html">
         <source>Despite our best efforts, things will sometimes break, but we are always happy to help get you back on track.</source>
-        <target> Mimo naszych starań czasami coś się w Maptio psuje, ale jesteśmy zawsze chętni, żeby pomóc rozwiązać problem. </target>
+        <target>Mimo naszych starań czasami coś się w Maptio psuje, ale jesteśmy zawsze chętni, żeby pomóc rozwiązać problem.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
           <context context-type="linenumber">18,20</context>
@@ -342,24 +342,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="ba9727a61f22a5e1c94c954c2925b8bab61bc536" datatype="html">
-        <source>Check out <x id="START_LINK" ctype="x-a" equiv-text="&lt;a
-                  href=&quot;https://fieldmapping.org/&quot;
-                  target=&quot;blank&quot;
-                  class=&quot;text-blue&quot;
-                &gt;"/> the Maptio guide to initiative mapping <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>and<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_LINK_1" equiv-text="&lt;a
-                  href=&quot;https://medium.com/maptio&quot;
-                  target=&quot;blank&quot;
-                  class=&quot;text-blue&quot;
-                &gt;"/> our blog <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
-        <target>Przeczytaj <x id="START_LINK" ctype="x-a" equiv-text="&lt;a
-                  href=&quot;https://fieldmapping.org/&quot;
-                  target=&quot;blank&quot;
-                  class=&quot;text-blue&quot;
-                &gt;"/>nasz przewodnik mapowania inicjatyw<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/> i odwiedź <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_LINK_1" equiv-text="&lt;a
-                  href=&quot;https://medium.com/maptio&quot;
-                  target=&quot;blank&quot;
-                  class=&quot;text-blue&quot;
-                &gt;"/>nasz blog<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
+        <source>Check out <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                   href=&quot;https://fieldmapping.org/&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/> the Maptio guide to initiative mapping <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>and<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_LINK_1" equiv-text="&lt;a                   href=&quot;https://medium.com/maptio&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/> our blog <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
+        <target>Przeczytaj <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                   href=&quot;https://fieldmapping.org/&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/>nasz przewodnik mapowania inicjatyw<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/> i odwiedź <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_LINK_1" equiv-text="&lt;a                   href=&quot;https://medium.com/maptio&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/>nasz blog<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/login/pages/logout/logout.page.html</context>
           <context context-type="linenumber">63,78</context>
@@ -438,7 +422,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="46989e1cc2be68c6ecac72686f2533b2f6ca0e51" datatype="html">
-        <source>I agree to Maptio&apos;s <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;{{ TERMS_AND_CONDITIONS_URL }}&quot; target=&quot;_blank&quot;&gt;"/> Terms of Service <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> and <x id="START_LINK_1" equiv-text="&lt;a href=&quot;{{ PRIVACY_POLICY_URL }}&quot; target=&quot;_blank&quot;&gt;"/>Privacy Policy<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
+        <source>I agree to Maptio's <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;{{ TERMS_AND_CONDITIONS_URL }}&quot; target=&quot;_blank&quot;&gt;"/> Terms of Service <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> and <x id="START_LINK_1" equiv-text="&lt;a href=&quot;{{ PRIVACY_POLICY_URL }}&quot; target=&quot;_blank&quot;&gt;"/>Privacy Policy<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
         <target>Akceptuję <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;{{ TERMS_AND_CONDITIONS_URL }}&quot; target=&quot;_blank&quot;&gt;"/>Regulamin<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> i <x id="START_LINK_1" equiv-text="&lt;a href=&quot;{{ PRIVACY_POLICY_URL }}&quot; target=&quot;_blank&quot;&gt;"/>Politykę Prywatności<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> Maptio.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
@@ -552,8 +536,8 @@
       </trans-unit>
       <trans-unit id="4175524537305120095" datatype="html">
         <source>Updating profile information failed
-        with error: &quot;<x id="PH" equiv-text="error.message"/>&quot;, please try again later or contact us.</source>
-        <target>Nastąpił błąd przy zapisywaniu profilu: &quot;<x id="PH" equiv-text="error.message"/>&quot;, spróbuj ponownie trochę później, albo skontaktuj się z nami</target>
+        with error: "<x id="PH" equiv-text="error.message"/>", please try again later or contact us.</source>
+        <target>Nastąpił błąd przy zapisywaniu profilu: "<x id="PH" equiv-text="error.message"/>", spróbuj ponownie trochę później, albo skontaktuj się z nami</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">297,298</context>
@@ -585,7 +569,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="1374576901432673248" datatype="html">
-        <source>Can&apos;t create <x id="PH" equiv-text="this.email"/> : <x id="PH_1" equiv-text="reason"/></source>
+        <source>Can't create <x id="PH" equiv-text="this.email"/> : <x id="PH_1" equiv-text="reason"/></source>
         <target>Nie udało się utworzyć użytkownika <x id="PH" equiv-text="this.email"/> : <x id="PH_1" equiv-text="reason"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
@@ -647,12 +631,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="2908a94538e6813824b78a2edaf472d7de4eadec" datatype="html">
-        <source><x id="ICU" equiv-text="{duplicateUsers.length, plural, =1 {A person} other {Multiple people}}"/> with this name or email address <x id="ICU_1" equiv-text="{duplicateUsers.length, plural, =1 {is}
-      other {are}}"/> already <x id="ICU_2" equiv-text="{duplicateUsers.length, plural, =1 {a member} other
-      {members}}"/> of your organisation. Would you like to add <x id="ICU_3" equiv-text="{duplicateUsers.length, plural, other {them}}"/> instead?</source>
-        <target><x id="ICU" equiv-text="{duplicateUsers.length, plural, =1 {A person} other {Multiple people}}"/> z tym imieniem lub nazwiskiem <x id="ICU_1" equiv-text="{duplicateUsers.length, plural, =1 {is}
-      other {are}}"/> już <x id="ICU_2" equiv-text="{duplicateUsers.length, plural, =1 {a member} other
-      {members}}"/> Twojej organizacji. Czy chcesz dodać <x id="ICU_3" equiv-text="{duplicateUsers.length, plural, other {them}}"/> zamiast nowej osoby?</target>
+        <source><x id="ICU" equiv-text="{duplicateUsers.length, plural, =1 {A person} other {Multiple people}}"/> with this name or email address <x id="ICU_1" equiv-text="{duplicateUsers.length, plural, =1 {is}       other {are}}"/> already <x id="ICU_2" equiv-text="{duplicateUsers.length, plural, =1 {a member} other       {members}}"/> of your organisation. Would you like to add <x id="ICU_3" equiv-text="{duplicateUsers.length, plural, other {them}}"/> instead?</source>
+        <target><x id="ICU" equiv-text="{duplicateUsers.length, plural, =1 {A person} other {Multiple people}}"/> z tym imieniem lub nazwiskiem <x id="ICU_1" equiv-text="{duplicateUsers.length, plural, =1 {is}       other {are}}"/> już <x id="ICU_2" equiv-text="{duplicateUsers.length, plural, =1 {a member} other       {members}}"/> Twojej organizacji. Czy chcesz dodać <x id="ICU_3" equiv-text="{duplicateUsers.length, plural, other {them}}"/> zamiast nowej osoby?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">225,230</context>
@@ -683,7 +663,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="b19165fd56e1c4104ed744e28b2a114bf38966d6" datatype="html">
-        <source>Let&apos;s set up your organisation. It will only take a minute.</source>
+        <source>Let's set up your organisation. It will only take a minute.</source>
         <target>W następnych krokach stworzymy Twoją organizację. Powinno to zająć około minuty.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
@@ -705,7 +685,7 @@
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.ts</context>
           <context context-type="linenumber">100</context>
         </context-group>
-        <note priority="1" from="description">Error message when an organisation name isn&apos;t provided</note>
+        <note priority="1" from="description">Error message when an organisation name isn't provided</note>
         <note priority="1" from="meaning">onboarding</note>
       </trans-unit>
       <trans-unit id="next" datatype="html">
@@ -729,7 +709,7 @@
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.ts</context>
           <context context-type="linenumber">106</context>
         </context-group>
-        <note priority="1" from="description">Message shown after the organisation name is entered and the &quot;Next&quot; button is pressed</note>
+        <note priority="1" from="description">Message shown after the organisation name is entered and the "Next" button is pressed</note>
         <note priority="1" from="meaning">onboarding</note>
       </trans-unit>
       <trans-unit id="3761093640207195064" datatype="html">
@@ -883,7 +863,7 @@
         <note priority="1" from="description">Text for consent checkbox during onboarding</note>
       </trans-unit>
       <trans-unit id="onboarding-consent-error" datatype="html">
-        <source>There was an error when updating consent. You can chat with us or email us at <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Error when updating consent&quot;&gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> if you&apos;d like to report the issue and notify us of your consent preferences.</source>
+        <source>There was an error when updating consent. You can chat with us or email us at <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Error when updating consent&quot;&gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> if you'd like to report the issue and notify us of your consent preferences.</source>
         <target>Nastąpił błąd podczas zapisywania zgody. Napisz do nas na czacie albo na e-mail <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Error when updating consent&quot;&gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> jeśli chcesz zgłosić problem i zmienić swoje preferencje.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/consent.component.html</context>
@@ -901,7 +881,7 @@
         <note priority="1" from="description">Heading for consent screen during onboarding</note>
       </trans-unit>
       <trans-unit id="onboarding-consent-2" datatype="html">
-        <source>Hey, it&apos;s Tom here — the founder of Maptio.</source>
+        <source>Hey, it's Tom here — the founder of Maptio.</source>
         <target>Hej, tu Tom — założyciel Maptio.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
@@ -910,7 +890,7 @@
         <note priority="1" from="description">Text for consent screen during onboarding</note>
       </trans-unit>
       <trans-unit id="onboarding-consent-3" datatype="html">
-        <source>We&apos;re doing all we can to make Maptio ever more delightful to use.</source>
+        <source>We're doing all we can to make Maptio ever more delightful to use.</source>
         <target>Staramy się jak możemy, żeby praca z Maptio była przyjemnością.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
@@ -919,7 +899,7 @@
         <note priority="1" from="description">Text for consent screen during onboarding</note>
       </trans-unit>
       <trans-unit id="onboarding-consent-4" datatype="html">
-        <source>With your permission, we&apos;d like to make session recordings of your activity using Maptio. This helps us spot where we can make improvements.</source>
+        <source>With your permission, we'd like to make session recordings of your activity using Maptio. This helps us spot where we can make improvements.</source>
         <target>Jeśli się zgodzisz, chcielibyśmy zapisywać nagrania Twojej aktywności w Maptio. Pomaga nam to spostrzec, gdzie możemy coś poprawić.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
@@ -928,7 +908,7 @@
         <note priority="1" from="description">Text for consent screen during onboarding</note>
       </trans-unit>
       <trans-unit id="onboarding-consent-5" datatype="html">
-        <source>We use a very privacy-conscious service called <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;https://openreplay.com/&quot; target=&quot;_blank&quot;&gt;"/>OpenReplay<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> . It&apos;s open source, just like us. We trust their service to keep recordings private and secure.</source>
+        <source>We use a very privacy-conscious service called <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;https://openreplay.com/&quot; target=&quot;_blank&quot;&gt;"/>OpenReplay<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> . It's open source, just like us. We trust their service to keep recordings private and secure.</source>
         <target>Używamy serwisu, który bardzo dba o prywatność nagrań: <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;https://openreplay.com/&quot; target=&quot;_blank&quot;&gt;"/>OpenReplay<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/>. Kod źródłowy tego serwisu jest dostępny tak jak i kod Maptio. Jest to serwis godny zaufania.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
@@ -937,7 +917,7 @@
         <note priority="1" from="description">Text for consent screen during onboarding</note>
       </trans-unit>
       <trans-unit id="onboarding-consent-6" datatype="html">
-        <source>If you choose to continue without ticking that checkbox, we respect that. We&apos;d still love to hear how you get on with using Maptio, so please do let us know if you have questions or suggestions. Thank you!</source>
+        <source>If you choose to continue without ticking that checkbox, we respect that. We'd still love to hear how you get on with using Maptio, so please do let us know if you have questions or suggestions. Thank you!</source>
         <target>Jeśli zdecydujesz sie kontynuować bez wyrażenia zgody, szanujemy Twoją decyzje. Nadal bylibyśmy zachwyceni z każdej informacji zwrotnej, daj nam znać, jeśli masz pytania albo sugestie. Dziękujemy!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
@@ -996,7 +976,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="3bdbd4a927d534fd44f1bd656d3fbe96fc11cfb2" datatype="html">
-        <source>See and edit a circle&apos;s details here.</source>
+        <source>See and edit a circle's details here.</source>
         <target>Tu możesz zobaczyć i zmienić dokładne informacje na temat każdego koła.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/initiative.component.html</context>
@@ -1049,6 +1029,114 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/model/team.data.ts</context>
           <context context-type="linenumber">155</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c63886016080466fd3ca6e8aa3f42125d3576890" datatype="html">
+        <source>Find a map</source>
+        <target state="translated">Szukaj mapy</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">210</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6f82fe138f05a6b56a69600ba782f8bec300f1ce" datatype="html">
+        <source>Organisation <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                             routerLink=&quot;/teams/{{                               _nonExampleTeams[0].team_id                             }}/team&quot;                           &gt;"/> <x id="INTERPOLATION" equiv-text="{{ _nonExampleTeams[0].name }}"/> <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> set up</source>
+        <target state="translated">Organizacja <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                             routerLink=&quot;/teams/{{                               _nonExampleTeams[0].team_id                             }}/team&quot;                           &gt;"/> jest skonfigurowana</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">153,162</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="026ca2ed12cf15aa1df471c2239c733c49194531" datatype="html">
+        <source>Resume setup</source>
+        <target state="translated">Wznów konfigurowanie</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">74,75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a1f2f8ff86cbb627d49d2fb572381a4296ec6f59" datatype="html">
+        <source>{VAR_PLURAL, plural, =1 {map} other {maps}}</source>
+        <target state="translated">{VAR_PLURAL, plural, =1 {mapa} other {mapy}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">93</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0f585bd897b947653aa35f815ca047764b06e5d4" datatype="html">
+        <source>Welcome to Maptio!</source>
+        <target state="translated">Witamy w Maptio!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">128</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f0c751dba195167bb5e23b740f401e34e7fc664a" datatype="html">
+        <source>We'll guide you through creating your first map , it should only take a few minutes.</source>
+        <target state="translated">Pomożemy Ci stworzyć Twoją pierwszą mapę, nie zajmie to więcej niż kilka minut.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">65,67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d98628af6e98858be31af5d8884b26e93952218c" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ getCount(filteredMaps) }}"/>/<x id="INTERPOLATION_1" equiv-text="{{ datasets?.length }}"/> maps</source>
+        <target state="translated"><x id="INTERPOLATION" equiv-text="{{ getCount(filteredMaps) }}"/><x id="INTERPOLATION_1" equiv-text="{{ datasets?.length }}"/> mapy</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">223,225</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bc62472dbcba9966542f5dd985016e9ca113846f" datatype="html">
+        <source><x id="START_LINK" ctype="x-a" equiv-text="&lt;a target=&quot;blank&quot; href=&quot;https://calendly.com/tomnixon/maptio-help&quot;&gt;"/> Book a free Zoom help call <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> with Maptio founder Tom Nixon</source>
+        <target state="translated"><x id="START_LINK" ctype="x-a" equiv-text="&lt;a target=&quot;blank&quot; href=&quot;https://calendly.com/tomnixon/maptio-help&quot;&gt;"/> Umów się na rozmowę przez Zoom <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> z założycielem Maptio, Tomem</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">19,23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9f217f16f99c005ed1a59592e6f1059353aab938" datatype="html">
+        <source><x id="START_LINK" ctype="x-a" equiv-text="&lt;a target=&quot;blank&quot; href=&quot;{{ KB_URL_HOME }}&quot;&gt;"/>Visit our Learning Hub<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> for videos explaining every Maptio feature</source>
+        <target state="translated"><x id="START_LINK" ctype="x-a" equiv-text="&lt;a target=&quot;blank&quot; href=&quot;{{ KB_URL_HOME }}&quot;&gt;"/>Odwiedź nasze Centrum Wiedzy <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> żeby obejrzeć wideo na temat każdego aspektu funkcjonalności Maptio</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">32,34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="eb51c926d6bb67ea92cd13078f53611080725272" datatype="html">
+        <source>You don't have any maps!</source>
+        <target state="translated">Nie masz żadnych map!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">55,56</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">58,59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="882abad90854a65216cacf9923cb06cb69eb789b" datatype="html">
+        <source>Map <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                               routerLink=&quot;/map/{{ datasets[0]?.datasetId }}/{{                                 datasets[0]?.initiative.getSlug()                               }}&quot;                             &gt;"/> <x id="INTERPOLATION" equiv-text="{{ datasets[0]?.initiative.name }}"/> <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> is now active</source>
+        <target state="translated">Mapa <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                               routerLink=&quot;/map/{{ datasets[0]?.datasetId }}/{{                                 datasets[0]?.initiative.getSlug()                               }}&quot;                             &gt;"/> jest aktywna</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">181,190</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="162738572d0a78c786d80959fcf30a8c18aaccb1" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ mapsCount }}"/> active maps</source>
+        <target state="translated"><x id="INTERPOLATION" equiv-text="{{ mapsCount }}"/> aktywne mapy</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">192,194</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c3d4de943e9007c1df3c003b1042299a702aeee8" datatype="html">
+        <source><x id="START_LINK" ctype="x-a" equiv-text="&lt;a target=&quot;blank&quot; href=&quot;https://fieldmapping.org&quot;&gt;"/>Read our free guide<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> to mapping your organisation</source>
+        <target state="translated"><x id="START_LINK" ctype="x-a" equiv-text="&lt;a target=&quot;blank&quot; href=&quot;https://fieldmapping.org&quot;&gt;"/> Przeczytaj nasz darmowy przewodnik <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> mapowania inicjatyw</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">8,10</context>
         </context-group>
       </trans-unit>
     </body>
