@@ -1057,7 +1057,7 @@
       </trans-unit>
       <trans-unit id="a1f2f8ff86cbb627d49d2fb572381a4296ec6f59" datatype="html">
         <source>{VAR_PLURAL, plural, =1 {map} other {maps}}</source>
-        <target state="translated">{VAR_PLURAL, plural, =1 {mapa} other {mapy}}</target>
+        <target state="translated">{VAR_PLURAL, plural, =1 {mapa} =2 {mapy} =3 {mapy} =4 {mapy} other {map}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">93</context>
