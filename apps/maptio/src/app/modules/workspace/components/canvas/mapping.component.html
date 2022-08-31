@@ -8,9 +8,10 @@
     openDelay="500"
     tooltipClass="toolbar-button__tooltip"
     placement="left"
+    i18n-ngbTooltip="@@circles"
   >
     <span class="toolbar-button__text d-none d-md-block icon-text-label">
-      Circles
+      <ng-container i18n="@@circles">Circles</ng-container>
     </span>
   </button>
 
@@ -23,8 +24,9 @@
     openDelay="500"
     tooltipClass="toolbar-button__tooltip"
     placement="left"
+    i18n-ngbTooltip
   >
-    <span class="d-none d-md-block icon-text-label">Expanded</span>
+    <span class="d-none d-md-block icon-text-label" i18n>Expanded</span>
   </button>
 
   <button
@@ -36,8 +38,11 @@
     openDelay="500"
     tooltipClass="toolbar-button__tooltip"
     placement="left"
+    i18n-ngbTooltip="@@network"
   >
-    <span class="d-none d-md-block icon-text-label">Network</span>
+    <span class="d-none d-md-block icon-text-label">
+      <ng-container i18n="@@network">Network</ng-container>
+    </span>
   </button>
 </ng-template>
 
@@ -76,9 +81,10 @@
                 openDelay="500"
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
+                i18n-ngbTooltip="@@search"
               >
                 <i class="mt-2 fa fa-search"></i>
-                <span class="icon-text-label">Search</span>
+                <span class="icon-text-label" i18n="@@search">Search</span>
               </button>
 
               <button
@@ -92,9 +98,10 @@
                 openDelay="500"
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
+                i18n-ngbTooltip="@@filter"
               >
                 <i class="mt-2 fa fa-filter"></i>
-                <span class="icon-text-label">Filter</span>
+                <span class="icon-text-label" i18n="@@filter">Filter</span>
               </button>
 
               <button
@@ -108,9 +115,10 @@
                 openDelay="500"
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
+                i18n-ngbTooltip="@@share"
               >
                 <i class="mt-2 fas fa-share"></i>
-                <span class="icon-text-label">Share</span>
+                <span class="icon-text-label" i18n="@@share">Share</span>
               </button>
             </div>
 
@@ -126,8 +134,11 @@
                 openDelay="500"
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
+                i18n-ngbTooltip="@@directory"
               >
-                <span class="d-none d-md-block icon-text-label">Directory</span>
+                <span class="d-none d-md-block icon-text-label">
+                  <ng-container i18n="@@directory">Directory</ng-container>
+                </span>
               </button>
             </div>
 
@@ -144,9 +155,10 @@
                 openDelay="500"
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
+                i18n-ngbTooltip="@@zoomout"
               >
                 <i class="fa fa-minus py-1"></i>
-                <span class="icon-text-label">Zoom out</span>
+                <span class="icon-text-label" i18n="@@zoomout">Zoom out</span>
               </button>
 
               <button
@@ -157,9 +169,10 @@
                 openDelay="500"
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
+                i18n-ngbTooltip="@@zoomin"
               >
                 <i class="fa fa-plus py-1"></i>
-                <span class="icon-text-label">Zoom in</span>
+                <span class="icon-text-label" i18n="@@zoomin">Zoom in</span>
               </button>
 
               <button
@@ -170,9 +183,10 @@
                 openDelay="500"
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
+                i18n-ngbTooltip="@@zoomfit"
               >
                 <i class="fa fa-expand-arrows-alt py-1"></i>
-                <span class="icon-text-label">Zoom fit</span>
+                <span class="icon-text-label" i18n="@@zoomfit">Zoom fit</span>
               </button>
 
               <button
@@ -204,9 +218,10 @@
                 openDelay="500"
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
+                i18n-ngbTooltip="@@colors"
               >
                 <i class="mt-2 fas fa-palette"></i>
-                <span class="icon-text-label">Colors</span>
+                <span class="icon-text-label" i18n="@@colors">Colors</span>
               </button>
             </div>
           </div>
