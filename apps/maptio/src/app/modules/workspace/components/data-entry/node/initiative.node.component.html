@@ -59,7 +59,7 @@
   <div class="input-group-append">
     <ng-template #addButtonTooltip>
       <p *ngIf="isRoot()">Create outer circle</p>
-      <p *ngIf="!isRoot()">Add sub-circle</p>
+      <p *ngIf="!isRoot()" i18n>Add sub-circle</p>
     </ng-template>
 
     <ng-container *ngIf="!isRoot()">
