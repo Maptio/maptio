@@ -36,10 +36,12 @@
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
     "doc": "npx compodoc -p apps/maptio/tsconfig.doc.json -d doc/code-map -s",
+    "i18n:extract": "ng extract-i18n --output-path apps/maptio/src/locale && node scripts/i18n/remove-white-space.js",
+    "i18n:up": "run-s i18n:upload-translations",
     "i18n:down": "run-s i18n:download-translations i18n:place-translations",
+    "i18n:upload-translations": "wlc --config=.weblate upload maptio/maptio-application/en_US -i apps/maptio/src/locale/messages.xlf --method=replace",
     "i18n:download-translations": "wlc --config=.weblate download maptio -o=./",
     "i18n:place-translations": "unzip maptio-maptio-application.zip && cp -R maptio/maptio-application/* ./ && rm maptio-maptio-application.zip && rm -R maptio",
-    "i18n:extract": "ng extract-i18n --output-path apps/maptio/src/locale && node scripts/i18n/remove-white-space.js",
     "help": "nx help"
   },
   "private": true,
