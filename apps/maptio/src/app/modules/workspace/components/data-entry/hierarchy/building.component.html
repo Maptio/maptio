@@ -75,15 +75,7 @@
               </ng-template>
 
               <ng-template #permissionsTipContent>
-                <span class="text-orange">
-                  <ng-container i18n="@@noPermission">
-                    You don't have permission to do this.
-                  </ng-container>
-                  <a href="{{ KB_URL_PERMISSIONS }}" target="blank">
-                    <ng-container i18n="@@learnMore">Learn more</ng-container>
-                  </a>
-                  .
-                </span>
+                <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
               </ng-template>
 
               <ng-template #elseFirstNodeBlock>

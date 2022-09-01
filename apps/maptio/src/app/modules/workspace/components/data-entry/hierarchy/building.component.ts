@@ -37,7 +37,6 @@ import { RoleLibraryService } from '../../../services/role-library.service';
 import { CircleMapService } from '@maptio-circle-map/circle-map.service';
 import { intersectionBy } from 'lodash';
 import { Subject, Subscription } from 'rxjs';
-import { environment } from '../../../../../config/environment';
 
 @Component({
   selector: 'building',
@@ -120,7 +119,6 @@ export class BuildingComponent implements OnDestroy {
 
   SAVING_FREQUENCY = 10;
 
-  KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
   Permissions = Permissions;
 
   @ViewChild('tree') public tree: TreeComponent;
