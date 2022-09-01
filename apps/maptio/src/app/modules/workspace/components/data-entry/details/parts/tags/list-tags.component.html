@@ -1,10 +1,10 @@
 <ng-template #editTipContent>
-  <ng-content></ng-content>
+  <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
 </ng-template>
 
 <div class="d-flex align-items-baseline text-gray-light mb-2">
   <i class="fas fa-tags mr-1"></i>
-  <span class="text-uppercase text-bold small mr-1">tags</span>
+  <span class="text-uppercase text-bold small mr-1" i18n="@@tags">Tags</span>
   <span
     *ngIf="isUnauthorized"
     class="text-gray-light small"
@@ -14,6 +14,7 @@
     <i class="fas fa-lock"></i>
   </span>
 </div>
+
 <div class="d-flex justify-content-start align-items-center flex-wrap">
   <div *ngFor="let tag of selectedTags; let i = index">
     <a
@@ -30,6 +31,7 @@
       ></span>
     </a>
   </div>
+
   <div class="dropdown" *ngIf="!isUnauthorized">
     <button
       class="btn badge badge-pill p-2 dropdown-toggle btn-sm btn-outline-secondary"
@@ -39,13 +41,16 @@
       aria-haspopup="true"
       aria-expanded="false"
     >
-      Select tag
+      <ng-container i18n="@@selectTag">Select tag</ng-container>
     </button>
+
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
       <button class="dropdown-item" type="button" (click)="editTags()">
-        Edit tags
+        <ng-container i18n="@@editTags">Edit tags</ng-container>
       </button>
+
       <div class="dropdown-divider"></div>
+
       <button
         (click)="addTag(tag)"
         *ngFor="let tag of availableTags; let i = index"

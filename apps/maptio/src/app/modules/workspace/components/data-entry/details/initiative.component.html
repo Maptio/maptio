@@ -25,10 +25,9 @@
       [isEditMode]="isEditMode"
       (save)="saveTags($event)"
       (open)="openTagsPanel()"
-    >
-      <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
-    </initiative-list-tags>
+    ></initiative-list-tags>
   </div>
+
   <div class="mb-4">
     <maptio-initiative-authority-select
       [isUnauthorized]="!canEditAuthority()"

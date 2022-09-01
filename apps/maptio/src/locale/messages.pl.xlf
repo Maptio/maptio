@@ -1323,14 +1323,6 @@
           <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="cafc87479686947e2590b9f588a88040aeaf660b" datatype="html">
-        <source>Tags</source>
-        <target state="translated">Tagi</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
-          <context context-type="linenumber">129</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="869de38138d7f0575f2e8b8de63a09edb3b00d3e" datatype="html">
         <source>Collapse all</source>
         <target state="translated">Zamknij wszystkie</target>
@@ -1489,6 +1481,30 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/textarea/textarea.component.html</context>
           <context context-type="linenumber">41,44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="editTags" datatype="html">
+        <source>Edit tags</source>
+        <target state="translated">Edytuj tagi</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/tags/list-tags.component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="selectTag" datatype="html">
+        <source>Select tag</source>
+        <target state="translated">Wybierz tag</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/tags/list-tags.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tags" datatype="html">
+        <source>Tags</source>
+        <target state="translated">Tagi</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/tags/list-tags.component.html</context>
+          <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
     </body>

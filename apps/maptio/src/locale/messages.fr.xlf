@@ -46,20 +46,6 @@
           <context context-type="linenumber">71</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.pagination.last-aria" datatype="html">
-        <source>Last</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">231,232</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ngb.toast.close-aria" datatype="html">
-        <source>Close</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/toast/toast.ts</context>
-          <context context-type="linenumber">76,82</context>
-        </context-group>
-      </trans-unit>
     </body>
   </file>
 </xliff>
