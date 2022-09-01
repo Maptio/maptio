@@ -38,10 +38,7 @@
 
 <ng-container *ngIf="isDisabled">
   <ng-template #editTipContent>
-    <span class="text-orange">
-      You don't have permission to edit this.
-      <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
-    </span>
+    <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
   </ng-template>
 
   <button
