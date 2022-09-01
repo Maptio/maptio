@@ -1,14 +1,5 @@
-<ng-template #editTipContent>
-  <span class="text-orange">
-    You don't have permission to edit this.
-    <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
-  </span>
-</ng-template>
-<ng-template #deleteTipContent>
-  <span class="text-orange">
-    You don't have permission to delete this.
-    <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
-  </span>
+<ng-template #insufficientPermissionsMessage>
+  <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
 </ng-template>
 
 <div class="h-100 overflow-y">
@@ -112,7 +103,10 @@
         </ng-template>
 
         <ng-template #elseTagsBlock>
-          <div class="flex-grow-1 d-flex" [stickyPopover]="editTipContent">
+          <div
+            class="flex-grow-1 d-flex"
+            [stickyPopover]="insufficientPermissionsMessage"
+          >
             <input
               type="text"
               class="flex-grow-1 form-control cursor-not-allowed"
@@ -133,7 +127,7 @@
             container="body"
             appendToBody="false"
             class="btn btn-outline-secondary remove col-auto disabled cursor-not-allowed"
-            [stickyPopover]="deleteTipContent"
+            [stickyPopover]="insufficientPermissionsMessage"
           ></button>
         </ng-template>
       </div>
