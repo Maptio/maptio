@@ -4,8 +4,16 @@
     {{ r.name }}
   </span>
 
-  <span *ngIf="!r.user_id && t">{{ t }} (Add a new team member)</span>
-  <span *ngIf="!r.user_id && !t">Add a new team member</span>
+  <span *ngIf="!r.user_id && t">
+    {{ t }}
+    <span>(</span>
+    <span i18n="@@addNewTeamMember">Add a new team member</span>
+    <span>)</span>
+  </span>
+
+  <span *ngIf="!r.user_id && !t" i18n="@@addNewTeamMember">
+    Add a new team member
+  </span>
 </ng-template>
 
 <ng-template #editTipContent>
@@ -17,7 +25,7 @@
 >
   <span>
     <i class="fas fa-users mr-1"></i>
-    <span class="text-uppercase text-bold small mr-1">Who's helping?</span>
+    <span class="text-uppercase text-bold small mr-1" i18n>Who's helping?</span>
     <span
       *ngIf="isUnauthorized"
       class="text-gray-light small"
@@ -32,6 +40,7 @@
     *ngIf="!isCurrentUserAlreadyAdded() && !isUnauthorized"
     class="align-self-end btn btn-sm btn-link"
     (click)="onAddingCurrentUser()"
+    i18n
   >
     Add yourself as a {{ team?.settings.helper | lowercase }}
   </button>
@@ -51,7 +60,7 @@
       [filter]="filterMembers"
       (pick)="onAddingHelper($event)"
     >
-      <button class="btn btn-outline-success">
+      <button class="btn btn-outline-success" i18n>
         Add {{ team?.settings.helper | lowercase }}
       </button>
     </common-autocomplete>

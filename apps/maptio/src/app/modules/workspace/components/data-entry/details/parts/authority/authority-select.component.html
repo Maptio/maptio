@@ -8,8 +8,16 @@
     {{ r.name }}
   </span>
 
-  <span *ngIf="!r.user_id && t">{{ t }} (Add a new team member)</span>
-  <span *ngIf="!r.user_id && !t">Add a new team member</span>
+  <span *ngIf="!r.user_id && t">
+    {{ t }}
+    <span>(</span>
+    <span i18n="@@addNewTeamMember">Add a new team member</span>
+    <span>)</span>
+  </span>
+
+  <span *ngIf="!r.user_id && !t" i18n="@@addNewTeamMember">
+    Add a new team member
+  </span>
 </ng-template>
 
 <span class="d-flex align-items-baseline text-gray-light mb-1">

@@ -934,6 +934,46 @@
           <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="addNewTeamMember" datatype="html">
+        <source>Add a new team member</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="deff5aea51d0d24463578c70327b42cf28104916" datatype="html">
+        <source>Who&apos;s helping?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e06e3125d4515cc3ce38cb64a9f4980058a1cdf2" datatype="html">
+        <source>Add yourself as a <x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
+          <context context-type="linenumber">42,44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ffe603040e6f27e1fbbfbcb7f26f81a9ee0c9df3" datatype="html">
+        <source>Add <x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
+          <context context-type="linenumber">61,63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="741679013528382328" datatype="html">
+        <source>Start typing the name of a <x id="PH" equiv-text="changes.team
+        .currentValue as Team).settings.helper.toLowerCase()"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.ts</context>
+          <context context-type="linenumber">48,49</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="8d2b3afabe95d8ae871a5b2834c7bc22deba99c3" datatype="html">
         <source>Circle name</source>
         <context-group purpose="location">
