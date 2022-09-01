@@ -920,6 +920,20 @@
           <context context-type="linenumber">7,8</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="f4d619c2e0bf4bbdd86abde2885555f5453f3901" datatype="html">
+        <source>Circle description</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/description/description-textarea.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fd5b214b0d15d84c9e173db5be9788b67c568159" datatype="html">
+        <source>Describe this circle. You can also include links to other documents and tools used by this circle.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/description/description-textarea.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="8d2b3afabe95d8ae871a5b2834c7bc22deba99c3" datatype="html">
         <source>Circle name</source>
         <context-group purpose="location">

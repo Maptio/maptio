@@ -1507,6 +1507,22 @@
           <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="f4d619c2e0bf4bbdd86abde2885555f5453f3901" datatype="html">
+        <source>Circle description</source>
+        <target state="translated">Opis koła</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/description/description-textarea.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fd5b214b0d15d84c9e173db5be9788b67c568159" datatype="html">
+        <source>Describe this circle. You can also include links to other documents and tools used by this circle.</source>
+        <target state="translated">Opisz to kolo. Możesz też dodać linki do innych dokumentów i serwisów używanych w tym kole.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/description/description-textarea.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
