@@ -46,29 +46,11 @@
           <context context-type="linenumber">71</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.datepicker.next-month" datatype="html">
-        <source>Next month</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/datepicker/datepicker-navigation.ts</context>
-          <context context-type="linenumber">44,48</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/datepicker/datepicker-navigation.ts</context>
-          <context context-type="linenumber">57,61</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="ngb.pagination.last-aria" datatype="html">
         <source>Last</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@ng-bootstrap/src/pagination/pagination.ts</context>
           <context context-type="linenumber">231,232</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ngb.timepicker.increment-minutes" datatype="html">
-        <source>Increment minutes</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@ng-bootstrap/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">76,77</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.toast.close-aria" datatype="html">

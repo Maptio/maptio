@@ -21,14 +21,14 @@
       class="btn btn-link btn-sm"
       (click)="isEditMode = false"
     >
-      Save
+      <ng-container i18n="@@save">Save</ng-container>
     </button>
     <button
       [class.invisible]="isEditMode || isUnauthorized"
       class="btn btn-link btn-sm"
       (click)="!isUnauthorized && (isEditMode = true)"
     >
-      Edit
+      <ng-container i18n="@@edit">Edit</ng-container>
     </button>
   </div>
 
@@ -36,6 +36,7 @@
     <small
       *ngIf="!isHeader"
       class="my-1 position-absolute bottom-left text-default text-muted ml-auto"
+      i18n
     >
       How to
       <a href="{{ KB_URL_MARKDOWN }}" target="_blank">
@@ -68,7 +69,5 @@
       [ngClass]="{ 'lead text-bold': isHeader }"
       [data]="text"
     ></markdown>
-
-    <!-- <span *ngIf="!text" class="text-muted small text-gray-light">{{placeholder}}</span> -->
   </div>
 </div>
