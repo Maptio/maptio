@@ -5,5 +5,6 @@ import { InsufficientPermissionsMessageComponent } from './insufficient-permissi
 @NgModule({
   declarations: [InsufficientPermissionsMessageComponent],
   imports: [CommonModule],
+  exports: [InsufficientPermissionsMessageComponent],
 })
-export class PermissionsModule {}
+export class PermissionsMessagesModule {}

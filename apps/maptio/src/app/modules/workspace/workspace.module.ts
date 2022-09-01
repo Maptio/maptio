@@ -66,6 +66,7 @@ import { CircleMapModule } from '@maptio-circle-map/circle-map.module';
 import { MemberFormModule } from '@maptio-member-form';
 import { OnboardingMessageModule } from '../onboarding-message/onboarding-message.module';
 import { SharingComponent } from './components/sharing/sharing.component';
+import { PermissionsMessagesModule } from '../permissions-messages/permissions-messages.module';
 // TODO: Why is this not working instead of the above line, what am I missing?
 // import { OnboardingMessageModule } from "@maptio-onboarding-message";
 
@@ -92,6 +93,7 @@ import { SharingComponent } from './components/sharing/sharing.component';
     CircleMapModule,
     MemberFormModule,
     OnboardingMessageModule,
+    PermissionsMessagesModule,
   ],
   declarations: [
     WorkspaceComponent,
