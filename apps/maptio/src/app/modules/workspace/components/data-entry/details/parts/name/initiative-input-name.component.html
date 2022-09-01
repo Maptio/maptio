@@ -1,0 +1,11 @@
+<common-textarea
+  rows="1"
+  label="Circle name"
+  placeholder=""
+  [text]="name"
+  (save)="saveName($event)"
+  [isUnauthorized]="isUnauthorized"
+  [isHeader]="true"
+>
+  <ng-content></ng-content>
+</common-textarea>

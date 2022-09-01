@@ -47,7 +47,7 @@ import { EditTagsComponent } from './components/data-entry/tags/edit-tags.compon
 import { UIService } from './services/ui.service';
 import { WorkspaceRoutingModule } from './workspace.routing';
 import { AnalyticsModule } from '../../core/analytics.module';
-import { InitiativeInputNameComponent } from './components/data-entry/details/parts/name/input-name.component';
+import { InitiativeInputNameComponent } from './components/data-entry/details/parts/name/initiative-input-name.component';
 import { InitiativeListTagsComponent } from './components/data-entry/details/parts/tags/list-tags.component';
 import { InitiativeAuthoritySelectComponent } from './components/data-entry/details/parts/authority/authority-select.component';
 import { InitiativeDescriptionTextareaComponent } from './components/data-entry/details/parts/description/description-textarea.component';

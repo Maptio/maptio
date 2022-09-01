@@ -11,8 +11,8 @@ import {
 import { Permissions } from '../../../../../../../shared/model/permission.data';
 
 @Component({
-  selector: 'initiative-input-name',
-  templateUrl: './input-name.component.html',
+  selector: 'maptio-initiative-input-name',
+  templateUrl: './initiative-input-name.component.html',
   // styleUrls: ['./input-name.component.css']
 })
 export class InitiativeInputNameComponent implements OnInit {

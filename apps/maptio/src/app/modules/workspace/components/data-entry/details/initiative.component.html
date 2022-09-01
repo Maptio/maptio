@@ -8,14 +8,15 @@
   </maptio-onboarding-message>
 
   <div class="mb-4">
-    <initiative-input-name
+    <maptio-initiative-input-name
       [isUnauthorized]="!canEditName()"
       [name]="node?.name"
       (save)="saveName($event)"
     >
       <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
-    </initiative-input-name>
+    </maptio-initiative-input-name>
   </div>
+
   <div class="mb-4">
     <initiative-list-tags
       [isUnauthorized]="!canEditTags()"
