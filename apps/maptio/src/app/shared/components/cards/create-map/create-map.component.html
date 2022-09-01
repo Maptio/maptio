@@ -81,12 +81,7 @@
   </ng-template>
 
   <ng-template #permissionsTipContent>
-    <span class="text-orange">
-      <ng-container i18n>
-        You don't have permission to create maps.
-      </ng-container>
-      <a href="{{ KB_URL_PERMISSIONS }}" target="blank" i18n>Learn more.</a>
-    </span>
+    <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
   </ng-template>
 
   <ng-template #elseCreateMapBlock>
