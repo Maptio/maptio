@@ -3,7 +3,7 @@
 </ng-template>
 
 <div class="h-100 overflow-y">
-  <div class="text-muted my-4">
+  <div class="text-muted my-4" i18n>
     Use tags to map strategic themes, progress and other information which might
     be relevant to multiple circles across the map.
   </div>
@@ -13,7 +13,7 @@
       *permissionsOnly="Permissions.canEditTags"
       class="d-flex flex-column bg-light rounded p-3"
     >
-      <h6>Create a new tag</h6>
+      <h6 i18n>Create a new tag</h6>
 
       <form
         class="form-group form-inline d-flex"
@@ -52,7 +52,7 @@
             newTagForm.controls['name'].touched)
         "
       >
-        Required
+        <ng-container i18n="@@required">Required</ng-container>
       </small>
     </div>
 

@@ -129,14 +129,6 @@
           <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="c82bcd1b91ad8ef9ad838452b70bc14081907d01" datatype="html">
-        <source>Organisation</source>
-        <target>Organizacja</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">62</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="f2d11ba5c599061eca2405ac09dc467f7c3adbcf" datatype="html">
         <source>Settings</source>
         <target>Ustawienia</target>
@@ -348,10 +340,6 @@
           <context context-type="sourcefile">apps/maptio/src/app/modules/login/pages/logout/logout.page.html</context>
           <context context-type="linenumber">63,78</context>
         </context-group>
-      </trans-unit>
-      <trans-unit id="e4760987e2a554c951e849da6f56aee546b1c5c2">
-        <source> Maptio helps you organise without traditional management hierarchy </source>
-        <target>Maptio pomaga organizować się bez tradycyjnej hierarchii zarządzania</target>
       </trans-unit>
       <trans-unit id="e5729085d4fb2b5e21bc51533626a0b2bb94717a" datatype="html">
         <source>Complete your profile</source>
@@ -754,26 +742,6 @@
           <context context-type="linenumber">222</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="91e6f2fcd0780a64d69c72b5723ae9625d87d8ad" datatype="html">
-        <source> What should we call your organisation? </source>
-        <target>Jak nazywa się Twoja. organizacja?</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
-          <context context-type="linenumber">61,62</context>
-        </context-group>
-        <note priority="1" from="description">Heading of one of the onboarding screen</note>
-        <note priority="1" from="meaning">onboarding</note>
-      </trans-unit>
-      <trans-unit id="6367594969348ca31f44476a4bc3f70edc63cc10" datatype="html">
-        <source> What should we call them? </source>
-        <target>Jakich terminów używasz?</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
-          <context context-type="linenumber">91,92</context>
-        </context-group>
-        <note priority="1" from="description">Heading of one of the onboarding screen</note>
-        <note priority="1" from="meaning">onboarding</note>
-      </trans-unit>
       <trans-unit id="591adf2be86a9b4787c5f023f86fea70fe3daf90" datatype="html">
         <source>What should we call your organisation?</source>
         <target>Jak nazywa się Twoja organizacja?</target>
@@ -961,7 +929,7 @@
       </trans-unit>
       <trans-unit id="learnMore" datatype="html">
         <source>Learn more</source>
-        <target>Więcej</target>
+        <target state="translated">Więcej informacji</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/onboarding-message/onboarding-message/onboarding-message.component.html</context>
           <context context-type="linenumber">19</context>
@@ -1157,14 +1125,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
           <context context-type="linenumber">27,28</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="cb036ea14e4e15ef5694fabcafadbd73148a4f95" datatype="html">
-        <source>Create a new map</source>
-        <target state="translated">Utwórz nową mapę</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
-          <context context-type="linenumber">14</context>
         </context-group>
       </trans-unit>
       <trans-unit id="create" datatype="html">
@@ -1424,8 +1384,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="noPermission" datatype="html">
-        <source>You don't have permission to do this.</source>
-        <target state="translated">Nie masz wystarczających uprawnień, żeby to zrobić.</target>
+        <source>You don't have permission to make changes.</source>
+        <target state="translated">Nie masz wystarczających uprawnień, żeby to wprowadzać zmiany.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
           <context context-type="linenumber">80,81</context>
@@ -1489,6 +1449,30 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/node/initiative.node.component.html</context>
           <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="required" datatype="html">
+        <source>Required</source>
+        <target state="translated">Wymagane</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/tags/edit-tags.component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9560c13542ade1c84f46a8f8d156a1f6e1444403" datatype="html">
+        <source>Create a new tag</source>
+        <target state="translated">Utwórz nowy tag</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/tags/edit-tags.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4b8722ff333a044331acf5b2c9f0261041fce8cb" datatype="html">
+        <source>Use tags to map strategic themes, progress and other information which might be relevant to multiple circles across the map.</source>
+        <target state="translated">Tagów możesz użyć, żeby dodać do mapy strategiczne tematy, postęp, albo inne informacje, które mogą być istotne w więcej niż jednym kole na mapie.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/tags/edit-tags.component.html</context>
+          <context context-type="linenumber">7,9</context>
         </context-group>
       </trans-unit>
     </body>
