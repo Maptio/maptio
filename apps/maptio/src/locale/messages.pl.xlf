@@ -1475,6 +1475,14 @@
           <context context-type="linenumber">7,9</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="editMap" datatype="html">
+        <source>Edit map</source>
+        <target state="translated">Edytuj mapę</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
