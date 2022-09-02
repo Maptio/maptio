@@ -5,9 +5,11 @@
 <div class="d-flex align-items-center w-100">
   <div class="d-flex align-items-center w-100">
     <img src="{{ helper.picture }}" class="avatar mr-1" />
+
     <a [routerLink]="summaryUrlRoot" [queryParams]="{ member: helper.shortid }">
       {{ helper.name }}
     </a>
+
     <span class="text-muted mx-1" *ngIf="isAuthority">
       ({{ team?.settings.authority | titlecase }})
     </span>
@@ -32,7 +34,7 @@
   <div class="d-flex align-items-baseline justify-content-start">
     <span class="d-flex align-items-baseline text-gray-light mr-1">
       <i class="fas fa-align-left mr-1"></i>
-      <span class="text-uppercase text-bold small">Role</span>
+      <span class="text-uppercase text-bold small" i18n="@@role">Role</span>
     </span>
 
     <span
@@ -49,7 +51,7 @@
       class="btn btn-link btn-sm"
       (click)="isPickRoleMode = false"
     >
-      Cancel
+      <ng-container i18n="@@cancel">Cancel</ng-container>
     </button>
     <button
       [class.invisible]="
@@ -58,7 +60,7 @@
       class="btn btn-link btn-sm"
       (click)="!isUnauthorized && (isPickRoleMode = true)"
     >
-      Add role
+      <ng-container i18n="@@addRole">Add role</ng-container>
     </button>
   </div>
 

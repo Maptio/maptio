@@ -1583,6 +1583,22 @@
           <context context-type="linenumber">49,50</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="role" datatype="html">
+        <source>Role</source>
+        <target state="translated">Rola</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-input.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRole" datatype="html">
+        <source>Add role</source>
+        <target state="translated">Dodaj rolę</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-input.component.html</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
