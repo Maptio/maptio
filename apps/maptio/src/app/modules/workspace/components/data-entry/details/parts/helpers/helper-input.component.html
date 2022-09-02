@@ -17,7 +17,8 @@
     *ngIf="!isUnauthorized"
     class="btn btn-outline-secondary remove"
     mwlConfirmationPopover
-    [popoverMessage]="'Remove this helper and associated roles?'"
+    popoverMessage="Remove this helper and associated roles?"
+    i18n-popoverMessage
     placement="top"
     container="body"
     focusbutton="cancel"

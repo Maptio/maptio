@@ -45,9 +45,10 @@
       <common-autocomplete
         #autocomplete
         [placeholder]="placeholder"
-        [removeConfirmationMessage]="
-          'Remove this authority and associated role?'
+        removeConfirmationMessage="
+          Remove this authority and associated role?
         "
+        i18n-removeConfirmationMessage
         [resultTemplate]="rt"
         [showSelectedResult]="true"
         [resultFormatter]="formatter"

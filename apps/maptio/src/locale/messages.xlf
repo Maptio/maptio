@@ -566,6 +566,10 @@
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
           <context context-type="linenumber">169,170</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/autocomplete/autocomplete.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="a8059e31694578c1b0344a76a345357dd60e8f01" datatype="html">
         <source>Warning</source>
@@ -921,6 +925,14 @@
           <context context-type="linenumber">15,16</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="8e05bae524c892ef4d1a1625a27677f672789d91" datatype="html">
+        <source>          Remove this authority and associated role?
+       </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/authority/authority-select.component.html</context>
+          <context context-type="linenumber">49,50</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="f4d619c2e0bf4bbdd86abde2885555f5453f3901" datatype="html">
         <source>Circle description</source>
         <context-group purpose="location">
@@ -933,6 +945,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/description/description-textarea.component.html</context>
           <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d16b3de281e4d19ae3f6cc96b10519015e95e3b5" datatype="html">
+        <source>Remove this helper and associated roles?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-input.component.html</context>
+          <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="deff5aea51d0d24463578c70327b42cf28104916" datatype="html">
@@ -1127,6 +1146,17 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
           <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="edit" datatype="html">
+        <source>Edit</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/autocomplete/autocomplete.component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/textarea/textarea.component.html</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="createnewmap" datatype="html">
@@ -1384,13 +1414,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.ts</context>
           <context context-type="linenumber">222</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="edit" datatype="html">
-        <source>Edit</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/components/textarea/textarea.component.html</context>
-          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6597014d7846c052922cbd25f93621d73a171c5c" datatype="html">
