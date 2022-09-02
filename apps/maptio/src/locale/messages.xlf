@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+<?xml version='1.0' encoding='UTF-8'?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="en-US" datatype="plaintext" original="ng2.template">
     <body>
       <trans-unit id="onboarding-terminology-6" datatype="html">
@@ -290,7 +290,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="eb51c926d6bb67ea92cd13078f53611080725272" datatype="html">
-        <source>You don&apos;t have any maps!</source>
+        <source>You don't have any maps!</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">55,56</context>
@@ -301,7 +301,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="f0c751dba195167bb5e23b740f401e34e7fc664a" datatype="html">
-        <source>We&apos;ll guide you through creating your first map , it should only take a few minutes.</source>
+        <source>We'll guide you through creating your first map , it should only take a few minutes.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">65,67</context>
@@ -344,22 +344,14 @@
         </context-group>
       </trans-unit>
       <trans-unit id="6f82fe138f05a6b56a69600ba782f8bec300f1ce" datatype="html">
-        <source>Organisation <x id="START_LINK" ctype="x-a" equiv-text="&lt;a
-                            routerLink=&quot;/teams/{{
-                              _nonExampleTeams[0].team_id
-                            }}/team&quot;
-                          &gt;"/> <x id="INTERPOLATION" equiv-text="{{ _nonExampleTeams[0].name }}"/> <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> set up</source>
+        <source>Organisation <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                             routerLink=&quot;/teams/{{                               _nonExampleTeams[0].team_id                             }}/team&quot;                           &gt;"/> <x id="INTERPOLATION" equiv-text="{{ _nonExampleTeams[0].name }}"/> <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> set up</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">153,162</context>
         </context-group>
       </trans-unit>
       <trans-unit id="882abad90854a65216cacf9923cb06cb69eb789b" datatype="html">
-        <source>Map <x id="START_LINK" ctype="x-a" equiv-text="&lt;a
-                              routerLink=&quot;/map/{{ datasets[0]?.datasetId }}/{{
-                                datasets[0]?.initiative.getSlug()
-                              }}&quot;
-                            &gt;"/> <x id="INTERPOLATION" equiv-text="{{ datasets[0]?.initiative.name }}"/> <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> is now active</source>
+        <source>Map <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                               routerLink=&quot;/map/{{ datasets[0]?.datasetId }}/{{                                 datasets[0]?.initiative.getSlug()                               }}&quot;                             &gt;"/> <x id="INTERPOLATION" equiv-text="{{ datasets[0]?.initiative.name }}"/> <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> is now active</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">181,190</context>
@@ -461,15 +453,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="ba9727a61f22a5e1c94c954c2925b8bab61bc536" datatype="html">
-        <source>Check out <x id="START_LINK" ctype="x-a" equiv-text="&lt;a
-                  href=&quot;https://fieldmapping.org/&quot;
-                  target=&quot;blank&quot;
-                  class=&quot;text-blue&quot;
-                &gt;"/> the Maptio guide to initiative mapping <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>and<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_LINK_1" equiv-text="&lt;a
-                  href=&quot;https://medium.com/maptio&quot;
-                  target=&quot;blank&quot;
-                  class=&quot;text-blue&quot;
-                &gt;"/> our blog <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
+        <source>Check out <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                   href=&quot;https://fieldmapping.org/&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/> the Maptio guide to initiative mapping <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>and<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_LINK_1" equiv-text="&lt;a                   href=&quot;https://medium.com/maptio&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/> our blog <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/login/pages/logout/logout.page.html</context>
           <context context-type="linenumber">63,78</context>
@@ -544,7 +528,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="46989e1cc2be68c6ecac72686f2533b2f6ca0e51" datatype="html">
-        <source>I agree to Maptio&apos;s <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;{{ TERMS_AND_CONDITIONS_URL }}&quot; target=&quot;_blank&quot;&gt;"/> Terms of Service <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> and <x id="START_LINK_1" equiv-text="&lt;a href=&quot;{{ PRIVACY_POLICY_URL }}&quot; target=&quot;_blank&quot;&gt;"/>Privacy Policy<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
+        <source>I agree to Maptio's <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;{{ TERMS_AND_CONDITIONS_URL }}&quot; target=&quot;_blank&quot;&gt;"/> Terms of Service <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> and <x id="START_LINK_1" equiv-text="&lt;a href=&quot;{{ PRIVACY_POLICY_URL }}&quot; target=&quot;_blank&quot;&gt;"/>Privacy Policy<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">96,101</context>
@@ -652,9 +636,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="2908a94538e6813824b78a2edaf472d7de4eadec" datatype="html">
-        <source><x id="ICU" equiv-text="{duplicateUsers.length, plural, =1 {A person} other {Multiple people}}"/> with this name or email address <x id="ICU_1" equiv-text="{duplicateUsers.length, plural, =1 {is}
-      other {are}}"/> already <x id="ICU_2" equiv-text="{duplicateUsers.length, plural, =1 {a member} other
-      {members}}"/> of your organisation. Would you like to add <x id="ICU_3" equiv-text="{duplicateUsers.length, plural, other {them}}"/> instead?</source>
+        <source><x id="ICU" equiv-text="{duplicateUsers.length, plural, =1 {A person} other {Multiple people}}"/> with this name or email address <x id="ICU_1" equiv-text="{duplicateUsers.length, plural, =1 {is}       other {are}}"/> already <x id="ICU_2" equiv-text="{duplicateUsers.length, plural, =1 {a member} other       {members}}"/> of your organisation. Would you like to add <x id="ICU_3" equiv-text="{duplicateUsers.length, plural, other {them}}"/> instead?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">225,230</context>
@@ -696,7 +678,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="1374576901432673248" datatype="html">
-        <source>Can&apos;t create <x id="PH" equiv-text="this.email"/> : <x id="PH_1" equiv-text="reason"/></source>
+        <source>Can't create <x id="PH" equiv-text="this.email"/> : <x id="PH_1" equiv-text="reason"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">232</context>
@@ -704,7 +686,7 @@
       </trans-unit>
       <trans-unit id="4175524537305120095" datatype="html">
         <source>Updating profile information failed
-        with error: &quot;<x id="PH" equiv-text="error.message"/>&quot;, please try again later or contact us.</source>
+        with error: "<x id="PH" equiv-text="error.message"/>", please try again later or contact us.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">299,300</context>
@@ -757,7 +739,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="noPermission" datatype="html">
-        <source>You don&apos;t have permission to make changes.</source>
+        <source>You don't have permission to make changes.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/permissions-messages/insufficient-permissions-message.component.html</context>
           <context context-type="linenumber">3,4</context>
@@ -914,10 +896,29 @@
         </context-group>
       </trans-unit>
       <trans-unit id="3bdbd4a927d534fd44f1bd656d3fbe96fc11cfb2" datatype="html">
-        <source>See and edit a circle&apos;s details here.</source>
+        <source>See and edit a circle's details here.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/initiative.component.html</context>
           <context context-type="linenumber">7,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addNewTeamMember" datatype="html">
+        <source>Add a new team member</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/authority/authority-select.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/authority/authority-select.component.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
+          <context context-type="linenumber">15,16</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f4d619c2e0bf4bbdd86abde2885555f5453f3901" datatype="html">
@@ -934,41 +935,29 @@
           <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="addNewTeamMember" datatype="html">
-        <source>Add a new team member</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
-          <context context-type="linenumber">9</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
-          <context context-type="linenumber">13,14</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="deff5aea51d0d24463578c70327b42cf28104916" datatype="html">
-        <source>Who&apos;s helping?</source>
+        <source>Who's helping?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e06e3125d4515cc3ce38cb64a9f4980058a1cdf2" datatype="html">
         <source>Add yourself as a <x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
-          <context context-type="linenumber">42,44</context>
+          <context context-type="linenumber">44,46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ffe603040e6f27e1fbbfbcb7f26f81a9ee0c9df3" datatype="html">
         <source>Add <x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
-          <context context-type="linenumber">61,63</context>
+          <context context-type="linenumber">63,65</context>
         </context-group>
       </trans-unit>
       <trans-unit id="741679013528382328" datatype="html">
-        <source>Start typing the name of a <x id="PH" equiv-text="changes.team
-        .currentValue as Team).settings.helper.toLowerCase()"/></source>
+        <source>Start typing the name of a <x id="PH" equiv-text="changes.team         .currentValue as Team).settings.helper.toLowerCase()"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.ts</context>
           <context context-type="linenumber">48,49</context>
@@ -1166,7 +1155,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="donthaveorganisation" datatype="html">
-        <source>Don&apos;t have a organisation?</source>
+        <source>Don't have a organisation?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
           <context context-type="linenumber">59,60</context>
@@ -1224,7 +1213,7 @@
         <note priority="1" from="description">Text for consent checkbox during onboarding</note>
       </trans-unit>
       <trans-unit id="onboarding-consent-error" datatype="html">
-        <source>There was an error when updating consent. You can chat with us or email us at <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Error when updating consent&quot;&gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> if you&apos;d like to report the issue and notify us of your consent preferences.</source>
+        <source>There was an error when updating consent. You can chat with us or email us at <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Error when updating consent&quot;&gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> if you'd like to report the issue and notify us of your consent preferences.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/consent.component.html</context>
           <context context-type="linenumber">29,34</context>
@@ -1239,7 +1228,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="b19165fd56e1c4104ed744e28b2a114bf38966d6" datatype="html">
-        <source>Let&apos;s set up your organisation. It will only take a minute.</source>
+        <source>Let's set up your organisation. It will only take a minute.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
           <context context-type="linenumber">37,38</context>
@@ -1289,7 +1278,7 @@
         <note priority="1" from="description">Heading for consent screen during onboarding</note>
       </trans-unit>
       <trans-unit id="onboarding-consent-2" datatype="html">
-        <source>Hey, it&apos;s Tom here — the founder of Maptio.</source>
+        <source>Hey, it's Tom here — the founder of Maptio.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
           <context context-type="linenumber">168,169</context>
@@ -1297,7 +1286,7 @@
         <note priority="1" from="description">Text for consent screen during onboarding</note>
       </trans-unit>
       <trans-unit id="onboarding-consent-3" datatype="html">
-        <source>We&apos;re doing all we can to make Maptio ever more delightful to use.</source>
+        <source>We're doing all we can to make Maptio ever more delightful to use.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
           <context context-type="linenumber">175,176</context>
@@ -1305,7 +1294,7 @@
         <note priority="1" from="description">Text for consent screen during onboarding</note>
       </trans-unit>
       <trans-unit id="onboarding-consent-4" datatype="html">
-        <source>With your permission, we&apos;d like to make session recordings of your activity using Maptio. This helps us spot where we can make improvements.</source>
+        <source>With your permission, we'd like to make session recordings of your activity using Maptio. This helps us spot where we can make improvements.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
           <context context-type="linenumber">182,184</context>
@@ -1313,7 +1302,7 @@
         <note priority="1" from="description">Text for consent screen during onboarding</note>
       </trans-unit>
       <trans-unit id="onboarding-consent-5" datatype="html">
-        <source>We use a very privacy-conscious service called <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;https://openreplay.com/&quot; target=&quot;_blank&quot;&gt;"/>OpenReplay<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> . It&apos;s open source, just like us. We trust their service to keep recordings private and secure.</source>
+        <source>We use a very privacy-conscious service called <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;https://openreplay.com/&quot; target=&quot;_blank&quot;&gt;"/>OpenReplay<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> . It's open source, just like us. We trust their service to keep recordings private and secure.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
           <context context-type="linenumber">190,194</context>
@@ -1321,7 +1310,7 @@
         <note priority="1" from="description">Text for consent screen during onboarding</note>
       </trans-unit>
       <trans-unit id="onboarding-consent-6" datatype="html">
-        <source>If you choose to continue without ticking that checkbox, we respect that. We&apos;d still love to hear how you get on with using Maptio, so please do let us know if you have questions or suggestions. Thank you!</source>
+        <source>If you choose to continue without ticking that checkbox, we respect that. We'd still love to hear how you get on with using Maptio, so please do let us know if you have questions or suggestions. Thank you!</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
           <context context-type="linenumber">202,205</context>
@@ -1347,7 +1336,7 @@
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.ts</context>
           <context context-type="linenumber">100</context>
         </context-group>
-        <note priority="1" from="description">Error message when an organisation name isn&apos;t provided</note>
+        <note priority="1" from="description">Error message when an organisation name isn't provided</note>
         <note priority="1" from="meaning">onboarding</note>
       </trans-unit>
       <trans-unit id="next" datatype="html">
@@ -1369,7 +1358,7 @@
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.ts</context>
           <context context-type="linenumber">106</context>
         </context-group>
-        <note priority="1" from="description">Message shown after the organisation name is entered and the &quot;Next&quot; button is pressed</note>
+        <note priority="1" from="description">Message shown after the organisation name is entered and the "Next" button is pressed</note>
         <note priority="1" from="meaning">onboarding</note>
       </trans-unit>
       <trans-unit id="3761093640207195064" datatype="html">
