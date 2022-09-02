@@ -3,6 +3,7 @@
     <label
       for="inputTitle"
       class="mb-0 text-uppercase text-bold text-gray-light small"
+      i18n
     >
       Role title
     </label>
@@ -11,6 +12,7 @@
       class="form-control mb-2"
       id="inputTitle"
       placeholder="This is the role title."
+      i18n-placeholder
       [class.is-invalid]="showTitleFieldError()"
     />
     <small class="invalid-feedback">
@@ -19,17 +21,18 @@
           saveAsLibraryRole.value || isDirectoryView;
           else titleErrorForCustomRoles
         "
+        i18n
       >
         Role titles are required for library roles
       </ng-container>
-      <ng-template #titleErrorForCustomRoles>
+      <ng-template #titleErrorForCustomRoles i18n="@@eitherTitleOrDescription">
         Please fill out either the title or the description
       </ng-template>
     </small>
   </div>
 
   <div class="form-group mb-0">
-    <label class="mb-0 text-uppercase text-bold text-gray-light small">
+    <label class="mb-0 text-uppercase text-bold text-gray-light small" i18n>
       Role description
     </label>
     <textarea
@@ -41,16 +44,21 @@
       data-autofocus="true"
       rows="3"
       placeholder="This is the role description. It may use markdown."
+      i18n-placeholder
       [class.is-invalid]="showDescriptionFieldError()"
     ></textarea>
-    <small class="invalid-feedback">
+    <small class="invalid-feedback" i18n="@@eitherTitleOrDescription">
       Please fill out either the title or the description
     </small>
   </div>
 
   <small class="text-default text-muted">
-    How to
-    <a href="{{ KB_URL_MARKDOWN }}" target="_blank">add links and formatting</a>
+    <ng-container i18n="@@markdownTip">
+      How to
+      <a href="{{ KB_URL_MARKDOWN }}" target="_blank">
+        add links and formatting
+      </a>
+    </ng-container>
   </small>
 
   <div *ngIf="!isDirectoryView" class="my-2">
@@ -61,7 +69,8 @@
       target="blank"
       container="body"
     >
-      Role type
+      <ng-container i18n>Role type</ng-container>
+      <span>&nbsp;</span>
       <i class="fa fa-info-circle text-gray-light" aria-hidden="true"></i>
     </a>
 
@@ -80,14 +89,14 @@
             isAlreadySavedInLibrary;
             else radioCustomRoleChoiceTextForCustomRoles
           "
+          i18n
         >
           Convert to custom role
         </ng-container>
-        <ng-template #radioCustomRoleChoiceTextForCustomRoles>
-          Custom role for this
-          <ng-container *ngIf="!isVacancy; else vacancy">person</ng-container>
+        <ng-template #radioCustomRoleChoiceTextForCustomRoles i18n>
+          Custom role for this {isVacancy, select, true {vacancy} false
+          {person}}}
         </ng-template>
-        <ng-template #vacancy>vacancy</ng-template>
       </label>
     </div>
 
@@ -106,10 +115,11 @@
             isAlreadySavedInLibrary;
             else radioLibraryRoleChoiceTextForCustomRoles
           "
+          i18n
         >
           Edit role for ALL holders
         </ng-container>
-        <ng-template #radioLibraryRoleChoiceTextForCustomRoles>
+        <ng-template #radioLibraryRoleChoiceTextForCustomRoles i18n>
           Add to role library
         </ng-template>
       </label>
@@ -123,7 +133,7 @@
       class="btn btn-outline-secondary mr-2"
       (click)="onCancel()"
     >
-      Cancel
+      <ng-container i18n="@@cancel">Cancel</ng-container>
     </button>
     <button
       *ngIf="roleForm.dirty"
@@ -140,14 +150,14 @@
       focusbutton="cancel"
       appendToBody="false"
     >
-      Cancel
+      <ng-container i18n="@@cancel">Cancel</ng-container>
     </button>
     <button
       type="submit"
       class="btn btn-success"
       [disabled]="isSubmissionAttempted && !roleForm.valid"
     >
-      Save
+      <ng-container i18n="@@save">Save</ng-container>
     </button>
   </div>
 
@@ -165,6 +175,7 @@
       (confirm)="onDelete()"
       focusbutton="cancel"
       appendToBody="false"
+      i18n
     >
       Delete this role
     </button>
