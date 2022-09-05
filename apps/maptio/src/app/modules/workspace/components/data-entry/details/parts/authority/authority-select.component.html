@@ -11,12 +11,12 @@
   <span *ngIf="!r.user_id && t">
     {{ t }}
     <span>(</span>
-    <span i18n="@@addNewTeamMember">Add a new team member</span>
+    <ng-container i18n="@@addNewTeamMember">Add a new team member</ng-container>
     <span>)</span>
   </span>
 
-  <span *ngIf="!r.user_id && !t" i18n="@@addNewTeamMember">
-    Add a new team member
+  <span *ngIf="!r.user_id && !t">
+    <ng-container i18n="@@addNewTeamMember">Add a new team member</ng-container>
   </span>
 </ng-template>
 
