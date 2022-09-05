@@ -1743,6 +1743,38 @@
           <context context-type="linenumber">68</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="vacancies" datatype="html">
+        <source>Vacancies</source>
+        <target state="translated">Wolne role</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/vacancies-input.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="741679013528382328" datatype="html">
+        <source>Start typing the name of a <x id="PH" equiv-text="changes.team         .currentValue as Team).settings.helper.toLowerCase()"/></source>
+        <target state="translated">Zacznij wpisywać imię dla: <x id="PH" equiv-text="changes.team         .currentValue as Team).settings.helper.toLowerCase()"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.ts</context>
+          <context context-type="linenumber">48,49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bf0e79ba75833b96f3c5746fce06bff842b7549b" datatype="html">
+        <source>Add role vacancy</source>
+        <target state="translated">Dodaj wolną rolę</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/vacancies-input.component.html</context>
+          <context context-type="linenumber">39,40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1d725c6337ef660945eb90439b650f7896d34809" datatype="html">
+        <source>See all vacancies in the <x id="START_LINK" ctype="x-a" equiv-text="&lt;a [routerLink]=&quot;summaryUrlRoot + '/vacancies'&quot;&gt;"/>Directory<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
+        <target state="translated">Zobacz wszystkie wolne role w <x id="START_LINK" ctype="x-a" equiv-text="&lt;a [routerLink]=&quot;summaryUrlRoot + '/vacancies'&quot;&gt;"/>Katalogu<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/vacancies-input.component.html</context>
+          <context context-type="linenumber">98,99</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
