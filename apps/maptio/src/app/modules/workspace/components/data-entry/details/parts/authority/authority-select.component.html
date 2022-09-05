@@ -65,7 +65,7 @@
           <img src="{{ authority?.picture }}" class="avatar" />
           {{ authority?.name }}
         </a>
-        <span *ngIf="!authority">No {{ team?.settings.authority }}</span>
+        <span *ngIf="!authority" i18n>No {{ team?.settings.authority }}</span>
       </common-autocomplete>
     </div>
   </div>
