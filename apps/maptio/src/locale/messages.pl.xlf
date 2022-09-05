@@ -1719,6 +1719,18 @@
           <context context-type="linenumber">51,52</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="createNewRole" datatype="html">
+        <source>Create new role</source>
+        <target state="translated">Utwórz nową rolę</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-select.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-select.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -1,6 +1,15 @@
 <ng-template #rt let-result="result" let-term="term">
-  <span *ngIf="!result.shortid && !term">Create new role</span>
-  <span *ngIf="!result.shortid && term">{{ term }} (Create new role)</span>
+  <span *ngIf="!result.shortid && !term">
+    <ng-container i18n="@@createNewRole">Create new role</ng-container>
+  </span>
+
+  <span *ngIf="!result.shortid && term">
+    {{ term }}
+    <span>(</span>
+    <ng-container i18n="@@createNewRole">Create new role</ng-container>
+    <span>)</span>
+  </span>
+
   <span *ngIf="result.shortid">{{ result.title }}</span>
 </ng-template>
 
