@@ -1791,6 +1791,22 @@
           <context context-type="linenumber">45,46</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="confirm" datatype="html">
+        <source>Confirm</source>
+        <target state="translated">Potwierdź</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/size/input-size.component.html</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="01f95c2a175fca42a80ac64213983edea1d099af" datatype="html">
+        <source>Reset to default size?</source>
+        <target state="translated">Przywrócić domyślny rozmiar?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/size/input-size.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

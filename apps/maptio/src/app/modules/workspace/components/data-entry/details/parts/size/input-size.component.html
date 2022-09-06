@@ -58,7 +58,12 @@
       *ngIf="!isUnauthorized"
       class="input-size__button btn btn-outline-secondary"
       mwlConfirmationPopover
-      [popoverMessage]="'Reset to default size?'"
+      popoverMessage="Reset to default size?"
+      i18n-popoverMessage
+      confirmText="Confirm"
+      cancelText="Confirm"
+      i18n-confirmText="@@confirm"
+      i18n-cancelText="@@cancel"
       placement="top"
       container="body"
       focusbutton="cancel"
