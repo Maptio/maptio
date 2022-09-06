@@ -1,6 +1,5 @@
 <ng-template #editTipContent>
-  You don't have permission to edit this.
-  <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
+  <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
 </ng-template>
 
 <div class="input-size d-flex flex-column">
@@ -9,7 +8,9 @@
   >
     <span class="d-flex align-items-baseline text-gray-light mr-1">
       <i class="fas fa-ruler-combined mr-1"></i>
-      <span class="text-uppercase text-bold small">Circle size adjustment</span>
+      <span class="text-uppercase text-bold small" i18n>
+        Circle size adjustment
+      </span>
     </span>
 
     <span
@@ -40,7 +41,7 @@
         class="input-size__input form-control bg-light"
       />
 
-      <span class="input-size__default-value-placeholder" *ngIf="!size">
+      <span class="input-size__default-value-placeholder" *ngIf="!size" i18n>
         Default size
       </span>
     </div>

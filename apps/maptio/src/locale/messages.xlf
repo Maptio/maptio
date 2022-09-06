@@ -1178,6 +1178,20 @@
           <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="c7f64471e67996ede90d681e231bcb6c07472218" datatype="html">
+        <source>Circle size adjustment</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/size/input-size.component.html</context>
+          <context context-type="linenumber">12,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="96b65d780ac75f62ca2a1ea80b8d1bd1a8a13926" datatype="html">
+        <source>Default size</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/size/input-size.component.html</context>
+          <context context-type="linenumber">45,46</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="tags" datatype="html">
         <source>Tags</source>
         <context-group purpose="location">
