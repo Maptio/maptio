@@ -1,8 +1,5 @@
 <ng-template #adminTipContent>
-  <span class="text-orange">
-    You don't have permission to do this.
-    <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
-  </span>
+  <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
 </ng-template>
 
 <div class="py-2" [class.bg-light]="isEditToggled">
@@ -35,9 +32,12 @@
           [class.d-none]="isOnlyMember"
           aria-hidden="true"
           mwlConfirmationPopover
-          [popoverMessage]="
-            'This cannot be undone ! Are you sure you want to remove this person from this organisation?'
-          "
+          popoverMessage="This cannot be undone! Are you sure you want to remove this person from this organisation?"
+          i18n-popoverMessage
+          confirmText="Confirm"
+          cancelText="Confirm"
+          i18n-confirmText="@@confirm"
+          i18n-cancelText="@@cancel"
           placement="right"
           focusButton="cancel"
           appendToBody="true"
@@ -66,6 +66,8 @@
           placement="top"
           container="body"
           ngbTooltip="{{ member.name }} was sent an invitation."
+          i18n
+          i18n-ngbTooltip
         >
           Pending invitation
         </small>
@@ -76,6 +78,8 @@
           placement="top"
           container="body"
           ngbTooltip="{{ member.name }} cannot view or edit maps."
+          i18n
+          i18n-ngbTooltip
         >
           Not yet invited
         </small>
@@ -86,6 +90,8 @@
           placement="top"
           container="body"
           ngbTooltip="{{ member.name }} can view and edit maps"
+          i18n
+          i18n-ngbTooltip
         >
           Active
         </small>
@@ -104,8 +110,10 @@
       </ng-container>
 
       <ng-template #elseRoleBlock>
-        {{ UserRole[member.userRole] }}
+        {UserRole[member.userRole], select, Standard {Standard} Admin {Admin}
+        Superuser {Superuser}}
       </ng-template>
+      <!-- {{ UserRole[member.userRole] }} -->
 
       <ng-template #thenRoleBlock>
         <select
@@ -117,8 +125,10 @@
             [value]="userRole.key"
             [selected]="member.userRole"
           >
-            {{ userRole.value }}
+            {userRole.value, select, Standard {Standard} Admin {Admin} Superuser
+            {Superuser}}
           </option>
+          <!-- {{ userRole.value }} -->
         </select>
       </ng-template>
     </div>
@@ -148,7 +158,7 @@
                 ngbTooltip="Invite {{ member.name }} to view and edit maps"
                 [disabled]="!member.email && wasInvitationAttempted"
               >
-                Invite
+                <ng-container i18n="@@invite">Invite</ng-container>
               </button>
             </ng-template>
 
@@ -158,7 +168,8 @@
                 [stickyPopover]="adminTipContent"
                 placement="left"
               >
-                Invite
+                <ng-container i18n="@@invite">Invite</ng-container>
+                <span>&nbsp;</span>
                 <i class="fas fa-lock ml-1"></i>
               </button>
             </ng-template>
@@ -172,6 +183,8 @@
               placement="left"
               container="body"
               ngbTooltip="Resend an invitation to {{ member.name }}"
+              i18n-ngbTooltip
+              i18n
             >
               Resend
             </button>
@@ -183,7 +196,8 @@
             class="indicator text-green d-flex justify-content-end align-items-center"
           >
             <i class="fas fa-circle-notch fa-spin text-green mx-1"></i>
-            Sending
+            <span>&nbsp;</span>
+            <ng-container i18n="@@sending">Sending</ng-container>
           </div>
         </ng-container>
 
@@ -192,7 +206,8 @@
             class="indicator text-green d-flex justify-content-end align-items-center"
           >
             <i class="fas fa-circle-notch fa-spin text-green mx-1"></i>
-            Updating
+            <span>&nbsp;</span>
+            <ng-container i18n="@@updating">Updating</ng-container>
           </div>
         </ng-container>
       </ng-container>

@@ -1899,6 +1899,154 @@
           <context context-type="linenumber">9</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="51b83066307f3328d65c6bbcba245aa1baa7224b" datatype="html">
+        <source>Add people</source>
+        <target state="translated">Dodaj nowe osoby</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-members/members.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="name" datatype="html">
+        <source>Name</source>
+        <target state="translated">Imię</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-members/members.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="permissionType" datatype="html">
+        <source>Permission type</source>
+        <target state="translated">Zestaw uprawnień</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-members/members.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="48499b9d68199039e246228dfdaf9747217563a6" datatype="html">
+        <source>Learn about permission types</source>
+        <target state="translated">Dowiedz się więcej o uprawnieniach</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-members/members.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="65c6e1e678ff0e46ca52f87f8e7278794515f4fe" datatype="html">
+        <source>Active</source>
+        <target state="translated">Aktywny</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
+          <context context-type="linenumber">93,94</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="invite" datatype="html">
+        <source>Invite</source>
+        <target state="translated">Zaproś</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
+          <context context-type="linenumber">158</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
+          <context context-type="linenumber">168</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a56ad3b693498f466c495492aa4bf32fcfe4e260" datatype="html">
+        <source>Not yet invited</source>
+        <target state="translated">Jeszcze nie zaproszony</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
+          <context context-type="linenumber">81,82</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a4545694140873afd528020a6e989e83c7ba96be" datatype="html">
+        <source>Pending invitation</source>
+        <target state="translated">Zaproszenie wysłane</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
+          <context context-type="linenumber">69,70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0a82cfc8df3e0267a269a9c3a7c897d3ab0d74c4" datatype="html">
+        <source>{VAR_SELECT, select, Standard {Standard} Admin {Admin} Superuser {Superuser}}</source>
+        <target state="translated">{VAR_SELECT, select, Standard {Standardowy} Admin {Administrator} Superuser {Superuser}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
+          <context context-type="linenumber">110,111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="81af49544e10efb461b49e302de6a5cf4095d9fc" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ member.name }}"/> cannot view or edit maps.</source>
+        <target state="translated"><x id="INTERPOLATION" equiv-text="{{ member.name }}"/> nie może przeglądać ani zmieniać map.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
+          <context context-type="linenumber">77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="834557d33ac0ef94a76e5c365849807122a51ee4" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ member.name }}"/> can view and edit maps</source>
+        <target state="translated"><x id="INTERPOLATION" equiv-text="{{ member.name }}"/> może przeglądać i zmieniać mapy</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
+          <context context-type="linenumber">89</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="646b96dc562ed586e8fa573e1b326bbe57aece24" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ member.name }}"/> was sent an invitation.</source>
+        <target state="translated">Zaproszenie zostało wysłane do <x id="INTERPOLATION" equiv-text="{{ member.name }}"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d47151ac3fc8597f49c58f50b3c94e3d02bcd59b" datatype="html">
+        <source>{VAR_SELECT, select, Standard {Standard} Admin {Admin} Superuser {Superuser}}</source>
+        <target state="translated">{VAR_SELECT, select, Standard {Standardowy} Admin {Administrator} Superuser {Superuser}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
+          <context context-type="linenumber">125,126</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ee6efb336db7d5637fa60d062427749c8502fc2e" datatype="html">
+        <source>Resend</source>
+        <target state="translated">Wyślij ponownie</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
+          <context context-type="linenumber">186,187</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updating" datatype="html">
+        <source>Updating</source>
+        <target state="translated">Aktualizujemy</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
+          <context context-type="linenumber">207</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a4b9067b4009bde5c69f1a9fa443c0648dc602c2" datatype="html">
+        <source>Resend an invitation to <x id="INTERPOLATION" equiv-text="{{ member.name }}"/></source>
+        <target state="translated">Wyślij zaproszenie ponownie do <x id="INTERPOLATION" equiv-text="{{ member.name }}"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
+          <context context-type="linenumber">182</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="sending" datatype="html">
+        <source>Sending</source>
+        <target state="translated">Wysyłamy</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
+          <context context-type="linenumber">197</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="75e4f67f4b4df2dfdcba7008c0ad309afd8263d9" datatype="html">
+        <source>This cannot be undone! Are you sure you want to remove this person from this organisation?</source>
+        <target state="translated">Tego nie da się cofnąć! Czy na pewno chcesz usunąć tę osobę z tej organizacji?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
