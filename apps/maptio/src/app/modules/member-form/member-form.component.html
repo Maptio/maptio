@@ -126,11 +126,11 @@
       type="button"
       class="btn btn-outline-secondary mr-2"
       (click)="onCancel()"
-      i18n="@@cancel"
     >
-      Cancel
+      <ng-container i18n="@@cancel">Cancel</ng-container>
     </button>
 
+    <!-- TODO WTF Cancel here? Check this out... -->
     <button
       *ngIf="showCancelButton && (memberForm.dirty || isNewImageUploaded)"
       type="button"
@@ -145,24 +145,22 @@
       (confirm)="onCancel()"
       focusbutton="cancel"
       appendToBody="false"
-      i18n="@@cancel"
       i18n-popoverTitle
       i18n-popoverMessage
       confirmText="Confirm"
-      cancelText="Confirm"
+      cancelText="Cancel"
       i18n-confirmText="@@confirm"
       i18n-cancelText="@@cancel"
     >
-      Cancel
+      <ng-container i18n="@@cancel">Cancel</ng-container>
     </button>
 
     <button
       type="submit"
       class="btn btn-success"
       [disabled]="isSubmissionAttempted && !memberForm.valid"
-      i18n="@@save"
     >
-      Save
+      <ng-container i18n="@@save">Save</ng-container>
     </button>
   </div>
 
@@ -264,9 +262,8 @@
         type="button"
         class="btn btn-outline-secondary"
         (click)="onCancelDeduplication()"
-        i18n="@@cancel"
       >
-        Cancel
+        <ng-container i18n="@@cancel">Cancel</ng-container>
       </button>
     </div>
   </div>

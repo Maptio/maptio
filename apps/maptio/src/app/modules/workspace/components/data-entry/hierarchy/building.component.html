@@ -160,13 +160,8 @@
   </div>
 
   <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-link"
-      (click)="c(false)"
-      i18n="@@cancel"
-    >
-      Cancel
+    <button type="button" class="btn btn-link" (click)="c(false)">
+      <ng-container i18n="@@cancel">Cancel</ng-container>
     </button>
     <button type="button" class="btn btn-danger" (click)="c(true)" i18n>
       Delete circle
