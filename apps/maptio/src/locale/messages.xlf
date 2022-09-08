@@ -910,6 +910,90 @@
           <context context-type="linenumber">210</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="67f7e08d5c7afb61f41f5404c1e1c12508370c8d" datatype="html">
+        <source>Choose file</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
+          <context context-type="linenumber">25,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="reset" datatype="html">
+        <source>Reset</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="568e3acebfc9450b58f1a37b93d7361a4cf18248" datatype="html">
+        <source>Required columns (in that order): <x id="START_TAG_SAMP" ctype="x-samp" equiv-text="&lt;samp&gt;"/>First name<x id="CLOSE_TAG_SAMP" ctype="x-samp" equiv-text="&lt;/samp&gt;"/> , <x id="START_TAG_SAMP" ctype="x-samp" equiv-text="&lt;samp&gt;"/>Last name<x id="CLOSE_TAG_SAMP" ctype="x-samp" equiv-text="&lt;/samp&gt;"/> , <x id="START_TAG_SAMP" ctype="x-samp" equiv-text="&lt;samp&gt;"/>Email<x id="CLOSE_TAG_SAMP" ctype="x-samp" equiv-text="&lt;/samp&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
+          <context context-type="linenumber">36,41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d146e948bed058b12f160930aac4b092259fb58d" datatype="html">
+        <source>You can skip an email address by adding a comma after the last name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
+          <context context-type="linenumber">45,46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="04dabbf9d0dcca2a5aa84199245516b363f19738" datatype="html">
+        <source>Not sure about the format? <x id="START_LINK" ctype="x-a" equiv-text="&lt;a           class=&quot;text-green strong&quot;           href=&quot;{{ IMPORT_USERS_TEMPLATE_URL }}&quot;           target=&quot;blank&quot;         &gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-arrow-circle-o-down&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Download a template<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/><x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
+          <context context-type="linenumber">49,57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="010103713cc0efa514348d56aa6aa6516e77e908" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Invalid file<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> The header must be : "First name", "Last name", "Email" in that order</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
+          <context context-type="linenumber">61,63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6329c640011cf5a20fcb3aca2d21823e11ee239e" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Invalid file<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> The file must be a .csv</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
+          <context context-type="linenumber">65,67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="220d7fb9dbb9d5904a32357a1b019777d85d2286" datatype="html">
+        <source>Imported: <x id="INTERPOLATION" equiv-text="{{ importedSuccessfully }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
+          <context context-type="linenumber">123,125</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a6de16150e9a4b87e80604a223835fba4ad6bbce" datatype="html">
+        <source>Require attention: <x id="INTERPOLATION" equiv-text="{{ importedFailed }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
+          <context context-type="linenumber">135,137</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b8b3b3f7b34a41213ddc2b1e58fdd39435fa7b02" datatype="html">
+        <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-green&quot;&gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-hand-o-right mr-1&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Well done! <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> Once imported, new users must be <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;../../members&quot;&gt;"/>invited<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> to view and edit maps.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
+          <context context-type="linenumber">146,153</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6ea619280fc8904a73018b35798dc3a97e3d734e" datatype="html">
+        <source>Review the individual messages, try again or <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;../../members&quot;&gt;"/> skip and invite <x id="INTERPOLATION" equiv-text="{{ importedSuccessfully }}"/> new users to view and edit maps. <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
+          <context context-type="linenumber">167,171</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f9271e442479b9fed72427454a277b013c7a6d21" datatype="html">
+        <source>Import <x id="INTERPOLATION" equiv-text="{{ totalRecordsToImport }}"/> users</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
+          <context context-type="linenumber">182,184</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="51b83066307f3328d65c6bbcba245aa1baa7224b" datatype="html">
         <source>Add people</source>
         <context-group purpose="location">

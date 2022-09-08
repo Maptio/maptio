@@ -21,18 +21,18 @@
               (change)="onFileChange($event)"
               accept=".csv"
             />
-            <label class="custom-file-label" for="customFile">
+            <label class="custom-file-label" for="customFile" i18n>
               Choose file
             </label>
           </div>
 
           <button class="btn btn-outline-secondary ml-1" (click)="onReset()">
-            Reset
+            <ng-container i18n="@@reset">Reset</ng-container>
           </button>
         </div>
       </div>
 
-      <p class="mt-4 mb-2 small">
+      <p class="mt-4 mb-2 small" i18n>
         Required columns (in that order):
         <samp>First name</samp>
         ,
@@ -41,11 +41,11 @@
         <samp>Email</samp>
       </p>
 
-      <p class="mb-2 small">
+      <p class="mb-2 small" i18n>
         You can skip an email address by adding a comma after the last name
       </p>
 
-      <p class="mb-2 small">
+      <p class="mb-2 small" i18n>
         Not sure about the format?
         <a
           class="text-green strong"
@@ -57,11 +57,11 @@
         </a>
       </p>
 
-      <div *ngIf="isFileInvalid" class="text-orange small">
+      <div *ngIf="isFileInvalid" class="text-orange small" i18n>
         <strong>Invalid file</strong>
         The header must be : "First name", "Last name", "Email" in that order
       </div>
-      <div *ngIf="isFileFormatInvalid" class="text-orange small">
+      <div *ngIf="isFileFormatInvalid" class="text-orange small" i18n>
         <strong>Invalid file</strong>
         The file must be a .csv
       </div>
@@ -120,7 +120,7 @@
                 aria-valuemin="0"
                 [attr.aria-valuemax]="totalRecordsToImport"
               >
-                <span *ngIf="importedSuccessfully > 0">
+                <span *ngIf="importedSuccessfully > 0" i18n>
                   Imported: {{ importedSuccessfully }}
                 </span>
               </div>
@@ -132,7 +132,7 @@
                 aria-valuemin="0"
                 [attr.aria-valuemax]="totalRecordsToImport"
               >
-                <span *ngIf="importedFailed > 0">
+                <span *ngIf="importedFailed > 0" i18n>
                   Require attention: {{ importedFailed }}
                 </span>
               </div>
@@ -142,7 +142,7 @@
                 importedFailed + importedSuccessfully === totalRecordsToImport
               "
             >
-              <span class="mb-2 text-muted" *ngIf="importedFailed === 0">
+              <span class="mb-2 text-muted" *ngIf="importedFailed === 0" i18n>
                 <span class="text-green">
                   <i class="fa fa-hand-o-right mr-1" aria-hidden="true"></i>
                   Well done!
@@ -158,10 +158,12 @@
                     class="fa fa-exclamation-circle mr-1"
                     aria-hidden="true"
                   ></i>
-                  We couldn't import {{ importedFailed }} users!
+                  <ng-container>
+                    We couldn't import {{ importedFailed }} users!
+                  </ng-container>
                 </p>
 
-                <p>
+                <p i18n>
                   Review the individual messages, try again or
                   <a routerLink="../../members">
                     skip and invite {{ importedSuccessfully }} new users to view
@@ -173,7 +175,11 @@
           </div>
 
           <div class="pull-right">
-            <button class="btn btn-outline-success" (click)="onImportUsers()">
+            <button
+              class="btn btn-outline-success"
+              (click)="onImportUsers()"
+              i18n
+            >
               Import {{ totalRecordsToImport }} users
             </button>
           </div>
