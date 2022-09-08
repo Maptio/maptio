@@ -2263,6 +2263,46 @@
           <context context-type="linenumber">67,68</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="authority" datatype="html">
+        <source>Authority</source>
+        <target state="translated">Osoba kierująca kołem</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-settings/settings.component.html</context>
+          <context context-type="linenumber">52,53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="42c177f3f8760cc37e735cad6e1d1d259ef8a39b" datatype="html">
+        <source>Error while saving settings</source>
+        <target state="translated">Nastąpił błąd podczas zapisywania ustawień</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-settings/settings.component.html</context>
+          <context context-type="linenumber">106,107</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a4379af4786be15eed64e00769d0b203718bdefd" datatype="html">
+        <source>Saved!</source>
+        <target state="translated">Zapisane!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-settings/settings.component.html</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="helper" datatype="html">
+        <source>Helper</source>
+        <target state="translated">Osoba pomagająca w kole</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-settings/settings.component.html</context>
+          <context context-type="linenumber">72,73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b3d607884d15c18970fd267a97cdfcdb4e0f7fec" datatype="html">
+        <source>Contact <x id="START_LINK" ctype="x-a" equiv-text="&lt;a     href=&quot;mailto:support@maptio.com?subject=I want to integrate another system with Maptio&quot;     class=&quot;alert-link&quot;     target=&quot;_blank&quot;   &gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> if you require an integration with another system.</source>
+        <target state="translated">Napisz do nas na adres <x id="START_LINK" ctype="x-a" equiv-text="&lt;a     href=&quot;mailto:support@maptio.com?subject=I want to integrate another system with Maptio&quot;     class=&quot;alert-link&quot;     target=&quot;_blank&quot;   &gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> jeśli potrzebujesz integracji z innymi serwisami.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-integrations/integrations.component.html</context>
+          <context context-type="linenumber">2,11</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

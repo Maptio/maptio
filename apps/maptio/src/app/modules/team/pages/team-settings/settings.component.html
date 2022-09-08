@@ -46,8 +46,11 @@
                 </small>
             </legend> -->
     </ng-template>
+
     <div class="form-group w-50">
-      <label class="col-form-label" for="inputAuthorityName">Authority</label>
+      <label class="col-form-label" for="inputAuthorityName" i18n="@@authority">
+        Authority
+      </label>
       <div class="">
         <input
           type="text"
@@ -65,7 +68,9 @@
     </div>
 
     <div class="form-group w-50">
-      <label class="col-form-label" for="inputHelperName">Helper</label>
+      <label class="col-form-label" for="inputHelperName" i18n="@@helper">
+        Helper
+      </label>
       <div class="">
         <input
           type="text"
@@ -87,17 +92,19 @@
       type="submit"
       class="btn btn-success"
     >
-      Save
+      <ng-container i18n="@@save">Save</ng-container>
     </button>
+
     <span
       class="text-green mx-1 flash small"
       *ngIf="isTeamSettingSaved"
       [class.show]="isTeamSettingSaved"
     >
       <i class="fas fa-save"></i>
-      Saved!
+      <ng-container i18n>Saved!</ng-container>
     </span>
-    <span class="text-danger mx-1 small" *ngIf="isTeamSettingFailed">
+
+    <span class="text-danger mx-1 small" *ngIf="isTeamSettingFailed" i18n>
       Error while saving settings
     </span>
   </fieldset>
