@@ -2129,7 +2129,7 @@
       </trans-unit>
       <trans-unit id="b8b3b3f7b34a41213ddc2b1e58fdd39435fa7b02" datatype="html">
         <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-green&quot;&gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-hand-o-right mr-1&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Well done! <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> Once imported, new users must be <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;../../members&quot;&gt;"/>invited<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> to view and edit maps.</source>
-        <target state="translated"><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-green&quot;&gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-hand-o-right mr-1&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Dobra robota!  Po zaimportowaniu nowi użytkownicy muszą być zaproszeni , aby móc przeglądać i edytować mapy. <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;../../members&quot;&gt;"/><x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
+        <target state="translated"><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-green&quot;&gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-hand-o-right mr-1&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Dobra robota! Po zaimportowaniu nowi użytkownicy muszą być zaproszeni , aby móc przeglądać i edytować mapy. <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;../../members&quot;&gt;"/><x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
           <context context-type="linenumber">146,153</context>
@@ -2141,6 +2141,126 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
           <context context-type="linenumber">65,67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="22c9be90eb27c5c613348fbb621792223afe5d1b" datatype="html">
+        <source>Archive</source>
+        <target state="translated">Zarchiwizuj</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
+          <context context-type="linenumber">217</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="copy" datatype="html">
+        <source>Copy</source>
+        <target state="translated">Skopiuj</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
+          <context context-type="linenumber">186,187</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="87f9ba6e48fde91ad3e76adda599d865d431a1fa" datatype="html">
+        <source>Demo</source>
+        <target state="translated">Demo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="export" datatype="html">
+        <source>Export</source>
+        <target state="translated">Eksportuj</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
+          <context context-type="linenumber">147,148</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="639ec419d87bb88529d57e126f6cd3de8b279832" datatype="html">
+        <source>Exporting</source>
+        <target state="translated">Eksportujemy</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
+          <context context-type="linenumber">150,151</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ledBy" datatype="html">
+        <source>Led by</source>
+        <target state="translated">Prowadzone przez</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
+          <context context-type="linenumber">87</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f178a7a05ba1098f56432002fb3fecd9afc955f2" datatype="html">
+        <source>No <x id="INTERPOLATION" equiv-text="{{ dataset.team.settings.authority }}"/></source>
+        <target state="translated">Brak <x id="INTERPOLATION" equiv-text="{{ dataset.team.settings.authority }}"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
+          <context context-type="linenumber">112,114</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="48fb9060e0d646787d4ae3418dd2ddd23bfb1511" datatype="html">
+        <source>Update failed!</source>
+        <target state="translated">Aktualizacja nie powiodła się!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
+          <context context-type="linenumber">53,54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ad2135d6f8392ec1a05c6601128e3f01218689bf" datatype="html">
+        <source>Copying</source>
+        <target state="translated">Kopiujemy</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
+          <context context-type="linenumber">189,190</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ef8436f2c3017dace82558d39ac8d6cd2586f518" datatype="html">
+        <source>Edit name</source>
+        <target state="translated">Zmień nazwę</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
+          <context context-type="linenumber">174</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="embed" datatype="html">
+        <source>Embed</source>
+        <target state="translated">Podziel się</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
+          <context context-type="linenumber">163</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f7fde970433530e46b9e9dc6d83268e58cef9ed6" datatype="html">
+        <source>Take me there</source>
+        <target state="translated">Zabierz mnie tam</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
+          <context context-type="linenumber">267,268</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="029eef2057495d8fa305c0fcfdf78cf31faf8ba8" datatype="html">
+        <source>This functionality has now moved into the toolbar in the Circles map view.</source>
+        <target state="translated">Ta funkcjonalność została teraz przeniesiona do paska narzędzi w oknie mapy.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
+          <context context-type="linenumber">241,243</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d5cec7468241d72cafd86ad1af6d55b09a6e3ae5" datatype="html">
+        <source>Restore</source>
+        <target state="translated">Przywróć</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
+          <context context-type="linenumber">227</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2ca36ad093dc7d1649561886560b05b91f34f965" datatype="html">
+        <source>{VAR_PLURAL, plural, =0 {circles} =1 {circle} other {circles}}</source>
+        <target state="translated">{VAR_PLURAL, plural, one {koło} few {koła} many {kół}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
+          <context context-type="linenumber">67,68</context>
         </context-group>
       </trans-unit>
     </body>
