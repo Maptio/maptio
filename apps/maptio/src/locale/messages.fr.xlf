@@ -4,7 +4,6 @@
     <body>
       <trans-unit id="61129a94187d7e8d3d797f038579dc8e4dec4748" datatype="html">
         <source>Visualise your organisation in nested circles</source>
-        <target>Visualisez votre organisation dans des cercles imbriqués</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
           <context context-type="linenumber">32</context>
@@ -12,7 +11,6 @@
       </trans-unit>
       <trans-unit id="8df4d123c6c5401f0f1b62cf2ddb41ee50ce5a3f" datatype="html">
         <source>Keep track of everyone’s roles</source>
-        <target>Gardez une trace des rôles de chacun</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
           <context context-type="linenumber">33</context>
@@ -20,7 +18,6 @@
       </trans-unit>
       <trans-unit id="d8f703df39c3423649671d4879cc15e6953344a1" datatype="html">
         <source> Get started - try Maptio for free </source>
-        <target>Commencez - essayez Maptio gratuitement</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
           <context context-type="linenumber">41,42</context>
@@ -32,7 +29,6 @@
       </trans-unit>
       <trans-unit id="3010759c682780f9c847a27ee814f9357d0ba047" datatype="html">
         <source>Already use Maptio?</source>
-        <target>Vous utilisez déjà Maptio?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
           <context context-type="linenumber">53</context>
@@ -40,10 +36,16 @@
       </trans-unit>
       <trans-unit id="69b37e500b69dce3ca94e2cd0390b044e890e712" datatype="html">
         <source>Screenshot of Maptio visualization of nested circles</source>
-        <target>Gardez une trace des rôles de chacun</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
           <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b14db5263df73ac08abb85c8e7d7e4c5d76b5ee7" datatype="html">
+        <source>Access your invoices and billing information or cancel your subscription</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-billing/billing.component.html</context>
+          <context context-type="linenumber">20,22</context>
         </context-group>
       </trans-unit>
     </body>
