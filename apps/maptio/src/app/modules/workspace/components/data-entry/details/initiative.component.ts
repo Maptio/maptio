@@ -168,31 +168,40 @@ export class InitiativeComponent implements OnChanges {
     this.cd.markForCheck();
   }
 
+  /**
+   * Deal with roles and helpers when saving accountable
+   *
+   * 0. No authority passed in, remove current authority, if any
+   * 1. If the circle already had an authority, the authority's roles will be
+   *    passed on to the new authority
+   * 2. If a helper is picked as authority, keep the helper's roles, add
+   *    the current authority's roles too, if any (see point 1), and remove
+   *    helper from the helpers list (as they will already appear there as an
+   *    authority)
+   */
   saveAccountable(accountable: Helper) {
-    // 1. brand new authority, just assign
-
-    // 2. new person picked as authority, give them the roles from current authority
-
-    // 3. authoriy picked from the list of current helpers, helper keeps their role
-
-    const helpersIds = this.node.helpers.map((h) => h.user_id);
     if (!accountable) {
       this.node.accountable = null;
     } else {
-      if (!this.node.accountable) {
-        this.node.accountable = accountable;
-      } else if (
-        this.node.accountable &&
-        helpersIds.indexOf(accountable.user_id) === -1
-      ) {
-        accountable.roles = this.node.accountable.roles;
-        this.node.accountable = accountable;
-      } else {
-        const helper = this.node.helpers.filter(
-          (h) => h.user_id === accountable.user_id
-        )[0];
+      let oldAccountableRoles = [];
+      if (this.node.accountable) {
+        oldAccountableRoles = this.node.accountable.roles;
+      }
+
+      if (this.isHelper(accountable)) {
+        const helper = this.getHelper(accountable);
         this.removeHelper(helper);
+
+        // Assign helper along with their roles as the accountable
         this.node.accountable = helper;
+      } else {
+        this.node.accountable = accountable;
+      }
+
+      if (oldAccountableRoles) {
+        this.node.accountable.roles = oldAccountableRoles.concat(
+          this.node.accountable.roles
+        );
       }
     }
 
@@ -273,6 +282,16 @@ export class InitiativeComponent implements OnChanges {
 
   getAllHelpers() {
     return remove([...this.node.helpers, this.node.accountable].reverse()); // always disaply the authority first
+  }
+
+  getHelper(potentialHelper: Helper) {
+    return this.node.helpers.find(
+      (helperInList) => helperInList.user_id === potentialHelper.user_id
+    );
+  }
+
+  isHelper(potentialHelper: Helper) {
+    return !!this.getHelper(potentialHelper);
   }
 
   isAuthority(helper: Helper) {
