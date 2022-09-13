@@ -217,10 +217,16 @@ export class InitiativeComponent implements OnChanges {
   }
 
   removeHelper(helper: Helper) {
+    if (this.isAuthority(helper)) {
+      this.saveAccountable(undefined);
+      return;
+    }
+
     const index = this.node.helpers.findIndex(
       (user) => user.user_id === helper.user_id
     );
     this.node.helpers.splice(index, 1);
+
     this.onBlur();
     this.analytics.eventTrack('Initiative', {
       action: 'remove helper',
