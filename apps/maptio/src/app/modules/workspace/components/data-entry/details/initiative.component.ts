@@ -190,7 +190,7 @@ export class InitiativeComponent implements OnChanges {
 
       if (this.isHelper(accountable)) {
         const helper = this.getHelper(accountable);
-        this.removeHelper(helper);
+        this.removeHelper(helper, false);
 
         // Assign helper along with their roles as the accountable
         this.node.accountable = helper;
@@ -225,7 +225,7 @@ export class InitiativeComponent implements OnChanges {
     this.cd.markForCheck();
   }
 
-  removeHelper(helper: Helper) {
+  removeHelper(helper: Helper, save = true) {
     if (this.isAuthority(helper)) {
       this.saveAccountable(undefined);
       return;
@@ -236,13 +236,15 @@ export class InitiativeComponent implements OnChanges {
     );
     this.node.helpers.splice(index, 1);
 
-    this.onBlur();
-    this.analytics.eventTrack('Initiative', {
-      action: 'remove helper',
-      team: this.teamName,
-      teamId: this.teamId,
-    });
-    this.cd.markForCheck();
+    if (save) {
+      this.onBlur();
+      this.analytics.eventTrack('Initiative', {
+        action: 'remove helper',
+        team: this.teamName,
+        teamId: this.teamId,
+      });
+      this.cd.markForCheck();
+    }
   }
 
   saveHelpers() {
