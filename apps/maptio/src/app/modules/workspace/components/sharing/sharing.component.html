@@ -1,19 +1,26 @@
 <ng-container *ngIf="!dataset.isEmbeddable">
-  <h3 class="editing-title">Enable public read-only embeddable map?</h3>
+  <h3 class="editing-title" i18n>Enable public read-only embeddable map?</h3>
 
-  Enabling this feature will allow you to embed this map on your website as well
-  as get a publicly-shareable link. The map will be accessible to anyone with
-  the URL.
+  <p i18n>
+    Enabling this feature will allow you to embed this map on your website as
+    well as get a publicly-shareable link. The map will be accessible to anyone
+    with the URL.
+  </p>
 
   <div class="d-flex flex-row w-100 mt-3 justify-content-end">
-    <button class="btn btn-success" (click)="enableEmbedding()">Enable</button>
+    <button class="btn btn-success" (click)="enableEmbedding()">
+      <ng-container i18n="@@enable">Enable</ng-container>
+    </button>
   </div>
 </ng-container>
 
 <ng-container *ngIf="dataset.isEmbeddable">
-  <h3 class="editing-title">Public read-only embeddable map is enabled</h3>
+  <h3 class="editing-title" i18n>Public read-only embeddable map is enabled</h3>
   <p>
-    This map can be viewed publicly at the following URL:
+    <ng-container i18n>
+      This map can be viewed publicly at the following URL:
+    </ng-container>
+
     <a href="{{ shareableUrl }}" class="text-break">
       {{ shareableUrl }}
     </a>
@@ -32,6 +39,7 @@
       for="showDescriptions"
       class="form-check-label"
       [class.text-muted]="isTogglingShowingDescriptions"
+      i18n
     >
       Include detailed circle descriptions on the public map (beta)
     </label>
@@ -41,6 +49,7 @@
     *ngIf="hasTogglingShowingDescriptionsFailed"
     class="alert alert-danger"
     role="alert"
+    i18n
   >
     There was an error when updating showing circle descriptions. Chat with us
     or email us at
@@ -53,17 +62,24 @@
   </div>
 
   <p>
-    You can embed this map on your website by using the following code snippet:
+    <ng-container i18n>
+      You can embed this map on your website by using the following code
+      snippet:
+    </ng-container>
+
     <br />
+
     <code>{{ iframeSnippet }}</code>
   </p>
 
-  <p>
+  <p i18n>
     To stop sharing the map, click "Disable" below. Please make sure you remove
     the code snippet from your website before you do this.
   </p>
 
   <div class="d-flex flex-row w-100 justify-content-end">
-    <button class="btn btn-danger" (click)="disableEmbedding()">Disable</button>
+    <button class="btn btn-danger" (click)="disableEmbedding()">
+      <ng-container i18n="@@disable">Disable</ng-container>
+    </button>
   </div>
 </ng-container>

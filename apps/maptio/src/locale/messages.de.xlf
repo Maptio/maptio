@@ -257,9 +257,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="5418917483835358219" datatype="html">
-        <source>      Free trial ends on <x id="PH" equiv-text="freeTrialCutoffDate.toLocaleDateString()"/>
-      at <x id="PH_1" equiv-text="freeTrialCutoffDate.toLocaleTimeString()"/>
-   </source>
+        <source>Free trial ends on <x id="PH" equiv-text="freeTrialCutoffDate.toLocaleDateString()"/> at <x id="PH_1" equiv-text="freeTrialCutoffDate.toLocaleTimeString()"/> </source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/onboarding-banner.component.ts</context>
           <context context-type="linenumber">15,18</context>
@@ -631,8 +629,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="b91352f498f676f155f3eceb5276e804acd6abf9" datatype="html">
-        <source>        Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?
-     </source>
+        <source>Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">143,144</context>
@@ -776,36 +773,28 @@
         </context-group>
       </trans-unit>
       <trans-unit id="4175524537305120095" datatype="html">
-        <source>Updating profile information failed
-        with error: "<x id="PH" equiv-text="error.message"/>", please try again later or contact us.</source>
+        <source>Updating profile information failed with error: "<x id="PH" equiv-text="error.message"/>", please try again later or contact us.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">299,300</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4439374930555787286" datatype="html">
-        <source>Cannot update profile information,
-          please try again later or contact us.</source>
+        <source>Cannot update profile information, please try again later or contact us.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">308,309</context>
         </context-group>
       </trans-unit>
       <trans-unit id="446132272462225944" datatype="html">
-        <source>        The application encountered an unexpected input error while attempting
-        user de-duplication. Please contact us for help and quote this error
-        message.
-     </source>
+        <source>The application encountered an unexpected input error while attempting user de-duplication. Please contact us for help and quote this error message.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">341,345</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7213896273750754706" datatype="html">
-        <source>        The application encountered an unexpected error while attempting user
-        de-duplication. Please contact us for help and quote this error
-        message.
-     </source>
+        <source>The application encountered an unexpected error while attempting user de-duplication. Please contact us for help and quote this error message.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">365,369</context>
@@ -1426,8 +1415,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="8e05bae524c892ef4d1a1625a27677f672789d91" datatype="html">
-        <source>          Remove this authority and associated role?
-       </source>
+        <source>Remove this authority and associated role?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/authority/authority-select.component.html</context>
           <context context-type="linenumber">49,50</context>

@@ -288,7 +288,8 @@
         <div class="card-body">
           <common-color-picker
             [color]="settings.mapColor"
-            [label]="'Map'"
+            label="Map"
+            i18n-label="@@map"
             [default]="DEFAULT_MAP_COLOR"
             (change)="changeMapColor($event)"
           ></common-color-picker>

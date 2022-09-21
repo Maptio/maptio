@@ -1101,7 +1101,7 @@
       </trans-unit>
       <trans-unit id="c3d4de943e9007c1df3c003b1042299a702aeee8" datatype="html">
         <source><x id="START_LINK" ctype="x-a" equiv-text="&lt;a target=&quot;blank&quot; href=&quot;https://fieldmapping.org&quot;&gt;"/>Read our free guide<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> to mapping your organisation</source>
-        <target state="translated"><x id="START_LINK" ctype="x-a" equiv-text="&lt;a target=&quot;blank&quot; href=&quot;https://fieldmapping.org&quot;&gt;"/>Przeczytaj nasz darmowy przewodnik<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> mapowania inicjatyw</target>
+        <target state="translated"><x id="START_LINK" ctype="x-a" equiv-text="&lt;a target=&quot;blank&quot; href=&quot;https://fieldmapping.org&quot;&gt;"/>Przeczytaj nasz darmowy przewodnik<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> mapowania organizacji</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">8,10</context>
@@ -1585,7 +1585,7 @@
       </trans-unit>
       <trans-unit id="markdownTip" datatype="html">
         <source>How to <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;{{ KB_URL_MARKDOWN }}&quot; target=&quot;_blank&quot;&gt;"/> add links and formatting <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
-        <target state="translated">Jak <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;{{ KB_URL_MARKDOWN }}&quot; target=&quot;_blank&quot;&gt;"/> dodać linki i formatowanie <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
+        <target state="translated">Jak dodać <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;{{ KB_URL_MARKDOWN }}&quot; target=&quot;_blank&quot;&gt;"/> linki i formatowanie <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
           <context context-type="linenumber">57,60</context>
@@ -2025,7 +2025,7 @@
       </trans-unit>
       <trans-unit id="a4b9067b4009bde5c69f1a9fa443c0648dc602c2" datatype="html">
         <source>Resend an invitation to <x id="INTERPOLATION" equiv-text="{{ member.name }}"/></source>
-        <target state="translated">Wyślij zaproszenie ponownie do <x id="INTERPOLATION" equiv-text="{{ member.name }}"/></target>
+        <target state="translated">Wyślij zaproszenie ponownie do: <x id="INTERPOLATION" equiv-text="{{ member.name }}"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
           <context context-type="linenumber">182</context>
@@ -2381,6 +2381,118 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-billing/billing.component.html</context>
           <context context-type="linenumber">59,64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="map" datatype="html">
+        <source>Map</source>
+        <target state="translated">Mapa</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/canvas/mapping.component.html</context>
+          <context context-type="linenumber">291</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="enable" datatype="html">
+        <source>Enable</source>
+        <target state="translated">Włącz</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/sharing/sharing.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e6746170f3f39bd0b0a905cb9b232cae9d3a9e50" datatype="html">
+        <source>Enable public read-only embeddable map?</source>
+        <target state="translated">Włączyć publiczne dzielenie się mapą?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/sharing/sharing.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="61cd78482544a64aefd76f01379d4fbfc9c41da0" datatype="html">
+        <source>Enabling this feature will allow you to embed this map on your website as well as get a publicly-shareable link. The map will be accessible to anyone with the URL.</source>
+        <target state="translated">Włączenie tej funkcji pozwoli Ci umieścić tę mapę na swojej stronie internetowej, a także uzyskać link do publicznego udostępniania. Mapa będzie dostępna dla każdego, kto będzie posiadać adres URL.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/sharing/sharing.component.html</context>
+          <context context-type="linenumber">5,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="selectAll" datatype="html">
+        <source>Select all</source>
+        <target state="needs-translation">Zaznacz wszystko</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/filtering/tags.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="34466c8f2d9edc74ee257e83bc9297da3ed84508" datatype="html">
+        <source>Include detailed circle descriptions on the public map (beta)</source>
+        <target state="translated">Dołącz szczegółowe opisy kół na mapie publicznej (beta)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/sharing/sharing.component.html</context>
+          <context context-type="linenumber">44,45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="772b00b02d28b62256b62a2f8777918b1b5f954e" datatype="html">
+        <source>Public read-only embeddable map is enabled</source>
+        <target state="translated">Publiczna mapa tylko do odczytu jest włączona</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/sharing/sharing.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="28bfd67040ba4c374a6358b379ffbe972777780f" datatype="html">
+        <source>Search circles, people and description</source>
+        <target state="translated">Wyszukiwanie kół, osób i opisów</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/searching/search.component.html</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="93afeb241eec9d67c3482ad7ddb169450211b9fc" datatype="html">
+        <source>This map can be viewed publicly at the following URL:</source>
+        <target state="translated">Ta mapa jest dostępna publicznie pod następującym adresem URL:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/sharing/sharing.component.html</context>
+          <context context-type="linenumber">21,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="unselectAll" datatype="html">
+        <source>Unselect all</source>
+        <target state="needs-translation">Odznacz wszystko</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/filtering/tags.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5a41f6e0b88477f2ab426adc9754394498e49359" datatype="html">
+        <source>You can embed this map on your website by using the following code snippet:</source>
+        <target state="translated">Możesz umieścić tę mapę na swojej stronie poprzez użycie następującego fragmentu kodu:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/sharing/sharing.component.html</context>
+          <context context-type="linenumber">66,68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="disable" datatype="html">
+        <source>Disable</source>
+        <target state="translated">Wyłącz</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/sharing/sharing.component.html</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="73bc36d061b10fadbae2a55498fa79d5561dbaf9" datatype="html">
+        <source>There was an error when updating showing circle descriptions. Chat with us or email us at <x id="START_LINK" ctype="x-a" equiv-text="&lt;a       href=&quot;mailto:support@maptio.com?subject=Error when updating showing circle descriptions&quot;     &gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> if the issue persists.</source>
+        <target state="needs-translation">Wystąpił błąd podczas aktualizacji wyświetlania opisów okręgów. Porozmawiaj z nami lub napisz do nas na adres <x id="START_LINK" ctype="x-a" equiv-text="&lt;a       href=&quot;mailto:support@maptio.com?subject=Error when updating showing circle descriptions&quot;     &gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/>, jeśli problem będzie się powtarzał.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/sharing/sharing.component.html</context>
+          <context context-type="linenumber">54,62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6e9f7b7b82277c6811c0ff5229ccff07bbdf1f5a" datatype="html">
+        <source>To stop sharing the map, click "Disable" below. Please make sure you remove the code snippet from your website before you do this.</source>
+        <target state="translated">Aby przestać udostępniać mapę, kliknij "Wyłącz" poniżej. Upewnij się przed wyłączeniem tej funkcjonalności, że mapa nie jest już umieszczona na Twojej stronie.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/sharing/sharing.component.html</context>
+          <context context-type="linenumber">76,78</context>
         </context-group>
       </trans-unit>
     </body>
