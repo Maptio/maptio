@@ -48,6 +48,10 @@
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/canvas/mapping.component.html</context>
           <context context-type="linenumber">140</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/directory/summary.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="people" datatype="html">
         <source>People</source>
@@ -62,6 +66,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-single/team.component.ts</context>
           <context context-type="linenumber">53</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/directory/summary.component.html</context>
+          <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b0e8a2f4ca23077f39bd8eb69d069ad245897fc5" datatype="html">
@@ -1667,6 +1675,10 @@
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/vacancies-input.component.html</context>
           <context context-type="linenumber">10</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/directory/summary.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="bf0e79ba75833b96f3c5746fce06bff842b7549b" datatype="html">
         <source>Add role vacancy</source>
@@ -2021,6 +2033,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component.html</context>
           <context context-type="linenumber">6,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roles" datatype="html">
+        <source>Roles</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/directory/summary.component.html</context>
+          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="editMap" datatype="html">
