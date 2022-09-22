@@ -2,10 +2,16 @@
   <div
     class="d-flex flex-column justify-content-center align-items-center col-12"
   >
-    <h1 class="w-100 d-none d-md-block text-left text-md-center mb-md-0">
+    <h1
+      class="w-100 d-none d-md-block text-left text-md-center mb-md-0"
+      i18n="@@chooseYourPlan"
+    >
       Choose your plan
     </h1>
-    <h3 class="w-100 d-block d-md-none text-left text-md-center mb-md-0">
+    <h3
+      class="w-100 d-block d-md-none text-left text-md-center mb-md-0"
+      i18n="@@chooseYourPlan"
+    >
       Choose your plan
     </h3>
 
@@ -15,12 +21,13 @@
         [isSignup]="true"
         *ngIf="(userService.isAuthenticated$ | async) === false"
         class="btn-block w-100 btn btn-success btn-md-lg my-4"
+        i18n
       >
         Get started - try Maptio for free
       </button>
     </div>
 
-    <p class="text-center text-muted my-5">
+    <p class="text-center text-muted my-5" i18n>
       Pricing in US Dollars. All major credit cards accepted.
       <br />
       No minimum contract length.
@@ -41,7 +48,7 @@
         "
       >
         <input ngbButton type="radio" [value]="BillingSchedule.ANNUAL" />
-        Annual billing
+        <ng-container i18n>Annual billing</ng-container>
       </label>
 
       <label
@@ -53,7 +60,7 @@
         "
       >
         <input ngbButton type="radio" [value]="BillingSchedule.MONTHLY" />
-        Monthly billing
+        <ng-container i18n>Monthly billing</ng-container>
       </label>
     </div>
 
@@ -61,8 +68,10 @@
       class="d-flex flex-column flex-md-row justify-content-center align-items-stretch"
     >
       <maptio-payment-plan
-        [name]="'Starter'"
-        [text]="'1 - 12 people'"
+        name="Starter"
+        text="1 - 12 people"
+        i18n-name
+        i18n-text
         [billingSchedule]="billingScheduleChoice"
         [prices]="{
           MONTHLY: BILLING_PLANS.STARTER_MONTHLY_COST,
@@ -75,8 +84,10 @@
       ></maptio-payment-plan>
 
       <maptio-payment-plan
-        [name]="'Small'"
-        [text]="'13 - 35 people'"
+        name="Small"
+        text="13 - 35 people"
+        i18n-name
+        i18n-text
         [billingSchedule]="billingScheduleChoice"
         [prices]="{
           MONTHLY: BILLING_PLANS.SMALL_MONTHLY_COST,
@@ -89,8 +100,10 @@
       ></maptio-payment-plan>
 
       <maptio-payment-plan
-        [name]="'Standard plan'"
-        [text]="'36 - 200 people'"
+        name="Standard plan"
+        text="36 - 200 people"
+        i18n-name
+        i18n-text
         [billingSchedule]="billingScheduleChoice"
         [prices]="{
           MONTHLY: BILLING_PLANS.STANDARD_MONTHLY_COST,
@@ -103,13 +116,14 @@
       ></maptio-payment-plan>
 
       <maptio-payment-plan
-        [name]="'Larger organizations'"
-        [text]="'200+ people'"
+        name="Larger organizations"
+        text="200+ people"
+        i18n-name
+        i18n-text
       ></maptio-payment-plan>
     </div>
 
-    <p class="text-center text-muted my-5">
-      <!-- <div class="d-flex justify-content-center align-items-stretch text-muted my-5"> -->
+    <p class="text-center text-muted my-5" i18n>
       Struggling to afford this? Let's talk and work something out.
       <a href="mailto:support@maptio.com?subject=Deal request">Contact us.</a>
       <br />
