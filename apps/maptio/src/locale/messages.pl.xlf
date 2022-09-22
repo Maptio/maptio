@@ -2591,6 +2591,46 @@
           <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="1d13cd52e7cd00d13b2e10f9f6d48dc032738f38" datatype="html">
+        <source>Add new role</source>
+        <target state="translated">Dodaj nową rolę</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/roles.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7227277bdea978e88966419c1c9e0e4967dbdd48" datatype="html">
+        <source>Viewing the role library. Custom roles for individual circles are not shown here.</source>
+        <target state="translated">Przeglądanie biblioteki ról. Niestandardowe role dla poszczególnych kręgów nie są tu pokazywane.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/roles.component.html</context>
+          <context context-type="linenumber">2,4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="09e747dadaab8d84b4af94e081de617cd57e621e" datatype="html">
+        <source>No library roles found</source>
+        <target state="translated">Nie znaleziono żadnych ról bibliotecznych</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/roles.component.html</context>
+          <context context-type="linenumber">74,75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="af1f2f382157bab1789dbe59f3d1b11bd2dce263" datatype="html">
+        <source>No vacancies found</source>
+        <target state="translated">Nie znaleziono wolnych ról</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/vacancies.component.html</context>
+          <context context-type="linenumber">37,38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="84f541e2d37462e74493d27535b0cb4b73c0cb7e" datatype="html">
+        <source>Showing vacancies for custom and library roles in all circles.</source>
+        <target state="translated">Wszystkie wolne role (niestandardowe i biblioteczne) we wszystkich kołach.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/vacancies.component.html</context>
+          <context context-type="linenumber">2,3</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

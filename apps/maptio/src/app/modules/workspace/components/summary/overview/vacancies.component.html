@@ -1,4 +1,4 @@
-<p class="text-muted mb-4">
+<p class="text-muted mb-4" i18n>
   Showing vacancies for custom and library roles in all circles.
 </p>
 
@@ -33,6 +33,6 @@
   <hr *ngIf="!last && vacancies[roleIndex + 1]" class="role-divider my-1" />
 </ng-container>
 
-<div *ngIf="vacancies?.length === 0" class="h4 text-orange my-2">
+<div *ngIf="vacancies?.length === 0" class="h4 text-orange my-2" i18n>
   No vacancies found
 </div>
