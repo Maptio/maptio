@@ -24,8 +24,9 @@
       data-target="#collapseOtherMembers"
       aria-expanded="false"
       aria-controls="collapseOtherMembers"
+      i18n
     >
-      {{ isOthersPeopleVisible ? 'Hide' : 'Show' }} other people
+      {!!isOthersPeopleVisible, select, true {Hide} false {Show}} other people
     </button>
     <div class="w-100">
       <summary-personal
@@ -59,6 +60,7 @@
         id="inputQuickFilter"
         #inputQuickFilter
         placeholder="Find a person"
+        i18n-placeholder
         type="text"
         class="form-control w-100"
         (keyup)="onKeyDown(inputQuickFilter.value)"
@@ -67,13 +69,14 @@
         [class.invisible]="!inputQuickFilter.value"
         class="d-flex justify-content-between align-items-center w-100"
       >
-        <span class="text-muted small">
+        <span class="text-muted small" i18n>
           {{ filteredMembers.length }}/{{ members?.length }} people
         </span>
 
         <button
           class="btn btn-link btn-sm px-0"
           (click)="onKeyDown(''); inputQuickFilter.value = ''"
+          i18n
         >
           Show all
         </button>
@@ -90,7 +93,7 @@
         class="card bg-secondary border cursor-pointer text-white"
         (click)="onAddingNewMember()"
       >
-        <div class="card-body">Add new person</div>
+        <div class="card-body" i18n>Add new person</div>
       </button>
       <ng-container *ngTemplateOutlet="list"></ng-container>
     </ul>

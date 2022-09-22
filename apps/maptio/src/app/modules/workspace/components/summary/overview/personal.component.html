@@ -11,7 +11,8 @@
         <div class="position-absolute d-flex flex-column">
           <h1 class="">{{ member?.name }}</h1>
           <h6 class="text-muted d-none d-md-block">
-            {{ authorities.length + helps.length }} circles
+            {{ authorities.length + helps.length }} {authorities.length +
+            helps.length, plural, =0 {circles} =1 {circle} other {circles}}
           </h6>
         </div>
         <ul class="nav nav-tabs justify-content-end my-3" role="tablist">
@@ -27,7 +28,8 @@
             >
               <span>{{ authorityName | titlecase }}</span>
               <span class="small text-muted">
-                {{ authorities.length }} circles
+                {{ authorities.length }} {authorities.length, plural, =0
+                {circles} =1 {circle} other {circles}}
               </span>
             </a>
           </li>
@@ -42,7 +44,10 @@
               href="#helper"
             >
               <span>{{ helperName | titlecase }}</span>
-              <span class="small text-muted">{{ helps.length }} circles</span>
+              <span class="small text-muted">
+                {{ helps.length }} {helps.length, plural, =0 {circles} =1
+                {circle} other {circles}}
+              </span>
             </a>
           </li>
         </ul>
@@ -90,7 +95,7 @@
       [class.three-column]="isColumnToggleActive(3)"
     >
       <div class="w-100 d-flex justify-content-center">
-        <span *ngIf="authorities.length === 0" class="h3 text-orange">
+        <span *ngIf="authorities.length === 0" class="h3 text-orange" i18n>
           Not a {{ authorityName | lowercase }} yet
         </span>
       </div>
@@ -115,7 +120,7 @@
       [class.three-column]="isColumnToggleActive(3)"
     >
       <div class="w-100 d-flex justify-content-center">
-        <span *ngIf="helps.length === 0" class="h3 text-orange">
+        <span *ngIf="helps.length === 0" class="h3 text-orange" i18n>
           No helping participation yet
         </span>
       </div>
