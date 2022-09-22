@@ -2601,7 +2601,7 @@
       </trans-unit>
       <trans-unit id="7227277bdea978e88966419c1c9e0e4967dbdd48" datatype="html">
         <source>Viewing the role library. Custom roles for individual circles are not shown here.</source>
-        <target state="translated">Przeglądanie biblioteki ról. Niestandardowe role dla poszczególnych kręgów nie są tu pokazywane.</target>
+        <target state="translated">Przeglądasz bibliotekę ról. Niestandardowe role dla poszczególnych kręgów nie są tu pokazywane.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/roles.component.html</context>
           <context context-type="linenumber">2,4</context>
@@ -2629,6 +2629,46 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/vacancies.component.html</context>
           <context context-type="linenumber">2,3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="282910a5c94ec587eece7db6adb3a465db06f8b8" datatype="html">
+        <source>Network map options</source>
+        <target state="translated">Opcje mapy sieciowej</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/network/mapping.network.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4c4b4d4ce0ca2ccf0782dbc9f15a948b16bf37e2" datatype="html">
+        <source>Connect all contributors</source>
+        <target state="translated">Połącz wszystkich współpracowników</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/network/mapping.network.component.html</context>
+          <context context-type="linenumber">83,84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6a685f23295e559be5ed8164dcf6fc14e1154d2f" datatype="html">
+        <source>Connect leads and contributors</source>
+        <target state="translated">Połącz prowadzących i współpracowników.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/network/mapping.network.component.html</context>
+          <context context-type="linenumber">66,67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ba88304aa8d561146b828d285f5e0b7e8c85e2a7" datatype="html">
+        <source>Maptio can show connections between people who are contributors in circles where others are the lead, or show connections between people who are contributors in the same circles:</source>
+        <target state="translated">Maptio może pokazywać powiązania między osobami, które są współpracownikami w kręgach, w których inni są prowadzącymi, lub pokazywać połączenia między osobami, które są współpracownikami w tych samych kręgach:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/network/mapping.network.component.html</context>
+          <context context-type="linenumber">49,52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e09937da4da1104e2087a1102f0daa85b18bea2e" datatype="html">
+        <source>{VAR_SELECT, select, true {Hide} false {Show}}</source>
+        <target state="translated">{VAR_SELECT, select, true {Schowaj} false {Pokaż}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/network/mapping.network.component.html</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
     </body>
