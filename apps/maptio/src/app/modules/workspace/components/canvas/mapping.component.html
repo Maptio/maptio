@@ -300,32 +300,28 @@
 </div>
 
 <div *ngIf="isEmptyMap" class="instructions h2 d-none d-md-block">
-  Click
+  <ng-container i18n>
+    Click
 
-  <ng-container
-    *permissionsOnly="
-      Permissions.canCreateRootInitiative;
-      else elseFirstNodeBlock;
-      then: thenFirstNodeBlock
-    "
-  >
-    main
+    <!-- Plus button -->
+    <ng-container
+      *permissionsOnly="
+        Permissions.canCreateRootInitiative;
+        else plusButtonDisabled;
+        then: plusButton
+      "
+    ></ng-container>
+
+    to create your first circle
   </ng-container>
 
-  <ng-template #thenFirstNodeBlock>
+  <ng-template #plusButton>
     <button type="button" class="btn btn-success" (click)="addFirstNode()">
       <i class="fa fa-plus"></i>
     </button>
   </ng-template>
 
-  <ng-template #editTipContent>
-    <span class="text-orange">
-      You don't have permission to do this.
-      <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
-    </span>
-  </ng-template>
-
-  <ng-template #elseFirstNodeBlock>
+  <ng-template #plusButtonDisabled>
     <button
       type="button"
       class="btn btn-success disabled cursor-not-allowed"
@@ -335,7 +331,9 @@
     </button>
   </ng-template>
 
-  to create your first circle
+  <ng-template #editTipContent>
+    <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
+  </ng-template>
 </div>
 
 <div
