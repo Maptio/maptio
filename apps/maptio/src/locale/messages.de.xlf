@@ -4,6 +4,7 @@
     <body>
       <trans-unit id="onboarding-terminology-6" datatype="html">
         <source>Lead</source>
+        <target state="translated">Lead</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/config/environment.ts</context>
           <context context-type="linenumber">34</context>
@@ -11,6 +12,7 @@
       </trans-unit>
       <trans-unit id="onboarding-terminology-7" datatype="html">
         <source>Contributor</source>
+        <target state="translated">Mitarbeiter/in</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/config/environment.ts</context>
           <context context-type="linenumber">35</context>
@@ -18,6 +20,7 @@
       </trans-unit>
       <trans-unit id="8b06788d3accc7f7ac5ded29399b43a0ef3f8209" datatype="html">
         <source>You cannot see this!</source>
+        <target state="translated">Du kannst das nicht sehen!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/401/unauthorized.component.html</context>
           <context context-type="linenumber">4</context>
@@ -25,6 +28,7 @@
       </trans-unit>
       <trans-unit id="01bbbd0d1e4ed56b4c07ab5711a1bea1247309ee" datatype="html">
         <source>This page does not exist!</source>
+        <target state="translated">Diese Seite existiert nicht!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/404/not-found.component.html</context>
           <context context-type="linenumber">3</context>
@@ -32,6 +36,7 @@
       </trans-unit>
       <trans-unit id="b0e8a2f4ca23077f39bd8eb69d069ad245897fc5" datatype="html">
         <source>Despite our best efforts, things will sometimes break, but we are always happy to help get you back on track.</source>
+        <target state="translated">Trotz all unserer Bemühungen geht manchmal etwas kaputt, aber wir sind immer dafür da dich wieder auf Kurs zu bringen.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
           <context context-type="linenumber">18,20</context>
@@ -39,6 +44,7 @@
       </trans-unit>
       <trans-unit id="debeb99cab8e5e01339f329a38a6df134955c6f4" datatype="html">
         <source>You will be redirected to the <x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>homepage<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> in <x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> seconds.</source>
+        <target state="needs-translation">Du wirst in  <x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> Sekunden zur <x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>homepage<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/>umgeleitet.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
           <context context-type="linenumber">33,36</context>
@@ -46,6 +52,7 @@
       </trans-unit>
       <trans-unit id="45f033b4ba61d8393d5f7b1f2372aa8d74ca4e5f" datatype="html">
         <source>Chat with us or email us at <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Support request&quot;&gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> if the issue persists.</source>
+        <target state="translated">Unterhalte dich mit uns oder schicke uns eine Email an <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Support request&quot;&gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/>  falls das Problem weiterhin besteht.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
           <context context-type="linenumber">43,48</context>
@@ -64,6 +71,7 @@
       </trans-unit>
       <trans-unit id="3c78b53bca33467190c0b7a01320bc093a2b1427" datatype="html">
         <source>Privacy</source>
+        <target state="translated">Datenschutz</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
           <context context-type="linenumber">9</context>
@@ -71,6 +79,7 @@
       </trans-unit>
       <trans-unit id="013acfd8797bf5ade4a15c71fa24178f913c4cae" datatype="html">
         <source>Blog</source>
+        <target state="translated">Blog</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
           <context context-type="linenumber">17</context>
@@ -82,6 +91,7 @@
       </trans-unit>
       <trans-unit id="85b79c9064aed1ead31ace985f31aa1363f6bdaf" datatype="html">
         <source>Help</source>
+        <target state="translated">Hilfe</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
           <context context-type="linenumber">21</context>
@@ -93,6 +103,7 @@
       </trans-unit>
       <trans-unit id="b051eeff3ae30cba4fbd1885ebb58fc22fb0d587" datatype="html">
         <source>Pricing</source>
+        <target state="translated">Preisgestaltung</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
           <context context-type="linenumber">25</context>
@@ -104,6 +115,7 @@
       </trans-unit>
       <trans-unit id="cc82fa89983785cb60daa0a7516c611fc02b5cd1" datatype="html">
         <source>Copyright</source>
+        <target state="translated">Copyright</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
           <context context-type="linenumber">32</context>
@@ -111,6 +123,7 @@
       </trans-unit>
       <trans-unit id="92eee6be6de0b11c924e3ab27db30257159c0a7c" datatype="html">
         <source>Home</source>
+        <target state="translated">Startseite</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">20</context>
@@ -118,6 +131,7 @@
       </trans-unit>
       <trans-unit id="319e0745bcbc132451569294fa2fa21bf10f555a" datatype="html">
         <source>Toggle navigation</source>
+        <target state="translated">umschaltbare Navigation</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">37</context>
@@ -125,6 +139,7 @@
       </trans-unit>
       <trans-unit id="organisation" datatype="html">
         <source>Organisation</source>
+        <target state="translated">Organisation</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">62</context>
@@ -144,6 +159,7 @@
       </trans-unit>
       <trans-unit id="f2d11ba5c599061eca2405ac09dc467f7c3adbcf" datatype="html">
         <source>Settings</source>
+        <target state="translated">Einstellungen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">74,75</context>
@@ -151,6 +167,7 @@
       </trans-unit>
       <trans-unit id="595aff5564b0119a1eeda9b4d7aaf21c5da69de3" datatype="html">
         <source>Maps</source>
+        <target state="translated">Diagramme</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">93</context>
@@ -162,6 +179,7 @@
       </trans-unit>
       <trans-unit id="994363f08f9fbfa3b3994ff7b35c6904fdff18d8" datatype="html">
         <source>Profile</source>
+        <target state="translated">Profil</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">149</context>
@@ -173,6 +191,7 @@
       </trans-unit>
       <trans-unit id="bf3cae65277c5ea4caa6b76b40c1d57e7782b199" datatype="html">
         <source>Organisations</source>
+        <target state="translated">Organisationen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">155,156</context>
@@ -180,6 +199,7 @@
       </trans-unit>
       <trans-unit id="a3a1d87649a0bcfe77259b11af7621e6f2c25912" datatype="html">
         <source>More ...</source>
+        <target state="translated">weitere ...</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">167</context>
@@ -187,6 +207,7 @@
       </trans-unit>
       <trans-unit id="6326f9ce2365bfe97668c4aa146fbbb762497c1a" datatype="html">
         <source>Log out</source>
+        <target state="translated">Abmelden</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">188,189</context>
@@ -198,6 +219,7 @@
       </trans-unit>
       <trans-unit id="f093d9574ab746b231504bd2cbb65f04bd7b00db" datatype="html">
         <source>Log in</source>
+        <target state="translated">Anmelden</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">197</context>
@@ -209,6 +231,7 @@
       </trans-unit>
       <trans-unit id="d9fdd7fe5922c64f2cb0d705f474480d546258a0" datatype="html">
         <source>All maps ...</source>
+        <target state="translated">Alle Diagramme</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">231</context>
@@ -216,6 +239,7 @@
       </trans-unit>
       <trans-unit id="499e340c6f959d401d9e027e4d78f1cb19f66c6e" datatype="html">
         <source>Organizations</source>
+        <target state="translated">Organisationen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">239,240</context>
@@ -223,6 +247,7 @@
       </trans-unit>
       <trans-unit id="b4d7491d66bd2a5eb3cea884df1b365cd1909faf" datatype="html">
         <source>All organizations...</source>
+        <target state="translated">Alle Organisationen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">258,259</context>
@@ -230,6 +255,7 @@
       </trans-unit>
       <trans-unit id="13fed01b1b423a92af56a1bad816a7d73e702f2b" datatype="html">
         <source>Privacy</source>
+        <target state="translated">Datenschutz</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">270,271</context>
@@ -237,6 +263,7 @@
       </trans-unit>
       <trans-unit id="eff51037b421db3615f783b54c102a4187f998e1" datatype="html">
         <source>Request more time</source>
+        <target state="translated">Um mehr Zeit anfragen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/onboarding-banner.component.html</context>
           <context context-type="linenumber">18</context>
@@ -244,6 +271,7 @@
       </trans-unit>
       <trans-unit id="714c28817a63a5277d95a198efb288fcfd34dc15" datatype="html">
         <source>Subscribe now</source>
+        <target state="translated">Jetzt abonnieren</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/onboarding-banner.component.html</context>
           <context context-type="linenumber">24</context>
@@ -251,6 +279,7 @@
       </trans-unit>
       <trans-unit id="87393a823b4f57b0894f88417b92c09533ee8d63" datatype="html">
         <source>Book free Zoom help call</source>
+        <target state="translated">Buche Gratis-Unterstützung via Zoom</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/onboarding-banner.component.html</context>
           <context context-type="linenumber">34</context>
@@ -265,6 +294,7 @@
       </trans-unit>
       <trans-unit id="ae1a43feec972e85ff934326e77e1da8eeabf499" datatype="html">
         <source>A login error occurred</source>
+        <target state="translated">Bei der Anmeldung ist ein Fehler passiert</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/login-error/login-error.page.html</context>
           <context context-type="linenumber">3</context>
@@ -407,6 +437,7 @@
       </trans-unit>
       <trans-unit id="3010759c682780f9c847a27ee814f9357d0ba047" datatype="html">
         <source>Already use Maptio?</source>
+        <target state="translated">Benützt du Maptio bereits?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
           <context context-type="linenumber">53</context>
@@ -456,6 +487,7 @@
       </trans-unit>
       <trans-unit id="ba9727a61f22a5e1c94c954c2925b8bab61bc536" datatype="html">
         <source>Check out <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                   href=&quot;https://fieldmapping.org/&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/> the Maptio guide to initiative mapping <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>and<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_LINK_1" equiv-text="&lt;a                   href=&quot;https://medium.com/maptio&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/> our blog <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
+        <target state="translated">Lies unseren <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                   href=&quot;https://fieldmapping.org/&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/> Maptio-Leitfaden für Initiative Mapping  <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>and<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_LINK_1" equiv-text="&lt;a                   href=&quot;https://medium.com/maptio&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/> und unseren Blog<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/login/pages/logout/logout.page.html</context>
           <context context-type="linenumber">63,78</context>
@@ -463,6 +495,7 @@
       </trans-unit>
       <trans-unit id="e5729085d4fb2b5e21bc51533626a0b2bb94717a" datatype="html">
         <source>Complete your profile</source>
+        <target state="translated">Profil vervollständigen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/login/pages/sign-up/signup.page.html</context>
           <context context-type="linenumber">3</context>
@@ -556,6 +589,7 @@
       </trans-unit>
       <trans-unit id="cancel" datatype="html">
         <source>Cancel</source>
+        <target state="translated">Abbrechen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">130</context>
@@ -630,6 +664,7 @@
       </trans-unit>
       <trans-unit id="b91352f498f676f155f3eceb5276e804acd6abf9" datatype="html">
         <source>Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?</source>
+        <target state="translated">Ungespeichterte Änderungen gehen beim Abrrechen verloren. Das kann nicht rückgängig gemacht werden. Bist du sicher?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">143,144</context>
@@ -637,6 +672,7 @@
       </trans-unit>
       <trans-unit id="confirm" datatype="html">
         <source>Confirm</source>
+        <target state="translated">Bestätigen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">150</context>
@@ -704,6 +740,7 @@
       </trans-unit>
       <trans-unit id="c262f34a209882563a3553ea4d25f3754b4dcd12" datatype="html">
         <source>Change email</source>
+        <target state="translated">Emailadresse ändern</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">203,204</context>
@@ -711,6 +748,7 @@
       </trans-unit>
       <trans-unit id="02da17e07b1248682bddc198e81c92395c938bc0" datatype="html">
         <source>Add existing user</source>
+        <target state="translated">Bestehende/n Benützer/in hinzufügen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">212,213</context>
@@ -767,6 +805,7 @@
       </trans-unit>
       <trans-unit id="1374576901432673248" datatype="html">
         <source>Can't create <x id="PH" equiv-text="this.email"/> : <x id="PH_1" equiv-text="reason"/></source>
+        <target state="translated"><x id="PH" equiv-text="this.email"/> : <x id="PH_1" equiv-text="reason"/> kann nicht erstellt werden.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">232</context>
@@ -781,6 +820,7 @@
       </trans-unit>
       <trans-unit id="4439374930555787286" datatype="html">
         <source>Cannot update profile information, please try again later or contact us.</source>
+        <target state="translated">Profildaten können nicht  aktualisert werden. Bitte versuche es später nochmal oder kontaktiere uns.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">308,309</context>
@@ -869,6 +909,7 @@
       </trans-unit>
       <trans-unit id="65c6e1e678ff0e46ca52f87f8e7278794515f4fe" datatype="html">
         <source>Active</source>
+        <target state="translated">Aktiv</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
           <context context-type="linenumber">96,97</context>
@@ -950,6 +991,7 @@
       </trans-unit>
       <trans-unit id="b14db5263df73ac08abb85c8e7d7e4c5d76b5ee7" datatype="html">
         <source>Access your invoices and billing information or cancel your subscription</source>
+        <target state="translated">Zugang zu Rechnungen und Rechnungsinformationen sowie Abonnement-Stornierung</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-billing/billing.component.html</context>
           <context context-type="linenumber">20,22</context>
@@ -957,6 +999,7 @@
       </trans-unit>
       <trans-unit id="dfa181fe26ea73f3d74a51f6e70350ea87118cb0" datatype="html">
         <source>Billing portal</source>
+        <target state="translated">Rechnungs-Portal</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-billing/billing.component.html</context>
           <context context-type="linenumber">29,30</context>
@@ -964,6 +1007,7 @@
       </trans-unit>
       <trans-unit id="c5a788882b1c45a1d293a6586c308f5436e6120b" datatype="html">
         <source>Available plans</source>
+        <target state="translated">Verfügbare Abonnements</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-billing/billing.component.html</context>
           <context context-type="linenumber">36</context>
@@ -999,6 +1043,7 @@
       </trans-unit>
       <trans-unit id="67f7e08d5c7afb61f41f5404c1e1c12508370c8d" datatype="html">
         <source>Choose file</source>
+        <target state="translated">Datei auswählen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
           <context context-type="linenumber">25,26</context>
@@ -1083,6 +1128,7 @@
       </trans-unit>
       <trans-unit id="b3d607884d15c18970fd267a97cdfcdb4e0f7fec" datatype="html">
         <source>Contact <x id="START_LINK" ctype="x-a" equiv-text="&lt;a     href=&quot;mailto:support@maptio.com?subject=I want to integrate another system with Maptio&quot;     class=&quot;alert-link&quot;     target=&quot;_blank&quot;   &gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> if you require an integration with another system.</source>
+        <target state="translated">Kontaktiere <x id="START_LINK" ctype="x-a" equiv-text="&lt;a     href=&quot;mailto:support@maptio.com?subject=I want to integrate another system with Maptio&quot;     class=&quot;alert-link&quot;     target=&quot;_blank&quot;   &gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> wenn du eine Integrierung in ein anderes System benötigst.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-integrations/integrations.component.html</context>
           <context context-type="linenumber">2,11</context>
@@ -1090,6 +1136,7 @@
       </trans-unit>
       <trans-unit id="51b83066307f3328d65c6bbcba245aa1baa7224b" datatype="html">
         <source>Add people</source>
+        <target state="translated">Personen hinzufügen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-members/members.component.html</context>
           <context context-type="linenumber">8</context>
@@ -1165,6 +1212,7 @@
       </trans-unit>
       <trans-unit id="onboarding-terminology-5" datatype="html">
         <source>And what do you call others contributing to an circle? e.g. Contributor, Helper, Role-holder, Sub-source.</source>
+        <target state="translated">Und wie bezeichnest du andere Personen, die an einem Kreis beteiligt sind? z.B. Beitragende/r, Helfer/in, Rollen-Inhaber/in, Sub-source.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-settings/settings.component.html</context>
           <context context-type="linenumber">84,86</context>
@@ -1197,6 +1245,7 @@
       </trans-unit>
       <trans-unit id="people" datatype="html">
         <source>People</source>
+        <target state="translated">Personen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-single/team.component.html</context>
           <context context-type="linenumber">25</context>
@@ -1248,6 +1297,7 @@
       </trans-unit>
       <trans-unit id="billing" datatype="html">
         <source>Billing</source>
+        <target state="translated">Rechnungen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-single/team.component.html</context>
           <context context-type="linenumber">99</context>
@@ -1266,6 +1316,7 @@
       </trans-unit>
       <trans-unit id="circles" datatype="html">
         <source>Circles</source>
+        <target state="translated">Kreise</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/canvas/mapping.component.html</context>
           <context context-type="linenumber">7</context>
@@ -1339,6 +1390,7 @@
       </trans-unit>
       <trans-unit id="directory" datatype="html">
         <source>Directory</source>
+        <target state="translated">Verzeichnis</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/canvas/mapping.component.html</context>
           <context context-type="linenumber">133</context>
@@ -1383,6 +1435,7 @@
       </trans-unit>
       <trans-unit id="colors" datatype="html">
         <source>Colors</source>
+        <target state="translated">Farben</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/canvas/mapping.component.html</context>
           <context context-type="linenumber">217</context>
@@ -1401,6 +1454,7 @@
       </trans-unit>
       <trans-unit id="addNewTeamMember" datatype="html">
         <source>Add a new team member</source>
+        <target state="translated">neues Teammitglied hinzufügen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/authority/authority-select.component.html</context>
           <context context-type="linenumber">14</context>
@@ -1437,6 +1491,7 @@
       </trans-unit>
       <trans-unit id="f4d619c2e0bf4bbdd86abde2885555f5453f3901" datatype="html">
         <source>Circle description</source>
+        <target state="translated">Kreis-Beschreibung</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/description/description-textarea.component.html</context>
           <context context-type="linenumber">3</context>
@@ -1444,6 +1499,7 @@
       </trans-unit>
       <trans-unit id="fd5b214b0d15d84c9e173db5be9788b67c568159" datatype="html">
         <source>Describe this circle. You can also include links to other documents and tools used by this circle.</source>
+        <target state="translated">Beschreibe diesen Kreis. Du kannst auch Links zu anderen Dokumenten oder Tools welche von diesem Kreis benützt werden hinzufügen.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/description/description-textarea.component.html</context>
           <context context-type="linenumber">5</context>
@@ -1465,6 +1521,7 @@
       </trans-unit>
       <trans-unit id="addRole" datatype="html">
         <source>Add role</source>
+        <target state="translated">Rolle hinzufügen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-input.component.html</context>
           <context context-type="linenumber">67</context>
@@ -1536,6 +1593,7 @@
       </trans-unit>
       <trans-unit id="45d27ec360675e8ebbf4a97b43edd702946b4637" datatype="html">
         <source>Convert to custom role</source>
+        <target state="translated">in massgeschneiderte Rolle umwandeln</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
           <context context-type="linenumber">94,95</context>
@@ -1543,6 +1601,7 @@
       </trans-unit>
       <trans-unit id="b9fe58b6f6faf64df99937e14eae9fb4278ad9bc" datatype="html">
         <source>Custom role for this <x id="ICU" equiv-text="{isVacancy, select, true {vacancy} false           {person}}"/>}</source>
+        <target state="needs-translation">Massgeschneiderte Rolle für <x id="ICU" equiv-text="{isVacancy, select, true {vacancy} false           {person}}"/>}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
           <context context-type="linenumber">97,99</context>
@@ -1557,6 +1616,7 @@
       </trans-unit>
       <trans-unit id="f6089c8ba7cdbc0dd0e3b219052adaa405686d40" datatype="html">
         <source>Edit role for ALL holders</source>
+        <target state="translated">Rolle für ALLE Rollen-InhaberInnen bearbeiten</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
           <context context-type="linenumber">120,121</context>
@@ -1564,6 +1624,7 @@
       </trans-unit>
       <trans-unit id="f81024eb208ff4fd05e10270b811e5cfa1a61d24" datatype="html">
         <source>Add to role library</source>
+        <target state="translated">zum Rollenverzeichnis hinzufügen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
           <context context-type="linenumber">123,124</context>
@@ -1571,6 +1632,7 @@
       </trans-unit>
       <trans-unit id="2a3a1ef127e310dcb533d323477e65b447871788" datatype="html">
         <source>Delete this role</source>
+        <target state="translated">Diese Rolle löschen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
           <context context-type="linenumber">180,181</context>
@@ -1578,6 +1640,7 @@
       </trans-unit>
       <trans-unit id="createNewRole" datatype="html">
         <source>Create new role</source>
+        <target state="translated">Neue Rolle erstellen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-select.component.html</context>
           <context context-type="linenumber">3</context>
@@ -1603,6 +1666,7 @@
       </trans-unit>
       <trans-unit id="e06e3125d4515cc3ce38cb64a9f4980058a1cdf2" datatype="html">
         <source>Add yourself as a <x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/></source>
+        <target state="translated">Dich selbst als  <x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/> hinzufügen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
           <context context-type="linenumber">44,46</context>
@@ -1631,6 +1695,7 @@
       </trans-unit>
       <trans-unit id="bf0e79ba75833b96f3c5746fce06bff842b7549b" datatype="html">
         <source>Add role vacancy</source>
+        <target state="translated">unbesetzte Rolle hinzufügen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/vacancies-input.component.html</context>
           <context context-type="linenumber">39,40</context>
@@ -1645,6 +1710,7 @@
       </trans-unit>
       <trans-unit id="8d2b3afabe95d8ae871a5b2834c7bc22deba99c3" datatype="html">
         <source>Circle name</source>
+        <target state="translated">Kreis-Bezeichnung</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/name/initiative-input-name.component.html</context>
           <context context-type="linenumber">3</context>
@@ -1652,6 +1718,7 @@
       </trans-unit>
       <trans-unit id="c7f64471e67996ede90d681e231bcb6c07472218" datatype="html">
         <source>Circle size adjustment</source>
+        <target state="translated">Kreisgrösse anpassen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/size/input-size.component.html</context>
           <context context-type="linenumber">12,13</context>
@@ -1659,6 +1726,7 @@
       </trans-unit>
       <trans-unit id="96b65d780ac75f62ca2a1ea80b8d1bd1a8a13926" datatype="html">
         <source>Default size</source>
+        <target state="translated">Standardgröße</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/size/input-size.component.html</context>
           <context context-type="linenumber">45,46</context>
@@ -1691,6 +1759,7 @@
       </trans-unit>
       <trans-unit id="editTags" datatype="html">
         <source>Edit tags</source>
+        <target state="translated">Markierungen bearbeiten</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/tags/list-tags.component.html</context>
           <context context-type="linenumber">49</context>
@@ -1698,6 +1767,7 @@
       </trans-unit>
       <trans-unit id="26a80b49cfc3bc6ede26e383248f267996471831" datatype="html">
         <source>Edit your circle structure here. Try clicking Expand All.</source>
+        <target state="translated">Bearbeite deine Kreis-Struktur hier. Versuche es mit 'Alle</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
           <context context-type="linenumber">3,4</context>
@@ -1719,6 +1789,7 @@
       </trans-unit>
       <trans-unit id="d3d1ca51b0e4ae86727b1c0848e377dfeeb823c2" datatype="html">
         <source>Add a new circle</source>
+        <target state="translated">neuen Kreis hinzufügen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
           <context context-type="linenumber">67</context>
@@ -1737,6 +1808,7 @@
       </trans-unit>
       <trans-unit id="areYouSure" datatype="html">
         <source>Are you sure?</source>
+        <target state="translated">Bist du sicher?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
           <context context-type="linenumber">146</context>
@@ -1755,6 +1827,7 @@
       </trans-unit>
       <trans-unit id="6b3a6c8d7c361e6f48e91b986e36949103788c83" datatype="html">
         <source>Circle <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION" equiv-text="{{ initiativeToBeDeleted.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/> will be deleted <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>along with its sub-circles<x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/> .</source>
+        <target state="translated">Kreis <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION" equiv-text="{{ initiativeToBeDeleted.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/> sowie alle darin inkludierten Kreise werden gelöscht.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
           <context context-type="linenumber">154,159</context>
@@ -1762,6 +1835,7 @@
       </trans-unit>
       <trans-unit id="22e01988fcd926ca481264cb6f7912e73e307512" datatype="html">
         <source>Delete circle</source>
+        <target state="translated">Kreis löschen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
           <context context-type="linenumber">167,168</context>
@@ -1769,6 +1843,7 @@
       </trans-unit>
       <trans-unit id="c5cbd010562e72dd4d77fe5c16d8673a49500458" datatype="html">
         <source>Circle <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION" equiv-text="{{ fromInitiative.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/> and its sub-circles will be moved under <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION_1" equiv-text="{{ toInitiative.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/></source>
+        <target state="translated">Kreis<x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION" equiv-text="{{ fromInitiative.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/>  und alle darin inkludierten Kreise werden<x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION_1" equiv-text="{{ toInitiative.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/>untergeordnet</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
           <context context-type="linenumber">176,179</context>
@@ -1790,6 +1865,7 @@
       </trans-unit>
       <trans-unit id="36e2ff22d988436abcc7d71df301784919a52cb2" datatype="html">
         <source>Add sub-circle</source>
+        <target state="translated">untergeordneten Kreis hinzufügen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/node/initiative.node.component.html</context>
           <context context-type="linenumber">62</context>
@@ -1804,6 +1880,7 @@
       </trans-unit>
       <trans-unit id="9560c13542ade1c84f46a8f8d156a1f6e1444403" datatype="html">
         <source>Create a new tag</source>
+        <target state="translated">Neue Markierung erstellen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/tags/edit-tags.component.html</context>
           <context context-type="linenumber">16</context>
@@ -1818,6 +1895,7 @@
       </trans-unit>
       <trans-unit id="editMap" datatype="html">
         <source>Edit map</source>
+        <target state="translated">Diagramm bearbeiten</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
           <context context-type="linenumber">37</context>
@@ -1825,6 +1903,7 @@
       </trans-unit>
       <trans-unit id="edit" datatype="html">
         <source>Edit</source>
+        <target state="translated">bearbeiten</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/autocomplete/autocomplete.component.html</context>
           <context context-type="linenumber">55</context>
@@ -1836,6 +1915,7 @@
       </trans-unit>
       <trans-unit id="createnewmap" datatype="html">
         <source>Create a new map</source>
+        <target state="translated">Neues Diagramm erstellen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
           <context context-type="linenumber">15,16</context>
@@ -1861,6 +1941,7 @@
       </trans-unit>
       <trans-unit id="donthaveorganisation" datatype="html">
         <source>Don't have a organisation?</source>
+        <target state="translated">Hast du keine Organisation?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
           <context context-type="linenumber">59,60</context>
@@ -1872,6 +1953,7 @@
       </trans-unit>
       <trans-unit id="create" datatype="html">
         <source>Create</source>
+        <target state="translated">Erstellen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
           <context context-type="linenumber">70,71</context>
@@ -1890,6 +1972,7 @@
       </trans-unit>
       <trans-unit id="87f9ba6e48fde91ad3e76adda599d865d431a1fa" datatype="html">
         <source>Demo</source>
+        <target state="translated">Demo</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
           <context context-type="linenumber">13,14</context>
@@ -1946,6 +2029,7 @@
       </trans-unit>
       <trans-unit id="ef8436f2c3017dace82558d39ac8d6cd2586f518" datatype="html">
         <source>Edit name</source>
+        <target state="translated">Bezeichnung bearbeiten</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
           <context context-type="linenumber">175</context>
@@ -1953,6 +2037,7 @@
       </trans-unit>
       <trans-unit id="copy" datatype="html">
         <source>Copy</source>
+        <target state="translated">Kopieren</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
           <context context-type="linenumber">187,188</context>
@@ -1960,6 +2045,7 @@
       </trans-unit>
       <trans-unit id="ad2135d6f8392ec1a05c6601128e3f01218689bf" datatype="html">
         <source>Copying</source>
+        <target state="translated">Kopieren im Gange</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
           <context context-type="linenumber">190,191</context>
@@ -1967,6 +2053,7 @@
       </trans-unit>
       <trans-unit id="22c9be90eb27c5c613348fbb621792223afe5d1b" datatype="html">
         <source>Archive</source>
+        <target state="translated">Archiv</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
           <context context-type="linenumber">218</context>
@@ -1995,6 +2082,7 @@
       </trans-unit>
       <trans-unit id="7be556e581ded78c3e1385099fee326accaa0a34" datatype="html">
         <source>Choose image</source>
+        <target state="translated">Bild auswählen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/image-upload/image-upload.component.html</context>
           <context context-type="linenumber">30</context>
@@ -2081,6 +2169,7 @@
       </trans-unit>
       <trans-unit id="onboarding-consent-1" datatype="html">
         <source>Could you help us improve Maptio?</source>
+        <target state="translated">Könntest du uns helfen Maptio zu verbessern?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
           <context context-type="linenumber">154,155</context>
@@ -2173,6 +2262,7 @@
       </trans-unit>
       <trans-unit id="3761093640207195064" datatype="html">
         <source>Creating your map</source>
+        <target state="translated">Neues Diagramm wird erstellt</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.ts</context>
           <context context-type="linenumber">123</context>
@@ -2191,6 +2281,7 @@
       </trans-unit>
       <trans-unit id="8890553633144307762" datatype="html">
         <source>Back</source>
+        <target state="translated">zurück</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.ts</context>
           <context context-type="linenumber">222</context>
@@ -2222,6 +2313,118 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/model/team.data.ts</context>
           <context context-type="linenumber">155</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="disable" datatype="html">
+        <source>Disable</source>
+        <target state="translated">Ausschalten</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/sharing/sharing.component.html</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="323b4ad36e428082e635e20756a02ac6d1cf341a" datatype="html">
+        <source>Add new person</source>
+        <target state="translated">Neue Person hinzufügen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/people.component.html</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="chooseYourPlan" datatype="html">
+        <source>Choose your plan</source>
+        <target state="translated">Wähle dein Abonnement aus</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">9,10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">15,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="contactUs" datatype="html">
+        <source>Contact us</source>
+        <target state="translated">Kontakt</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/payment-plan.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/payment-plan.component.html</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="beb13b8cf46197116e7cfc1d65c7c20b9dc9b43a" datatype="html">
+        <source>Annual billing</source>
+        <target state="translated">Jährliche Abrechnung</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="02f64e0dada8db77cf246b82054d1a7d81557567" datatype="html">
+        <source>1 - 12 people</source>
+        <target state="translated">1 - 12 Personen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a1701a60ba8fe1e302b632bf9f04cf86a6450ad2" datatype="html">
+        <source>13 - 35 people</source>
+        <target state="translated">13 - 35 Personen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6695dcc9f3e85f97fc1b47b4e353875a20f7c543" datatype="html">
+        <source>200+ people</source>
+        <target state="translated">200+ Personen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">120</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d207d07b14a509f32cc198bdcf1dec65ce3c05ba" datatype="html">
+        <source>36 - 200 people</source>
+        <target state="translated">36 - 200 Personen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">104</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1d13cd52e7cd00d13b2e10f9f6d48dc032738f38" datatype="html">
+        <source>Add new role</source>
+        <target state="translated">neue Rolle hinzufügen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/roles.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4c4b4d4ce0ca2ccf0782dbc9f15a948b16bf37e2" datatype="html">
+        <source>Connect all contributors</source>
+        <target state="translated">Alle Beitragenden verbinden</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/network/mapping.network.component.html</context>
+          <context context-type="linenumber">83,84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6a685f23295e559be5ed8164dcf6fc14e1154d2f" datatype="html">
+        <source>Connect leads and contributors</source>
+        <target state="translated">Leads und Beitragende verbinden</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/network/mapping.network.component.html</context>
+          <context context-type="linenumber">66,67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9d27d4f27b5aaef466a1168019027952abd5cbe5" datatype="html">
+        <source>Click <x id="START_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;ng-container       *permissionsOnly=&quot;         Permissions.canCreateRootInitiative;         else plusButtonDisabled;         then: plusButton       &quot;     &gt;"/><x id="CLOSE_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;/ng-container&gt;"/> to create your first circle</source>
+        <target state="translated">Klicke auf <x id="START_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;ng-container       *permissionsOnly=&quot;         Permissions.canCreateRootInitiative;         else plusButtonDisabled;         then: plusButton       &quot;     &gt;"/><x id="CLOSE_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;/ng-container&gt;"/> um deinen ersten Kreis zu erstellen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/canvas/mapping.component.html</context>
+          <context context-type="linenumber">304,316</context>
         </context-group>
       </trans-unit>
     </body>
