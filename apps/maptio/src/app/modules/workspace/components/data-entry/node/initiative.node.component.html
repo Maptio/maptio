@@ -1,27 +1,5 @@
-<ng-template #dragAndDropTipContent>
-  <span class="">
-    You don't have permission to drag-and-drop.
-    <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
-  </span>
-</ng-template>
-<ng-template #createTipContent>
-  <span class="text-orange">
-    You don't have permission to add this.
-    <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
-  </span>
-</ng-template>
-<ng-template #editTipContent>
-  <span class="text-orange">
-    You don't have permission to edit this.
-    <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
-  </span>
-  You don't have permission to edit this.
-</ng-template>
-<ng-template #deleteTipContent>
-  <span class="text-orange">
-    You don't have permission to delete this.
-    <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
-  </span>
+<ng-template #insufficientPermissionsTipContent>
+  <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
 </ng-template>
 
 <ng-template #nodeEditing>
@@ -96,7 +74,7 @@
         <button
           class="btn add border border-left-0 border-right-0 btn-outline-secondary disabled cursor-not-allowed"
           placement="top"
-          [stickyPopover]="createTipContent"
+          [stickyPopover]="insufficientPermissionsTipContent"
           container="body"
         ></button>
       </ng-template>
@@ -129,7 +107,7 @@
         <button
           class="btn remove border border-left-0 btn-outline-secondary disabled cursor-not-allowed"
           placement="top"
-          [stickyPopover]="deleteTipContent"
+          [stickyPopover]="insufficientPermissionsTipContent"
         ></button>
       </ng-template>
     </ng-container>
