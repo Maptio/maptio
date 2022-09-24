@@ -35,6 +35,10 @@ export class LanguagePickerComponent {
 
     // Forcing a reload (bypassing Angular router) to reload index file
     // corresponding to the selected locale
+    console.log(
+      'Setting window location href to:',
+      '/' + locale.code + this.location.path()
+    );
     window.location.href = '/' + locale.code + this.location.path();
   }
 }
