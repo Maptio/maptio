@@ -142,10 +142,16 @@
       placement="top"
       container="body"
       mwlConfirmationPopover
-      [popoverTitle]="'Warning'"
-      [popoverMessage]="
-        'Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?'
+      popoverTitle="Warning"
+      popoverMessage="
+        Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?
       "
+      i18n-popoverTitle="@@warning"
+      i18n-popoverMessage
+      confirmText="Confirm"
+      cancelText="Cancel"
+      i18n-confirmText="@@confirm"
+      i18n-cancelText="@@cancel"
       (confirm)="onCancel()"
       focusbutton="cancel"
       appendToBody="false"
@@ -168,13 +174,20 @@
       placement="top"
       container="body"
       mwlConfirmationPopover
-      [popoverTitle]="'Warning'"
-      [popoverMessage]="
-        'This will remove the role from ALL holders in the organisation and delete it from the list of roles. This cannot be undone. Are you sure?'
+      popoverTitle="Warning"
+      popoverMessage="
+        This will remove the role from ALL holders in the organisation and delete it from the list of roles. This cannot be undone. Are you sure?
       "
       (confirm)="onDelete()"
       focusbutton="cancel"
       appendToBody="false"
+      i18n-popoverTitle="@@warning"
+      i18n-popoverMessage="@@libraryRoleDeletionWarning"
+      confirmText="Confirm"
+      cancelText="Cancel"
+      i18n-confirmText="@@confirm"
+      i18n-cancelText="@@cancel"
+      (confirm)="onCancel()"
       i18n
     >
       Delete this role

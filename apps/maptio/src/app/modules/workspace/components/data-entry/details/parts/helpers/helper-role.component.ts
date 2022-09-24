@@ -48,12 +48,12 @@ export class InitiativeHelperRoleComponent {
 
   getRemoveWarning() {
     if (this.isDirectoryView) {
-      return (
-        'This will remove the role from ALL holders in the organisation and delete it ' +
-        'from the list of roles. This cannot be undone. Are you sure?'
-      );
+      return $localize`:@@libraryRoleDeletionWarning:
+        This will remove the role from ALL holders in the organisation and delete it
+        from the list of roles. This cannot be undone. Are you sure?
+      `;
     } else {
-      return 'Remove role? (This does not affect other holders of this role)';
+      return $localize`Remove role? (This does not affect other holders of this role)`;
     }
   }
 

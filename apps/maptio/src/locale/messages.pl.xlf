@@ -449,14 +449,6 @@
           <context context-type="linenumber">265,266</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="a8059e31694578c1b0344a76a345357dd60e8f01" datatype="html">
-        <source>Warning</source>
-        <target>Uwaga</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
-          <context context-type="linenumber">142</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="b91352f498f676f155f3eceb5276e804acd6abf9" datatype="html">
         <source>        Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?
      </source>
@@ -2829,6 +2821,50 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/canvas/mapping.component.html</context>
           <context context-type="linenumber">304,316</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a5100bb1a0fb096041ae10c0cbe550da25b05fb4" datatype="html">
+        <source>This cannot be undone! This tag will be removed from all circles.</source>
+        <target state="translated">Tego nie da się cofnąć! Ten tag zostanie usunięty ze wszystkich kół.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/tags/edit-tags.component.html</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5047085096747693670" datatype="html">
+        <source>Remove role? (This does not affect other holders of this role)</source>
+        <target state="translated">Usunąć rolę? (Nie ma to wpływu na innych posiadaczy tej roli)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role.component.ts</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="libraryRoleDeletionWarning" datatype="html">
+        <source>This will remove the role from ALL holders in the organisation and delete it from the list of roles. This cannot be undone. Are you sure?</source>
+        <target state="translated">Spowoduje to usunięcie roli ze WSZYSTKICH posiadaczy w organizacji i usunięcie jej z listy ról. Nie można tego cofnąć. Czy jesteś pewien?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
+          <context context-type="linenumber">179,180</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role.component.ts</context>
+          <context context-type="linenumber">51,54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="warning" datatype="html">
+        <source>Warning</source>
+        <target state="translated">Uwaga</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
+          <context context-type="linenumber">141</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
+          <context context-type="linenumber">145</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
+          <context context-type="linenumber">177</context>
         </context-group>
       </trans-unit>
     </body>

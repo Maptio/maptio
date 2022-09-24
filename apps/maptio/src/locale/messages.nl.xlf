@@ -663,13 +663,6 @@
           <context context-type="linenumber">258</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="a8059e31694578c1b0344a76a345357dd60e8f01" datatype="html">
-        <source>Warning</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
-          <context context-type="linenumber">141</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="b91352f498f676f155f3eceb5276e804acd6abf9" datatype="html">
         <source>Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?</source>
         <context-group purpose="location">
@@ -1743,6 +1736,7 @@
       </trans-unit>
       <trans-unit id="f81024eb208ff4fd05e10270b811e5cfa1a61d24" datatype="html">
         <source>Add to role library</source>
+        <target state="translated">Toevoegen aan rolbibliotheek</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
           <context context-type="linenumber">123,124</context>
@@ -1782,6 +1776,7 @@
       </trans-unit>
       <trans-unit id="e06e3125d4515cc3ce38cb64a9f4980058a1cdf2" datatype="html">
         <source>Add yourself as a <x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/></source>
+        <target state="translated">Voeg jezelf toe als <x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
           <context context-type="linenumber">44,46</context>
@@ -1789,6 +1784,7 @@
       </trans-unit>
       <trans-unit id="ffe603040e6f27e1fbbfbcb7f26f81a9ee0c9df3" datatype="html">
         <source>Add <x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/></source>
+        <target state="needs-translation">Voeg <x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/> toe</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
           <context context-type="linenumber">63,65</context>
@@ -1814,6 +1810,7 @@
       </trans-unit>
       <trans-unit id="bf0e79ba75833b96f3c5746fce06bff842b7549b" datatype="html">
         <source>Add role vacancy</source>
+        <target state="translated">Vacature toevoegen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/vacancies-input.component.html</context>
           <context context-type="linenumber">39,40</context>
@@ -1974,6 +1971,7 @@
       </trans-unit>
       <trans-unit id="36e2ff22d988436abcc7d71df301784919a52cb2" datatype="html">
         <source>Add sub-circle</source>
+        <target state="translated">Subcirkel toevoegen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/node/initiative.node.component.html</context>
           <context context-type="linenumber">62</context>
