@@ -28,13 +28,22 @@ export class LanguagePickerComponent {
   }
 
   onLanguageSelection(locale: Locale) {
+    // TODO: REMOVE ME!
+    console.log('onLanguageSelection', locale);
+
     // Setting a cookie to enable the server to set the correct locale
     // immediately when the user navigates to maptio.com without adding the
     // locale to the URL
+    // TODO: REMOVE ME!
     this.cookieService.set('locale', locale.code);
+    console.log(
+      'Setting locale cookie to:',
+      '/' + locale.code + this.location.path()
+    );
 
     // Forcing a reload (bypassing Angular router) to reload index file
     // corresponding to the selected locale
+    // TODO: REMOVE ME!
     console.log(
       'Setting window location href to:',
       '/' + locale.code + this.location.path()
