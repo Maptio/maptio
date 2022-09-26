@@ -1323,14 +1323,6 @@
           <context context-type="linenumber">44</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="22e01988fcd926ca481264cb6f7912e73e307512" datatype="html">
-        <source>Delete circle</source>
-        <target state="translated">Usuń koło</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
-          <context context-type="linenumber">180,181</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="newOuterCircle" datatype="html">
         <source>New outer circle</source>
         <target state="translated">Nowe główne koło</target>
@@ -2877,7 +2869,7 @@
       </trans-unit>
       <trans-unit id="1668635020691942344" datatype="html">
         <source>Example tag</source>
-        <target state="needs-translation">Przykładowy tag</target>
+        <target state="translated">Przykładowy tag</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/model/tag.data.ts</context>
           <context context-type="linenumber">54</context>
@@ -2885,10 +2877,62 @@
       </trans-unit>
       <trans-unit id="1317905107706090913" datatype="html">
         <source>One more tag</source>
-        <target state="needs-translation">Jeszcze jeden tag</target>
+        <target state="translated">Jeszcze jeden tag</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/model/tag.data.ts</context>
           <context context-type="linenumber">64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="39665ca29f333f6c22cd0e5c4c32b9de84d25f72" datatype="html">
+        <source>Add circle and edit details</source>
+        <target state="translated">Dodaj i edytuj koło</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/context-menu/context-menu.component.html</context>
+          <context context-type="linenumber">73,74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8104feb61691b7534c05113fb2a13e40c60b82d2" datatype="html">
+        <source>Edit circle details</source>
+        <target state="translated">Edytuj szczegóły koła</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/context-menu/context-menu.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4d598b77e62f74232b1366e9e46561ad56e2510f" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ initiative.accountable.name }}"/>'s summary</source>
+        <target state="translated">Podsumowanie dla: <x id="INTERPOLATION" equiv-text="{{ initiative.accountable.name }}"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/context-menu/context-menu.component.html</context>
+          <context context-type="linenumber">27,29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8ab5c5d7148fa401898fefbaca3bc90f0fe779b5" datatype="html">
+        <source>Add circle</source>
+        <target state="translated">Dodaj koło</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/context-menu/context-menu.component.html</context>
+          <context context-type="linenumber">80,81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="deleteCircle" datatype="html">
+        <source>Delete circle</source>
+        <target state="translated">Usuń koło</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/context-menu/context-menu.component.html</context>
+          <context context-type="linenumber">105,106</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
+          <context context-type="linenumber">172,173</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3902018b39a6c37d185f911f85c740c474e435dc" datatype="html">
+        <source>Create sub-circle</source>
+        <target state="translated">Dodaj podkoło</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/context-menu/context-menu.component.html</context>
+          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
     </body>
