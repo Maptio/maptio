@@ -98,10 +98,10 @@ export class CoreModule {
       // Ensure that the first breadcrumb always points to home
       let processedBreadcrumbs = breadcrumbs;
 
-      if (breadcrumbs.length && breadcrumbs[0].text !== 'Home') {
+      if (breadcrumbs.length && breadcrumbs[0].text !== $localize`:@@home:Home`) {
         processedBreadcrumbs = [
           {
-            text: 'Home',
+            text: $localize`:@@home:Home`,
             path: '',
           },
         ].concat(breadcrumbs);

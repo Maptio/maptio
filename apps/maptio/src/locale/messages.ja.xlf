@@ -171,13 +171,6 @@
           <context context-type="linenumber">207</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="bf3cae65277c5ea4caa6b76b40c1d57e7782b199" datatype="html">
-        <source>Organisations</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">155,156</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="a3a1d87649a0bcfe77259b11af7621e6f2c25912" datatype="html">
         <source>More ...</source>
         <context-group purpose="location">
