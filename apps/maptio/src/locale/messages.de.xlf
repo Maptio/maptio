@@ -44,7 +44,7 @@
       </trans-unit>
       <trans-unit id="debeb99cab8e5e01339f329a38a6df134955c6f4" datatype="html">
         <source>You will be redirected to the <x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>homepage<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> in <x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> seconds.</source>
-        <target state="needs-translation">Du wirst in  <x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> Sekunden zur <x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>homepage<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/>umgeleitet.</target>
+        <target state="needs-translation">Du wirst in <x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> Sekunden zur <x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>homepage<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/>umgeleitet.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
           <context context-type="linenumber">33,36</context>
@@ -52,7 +52,7 @@
       </trans-unit>
       <trans-unit id="45f033b4ba61d8393d5f7b1f2372aa8d74ca4e5f" datatype="html">
         <source>Chat with us or email us at <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Support request&quot;&gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> if the issue persists.</source>
-        <target state="translated">Unterhalte dich mit uns oder schicke uns eine Email an <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Support request&quot;&gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/>  falls das Problem weiterhin besteht.</target>
+        <target state="translated">Unterhalte dich mit uns oder schicke uns eine Email an <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Support request&quot;&gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> falls das Problem weiterhin besteht.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
           <context context-type="linenumber">43,48</context>
@@ -479,7 +479,7 @@
       </trans-unit>
       <trans-unit id="ba9727a61f22a5e1c94c954c2925b8bab61bc536" datatype="html">
         <source>Check out <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                   href=&quot;https://fieldmapping.org/&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/> the Maptio guide to initiative mapping <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>and<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_LINK_1" equiv-text="&lt;a                   href=&quot;https://medium.com/maptio&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/> our blog <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
-        <target state="translated">Lies unseren <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                   href=&quot;https://fieldmapping.org/&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/> Maptio-Leitfaden für Initiative Mapping  <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>and<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_LINK_1" equiv-text="&lt;a                   href=&quot;https://medium.com/maptio&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/> und unseren Blog<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
+        <target state="translated">Lies unseren <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                   href=&quot;https://fieldmapping.org/&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/> Maptio-Leitfaden für Initiative Mapping <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>and<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_LINK_1" equiv-text="&lt;a                   href=&quot;https://medium.com/maptio&quot;                   target=&quot;blank&quot;                   class=&quot;text-blue&quot;                 &gt;"/> und unseren Blog<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/login/pages/logout/logout.page.html</context>
           <context context-type="linenumber">63,78</context>
@@ -805,7 +805,7 @@
       </trans-unit>
       <trans-unit id="4439374930555787286" datatype="html">
         <source>Cannot update profile information, please try again later or contact us.</source>
-        <target state="translated">Profildaten können nicht  aktualisert werden. Bitte versuche es später nochmal oder kontaktiere uns.</target>
+        <target state="translated">Profildaten können nicht aktualisert werden. Bitte versuche es später nochmal oder kontaktiere uns.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">308,309</context>
@@ -1651,7 +1651,7 @@
       </trans-unit>
       <trans-unit id="e06e3125d4515cc3ce38cb64a9f4980058a1cdf2" datatype="html">
         <source>Add yourself as a <x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/></source>
-        <target state="translated">Dich selbst als  <x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/> hinzufügen</target>
+        <target state="translated">Dich selbst als <x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/> hinzufügen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
           <context context-type="linenumber">44,46</context>
@@ -1820,7 +1820,7 @@
       </trans-unit>
       <trans-unit id="c5cbd010562e72dd4d77fe5c16d8673a49500458" datatype="html">
         <source>Circle <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION" equiv-text="{{ fromInitiative.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/> and its sub-circles will be moved under <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION_1" equiv-text="{{ toInitiative.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/></source>
-        <target state="translated">Kreis<x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION" equiv-text="{{ fromInitiative.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/>  und alle darin inkludierten Kreise werden<x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION_1" equiv-text="{{ toInitiative.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/>untergeordnet</target>
+        <target state="translated">Kreis <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION" equiv-text="{{ fromInitiative.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/> und alle darin inkludierten Kreise werden <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION_1" equiv-text="{{ toInitiative.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/> untergeordnet</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
           <context context-type="linenumber">176,179</context>
