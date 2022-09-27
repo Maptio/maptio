@@ -305,7 +305,7 @@ export class UserService implements OnDestroy {
           return user;
         },
         (reason) => {
-          return Promise.reject(`Can't create ${email} : ${reason}`);
+          return Promise.reject($localize`Can't create ${email} : ${reason}`);
         }
       )
       .then((user: User) => {
@@ -468,7 +468,7 @@ export class UserService implements OnDestroy {
     isActivationPending?: boolean
   ): Promise<boolean> {
     if (user.email !== email && user.isInAuth0) {
-      throw new Error('Cannot update email of user already in Auth0.');
+      throw new Error($localize`Cannot update email of user already in Auth0.`);
     }
 
     user.firstname = firstname;
@@ -651,7 +651,7 @@ export class UserService implements OnDestroy {
 
       if (duplicateUsers.length > 1) {
         throw new MultipleUserDuplicationError(
-          'We found multiple duplicated users with `isInAuth0` set to `true`.'
+          $localize`We found multiple duplicated users with 'isInAuth0' set to 'true'.`
         );
       }
     }
@@ -665,9 +665,11 @@ export class UserService implements OnDestroy {
     team: Team
   ) {
     if (duplicateUsers.length > 1) {
-      throw new Error('Cannot replace user with multiple duplicates.');
+      throw new Error($localize`Cannot replace user with multiple duplicates.`);
     } else if (duplicateUsers.length === 0) {
-      throw new Error('No duplicate users found. Aborting replacing user.');
+      throw new Error(
+        $localize`No duplicate users found. Aborting replacing user.`
+      );
     }
 
     const replacementUser = duplicateUsers[0];
@@ -690,7 +692,7 @@ export class UserService implements OnDestroy {
 
     if (isAnyDatasetOutdated) {
       alert(
-        'A friendly heads-up: One or more of your maps has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before adding an existing user. Sorry for the hassle.'
+        $localize`A friendly heads-up: One or more of your maps has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before adding an existing user. Sorry for the hassle.`
       );
       return;
     }
@@ -739,7 +741,7 @@ export class UserService implements OnDestroy {
         await this.datasetFactory.upsert(dataset);
       } catch {
         throw new Error(
-          'Failed to update dataset while replacing duplicate users.'
+          $localize`Failed to update dataset while replacing duplicate users.`
         );
       }
     });

@@ -115,7 +115,7 @@ export class SharingComponent implements OnInit {
 
   private alertAboutOutdatedDataset() {
     alert(
-      'A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before changing map sharing settings. Sorry for the hassle.'
+      $localize`A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before changing map sharing settings. Sorry for the hassle.`
     );
   }
 }

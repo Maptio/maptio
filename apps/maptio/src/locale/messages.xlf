@@ -895,6 +895,10 @@
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">232</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
+          <context context-type="linenumber">308</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="4175524537305120095" datatype="html">
         <source>Updating profile information failed
@@ -2252,6 +2256,13 @@
           <context context-type="linenumber">82</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="5606780728407112283" datatype="html">
+        <source>A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before changing map sharing settings. Sorry for the hassle.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/sharing/sharing.component.ts</context>
+          <context context-type="linenumber">118</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="578a5607ad60cedf9d1eafcb2d8830269afe866e" datatype="html">
         <source>{VAR_SELECT, select, true {Hide} false {Show}}</source>
         <context-group purpose="location">
@@ -2413,11 +2424,46 @@
           <context context-type="linenumber">83,84</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="7076988670797688665" datatype="html">
+        <source>A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before changing network view settings. Sorry for the hassle.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/network/mapping.network.component.ts</context>
+          <context context-type="linenumber">619</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f5d0872d2b839ee38ea0bcf3e3c20c145594e513" datatype="html">
+        <source>Saving...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f994d474dea125c75ea0ef406c35bba74609a46a" datatype="html">
+        <source>All changes saved</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f77324ca2ac20ce4c98967048c8238527f577bb4" datatype="html">
+        <source>Map editing is disabled on mobile.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
+          <context context-type="linenumber">11,12</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="editMap" datatype="html">
         <source>Edit map</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
           <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5259615221832269687" datatype="html">
+        <source>A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version, then you can make your edits. You can copy any text you just entered, ready to paste it in again after the refresh. Sorry for the hassle.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.ts</context>
+          <context context-type="linenumber">166</context>
         </context-group>
       </trans-unit>
       <trans-unit id="edit" datatype="html">
@@ -2588,6 +2634,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
           <context context-type="linenumber">268,269</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4569005230412869125" datatype="html">
+        <source>A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before archiving or restoring your map. Sorry for the hassle.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.ts</context>
+          <context context-type="linenumber">180</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7be556e581ded78c3e1385099fee326accaa0a34" datatype="html">
@@ -2840,6 +2893,142 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/model/team.data.ts</context>
           <context context-type="linenumber">155</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="327519550280213041" datatype="html">
+        <source>            Extra blank line is present at line number <x id="PH" equiv-text="i"/>, please remove it.
+         </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/file/file.service.ts</context>
+          <context context-type="linenumber">62,64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1880938075903884107" datatype="html">
+        <source>            Record at line number <x id="PH" equiv-text="i"/> contains <x id="PH_1" equiv-text="data.length"/> tokens, and is not matching with header length of : <x id="PH_2" equiv-text="headerLength"/>
+         </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/file/file.service.ts</context>
+          <context context-type="linenumber">66,68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4347232415795966793" datatype="html">
+        <source>Unable to add you to organisation <x id="PH" equiv-text="name"/>!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3534533467020315480" datatype="html">
+        <source>Unable to create organisation <x id="PH" equiv-text="name"/>!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3676281882039161063" datatype="html">
+        <source>Cannot sync organisation with Intercom.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3950298817715491290" datatype="html">
+        <source>Organisation name cannot be empty</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
+          <context context-type="linenumber">94</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
+          <context context-type="linenumber">121</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1005181339663369651" datatype="html">
+        <source>Error while updating the organisation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
+          <context context-type="linenumber">136</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2499287690432449999" datatype="html">
+        <source>        Encountered an error while updating team object after removing a team
+        member.
+     </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
+          <context context-type="linenumber">155,158</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
+          <context context-type="linenumber">196,199</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7606570198693293258" datatype="html">
+        <source>        Encountered an error while fetching datasets for a team to add a member
+        to the team.
+     </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
+          <context context-type="linenumber">173,176</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3883603103311651628" datatype="html">
+        <source>        Encountered an error while updating user object after adding member to
+        team.
+     </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
+          <context context-type="linenumber">185,188</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8121931454143228272" datatype="html">
+        <source>Cannot update email of user already in Auth0.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
+          <context context-type="linenumber">471</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1651346827407869642" datatype="html">
+        <source>We found multiple duplicated users with 'isInAuth0' set to 'true'.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
+          <context context-type="linenumber">654</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4510123259608290258" datatype="html">
+        <source>Cannot replace user with multiple duplicates.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
+          <context context-type="linenumber">668</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3636334282742581786" datatype="html">
+        <source>No duplicate users found. Aborting replacing user.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
+          <context context-type="linenumber">671</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5471671537361039738" datatype="html">
+        <source>A friendly heads-up: One or more of your maps has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before adding an existing user. Sorry for the hassle.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
+          <context context-type="linenumber">695</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="363409179927922422" datatype="html">
+        <source>Failed to update dataset while replacing duplicate users.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
+          <context context-type="linenumber">744</context>
         </context-group>
       </trans-unit>
     </body>
