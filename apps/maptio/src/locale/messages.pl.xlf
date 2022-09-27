@@ -3151,6 +3151,38 @@
           <context context-type="linenumber">668</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="8173088822494200109" datatype="html">
+        <source>Sub-circle <x id="PH" equiv-text="subCircleIndex"/></source>
+        <target state="translated">Podkoło <x id="PH" equiv-text="subCircleIndex"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/map/map.service.ts</context>
+          <context context-type="linenumber">118</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2619407874098925475" datatype="html">
+        <source>Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.</source>
+        <target state="translated">Podkoła to po prostu koła, które pojawiają się wewnątrz innych kół. Możesz dodać koła wiele poziomów w głąb.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/map/map.service.ts</context>
+          <context context-type="linenumber">119,121</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8513545469516331297" datatype="html">
+        <source>Outer circle</source>
+        <target state="translated">Koło zewnętrzne</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/map/map.service.ts</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2221551921101543321" datatype="html">
+        <source>Use this area to explain more about what this circle does and link out to other tools, systems and documents that you're using.</source>
+        <target state="translated">W opisie koła możesz umieścić wszelakie informacje o nim oraz linki do innych pomocnych narzędzi, aplikacji i dokumentów istotnych dla tego koła.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/map/map.service.ts</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
