@@ -1519,14 +1519,6 @@
           <context context-type="linenumber">26</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ffe603040e6f27e1fbbfbcb7f26f81a9ee0c9df3" datatype="html">
-        <source>Add <x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/></source>
-        <target state="translated">Dodaj <x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/></target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
-          <context context-type="linenumber">61,63</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="d16b3de281e4d19ae3f6cc96b10519015e95e3b5" datatype="html">
         <source>Remove this helper and associated roles?</source>
         <target state="translated">Usunąć osobę i jej role z tego koła?</target>

@@ -201,14 +201,6 @@
           <context context-type="linenumber">212,213</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ffe603040e6f27e1fbbfbcb7f26f81a9ee0c9df3" datatype="html">
-        <source>Add <x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/></source>
-        <target state="translated">Le contexte des besoins</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
-          <context context-type="linenumber">63,65</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="f81024eb208ff4fd05e10270b811e5cfa1a61d24" datatype="html">
         <source>Add to role library</source>
         <target state="translated">Ajouter à la bibliothèque des rôles</target>
