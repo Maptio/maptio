@@ -59,11 +59,7 @@
       [resultFormatter]="formatter"
       [filter]="filterMembers"
       (pick)="onAddingHelper($event)"
-    >
-      <button class="btn btn-outline-success" i18n>
-        Add {{ team?.settings.helper | lowercase }}
-      </button>
-    </common-autocomplete>
+    ></common-autocomplete>
   </div>
 </div>
 
