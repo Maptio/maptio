@@ -121,6 +121,142 @@
           <context context-type="linenumber">96,97</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="36e2ff22d988436abcc7d71df301784919a52cb2" datatype="html">
+        <source>Add sub-circle</source>
+        <target state="translated">Ajouter un sous-cercle</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/node/initiative.node.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRole" datatype="html">
+        <source>Add role</source>
+        <target state="translated">Ajouter un rôle</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-input.component.html</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d9fdd7fe5922c64f2cb0d705f474480d546258a0" datatype="html">
+        <source>All maps ...</source>
+        <target state="translated">Toutes les cartes...</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">231</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1d13cd52e7cd00d13b2e10f9f6d48dc032738f38" datatype="html">
+        <source>Add new role</source>
+        <target state="translated">Ajouter un nouveau rôle</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/roles.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="323b4ad36e428082e635e20756a02ac6d1cf341a" datatype="html">
+        <source>Add new person</source>
+        <target state="translated">Ajouter une nouvelle personne</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/people.component.html</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5259615221832269687" datatype="html">
+        <source>A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version, then you can make your edits. You can copy any text you just entered, ready to paste it in again after the refresh. Sorry for the hassle.</source>
+        <target state="translated">Un petit conseil : votre carte a été modifiée par un autre utilisateur (ou par vous-même dans un autre onglet du navigateur). Veuillez cliquer sur "Rafraîchir" pour charger la dernière version, puis vous pourrez effectuer vos modifications. Vous pouvez copier le texte que vous venez de saisir, afin de le recoller après l'actualisation.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.ts</context>
+          <context context-type="linenumber">166</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f994d474dea125c75ea0ef406c35bba74609a46a" datatype="html">
+        <source>All changes saved</source>
+        <target state="translated">Tous les changements sont sauvegardés</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4569005230412869125" datatype="html">
+        <source>A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before archiving or restoring your map. Sorry for the hassle.</source>
+        <target state="translated">Un petit conseil : votre carte a été modifiée par un autre utilisateur (ou par vous-même dans un autre onglet du navigateur). Veuillez cliquer sur "Actualiser" pour charger la dernière version avant d'archiver ou de restaurer votre carte.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.ts</context>
+          <context context-type="linenumber">180</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bf0e79ba75833b96f3c5746fce06bff842b7549b" datatype="html">
+        <source>Add role vacancy</source>
+        <target state="translated">Ajouter un rôle vacant</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/vacancies-input.component.html</context>
+          <context context-type="linenumber">39,40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="02da17e07b1248682bddc198e81c92395c938bc0" datatype="html">
+        <source>Add existing user</source>
+        <target state="translated">Ajouter un utilisateur existant</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
+          <context context-type="linenumber">212,213</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ffe603040e6f27e1fbbfbcb7f26f81a9ee0c9df3" datatype="html">
+        <source>Add <x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/></source>
+        <target state="translated">Le contexte des besoins</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
+          <context context-type="linenumber">63,65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f81024eb208ff4fd05e10270b811e5cfa1a61d24" datatype="html">
+        <source>Add to role library</source>
+        <target state="translated">Ajouter à la bibliothèque des rôles</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
+          <context context-type="linenumber">123,124</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51b83066307f3328d65c6bbcba245aa1baa7224b" datatype="html">
+        <source>Add people</source>
+        <target state="translated">Ajouter des personnes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-members/members.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="39665ca29f333f6c22cd0e5c4c32b9de84d25f72" datatype="html">
+        <source>Add circle and edit details</source>
+        <target state="translated">Ajouter un cercle et modifier les détails</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/context-menu/context-menu.component.html</context>
+          <context context-type="linenumber">73,74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5471671537361039738" datatype="html">
+        <source>A friendly heads-up: One or more of your maps has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before adding an existing user. Sorry for the hassle.</source>
+        <target state="translated">Un petit conseil d'ami : une ou plusieurs de vos cartes ont été modifiées par un autre utilisateur (ou par vous-même dans un autre onglet du navigateur). Veuillez cliquer sur "Actualiser" pour charger la dernière version avant d'ajouter un utilisateur existant.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
+          <context context-type="linenumber">695</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5606780728407112283" datatype="html">
+        <source>A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before changing map sharing settings. Sorry for the hassle.</source>
+        <target state="translated">Un petit conseil : votre carte a été modifiée par un autre utilisateur (ou par vous-même dans un autre onglet du navigateur). Veuillez cliquer sur "Actualiser" pour charger la dernière version avant de modifier les paramètres de partage de la carte.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/sharing/sharing.component.ts</context>
+          <context context-type="linenumber">118</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7076988670797688665" datatype="html">
+        <source>A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before changing network view settings. Sorry for the hassle.</source>
+        <target state="translated">Un petit conseil : votre carte a été modifiée par un autre utilisateur (ou par vous-même dans un autre onglet du navigateur). Veuillez cliquer sur "Actualiser" pour charger la dernière version avant de modifier les paramètres d'affichage du réseau.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/network/mapping.network.component.ts</context>
+          <context context-type="linenumber">619</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
