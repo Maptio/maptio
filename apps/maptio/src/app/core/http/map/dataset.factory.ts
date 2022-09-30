@@ -46,7 +46,8 @@ export class DatasetFactory {
    */
   create(dataset: DataSet): Promise<DataSet> {
     dataset.shortid = shortid.generate();
-    if (!dataset) throw new Error('Parameter missing - on dataset creation');
+    if (!dataset)
+      throw new Error($localize`Parameter missing - on dataset creation`);
     return this.http
       .post('/api/v1/dataset', dataset)
       .pipe(
