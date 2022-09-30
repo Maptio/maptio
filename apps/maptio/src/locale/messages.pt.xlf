@@ -297,13 +297,6 @@
           <context context-type="linenumber">58,59</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="f0c751dba195167bb5e23b740f401e34e7fc664a" datatype="html">
-        <source>We'll guide you through creating your first map , it should only take a few minutes.</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
-          <context context-type="linenumber">65,67</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="026ca2ed12cf15aa1df471c2239c733c49194531" datatype="html">
         <source>Resume setup</source>
         <context-group purpose="location">

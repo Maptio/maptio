@@ -1023,14 +1023,6 @@
           <context context-type="linenumber">128</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="f0c751dba195167bb5e23b740f401e34e7fc664a" datatype="html">
-        <source>We'll guide you through creating your first map , it should only take a few minutes.</source>
-        <target state="translated">Pomożemy Ci stworzyć Twoją pierwszą mapę, nie zajmie to więcej niż kilka minut.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
-          <context context-type="linenumber">65,67</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="d98628af6e98858be31af5d8884b26e93952218c" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="{{ getCount(filteredMaps) }}"/>/<x id="INTERPOLATION_1" equiv-text="{{ datasets?.length }}"/> maps</source>
         <target state="translated"><x id="INTERPOLATION" equiv-text="{{ getCount(filteredMaps) }}"/><x id="INTERPOLATION_1" equiv-text="{{ datasets?.length }}"/> mapy</target>
@@ -3173,6 +3165,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/map/map.service.ts</context>
           <context context-type="linenumber">102</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3557b7da87a8666565bd450a83215793f24a4e87" datatype="html">
+        <source>We'll guide you through creating your first map, it should only take a few minutes.</source>
+        <target state="translated">Pomożemy Ci stworzyć Twoją pierwszą mapę, nie zajmie to więcej niż kilka minut.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">65,67</context>
         </context-group>
       </trans-unit>
     </body>
