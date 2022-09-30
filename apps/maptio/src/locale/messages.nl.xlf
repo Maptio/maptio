@@ -433,6 +433,7 @@
       </trans-unit>
       <trans-unit id="d8f703df39c3423649671d4879cc15e6953344a1" datatype="html">
         <source>Get started - try Maptio for free</source>
+        <target state="translated">Probeer Maptio gratis uit</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/pages/home/home.page.html</context>
           <context context-type="linenumber">41,42</context>
@@ -895,6 +896,7 @@
       </trans-unit>
       <trans-unit id="fae28db5960f6ec8a618b29d7c245fed8d8e0f05" datatype="html">
         <source>Get started - try Maptio for free</source>
+        <target state="translated">Probeer Maptio gratis uit</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
           <context context-type="linenumber">26,27</context>
