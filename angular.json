@@ -38,8 +38,6 @@
         "locales": {
           "de": "apps/maptio/src/locale/messages.de.xlf",
           "fr": "apps/maptio/src/locale/messages.fr.xlf",
-          "ja": "apps/maptio/src/locale/messages.ja.xlf",
-          "nl": "apps/maptio/src/locale/messages.nl.xlf",
           "pl": "apps/maptio/src/locale/messages.pl.xlf"
         }
       },
@@ -51,7 +49,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "localize": ["en-US", "de", "fr", "ja", "nl", "pl"],
+            "localize": ["en-US", "de", "fr", "pl"],
             "outputPath": "dist/apps/maptio",
             "index": "apps/maptio/src/index.html",
             "main": "apps/maptio/src/main.ts",
