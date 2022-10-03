@@ -46,31 +46,15 @@
   width: 3vw;
 }
 
-.btn.toolbar-button.select-view {
-  background-repeat: no-repeat;
-  background-size: 16px 16px;
-  background-position: center center;
-  padding: 0;
-  -webkit-transition: background-image 0.2s ease-in-out;
-  transition: background-image 0.2s ease-in-out;
+.toolbar-button__image {
+  margin-top: 11px;
+  height: 1rem;
 }
 
 @media all and (min-width: 1401px) {
-  .btn.toolbar-button.select-view {
-    background-position: center 13px;
+  .toolbar-button__image {
+    margin-top: 9px;
   }
-}
-
-.btn.select-view.circles {
-  background-image: url(/assets/images/circles.svg);
-}
-
-.btn.select-view.circles-expanded {
-  background-image: url(/assets/images/circles-expanded.svg);
-}
-
-.btn.select-view.network {
-  background-image: url(/assets/images/network.png);
 }
 
 .btn.toolbar-button.disabled {

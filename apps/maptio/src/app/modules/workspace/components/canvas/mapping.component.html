@@ -1,6 +1,6 @@
 <ng-template #viewsButtonGroup>
   <button
-    class="btn btn-light toolbar-button select-view circles text-dark p-1 d-flex flex-column justify-content-end align-items-center"
+    class="btn btn-light toolbar-button text-dark p-1 d-flex flex-column justify-content-between align-items-center"
     #rlaCircles="routerLinkActive"
     [routerLinkActive]="['active']"
     routerLink="/map/{{ datasetId }}/{{ slug }}/circles"
@@ -10,13 +10,14 @@
     placement="left"
     i18n-ngbTooltip="@@circles"
   >
-    <span class="toolbar-button__text d-none d-md-block icon-text-label">
+    <img class="toolbar-button__image" src="/assets/images/circles.svg" />
+    <span class="icon-text-label">
       <ng-container i18n="@@circles">Circles</ng-container>
     </span>
   </button>
 
   <button
-    class="btn btn-light toolbar-button select-view circles-expanded text-dark p-1 d-flex flex-column justify-content-end align-items-center"
+    class="btn btn-light toolbar-button text-dark p-1 d-flex flex-column justify-content-between align-items-center"
     #rlaCircles="routerLinkActive"
     [routerLinkActive]="['active']"
     routerLink="/map/{{ datasetId }}/{{ slug }}/expanded"
@@ -26,11 +27,15 @@
     placement="left"
     i18n-ngbTooltip
   >
-    <span class="d-none d-md-block icon-text-label" i18n>Expanded</span>
+    <img
+      class="toolbar-button__image"
+      src="/assets/images/circles-expanded.svg"
+    />
+    <span class="icon-text-label" i18n>Expanded</span>
   </button>
 
   <button
-    class="btn btn-light toolbar-button select-view network text-dark p-1 d-flex flex-column justify-content-end align-items-center"
+    class="btn btn-light toolbar-button text-dark p-1 d-flex flex-column justify-content-between align-items-center"
     #rlaNetwork="routerLinkActive"
     [routerLinkActive]="['active']"
     routerLink="/map/{{ datasetId }}/{{ slug }}/network"
@@ -40,6 +45,7 @@
     placement="left"
     i18n-ngbTooltip="@@network"
   >
+    <img class="toolbar-button__image" src="/assets/images/network.png" />
     <span class="d-none d-md-block icon-text-label">
       <ng-container i18n="@@network">Network</ng-container>
     </span>
