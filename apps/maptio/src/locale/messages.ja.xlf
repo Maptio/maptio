@@ -51,6 +51,7 @@
       </trans-unit>
       <trans-unit id="45f033b4ba61d8393d5f7b1f2372aa8d74ca4e5f" datatype="html">
         <source>Chat with us or email us at <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Support request&quot;&gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> if the issue persists.</source>
+        <target state="translated">問題が解決しない場合は、チャットまたはメール（<x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Support request&quot;&gt;"/> support@maptio.com<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> ）でお問い合わせください。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
           <context context-type="linenumber">43,48</context>
@@ -130,6 +131,7 @@
       </trans-unit>
       <trans-unit id="319e0745bcbc132451569294fa2fa21bf10f555a" datatype="html">
         <source>Toggle navigation</source>
+        <target state="translated">ナビゲーション</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">37</context>
@@ -277,6 +279,7 @@
       </trans-unit>
       <trans-unit id="5418917483835358219" datatype="html">
         <source>Free trial ends on <x id="PH" equiv-text="freeTrialCutoffDate.toLocaleDateString()"/> at <x id="PH_1" equiv-text="freeTrialCutoffDate.toLocaleTimeString()"/> </source>
+        <target state="translated">無料トライアルは、<x id="PH" equiv-text="freeTrialCutoffDate.toLocaleDateString()"/> 、<x id="PH_1" equiv-text="freeTrialCutoffDate.toLocaleTimeString()"/> で終了します。 </target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/onboarding-banner.component.ts</context>
           <context context-type="linenumber">15,18</context>
@@ -292,6 +295,7 @@
       </trans-unit>
       <trans-unit id="c3d4de943e9007c1df3c003b1042299a702aeee8" datatype="html">
         <source><x id="START_LINK" ctype="x-a" equiv-text="&lt;a target=&quot;blank&quot; href=&quot;https://fieldmapping.org&quot;&gt;"/>Read our free guide<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> to mapping your organisation</source>
+        <target state="translated"><x id="START_LINK" ctype="x-a" equiv-text="&lt;a target=&quot;blank&quot; href=&quot;https://fieldmapping.org&quot;&gt;"/>組織をマッピングするために<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> 無料ガイドを読む</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">8,10</context>
@@ -299,6 +303,7 @@
       </trans-unit>
       <trans-unit id="bc62472dbcba9966542f5dd985016e9ca113846f" datatype="html">
         <source><x id="START_LINK" ctype="x-a" equiv-text="&lt;a target=&quot;blank&quot; href=&quot;https://calendly.com/tomnixon/maptio-help&quot;&gt;"/> Book a free Zoom help call <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> with Maptio founder Tom Nixon</source>
+        <target state="translated"><x id="START_LINK" ctype="x-a" equiv-text="&lt;a target=&quot;blank&quot; href=&quot;https://calendly.com/tomnixon/maptio-help&quot;&gt;"/> Maptio創業者Tom NixonのZoomヘルプコール（無料）を予約する<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">19,23</context>
@@ -364,6 +369,7 @@
       </trans-unit>
       <trans-unit id="6f82fe138f05a6b56a69600ba782f8bec300f1ce" datatype="html">
         <source>Organisation <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                             routerLink=&quot;/teams/{{                               _nonExampleTeams[0].team_id                             }}/team&quot;                           &gt;"/> <x id="INTERPOLATION" equiv-text="{{ _nonExampleTeams[0].name }}"/> <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> set up</source>
+        <target state="translated">組織<x id="START_LINK" ctype="x-a" equiv-text="&lt;a                             routerLink=&quot;/teams/{{                               _nonExampleTeams[0].team_id                             }}/team&quot;                           &gt;"/> <x id="INTERPOLATION" equiv-text="{{ _nonExampleTeams[0].name }}"/> <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> セットアップ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">153,162</context>
@@ -371,6 +377,7 @@
       </trans-unit>
       <trans-unit id="882abad90854a65216cacf9923cb06cb69eb789b" datatype="html">
         <source>Map <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                               routerLink=&quot;/map/{{ datasets[0]?.datasetId }}/{{                                 datasets[0]?.initiative.getSlug()                               }}&quot;                             &gt;"/> <x id="INTERPOLATION" equiv-text="{{ datasets[0]?.initiative.name }}"/> <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> is now active</source>
+        <target state="translated">マップ <x id="START_LINK" ctype="x-a" equiv-text="&lt;a                               routerLink=&quot;/map/{{ datasets[0]?.datasetId }}/{{                                 datasets[0]?.initiative.getSlug()                               }}&quot;                             &gt;"/> <x id="INTERPOLATION" equiv-text="{{ datasets[0]?.initiative.name }}"/> <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> がアクティブになりました。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">181,190</context>
@@ -378,6 +385,7 @@
       </trans-unit>
       <trans-unit id="162738572d0a78c786d80959fcf30a8c18aaccb1" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="{{ mapsCount }}"/> active maps</source>
+        <target state="translated"><x id="INTERPOLATION" equiv-text="{{ mapsCount }}"/> アクティブマップ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">192,194</context>
@@ -393,6 +401,7 @@
       </trans-unit>
       <trans-unit id="d98628af6e98858be31af5d8884b26e93952218c" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="{{ getCount(filteredMaps) }}"/>/<x id="INTERPOLATION_1" equiv-text="{{ datasets?.length }}"/> maps</source>
+        <target state="translated"><x id="INTERPOLATION" equiv-text="{{ getCount(filteredMaps) }}"/>/<x id="INTERPOLATION_1" equiv-text="{{ datasets?.length }}"/> マップ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">223,225</context>
@@ -571,6 +580,7 @@
       </trans-unit>
       <trans-unit id="46989e1cc2be68c6ecac72686f2533b2f6ca0e51" datatype="html">
         <source>I agree to Maptio's <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;{{ TERMS_AND_CONDITIONS_URL }}&quot; target=&quot;_blank&quot;&gt;"/> Terms of Service <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> and <x id="START_LINK_1" equiv-text="&lt;a href=&quot;{{ PRIVACY_POLICY_URL }}&quot; target=&quot;_blank&quot;&gt;"/>Privacy Policy<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
+        <target state="translated">Maptio の<x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;{{ TERMS_AND_CONDITIONS_URL }}&quot; target=&quot;_blank&quot;&gt;"/> サービス利用規約<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> および<x id="START_LINK_1" equiv-text="&lt;a href=&quot;{{ PRIVACY_POLICY_URL }}&quot; target=&quot;_blank&quot;&gt;"/>プライバシーポリシーに同意します。<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">96,101</context>
@@ -809,6 +819,7 @@
       </trans-unit>
       <trans-unit id="1374576901432673248" datatype="html">
         <source>Can't create <x id="PH" equiv-text="this.email"/> : <x id="PH_1" equiv-text="reason"/></source>
+        <target state="translated"><x id="PH" equiv-text="this.email"/>:<x id="PH_1" equiv-text="reason"/>が作成できません</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">232</context>
@@ -816,6 +827,7 @@
       </trans-unit>
       <trans-unit id="4175524537305120095" datatype="html">
         <source>Updating profile information failed with error: "<x id="PH" equiv-text="error.message"/>", please try again later or contact us.</source>
+        <target state="translated">プロファイル情報の更新に失敗しました。エラー: "<x id="PH" equiv-text="error.message"/>", 後で再試行するか、弊社までご連絡ください。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">299,300</context>
@@ -883,6 +895,7 @@
       </trans-unit>
       <trans-unit id="646b96dc562ed586e8fa573e1b326bbe57aece24" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="{{ member.name }}"/> was sent an invitation.</source>
+        <target state="translated"><x id="INTERPOLATION" equiv-text="{{ member.name }}"/> に招待状を送りました。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
           <context context-type="linenumber">68</context>
@@ -898,6 +911,7 @@
       </trans-unit>
       <trans-unit id="81af49544e10efb461b49e302de6a5cf4095d9fc" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="{{ member.name }}"/> cannot view or edit maps.</source>
+        <target state="translated"><x id="INTERPOLATION" equiv-text="{{ member.name }}"/> は、マップの表示や編集ができません。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
           <context context-type="linenumber">80</context>
@@ -913,6 +927,7 @@
       </trans-unit>
       <trans-unit id="834557d33ac0ef94a76e5c365849807122a51ee4" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="{{ member.name }}"/> can view and edit maps</source>
+        <target state="translated"><x id="INTERPOLATION" equiv-text="{{ member.name }}"/> マップの表示と編集ができます</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
           <context context-type="linenumber">92</context>
@@ -953,6 +968,7 @@
       </trans-unit>
       <trans-unit id="a4b9067b4009bde5c69f1a9fa443c0648dc602c2" datatype="html">
         <source>Resend an invitation to <x id="INTERPOLATION" equiv-text="{{ member.name }}"/></source>
+        <target state="translated"><x id="INTERPOLATION" equiv-text="{{ member.name }}"/>に招待状を再送する</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
           <context context-type="linenumber">185</context>
@@ -992,6 +1008,7 @@
       </trans-unit>
       <trans-unit id="477346e4dd51d75a37a505cc94da0e459a8a5eb5" datatype="html">
         <source>Payment is up to date</source>
+        <target state="translated">サブスクリプションは有効です</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-billing/billing.component.html</context>
           <context context-type="linenumber">8</context>
@@ -1023,6 +1040,7 @@
       </trans-unit>
       <trans-unit id="c5a788882b1c45a1d293a6586c308f5436e6120b" datatype="html">
         <source>Available plans</source>
+        <target state="translated">利用可能なプラン</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-billing/billing.component.html</context>
           <context context-type="linenumber">36</context>
@@ -1038,6 +1056,7 @@
       </trans-unit>
       <trans-unit id="559328a9cf7811d04fb77fb033940dd26d000753" datatype="html">
         <source>Subscribe to a plan below to continue using Maptio or <x id="START_LINK" ctype="x-a" equiv-text="&lt;a           href=&quot;mailto:support@maptio.com?subject=I need more time to try Maptio&quot;         &gt;"/> ask us for a free trial extension. <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
+        <target state="translated">Maptioの使用を継続するために以下のプランに加入するか、<x id="START_LINK" ctype="x-a" equiv-text="&lt;a           href=&quot;mailto:support@maptio.com?subject=I need more time to try Maptio&quot;         &gt;"/> 無料トライアル延長をお問い合わせください。<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-billing/billing.component.html</context>
           <context context-type="linenumber">59,64</context>
@@ -1077,6 +1096,7 @@
       </trans-unit>
       <trans-unit id="568e3acebfc9450b58f1a37b93d7361a4cf18248" datatype="html">
         <source>Required columns (in that order): <x id="START_TAG_SAMP" ctype="x-samp" equiv-text="&lt;samp&gt;"/>First name<x id="CLOSE_TAG_SAMP" ctype="x-samp" equiv-text="&lt;/samp&gt;"/> , <x id="START_TAG_SAMP" ctype="x-samp" equiv-text="&lt;samp&gt;"/>Last name<x id="CLOSE_TAG_SAMP" ctype="x-samp" equiv-text="&lt;/samp&gt;"/> , <x id="START_TAG_SAMP" ctype="x-samp" equiv-text="&lt;samp&gt;"/>Email<x id="CLOSE_TAG_SAMP" ctype="x-samp" equiv-text="&lt;/samp&gt;"/></source>
+        <target state="translated">必須のカラム（この順）。<x id="START_TAG_SAMP" ctype="x-samp" equiv-text="&lt;samp&gt;"/>名<x id="CLOSE_TAG_SAMP" ctype="x-samp" equiv-text="&lt;/samp&gt;"/>,<x id="START_TAG_SAMP" ctype="x-samp" equiv-text="&lt;samp&gt;"/>姓<x id="CLOSE_TAG_SAMP" ctype="x-samp" equiv-text="&lt;/samp&gt;"/>,<x id="START_TAG_SAMP" ctype="x-samp" equiv-text="&lt;samp&gt;"/>Eメール<x id="CLOSE_TAG_SAMP" ctype="x-samp" equiv-text="&lt;/samp&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
           <context context-type="linenumber">36,41</context>
@@ -1092,6 +1112,7 @@
       </trans-unit>
       <trans-unit id="04dabbf9d0dcca2a5aa84199245516b363f19738" datatype="html">
         <source>Not sure about the format? <x id="START_LINK" ctype="x-a" equiv-text="&lt;a           class=&quot;text-green strong&quot;           href=&quot;{{ IMPORT_USERS_TEMPLATE_URL }}&quot;           target=&quot;blank&quot;         &gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-arrow-circle-o-down&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Download a template<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/><x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
+        <target state="translated">フォーマットがわからない方はこちら<x id="START_LINK" ctype="x-a" equiv-text="&lt;a           class=&quot;text-green strong&quot;           href=&quot;{{ IMPORT_USERS_TEMPLATE_URL }}&quot;           target=&quot;blank&quot;         &gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-arrow-circle-o-down&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>テンプレートのダウンロード<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/><x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
           <context context-type="linenumber">49,57</context>
@@ -1106,6 +1127,7 @@
       </trans-unit>
       <trans-unit id="6329c640011cf5a20fcb3aca2d21823e11ee239e" datatype="html">
         <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Invalid file<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> The file must be a .csv</source>
+        <target state="translated"><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>無効なファイル<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> ファイルは .csv でなければなりません。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
           <context context-type="linenumber">65,67</context>
@@ -1113,6 +1135,7 @@
       </trans-unit>
       <trans-unit id="220d7fb9dbb9d5904a32357a1b019777d85d2286" datatype="html">
         <source>Imported: <x id="INTERPOLATION" equiv-text="{{ importedSuccessfully }}"/></source>
+        <target state="translated">インポート完了：<x id="INTERPOLATION" equiv-text="{{ importedSuccessfully }}"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
           <context context-type="linenumber">123,125</context>
@@ -1134,6 +1157,7 @@
       </trans-unit>
       <trans-unit id="6ea619280fc8904a73018b35798dc3a97e3d734e" datatype="html">
         <source>Review the individual messages, try again or <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;../../members&quot;&gt;"/> skip and invite <x id="INTERPOLATION" equiv-text="{{ importedSuccessfully }}"/> new users to view and edit maps. <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
+        <target state="translated">個々のメッセージを確認し、再試行するか、<x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;../../members&quot;&gt;"/> スキップして、<x id="INTERPOLATION" equiv-text="{{ importedSuccessfully }}"/> 新規ユーザーを招待して、マップの表示と編集を行います。<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
           <context context-type="linenumber">167,171</context>
@@ -1141,6 +1165,7 @@
       </trans-unit>
       <trans-unit id="f9271e442479b9fed72427454a277b013c7a6d21" datatype="html">
         <source>Import <x id="INTERPOLATION" equiv-text="{{ totalRecordsToImport }}"/> users</source>
+        <target state="translated"><x id="INTERPOLATION" equiv-text="{{ totalRecordsToImport }}"/> ユーザーをインポート</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
           <context context-type="linenumber">182,184</context>
@@ -1148,6 +1173,7 @@
       </trans-unit>
       <trans-unit id="b3d607884d15c18970fd267a97cdfcdb4e0f7fec" datatype="html">
         <source>Contact <x id="START_LINK" ctype="x-a" equiv-text="&lt;a     href=&quot;mailto:support@maptio.com?subject=I want to integrate another system with Maptio&quot;     class=&quot;alert-link&quot;     target=&quot;_blank&quot;   &gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> if you require an integration with another system.</source>
+        <target state="translated">他のシステムとの連携が必要な場合は、<x id="START_LINK" ctype="x-a" equiv-text="&lt;a     href=&quot;mailto:support@maptio.com?subject=I want to integrate another system with Maptio&quot;     class=&quot;alert-link&quot;     target=&quot;_blank&quot;   &gt;"/> support@maptio.com<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> までお問い合わせください。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-integrations/integrations.component.html</context>
           <context context-type="linenumber">2,11</context>
@@ -1258,6 +1284,7 @@
       </trans-unit>
       <trans-unit id="42c177f3f8760cc37e735cad6e1d1d259ef8a39b" datatype="html">
         <source>Error while saving settings</source>
+        <target state="translated">設定保存時のエラー</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-settings/settings.component.html</context>
           <context context-type="linenumber">108,109</context>
@@ -1304,6 +1331,7 @@
       </trans-unit>
       <trans-unit id="terminology" datatype="html">
         <source>Name &amp; Terminology</source>
+        <target state="translated">名称&amp; 用語集</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-single/team.component.html</context>
           <context context-type="linenumber">72</context>
@@ -1650,6 +1678,7 @@
       </trans-unit>
       <trans-unit id="b9fe58b6f6faf64df99937e14eae9fb4278ad9bc" datatype="html">
         <source>Custom role for this <x id="ICU" equiv-text="{isVacancy, select, true {vacancy} false           {person}}"/>}</source>
+        <target state="translated">この<x id="ICU" equiv-text="{isVacancy, select, true {vacancy} false           {person}}"/> のカスタムロール }.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
           <context context-type="linenumber">97,99</context>
@@ -1716,6 +1745,7 @@
       </trans-unit>
       <trans-unit id="e06e3125d4515cc3ce38cb64a9f4980058a1cdf2" datatype="html">
         <source>Add yourself as a <x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/></source>
+        <target state="translated"><x id="INTERPOLATION" equiv-text="{{ team?.settings.helper | lowercase }}"/>として自分を追加します。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.html</context>
           <context context-type="linenumber">44,46</context>
@@ -1723,6 +1753,7 @@
       </trans-unit>
       <trans-unit id="741679013528382328" datatype="html">
         <source>Start typing the name of a <x id="PH" equiv-text="changes.team         .currentValue as Team).settings.helper.toLowerCase()"/></source>
+        <target state="translated"><x id="PH" equiv-text="changes.team         .currentValue as Team).settings.helper.toLowerCase()"/> の名前の入力を始める。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.ts</context>
           <context context-type="linenumber">48,49</context>
@@ -1730,6 +1761,7 @@
       </trans-unit>
       <trans-unit id="vacancies" datatype="html">
         <source>Vacancies</source>
+        <target state="translated">空白の役割</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/vacancies-input.component.html</context>
           <context context-type="linenumber">10</context>
@@ -1856,6 +1888,7 @@
       </trans-unit>
       <trans-unit id="areYouSure" datatype="html">
         <source>Are you sure?</source>
+        <target state="translated">本当に削除しますか？</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
           <context context-type="linenumber">146</context>
@@ -1875,6 +1908,7 @@
       </trans-unit>
       <trans-unit id="6b3a6c8d7c361e6f48e91b986e36949103788c83" datatype="html">
         <source>Circle <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION" equiv-text="{{ initiativeToBeDeleted.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/> will be deleted <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>along with its sub-circles<x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/> .</source>
+        <target state="translated">サークル<x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION" equiv-text="{{ initiativeToBeDeleted.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/> は、そのサブサークル<x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/> と共に<x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>に削除されます。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
           <context context-type="linenumber">154,159</context>
@@ -1882,6 +1916,7 @@
       </trans-unit>
       <trans-unit id="c5cbd010562e72dd4d77fe5c16d8673a49500458" datatype="html">
         <source>Circle <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION" equiv-text="{{ fromInitiative.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/> and its sub-circles will be moved under <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION_1" equiv-text="{{ toInitiative.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/></source>
+        <target state="translated">サークル<x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION" equiv-text="{{ fromInitiative.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/> 、およびそのサブサークルは<x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION_1" equiv-text="{{ toInitiative.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/>の下に移動します。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
           <context context-type="linenumber">176,179</context>
@@ -2009,6 +2044,7 @@
       </trans-unit>
       <trans-unit id="5890913d356d2bc3a9a4d7bfa5527428ec85aeb1" datatype="html">
         <source><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fas fa-circle-notch fa-spin text-green mx-1&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Creating</source>
+        <target state="translated"><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fas fa-circle-notch fa-spin text-green mx-1&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> 作成中</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
           <context context-type="linenumber">77,79</context>
@@ -2126,6 +2162,7 @@
       </trans-unit>
       <trans-unit id="f7fde970433530e46b9e9dc6d83268e58cef9ed6" datatype="html">
         <source>Take me there</source>
+        <target state="translated">移動する</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
           <context context-type="linenumber">268,269</context>
@@ -2166,6 +2203,7 @@
       </trans-unit>
       <trans-unit id="onboarding-consent-error" datatype="html">
         <source>There was an error when updating consent. You can chat with us or email us at <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Error when updating consent&quot;&gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> if you'd like to report the issue and notify us of your consent preferences.</source>
+        <target state="translated">同意を更新する際にエラーが発生しました。問題を報告し、同意の設定を通知したい場合は、チャットまたはメール（<x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Error when updating consent&quot;&gt;"/> support@maptio.com<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> ）でご連絡ください。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/consent.component.html</context>
           <context context-type="linenumber">29,34</context>
@@ -2174,6 +2212,7 @@
       </trans-unit>
       <trans-unit id="9cfb85760b57f292bf043398464228fc2963c47b" datatype="html">
         <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-accent&quot;&gt;"/>👋 <x id="INTERPOLATION" equiv-text="{{ user?.firstname }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;ng-container&gt;"/>, your first map is just a few clicks away!<x id="CLOSE_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;/ng-container&gt;"/></source>
+        <target state="translated"><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-accent&quot;&gt;"/>👋<x id="INTERPOLATION" equiv-text="{{ user?.firstname }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;ng-container&gt;"/> 、最初のマップの作成には数回クリックするだけです。<x id="CLOSE_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;/ng-container&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
           <context context-type="linenumber">33,34</context>
@@ -2208,6 +2247,7 @@
       </trans-unit>
       <trans-unit id="onboarding-terminology-2" datatype="html">
         <source>What language do you use to refer to people at <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION" equiv-text="{{ team.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/> ?</source>
+        <target state="translated"><x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/><x id="INTERPOLATION" equiv-text="{{ team.name }}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/> では、メンバーをどのような言葉で表現しますか？</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
           <context context-type="linenumber">103,106</context>
@@ -2263,6 +2303,7 @@
       </trans-unit>
       <trans-unit id="onboarding-consent-5" datatype="html">
         <source>We use a very privacy-conscious service called <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;https://openreplay.com/&quot; target=&quot;_blank&quot;&gt;"/>OpenReplay<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> . It's open source, just like us. We trust their service to keep recordings private and secure.</source>
+        <target state="translated">私たちは、<x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;https://openreplay.com/&quot; target=&quot;_blank&quot;&gt;"/>OpenReplay<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> という非常にプライバシーに配慮したサービスを利用しています。これは、私たちと同じくオープンソースです。私たちは、ログのプライバシーと安全性を保つために、このサービスを信頼しています。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
           <context context-type="linenumber">190,194</context>
@@ -2356,6 +2397,7 @@
       </trans-unit>
       <trans-unit id="208613992662614010" datatype="html">
         <source>Free trial time left: <x id="PH" equiv-text="remainingTrialDays"/> days</source>
+        <target state="translated">無料試用期間残り：<x id="PH" equiv-text="remainingTrialDays"/> 日</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/model/team.data.ts</context>
           <context context-type="linenumber">149</context>
@@ -3035,6 +3077,154 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">65,67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4306736812625025853" datatype="html">
+        <source>Parameter missing - on dataset creation</source>
+        <target state="translated">データセット作成時のパラメータがありません</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/http/map/dataset.factory.ts</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0948acbf2eb00c73d4eb4d6b2066a8044dd018b8" datatype="html">
+        <source>Pricing in US Dollars. All major credit cards accepted. <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> No minimum contract length.</source>
+        <target state="translated">価格はUSドルで表示されます。主要なクレジットカードが利用可能です。 <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> 最低契約期間はありません</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">31,34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9ff2e34a90a800108fb0ba0393cfdf1c3db2c258" datatype="html">
+        <source>Struggling to afford this? Let's talk and work something out. <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Deal request&quot;&gt;"/>Contact us.<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Our mission is to serve the most cause-driven organizations on the planet. Discounts available for non-profits.</source>
+        <target state="translated">この価格を支払うことに躊躇していますか？ぜひ話し合わせてください。<x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Deal request&quot;&gt;"/>こちらまでご連絡ください。<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> 私たちの使命は、パーパスドリブンな組織にサービスを提供することです。非営利団体へのディスカウントを用意しています。</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">127,133</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="241e40292ec853c5f7357b6a9b02a93c82486417" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ filteredMembers.length }}"/>/<x id="INTERPOLATION_1" equiv-text="{{ members?.length }}"/> people</source>
+        <target state="translated"><x id="INTERPOLATION" equiv-text="{{ filteredMembers.length }}"/>/<x id="INTERPOLATION_1" equiv-text="{{ members?.length }}"/> メンバー</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/people.component.html</context>
+          <context context-type="linenumber">72,74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="62ad8dbe2ef4b33254bc85995cfefe0922be9838" datatype="html">
+        <source>per month, <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> per organization</source>
+        <target state="translated">月額、<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> 1組織</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/payment-plan.component.html</context>
+          <context context-type="linenumber">15,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="73bc36d061b10fadbae2a55498fa79d5561dbaf9" datatype="html">
+        <source>There was an error when updating showing circle descriptions. Chat with us or email us at <x id="START_LINK" ctype="x-a" equiv-text="&lt;a       href=&quot;mailto:support@maptio.com?subject=Error when updating showing circle descriptions&quot;     &gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> if the issue persists.</source>
+        <target state="translated">サークルの説明を表示する更新の際にエラーが発生しました。問題が解決しない場合は、チャットまたはメール（<x id="START_LINK" ctype="x-a" equiv-text="&lt;a       href=&quot;mailto:support@maptio.com?subject=Error when updating showing circle descriptions&quot;     &gt;"/> support@maptio.com、<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> ）でお問い合わせください。</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/sharing/sharing.component.html</context>
+          <context context-type="linenumber">54,62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7227277bdea978e88966419c1c9e0e4967dbdd48" datatype="html">
+        <source>Viewing the role library. Custom roles for individual circles are not shown here.</source>
+        <target state="translated">ロールライブラリを表示します。個々のサークルのカスタムロールはここでは表示されません。</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/roles.component.html</context>
+          <context context-type="linenumber">2,4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e767ec12c9b0134a0bc680dc3ea02a86cbaacad6" datatype="html">
+        <source><x id="ICU" equiv-text="{!!isOthersPeopleVisible, select, true {Hide} false {Show}}"/> other people</source>
+        <target state="translated"><x id="ICU" equiv-text="{!!isOthersPeopleVisible, select, true {Hide} false {Show}}"/>  他のメンバー</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/people.component.html</context>
+          <context context-type="linenumber">29,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9d27d4f27b5aaef466a1168019027952abd5cbe5" datatype="html">
+        <source>Click <x id="START_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;ng-container       *permissionsOnly=&quot;         Permissions.canCreateRootInitiative;         else plusButtonDisabled;         then: plusButton       &quot;     &gt;"/><x id="CLOSE_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;/ng-container&gt;"/> to create your first circle</source>
+        <target state="translated"><x id="START_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;ng-container       *permissionsOnly=&quot;         Permissions.canCreateRootInitiative;         else plusButtonDisabled;         then: plusButton       &quot;     &gt;"/><x id="CLOSE_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;/ng-container&gt;"/> をクリックすると、最初のサークルが作成されます。</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/canvas/mapping.component.html</context>
+          <context context-type="linenumber">304,316</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7dd10b47baa5be3f79a18d4f8ceea2a8c775fc7f" datatype="html">
+        <source>Not a <x id="INTERPOLATION" equiv-text="{{ authorityName | lowercase }}"/> yet</source>
+        <target state="translated">まだ<x id="INTERPOLATION" equiv-text="{{ authorityName | lowercase }}"/> ではありません</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/personal.component.html</context>
+          <context context-type="linenumber">98,100</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1668635020691942344" datatype="html">
+        <source>Example tag</source>
+        <target state="translated">サンプルタグ</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/model/tag.data.ts</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4d598b77e62f74232b1366e9e46561ad56e2510f" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ initiative.accountable.name }}"/>'s summary</source>
+        <target state="translated"><x id="INTERPOLATION" equiv-text="{{ initiative.accountable.name }}"/>のサマリー</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/context-menu/context-menu.component.html</context>
+          <context context-type="linenumber">27,29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="327519550280213041" datatype="html">
+        <source>Extra blank line is present at line number <x id="PH" equiv-text="i"/>, please remove it. </source>
+        <target state="translated">行番号<x id="PH" equiv-text="i"/> に余分な空白行があります。 </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/file/file.service.ts</context>
+          <context context-type="linenumber">62,64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1880938075903884107" datatype="html">
+        <source>Record at line number <x id="PH" equiv-text="i"/> contains <x id="PH_1" equiv-text="data.length"/> tokens, and is not matching with header length of : <x id="PH_2" equiv-text="headerLength"/> </source>
+        <target state="translated">行番号<x id="PH" equiv-text="i"/> のレコードには<x id="PH_1" equiv-text="data.length"/> のトークンが含まれており、ヘッダ長が一致しません。 <x id="PH_2" equiv-text="headerLength"/> </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/file/file.service.ts</context>
+          <context context-type="linenumber">66,68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1005181339663369651" datatype="html">
+        <source>Error while updating the organisation</source>
+        <target state="translated">組織更新時のエラー</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
+          <context context-type="linenumber">136</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8173088822494200109" datatype="html">
+        <source>Sub-circle <x id="PH" equiv-text="subCircleIndex"/></source>
+        <target state="translated">サブサークル<x id="PH" equiv-text="subCircleIndex"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/map/map.service.ts</context>
+          <context context-type="linenumber">118</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4347232415795966793" datatype="html">
+        <source>Unable to add you to organisation <x id="PH" equiv-text="name"/>!</source>
+        <target state="translated"><x id="PH" equiv-text="name"/>この組織に追加できません</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3534533467020315480" datatype="html">
+        <source>Unable to create organisation <x id="PH" equiv-text="name"/>!</source>
+        <target state="translated"><x id="PH" equiv-text="name"/> この組織を作成できません</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
+          <context context-type="linenumber">70</context>
         </context-group>
       </trans-unit>
     </body>
