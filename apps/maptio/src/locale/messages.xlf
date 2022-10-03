@@ -1,6 +1,6 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template" target-language="en_US">
     <body>
       <trans-unit id="organisations" datatype="html">
         <source>Organisations</source>
@@ -318,9 +318,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="5418917483835358219" datatype="html">
-        <source>      Free trial ends on <x id="PH" equiv-text="freeTrialCutoffDate.toLocaleDateString()"/>
-      at <x id="PH_1" equiv-text="freeTrialCutoffDate.toLocaleTimeString()"/>
-   </source>
+        <source>Free trial ends on <x id="PH" equiv-text="freeTrialCutoffDate.toLocaleDateString()"/> at <x id="PH_1" equiv-text="freeTrialCutoffDate.toLocaleTimeString()"/> </source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/onboarding-banner.component.ts</context>
           <context context-type="linenumber">15,18</context>
@@ -731,8 +729,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="b91352f498f676f155f3eceb5276e804acd6abf9" datatype="html">
-        <source>        Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?
-     </source>
+        <source>Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">143,144</context>
@@ -908,36 +905,28 @@
         </context-group>
       </trans-unit>
       <trans-unit id="4175524537305120095" datatype="html">
-        <source>Updating profile information failed
-        with error: "<x id="PH" equiv-text="error.message"/>", please try again later or contact us.</source>
+        <source>Updating profile information failed with error: "<x id="PH" equiv-text="error.message"/>", please try again later or contact us.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">299,300</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4439374930555787286" datatype="html">
-        <source>Cannot update profile information,
-          please try again later or contact us.</source>
+        <source>Cannot update profile information, please try again later or contact us.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">308,309</context>
         </context-group>
       </trans-unit>
       <trans-unit id="446132272462225944" datatype="html">
-        <source>        The application encountered an unexpected input error while attempting
-        user de-duplication. Please contact us for help and quote this error
-        message.
-     </source>
+        <source>The application encountered an unexpected input error while attempting user de-duplication. Please contact us for help and quote this error message.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">341,345</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7213896273750754706" datatype="html">
-        <source>        The application encountered an unexpected error while attempting user
-        de-duplication. Please contact us for help and quote this error
-        message.
-     </source>
+        <source>The application encountered an unexpected error while attempting user de-duplication. Please contact us for help and quote this error message.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">365,369</context>
@@ -1754,8 +1743,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="8e05bae524c892ef4d1a1625a27677f672789d91" datatype="html">
-        <source>          Remove this authority and associated role?
-       </source>
+        <source>Remove this authority and associated role?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/authority/authority-select.component.html</context>
           <context context-type="linenumber">49,50</context>
@@ -1910,8 +1898,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="libraryRoleDeletionWarning" datatype="html">
-        <source>        This will remove the role from ALL holders in the organisation and delete it from the list of roles. This cannot be undone. Are you sure?
-     </source>
+        <source>This will remove the role from ALL holders in the organisation and delete it from the list of roles. This cannot be undone. Are you sure?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
           <context context-type="linenumber">179,180</context>
@@ -2335,6 +2322,7 @@
       </trans-unit>
       <trans-unit id="0ad65682a88a7119d4db799c70d50fbbc5ca8104" datatype="html">
         <source>No helping participation yet</source>
+        <target state="translated">No helping participation yet</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/personal.component.html</context>
           <context context-type="linenumber">124,125</context>
@@ -2896,16 +2884,14 @@
         </context-group>
       </trans-unit>
       <trans-unit id="327519550280213041" datatype="html">
-        <source>            Extra blank line is present at line number <x id="PH" equiv-text="i"/>, please remove it.
-         </source>
+        <source>Extra blank line is present at line number <x id="PH" equiv-text="i"/>, please remove it. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/file/file.service.ts</context>
           <context context-type="linenumber">62,64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1880938075903884107" datatype="html">
-        <source>            Record at line number <x id="PH" equiv-text="i"/> contains <x id="PH_1" equiv-text="data.length"/> tokens, and is not matching with header length of : <x id="PH_2" equiv-text="headerLength"/>
-         </source>
+        <source>Record at line number <x id="PH" equiv-text="i"/> contains <x id="PH_1" equiv-text="data.length"/> tokens, and is not matching with header length of : <x id="PH_2" equiv-text="headerLength"/> </source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/file/file.service.ts</context>
           <context context-type="linenumber">66,68</context>
@@ -2933,8 +2919,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="2619407874098925475" datatype="html">
-        <source>        Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.
-     </source>
+        <source>Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/map/map.service.ts</context>
           <context context-type="linenumber">119,121</context>
@@ -2988,9 +2973,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="2499287690432449999" datatype="html">
-        <source>        Encountered an error while updating team object after removing a team
-        member.
-     </source>
+        <source>Encountered an error while updating team object after removing a team member.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
           <context context-type="linenumber">155,158</context>
@@ -3001,18 +2984,14 @@
         </context-group>
       </trans-unit>
       <trans-unit id="7606570198693293258" datatype="html">
-        <source>        Encountered an error while fetching datasets for a team to add a member
-        to the team.
-     </source>
+        <source>Encountered an error while fetching datasets for a team to add a member to the team.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
           <context context-type="linenumber">173,176</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3883603103311651628" datatype="html">
-        <source>        Encountered an error while updating user object after adding member to
-        team.
-     </source>
+        <source>Encountered an error while updating user object after adding member to team.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
           <context context-type="linenumber">185,188</context>
