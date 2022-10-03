@@ -2022,7 +2022,7 @@
       </trans-unit>
       <trans-unit id="2ca36ad093dc7d1649561886560b05b91f34f965" datatype="html">
         <source>{VAR_PLURAL, plural, =0 {circles} =1 {circle} other {circles}}</source>
-        <target state="translated">{VAR_PLURAL, pluriel, =0 {cercles} =1 {cercles} autres {cercles}}</target>
+        <target state="needs-translation">{VAR_PLURAL, plural, =0 {cercles} =1 {cercles} other {cercles}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
           <context context-type="linenumber">67,68</context>
@@ -2167,7 +2167,7 @@
       </trans-unit>
       <trans-unit id="9ff2e34a90a800108fb0ba0393cfdf1c3db2c258" datatype="html">
         <source>Struggling to afford this? Let's talk and work something out. <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Deal request&quot;&gt;"/>Contact us.<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Our mission is to serve the most cause-driven organizations on the planet. Discounts available for non-profits.</source>
-        <target state="translated">Vous avez du mal à vous le permettre ?  Parlons-en et trouvons une solution. <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Deal request&quot;&gt;"/>Contactez-nous.<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Notre mission est de servir les entreprises qui veulent contribuer activement à un meilleur futur.  Rabais disponibles pour les organismes à but non lucratif.</target>
+        <target state="translated">Vous avez du mal à vous le permettre ? Parlons-en et trouvons une solution. <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Deal request&quot;&gt;"/>Contactez-nous.<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Notre mission est de servir les entreprises qui veulent contribuer activement à un meilleur futur. Rabais disponibles pour les organismes à but non lucratif.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
           <context context-type="linenumber">127,133</context>
@@ -2184,7 +2184,7 @@
       </trans-unit>
       <trans-unit id="libraryRoleDeletionWarning" datatype="html">
         <source>This will remove the role from ALL holders in the organisation and delete it from the list of roles. This cannot be undone. Are you sure?</source>
-        <target state="translated">Le rôle de TOUS les détenteurs dans l'entreprise sera retiré et  supprimer de la liste des rôles. Cette opération ne peut pas être annulée. Vous êtes certain?</target>
+        <target state="translated">Le rôle de TOUS les détenteurs dans l'entreprise sera retiré et supprimer de la liste des rôles. Cette opération ne peut pas être annulée. Vous êtes certain?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
           <context context-type="linenumber">179,180</context>
@@ -2246,7 +2246,7 @@
       </trans-unit>
       <trans-unit id="b8b3b3f7b34a41213ddc2b1e58fdd39435fa7b02" datatype="html">
         <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-green&quot;&gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-hand-o-right mr-1&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Well done! <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> Once imported, new users must be <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;../../members&quot;&gt;"/>invited<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> to view and edit maps.</source>
-        <target state="translated"><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-green&quot;&gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-hand-o-right mr-1&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Bien joué !  Une fois importés, les nouveaux utilisateurs doivent être invités pour visualiser et modifier les cartes <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;../../members&quot;&gt;"/><x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
+        <target state="translated"><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-green&quot;&gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-hand-o-right mr-1&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Bien joué ! Une fois importés, les nouveaux utilisateurs doivent être invités pour visualiser et modifier les cartes <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;../../members&quot;&gt;"/><x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
           <context context-type="linenumber">146,153</context>
@@ -2466,7 +2466,7 @@
       </trans-unit>
       <trans-unit id="unselectAll" datatype="html">
         <source>Unselect all</source>
-        <target state="translated">Tout  désélectionner</target>
+        <target state="translated">Tout désélectionner</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/filtering/tags.component.html</context>
           <context context-type="linenumber">42</context>
@@ -2490,7 +2490,7 @@
       </trans-unit>
       <trans-unit id="e00503b12d31f946a7585db1427b57a76ffe7d74" datatype="html">
         <source>{VAR_PLURAL, plural, =0 {circles} =1 {circle} other {circles}}</source>
-        <target state="translated">{VAR_PLURAL, pluriel, =0 {cercles} =1 {cercles} autres {cercles}}</target>
+        <target state="needs-translation">{VAR_PLURAL, plural, =0 {cercles} =1 {cercles} other {cercles}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/personal.component.html</context>
           <context context-type="linenumber">48,49</context>
@@ -2506,7 +2506,7 @@
       </trans-unit>
       <trans-unit id="578a5607ad60cedf9d1eafcb2d8830269afe866e" datatype="html">
         <source>{VAR_SELECT, select, true {Hide} false {Show}}</source>
-        <target state="translated">{VAR_SELECT, sélectionner, vrai {Cacher} faux {Montrer}}</target>
+        <target state="translated">{VAR_SELECT, select, true {Cacher} false {Montrer}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/people.component.html</context>
           <context context-type="linenumber">29</context>
@@ -2522,7 +2522,7 @@
       </trans-unit>
       <trans-unit id="0ad65682a88a7119d4db799c70d50fbbc5ca8104" datatype="html">
         <source>No helping participation yet</source>
-        <target state="translated">Cette personne  ne contribue pas encore dans un cercle.</target>
+        <target state="translated">Cette personne ne contribue pas encore dans un cercle.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/personal.component.html</context>
           <context context-type="linenumber">124,125</context>
@@ -2618,7 +2618,7 @@
       </trans-unit>
       <trans-unit id="13cbca55f425f334a924105982aabcc9191db8e4" datatype="html">
         <source>{VAR_PLURAL, plural, =0 {circles} =1 {circle} other {circles}}</source>
-        <target state="translated">{VAR_PLURAL, pluriel, =0 {cercles} =1 {cercles} autres {cercles}}</target>
+        <target state="needs-translation">{VAR_PLURAL, plural, =0 {cercles} =1 {cercles} other {cercles}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/personal.component.html</context>
           <context context-type="linenumber">14,15</context>
@@ -2626,7 +2626,7 @@
       </trans-unit>
       <trans-unit id="85fbfd869c40250f0c6200b42662e76e7ba92779" datatype="html">
         <source>{VAR_PLURAL, plural, =0 {circles} =1 {circle} other {circles}}</source>
-        <target state="translated">{VAR_PLURAL, pluriel, =0 {cercles} =1 {cercles} autres {cercles}}</target>
+        <target state="needs-translation">{VAR_PLURAL, plural, =0 {cercles} =1 {cercles} other {cercles}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/personal.component.html</context>
           <context context-type="linenumber">31,32</context>
@@ -2658,7 +2658,7 @@
       </trans-unit>
       <trans-unit id="e09937da4da1104e2087a1102f0daa85b18bea2e" datatype="html">
         <source>{VAR_SELECT, select, true {Hide} false {Show}}</source>
-        <target state="translated">{VAR_SELECT, sélectionner, vrai {Cacher} faux {Montrer}}</target>
+        <target state="translated">{VAR_SELECT, select, true {Cacher} false {Montrer}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/network/mapping.network.component.html</context>
           <context context-type="linenumber">30</context>
@@ -2774,7 +2774,7 @@
       </trans-unit>
       <trans-unit id="c93637b30e3d4b731391fa0daadb8da01d2c1583" datatype="html">
         <source>{VAR_PLURAL, plural, other {them}}</source>
-        <target state="translated">{VAR_PLURAL, pluriel, autre {eux}}</target>
+        <target state="needs-translation">{VAR_PLURAL, plural, other {eux}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">231</context>
@@ -2862,7 +2862,7 @@
       </trans-unit>
       <trans-unit id="ee9100e94ebff4a5c390b765ce204823cf0e9c12" datatype="html">
         <source>{VAR_PLURAL, plural, =1 {person} other {people}}</source>
-        <target state="translated">{VAR_PLURAL, pluriel, =1 {personne} autre {personnes}}</target>
+        <target state="needs-translation">{VAR_PLURAL, plural, =1 {personne} other {personnes}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-single/team.component.html</context>
           <context context-type="linenumber">9</context>
@@ -2950,7 +2950,7 @@
       </trans-unit>
       <trans-unit id="0a82cfc8df3e0267a269a9c3a7c897d3ab0d74c4" datatype="html">
         <source>{VAR_SELECT, select, Standard {Standard} Admin {Admin} Superuser {Superuser}}</source>
-        <target state="translated">{VAR_SELECT, sélectionner, Standard {Standard} Admin {Admin} Superutilisateur {Superutilisateur}}</target>
+        <target state="translated">{VAR_SELECT, select, Standard {Standard} Admin {Admin} Superuser {Superutilisateur}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
           <context context-type="linenumber">113,114</context>
@@ -3018,7 +3018,7 @@
       </trans-unit>
       <trans-unit id="d47151ac3fc8597f49c58f50b3c94e3d02bcd59b" datatype="html">
         <source>{VAR_SELECT, select, Standard {Standard} Admin {Admin} Superuser {Superuser}}</source>
-        <target state="translated">{VAR_SELECT, sélectionner, Standard {Standard} Admin {Admin} Superutilisateur {Superutilisateur}}</target>
+        <target state="translated">{VAR_SELECT, select, Standard {Standard} Admin {Admin} Superuser {Superutilisateur}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
           <context context-type="linenumber">128,129</context>
@@ -3162,7 +3162,7 @@
       </trans-unit>
       <trans-unit id="3c5c102d91b0f625297a93c40837598a4637f998" datatype="html">
         <source>{VAR_SELECT, select, true {vacancy} false {person}}</source>
-        <target state="translated">{VAR_SELECT, sélectionner, vrai {vacant} faux {personne}}</target>
+        <target state="translated">{VAR_SELECT, select, true {vacant} false {personne}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
           <context context-type="linenumber">97,98</context>
@@ -3211,7 +3211,7 @@
       </trans-unit>
       <trans-unit id="08fa5750a60011645da4388afd16dfbdb563d0b6" datatype="html">
         <source>{VAR_PLURAL, plural, =1 {A person} other {Multiple people}}</source>
-        <target state="translated">{VAR_PLURAL, plural, =1 {Une personne} autre {Plusieurs personnes}}</target>
+        <target state="needs-translation">{VAR_PLURAL, plural, =1 {Une personne} other {Plusieurs personnes}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">227</context>
@@ -3219,7 +3219,7 @@
       </trans-unit>
       <trans-unit id="68e2d566f5cacb705b091edf02fdde3f36a0690b" datatype="html">
         <source>{VAR_PLURAL, plural, =1 {is} other {are}}</source>
-        <target state="translated">{VAR_PLURAL, pluriel, =1 {est} autre {sont}}</target>
+        <target state="needs-translation">{VAR_PLURAL, plural, =1 {est} other {sont}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">228,229</context>
@@ -3227,7 +3227,7 @@
       </trans-unit>
       <trans-unit id="27eae39d70fb0f049505cdfe08d4aadf3433a3f3" datatype="html">
         <source>{VAR_PLURAL, plural, =1 {a member} other {members}}</source>
-        <target state="translated">{VAR_PLURAL, plural, =1 {un contributeur} autres {contributeurs}}</target>
+        <target state="needs-translation">{VAR_PLURAL, plural, =1 {un contributeur} other {contributeurs}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">229,230</context>
@@ -3303,7 +3303,7 @@
       </trans-unit>
       <trans-unit id="a1f2f8ff86cbb627d49d2fb572381a4296ec6f59" datatype="html">
         <source>{VAR_PLURAL, plural, =1 {map} other {maps}}</source>
-        <target state="translated">{VAR_PLURAL, pluriel, =1 {carte} autre {cartes}}</target>
+        <target state="needs-translation">{VAR_PLURAL, plural, =1 {carte} other {cartes}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">93</context>
