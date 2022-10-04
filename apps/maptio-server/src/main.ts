@@ -234,6 +234,8 @@ if (!environment.isDevelopment) {
     if (localePath === '') {
       let preferredLocales = [];
 
+      console.log('Cookies! Nom, nom, nom!', req.cookies);
+
       if (req.cookies.locale) {
         preferredLocales.push(req.cookies.locale);
       }
