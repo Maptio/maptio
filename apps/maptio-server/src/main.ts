@@ -217,32 +217,23 @@ if (!environment.isDevelopment) {
     next();
   });
 
-  // If a supported locale is present in the path, we will use that to send the
-  // appropriate index.html for that locale
-  // let localePath = '';
-  // LOCALES.forEach((locale) => {
-  //   app.use(`/${locale}/`, function (req, res, next) {
-  //     console.log('app.use(/locale/) activated with locale', locale);
-  //     localePath = locale;
-  //     next();
-  //   });
-  // });
-
   // For any other requests, serve the static Angular bundle
   app.get('*', function (req, res, next) {
-    console.log('req.host', req.hostname);
-    console.log('req.path', req.path);
-    console.log('Cookies! Nom, nom, nom!', req.cookies);
+    // console.log('\n\n\nreq.host', req.hostname);
+    // console.log('req.path', req.path);
+    // console.log('Cookies! Nom, nom, nom!', req.cookies);
 
+    // If a supported locale is present in the path, we will use that to send the
+    // appropriate index.html for that locale
     const localeFromPath = getLocaleFromPath(req.path, LOCALES);
-    console.log('localeFromPath', localeFromPath);
+    // console.log('localeFromPath', localeFromPath);
 
     // Set locale based on cookie (if set previously by language picker) or
     // language headers or default to English if we don't support  a matching
     // locale
     let finalLocale = '';
     if (localeFromPath === '') {
-      console.log('Reading from cookies, yay!');
+      // console.log('Reading from cookies, yay!');
 
       let preferredLocales = [];
 
@@ -250,23 +241,23 @@ if (!environment.isDevelopment) {
         preferredLocales.push(req.cookies.locale);
       }
       preferredLocales = preferredLocales.concat(req.acceptsLanguages());
-      console.log('req.acceptsLanguages()', req.acceptsLanguages());
-      console.log('preferredLocales', preferredLocales);
-      console.log('LOCALES', LOCALES);
-      console.log('DEFAULT_LOCALE', DEFAULT_LOCALE);
+      // console.log('req.acceptsLanguages()', req.acceptsLanguages());
+      // console.log('preferredLocales', preferredLocales);
+      // console.log('LOCALES', LOCALES);
+      // console.log('DEFAULT_LOCALE', DEFAULT_LOCALE);
 
       finalLocale = getClosestSupportedLocale(
         preferredLocales,
         LOCALES,
         DEFAULT_LOCALE
       );
-      console.log('getClosestSupportedLocale() result:', finalLocale);
+      // console.log('getClosestSupportedLocale() result:', finalLocale);
     } else {
       finalLocale = localeFromPath;
-      console.log('Skipping cookies, sorry!');
+      // console.log('Skipping cookies, sorry!');
     }
 
-    console.log('Final locale:', finalLocale);
+    // console.log('Final locale:', finalLocale);
     const HTML_FILE = path.join(DIST_DIR, finalLocale, HTML_FILE_NAME);
     res.sendFile(HTML_FILE);
   });
