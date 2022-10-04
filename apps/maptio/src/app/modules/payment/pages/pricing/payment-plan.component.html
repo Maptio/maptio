@@ -11,7 +11,7 @@
 
     <div *ngIf="price; else contactUsPrice" class="card-text d-flex flex-row">
       <span class="display-4">${{ price }}</span>
-      <small class="ml-2 text-left align-middle align-self-center">
+      <small class="ml-2 text-left align-middle align-self-center" i18n>
         per month,
         <br />
         per organization
@@ -25,7 +25,7 @@
         style="margin-bottom: 11px !important"
         href="mailto:support@maptio.com"
       >
-        Contact us
+        <ng-container i18n="@@contactUs">Contact us</ng-container>
       </a>
     </ng-template>
 
@@ -38,7 +38,7 @@
         *ngIf="!observables.isAuthenticated"
         class="btn btn-success btn-lg my-3"
       >
-        Sign up
+        <ng-container i18n="@@signUp">Sign up</ng-container>
       </button>
 
       <a
@@ -46,7 +46,7 @@
         class="btn btn-success text-white btn-lg my-3"
         href="{{ billingLink }}"
       >
-        Subscribe
+        <ng-container i18n="@@subscribe">Subscribe</ng-container>
       </a>
 
       <a
@@ -54,7 +54,7 @@
         class="btn btn-success text-white btn-lg my-3"
         href="mailto:support@maptio.com"
       >
-        Contact us
+        <ng-container i18n="@@contactUs">Contact us</ng-container>
       </a>
     </div>
   </div>

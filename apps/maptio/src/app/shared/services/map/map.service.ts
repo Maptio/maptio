@@ -98,40 +98,30 @@ export class MapService {
         team_id: teamId,
         children: [
           new Initiative({
-            name: 'Outer circle',
-            description:
-              "Use this area to explain more about what this circle does and link out to other tools, systems and documents that you're using.",
+            name: $localize`Outer circle`,
+            description: $localize`Use this area to explain more about what this circle does and link out to other tools, systems and documents that you're using.`,
             team_id: teamId,
             id: Math.floor(Math.random() * 10000000000000),
-            children: [
-              new Initiative({
-                name: 'Sub-circle 1',
-                description:
-                  'Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.',
-                team_id: teamId,
-                id: Math.floor(Math.random() * 10000000000000),
-              }),
-              new Initiative({
-                name: 'Sub-circle 2',
-                description:
-                  'Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.',
-                team_id: teamId,
-                id: Math.floor(Math.random() * 10000000000000),
-              }),
-              new Initiative({
-                name: 'Sub-circle 3',
-                description:
-                  'Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.',
-                team_id: teamId,
-                id: Math.floor(Math.random() * 10000000000000),
-              }),
-            ],
+            children: [1, 2, 3].map((index) =>
+              this.createSubCircleTemplate(index, teamId)
+            ),
           }),
         ],
       }),
     });
 
     return this.create(template);
+  }
+
+  createSubCircleTemplate(subCircleIndex: number, teamId: string) {
+    return new Initiative({
+      name: $localize`Sub-circle ${subCircleIndex}`,
+      description: $localize`
+        Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.
+      `,
+      team_id: teamId,
+      id: Math.floor(Math.random() * 10000000000000),
+    });
   }
 
   createExample(teamId: string) {

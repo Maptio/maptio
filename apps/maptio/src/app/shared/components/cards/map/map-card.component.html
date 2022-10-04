@@ -8,6 +8,7 @@
   <div
     *ngIf="dataset?.team?.isExample"
     class="corner-ribbon top-right bg-accent box-shadow text-bold"
+    i18n
   >
     Demo
   </div>
@@ -46,22 +47,25 @@
               type="text"
             />
 
-            <small class="invalid-feedback">Required</small>
+            <small class="invalid-feedback" i18n="@@required">Required</small>
 
-            <small class="text-danger" *ngIf="isUpdateFailed">
+            <small class="text-danger" *ngIf="isUpdateFailed" i18n>
               Update failed!
             </small>
 
-            <button class="btn btn-success" type="submit">Save</button>
+            <button class="btn btn-success" type="submit">
+              <ng-container i18n="@@save">Save</ng-container>
+            </button>
 
             <button class="btn btn-link" (click)="isEditing = false">
-              Cancel
+              <ng-container i18n="@@cancel">Cancel</ng-container>
             </button>
           </form>
         </div>
 
         <div class="small text-muted my-1 nowrap" [class.d-none]="isEditing">
-          {{ dataset?.depth }} {{ dataset?.depth < 1 ? 'circle' : 'circles' }}
+          {{ dataset?.depth }} {dataset?.depth, plural, =0 {circles} =1 {circle}
+          other {circles}}
         </div>
       </div>
     </div>
@@ -81,7 +85,7 @@
               *ngIf="dataset?.initiative.children[0]?.accountable"
               class="text-muted d-flex align-items-center"
             >
-              Led by
+              <ng-container i18n="@@ledBy">Led by</ng-container>
               <img
                 class="avatar mx-1"
                 src="{{
@@ -105,6 +109,7 @@
             <div
               *ngIf="!dataset?.initiative.children[0]?.accountable"
               class="text-muted"
+              i18n
             >
               No {{ dataset.team.settings.authority }}
             </div>
@@ -113,7 +118,7 @@
       </div>
 
       <div class="card-subtitle my-2" *ngIf="isTeamDisplayed">
-        Organisation
+        <ng-container i18n="@@organisation">Organisation</ng-container>
         <a
           routerLink="/teams/{{ dataset?.team?.team_id }}/{{
             dataset?.team?.getSlug()
@@ -139,8 +144,10 @@
       (click)="export(dataset)"
     >
       <i class="fas fa-table mr-1" aria-hidden="true"></i>
-      <span class="d-none d-md-block" *ngIf="!isExporting">Export</span>
-      <span class="text-muted d-none d-md-block" *ngIf="isExporting">
+      <span class="d-none d-md-block" *ngIf="!isExporting" i18n="@@export">
+        Export
+      </span>
+      <span class="text-muted d-none d-md-block" *ngIf="isExporting" i18n>
         Exporting
       </span>
     </button>
@@ -154,7 +161,7 @@
         (click)="toggleConfiguringEmbedding()"
       >
         <i class="fas fa-code mr-1"></i>
-        <span class="d-none d-md-block">Embed</span>
+        <span class="d-none d-md-block" i18n="@@embed">Embed</span>
       </button>
 
       <button
@@ -165,7 +172,7 @@
         (click)="isEditing = true"
       >
         <i class="fas fa-pen mr-1"></i>
-        <span class="d-none d-md-block">Edit name</span>
+        <span class="d-none d-md-block" i18n>Edit name</span>
       </button>
 
       <button
@@ -176,8 +183,10 @@
         (click)="duplicate()"
       >
         <i class="fas fa-copy mr-1"></i>
-        <span class="d-none d-md-block" *ngIf="!isCopying">Copy</span>
-        <span class="text-muted d-none d-md-block" *ngIf="isCopying">
+        <span class="d-none d-md-block" *ngIf="!isCopying" i18n="@@copy">
+          Copy
+        </span>
+        <span class="text-muted d-none d-md-block" *ngIf="isCopying" i18n>
           Copying
         </span>
       </button>
@@ -198,9 +207,15 @@
         appendToBody="true"
         (confirm)="archive()"
         (cancel)="cancelClicked = true"
+        i18n-popoverTitle
+        i18n-popoverMessage
+        confirmText="Confirm"
+        cancelText="Cancel"
+        i18n-confirmText="@@confirm"
+        i18n-cancelText="@@cancel"
       >
         <i class="fas fa-archive mr-1"></i>
-        <span class="d-none d-md-block">Archive</span>
+        <span class="d-none d-md-block" i18n>Archive</span>
       </button>
 
       <button
@@ -210,7 +225,7 @@
         (click)="restore()"
       >
         <i class="fas fa-undo mr-1"></i>
-        <span class="d-none d-md-block">Restore</span>
+        <span class="d-none d-md-block" i18n>Restore</span>
       </button>
     </ng-container>
   </div>
@@ -223,7 +238,10 @@
     *ngIf="isConfiguringEmbedding"
   >
     <div class="d-flex flex-row align-items-center">
-      This functionality has now moved into the toolbar in the Circles map view.
+      <ng-container i18n>
+        This functionality has now moved into the toolbar in the Circles map
+        view.
+      </ng-container>
 
       <img
         class="ml-2"
@@ -237,7 +255,7 @@
 
     <div class="d-flex flex-row w-100 mt-3 justify-content-end">
       <button class="btn btn-link" (click)="toggleConfiguringEmbedding()">
-        Cancel
+        <ng-container i18n="@@cancel">Cancel</ng-container>
       </button>
 
       <a
@@ -245,6 +263,7 @@
           dataset?.initiative.getSlug()
         }}"
         class="btn btn-success text-white"
+        i18n
       >
         Take me there
       </a>

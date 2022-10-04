@@ -616,7 +616,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     if (await this.mapService.isDatasetOutdated(this.dataset)) {
       alert(
-        'A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before changing network view settings. Sorry for the hassle.'
+        $localize`A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before changing network view settings. Sorry for the hassle.`
       );
       return;
     }

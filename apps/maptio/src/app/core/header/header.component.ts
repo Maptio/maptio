@@ -46,6 +46,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   public areMapsAvailable: Promise<boolean>;
   public isMenuOpened = false;
   public BLOG_URL: string = environment.BLOG_URL;
+  public GITHUB_URL: string = environment.GITHUB_URL;
 
   public isSaving = false;
   public isSandbox: boolean;

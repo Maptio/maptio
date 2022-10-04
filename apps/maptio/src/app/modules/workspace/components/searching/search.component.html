@@ -69,13 +69,14 @@
         autofocus="autofocus"
         placement="bottom-left"
         placeholder="Search circles, people and description"
+        i18n-placeholder
       />
       <div class="">
         <button
           class="btn btn-outline-secondary mx-1"
           (click)="initiativeSearch.value = ''; clearSearch()"
         >
-          Reset
+          <ng-container i18n="@@reset">Reset</ng-container>
         </button>
       </div>
     </div>

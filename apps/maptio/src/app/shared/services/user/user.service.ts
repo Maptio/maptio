@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, Inject } from '@angular/core';
+import { Injectable, OnDestroy, Inject, LOCALE_ID } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -129,7 +129,8 @@ export class UserService implements OnDestroy {
     private mapService: MapService,
     private userRoleService: UserRoleService,
     private loaderService: LoaderService,
-    @Inject(DOCUMENT) private doc: Document
+    @Inject(DOCUMENT) private doc: Document,
+    @Inject(LOCALE_ID) public currentLocaleCode: string
   ) {
     // TODO: This is the solution to token expiry actually recommended by Auth0
     // here: https://github.com/auth0/auth0-angular#handling-errors but it's
@@ -152,7 +153,9 @@ export class UserService implements OnDestroy {
    */
 
   login() {
-    return this.auth.loginWithRedirect();
+    return this.auth.loginWithRedirect({
+      ui_locales: this.currentLocaleCode,
+    });
   }
 
   logout() {
@@ -164,6 +167,7 @@ export class UserService implements OnDestroy {
   signup() {
     return this.auth.loginWithRedirect({
       screen_hint: 'signup',
+      ui_locales: this.currentLocaleCode,
     });
   }
 
@@ -301,7 +305,7 @@ export class UserService implements OnDestroy {
           return user;
         },
         (reason) => {
-          return Promise.reject(`Can't create ${email} : ${reason}`);
+          return Promise.reject($localize`Can't create ${email} : ${reason}`);
         }
       )
       .then((user: User) => {
@@ -464,7 +468,7 @@ export class UserService implements OnDestroy {
     isActivationPending?: boolean
   ): Promise<boolean> {
     if (user.email !== email && user.isInAuth0) {
-      throw new Error('Cannot update email of user already in Auth0.');
+      throw new Error($localize`Cannot update email of user already in Auth0.`);
     }
 
     user.firstname = firstname;
@@ -647,7 +651,7 @@ export class UserService implements OnDestroy {
 
       if (duplicateUsers.length > 1) {
         throw new MultipleUserDuplicationError(
-          'We found multiple duplicated users with `isInAuth0` set to `true`.'
+          $localize`We found multiple duplicated users with 'isInAuth0' set to 'true'.`
         );
       }
     }
@@ -661,9 +665,11 @@ export class UserService implements OnDestroy {
     team: Team
   ) {
     if (duplicateUsers.length > 1) {
-      throw new Error('Cannot replace user with multiple duplicates.');
+      throw new Error($localize`Cannot replace user with multiple duplicates.`);
     } else if (duplicateUsers.length === 0) {
-      throw new Error('No duplicate users found. Aborting replacing user.');
+      throw new Error(
+        $localize`No duplicate users found. Aborting replacing user.`
+      );
     }
 
     const replacementUser = duplicateUsers[0];
@@ -682,13 +688,11 @@ export class UserService implements OnDestroy {
         this.mapService.isDatasetOutdated(dataset)
       )
     );
-    const isAnyDatasetOutdated = outdatedStatusForEachTeamDataset.some(
-      Boolean
-    );
+    const isAnyDatasetOutdated = outdatedStatusForEachTeamDataset.some(Boolean);
 
     if (isAnyDatasetOutdated) {
       alert(
-        'A friendly heads-up: One or more of your maps has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before adding an existing user. Sorry for the hassle.'
+        $localize`A friendly heads-up: One or more of your maps has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before adding an existing user. Sorry for the hassle.`
       );
       return;
     }
@@ -737,7 +741,7 @@ export class UserService implements OnDestroy {
         await this.datasetFactory.upsert(dataset);
       } catch {
         throw new Error(
-          'Failed to update dataset while replacing duplicate users.'
+          $localize`Failed to update dataset while replacing duplicate users.`
         );
       }
     });

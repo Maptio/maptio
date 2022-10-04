@@ -5,6 +5,7 @@
 
 export const environment = {
   BLOG_URL: 'https://medium.com/maptio',
+  GITHUB_URL: 'https://github.com/maptio/maptio',
   SUPPORT_EMAIL: 'support@maptio.com',
   MAPTIO_API_URL: 'https://app.maptio.com/api/v1',
   MIXPANEL_TOKEN: 'de90e67220137ed9cab9510a84ba7ecf',
@@ -26,12 +27,12 @@ export const environment = {
   MESSAGE_PERMISSIONS_DENIED_EDIT: "You don't have permissions to edit this",
 
   IMPORT_USERS_TEMPLATE_URL:
-    '/assets/other/Maptio - Import template - Users.csv',
+    'assets/other/Maptio - Import template - Users.csv',
 
   SLACK_CLIENT_ID: '97212882021.321753214899',
 
-  DEFAULT_AUTHORITY_TERMINOLOGY: 'Lead',
-  DEFAULT_HELPER_TERMINOLOGY: 'Contributor',
+  DEFAULT_AUTHORITY_TERMINOLOGY: $localize`:@@onboarding-terminology-6:Lead`,
+  DEFAULT_HELPER_TERMINOLOGY: $localize`:@@onboarding-terminology-7:Contributor`,
 
   BILLING_TEST_PLAN:
     'https://maptio-test.chargebee.com/hosted_pages/plans/standard-plan',
@@ -50,6 +51,6 @@ export const environment = {
     '#242c2e',
   ],
   DEFAULT_PRESETS_LABEL: ' ',
-  SCREENSHOT_URL: '/assets/images/screenshot.webp',
-  SCREENSHOT_URL_FALLBACK: '/assets/images/screenshot.png',
+  SCREENSHOT_URL: 'assets/images/screenshot.webp',
+  SCREENSHOT_URL_FALLBACK: 'assets/images/screenshot.png',
 };

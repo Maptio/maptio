@@ -1,7 +1,9 @@
 <common-textarea
   rows="8"
   label="Circle description"
+  i18n-label
   placeholder="Describe this circle. You can also include links to other documents and tools used by this circle."
+  i18n-placeholder
   [isUnauthorized]="isUnauthorized"
   [text]="description"
   (save)="onChange($event)"

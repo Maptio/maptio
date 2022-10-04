@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { JwtModule } from '@auth0/angular-jwt';
+import { CookieService } from 'ngx-cookie-service';
 
 import { ErrorPageComponent } from './error/error.page';
 
@@ -36,6 +37,7 @@ import { OnboardingModule } from '../shared/onboarding.module';
 import { OnboardingComponent } from '../shared/components/onboarding/onboarding.component';
 import { LoginModule } from 'app/modules/login/login.module';
 import { LoginErrorPageComponent } from './login-error/login-error.page';
+import { LanguagePickerComponent } from './header/language-picker.component';
 
 export function tokenGetter(): string {
   return localStorage.getItem('maptio_api_token');
@@ -51,6 +53,7 @@ export function tokenGetter(): string {
     NotFoundComponent,
     LoginErrorPageComponent,
     ErrorPageComponent,
+    LanguagePickerComponent,
   ],
   imports: [
     CommonModule,
@@ -76,6 +79,7 @@ export function tokenGetter(): string {
     OnboardingComponent,
   ],
   providers: [
+    CookieService,
     AccessGuard,
     ActivationGuard,
     BillingGuard,
@@ -94,10 +98,10 @@ export class CoreModule {
       // Ensure that the first breadcrumb always points to home
       let processedBreadcrumbs = breadcrumbs;
 
-      if (breadcrumbs.length && breadcrumbs[0].text !== 'Home') {
+      if (breadcrumbs.length && breadcrumbs[0].text !== $localize`:@@home:Home`) {
         processedBreadcrumbs = [
           {
-            text: 'Home',
+            text: $localize`:@@home:Home`,
             path: '',
           },
         ].concat(breadcrumbs);

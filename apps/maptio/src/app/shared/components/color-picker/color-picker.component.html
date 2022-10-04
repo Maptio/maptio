@@ -3,13 +3,15 @@
     <label for="example-time-input" class="col-form-label col-auto">
       {{ label }}
     </label>
+
     <color-hue-picker
       [color]="color"
       [width]="255"
       (onChangeComplete)="pickColor($event)"
     ></color-hue-picker>
+
     <button class="btn btn-outline-secondary ml-2 col-auto" (click)="reset()">
-      Reset
+      <ng-container i18n="@@reset">Reset</ng-container>
     </button>
   </div>
 </ng-container>
@@ -38,10 +40,7 @@
 
 <ng-container *ngIf="isDisabled">
   <ng-template #editTipContent>
-    <span class="text-orange">
-      You don't have permission to edit this.
-      <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
-    </span>
+    <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
   </ng-template>
 
   <button

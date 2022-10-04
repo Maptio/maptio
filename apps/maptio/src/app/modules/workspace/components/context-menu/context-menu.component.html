@@ -14,7 +14,7 @@
         >
           <span>
             <i class="fas fa-pen mr-1" aria-hidden="true"></i>
-            Edit circle details
+            <ng-container i18n>Edit circle details</ng-container>
           </span>
         </button>
         <button
@@ -24,7 +24,9 @@
         >
           <span class="d-flex align-items-center justify-content-start nowrap">
             <i class="far fa-id-card mr-1"></i>
-            {{ initiative.accountable.name }}'s summary
+            <ng-container i18n>
+              {{ initiative.accountable.name }}'s summary
+            </ng-container>
             <img
               [src]="initiative.accountable.picture"
               [alt]="initiative.accountable.name"
@@ -42,7 +44,7 @@
         <div class="d-flex justify-content-between align-items-center">
           <span>
             <i class="fas fa-plus mr-1" aria-hidden="true"></i>
-            Create sub-circle
+            <ng-container i18n>Create sub-circle</ng-container>
           </span>
           <i
             class="fa"
@@ -66,12 +68,14 @@
             <button
               class="btn btn-outline-success btn-sm"
               (click)="addNode(initiatives[0], inputNewInitiative.value, true)"
+              i18n
             >
               Add circle and edit details
             </button>
             <button
               class="btn btn-success btn-sm"
               (click)="addNode(initiatives[0], inputNewInitiative.value, false)"
+              i18n
             >
               Add circle
             </button>
@@ -97,7 +101,9 @@
               <div class="d-flex justify-content-between align-items-center">
                 <span>
                   <i class="fas fa-trash mr-1" aria-hidden="true"></i>
-                  Delete circle
+                  <ng-container i18n="@@deleteCircle">
+                    Delete circle
+                  </ng-container>
                 </span>
                 <i
                   class="fa"
@@ -114,13 +120,13 @@
                   class="btn btn-link btn-sm"
                   (click)="isRemovingNode = false"
                 >
-                  Cancel
+                  <ng-container i18n="@@cancel">Cancel</ng-container>
                 </button>
                 <button
                   class="btn btn-danger btn-sm mx-1"
                   (click)="removeNode(initiative)"
                 >
-                  Confirm
+                  <ng-container i18n="@@confirm">Confirm</ng-container>
                 </button>
               </div>
             </div>
@@ -139,10 +145,7 @@
               <div>
                 <i class="fa fa-trash mx-1" aria-hidden="true"></i>
                 <small class="text-muted">
-                  You don't have permission to delete this.
-                  <a href="{{ KB_URL_PERMISSIONS }}" target="blank">
-                    Learn more.
-                  </a>
+                  <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
                 </small>
               </div>
             </div>

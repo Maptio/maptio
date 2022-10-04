@@ -1,18 +1,9 @@
-<ng-template #editTipContent>
-  <span class="text-orange">
-    You don't have permission to edit this.
-    <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
-  </span>
-</ng-template>
-<ng-template #deleteTipContent>
-  <span class="text-orange">
-    You don't have permission to delete this.
-    <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
-  </span>
+<ng-template #insufficientPermissionsMessage>
+  <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
 </ng-template>
 
 <div class="h-100 overflow-y">
-  <div class="text-muted my-4">
+  <div class="text-muted my-4" i18n>
     Use tags to map strategic themes, progress and other information which might
     be relevant to multiple circles across the map.
   </div>
@@ -22,7 +13,7 @@
       *permissionsOnly="Permissions.canEditTags"
       class="d-flex flex-column bg-light rounded p-3"
     >
-      <h6>Create a new tag</h6>
+      <h6 i18n>Create a new tag</h6>
 
       <form
         class="form-group form-inline d-flex"
@@ -61,7 +52,7 @@
             newTagForm.controls['name'].touched)
         "
       >
-        Required
+        <ng-container i18n="@@required">Required</ng-container>
       </small>
     </div>
 
@@ -108,11 +99,19 @@
             (confirm)="removeTag(tag)"
             (cancel)="cancelClicked = true"
             class="btn btn-outline-secondary remove col-auto"
+            i18n-popoverMessage
+            confirmText="Confirm"
+            cancelText="Cancel"
+            i18n-confirmText="@@confirm"
+            i18n-cancelText="@@cancel"
           ></button>
         </ng-template>
 
         <ng-template #elseTagsBlock>
-          <div class="flex-grow-1 d-flex" [stickyPopover]="editTipContent">
+          <div
+            class="flex-grow-1 d-flex"
+            [stickyPopover]="insufficientPermissionsMessage"
+          >
             <input
               type="text"
               class="flex-grow-1 form-control cursor-not-allowed"
@@ -133,7 +132,7 @@
             container="body"
             appendToBody="false"
             class="btn btn-outline-secondary remove col-auto disabled cursor-not-allowed"
-            [stickyPopover]="deleteTipContent"
+            [stickyPopover]="insufficientPermissionsMessage"
           ></button>
         </ng-template>
       </div>

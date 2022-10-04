@@ -50,22 +50,22 @@ export class TeamComponent implements OnInit {
   onActivate(component: any) {
     switch (component.constructor) {
       case TeamMembersComponent:
-        this.pageName = 'People';
+        this.pageName = $localize`:@@people:People`;
         break;
       case TeamImportComponent:
-        this.pageName = 'Import from a .csv file';
+        this.pageName = $localize`Import from a .csv file`;
         break;
       case TeamMapsComponent:
-        this.pageName = 'Maps';
+        this.pageName = $localize`:@@maps:Maps`;
         break;
       case TeamSettingsComponent:
-        this.pageName = 'Name & Terminology';
+        this.pageName = $localize`:@@terminology:Name & Terminology`;
         break;
       case TeamIntegrationsComponent:
-        this.pageName = 'Integrations';
+        this.pageName = $localize`:@@integrations:Integrations`;
         break;
       case TeamBillingComponent:
-        this.pageName = 'Billing';
+        this.pageName = $localize`:@@billing:Billing`;
         break;
       default:
         this.pageName = '';

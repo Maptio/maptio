@@ -55,11 +55,11 @@ export class TeamService {
                     });
                   }
                 } else {
-                  throw `Unable to add you to organisation ${name}!`;
+                  throw $localize`Unable to add you to organisation ${name}!`;
                 }
               },
               () => {
-                throw `Unable to create organisation ${name}!`;
+                throw $localize`Unable to create organisation ${name}!`;
               }
             )
             .then(() => {
@@ -67,7 +67,7 @@ export class TeamService {
             });
         },
         () => {
-          throw `Unable to create organisation ${name}!`;
+          throw $localize`Unable to create organisation ${name}!`;
         }
       )
       .then((team: Team) => {
@@ -77,7 +77,7 @@ export class TeamService {
             .toPromise()
             .then((result) => {
               if (result) return team;
-              else throw 'Cannot sync organisation with Intercom.';
+              else throw $localize`Cannot sync organisation with Intercom.`;
             });
         } else {
           return team;
@@ -90,14 +90,16 @@ export class TeamService {
   }
 
   renameTemporary(team: Team, name: string) {
-    if (!name) return Promise.reject('Organisation name cannot be empty');
+    if (!name)
+      return Promise.reject($localize`Organisation name cannot be empty`);
     team.name = name;
     team.isTemporary = false;
     return this.teamFactory.upsert(team);
   }
 
   save(team: Team) {
-    if (!team.name) return Promise.reject('Organisation name cannot be empty');
+    if (!team.name)
+      return Promise.reject($localize`Organisation name cannot be empty`);
     return this.teamFactory.upsert(team).then((saved) => {
       if (saved) return team;
     });
@@ -115,7 +117,8 @@ export class TeamService {
   }
 
   saveTerminology(team: Team, name: string, authority: string, helper: string) {
-    if (!name) return Promise.reject('Organisation name cannot be empty');
+    if (!name)
+      return Promise.reject($localize`Organisation name cannot be empty`);
 
     team.name = name;
     team.settings = { authority: authority, helper: helper };
@@ -130,7 +133,7 @@ export class TeamService {
         });
         return team;
       } else {
-        throw 'Error while updating the organisation';
+        throw $localize`Error while updating the organisation`;
       }
     });
   }
@@ -149,7 +152,7 @@ export class TeamService {
     try {
       success = await this.teamFactory.upsert(team);
     } catch {
-      throw new Error(`
+      throw new Error($localize`
         Encountered an error while updating team object after removing a team
         member.
       `);
@@ -167,7 +170,7 @@ export class TeamService {
     try {
       teamDatasets = await this.datasetFactory.get(team);
     } catch {
-      throw new Error(`
+      throw new Error($localize`
         Encountered an error while fetching datasets for a team to add a member
         to the team.
       `);
@@ -179,7 +182,7 @@ export class TeamService {
     try {
       success = await this.userFactory.upsert(user);
     } catch {
-      throw new Error(`
+      throw new Error($localize`
         Encountered an error while updating user object after adding member to
         team.
       `);
@@ -190,7 +193,7 @@ export class TeamService {
     try {
       success = await this.teamFactory.upsert(team);
     } catch {
-      throw new Error(`
+      throw new Error($localize`
         Encountered an error while updating team object after removing a team
         member.
       `);

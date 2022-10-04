@@ -21,11 +21,11 @@ export class MappingSummaryBreadcrumbs extends BreadcrumbsResolver {
         .then((user: User) => {
           return [
             {
-              text: 'Directory',
+              text: $localize`:@@directory:Directory`,
               path: super.getFullPath(route),
             },
             {
-              text: 'People',
+              text: $localize`:@@people:People`,
               path: super.getFullPath(route),
             },
             {
@@ -37,7 +37,7 @@ export class MappingSummaryBreadcrumbs extends BreadcrumbsResolver {
     } else {
       return Promise.resolve([
         {
-          text: 'Directory',
+          text: $localize`:@@directory:Directory`,
           path: super.getFullPath(route),
         },
       ]);

@@ -22,7 +22,7 @@ const routes: Routes = [
     path: 'teams',
     loadChildren: () =>
       import('./modules/team/team.module').then((m) => m.TeamModule),
-    data: { breadcrumbs: 'Organisations' },
+    data: { breadcrumbs: $localize`:@@organisations:Organisations` },
   },
   {
     path: '',
@@ -85,7 +85,6 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       enableTracing: false,
-      relativeLinkResolution: 'legacy',
     }),
   ],
   exports: [RouterModule],

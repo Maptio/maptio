@@ -44,7 +44,7 @@ const routes: Routes = [
           {
             path: 'people',
             component: TeamMembersComponent,
-            data: { breadcrumbs: true, text: 'People' },
+            data: { breadcrumbs: true, text: $localize`:@@people:People` },
           },
           {
             path: 'import',
@@ -59,22 +59,28 @@ const routes: Routes = [
           {
             path: 'maps',
             component: TeamMapsComponent,
-            data: { breadcrumbs: true, text: 'Maps' },
+            data: { breadcrumbs: true, text: $localize`:@@maps:Maps` },
           },
           {
             path: 'integrations',
             component: TeamIntegrationsComponent,
-            data: { breadcrumbs: true, text: 'Integrations' },
+            data: {
+              breadcrumbs: true,
+              text: $localize`:@@integrations:Integrations`,
+            },
           },
           {
             path: 'settings',
             component: TeamSettingsComponent,
-            data: { breadcrumbs: true, text: 'Name & Terminology' },
+            data: {
+              breadcrumbs: true,
+              text: $localize`:@@terminology:Name & Terminology`,
+            },
           },
           {
             path: 'billing',
             component: TeamBillingComponent,
-            data: { breadcrumbs: true, text: 'Billing' },
+            data: { breadcrumbs: true, text: $localize`:@@billing:Billing` },
           },
         ],
       },

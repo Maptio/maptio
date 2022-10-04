@@ -6,7 +6,7 @@
           <span class="h4 text-muted">{{ team.name }}</span>
           <h6 class="text-muted small">
             {{ team.members.length }}
-            {{ team.members.length === 1 ? 'person' : 'people' }}
+            {team.members.length, plural, =1 {person} other {people}}
           </h6>
         </span>
       </li>
@@ -22,7 +22,7 @@
             routerLinkActive="active"
             role="tab"
           >
-            People
+            <ng-container i18n="@@people">People</ng-container>
           </a>
         </li>
       </ng-container>
@@ -40,7 +40,7 @@
             routerLinkActive="active"
             role="tab"
           >
-            Import
+            <ng-container i18n="@@import">Import</ng-container>
           </a>
         </li>
       </ng-container>
@@ -55,7 +55,7 @@
             #rlaMaps="routerLinkActive"
             role="tab"
           >
-            Maps
+            <ng-container i18n="@@maps">Maps</ng-container>
           </a>
         </li>
       </ng-container>
@@ -69,7 +69,7 @@
           routerLinkActive="active"
           role="tab"
         >
-          Name &amp; Terminology
+          <ng-container i18n="@@terminology">Name & Terminology</ng-container>
         </a>
       </li>
       <li class="nav-item col-md-12 d-none d-md-block">
@@ -82,7 +82,7 @@
           #rlaIntegrations="routerLinkActive"
           role="tab"
         >
-          Integrations
+          <ng-container i18n="@@integrations">Integrations</ng-container>
         </a>
       </li>
 
@@ -96,7 +96,7 @@
           queryParamsHandling="merge"
           role="tab"
         >
-          Billing
+          <ng-container i18n="@@billing">Billing</ng-container>
         </a>
       </li>
     </ul>

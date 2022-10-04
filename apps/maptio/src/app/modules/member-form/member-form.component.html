@@ -4,7 +4,7 @@
       class="mb-0 text-uppercase text-bold text-gray-light small"
       for="inputFirstname"
     >
-      First name
+      <ng-container i18n="@@firstName">First name</ng-container>
     </label>
 
     <input
@@ -14,9 +14,10 @@
       class="form-control form-control-warning"
       [class.is-invalid]="isFieldInvalid('firstname')"
       placeholder="First name"
+      i18n-placeholder="@@firstName"
     />
 
-    <small class="invalid-feedback">
+    <small class="invalid-feedback" i18n>
       Please enter at least 2 characters. This field is required.
     </small>
   </div>
@@ -26,7 +27,7 @@
       class="mb-0 text-uppercase text-bold text-gray-light small"
       for="inputFirstname"
     >
-      Last name
+      <ng-container i18n="@@lastName">Last name</ng-container>
     </label>
 
     <input
@@ -36,13 +37,16 @@
       class="form-control form-control-warning"
       [class.is-invalid]="isFieldInvalid('lastname')"
       placeholder="Last name"
+      i18n-placeholder="@@lastName"
     />
 
-    <small class="invalid-feedback">Please enter at least 2 characters.</small>
+    <small class="invalid-feedback" i18n>
+      Please enter at least 2 characters.
+    </small>
   </div>
 
   <div class="form-group">
-    <label class="mb-0 text-uppercase text-bold text-gray-light small">
+    <label class="mb-0 text-uppercase text-bold text-gray-light small" i18n>
       Profile Image
     </label>
 
@@ -62,7 +66,7 @@
       class="mb-0 text-uppercase text-bold text-gray-light small"
       for="inputEmail"
     >
-      Email
+      <ng-container i18n="@@email">Email</ng-container>
     </label>
 
     <input
@@ -72,9 +76,10 @@
       class="form-control form-control-warning"
       [class.is-invalid]="isFieldInvalid('email')"
       placeholder="Email"
+      i18n-placeholder="@@email"
     />
 
-    <small class="invalid-feedback">Please enter a valid email</small>
+    <small class="invalid-feedback" i18n>Please enter a valid email</small>
   </div>
 
   <div *ngIf="isUserSignUp" class="form-group mt-4">
@@ -87,7 +92,7 @@
         [class.is-invalid]="isFieldInvalid('isTermsAccepted')"
       />
 
-      <label class="custom-control-label" for="inputIsTermsAccepted">
+      <label class="custom-control-label" for="inputIsTermsAccepted" i18n>
         I agree to Maptio's
         <a href="{{ TERMS_AND_CONDITIONS_URL }}" target="_blank">
           Terms of Service
@@ -96,7 +101,7 @@
         <a href="{{ PRIVACY_POLICY_URL }}" target="_blank">Privacy Policy</a>
       </label>
 
-      <small class="invalid-feedback">
+      <small class="invalid-feedback" i18n>
         Please acknowledge accepting the terms before proceeding
       </small>
     </div>
@@ -108,7 +113,7 @@
     [class.show]="isSavingSuccess"
   >
     <i class="fas fa-save"></i>
-    Successfully saved!
+    <ng-container i18n>Successfully saved!</ng-container>
   </span>
 
   <span *ngIf="savingFailedMessage" class="text-danger mx-1 small">
@@ -122,9 +127,10 @@
       class="btn btn-outline-secondary mr-2"
       (click)="onCancel()"
     >
-      Cancel
+      <ng-container i18n="@@cancel">Cancel</ng-container>
     </button>
 
+    <!-- TODO WTF Cancel here? Check this out... -->
     <button
       *ngIf="showCancelButton && (memberForm.dirty || isNewImageUploaded)"
       type="button"
@@ -132,15 +138,21 @@
       placement="top"
       container="body"
       mwlConfirmationPopover
-      [popoverTitle]="'Warning'"
-      [popoverMessage]="
-        'Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?'
+      popoverTitle="Warning"
+      popoverMessage="
+        Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?
       "
       (confirm)="onCancel()"
       focusbutton="cancel"
       appendToBody="false"
+      i18n-popoverTitle="@@warning"
+      i18n-popoverMessage
+      confirmText="Confirm"
+      cancelText="Cancel"
+      i18n-confirmText="@@confirm"
+      i18n-cancelText="@@cancel"
     >
-      Cancel
+      <ng-container i18n="@@cancel">Cancel</ng-container>
     </button>
 
     <button
@@ -148,13 +160,13 @@
       class="btn btn-success"
       [disabled]="isSubmissionAttempted && !memberForm.valid"
     >
-      Save
+      <ng-container i18n="@@save">Save</ng-container>
     </button>
   </div>
 
   <span class="text-green" *ngIf="isSaving">
     <i class="fas fa-circle-notch fa-spin mx-1"></i>
-    Creating
+    <ng-container i18n>Setting up your account</ng-container>
   </span>
 
   <div
@@ -166,7 +178,7 @@
     class="alert alert-warning"
     role="alert"
   >
-    <p>
+    <p i18n>
       This email address is already associated with an existing Maptio user:
     </p>
 
@@ -176,7 +188,7 @@
       class="d-block mb-2"
     ></maptio-member>
 
-    <p>
+    <p i18n>
       Would you like to add this user to your organisation, or change to a
       different email address?
     </p>
@@ -186,6 +198,7 @@
         type="button"
         class="btn btn-outline-secondary mr-2"
         (click)="onCancelDeduplication()"
+        i18n
       >
         Change email
       </button>
@@ -194,6 +207,7 @@
         type="button"
         class="btn btn-success"
         (click)="onMergeDuplicateUsers()"
+        i18n
       >
         Add existing user
       </button>
@@ -209,24 +223,13 @@
     class="alert alert-warning"
     role="alert"
   >
-    <p>
-      <span *ngIf="duplicateUsers.length === 1; else multiplePeople">
-        A person
-      </span>
-      with this
-      <span *ngIf="memberForm.controls['email'].value; else duplicationOnName">
-        email address
-      </span>
-      <span *ngIf="duplicateUsers.length === 1; else are">is</span>
-      already
-      <span *ngIf="duplicateUsers.length === 1; else members">a member</span>
-      of your organisation. Would you like to add them instead?
+    <p i18n>
+      {duplicateUsers.length, plural, =1 {A person} other {Multiple people}}
+      with this name or email address {duplicateUsers.length, plural, =1 {is}
+      other {are}} already {duplicateUsers.length, plural, =1 {a member} other
+      {members}} of your organisation. Would you like to add
+      {duplicateUsers.length, plural, other {them}} instead?
     </p>
-
-    <ng-template #multiplePeople>Multiple people</ng-template>
-    <ng-template #duplicationOnName>name</ng-template>
-    <ng-template #are>are</ng-template>
-    <ng-template #members>members</ng-template>
 
     <div *ngFor="let duplicateUser of duplicateUsers">
       <maptio-member
@@ -239,6 +242,7 @@
         type="button"
         class="btn btn-success mt-0 mb-4"
         (click)="onChooseMemberViaDeduplication(duplicateUser)"
+        i18n
       >
         Yes, add this person instead
       </button>
@@ -249,6 +253,7 @@
         type="button"
         class="btn btn-outline-secondary mr-2"
         (click)="onIgnoreDeduplicationWarning()"
+        i18n
       >
         No, add new person
       </button>
@@ -258,7 +263,7 @@
         class="btn btn-outline-secondary"
         (click)="onCancelDeduplication()"
       >
-        Cancel
+        <ng-container i18n="@@cancel">Cancel</ng-container>
       </button>
     </div>
   </div>

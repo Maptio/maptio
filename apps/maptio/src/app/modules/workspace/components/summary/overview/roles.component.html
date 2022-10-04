@@ -1,4 +1,4 @@
-<p class="text-muted mb-4">
+<p class="text-muted mb-4" i18n>
   Viewing the role library. Custom roles for individual circles are not shown
   here.
 </p>
@@ -8,6 +8,7 @@
     *ngIf="!isCreateRoleMode"
     class="btn btn-link btn-sm align-self-start pl-0"
     (click)="onCreateRole()"
+    i18n
   >
     Add new role
   </button>
@@ -68,6 +69,7 @@
 <div
   *ngIf="roles?.length === 0 && !isCreateRoleMode"
   class="h4 text-orange my-2"
+  i18n
 >
   No library roles found
 </div>

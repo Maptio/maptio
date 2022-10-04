@@ -28,6 +28,9 @@
 # hosting configuration
 .firebase
 
+# translation service configuration
+.weblate
+
 # environment variables
 .env
 

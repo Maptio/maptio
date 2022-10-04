@@ -8,8 +8,16 @@
     {{ r.name }}
   </span>
 
-  <span *ngIf="!r.user_id && t">{{ t }} (Add a new team member)</span>
-  <span *ngIf="!r.user_id && !t">Add a new team member</span>
+  <span *ngIf="!r.user_id && t">
+    {{ t }}
+    <span>(</span>
+    <ng-container i18n="@@addNewTeamMember">Add a new team member</ng-container>
+    <span>)</span>
+  </span>
+
+  <span *ngIf="!r.user_id && !t">
+    <ng-container i18n="@@addNewTeamMember">Add a new team member</ng-container>
+  </span>
 </ng-template>
 
 <span class="d-flex align-items-baseline text-gray-light mb-1">
@@ -37,9 +45,10 @@
       <common-autocomplete
         #autocomplete
         [placeholder]="placeholder"
-        [removeConfirmationMessage]="
-          'Remove this authority and associated role?'
+        removeConfirmationMessage="
+          Remove this authority and associated role?
         "
+        i18n-removeConfirmationMessage
         [resultTemplate]="rt"
         [showSelectedResult]="true"
         [resultFormatter]="formatter"
@@ -56,7 +65,7 @@
           <img src="{{ authority?.picture }}" class="avatar" />
           {{ authority?.name }}
         </a>
-        <span *ngIf="!authority">No {{ team?.settings.authority }}</span>
+        <span *ngIf="!authority" i18n>No {{ team?.settings.authority }}</span>
       </common-autocomplete>
     </div>
   </div>

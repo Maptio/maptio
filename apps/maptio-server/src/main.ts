@@ -8,8 +8,10 @@ import jwksRsa from 'jwks-rsa';
 import apicache from 'apicache';
 import sslRedirect from 'heroku-ssl-redirect';
 import compression from 'compression';
+import cookieParser from 'cookie-parser';
 
 import { environment } from './environments/environment';
+import { getClosestSupportedLocale } from './i18n/get-closest-supported-locale';
 import { setUpAuth0ManagementClient } from './auth/management-client';
 
 dotenv.config();
@@ -17,21 +19,16 @@ dotenv.config();
 const app = express();
 
 const DIST_DIR = path.join(__dirname, '../maptio/');
-const HTML_FILE = path.join(DIST_DIR, 'index.html');
-const DEFAULT_PORT = 3000;
+const HTML_FILE_NAME = 'index.html';
 
+const LOCALES = ['en-US', 'de', 'fr', 'ja', 'nl', 'pl'];
+const DEFAULT_LOCALE = 'en-US';
+
+const DEFAULT_PORT = 3000;
 const port = process.env.PORT || DEFAULT_PORT;
 
 const audience = process.env.AUTH0_AUDIENCE;
 const issuer = process.env.AUTH0_ISSUER;
-
-if (environment.isDevelopment) {
-  console.log('Running server in DEVELOPMENT mode.');
-} else {
-  console.log('Running server in PRODUCTION mode.');
-}
-console.log('environment.isDevelopment: ', environment.isDevelopment);
-console.log('process.env.NODE_ENV: ', process.env.NODE_ENV);
 
 //
 // Auth0 Management API Client
@@ -167,6 +164,7 @@ app.use(express.text({ type: 'text/html', limit: '5mb' }));
 app.use(express.json({ limit: '1mb' }));
 app.use(sslRedirect());
 app.use(compression());
+app.use(cookieParser());
 
 //
 // API routes
@@ -204,6 +202,7 @@ app.use('/api/v1/embeddable-dataset/', embeddableDatasets);
 //
 // Server
 //
+
 app.set('port', port);
 app.get(cache('5 seconds'));
 
@@ -217,12 +216,37 @@ if (!environment.isDevelopment) {
     next();
   });
 
+  // If a supported locale is present in the path, we will use that to send the
+  // appropriate index.html for that locale
+  let localePath = '';
+  LOCALES.forEach((locale) => {
+    app.use(`/${locale}/`, function (req, res, next) {
+      localePath = locale;
+      next();
+    });
+  });
+
   // For any other requests, serve the static Angular bundle
   app.get('*', function (req, res, next) {
-    if (req.header('x-forwarded-proto') !== 'https') {
-      return res.redirect(['https://', req.get('Host'), req.url].join(''));
+    // Set locale based on cookie (if set previously by language picker) or
+    // language headers or default to English if we don't support  a matching
+    // locale
+    if (localePath === '') {
+      let preferredLocales = [];
+
+      if (req.cookies.locale) {
+        preferredLocales.push(req.cookies.locale);
+      }
+      preferredLocales = preferredLocales.concat(req.acceptsLanguages());
+
+      localePath = getClosestSupportedLocale(
+        preferredLocales,
+        LOCALES,
+        DEFAULT_LOCALE
+      );
     }
 
+    const HTML_FILE = path.join(DIST_DIR, localePath, HTML_FILE_NAME);
     res.sendFile(HTML_FILE);
   });
 }

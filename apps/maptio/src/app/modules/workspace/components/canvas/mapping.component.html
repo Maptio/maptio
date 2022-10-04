@@ -1,6 +1,6 @@
 <ng-template #viewsButtonGroup>
   <button
-    class="btn btn-light toolbar-button select-view circles text-dark p-1 d-flex flex-column justify-content-end align-items-center"
+    class="btn btn-light toolbar-button text-dark p-1 d-flex flex-column justify-content-between align-items-center"
     #rlaCircles="routerLinkActive"
     [routerLinkActive]="['active']"
     routerLink="/map/{{ datasetId }}/{{ slug }}/circles"
@@ -8,14 +8,16 @@
     openDelay="500"
     tooltipClass="toolbar-button__tooltip"
     placement="left"
+    i18n-ngbTooltip="@@circles"
   >
-    <span class="toolbar-button__text d-none d-md-block icon-text-label">
-      Circles
+    <img class="toolbar-button__image" src="assets/images/circles.svg" />
+    <span class="icon-text-label">
+      <ng-container i18n="@@circles">Circles</ng-container>
     </span>
   </button>
 
   <button
-    class="btn btn-light toolbar-button select-view circles-expanded text-dark p-1 d-flex flex-column justify-content-end align-items-center"
+    class="btn btn-light toolbar-button text-dark p-1 d-flex flex-column justify-content-between align-items-center"
     #rlaCircles="routerLinkActive"
     [routerLinkActive]="['active']"
     routerLink="/map/{{ datasetId }}/{{ slug }}/expanded"
@@ -23,12 +25,17 @@
     openDelay="500"
     tooltipClass="toolbar-button__tooltip"
     placement="left"
+    i18n-ngbTooltip
   >
-    <span class="d-none d-md-block icon-text-label">Expanded</span>
+    <img
+      class="toolbar-button__image"
+      src="assets/images/circles-expanded.svg"
+    />
+    <span class="icon-text-label" i18n>Expanded</span>
   </button>
 
   <button
-    class="btn btn-light toolbar-button select-view network text-dark p-1 d-flex flex-column justify-content-end align-items-center"
+    class="btn btn-light toolbar-button text-dark p-1 d-flex flex-column justify-content-between align-items-center"
     #rlaNetwork="routerLinkActive"
     [routerLinkActive]="['active']"
     routerLink="/map/{{ datasetId }}/{{ slug }}/network"
@@ -36,8 +43,12 @@
     openDelay="500"
     tooltipClass="toolbar-button__tooltip"
     placement="left"
+    i18n-ngbTooltip="@@network"
   >
-    <span class="d-none d-md-block icon-text-label">Network</span>
+    <img class="toolbar-button__image" src="assets/images/network.png" />
+    <span class="d-none d-md-block icon-text-label">
+      <ng-container i18n="@@network">Network</ng-container>
+    </span>
   </button>
 </ng-template>
 
@@ -76,9 +87,10 @@
                 openDelay="500"
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
+                i18n-ngbTooltip="@@search"
               >
                 <i class="mt-2 fa fa-search"></i>
-                <span class="icon-text-label">Search</span>
+                <span class="icon-text-label" i18n="@@search">Search</span>
               </button>
 
               <button
@@ -92,9 +104,10 @@
                 openDelay="500"
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
+                i18n-ngbTooltip="@@filter"
               >
                 <i class="mt-2 fa fa-filter"></i>
-                <span class="icon-text-label">Filter</span>
+                <span class="icon-text-label" i18n="@@filter">Filter</span>
               </button>
 
               <button
@@ -108,9 +121,10 @@
                 openDelay="500"
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
+                i18n-ngbTooltip="@@share"
               >
                 <i class="mt-2 fas fa-share"></i>
-                <span class="icon-text-label">Share</span>
+                <span class="icon-text-label" i18n="@@share">Share</span>
               </button>
             </div>
 
@@ -126,8 +140,11 @@
                 openDelay="500"
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
+                i18n-ngbTooltip="@@directory"
               >
-                <span class="d-none d-md-block icon-text-label">Directory</span>
+                <span class="d-none d-md-block icon-text-label">
+                  <ng-container i18n="@@directory">Directory</ng-container>
+                </span>
               </button>
             </div>
 
@@ -144,9 +161,10 @@
                 openDelay="500"
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
+                i18n-ngbTooltip="@@zoomout"
               >
                 <i class="fa fa-minus py-1"></i>
-                <span class="icon-text-label">Zoom out</span>
+                <span class="icon-text-label" i18n="@@zoomout">Zoom out</span>
               </button>
 
               <button
@@ -157,9 +175,10 @@
                 openDelay="500"
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
+                i18n-ngbTooltip="@@zoomin"
               >
                 <i class="fa fa-plus py-1"></i>
-                <span class="icon-text-label">Zoom in</span>
+                <span class="icon-text-label" i18n="@@zoomin">Zoom in</span>
               </button>
 
               <button
@@ -170,9 +189,10 @@
                 openDelay="500"
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
+                i18n-ngbTooltip="@@zoomfit"
               >
                 <i class="fa fa-expand-arrows-alt py-1"></i>
-                <span class="icon-text-label">Zoom fit</span>
+                <span class="icon-text-label" i18n="@@zoomfit">Zoom fit</span>
               </button>
 
               <button
@@ -204,9 +224,10 @@
                 openDelay="500"
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
+                i18n-ngbTooltip="@@colors"
               >
                 <i class="mt-2 fas fa-palette"></i>
-                <span class="icon-text-label">Colors</span>
+                <span class="icon-text-label" i18n="@@colors">Colors</span>
               </button>
             </div>
           </div>
@@ -273,7 +294,8 @@
         <div class="card-body">
           <common-color-picker
             [color]="settings.mapColor"
-            [label]="'Map'"
+            label="Map"
+            i18n-label="@@map"
             [default]="DEFAULT_MAP_COLOR"
             (change)="changeMapColor($event)"
           ></common-color-picker>
@@ -284,32 +306,28 @@
 </div>
 
 <div *ngIf="isEmptyMap" class="instructions h2 d-none d-md-block">
-  Click
+  <ng-container i18n>
+    Click
 
-  <ng-container
-    *permissionsOnly="
-      Permissions.canCreateRootInitiative;
-      else elseFirstNodeBlock;
-      then: thenFirstNodeBlock
-    "
-  >
-    main
+    <!-- Plus button -->
+    <ng-container
+      *permissionsOnly="
+        Permissions.canCreateRootInitiative;
+        else plusButtonDisabled;
+        then: plusButton
+      "
+    ></ng-container>
+
+    to create your first circle
   </ng-container>
 
-  <ng-template #thenFirstNodeBlock>
+  <ng-template #plusButton>
     <button type="button" class="btn btn-success" (click)="addFirstNode()">
       <i class="fa fa-plus"></i>
     </button>
   </ng-template>
 
-  <ng-template #editTipContent>
-    <span class="text-orange">
-      You don't have permission to do this.
-      <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
-    </span>
-  </ng-template>
-
-  <ng-template #elseFirstNodeBlock>
+  <ng-template #plusButtonDisabled>
     <button
       type="button"
       class="btn btn-success disabled cursor-not-allowed"
@@ -319,7 +337,9 @@
     </button>
   </ng-template>
 
-  to create your first circle
+  <ng-template #editTipContent>
+    <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
+  </ng-template>
 </div>
 
 <div

@@ -42,7 +42,7 @@ export class InitiativeAuthoritySelectComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.team && changes.team.currentValue) {
       // this.placeholder = `Who's the ${changes.team.currentValue.settings.authority.toLowerCase()} for this? Enter a team member`
-      this.placeholder = 'Start typing the name of a member';
+      this.placeholder = $localize`:@@startTypingMember:Start typing the name of a member`;
     }
   }
 

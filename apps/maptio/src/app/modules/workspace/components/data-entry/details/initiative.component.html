@@ -1,32 +1,22 @@
-<ng-template #editTipContent>
-  You don't have permission to edit this.
-  <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
-</ng-template>
-
-<ng-template #deleteTipContent>
-  <span class="text-orange">
-    You don't have permission to delete this.
-    <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
-  </span>
-</ng-template>
-
 <div class="d-flex flex-column h-100 mb-4">
   <maptio-onboarding-message
     [messageKey]="'showCircleDetailsPanelMessage'"
     class="pt-2"
+    i18n
   >
     See and edit a circle's details here.
   </maptio-onboarding-message>
 
   <div class="mb-4">
-    <initiative-input-name
+    <maptio-initiative-input-name
       [isUnauthorized]="!canEditName()"
       [name]="node?.name"
       (save)="saveName($event)"
     >
-      <ng-container *ngTemplateOutlet="editTipContent"></ng-container>
-    </initiative-input-name>
+      <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
+    </maptio-initiative-input-name>
   </div>
+
   <div class="mb-4">
     <initiative-list-tags
       [isUnauthorized]="!canEditTags()"
@@ -35,10 +25,9 @@
       [isEditMode]="isEditMode"
       (save)="saveTags($event)"
       (open)="openTagsPanel()"
-    >
-      <ng-container *ngTemplateOutlet="editTipContent"></ng-container>
-    </initiative-list-tags>
+    ></initiative-list-tags>
   </div>
+
   <div class="mb-4">
     <maptio-initiative-authority-select
       [isUnauthorized]="!canEditAuthority()"
@@ -48,7 +37,7 @@
       [summaryUrlRoot]="getSummaryUrlRoot()"
       (save)="saveAccountable($event)"
     >
-      <ng-container *ngTemplateOutlet="editTipContent"></ng-container>
+      <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
     </maptio-initiative-authority-select>
   </div>
 
@@ -59,7 +48,7 @@
       [isEditMode]="isEditMode"
       (save)="saveDescription($event)"
     >
-      <ng-container *ngTemplateOutlet="editTipContent"></ng-container>
+      <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
     </initiative-description-textarea>
   </div>
 
@@ -73,7 +62,7 @@
       [authority]="node?.accountable"
       (save)="addHelpers($event)"
     >
-      <ng-container *ngTemplateOutlet="editTipContent"></ng-container>
+      <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
     </maptio-initiative-helpers-select>
   </div>
 
@@ -95,7 +84,9 @@
         (remove)="removeHelper($event)"
         (save)="saveHelpers()"
       >
-        <ng-container *ngTemplateOutlet="editTipContent"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="insufficientPermissions"
+        ></ng-container>
       </initiative-helper-input>
 
       <!-- Commented out as part of making all standard users completely read-only -->
@@ -110,7 +101,7 @@
     [summaryUrlRoot]="getSummaryUrlRoot()"
     (save)="saveVacancies()"
   >
-    <ng-container *ngTemplateOutlet="editTipContent"></ng-container>
+    <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
   </initiative-vacancies-input>
 
   <initiative-input-size
@@ -119,7 +110,7 @@
     [sizeAdjustment]="node?.sizeAdjustment"
     (save)="saveSize($event)"
   >
-    <ng-container *ngTemplateOutlet="editTipContent"></ng-container>
+    <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
   </initiative-input-size>
 </div>
 

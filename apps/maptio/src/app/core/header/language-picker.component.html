@@ -1,0 +1,22 @@
+<a
+  class="nav-link dropdown-toggle"
+  id="languageListDropdownLink"
+  data-toggle="dropdown"
+  aria-haspopup="true"
+  aria-expanded="false"
+>
+  {{ currentLocale?.shortLabel }}
+</a>
+
+<div
+  class="dropdown-menu dropdown-menu-right overflow"
+  aria-labelledby="languageListDropdownLink"
+>
+  <a
+    class="dropdown-item"
+    *ngFor="let locale of LOCALES"
+    (click)="onLanguageSelection(locale)"
+  >
+    {{ locale.name }}
+  </a>
+</div>

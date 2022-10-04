@@ -1,7 +1,3 @@
-.dropdown-item {
-  cursor: auto;
-}
-
 .dropdown-item.active,
 .dropdown-item:active {
   /* color: #fff; */
@@ -10,8 +6,3 @@
   cursor: pointer;
   background-color: var(--maptio-blue) !important;
 }
-
-/* :host ::ng-deep button.dropdown-item:nth-child(even) {
-    background: #f8f9fa;
-  }
-   */

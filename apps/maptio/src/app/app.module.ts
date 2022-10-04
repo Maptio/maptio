@@ -116,7 +116,6 @@ export function markedOptionsFactory(): MarkedOptions {
     // BrowserAnimationsModule,
     Location,
     { provide: LocationStrategy, useClass: PathLocationStrategy },
-    { provide: APP_BASE_HREF, useValue: '/' },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthHttpInterceptor,

@@ -163,7 +163,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     if (isLocalDatasetOutdated) {
       if (!this.mapService.hasOutdatedAlertBeenShownRecently(this.dataset)) {
         alert(
-          'A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version, then you can make your edits. You can copy any text you just entered, ready to paste it in again after the refresh. Sorry for the hassle.'
+          $localize`A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version, then you can make your edits. You can copy any text you just entered, ready to paste it in again after the refresh. Sorry for the hassle.`
         );
       }
       return;

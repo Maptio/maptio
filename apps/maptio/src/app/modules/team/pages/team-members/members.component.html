@@ -1,14 +1,11 @@
 <ng-template #adminTipContent>
-  <span class="text-orange">
-    You don't have permission to do this.
-    <a href="{{ KB_URL_PERMISSIONS }}" target="blank">Learn more.</a>
-  </span>
+  <maptio-insufficient-permission-message></maptio-insufficient-permission-message>
 </ng-template>
 
 <div class="">
   <div class="card w-100 mb-3 border" *permissionsOnly="Permissions.canAddUser">
     <div class="card-body">
-      <div class="card-title lead">Add people</div>
+      <div class="card-title lead" i18n>Add people</div>
 
       <maptio-member-form
         *ngIf="team && !team?.isExample"
@@ -37,21 +34,23 @@
         </div>
 
         <div class="col-3 text-uppercase text-bold text-gray-light small">
-          Name
+          <ng-container i18n="@@name">Name</ng-container>
         </div>
 
         <div class="col-4 text-uppercase text-bold text-gray-light small">
-          Email
+          <ng-container i18n="@@email">Email</ng-container>
         </div>
 
         <a
           class="col-2 nowrap mb-0 text-uppercase text-bold text-gray-light small text-decoration-none"
           ngbTooltip="Learn about permission types"
+          i18n-ngbTooltip
           href="{{ KB_URL_PERMISSIONS }}"
           target="blank"
           container="body"
         >
-          Permission type
+          <ng-container i18n="@@permissionType">Permission type</ng-container>
+          <span>&nbsp;</span>
           <i class="fa fa-info-circle text-gray-light" aria-hidden="true"></i>
         </a>
       </div>

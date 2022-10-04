@@ -6,7 +6,7 @@
   [isWithProgress]="true"
   [isWithProgress]="false"
   [progress]="progress"
-  [progressLabel]="progressLabel"
+  [progressLabel]="''"
   [isUpdating]="isCreatingTeam || isCreatingMap"
   (next)="nextStep()"
   (previous)="previousStep()"
@@ -29,11 +29,11 @@
 </common-modal>
 
 <ng-template #welcome>
-  <ng-template #yourfirstmap>
+  <ng-template #yourfirstmap i18n>
     <span class="text-accent">👋 {{ user?.firstname }}</span>
-    , your first map is just a few clicks away!
+    <ng-container>, your first map is just a few clicks away!</ng-container>
   </ng-template>
-  <ng-template #guide>
+  <ng-template #guide i18n>
     Let's set up your organisation. It will only take a minute.
   </ng-template>
 
@@ -54,7 +54,10 @@
 </ng-template>
 
 <ng-template #createteam>
-  <ng-template #createteamtitle>
+  <ng-template
+    #createteamtitle
+    i18n="Onboarding - Heading of one of the onboarding screens"
+  >
     What should we call your organisation?
   </ng-template>
 
@@ -81,10 +84,22 @@
 </ng-template>
 
 <ng-template #terminology>
-  <ng-template #terminologytitle>What should we call them?</ng-template>
+  <ng-template
+    #terminologytitle
+    i18n="
+      Heading of onboarding screen on lead and helper terminology
+      @@onboarding-terminology-1"
+  >
+    What should we call them?
+  </ng-template>
 
   <ng-template #terminologysubtitle>
-    <span class="text-muted">
+    <span
+      class="text-muted"
+      i18n="
+        Subheading of onboarding screen on lead and helper terminology
+        @@onboarding-terminology-2"
+    >
       What language do you use to refer to people at
       <b>{{ team.name }}</b>
       ?
@@ -92,7 +107,12 @@
   </ng-template>
 
   <ng-template #settingsnote>
-    <span class="text-muted">
+    <span
+      class="text-muted"
+      i18n="
+        Helper text for onboarding screen on lead and helper terminology
+        @@onboarding-terminology-3"
+    >
       You can always change this later in the organisation settings.
     </span>
   </ng-template>
@@ -127,7 +147,12 @@
 </ng-template>
 
 <ng-template #consent>
-  <ng-template #consenttitle>Could you help us improve Maptio?</ng-template>
+  <ng-template
+    #consenttitle
+    i18n="Heading for consent screen during onboarding@@onboarding-consent-1"
+  >
+    Could you help us improve Maptio?
+  </ng-template>
 
   <ng-template #consentcontent>
     <img
@@ -136,20 +161,32 @@
       class="float-left rounded-circle w-25 m-3"
     />
 
-    <p class="text-muted pt-4">
+    <p
+      class="text-muted pt-4"
+      i18n="Text for consent screen during onboarding@@onboarding-consent-2"
+    >
       Hey, it's Tom here &mdash; the founder of Maptio.
     </p>
 
-    <p class="text-muted">
+    <p
+      class="text-muted"
+      i18n="Text for consent screen during onboarding@@onboarding-consent-3"
+    >
       We're doing all we can to make Maptio ever more delightful to use.
     </p>
 
-    <p class="text-muted">
+    <p
+      class="text-muted"
+      i18n="Text for consent screen during onboarding@@onboarding-consent-4"
+    >
       With your permission, we'd like to make session recordings of your
       activity using Maptio. This helps us spot where we can make improvements.
     </p>
 
-    <p class="text-muted">
+    <p
+      class="text-muted"
+      i18n="Text for consent screen during onboarding@@onboarding-consent-5"
+    >
       We use a very privacy-conscious service called
       <a href="https://openreplay.com/" target="_blank">OpenReplay</a>
       . It's open source, just like us. We trust their service to keep
@@ -158,7 +195,10 @@
 
     <maptio-consent [user]="user" class="d-block my-4"></maptio-consent>
 
-    <p class="text-muted">
+    <p
+      class="text-muted"
+      i18n="Text for consent screen during onboarding@@onboarding-consent-6"
+    >
       If you choose to continue without ticking that checkbox, we respect that.
       We'd still love to hear how you get on with using Maptio, so please do let
       us know if you have questions or suggestions. Thank you!
