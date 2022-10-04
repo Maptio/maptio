@@ -228,13 +228,13 @@ if (!environment.isDevelopment) {
 
   // For any other requests, serve the static Angular bundle
   app.get('*', function (req, res, next) {
+    console.log('Cookies! Nom, nom, nom!', req.cookies);
+
     // Set locale based on cookie (if set previously by language picker) or
     // language headers or default to English if we don't support  a matching
     // locale
     if (localePath === '') {
       let preferredLocales = [];
-
-      console.log('Cookies! Nom, nom, nom!', req.cookies);
 
       if (req.cookies.locale) {
         preferredLocales.push(req.cookies.locale);
