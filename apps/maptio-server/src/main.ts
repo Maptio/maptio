@@ -229,6 +229,7 @@ if (!environment.isDevelopment) {
   // For any other requests, serve the static Angular bundle
   app.get('*', function (req, res, next) {
     console.log('Cookies! Nom, nom, nom!', req.cookies);
+    console.log('localePath', localePath);
 
     // Set locale based on cookie (if set previously by language picker) or
     // language headers or default to English if we don't support  a matching
@@ -240,14 +241,20 @@ if (!environment.isDevelopment) {
         preferredLocales.push(req.cookies.locale);
       }
       preferredLocales = preferredLocales.concat(req.acceptsLanguages());
+      console.log('req.acceptsLanguages()', req.acceptsLanguages());
+      console.log('preferredLocales', preferredLocales);
+      console.log('LOCALES', LOCALES);
+      console.log('DEFAULT_LOCALE', DEFAULT_LOCALE);
 
       localePath = getClosestSupportedLocale(
         preferredLocales,
         LOCALES,
         DEFAULT_LOCALE
       );
+      console.log('getClosestSupportedLocale() result:', localePath);
     }
 
+    console.log('Final locale path:', localePath);
     const HTML_FILE = path.join(DIST_DIR, localePath, HTML_FILE_NAME);
     res.sendFile(HTML_FILE);
   });
