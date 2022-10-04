@@ -21,7 +21,7 @@ const app = express();
 const DIST_DIR = path.join(__dirname, '../maptio/');
 const HTML_FILE_NAME = 'index.html';
 
-const LOCALES = ['en-US', 'de', 'fr', 'ja', 'nl', 'pl'];
+const LOCALES = ['en-US', 'de', 'fr', 'pl'];
 const DEFAULT_LOCALE = 'en-US';
 
 const DEFAULT_PORT = 3000;
