@@ -1260,7 +1260,7 @@
       </trans-unit>
       <trans-unit id="onboarding-terminology-4" datatype="html">
         <source>What does your organisation call the person in the main key role for each circle? e.g. Lead, Authority, Driver, Lead link, Source.</source>
-        <target state="translated">Wie wird in deiner Organisation die Person genannt, welche die  Schlüsselrolle in einem Kreis inne hat? z. B. Leiter/in, Lead, Führungskraft, Source/Quelle, etc.</target>
+        <target state="translated">Wie wird in deiner Organisation die Person genannt, welche die Schlüsselrolle in einem Kreis inne hat? z. B. Leiter/in, Lead, Führungskraft, Source/Quelle, etc.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-settings/settings.component.html</context>
           <context context-type="linenumber">64,66</context>
@@ -1868,7 +1868,7 @@
       </trans-unit>
       <trans-unit id="26a80b49cfc3bc6ede26e383248f267996471831" datatype="html">
         <source>Edit your circle structure here. Try clicking Expand All.</source>
-        <target state="translated">Bearbeite deine Kreis-Struktur hier. Versuche es mit 'Alle</target>
+        <target state="translated">Bearbeite deine Kreis-Struktur hier. Versuche es mit 'Alle aufklappen'</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
           <context context-type="linenumber">3,4</context>
@@ -1876,7 +1876,7 @@
       </trans-unit>
       <trans-unit id="1f8e926cdad26808d3176cb86eeeb229a777a026" datatype="html">
         <source>Expand all</source>
-        <target state="translated">Wenn du hier klickst, werden alle Kreise in der Gliederungsansicht aufgeklappt bzw. geöffnet (siehe Screenshot - alle Kreise sind aufgeklappt). Anders gesagt: Alle Kreise des Diagramms werden, soweit sie auf den Bildschirm passen, in der Übersicht angezeigt.</target>
+        <target state="translated">Alle aufklappen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
           <context context-type="linenumber">28</context>
@@ -3203,7 +3203,7 @@
       </trans-unit>
       <trans-unit id="3557b7da87a8666565bd450a83215793f24a4e87" datatype="html">
         <source>We'll guide you through creating your first map, it should only take a few minutes.</source>
-        <target state="translated">Wir werden dich bei der Erstellung deines ersten Diagrammes begleiten; dies sollte  nur ein paar Minuten dauern.</target>
+        <target state="translated">Wir werden dich bei der Erstellung deines ersten Diagrammes begleiten; dies sollte nur ein paar Minuten dauern.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">65,67</context>

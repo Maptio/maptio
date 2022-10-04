@@ -44,6 +44,7 @@
       </trans-unit>
       <trans-unit id="debeb99cab8e5e01339f329a38a6df134955c6f4" datatype="html">
         <source>You will be redirected to the <x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>homepage<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> in <x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> seconds.</source>
+        <target state="translated"><x id="INTERPOLATION" equiv-text="{{timeToRedirect}}"/> 秒後に<x id="START_LINK" ctype="x-a" equiv-text="&lt;a class=&quot;mx-1&quot; routerLink=&quot;/home&quot;&gt;"/>ホームページ<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> に移動します。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/error/error.page.html</context>
           <context context-type="linenumber">33,36</context>
@@ -935,6 +936,7 @@
       </trans-unit>
       <trans-unit id="65c6e1e678ff0e46ca52f87f8e7278794515f4fe" datatype="html">
         <source>Active</source>
+        <target state="translated">アクティブ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
           <context context-type="linenumber">96,97</context>
@@ -1120,6 +1122,7 @@
       </trans-unit>
       <trans-unit id="010103713cc0efa514348d56aa6aa6516e77e908" datatype="html">
         <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Invalid file<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> The header must be : "First name", "Last name", "Email" in that order</source>
+        <target state="translated"><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Invalid file<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> ヘッダーは、"名", "姓", "メールアドレス "の順で記述する必要があります。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
           <context context-type="linenumber">61,63</context>
@@ -1237,6 +1240,7 @@
       </trans-unit>
       <trans-unit id="authority" datatype="html">
         <source>Authority</source>
+        <target state="translated">権限</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-settings/settings.component.html</context>
           <context context-type="linenumber">52,53</context>
@@ -1467,6 +1471,7 @@
       </trans-unit>
       <trans-unit id="zoomout" datatype="html">
         <source>Zoom out</source>
+        <target state="translated">縮小</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/canvas/mapping.component.html</context>
           <context context-type="linenumber">154</context>
@@ -1478,6 +1483,7 @@
       </trans-unit>
       <trans-unit id="zoomin" datatype="html">
         <source>Zoom in</source>
+        <target state="translated">拡大</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/canvas/mapping.component.html</context>
           <context context-type="linenumber">168</context>
@@ -1489,6 +1495,7 @@
       </trans-unit>
       <trans-unit id="zoomfit" datatype="html">
         <source>Zoom fit</source>
+        <target state="translated">全体</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/canvas/mapping.component.html</context>
           <context context-type="linenumber">182</context>
@@ -3137,7 +3144,7 @@
       </trans-unit>
       <trans-unit id="e767ec12c9b0134a0bc680dc3ea02a86cbaacad6" datatype="html">
         <source><x id="ICU" equiv-text="{!!isOthersPeopleVisible, select, true {Hide} false {Show}}"/> other people</source>
-        <target state="translated"><x id="ICU" equiv-text="{!!isOthersPeopleVisible, select, true {Hide} false {Show}}"/>  他のメンバー</target>
+        <target state="translated"><x id="ICU" equiv-text="{!!isOthersPeopleVisible, select, true {Hide} false {Show}}"/> 他のメンバー</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/people.component.html</context>
           <context context-type="linenumber">29,30</context>
