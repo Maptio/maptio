@@ -221,7 +221,7 @@ if (!environment.isDevelopment) {
   let localePath = '';
   LOCALES.forEach((locale) => {
     app.use(`/${locale}/`, function (req, res, next) {
-      console.log('app.use(/locale/) activated with locale', locale)
+      console.log('app.use(/locale/) activated with locale', locale);
       localePath = locale;
       next();
     });
@@ -231,8 +231,13 @@ if (!environment.isDevelopment) {
   app.get('*', function (req, res, next) {
     console.log('req.host', req.hostname);
     console.log('req.path', req.path);
-    console.log('Cookies! Nom, nom, nom!', req.cookies);
     console.log('localePath', localePath);
+
+    if (localePath !== '') {
+      console.log('Skipping cookies, sorry!');
+    }
+
+    console.log('Cookies! Nom, nom, nom!', req.cookies);
 
     // Set locale based on cookie (if set previously by language picker) or
     // language headers or default to English if we don't support  a matching
