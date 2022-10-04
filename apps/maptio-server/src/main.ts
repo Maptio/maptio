@@ -228,6 +228,8 @@ if (!environment.isDevelopment) {
 
   // For any other requests, serve the static Angular bundle
   app.get('*', function (req, res, next) {
+    console.log('req.host', req.hostname);
+    console.log('req.path', req.path);
     console.log('Cookies! Nom, nom, nom!', req.cookies);
     console.log('localePath', localePath);
 
