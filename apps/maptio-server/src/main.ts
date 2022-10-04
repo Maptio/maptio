@@ -221,6 +221,7 @@ if (!environment.isDevelopment) {
   let localePath = '';
   LOCALES.forEach((locale) => {
     app.use(`/${locale}/`, function (req, res, next) {
+      console.log('app.use(/locale/) activated with locale', locale)
       localePath = locale;
       next();
     });
