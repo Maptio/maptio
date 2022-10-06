@@ -6,6 +6,8 @@ export const commonEnvironment = {
     { code: 'de', name: 'Deutsch', shortLabel: 'DE' },
     { code: 'en-US', name: 'English (United States)', shortLabel: 'EN' },
     { code: 'fr', name: 'Français', shortLabel: 'FR' },
+    { code: 'ja', name: '日本', shortLabel: '日本' },
+    { code: 'nl', name: 'Nederlands', shortLabel: 'NL' },
     { code: 'pl', name: 'Polski', shortLabel: 'PL' },
   ],
 
