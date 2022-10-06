@@ -454,14 +454,6 @@
           <context context-type="linenumber">218</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="4510123259608290258" datatype="html">
-        <source>Cannot replace user with multiple duplicates.</source>
-        <target state="translated">Impossible de remplacer un utilisateur avec plusieurs doublons.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
-          <context context-type="linenumber">668</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="8121931454143228272" datatype="html">
         <source>Cannot update email of user already in Auth0.</source>
         <target state="translated">Impossible de mettre à jour l'e-mail d'un utilisateur déjà dans Auth0.</target>
@@ -1167,14 +1159,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
           <context context-type="linenumber">744</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="3636334282742581786" datatype="html">
-        <source>No duplicate users found. Aborting replacing user.</source>
-        <target state="translated">Aucun utilisateur en double n'a été trouvé. Abandon du remplacement de l'utilisateur.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
-          <context context-type="linenumber">671</context>
         </context-group>
       </trans-unit>
       <trans-unit id="onboarding-consent-2" datatype="html">

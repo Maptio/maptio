@@ -3153,28 +3153,12 @@
           <context context-type="linenumber">101</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="4510123259608290258" datatype="html">
-        <source>Cannot replace user with multiple duplicates.</source>
-        <target state="translated">Benutzer/in kann nicht durch mehrere Duplikate ersetzt werden</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
-          <context context-type="linenumber">668</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="7606570198693293258" datatype="html">
         <source>Encountered an error while fetching datasets for a team to add a member to the team.</source>
         <target state="translated">Beim Abrufen von Datensätzen für ein Team, um ein Mitglied zum Team hinzuzufügen, ist ein Fehler aufgetreten.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
           <context context-type="linenumber">173,176</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="3636334282742581786" datatype="html">
-        <source>No duplicate users found. Aborting replacing user.</source>
-        <target state="translated">Keine doppelten Benützer/innen gefunden. Das Ersetzen eines/r Benützer/in wird abgebrochen.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
-          <context context-type="linenumber">671</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5471671537361039738" datatype="html">

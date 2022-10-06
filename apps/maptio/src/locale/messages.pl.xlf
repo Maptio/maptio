@@ -3059,14 +3059,6 @@
           <context context-type="linenumber">744</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="3636334282742581786" datatype="html">
-        <source>No duplicate users found. Aborting replacing user.</source>
-        <target state="translated">Nie znaleziono zduplikowanych użytkowników. Przerywamy zastępowanie użytkownika.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
-          <context context-type="linenumber">671</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="3950298817715491290" datatype="html">
         <source>Organisation name cannot be empty</source>
         <target state="translated">Nazwa organizacji nie może być pusta</target>
@@ -3125,14 +3117,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/network/mapping.network.component.ts</context>
           <context context-type="linenumber">619</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="4510123259608290258" datatype="html">
-        <source>Cannot replace user with multiple duplicates.</source>
-        <target state="translated">Nie można zastąpić użytkownika wieloma duplikatami.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
-          <context context-type="linenumber">668</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8173088822494200109" datatype="html">

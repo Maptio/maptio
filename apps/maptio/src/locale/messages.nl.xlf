@@ -2762,14 +2762,6 @@
           <context context-type="linenumber">172,173</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="4510123259608290258" datatype="html">
-        <source>Cannot replace user with multiple duplicates.</source>
-        <target state="translated">Kan een gebruiker niet met meerdere kopieën vervangen</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
-          <context context-type="linenumber">668</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="8121931454143228272" datatype="html">
         <source>Cannot update email of user already in Auth0.</source>
         <target state="translated">Kan e-mail van gebruiker die al in Auth0 staat niet bijwerken.</target>
