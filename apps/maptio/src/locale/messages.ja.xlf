@@ -2846,28 +2846,12 @@
           <context context-type="linenumber">654</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="4510123259608290258" datatype="html">
-        <source>Cannot replace user with multiple duplicates.</source>
-        <target state="translated">重複しているユーザーを置き換えることはできません。</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
-          <context context-type="linenumber">668</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="8121931454143228272" datatype="html">
         <source>Cannot update email of user already in Auth0.</source>
         <target state="translated">すでにAuth0に登録されているユーザーのEメールを更新できない。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
           <context context-type="linenumber">471</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="3636334282742581786" datatype="html">
-        <source>No duplicate users found. Aborting replacing user.</source>
-        <target state="translated">重複するユーザーは見つかりませんでした。ユーザーの入れ替えを中止します。</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
-          <context context-type="linenumber">671</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8513545469516331297" datatype="html">

@@ -304,7 +304,7 @@
       </trans-unit>
       <trans-unit id="b4d7491d66bd2a5eb3cea884df1b365cd1909faf" datatype="html">
         <source>All organizations...</source>
-        <target state="translated">Toutes les organisations...</target>
+        <target state="translated">Toutes les entreprises...</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">258,259</context>
@@ -356,7 +356,7 @@
       </trans-unit>
       <trans-unit id="7324512223440366952" datatype="html">
         <source>Another tag</source>
-        <target state="translated">Un autre tag</target>
+        <target state="translated">Un autre Tag</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/model/tag.data.ts</context>
           <context context-type="linenumber">59</context>
@@ -452,14 +452,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
           <context context-type="linenumber">218</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="4510123259608290258" datatype="html">
-        <source>Cannot replace user with multiple duplicates.</source>
-        <target state="translated">Impossible de remplacer un utilisateur avec plusieurs doublons.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
-          <context context-type="linenumber">668</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8121931454143228272" datatype="html">
@@ -1167,14 +1159,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
           <context context-type="linenumber">744</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="3636334282742581786" datatype="html">
-        <source>No duplicate users found. Aborting replacing user.</source>
-        <target state="translated">Aucun utilisateur en double n'a été trouvé. Abandon du remplacement de l'utilisateur.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
-          <context context-type="linenumber">671</context>
         </context-group>
       </trans-unit>
       <trans-unit id="onboarding-consent-2" datatype="html">
@@ -1982,7 +1966,7 @@
       </trans-unit>
       <trans-unit id="f178a7a05ba1098f56432002fb3fecd9afc955f2" datatype="html">
         <source>No <x id="INTERPOLATION" equiv-text="{{ dataset.team.settings.authority }}"/></source>
-        <target state="needs-translation">Aucun <x id="INTERPOLATION" equiv-text="{{ team?.settings.authority }}"/></target>
+        <target state="translated">Aucun <x id="INTERPOLATION" equiv-text="{{ team?.settings.authority }}"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
           <context context-type="linenumber">113,115</context>
@@ -2022,7 +2006,7 @@
       </trans-unit>
       <trans-unit id="2ca36ad093dc7d1649561886560b05b91f34f965" datatype="html">
         <source>{VAR_PLURAL, plural, =0 {circles} =1 {circle} other {circles}}</source>
-        <target state="needs-translation">{VAR_PLURAL, plural, =0 {cercles} =1 {cercles} other {cercles}}</target>
+        <target state="translated">{VAR_PLURAL, plural, =0 {cercles} =1 {cercle} other {cercles}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
           <context context-type="linenumber">67,68</context>
@@ -2490,7 +2474,7 @@
       </trans-unit>
       <trans-unit id="e00503b12d31f946a7585db1427b57a76ffe7d74" datatype="html">
         <source>{VAR_PLURAL, plural, =0 {circles} =1 {circle} other {circles}}</source>
-        <target state="needs-translation">{VAR_PLURAL, plural, =0 {cercles} =1 {cercles} other {cercles}}</target>
+        <target state="translated">{VAR_PLURAL, plural, =0 {cercles} =1 {cercle} other {cercles}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/personal.component.html</context>
           <context context-type="linenumber">48,49</context>
@@ -2618,7 +2602,7 @@
       </trans-unit>
       <trans-unit id="13cbca55f425f334a924105982aabcc9191db8e4" datatype="html">
         <source>{VAR_PLURAL, plural, =0 {circles} =1 {circle} other {circles}}</source>
-        <target state="needs-translation">{VAR_PLURAL, plural, =0 {cercles} =1 {cercles} other {cercles}}</target>
+        <target state="translated">{VAR_PLURAL, plural, =0 {cercles} =1 {cercle} other {cercles}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/personal.component.html</context>
           <context context-type="linenumber">14,15</context>
@@ -2626,7 +2610,7 @@
       </trans-unit>
       <trans-unit id="85fbfd869c40250f0c6200b42662e76e7ba92779" datatype="html">
         <source>{VAR_PLURAL, plural, =0 {circles} =1 {circle} other {circles}}</source>
-        <target state="needs-translation">{VAR_PLURAL, plural, =0 {cercles} =1 {cercles} other {cercles}}</target>
+        <target state="translated">{VAR_PLURAL, plural, =0 {cercles} =1 {cercle} other {cercles}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/personal.component.html</context>
           <context context-type="linenumber">31,32</context>
@@ -2774,7 +2758,7 @@
       </trans-unit>
       <trans-unit id="c93637b30e3d4b731391fa0daadb8da01d2c1583" datatype="html">
         <source>{VAR_PLURAL, plural, other {them}}</source>
-        <target state="needs-translation">{VAR_PLURAL, plural, other {eux}}</target>
+        <target state="translated">{VAR_PLURAL, plural, other {eux}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">231</context>
@@ -2862,7 +2846,7 @@
       </trans-unit>
       <trans-unit id="ee9100e94ebff4a5c390b765ce204823cf0e9c12" datatype="html">
         <source>{VAR_PLURAL, plural, =1 {person} other {people}}</source>
-        <target state="needs-translation">{VAR_PLURAL, plural, =1 {personne} other {personnes}}</target>
+        <target state="translated">{VAR_PLURAL, plural, =1 {personne} other {personnes}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-single/team.component.html</context>
           <context context-type="linenumber">9</context>
@@ -3211,7 +3195,7 @@
       </trans-unit>
       <trans-unit id="08fa5750a60011645da4388afd16dfbdb563d0b6" datatype="html">
         <source>{VAR_PLURAL, plural, =1 {A person} other {Multiple people}}</source>
-        <target state="needs-translation">{VAR_PLURAL, plural, =1 {Une personne} other {Plusieurs personnes}}</target>
+        <target state="translated">{VAR_PLURAL, plural, =1 {Une personne} other {Plusieurs personnes}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">227</context>
@@ -3219,7 +3203,7 @@
       </trans-unit>
       <trans-unit id="68e2d566f5cacb705b091edf02fdde3f36a0690b" datatype="html">
         <source>{VAR_PLURAL, plural, =1 {is} other {are}}</source>
-        <target state="needs-translation">{VAR_PLURAL, plural, =1 {est} other {sont}}</target>
+        <target state="translated">{VAR_PLURAL, plural, =1 {est} other {sont}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">228,229</context>
@@ -3227,7 +3211,7 @@
       </trans-unit>
       <trans-unit id="27eae39d70fb0f049505cdfe08d4aadf3433a3f3" datatype="html">
         <source>{VAR_PLURAL, plural, =1 {a member} other {members}}</source>
-        <target state="needs-translation">{VAR_PLURAL, plural, =1 {un contributeur} other {contributeurs}}</target>
+        <target state="translated">{VAR_PLURAL, plural, =1 {un contributeur} other {contributeurs}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">229,230</context>
@@ -3303,7 +3287,7 @@
       </trans-unit>
       <trans-unit id="a1f2f8ff86cbb627d49d2fb572381a4296ec6f59" datatype="html">
         <source>{VAR_PLURAL, plural, =1 {map} other {maps}}</source>
-        <target state="needs-translation">{VAR_PLURAL, plural, =1 {carte} other {cartes}}</target>
+        <target state="translated">{VAR_PLURAL, plural, =1 {carte} other {cartes}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">93</context>
@@ -3387,9 +3371,18 @@
       </trans-unit>
       <trans-unit id="1880938075903884107" datatype="html">
         <source>Record at line number <x id="PH" equiv-text="i"/> contains <x id="PH_1" equiv-text="data.length"/> tokens, and is not matching with header length of : <x id="PH_2" equiv-text="headerLength"/> </source>
+        <target state="translated">L'enregistrement à la ligne numéro <x id="PH" equiv-text="i"/> contient <x id="PH_1" equiv-text="data.length"/> colonnes, et ne correspond pas à la longueur de l'en-tête de : <x id="PH_2" equiv-text="headerLength"/> </target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/file/file.service.ts</context>
           <context context-type="linenumber">66,68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e084a7084c92eaaff1137fe2df9713010e856526" datatype="html">
+        <source>This is the role description. It may use markdown.</source>
+        <target state="translated">Il s'agit de la description du rôle. Elle peut utiliser des liens (Markdown).</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
+          <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
     </body>

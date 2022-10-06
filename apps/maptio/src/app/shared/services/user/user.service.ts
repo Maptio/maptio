@@ -665,11 +665,9 @@ export class UserService implements OnDestroy {
     team: Team
   ) {
     if (duplicateUsers.length > 1) {
-      throw new Error($localize`Cannot replace user with multiple duplicates.`);
+      throw new Error(`Cannot replace user with multiple duplicates.`);
     } else if (duplicateUsers.length === 0) {
-      throw new Error(
-        $localize`No duplicate users found. Aborting replacing user.`
-      );
+      throw new Error(`No duplicate users found. Aborting replacing user.`);
     }
 
     const replacementUser = duplicateUsers[0];
