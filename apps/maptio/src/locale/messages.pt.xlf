@@ -1532,13 +1532,6 @@
           <context context-type="linenumber">94,95</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="b9fe58b6f6faf64df99937e14eae9fb4278ad9bc" datatype="html">
-        <source>Custom role for this <x id="ICU" equiv-text="{isVacancy, select, true {vacancy} false           {person}}"/>}</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
-          <context context-type="linenumber">97,99</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="3c5c102d91b0f625297a93c40837598a4637f998" datatype="html">
         <source>{VAR_SELECT, select, true {vacancy} false {person}}</source>
         <context-group purpose="location">

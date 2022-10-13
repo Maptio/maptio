@@ -873,14 +873,6 @@
           <context context-type="linenumber">94,95</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="b9fe58b6f6faf64df99937e14eae9fb4278ad9bc" datatype="html">
-        <source>Custom role for this <x id="ICU" equiv-text="{isVacancy, select, true {vacancy} false           {person}}"/>}</source>
-        <target state="translated">Rôle personnalisé pour ce <x id="ICU" equiv-text="{isVacancy, select, true {vacancy} false           {person}}"/>}</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
-          <context context-type="linenumber">97,99</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="createNewRole" datatype="html">
         <source>Create new role</source>
         <target state="translated">Créer un nouveau rôle</target>
@@ -2188,7 +2180,7 @@
       </trans-unit>
       <trans-unit id="2908a94538e6813824b78a2edaf472d7de4eadec" datatype="html">
         <source><x id="ICU" equiv-text="{duplicateUsers.length, plural, =1 {A person} other {Multiple people}}"/> with this name or email address <x id="ICU_1" equiv-text="{duplicateUsers.length, plural, =1 {is}       other {are}}"/> already <x id="ICU_2" equiv-text="{duplicateUsers.length, plural, =1 {a member} other       {members}}"/> of your organisation. Would you like to add <x id="ICU_3" equiv-text="{duplicateUsers.length, plural, other {them}}"/> instead?</source>
-        <target state="translated"><x id="ICU" equiv-text="{duplicateUsers.length, plural, =1 {A person} other {Multiple people}}"/> avec ce nom ou cette adresse courriel <x id="ICU_1" equiv-text="{duplicateUsers.length, plural, =1 {is}       other {are}}"/> déjà <x id="ICU_2" equiv-text="{duplicateUsers.length, plural, =1 {a member} other       {members}}"/> de votre entreprise. Souhaitez-vous ajouter <x id="ICU_3" equiv-text="{duplicateUsers.length, plural, other {them}}"/> à la place ?</target>
+        <target state="translated"><x id="ICU" equiv-text="{duplicateUsers.length, plural, =1 {A person} other {Multiple people}}"/> avec ce nom ou ce courriel <x id="ICU_1" equiv-text="{duplicateUsers.length, plural, =1 {is}       other {are}}"/> déjà <x id="ICU_2" equiv-text="{duplicateUsers.length, plural, =1 {a member} other       {members}}"/> de votre entreprise. Souhaitez-vous ajouter <x id="ICU_3" equiv-text="{duplicateUsers.length, plural, other {them}}"/> à la place ?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">227,232</context>
@@ -2934,7 +2926,7 @@
       </trans-unit>
       <trans-unit id="0a82cfc8df3e0267a269a9c3a7c897d3ab0d74c4" datatype="html">
         <source>{VAR_SELECT, select, Standard {Standard} Admin {Admin} Superuser {Superuser}}</source>
-        <target state="translated">{VAR_SELECT, select, Standard {Standard} Admin {Admin} Superuser {Superutilisateur}}</target>
+        <target state="translated">{VAR_SELECT, select, Standard {Standard} Admin {Administrateur} Superuser {Superuser}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
           <context context-type="linenumber">113,114</context>
@@ -3002,7 +2994,7 @@
       </trans-unit>
       <trans-unit id="d47151ac3fc8597f49c58f50b3c94e3d02bcd59b" datatype="html">
         <source>{VAR_SELECT, select, Standard {Standard} Admin {Admin} Superuser {Superuser}}</source>
-        <target state="translated">{VAR_SELECT, select, Standard {Standard} Admin {Admin} Superuser {Superutilisateur}}</target>
+        <target state="translated">{VAR_SELECT, select, Standard {Standard} Admin {Administrateur} Superuser {Superuser}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
           <context context-type="linenumber">128,129</context>
@@ -3146,7 +3138,7 @@
       </trans-unit>
       <trans-unit id="3c5c102d91b0f625297a93c40837598a4637f998" datatype="html">
         <source>{VAR_SELECT, select, true {vacancy} false {person}}</source>
-        <target state="translated">{VAR_SELECT, select, true {vacant} false {personne}}</target>
+        <target state="translated">{VAR_SELECT, select, true {poste vacant} false {personne}}</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
           <context context-type="linenumber">97,98</context>
@@ -3383,6 +3375,62 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
           <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4494204084031514457" datatype="html">
+        <source>Added email address to existing person with the same name</source>
+        <target state="translated">Ajout d'un courriel pour une personne existante portant le même nom</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.ts</context>
+          <context context-type="linenumber">114</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6453822529269960276" datatype="html">
+        <source>An unexpected duplication error occurred</source>
+        <target state="translated">Une erreur de duplication inattendue s'est produite</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.ts</context>
+          <context context-type="linenumber">130</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7254563407602262950" datatype="html">
+        <source>An unexpected duplication-related error occurred</source>
+        <target state="translated">Une erreur inattendue liée à la duplication s'est produite</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.ts</context>
+          <context context-type="linenumber">119</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9063678978754194989" datatype="html">
+        <source>A person with the same name is already a member of your organization</source>
+        <target state="translated">Une personne portant le même nom est déjà membre de votre entreprise.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.ts</context>
+          <context context-type="linenumber">125</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="498451842164304578" datatype="html">
+        <source>Multiple existing people with this email or name found</source>
+        <target state="translated">Plusieurs personnes existantes avec ce courriel ou ce nom ont été trouvées</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.ts</context>
+          <context context-type="linenumber">95</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4733181597636202178" datatype="html">
+        <source>A person with the same email is already a member of your organization</source>
+        <target state="translated">Une personne ayant le même courriel est déjà membre de votre entreprise.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.ts</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d4d0aac05f47d52c87da68e38c1e46c62432025c" datatype="html">
+        <source>Custom role for this <x id="ICU" equiv-text="{isVacancy, select, true {vacancy} false           {person}}"/></source>
+        <target state="translated">Rôle personnalisé pour ce <x id="ICU" equiv-text="{isVacancy, select, true {vacancy} false           {person}}"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
+          <context context-type="linenumber">97,99</context>
         </context-group>
       </trans-unit>
     </body>
