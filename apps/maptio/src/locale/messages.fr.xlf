@@ -873,14 +873,6 @@
           <context context-type="linenumber">94,95</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="b9fe58b6f6faf64df99937e14eae9fb4278ad9bc" datatype="html">
-        <source>Custom role for this <x id="ICU" equiv-text="{isVacancy, select, true {vacancy} false           {person}}"/>}</source>
-        <target state="translated">Rôle personnalisé pour ce <x id="ICU" equiv-text="{isVacancy, select, true {vacancy} false           {person}}"/>}</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
-          <context context-type="linenumber">97,99</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="createNewRole" datatype="html">
         <source>Create new role</source>
         <target state="translated">Créer un nouveau rôle</target>
@@ -3383,6 +3375,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
           <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d4d0aac05f47d52c87da68e38c1e46c62432025c" datatype="html">
+        <source>Custom role for this <x id="ICU" equiv-text="{isVacancy, select, true {vacancy} false           {person}}"/></source>
+        <target state="translated">Rôle personnalisé pour ce <x id="ICU" equiv-text="{isVacancy, select, true {vacancy} false           {person}}"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
+          <context context-type="linenumber">97,99</context>
         </context-group>
       </trans-unit>
     </body>
