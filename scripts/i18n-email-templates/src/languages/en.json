@@ -1,8 +1,11 @@
 {
-    "welcome": "Hello {{application.user}} Welcome to the site",
-    "thankYou": "Thank you for signing up. Please verify your email address by clicking the following link:",
-    "confirm": "Confirm my account",
-    "needHelp": "If you are having any issues with your account, please don’t hesitate to contact us by replying to this mail.",
-    "regards": "Regards",
-    "footer": "If you did not make this request, please contact us by replying to this mail."
+  "changePasswordMainHeading": "Password Change Request",
+  "changePasswordExplanation": "You have submitted a password change request.",
+  "disregardIfNotYou": "If it wasn't you please disregard this email and make sure you can still login to your account.",
+  "ifItWasYou": "If it was you, then",
+  "confirmChange": "confirm the password change",
+  "clickHere": "click here",
+  "thanks": "Thanks!",
+  "signatureTeam": "The Maptio team",
+  "contactIfNotRequested": "If you did not make this request, please contact us by replying to this mail."
 }

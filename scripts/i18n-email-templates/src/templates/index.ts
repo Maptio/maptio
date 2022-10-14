@@ -1,1 +1,1 @@
-export const templates = ["verification-email"];
+export const templates = ['change-password'];
