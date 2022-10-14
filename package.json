@@ -44,6 +44,12 @@
     "i18n:upload-translations": "wlc --config=.weblate upload maptio/maptio-application/en_US -i apps/maptio/src/locale/messages.xlf --method=replace",
     "i18n:download-translations": "wlc --config=.weblate download maptio -o=./",
     "i18n:place-translations": "unzip maptio-maptio-application.zip && cp -R maptio/maptio-application/* ./ && rm maptio-maptio-application.zip && rm -R maptio",
+    "i18n-email-templates:clean": "rm -rf ./scripts/i18n-email-templates/build",
+    "i18n-email-templates:copy-languages": "mkdir -p ./scripts/i18n-email-templates/build/languages && cp -r ./scripts/i18n-email-templates/src/languages/* ./scripts/i18n-email-templates/build/languages",
+    "i18n-email-templates:build": "npm run i18n-email-templates:clean && tsc --project ./scripts/i18n-email-templates && npm run i18n-email-templates:copy-languages",
+    "i18n-email-templates:watch": "tsc -w",
+    "i18n-email-templates:generate": "rm -rf ./scripts/i18n-email-templates/output && node ./scripts/i18n-email-templates/build/scripts/index.js",
+    "i18n-email-templates:serve": "npm run i18n-email-templates:build && npm run i18n-email-templates:generate && serve ./scripts/i18n-email-templates/output",
     "help": "nx help"
   },
   "private": true,
