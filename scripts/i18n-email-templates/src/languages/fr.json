@@ -1,0 +1,8 @@
+{
+    "welcome": "Bonjour {{application.user}} Bienvenue sur le site",
+    "thankYou": "Merci de vous être inscrit. Veuillez vérifier votre adresse e-mail en cliquant sur le lien suivant:",
+    "confirm": "Confirmer mon compte",
+    "needHelp": "Si vous rencontrez des problèmes avec votre compte, n'hésitez pas à nous contacter en répondant à ce mail.",
+    "regards": "Cordialement",
+    "footer": "Si vous n'avez pas fait cette demande, veuillez nous contacter en répondant à ce mail."
+}
