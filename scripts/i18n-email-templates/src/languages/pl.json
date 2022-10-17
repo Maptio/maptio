@@ -1,4 +1,9 @@
 {
+  "verificationEmailMainHeading": "Witamy w Maptio!",
+  "verificationEmailExplanation": "lll",
+  "verificationEmailCTA": "Potwierdź email",
+  "verificationEmailContactUs": "lll",
+
   "changePasswordMainHeading": "Zmiana Hasła",
   "changePasswordExplanation": "adsfasdf",
   "disregardIfNotYou": "adfasfasdf",

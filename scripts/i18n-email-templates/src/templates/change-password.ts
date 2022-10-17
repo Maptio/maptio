@@ -20,7 +20,7 @@ const html = `
 
                 <h1>${localizeMessage('changePasswordMainHeading')}</h1>
 
-                <p>{% debug %}
+                <p>{% debug %}</p>
 
                 <p>${localizeMessage('changePasswordExplanation')}</p>
 
