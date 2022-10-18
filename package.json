@@ -114,6 +114,7 @@
     "intercom-client": "2.10.2",
     "jquery": "^3.4.1",
     "jwks-rsa": "^2.0.3",
+    "liquidjs": "^9.42.0",
     "lodash-es": "^4.17.11",
     "logrocket": "^0.6.12",
     "mongodb": "3.3.4",

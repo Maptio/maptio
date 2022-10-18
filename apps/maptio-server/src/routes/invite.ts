@@ -7,11 +7,12 @@ const router = express.Router();
 const aws = require('aws-sdk');
 const fs = require('fs');
 const path = require('path');
-const templating = require('lodash/template');
 require('dotenv').config();
 
 // New imports
 import { Request, Response, NextFunction } from 'express';
+
+import { Liquid } from 'liquidjs';
 
 import { environment } from '../environments/environment';
 import { getAuth0MangementClient } from '../auth/management-client';
@@ -115,7 +116,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   res.send(sendInvitationEmailSuccess);
 });
 
-function sendInvitationEmail(userEmail, invitedBy, team, url) {
+async function sendInvitationEmail(userEmail, invitedBy, team, url) {
   const from = process.env.SUPPORT_EMAIL;
 
   // Send email to developer when running locally
@@ -125,12 +126,18 @@ function sendInvitationEmail(userEmail, invitedBy, team, url) {
 
   const subject = `${invitedBy} invited you to join organisation "${team}" on Maptio`;
 
-  const template = templating(
-    fs.readFileSync(
-      path.join(__dirname, 'assets/templates/email-invitation.html')
-    )
+  const templatingEngine = new Liquid();
+
+  const templateFile = path.join(
+    __dirname,
+    'assets/templates/email-invitation.html'
   );
-  const htmlBody = template({ url, team });
+  const templateBody = fs.readFileSync(templateFile).toString();
+
+  const htmlBody = await templatingEngine.parseAndRender(templateBody, {
+    url,
+    team,
+  });
 
   return ses
     .sendEmail({
