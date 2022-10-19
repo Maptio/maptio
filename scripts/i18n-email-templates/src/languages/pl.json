@@ -10,7 +10,16 @@
   "ifItWasYou": "asdfasdfasd",
   "confirmChange": "asdfasdfdsa",
   "clickHere": "asdfasdfa",
+
+  "inviteEmailMainHeading": "POLSKI: Let's map!",
+  "inviteEmailExplanation": "POLSKI: You've been invited to join team <strong>{{ team }}</strong> in Maptio.",
+  "inviteEmailIntro": "POLSKI: Maptio is the online tool for mapping self-managing organizations. Visualizing who's responsible for what; who's helping who; and how everything contributes to the overall vision.",
+  "inviteEmailCTAIntro": "POLSKI: Your Maptio account is ready for you, all you need to do is set a password by clicking the link below:",
+  "inviteEmailCTA": "POLSKI: Log in to Maptio",
+  "inviteEmailContactUs": "POLSKI: If you are having any issues with your account, please don't hesitate to contact us by replying to this email.",
+
   "thanks": "Dziękujemy!",
   "signatureTeam": "Maptio",
-  "contactIfNotRequested": "adsfasdfasdfasdfsirfawsorejoj"
+  "contactIfNotRequested": "adsfasdfasdfasdfsirfawsorejoj",
+  "contactIfNotRequestedInvite": "Tu jezyk polski!"
 }

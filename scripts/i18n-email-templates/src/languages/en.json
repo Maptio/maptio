@@ -2,7 +2,7 @@
   "verificationEmailMainHeading": "Welcome to Maptio!",
   "verificationEmailExplanation": "We're ready to activate your account. All we need to do is make sure this is your email address.",
   "verificationEmailCTA": "Verify address",
-  "verificationEmailContactUs": "If you are having any issues with your account, please don’t hesitate to contact us by replying to this mail.",
+  "verificationEmailContactUs": "If you are having any issues with your account, please don't hesitate to contact us by replying to this email.",
 
   "changePasswordMainHeading": "Password Change Request",
   "changePasswordExplanation": "You have submitted a password change request.",
@@ -10,7 +10,16 @@
   "ifItWasYou": "If it was you, then",
   "confirmChange": "confirm the password change",
   "clickHere": "click here",
+
+  "inviteEmailMainHeading": "Let's map!",
+  "inviteEmailExplanation": "You've been invited to join team <strong>{{ team }}</strong> in Maptio.",
+  "inviteEmailIntro": "Maptio is the online tool for mapping self-managing organizations. Visualizing who's responsible for what; who's helping who; and how everything contributes to the overall vision.",
+  "inviteEmailCTAIntro": "Your Maptio account is ready for you, all you need to do is set a password by clicking the link below:",
+  "inviteEmailCTA": "Log in to Maptio",
+  "inviteEmailContactUs": "If you are having any issues with your account, please don't hesitate to contact us by replying to this email.",
+
   "thanks": "Thanks!",
   "signatureTeam": "The Maptio team",
-  "contactIfNotRequested": "If you did not make this request, please contact us by replying to this mail."
+  "contactIfNotRequested": "If you did not make this request, please contact us by replying to this email.",
+  "contactIfNotRequestedInvite": "If you did not expect this invite and do not recognise the organization you have been invited to join, please contact us by replying to this email."
 }

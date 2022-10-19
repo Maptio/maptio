@@ -46,33 +46,97 @@
                   width="100"
                 />
               </p>
-              <h1 class="center">Let's map!</h1>
+
+              <h1 class="center">
+                {% if request_language == 'en' %} Let's map! {% elsif
+                request_language == 'pl' %} POLSKI: Let's map! {% else %} Let's
+                map! {% endif %}
+              </h1>
+
               <p>
-                You've been invited to join team
+                {% if request_language == 'en' %} You've been invited to join
+                team
                 <strong>{{ team }}</strong>
-                in Maptio.
+                in Maptio. {% elsif request_language == 'pl' %} POLSKI: You've
+                been invited to join team
+                <strong>{{ team }}</strong>
+                in Maptio. {% else %} You've been invited to join team
+                <strong>{{ team }}</strong>
+                in Maptio. {% endif %}
               </p>
+
               <p>
-                Maptio is the online tool for mapping self-managing
-                organisations. Visualising who&rsquo;s responsible for what;
-                who&rsquo;s helping who; and how everything contributes to the
-                overall vision.
+                {% if request_language == 'en' %} Maptio is the online tool for
+                mapping self-managing organizations. Visualizing who's
+                responsible for what; who's helping who; and how everything
+                contributes to the overall vision. {% elsif request_language ==
+                'pl' %} POLSKI: Maptio is the online tool for mapping
+                self-managing organizations. Visualizing who's responsible for
+                what; who's helping who; and how everything contributes to the
+                overall vision. {% else %} Maptio is the online tool for mapping
+                self-managing organizations. Visualizing who's responsible for
+                what; who's helping who; and how everything contributes to the
+                overall vision. {% endif %}
               </p>
-              <p><a href="{{ url }}" class="action">Log in to Maptio</a></p>
+
               <p>
-                If you are having any issues with accessing Maptio, please
-                don&rsquo;t hesitate to contact us by replying to this mail.
+                <a href="{{ url }}" class="action">
+                  {% if request_language == 'en' %} Log in to Maptio {% elsif
+                  request_language == 'pl' %} POLSKI: Log in to Maptio {% else
+                  %} Log in to Maptio {% endif %}
+                </a>
               </p>
-              <br />
-              Thanks!
-              <br />
-              <strong>The Maptio team</strong>
-              <br />
-              <br />
-              <hr />
+
               <p>
-                If you did not make this request, please contact us by replying
-                to this mail.
+                {% if request_language == 'en' %} If you are having any issues
+                with your account, please don't hesitate to contact us by
+                replying to this email. {% elsif request_language == 'pl' %}
+                POLSKI: If you are having any issues with your account, please
+                don't hesitate to contact us by replying to this email. {% else
+                %} If you are having any issues with your account, please don't
+                hesitate to contact us by replying to this email. {% endif %}
+              </p>
+
+              <br />
+
+              {% if request_language == 'en' %} Thanks! {% elsif
+              request_language == 'pl' %} Dziękujemy! {% else %} Thanks! {%
+              endif %}
+
+              <br />
+
+              <strong>
+                {% if request_language == 'en' %} The Maptio team {% elsif
+                request_language == 'pl' %} Maptio {% else %} The Maptio team {%
+                endif %}
+              </strong>
+
+              <br />
+              <br />
+
+              <hr
+                style="
+                  border: 2px solid #eaeef3;
+                  border-bottom: 0;
+                  margin: 20px 0;
+                "
+              />
+
+              <p
+                style="
+                  text-align: center;
+                  color: #a9b3bc;
+                  -webkit-text-size-adjust: 100%;
+                  -ms-text-size-adjust: 100%;
+                "
+              >
+                {% if request_language == 'en' %} If you did not expect this
+                invite and do not recognise the organization you have been
+                invited to join, please contact us by replying to this email. {%
+                elsif request_language == 'pl' %} Tu jezyk polski! {% else %} If
+                you did not expect this invite and do not recognise the
+                organization you have been invited to join, please contact us by
+                replying to this email. {% endif %}
               </p>
             </div>
           </td>
