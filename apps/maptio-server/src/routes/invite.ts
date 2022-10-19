@@ -34,6 +34,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   let invitedBy: string;
   let teamName: string;
   let createUser: boolean;
+  let languageCode: string;
 
   // TODO: Error checking could be improved hear to avoid the try/catch tower of terror
   try {
@@ -44,6 +45,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     invitedBy = inviteData.invitedBy;
     teamName = inviteData.teamName;
     createUser = inviteData.createUser;
+    languageCode = inviteData.languageCode;
   } catch (error) {
     error.message = 'Error parsing invite data: ' + error.message;
     return next(error);
@@ -102,7 +104,8 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
       userEmail,
       invitedBy,
       teamName,
-      changePasswordTicket
+      changePasswordTicket,
+      languageCode
     );
   } catch (error) {
     error.message = 'Error sending invitation email: ' + error.message;
@@ -116,7 +119,13 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   res.send(sendInvitationEmailSuccess);
 });
 
-async function sendInvitationEmail(userEmail, invitedBy, team, url) {
+async function sendInvitationEmail(
+  userEmail,
+  invitedBy,
+  team,
+  url,
+  languageCode
+) {
   const from = process.env.SUPPORT_EMAIL;
 
   // Send email to developer when running locally
@@ -137,6 +146,7 @@ async function sendInvitationEmail(userEmail, invitedBy, team, url) {
   const htmlBody = await templatingEngine.parseAndRender(templateBody, {
     url,
     team,
+    request_language: languageCode,
   });
 
   return ses
