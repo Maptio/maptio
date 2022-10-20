@@ -106,8 +106,8 @@ const html = `
    */
 
       .content-td {
-        font-size: 15px;
-        line-height: 22px;
+        font-size: 18px;
+        line-height: 27px;
         padding: 0;
         color: #525252;
       }
@@ -267,9 +267,9 @@ const html = `
         display: inline-block;
         color: white;
         font-weight: bold;
-        font-size: 14px;
+        font-size: 18px;
         text-decoration: none;
-        background-color: #3177a5;
+        background-color: #303db4;
         border: none !important;
         border-radius: 3px;
       }
@@ -381,8 +381,8 @@ const html = `
       }
 
       a.intercom-h2b-button {
-        background-color: #3177a5;
-        font-size: 14px;
+        background-color: #303db4;
+        font-size: 18px;
         color: #fff;
         font-weight: bold;
         border-radius: 3px;
@@ -638,7 +638,7 @@ const html = `
     </style>
   </head>
 
-  <body style="margin: 0px; padding: 20px" class="intercom-template-body">
+  <body style="margin: 0px; padding: 20px; background-color: #f9f9f9" class="intercom-template-body">
     <table
       cellspacing="0"
       border="0"
@@ -646,6 +646,7 @@ const html = `
       align="center"
       width="595"
       class="main company"
+      style="background-color: white"
     >
       <tbody>
         <tr>

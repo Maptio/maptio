@@ -19,7 +19,7 @@ const html = `
     </p>
 
     <p>
-      <a href="{{ url }}" class="action">
+      <a href="{{ url }}" class="intercom-h2b-button">
         ${localizeMessage('inviteEmailCTA')}
       </a>
     </p>
