@@ -664,6 +664,7 @@
                       width="137"
                       height=""
                       class="featured"
+                      style="padding-bottom: 0"
                     />
                   </td>
                 </tr>
@@ -727,8 +728,6 @@
                       replying to this email. {% endif %}
                     </p>
 
-                    <br />
-
                     {% if request_language == 'en' %} Thanks! {% elsif
                     request_language == 'pl' %} Dziękujemy! {% else %} Thanks!
                     {% endif %}
@@ -741,7 +740,6 @@
                       team {% endif %}
                     </strong>
 
-                    <br />
                     <br />
 
                     <hr
@@ -758,6 +756,7 @@
                         color: #a9b3bc;
                         -webkit-text-size-adjust: 100%;
                         -ms-text-size-adjust: 100%;
+                        font-size: 16px;
                       "
                     >
                       {% if request_language == 'en' %} If you did not expect

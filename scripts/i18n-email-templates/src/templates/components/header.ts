@@ -662,6 +662,7 @@ const html = `
                       width="137"
                       height=""
                       class="featured"
+                      style="padding-bottom: 0"
                     />
                   </td>
                 </tr>
