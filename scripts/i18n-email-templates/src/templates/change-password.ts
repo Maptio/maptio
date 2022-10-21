@@ -13,7 +13,10 @@ const html = `
     <p>${localizeMessage('changePasswordIntro')}</p>
 
     <p>
-      <a href="{{ url }}" class="intercom-h2b-button">
+      {% assign splitURL = url | split: '#' %}
+      {% assign languageURL = splitURL[0] | append: '&ui_locales=' | append: request_language %}
+
+      <a href="{{ languageURL }}" class="intercom-h2b-button">
         ${localizeMessage('changePasswordCTA')}
       </a>
     </p>
