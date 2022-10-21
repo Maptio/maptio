@@ -5,11 +5,9 @@
   "verificationEmailContactUs": "lll",
 
   "changePasswordMainHeading": "Zmiana Hasła",
-  "changePasswordExplanation": "adsfasdf",
-  "disregardIfNotYou": "adfasfasdf",
-  "ifItWasYou": "asdfasdfasd",
-  "confirmChange": "asdfasdfdsa",
-  "clickHere": "asdfasdfa",
+  "changePasswordExplanation": "We received a request to change the password for your Maptio account.",
+  "changePasswordIntro": "If you did not make this request, please contact us by replying to this email and make sure you can still log in to your account. Otherwise, please click the button below to reset your password:",
+  "changePasswordCTA": "Change password",
 
   "inviteEmailMainHeading": "POLSKI: Let's map!",
   "inviteEmailExplanation": "POLSKI: You've been invited to join team <strong>{{ team }}</strong> in Maptio.",
