@@ -1,8 +1,10 @@
 import { localizeMessage } from '../scripts';
-
-import headerHtml from './components/header';
-import signatureHtml from './components/signature';
-import footerHtml from './components/footer';
+import {
+  headerHtml,
+  signatureHtml,
+  footerHtml,
+  generateCtaButtonHtml,
+} from './components';
 
 const html = `
   ${headerHtml}
@@ -18,14 +20,7 @@ const html = `
       ${localizeMessage('inviteEmailIntro')}
     </p>
 
-    <p>
-      {% assign splitURL = url | split: '#' %}
-      {% assign languageURL = splitURL[0] | append: '&ui_locales=' | append: request_language %}
-
-      <a href="{{ languageURL }}" class="intercom-h2b-button">
-        ${localizeMessage('inviteEmailCTA')}
-      </a>
-    </p>
+    ${generateCtaButtonHtml('inviteEmailCTA')}
 
     <p>
       ${localizeMessage('inviteEmailContactUs')}

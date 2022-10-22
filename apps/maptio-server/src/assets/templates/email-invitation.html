@@ -710,7 +710,11 @@
                     </p>
 
                     <p>
-                      <a href="{{ url }}" class="intercom-h2b-button">
+                      {% assign splitURL = url | split: '#' %} {% assign
+                      languageURL = splitURL[0] | append: '&ui_locales=' |
+                      append: request_language %}
+
+                      <a href="{{ languageURL }}" class="intercom-h2b-button">
                         {% if request_language == 'en' %} Log in to Maptio {%
                         elsif request_language == 'pl' %} POLSKI: Log in to
                         Maptio {% else %} Log in to Maptio {% endif %}
