@@ -135,19 +135,14 @@ async function sendInvitationEmail(
 
   const subject = `${invitedBy} invited you to join organisation "${team}" on Maptio`;
 
-  const templatingEngine = new Liquid();
-
-  const templateFile = path.join(
-    __dirname,
-    'assets/templates/email-invitation.html'
+  const emailBodyHtml = await readAndRenderTemplateFromFile(
+    'email-invitation.html',
+    {
+      url,
+      team,
+      request_language: languageCode,
+    }
   );
-  const templateBody = fs.readFileSync(templateFile).toString();
-
-  const htmlBody = await templatingEngine.parseAndRender(templateBody, {
-    url,
-    team,
-    request_language: languageCode,
-  });
 
   return ses
     .sendEmail({
@@ -156,7 +151,7 @@ async function sendInvitationEmail(
       Message: {
         Body: {
           Html: {
-            Data: htmlBody,
+            Data: emailBodyHtml,
           },
         },
         Subject: {
@@ -165,6 +160,24 @@ async function sendInvitationEmail(
       },
     })
     .promise();
+}
+
+async function readAndRenderTemplateFromFile(templateFilename, variables) {
+  const templatingEngine = new Liquid();
+
+  const templateFilePath = path.join(
+    __dirname,
+    'assets/templates/',
+    templateFilename
+  );
+
+  // This is the body of the liquid template
+  const template = fs.readFileSync(templateFilePath).toString();
+
+  // This is the html created based on the liquid template with the variables inserted
+  const html = await templatingEngine.parseAndRender(template, variables);
+
+  return html;
 }
 
 module.exports = router;
