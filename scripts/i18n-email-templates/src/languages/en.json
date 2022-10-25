@@ -1,9 +1,11 @@
 {
+  "verificationEmailSubject": "Maptio Account Confirmation",
   "verificationEmailMainHeading": "Welcome to Maptio!",
   "verificationEmailExplanation": "We're ready to activate your account. All we need to do is make sure this is your email address.",
   "verificationEmailCTA": "Verify address",
   "verificationEmailContactUs": "If you are having any issues with your account, please don't hesitate to contact us by replying to this email.",
 
+  "changePasswordSubject": "Reset your password",
   "changePasswordMainHeading": "Password Change Request",
   "changePasswordExplanation": "We received a request to change the password for your Maptio account.",
   "changePasswordIntro": "If you did not make this request, please contact us by replying to this email and make sure you can still log in to your account. Otherwise, please click the button below to reset your password:",
