@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
   <head>
@@ -637,10 +639,7 @@
     </style>
   </head>
 
-  <body
-    style="margin: 0px; padding: 20px; background-color: #f9f9f9"
-    class="intercom-template-body"
-  >
+  <body style="margin: 0px; padding: 20px; background-color: #f9f9f9" class="intercom-template-body">
     <table
       cellspacing="0"
       border="0"
@@ -676,102 +675,148 @@
               <tbody>
                 <tr>
                   <td class="content-td">
-                    <h1 class="center">
-                      {% if request_language == 'en' %} Let's map! {% elsif
-                      request_language == 'pl' %} POLSKI: Let's map! {% else %}
-                      Let's map! {% endif %}
-                    </h1>
 
-                    <p>
-                      {% if request_language == 'en' %} You've been invited to
-                      join team
-                      <strong>{{ team }}</strong>
-                      in Maptio. {% elsif request_language == 'pl' %} POLSKI:
-                      You've been invited to join team
-                      <strong>{{ team }}</strong>
-                      in Maptio. {% else %} You've been invited to join team
-                      <strong>{{ team }}</strong>
-                      in Maptio. {% endif %}
-                    </p>
+    <h1 class="center">
 
-                    <p>
-                      {% if request_language == 'en' %} Maptio is the online
-                      tool for mapping self-managing organizations. Visualizing
-                      who's responsible for what; who's helping who; and how
-                      everything contributes to the overall vision. {% elsif
-                      request_language == 'pl' %} POLSKI: Maptio is the online
-                      tool for mapping self-managing organizations. Visualizing
-                      who's responsible for what; who's helping who; and how
-                      everything contributes to the overall vision. {% else %}
-                      Maptio is the online tool for mapping self-managing
-                      organizations. Visualizing who's responsible for what;
-                      who's helping who; and how everything contributes to the
-                      overall vision. {% endif %}
-                    </p>
+    {% if request_language == 'en' %}
+        Let's map!
 
-                    <p>
-                      {% assign splitURL = url | split: '#' %} {% assign
-                      languageURL = splitURL[0] | append: '&ui_locales=' |
-                      append: request_language %}
 
-                      <a href="{{ languageURL }}" class="intercom-h2b-button">
-                        {% if request_language == 'en' %} Log in to Maptio {%
-                        elsif request_language == 'pl' %} POLSKI: Log in to
-                        Maptio {% else %} Log in to Maptio {% endif %}
-                      </a>
-                    </p>
+    {% elsif request_language == 'pl' %}
+        Rozpocznij mapowanie swojej organizacji!
 
-                    <p>
-                      {% if request_language == 'en' %} If you are having any
-                      issues with your account, please don't hesitate to contact
-                      us by replying to this email. {% elsif request_language ==
-                      'pl' %} POLSKI: If you are having any issues with your
-                      account, please don't hesitate to contact us by replying
-                      to this email. {% else %} If you are having any issues
-                      with your account, please don't hesitate to contact us by
-                      replying to this email. {% endif %}
-                    </p>
 
-                    {% if request_language == 'en' %} Thanks! {% elsif
-                    request_language == 'pl' %} Dziękujemy! {% else %} Thanks!
-                    {% endif %}
+    {% else %}
+        Let's map!
+    {% endif %}
 
-                    <br />
+    </h1>
 
-                    <strong>
-                      {% if request_language == 'en' %} The Maptio team {% elsif
-                      request_language == 'pl' %} Maptio {% else %} The Maptio
-                      team {% endif %}
-                    </strong>
+    <p>
 
-                    <br />
+    {% if request_language == 'en' %}
+        You've been invited to join team <strong>{{ team }}</strong> in Maptio.
 
-                    <hr
-                      style="
-                        border: 2px solid #eaeef3;
-                        border-bottom: 0;
-                        margin: 20px 0;
-                      "
-                    />
 
-                    <p
-                      style="
-                        text-align: center;
-                        color: #a9b3bc;
-                        -webkit-text-size-adjust: 100%;
-                        -ms-text-size-adjust: 100%;
-                        font-size: 16px;
-                      "
-                    >
-                      {% if request_language == 'en' %} If you did not expect
-                      this invite and do not recognise the organization you have
-                      been invited to join, please contact us by replying to
-                      this email. {% elsif request_language == 'pl' %} Tu jezyk
-                      polski! {% else %} If you did not expect this invite and
-                      do not recognise the organization you have been invited to
-                      join, please contact us by replying to this email. {%
-                      endif %}
-                    </p>
+    {% elsif request_language == 'pl' %}
+        Zostałeś zaproszony do dołączenia do zespołu <strong>{{ team }}</strong> w Maptio.
+
+
+    {% else %}
+        You've been invited to join team <strong>{{ team }}</strong> in Maptio.
+    {% endif %}
+
+    </p>
+
+    <p>
+
+    {% if request_language == 'en' %}
+        Maptio is the online tool for mapping self-managing organizations. Visualizing who's responsible for what; who's helping who; and how everything contributes to the overall vision.
+
+
+    {% elsif request_language == 'pl' %}
+        Maptio to narzędzie online do mapowania organizacji zarządzanych samodzielnie. Wizualizacja, kto jest odpowiedzialny za co, kto komu pomaga i jak wszystko przyczynia się do realizacji ogólnej wizji.
+
+
+    {% else %}
+        Maptio is the online tool for mapping self-managing organizations. Visualizing who's responsible for what; who's helping who; and how everything contributes to the overall vision.
+    {% endif %}
+
+    </p>
+
+
+    <p>
+      {% assign splitURL = url | split: '#' %}
+      {% assign languageURL = splitURL[0] | append: '&ui_locales=' | append: request_language %}
+
+      <a href="{{ languageURL }}" class="intercom-h2b-button">
+
+    {% if request_language == 'en' %}
+        Log in to Maptio
+
+
+    {% elsif request_language == 'pl' %}
+        Zaloguj się do Maptio
+
+
+    {% else %}
+        Log in to Maptio
+    {% endif %}
+
+      </a>
+    </p>
+
+
+    <p>
+
+    {% if request_language == 'en' %}
+        If you are having any issues with your account, please don't hesitate to contact us by replying to this email.
+
+
+    {% elsif request_language == 'pl' %}
+        Jeśli masz jakiekolwiek problemy ze swoim kontem, nie wahaj się skontaktować z nami, odpowiadając na ten e-mail.
+
+
+    {% else %}
+        If you are having any issues with your account, please don't hesitate to contact us by replying to this email.
+    {% endif %}
+
+    </p>
+
+
+
+    {% if request_language == 'en' %}
+        Thanks!
+
+
+    {% elsif request_language == 'pl' %}
+        Dziękujemy!
+
+
+    {% else %}
+        Thanks!
+    {% endif %}
+
+
+  <br>
+
+  <strong>
+
+    {% if request_language == 'en' %}
+        The Maptio team
+
+
+    {% elsif request_language == 'pl' %}
+        Maptio
+
+
+    {% else %}
+        The Maptio team
+    {% endif %}
+
+  </strong>
+
+  <br>
+
+  <hr style="border: 2px solid #EAEEF3; border-bottom: 0; margin: 20px 0;">
+
+  <p style="text-align: center;color: #A9B3BC;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%; font-size: 16px;">
+
+
+
+    {% if request_language == 'en' %}
+        If you did not expect this invite and do not recognise the organization you have been invited to join, please contact us by replying to this email.
+
+
+    {% elsif request_language == 'pl' %}
+        Jeśli to zaproszenie przyszło niespodziewanie i nie rozpoznajesz tej organizacji, skontaktuj się z nami, odpowiadając na tego maila.
+
+
+    {% else %}
+        If you did not expect this invite and do not recognise the organization you have been invited to join, please contact us by replying to this email.
+    {% endif %}
+
+
                   </td>
                 </tr>
               </tbody>
