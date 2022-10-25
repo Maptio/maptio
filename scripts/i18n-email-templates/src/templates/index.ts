@@ -1,5 +1,8 @@
 export const templates = [
   'verification-email',
-  'change-password',
+  // 'verification-subject',
+  'change-password-email',
+  // 'change-password-subject',
   'invitation-email',
+  'invitation-subject',
 ];
