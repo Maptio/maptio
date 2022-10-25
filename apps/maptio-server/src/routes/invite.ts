@@ -133,10 +133,17 @@ async function sendInvitationEmail(
     ? process.env.DEVELOPMENT_EMAIL
     : userEmail;
 
-  const subject = `${invitedBy} invited you to join organisation "${team}" on Maptio`;
+  const emailSubject = await readAndRenderTemplateFromFile(
+    'invitation-subject.liquid',
+    {
+      nameOfInvitationSender: invitedBy,
+      team,
+      request_language: languageCode,
+    }
+  );
 
   const emailBodyHtml = await readAndRenderTemplateFromFile(
-    'email-invitation.html',
+    'invitation-email.liquid',
     {
       url,
       team,
@@ -155,7 +162,7 @@ async function sendInvitationEmail(
           },
         },
         Subject: {
-          Data: subject,
+          Data: emailSubject,
         },
       },
     })

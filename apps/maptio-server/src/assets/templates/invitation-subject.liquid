@@ -1,0 +1,7 @@
+{% if request_language == 'en' %}
+  {{ nameOfInvitationSender }} invited you to join organisation "{{ team }}" on Maptio
+{% elsif request_language == 'pl' %}
+  Zaproszenie do organizacji: "{{ team }}" w Maptio od: {{ nameOfInvitationSender }}
+{% else %}
+  {{ nameOfInvitationSender }} invited you to join organisation "{{ team }}" on Maptio
+{% endif %}
