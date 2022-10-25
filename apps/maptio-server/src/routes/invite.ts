@@ -126,7 +126,7 @@ async function sendInvitationEmail(
   url,
   languageCode
 ) {
-  const from = process.env.SUPPORT_EMAIL;
+  const from = `Maptio <${process.env.SUPPORT_EMAIL}>`;
 
   // Send email to developer when running locally
   const to = environment.isDevelopment
