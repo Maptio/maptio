@@ -20,5 +20,8 @@
     "subsink",
     "TlJstdtRcRi1rlPM4iBCIYcHjdzSyPiD",
     "upsert"
+  ],
+  "liquid.format.ignore": [
+    "apps/maptio-server/src/assets/templates/invitation-subject.liquid"
   ]
 }

@@ -1,9 +1,5 @@
 import { localizeMessage } from '../scripts';
 
-const html = `
-<!-- @prettify-ignore -->
-
-${localizeMessage('inviteEmailSubject')}
-`;
+const html = `${localizeMessage('inviteEmailSubject')}`;
 
 export default html;
