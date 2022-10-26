@@ -16,6 +16,8 @@ const html = `
 
     ${generateCtaButtonHtml('changePasswordCTA')}
 
+    <p>${localizeMessage('changePasswordOutro')}</p>
+
     ${signatureHtml}
 
     ${localizeMessage('contactIfNotRequested')}

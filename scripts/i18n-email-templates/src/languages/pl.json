@@ -5,12 +5,12 @@
     "verificationEmailContactUs": "Jeśli masz jakiekolwiek problemy ze swoim kontem, nie wahaj się skontaktować z nami, odpowiadając na ten e-mail.",
     "changePasswordMainHeading": "Prośba o zmianę hasła",
     "changePasswordExplanation": "Otrzymaliśmy prośbę o zmianę hasła do Twojego konta Maptio.",
-    "changePasswordIntro": "Jeśli nie złożyłeś tej prośby, skontaktuj się z nami odpowiadając na tego maila i upewnij się, że nadal możesz zalogować się na swoje konto. Jeśli rzeczywiście chcesz zmienić hasło, kliknij poniższy przycisk:",
+    "changePasswordIntro": "Jeśli rzeczywiście chcesz zmienić hasło, kliknij poniższy przycisk.",
     "changePasswordCTA": "Zmień hasło",
     "inviteEmailMainHeading": "Rozpocznij mapowanie swojej organizacji!",
-    "inviteEmailExplanation": "Zostałeś zaproszony do dołączenia do zespołu <strong>{{ team }}</strong> w Maptio.",
+    "inviteEmailExplanation": "Zaproszono Cię do dołączenia do zespołu <strong>{{ team }}</strong> w Maptio - internetowym narzędziu do wizualizacji organizacji.",
     "inviteEmailIntro": "Maptio to narzędzie online do mapowania organizacji zarządzanych samodzielnie. Wizualizacja, kto jest odpowiedzialny za co, kto komu pomaga i jak wszystko przyczynia się do realizacji ogólnej wizji.",
-    "inviteEmailCTAIntro": "Twoje konto Maptio jest już gotowe, wystarczy, że ustawisz hasło klikając na poniższy link:",
+    "inviteEmailCTAIntro": "Twoje konto Maptio jest już gotowe, wystarczy, że ustawisz hasło klikając na poniższy link.",
     "inviteEmailCTA": "Zaloguj się do Maptio",
     "inviteEmailContactUs": "Jeśli masz jakiekolwiek problemy ze swoim kontem, nie wahaj się skontaktować z nami, odpowiadając na ten e-mail.",
     "thanks": "Dziękujemy!",
@@ -19,5 +19,6 @@
     "contactIfNotRequestedInvite": "Jeśli to zaproszenie przyszło niespodziewanie i nie rozpoznajesz tej organizacji, skontaktuj się z nami, odpowiadając na tego maila.",
     "inviteEmailSubject": "{{ nameOfInvitationSender }} zaprasza Cię do organizacji \"{{ team }}\" w Maptio",
     "verificationEmailSubject": "Potwierdzenie konta Maptio",
-    "changePasswordSubject": "Zresetuj swoje hasło"
+    "changePasswordSubject": "Zresetuj swoje hasło",
+    "changePasswordOutro": "Jeśli to zaproszenie przyszło niespodziewanie i nie rozpoznajesz tej organizacji, skontaktuj się z nami, odpowiadając na tego maila."
 }

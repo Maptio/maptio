@@ -17,7 +17,7 @@ const html = `
     </p>
 
     <p>
-      ${localizeMessage('inviteEmailIntro')}
+      ${localizeMessage('inviteEmailCTAIntro')}
     </p>
 
     ${generateCtaButtonHtml('inviteEmailCTA')}
