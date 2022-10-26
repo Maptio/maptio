@@ -11,7 +11,7 @@
   "changePasswordIntro": "If you did not make this request, please contact us by replying to this email and make sure you can still log in to your account. Otherwise, please click the button below to reset your password:",
   "changePasswordCTA": "Change password",
 
-  "inviteEmailSubject": "{{ nameOfInvitationSender }} invited you to join organisation \"{{ team }}\" on Maptio",
+  "inviteEmailSubject": "{{ nameOfInvitationSender }} invited you to join organization \"{{ team }}\" on Maptio",
   "inviteEmailMainHeading": "Let's map!",
   "inviteEmailExplanation": "You've been invited to join team <strong>{{ team }}</strong> in Maptio.",
   "inviteEmailIntro": "Maptio is the online tool for mapping self-managing organizations. Visualizing who's responsible for what; who's helping who; and how everything contributes to the overall vision.",

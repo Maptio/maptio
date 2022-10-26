@@ -17,7 +17,7 @@
     "signatureTeam": "Maptio",
     "contactIfNotRequested": "Jeśli ta prośba nie została złożona przez Ciebie, skontaktuj się z nami, odpowiadając na ten e-mail.",
     "contactIfNotRequestedInvite": "Jeśli to zaproszenie przyszło niespodziewanie i nie rozpoznajesz tej organizacji, skontaktuj się z nami, odpowiadając na tego maila.",
-    "inviteEmailSubject": "Zaproszenie do organizacji: \"{{ team }}\" w Maptio od: {{ nameOfInvitationSender }}",
+    "inviteEmailSubject": "{{ nameOfInvitationSender }} zaprasza Cię do organizacji \"{{ team }}\" w Maptio",
     "verificationEmailSubject": "Potwierdzenie konta Maptio",
     "changePasswordSubject": "Zresetuj swoje hasło"
 }
