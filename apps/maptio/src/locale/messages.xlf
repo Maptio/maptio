@@ -254,7 +254,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">296,297</context>
+          <context context-type="linenumber">300,301</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f093d9574ab746b231504bd2cbb65f04bd7b00db" datatype="html">
@@ -338,6 +338,27 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/login-error/login-error.page.html</context>
           <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="00e0cd04738f7d2fe0208a6405c6c672e8442624" datatype="html">
+        <source>Loading Maptio map</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/embed/pages/embed/embed.page.html</context>
+          <context context-type="linenumber">10,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5a5331045eea5bbc5c8dfd3a7246a4730a25c795" datatype="html">
+        <source>The requested Maptio map could not be found.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/embed/pages/embed/embed.page.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="580ee0f119c40b7426c7dfd3f85520321a1c2a5a" datatype="html">
+        <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;credit__text&quot;&gt;"/>Powered by<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_TAG_SPAN_1" ctype="x-span_1" equiv-text="&lt;span class=&quot;credit__link&quot;&gt;"/> Maptio<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/embed/pages/embed/embed.page.html</context>
+          <context context-type="linenumber">25,26</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c3d4de943e9007c1df3c003b1042299a702aeee8" datatype="html">
@@ -904,7 +925,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
-          <context context-type="linenumber">308</context>
+          <context context-type="linenumber">328</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4175524537305120095" datatype="html">
@@ -3064,28 +3085,28 @@
         <source>Cannot update email of user already in Auth0.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
-          <context context-type="linenumber">471</context>
+          <context context-type="linenumber">491</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1651346827407869642" datatype="html">
         <source>We found multiple duplicated users with 'isInAuth0' set to 'true'.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
-          <context context-type="linenumber">654</context>
+          <context context-type="linenumber">675</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5471671537361039738" datatype="html">
         <source>A friendly heads-up: One or more of your maps has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before adding an existing user. Sorry for the hassle.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
-          <context context-type="linenumber">693</context>
+          <context context-type="linenumber">714</context>
         </context-group>
       </trans-unit>
       <trans-unit id="363409179927922422" datatype="html">
         <source>Failed to update dataset while replacing duplicate users.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/user/user.service.ts</context>
-          <context context-type="linenumber">742</context>
+          <context context-type="linenumber">763</context>
         </context-group>
       </trans-unit>
     </body>

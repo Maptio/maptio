@@ -283,6 +283,10 @@
         <a class="btn btn-link px-0" routerLink="/pricing" i18n>Pricing</a>
       </li>
 
+      <li class="d-md-none dropdown-divider"></li>
+
+      <maptio-language-picker class="d-md-none"></maptio-language-picker>
+
       <ng-container *ngIf="userService.isAuthenticated$ | async">
         <li class="d-md-none dropdown-divider"></li>
 
