@@ -1,5 +1,5 @@
 <a
-  class="nav-link dropdown-toggle"
+  class="nav-link dropdown-toggle d-none d-md-block"
   id="languageListDropdownLink"
   data-toggle="dropdown"
   aria-haspopup="true"
@@ -20,3 +20,9 @@
     {{ locale.name }}
   </a>
 </div>
+
+<li class="nav-item d-md-none" *ngFor="let locale of LOCALES">
+  <a class="btn btn-link px-0" (click)="onLanguageSelection(locale)">
+    {{ locale.name }}
+  </a>
+</li>
