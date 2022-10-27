@@ -6,17 +6,23 @@
 
 <ng-template #datasetUnavailableBlock>
   <div class="message">
-    <ng-container *ngIf="isLoading; else errorBlock">
+    <ng-container *ngIf="isLoading; else errorBlock" i18n>
       Loading Maptio map
     </ng-container>
   </div>
 </ng-template>
 
-<ng-template #errorBlock>
+<ng-template #errorBlock i18n>
   The requested Maptio map could not be found.
 </ng-template>
 
-<a class="credit" href="https://www.maptio.com" (pinch)="onCreditPinch($event)">
+<a
+  class="credit"
+  href="https://www.maptio.com"
+  (pinch)="onCreditPinch($event)"
+  i18n
+>
   <span class="credit__text">Powered by</span>
+  &nbsp;
   <span class="credit__link">Maptio</span>
 </a>
