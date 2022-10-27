@@ -7,11 +7,12 @@ const router = express.Router();
 const aws = require('aws-sdk');
 const fs = require('fs');
 const path = require('path');
-const templating = require('lodash/template');
 require('dotenv').config();
 
 // New imports
 import { Request, Response, NextFunction } from 'express';
+
+import { Liquid } from 'liquidjs';
 
 import { environment } from '../environments/environment';
 import { getAuth0MangementClient } from '../auth/management-client';
@@ -33,6 +34,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   let invitedBy: string;
   let teamName: string;
   let createUser: boolean;
+  let languageCode: string;
 
   // TODO: Error checking could be improved hear to avoid the try/catch tower of terror
   try {
@@ -43,6 +45,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     invitedBy = inviteData.invitedBy;
     teamName = inviteData.teamName;
     createUser = inviteData.createUser;
+    languageCode = inviteData.languageCode;
   } catch (error) {
     error.message = 'Error parsing invite data: ' + error.message;
     return next(error);
@@ -101,7 +104,8 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
       userEmail,
       invitedBy,
       teamName,
-      changePasswordTicket
+      changePasswordTicket,
+      languageCode
     );
   } catch (error) {
     error.message = 'Error sending invitation email: ' + error.message;
@@ -115,22 +119,37 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   res.send(sendInvitationEmailSuccess);
 });
 
-function sendInvitationEmail(userEmail, invitedBy, team, url) {
-  const from = process.env.SUPPORT_EMAIL;
+async function sendInvitationEmail(
+  userEmail,
+  invitedBy,
+  team,
+  url,
+  languageCode
+) {
+  const from = `Maptio <${process.env.SUPPORT_EMAIL}>`;
 
   // Send email to developer when running locally
   const to = environment.isDevelopment
     ? process.env.DEVELOPMENT_EMAIL
     : userEmail;
 
-  const subject = `${invitedBy} invited you to join organisation "${team}" on Maptio`;
-
-  const template = templating(
-    fs.readFileSync(
-      path.join(__dirname, 'assets/templates/email-invitation.html')
-    )
+  const emailSubject = await readAndRenderTemplateFromFile(
+    'invitation-subject.liquid',
+    {
+      nameOfInvitationSender: invitedBy,
+      team,
+      request_language: languageCode,
+    }
   );
-  const htmlBody = template({ url, team });
+
+  const emailBodyHtml = await readAndRenderTemplateFromFile(
+    'invitation-email.liquid',
+    {
+      url,
+      team,
+      request_language: languageCode,
+    }
+  );
 
   return ses
     .sendEmail({
@@ -139,15 +158,33 @@ function sendInvitationEmail(userEmail, invitedBy, team, url) {
       Message: {
         Body: {
           Html: {
-            Data: htmlBody,
+            Data: emailBodyHtml,
           },
         },
         Subject: {
-          Data: subject,
+          Data: emailSubject,
         },
       },
     })
     .promise();
+}
+
+async function readAndRenderTemplateFromFile(templateFilename, variables) {
+  const templatingEngine = new Liquid();
+
+  const templateFilePath = path.join(
+    __dirname,
+    'assets/templates/',
+    templateFilename
+  );
+
+  // This is the body of the liquid template
+  const template = fs.readFileSync(templateFilePath).toString();
+
+  // This is the html created based on the liquid template with the variables inserted
+  const html = await templatingEngine.parseAndRender(template, variables);
+
+  return html;
 }
 
 module.exports = router;

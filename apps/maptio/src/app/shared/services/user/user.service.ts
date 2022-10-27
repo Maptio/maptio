@@ -543,6 +543,7 @@ export class UserService implements OnDestroy {
       teamName,
       invitedBy,
       createUser,
+      languageCode: this.currentLocaleCode,
     };
 
     return this.http
