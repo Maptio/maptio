@@ -12,7 +12,6 @@
   "changePasswordOutro": "If you <b>did not</b> make this request, please check that you can still log in to your account, and contact us by replying to this email and we'll help.",
 
   "inviteEmailSubject": "{{ nameOfInvitationSender }} invited you to join organization \"{{ team }}\" on Maptio",
-  "inviteEmailMainHeading": "Let's map!",
   "inviteEmailExplanation": "You've been invited to join <strong>{{ team }}</strong> in Maptio - the online tool for visualizing organizations.",
   "inviteEmailCTAIntro": "Your Maptio account is ready for you, all you need to do is set a password by clicking the link below.",
   "inviteEmailCTA": "Log in to Maptio",
