@@ -154,8 +154,28 @@ export class UserService implements OnDestroy {
 
   login() {
     return this.auth.loginWithRedirect({
-      ui_locales: this.currentLocaleCode,
+      ui_locales: this.getAuth0SupportedLocale(this.currentLocaleCode),
     });
+  }
+
+  /**
+   * Get locale code from among those supported by Auth0
+   *
+   * Auth0 doesn't automatically switch from a regional language variation, so
+   * we have to add custom logic for this. For example, specifying 'en-US' as
+   * the language for the Auth0 interface will be ignored and, if the user has
+   * a different language set in their browser, the Auth0 pages will be shown
+   * in that language despite Maptio requesting they be showin in "en-US."
+   */
+  private getAuth0SupportedLocale(locale: string) {
+    switch (locale) {
+      case 'en-US':
+        return 'en';
+      case 'en-GB':
+        return 'en';
+      default:
+        return locale;
+    }
   }
 
   logout() {
