@@ -1,0 +1,13 @@
+
+    {% if request_language == 'en' %}
+        {{ nameOfInvitationSender }} invited you to join organization "{{ team }}" on Maptio
+    
+
+    {% elsif request_language == 'pl' %}
+        {{ nameOfInvitationSender }} zaprasza Cię do organizacji "{{ team }}" w Maptio
+    
+
+    {% else %}
+        {{ nameOfInvitationSender }} invited you to join organization "{{ team }}" on Maptio
+    {% endif %}
+    
