@@ -65,7 +65,7 @@ const html = `
       }
 
       .main .main-td {
-        padding: 40px 60px;
+        padding: 30px 60px 40px;
         border: 1px solid #dddddd;
         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
         border-radius: 2px;
@@ -662,7 +662,7 @@ const html = `
                       width="180"
                       height=""
                       class="featured"
-                      style="padding-bottom: 0"
+                      style="padding: 0;"
                     />
                   </td>
                 </tr>

@@ -66,7 +66,7 @@
       }
 
       .main .main-td {
-        padding: 40px 60px;
+        padding: 30px 60px 40px;
         border: 1px solid #dddddd;
         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
         border-radius: 2px;
@@ -663,7 +663,7 @@
                       width="180"
                       height=""
                       class="featured"
-                      style="padding-bottom: 0"
+                      style="padding: 0;"
                     />
                   </td>
                 </tr>
@@ -676,34 +676,18 @@
                 <tr>
                   <td class="content-td">
 
-    <h1 class="center">
-
-    {% if request_language == 'en' %}
-        Let's map!
-
-
-    {% elsif request_language == 'pl' %}
-        Rozpocznij mapowanie swojej organizacji!
-
-
-    {% else %}
-        Let's map!
-    {% endif %}
-
-    </h1>
-
     <p>
 
     {% if request_language == 'en' %}
-        You've been invited to join team <strong>{{ team }}</strong> in Maptio.
+        You've been invited to join <strong>{{ team }}</strong> in Maptio - the online tool for visualizing organizations.
 
 
     {% elsif request_language == 'pl' %}
-        Zostałeś zaproszony do dołączenia do zespołu <strong>{{ team }}</strong> w Maptio.
+        Zaproszono Cię do dołączenia do zespołu <strong>{{ team }}</strong> w Maptio - internetowym narzędziu do wizualizacji organizacji.
 
 
     {% else %}
-        You've been invited to join team <strong>{{ team }}</strong> in Maptio.
+        You've been invited to join <strong>{{ team }}</strong> in Maptio - the online tool for visualizing organizations.
     {% endif %}
 
     </p>
@@ -711,15 +695,15 @@
     <p>
 
     {% if request_language == 'en' %}
-        Maptio is the online tool for mapping self-managing organizations. Visualizing who's responsible for what; who's helping who; and how everything contributes to the overall vision.
+        Your Maptio account is ready for you, all you need to do is set a password by clicking the link below.
 
 
     {% elsif request_language == 'pl' %}
-        Maptio to narzędzie online do mapowania organizacji zarządzanych samodzielnie. Wizualizacja, kto jest odpowiedzialny za co, kto komu pomaga i jak wszystko przyczynia się do realizacji ogólnej wizji.
+        Twoje konto Maptio jest już gotowe, wystarczy, że ustawisz hasło klikając na poniższy link.
 
 
     {% else %}
-        Maptio is the online tool for mapping self-managing organizations. Visualizing who's responsible for what; who's helping who; and how everything contributes to the overall vision.
+        Your Maptio account is ready for you, all you need to do is set a password by clicking the link below.
     {% endif %}
 
     </p>
@@ -750,7 +734,7 @@
     <p>
 
     {% if request_language == 'en' %}
-        If you are having any issues with your account, please don't hesitate to contact us by replying to this email.
+        If you're having any issues with accessing Maptio, just reply to this email and we'll help.
 
 
     {% elsif request_language == 'pl' %}
@@ -758,7 +742,7 @@
 
 
     {% else %}
-        If you are having any issues with your account, please don't hesitate to contact us by replying to this email.
+        If you're having any issues with accessing Maptio, just reply to this email and we'll help.
     {% endif %}
 
     </p>
@@ -778,9 +762,9 @@
     {% endif %}
 
 
-  <br>
+                    <br>
 
-  <strong>
+                    <strong>
 
     {% if request_language == 'en' %}
         The Maptio team
@@ -794,29 +778,9 @@
         The Maptio team
     {% endif %}
 
-  </strong>
+                    </strong>
 
-  <br>
-
-  <hr style="border: 2px solid #EAEEF3; border-bottom: 0; margin: 20px 0;">
-
-  <p style="text-align: center;color: #A9B3BC;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%; font-size: 16px;">
-
-
-
-    {% if request_language == 'en' %}
-        If you did not expect this invite and do not recognise the organization you have been invited to join, please contact us by replying to this email.
-
-
-    {% elsif request_language == 'pl' %}
-        Jeśli to zaproszenie przyszło niespodziewanie i nie rozpoznajesz tej organizacji, skontaktuj się z nami, odpowiadając na tego maila.
-
-
-    {% else %}
-        If you did not expect this invite and do not recognise the organization you have been invited to join, please contact us by replying to this email.
-    {% endif %}
-
-
+                    <br>
                   </td>
                 </tr>
               </tbody>
@@ -843,10 +807,25 @@
               <tbody>
                 <tr>
                   <td class="footer-td">
-                    <p>
-                      The Old Casino, 28 Fourth Ave, Hove, BN3 2PJ, United
-                      Kingdom.
-                    </p>
+
+
+    <p>
+
+    {% if request_language == 'en' %}
+        If you did not expect this invite and do not recognise the organization you have been invited to join, please contact us by replying to this email.
+
+
+    {% elsif request_language == 'pl' %}
+        Jeśli to zaproszenie przyszło niespodziewanie i nie rozpoznajesz tej organizacji, skontaktuj się z nami, odpowiadając na tego maila.
+
+
+    {% else %}
+        If you did not expect this invite and do not recognise the organization you have been invited to join, please contact us by replying to this email.
+    {% endif %}
+
+    </p>
+
+
                   </td>
                 </tr>
               </tbody>

@@ -8,8 +8,6 @@ import {
 
 const html = `
   ${headerHtml}
-    <h1>${localizeMessage('changePasswordMainHeading')}</h1>
-
     <p>${localizeMessage('changePasswordExplanation')}</p>
 
     <p>${localizeMessage('changePasswordIntro')}</p>
@@ -19,8 +17,6 @@ const html = `
     <p>${localizeMessage('changePasswordOutro')}</p>
 
     ${signatureHtml}
-
-    ${localizeMessage('contactIfNotRequested')}
   ${footerHtml}
 `;
 

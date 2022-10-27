@@ -1,19 +1,41 @@
 import { localizeMessage } from '../../scripts';
 
 const html = `
-  ${localizeMessage('thanks')}
+                    ${localizeMessage('thanks')}
 
-  <br>
+                    <br>
 
-  <strong>
-    ${localizeMessage('signatureTeam')}
-  </strong>
+                    <strong>
+                      ${localizeMessage('signatureTeam')}
+                    </strong>
 
-  <br>
+                    <br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-  <hr style="border: 2px solid #EAEEF3; border-bottom: 0; margin: 20px 0;">
-
-  <p style="text-align: center;color: #A9B3BC;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%; font-size: 16px;">
+    <!-- Footer -->
+    <table width="100%" class="footer" align="middle">
+      <tbody>
+        <tr>
+          <td>
+            <table
+              cellspacing="0"
+              border="0"
+              cellpadding="0"
+              align="center"
+              width="600"
+              bgcolor="transparent"
+              class="footer-main"
+            >
+              <tbody>
+                <tr>
+                  <td class="footer-td">
 `;
 
 export default html;

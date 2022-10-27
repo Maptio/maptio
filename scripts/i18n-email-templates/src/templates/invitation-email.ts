@@ -8,10 +8,6 @@ import {
 
 const html = `
   ${headerHtml}
-    <h1 class="center">
-      ${localizeMessage('inviteEmailMainHeading')}
-    </h1>
-
     <p>
       ${localizeMessage('inviteEmailExplanation')}
     </p>
@@ -28,7 +24,10 @@ const html = `
 
     ${signatureHtml}
 
-    ${localizeMessage('contactIfNotRequestedInvite')}
+    <p>
+      ${localizeMessage('contactIfNotRequestedInvite')}
+    </p>
+
   ${footerHtml}
 `;
 

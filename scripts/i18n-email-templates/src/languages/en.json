@@ -5,8 +5,7 @@
   "verificationEmailCTA": "Verify address",
   "verificationEmailContactUs": "If you're having any issues with your account, just reply to this email and we'll help.",
 
-  "changePasswordSubject": "Reset your password",
-  "changePasswordMainHeading": "Password Change Request",
+  "changePasswordSubject": "Password Change Request",
   "changePasswordExplanation": "We received a request to change the password for your Maptio account.",
   "changePasswordIntro": "If you made this request, please click the button below to reset your password.",
   "changePasswordCTA": "Change password",

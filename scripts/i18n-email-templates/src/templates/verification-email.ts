@@ -8,7 +8,9 @@ import {
 
 const html = `
   ${headerHtml}
-    <h1>${localizeMessage('verificationEmailMainHeading')}</h1>
+    <h1 style="margin: 5px 0 7px">
+      ${localizeMessage('verificationEmailMainHeading')}
+    </h1>
 
     <p>${localizeMessage('verificationEmailExplanation')}</p>
 
@@ -18,7 +20,7 @@ const html = `
 
     ${signatureHtml}
 
-    ${localizeMessage('contactIfNotRequested')}
+    <p>${localizeMessage('contactIfNotRequested')}</p>
   ${footerHtml}
 `;
 
