@@ -7,8 +7,7 @@ import {
 } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
-import { Subscription, Observable } from 'rxjs';
-import { map, switchMap, filter, tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 import { SubSink } from 'subsink';
 import { Intercom } from 'ng-intercom';
@@ -29,10 +28,11 @@ export class AppComponent implements OnInit, OnDestroy {
   public isHome: boolean;
   public isMap: boolean;
 
-  public showUi$: Observable<boolean>;
-
   public navigationStartSubscription: Subscription;
   public navigationOtherSubscription: Subscription;
+
+  public showUi;
+  public isWorkspace;
 
   constructor(
     private router: Router,
@@ -46,21 +46,21 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loader.init();
 
-    this.showUi$ = this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-      map(() => this.activatedRoute),
-      map((route) => route.firstChild),
-      switchMap((route) => route.data),
-      map((data) => !data['hideUI']),
-      tap((showUi) => this.showIntercomWidget(showUi))
-    );
-
     this.intercom.boot({ app_id: environment.INTERCOM_APP_ID });
 
     window.onresize = (e: UIEvent) => {
       this.isMobile();
       this.cd.markForCheck();
     };
+
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const routeData = this.activatedRoute.firstChild.snapshot.data;
+        this.isWorkspace = !!routeData['isWorkspace'];
+        this.showUi = !routeData['hideUI'];
+        this.cd.markForCheck();
+      }
+    });
   }
 
   ngOnDestroy() {

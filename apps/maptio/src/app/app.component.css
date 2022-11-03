@@ -1,9 +1,3 @@
-.container-fluid {
-  /* padding: 0; */
-  /* background-color: white; */
-  /* overflow: hidden; */
-}
-
 .container-fluid.overflow-hidden {
   overflow: hidden;
 }
@@ -18,4 +12,8 @@
 
 .unavailable {
   user-select: none;
+}
+
+.header-container {
+  padding: 0 15px;
 }

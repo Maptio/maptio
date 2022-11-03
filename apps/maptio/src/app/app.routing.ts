@@ -50,6 +50,7 @@ const routes: Routes = [
       import('./modules/workspace/workspace.module').then(
         (m) => m.WorkspaceModule
       ),
+    data: { isWorkspace: true },
   },
   {
     path: 'share/:id',
