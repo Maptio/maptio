@@ -8,11 +8,15 @@
   <span *ngIf="!isSaving" i18n>All changes saved</span>
 </div> -->
 
-<div class="d-md-none small w-100 text-center text-muted" i18n>
-  Map editing is disabled on mobile.
-</div>
-
 <div class="position-relative h-100">
+  <div
+    class="d-md-none small w-100 text-center text-muted position-absolute z-index-1"
+    style="top: 3.5rem"
+    i18n
+  >
+    Map editing is disabled on mobile.
+  </div>
+
   <div
     class="position-relative d-flex justify-content-start h-100"
     [class.overflow-hidden]="team?.isExample && isBuildingVisible"
