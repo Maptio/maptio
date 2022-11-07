@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   OnInit,
   OnDestroy,
+  Renderer2,
 } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
@@ -37,6 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private renderer: Renderer2,
     public intercom: Intercom,
     private deviceService: DeviceDetectorService,
     private cd: ChangeDetectorRef,
@@ -58,6 +60,7 @@ export class AppComponent implements OnInit, OnDestroy {
         const routeData = this.activatedRoute.firstChild.snapshot.data;
         this.isWorkspace = !!routeData['isWorkspace'];
         this.showUi = !routeData['hideUI'];
+        this.showIntercomWidget(this.showUi);
         this.cd.markForCheck();
       }
     });
@@ -72,8 +75,10 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   showIntercomWidget(showWidget: boolean) {
-    this.intercom.update({
-      hide_default_launcher: !showWidget,
-    });
+    if (showWidget) {
+      this.renderer.removeClass(document.body, 'hide-intercom-widget');
+    } else {
+      this.renderer.addClass(document.body, 'hide-intercom-widget');
+    }
   }
 }

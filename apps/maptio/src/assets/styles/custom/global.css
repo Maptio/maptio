@@ -631,3 +631,7 @@ a.nav-link.active {
     display: none !important;
   }
 }
+
+.hide-intercom-widget .intercom-lightweight-app {
+  display: none;
+}
