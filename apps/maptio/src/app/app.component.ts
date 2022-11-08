@@ -55,7 +55,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.cd.markForCheck();
     };
 
-    this.router.events.subscribe((event) => {
+    this.subs.sink = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const routeData = this.activatedRoute.firstChild.snapshot.data;
         this.isWorkspace = !!routeData['isWorkspace'];
