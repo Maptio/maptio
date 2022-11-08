@@ -48,11 +48,15 @@
       class="navbar-nav d-flex justify-content-end w-100"
       (click)="onMenuClick()"
     >
+      <li class="nav-item d-none d-md-flex align-items-center mr-3">
+        <a target="blank" href="{{ KB_URL_HOME }}" i18n="@@help">Help</a>
+      </li>
+
       <li
         class="nav-item d-none d-md-flex align-items-center mr-3"
-        *ngIf="team"
+        *ngIf="team?.isPaying === false"
       >
-        <a target="blank" href="{{ KB_URL_HOME }}" i18n="@@help">Help</a>
+        <a target="blank" href="{{ KB_URL_HOME }}" i18n="@@help">Pricing</a>
       </li>
 
       <li
