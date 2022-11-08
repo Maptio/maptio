@@ -1,6 +1,6 @@
 /*
-* Orson http://en.orson.io , autreplanete http://www.autreplanete.com/ 
-*  
+* Orson http://en.orson.io , autreplanete http://www.autreplanete.com/
+*
 **/ /*!
  * Bootstrap v4.0.0-beta (https://getbootstrap.com)
  * Copyright 2011-2017 The Bootstrap Authors
@@ -3285,37 +3285,7 @@ tbody.collapse.show {
     width: 100%;
   }
 }
-.breadcrumb {
-  padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
-  list-style: none;
-  background-color: #e9ecef;
-  border-radius: 0.25rem;
-}
-.breadcrumb::after {
-  display: block;
-  clear: both;
-  content: '';
-}
-.breadcrumb-item {
-  float: left;
-}
-.breadcrumb-item + .breadcrumb-item::before {
-  display: inline-block;
-  padding-right: 0.5rem;
-  padding-left: 0.5rem;
-  color: #868e96;
-  content: '/';
-}
-.breadcrumb-item + .breadcrumb-item:hover::before {
-  text-decoration: underline;
-}
-.breadcrumb-item + .breadcrumb-item:hover::before {
-  text-decoration: none;
-}
-.breadcrumb-item.active {
-  color: #868e96;
-}
+
 .pagination {
   display: flex;
   padding-left: 0;

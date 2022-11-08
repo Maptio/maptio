@@ -37,14 +37,12 @@ const routes: Routes = [
           assets: TeamComponentResolver,
         },
         component: TeamComponent,
-        data: { breadcrumbs: '{{assets.team.name}}' },
         canActivate: [AuthGuard, ActivationGuard, AccessGuard],
         children: [
           { path: '', redirectTo: 'people', pathMatch: 'full' },
           {
             path: 'people',
             component: TeamMembersComponent,
-            data: { breadcrumbs: true, text: $localize`:@@people:People` },
           },
           {
             path: 'import',
@@ -52,35 +50,23 @@ const routes: Routes = [
             canActivate: [PermissionGuard],
             data: {
               permissions: [Permissions.canInviteUser.valueOf()],
-              breadcrumbs: true,
-              text: 'Import',
             },
           },
           {
             path: 'maps',
             component: TeamMapsComponent,
-            data: { breadcrumbs: true, text: $localize`:@@maps:Maps` },
           },
           {
             path: 'integrations',
             component: TeamIntegrationsComponent,
-            data: {
-              breadcrumbs: true,
-              text: $localize`:@@integrations:Integrations`,
-            },
           },
           {
             path: 'settings',
             component: TeamSettingsComponent,
-            data: {
-              breadcrumbs: true,
-              text: $localize`:@@terminology:Name & Terminology`,
-            },
           },
           {
             path: 'billing',
             component: TeamBillingComponent,
-            data: { breadcrumbs: true, text: $localize`:@@billing:Billing` },
           },
         ],
       },

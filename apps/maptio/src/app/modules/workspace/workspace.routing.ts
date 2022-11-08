@@ -7,7 +7,6 @@ import { ActivationGuard } from '@maptio-core/guards/activation.guard';
 import { AccessGuard } from '@maptio-core/guards/access.guard';
 import { BillingGuard } from '@maptio-core/guards/billing.guard';
 import { WorkspaceGuard } from '@maptio-core/guards/workspace.guard';
-import { MappingSummaryBreadcrumbs } from '@maptio-core/breadcrumbs/summary.breadcrumb';
 
 import { WorkspaceComponent } from './pages/workspace/workspace.component';
 import { WorkspaceComponentResolver } from './pages/workspace/workspace.resolver';
@@ -35,49 +34,39 @@ const routes: Routes = [
         path: 'circles',
         component: MappingCirclesGradualRevealComponent,
         canActivate: [WorkspaceGuard],
-        data: { breadcrumbs: true, text: 'Circles' },
       },
       {
         path: 'expanded',
         component: MappingZoomableComponent,
         canActivate: [WorkspaceGuard],
-        data: { breadcrumbs: true, text: 'Expanded Circles' },
       },
       {
         path: 'tree',
         component: MappingTreeComponent,
         canActivate: [WorkspaceGuard],
-        data: { breadcrumbs: true, text: 'Tree' },
       },
       {
         path: 'network',
         component: MappingNetworkComponent,
         canActivate: [WorkspaceGuard],
-        data: { breadcrumbs: true, text: 'Network' },
       },
       {
         path: 'directory',
         component: MappingSummaryComponent,
         canActivate: [WorkspaceGuard],
-        data: {
-          breadcrumbs: MappingSummaryBreadcrumbs,
-        },
         children: [
           { path: '', redirectTo: 'people', pathMatch: 'full' },
           {
             path: 'people',
             component: PeopleSummaryComponent,
-            data: { breadcrumbs: true, text: 'People' },
           },
           {
             path: 'roles',
             component: RolesSummaryComponent,
-            data: { breadcrumbs: true, text: 'Roles' },
           },
           {
             path: 'vacancies',
             component: VacanciesSummaryComponent,
-            data: { breadcrumbs: true, text: 'Vacancies' },
           },
         ],
       },

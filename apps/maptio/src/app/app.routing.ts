@@ -22,7 +22,6 @@ const routes: Routes = [
     path: 'teams',
     loadChildren: () =>
       import('./modules/team/team.module').then((m) => m.TeamModule),
-    data: { breadcrumbs: $localize`:@@organisations:Organisations` },
   },
   {
     path: '',
