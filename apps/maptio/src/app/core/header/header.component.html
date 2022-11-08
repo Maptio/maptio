@@ -21,12 +21,6 @@
       i18n-alt
     />
   </a>
-  <div
-    *ngIf="userService.isAuthenticated$ | async"
-    class="d-none d-md-flex nav-item col-auto flex-row justify-content-end"
-  >
-    <lib-breadcrumbs></lib-breadcrumbs>
-  </div>
   <button
     class="navbar-toggler d-block d-md-none btn border-0 px-0"
     type="button"

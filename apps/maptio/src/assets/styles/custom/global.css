@@ -85,18 +85,6 @@ button.remove:hover,
   color: var(--danger);
 }
 
-.breadcrumb {
-  padding: 0 !important;
-  list-style: none;
-  background-color: transparent !important;
-  border-radius: 0.25rem !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  font-size: 1.25rem !important;
-  font-weight: 300 !important;
-  flex-wrap: nowrap !important;
-}
-
 /* Exo|Oxygen|Quicksand" rel="stylesheet">  */
 
 html,
