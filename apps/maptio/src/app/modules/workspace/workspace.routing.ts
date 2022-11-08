@@ -22,7 +22,6 @@ import { VacanciesSummaryComponent } from './components/summary/overview/vacanci
 const routes: Routes = [
   {
     path: '',
-    data: { breadcrumbs: '{{data.dataset.initiative.name}}' },
     component: WorkspaceComponent,
     canActivate: [AuthGuard, ActivationGuard, AccessGuard, BillingGuard],
     resolve: {
