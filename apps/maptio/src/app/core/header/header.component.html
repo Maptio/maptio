@@ -49,18 +49,6 @@
       (click)="onMenuClick()"
     >
       <li
-        class="navbar-text d-none d-md-flex align-items-center position-relative ml-auto mr-auto"
-        *ngIf="team && isMap()"
-      >
-        <span *ngIf="team?.name" class="text-muted mr-1">
-          <span i18n="@@organisation">Organisation</span>
-          <a routerLink="/teams/{{ team?.team_id }}/{{ team?.getSlug() }}">
-            {{ team?.name }}
-          </a>
-        </span>
-      </li>
-
-      <li
         class="nav-item d-none d-md-flex align-items-center mr-3"
         *ngIf="team"
       >
