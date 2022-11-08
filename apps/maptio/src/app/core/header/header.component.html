@@ -52,6 +52,13 @@
         class="nav-item d-none d-md-flex align-items-center mr-3"
         *ngIf="team"
       >
+        <a target="blank" href="{{ KB_URL_HOME }}" i18n="@@help">Help</a>
+      </li>
+
+      <li
+        class="nav-item d-none d-md-flex align-items-center mr-3"
+        *ngIf="team"
+      >
         <a routerLink="/teams/{{ team?.team_id }}/{{ team?.getSlug() }}" i18n>
           Settings
         </a>
@@ -259,7 +266,9 @@
         <a class="btn btn-link px-0" href="{{ BLOG_URL }}" i18n>Blog</a>
       </li>
       <li class="nav-item d-md-none">
-        <a class="btn btn-link px-0" routerLink="/help" i18n>Help</a>
+        <a class="btn btn-link px-0" href="{{ KB_URL_HOME }}" i18n="@@help">
+          Help
+        </a>
       </li>
       <li class="nav-item d-md-none">
         <a class="btn btn-link px-0" routerLink="/pricing" i18n>Pricing</a>
