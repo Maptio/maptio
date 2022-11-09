@@ -23,16 +23,10 @@ import { WorkspaceGuard } from './guards/workspace.guard';
 import { DatasetFactory } from './http/map/dataset.factory';
 import { TeamFactory } from './http/team/team.factory';
 import { UserFactory } from './http/user/user.factory';
-import {
-  BreadcrumbsModule,
-  Breadcrumb,
-  BreadcrumbsConfig,
-} from '@exalif/ngx-breadcrumbs';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { LoaderComponent } from '../shared/components/loading/loader.component';
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
-import { MappingSummaryBreadcrumbs } from './breadcrumbs/summary.breadcrumb';
 import { OnboardingModule } from '../shared/onboarding.module';
 import { OnboardingComponent } from '../shared/components/onboarding/onboarding.component';
 import { LoginModule } from 'app/modules/login/login.module';
@@ -67,7 +61,6 @@ export function tokenGetter(): string {
       },
     }),
     OnboardingModule,
-    BreadcrumbsModule.forRoot(),
     NgProgressModule,
     NgProgressRouterModule,
     LoginModule,
@@ -88,26 +81,7 @@ export function tokenGetter(): string {
     DatasetFactory,
     TeamFactory,
     UserFactory,
-    MappingSummaryBreadcrumbs,
     DeviceDetectorService,
   ],
 })
-export class CoreModule {
-  constructor(breadcrumbsConfig: BreadcrumbsConfig) {
-    breadcrumbsConfig.postProcess = (breadcrumbs): Breadcrumb[] => {
-      // Ensure that the first breadcrumb always points to home
-      let processedBreadcrumbs = breadcrumbs;
-
-      if (breadcrumbs.length && breadcrumbs[0].text !== $localize`:@@home:Home`) {
-        processedBreadcrumbs = [
-          {
-            text: $localize`:@@home:Home`,
-            path: '',
-          },
-        ].concat(breadcrumbs);
-      }
-
-      return processedBreadcrumbs;
-    };
-  }
-}
+export class CoreModule {}

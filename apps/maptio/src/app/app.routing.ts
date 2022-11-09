@@ -22,7 +22,6 @@ const routes: Routes = [
     path: 'teams',
     loadChildren: () =>
       import('./modules/team/team.module').then((m) => m.TeamModule),
-    data: { breadcrumbs: $localize`:@@organisations:Organisations` },
   },
   {
     path: '',
@@ -50,6 +49,7 @@ const routes: Routes = [
       import('./modules/workspace/workspace.module').then(
         (m) => m.WorkspaceModule
       ),
+    data: { isWorkspace: true },
   },
   {
     path: 'share/:id',

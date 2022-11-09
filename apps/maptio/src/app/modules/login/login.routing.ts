@@ -38,7 +38,6 @@ const routes: Routes = [
         path: 'profile/:shortid/:slug',
         component: ProfilePageComponent,
         canActivate: [AuthGuard, ActivationGuard],
-        data: { breadcrumbs: 'Profile' },
       },
     ],
   },

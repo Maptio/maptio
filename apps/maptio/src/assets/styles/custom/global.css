@@ -47,10 +47,6 @@ body {
   margin-right: -25%;
 }
 
-.h-99 {
-  height: 99% !important;
-}
-
 .w-99 {
   width: 99% !important;
 }
@@ -87,18 +83,6 @@ button.remove:hover,
 .btn.remove:hover {
   background: initial;
   color: var(--danger);
-}
-
-.breadcrumb {
-  padding: 0 !important;
-  list-style: none;
-  background-color: transparent !important;
-  border-radius: 0.25rem !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  font-size: 1.25rem !important;
-  font-weight: 300 !important;
-  flex-wrap: nowrap !important;
 }
 
 /* Exo|Oxygen|Quicksand" rel="stylesheet">  */
@@ -634,4 +618,8 @@ a.nav-link.active {
   .toolbar-button__tooltip {
     display: none !important;
   }
+}
+
+.hide-intercom-widget .intercom-lightweight-app {
+  display: none;
 }

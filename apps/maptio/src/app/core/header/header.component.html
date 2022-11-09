@@ -21,12 +21,7 @@
       i18n-alt
     />
   </a>
-  <div
-    *ngIf="userService.isAuthenticated$ | async"
-    class="d-none d-md-flex nav-item col-auto flex-row justify-content-end"
-  >
-    <lib-breadcrumbs></lib-breadcrumbs>
-  </div>
+
   <button
     class="navbar-toggler d-block d-md-none btn border-0 px-0"
     type="button"
@@ -54,23 +49,37 @@
       class="navbar-nav d-flex justify-content-end w-100"
       (click)="onMenuClick()"
     >
-      <li
-        class="navbar-text d-none d-md-flex align-items-center position-relative ml-auto mr-auto"
-        *ngIf="team && isMap()"
-      >
-        <span *ngIf="team?.name" class="text-muted mr-1">
-          <span i18n="@@organisation">Organisation</span>
-          <a routerLink="/teams/{{ team?.team_id }}/{{ team?.getSlug() }}">
-            {{ team?.name }}
-          </a>
-        </span>
+      <li class="nav-item d-none d-md-flex align-items-center">
+        <a
+          class="nav-link"
+          target="blank"
+          href="{{ KB_URL_HOME }}"
+          i18n="@@help"
+        >
+          Help
+        </a>
       </li>
 
       <li
-        class="nav-item d-none d-md-flex align-items-center mr-3"
-        *ngIf="team"
+        class="nav-item d-none d-md-flex align-items-center"
+        *ngIf="team?.isPaying === false"
       >
-        <a routerLink="/teams/{{ team?.team_id }}/{{ team?.getSlug() }}" i18n>
+        <a
+          class="nav-link"
+          target="blank"
+          routerLink="/pricing"
+          i18n="@@pricing"
+        >
+          Pricing
+        </a>
+      </li>
+
+      <li class="nav-item d-none d-md-flex align-items-center" *ngIf="team">
+        <a
+          class="nav-link"
+          routerLink="/teams/{{ team?.team_id }}/{{ team?.getSlug() }}"
+          i18n
+        >
           Settings
         </a>
       </li>
@@ -84,7 +93,7 @@
         "
       >
         <a
-          class="nav-link dropdown-toggle mr-2"
+          class="nav-link dropdown-toggle"
           id="mapsListDropdownLink"
           data-toggle="dropdown"
           aria-haspopup="true"
@@ -277,10 +286,19 @@
         <a class="btn btn-link px-0" href="{{ BLOG_URL }}" i18n>Blog</a>
       </li>
       <li class="nav-item d-md-none">
-        <a class="btn btn-link px-0" routerLink="/help" i18n>Help</a>
+        <a
+          class="btn btn-link px-0"
+          href="{{ KB_URL_HOME }}"
+          target="blank"
+          i18n="@@help"
+        >
+          Help
+        </a>
       </li>
       <li class="nav-item d-md-none">
-        <a class="btn btn-link px-0" routerLink="/pricing" i18n>Pricing</a>
+        <a class="btn btn-link px-0" routerLink="/pricing" i18n="@@pricing">
+          Pricing
+        </a>
       </li>
 
       <li class="d-md-none dropdown-divider"></li>

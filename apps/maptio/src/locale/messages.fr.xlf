@@ -174,14 +174,6 @@
           <context context-type="linenumber">166</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="f994d474dea125c75ea0ef406c35bba74609a46a" datatype="html">
-        <source>All changes saved</source>
-        <target state="translated">Tous les changements sont sauvegardés</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
-          <context context-type="linenumber">7</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="4569005230412869125" datatype="html">
         <source>A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before archiving or restoring your map. Sorry for the hassle.</source>
         <target state="translated">Un petit conseil : votre carte a été modifiée par un autre utilisateur (ou par vous-même dans un autre onglet du navigateur). Veuillez cliquer sur "Actualiser" pour charger la dernière version avant d'archiver ou de restaurer votre carte.</target>
@@ -1386,18 +1378,6 @@
           <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="home" datatype="html">
-        <source>Home</source>
-        <target state="translated">Accueil</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/core.module.ts</context>
-          <context context-type="linenumber">101</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/core.module.ts</context>
-          <context context-type="linenumber">104</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="595aff5564b0119a1eeda9b4d7aaf21c5da69de3" datatype="html">
         <source>Maps</source>
         <target state="translated">Cartes</target>
@@ -1460,14 +1440,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/sharing/sharing.component.html</context>
           <context context-type="linenumber">2</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="f77324ca2ac20ce4c98967048c8238527f577bb4" datatype="html">
-        <source>Map editing is disabled on mobile.</source>
-        <target state="translated">L'édition de la carte est désactivée sur les appareils mobiles.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
-          <context context-type="linenumber">11,12</context>
         </context-group>
       </trans-unit>
       <trans-unit id="327519550280213041" datatype="html">
@@ -2820,14 +2792,6 @@
           <context context-type="linenumber">96</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="f5d0872d2b839ee38ea0bcf3e3c20c145594e513" datatype="html">
-        <source>Saving...</source>
-        <target state="translated">Sauvegarde...</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
-          <context context-type="linenumber">6</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="4347232415795966793" datatype="html">
         <source>Unable to add you to organisation <x id="PH" equiv-text="name"/>!</source>
         <target state="translated">Impossible de vous ajouter à l'entreprise<x id="PH" equiv-text="name"/>!</target>
@@ -3431,6 +3395,38 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
           <context context-type="linenumber">97,99</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="help" datatype="html">
+        <source>Help</source>
+        <target state="translated">Aide</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">59,60</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">290,291</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="pricing" datatype="html">
+        <source>Pricing</source>
+        <target state="translated">Tarification</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">73,74</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">295,296</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f80b971433db7e797a68ee4586860938a790bebc" datatype="html">
+        <source>Map editing is disabled on mobile.</source>
+        <target state="translated">L'édition de la carte est désactivée sur les appareils mobiles.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
+          <context context-type="linenumber">7,8</context>
         </context-group>
       </trans-unit>
     </body>

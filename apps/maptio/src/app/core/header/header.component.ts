@@ -47,6 +47,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   public isMenuOpened = false;
   public BLOG_URL: string = environment.BLOG_URL;
   public GITHUB_URL: string = environment.GITHUB_URL;
+  public KB_URL_HOME: string = environment.KB_URL_HOME;
 
   public isSaving = false;
   public isSandbox: boolean;
