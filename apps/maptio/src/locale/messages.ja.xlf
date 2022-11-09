@@ -2694,18 +2694,6 @@
           <context context-type="linenumber">155</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="home" datatype="html">
-        <source>Home</source>
-        <target state="translated">ホーム</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/core.module.ts</context>
-          <context context-type="linenumber">101</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/core.module.ts</context>
-          <context context-type="linenumber">104</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="c5376ad5fd8f2dece083dd9b46151312173e76c1" datatype="html">
         <source>Monthly billing</source>
         <target state="translated">月額課金</target>
@@ -2798,14 +2786,6 @@
           <context context-type="linenumber">76,78</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="f77324ca2ac20ce4c98967048c8238527f577bb4" datatype="html">
-        <source>Map editing is disabled on mobile.</source>
-        <target state="translated">モバイルではマップの編集はできません</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
-          <context context-type="linenumber">11,12</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="5606780728407112283" datatype="html">
         <source>A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before changing map sharing settings. Sorry for the hassle.</source>
         <target state="translated">【お知らせ】あなたの地図は他のユーザーによって（またはあなたが別のブラウザのタブで）変更されています。地図の共有設定を変更する前に、更新を押して最新版を読み込んでください。ご面倒をおかけして申し訳ありません。</target>
@@ -2820,14 +2800,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/network/mapping.network.component.ts</context>
           <context context-type="linenumber">619</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="f5d0872d2b839ee38ea0bcf3e3c20c145594e513" datatype="html">
-        <source>Saving...</source>
-        <target state="translated">保存中</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
-          <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1651346827407869642" datatype="html">
@@ -2892,14 +2864,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/map/map.service.ts</context>
           <context context-type="linenumber">102</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="f994d474dea125c75ea0ef406c35bba74609a46a" datatype="html">
-        <source>All changes saved</source>
-        <target state="translated">変更内容を保存しました</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
-          <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d207d07b14a509f32cc198bdcf1dec65ce3c05ba" datatype="html">
@@ -3216,6 +3180,38 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
           <context context-type="linenumber">97,99</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f80b971433db7e797a68ee4586860938a790bebc" datatype="html">
+        <source>Map editing is disabled on mobile.</source>
+        <target state="translated">モバイルではマップの編集はできません</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
+          <context context-type="linenumber">7,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="help" datatype="html">
+        <source>Help</source>
+        <target state="translated">ヘルプ</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">59,60</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">290,291</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="pricing" datatype="html">
+        <source>Pricing</source>
+        <target state="translated">料金</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">73,74</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">295,296</context>
         </context-group>
       </trans-unit>
     </body>

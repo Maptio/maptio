@@ -2601,22 +2601,6 @@
           <context context-type="linenumber">172,173</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="f994d474dea125c75ea0ef406c35bba74609a46a" datatype="html">
-        <source>All changes saved</source>
-        <target state="translated">Alle Änderungen gespeichert</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
-          <context context-type="linenumber">7</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="f5d0872d2b839ee38ea0bcf3e3c20c145594e513" datatype="html">
-        <source>Saving...</source>
-        <target state="translated">Es wird gespeichert...</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
-          <context context-type="linenumber">6</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="3950298817715491290" datatype="html">
         <source>Organisation name cannot be empty</source>
         <target state="translated">Name der Organisation darf nicht leer bleiben</target>
@@ -2997,18 +2981,6 @@
           <context context-type="linenumber">80,81</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="home" datatype="html">
-        <source>Home</source>
-        <target state="translated">Startseite</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/core.module.ts</context>
-          <context context-type="linenumber">101</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/core.module.ts</context>
-          <context context-type="linenumber">104</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="organisations" datatype="html">
         <source>Organisations</source>
         <target state="translated">Organisationen</target>
@@ -3169,14 +3141,6 @@
           <context context-type="linenumber">80</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="f77324ca2ac20ce4c98967048c8238527f577bb4" datatype="html">
-        <source>Map editing is disabled on mobile.</source>
-        <target state="translated">Die Kartenbearbeitung ist auf dem Mobiltelefon deaktiviert.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
-          <context context-type="linenumber">11,12</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="3557b7da87a8666565bd450a83215793f24a4e87" datatype="html">
         <source>We'll guide you through creating your first map, it should only take a few minutes.</source>
         <target state="translated">Wir werden dich bei der Erstellung deines ersten Diagrammes begleiten; dies sollte nur ein paar Minuten dauern.</target>
@@ -3275,6 +3239,38 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helper-role-input.component.html</context>
           <context context-type="linenumber">97,99</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="pricing" datatype="html">
+        <source>Pricing</source>
+        <target state="translated">Preisgestaltung</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">73,74</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">295,296</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="help" datatype="html">
+        <source>Help</source>
+        <target state="translated">Hilfe</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">59,60</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
+          <context context-type="linenumber">290,291</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f80b971433db7e797a68ee4586860938a790bebc" datatype="html">
+        <source>Map editing is disabled on mobile.</source>
+        <target state="translated">Die Kartenbearbeitung ist auf dem Mobiltelefon deaktiviert.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
+          <context context-type="linenumber">7,8</context>
         </context-group>
       </trans-unit>
     </body>
