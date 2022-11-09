@@ -13,7 +13,8 @@
   >
     <div
       id="toggle"
-      class="d-none h-100 rounded-right py-3 flex-shrink-0 flex-column justify-content-start align-items-center cursor-pointer collapsible"
+      class="d-none rounded-right py-3 flex-shrink-0 flex-column justify-content-start align-items-center cursor-pointer collapsible align-self-center"
+      style="margin-top: 59px; height: calc(100% - 59px)"
       [class.hide]="!isBuildingPanelCollapsed"
       [class.show]="isBuildingPanelCollapsed"
       [class.bg-accent]="isBuildingVisible"
@@ -33,7 +34,8 @@
       id="hierarchy"
       [class.hide]="isBuildingPanelCollapsed || !isBuildingVisible"
       [class.show]="!isBuildingPanelCollapsed && isBuildingVisible"
-      class="d-none d-md-block collapsible sidenav h-100 justify-content-start"
+      class="d-none d-md-block collapsible sidenav justify-content-start"
+      style="margin-top: 59px; height: calc(100% - 59px)"
     >
       <div
         id="sidenav-hierarchy"
@@ -69,7 +71,8 @@
       [ngClass]="{
         'show border-right': !isDetailsPanelCollapsed && isBuildingVisible
       }"
-      class="position-relative d-none d-md-block collapsible bg-white details h-100 justify-content-start"
+      class="position-relative d-none d-md-block collapsible bg-white details justify-content-start"
+      style="margin-top: 59px; height: calc(100% - 59px)"
     >
       <button
         class="clean-close-button position-absolute btn bg-transparent"

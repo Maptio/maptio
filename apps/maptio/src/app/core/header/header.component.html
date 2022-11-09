@@ -8,7 +8,8 @@
 ></maptio-onboarding-banner>
 
 <nav
-  class="d-flex header navbar navbar-expand-md navbar-light bg-transparent justify-content-between align-items-baseline pr-3"
+  class="d-flex header navbar navbar-expand-md navbar-light bg-transparent justify-content-between align-items-baseline pr-3 position-absolute z-index-1 w-100"
+  style="left: 0"
   [class.grayscale]="loaderService.isLoading"
 >
   <a routerLink="home" class="no-underline navbar-brand">
