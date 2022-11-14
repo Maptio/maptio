@@ -91,17 +91,6 @@
           <context context-type="linenumber">280</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="b051eeff3ae30cba4fbd1885ebb58fc22fb0d587" datatype="html">
-        <source>Pricing</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
-          <context context-type="linenumber">25</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">283</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="cc82fa89983785cb60daa0a7516c611fc02b5cd1" datatype="html">
         <source>Copyright</source>
         <context-group purpose="location">

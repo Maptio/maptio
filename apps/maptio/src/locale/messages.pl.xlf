@@ -93,18 +93,6 @@
           <context context-type="linenumber">280</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="b051eeff3ae30cba4fbd1885ebb58fc22fb0d587" datatype="html">
-        <source>Pricing</source>
-        <target>Cennik</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/footer/footer.component.html</context>
-          <context context-type="linenumber">25</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">283</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="cc82fa89983785cb60daa0a7516c611fc02b5cd1" datatype="html">
         <source>Copyright</source>
         <target>Wszelkie prawa zastrzeżone</target>
@@ -2623,18 +2611,6 @@
           <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="chooseYourPlan" datatype="html">
-        <source>Choose your plan</source>
-        <target state="translated">Wybierz swój plan</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">9,10</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">15,16</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="contactUs" datatype="html">
         <source>Contact us</source>
         <target state="translated">Skontaktuj się z nami</target>
@@ -2645,14 +2621,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/payment-plan.component.html</context>
           <context context-type="linenumber">57</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="fae28db5960f6ec8a618b29d7c245fed8d8e0f05" datatype="html">
-        <source>Get started - try Maptio for free</source>
-        <target state="translated">Rozpocznij - wypróbuj Maptio za darmo</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">26,27</context>
         </context-group>
       </trans-unit>
       <trans-unit id="62ad8dbe2ef4b33254bc85995cfefe0922be9838" datatype="html">
@@ -2679,30 +2647,6 @@
           <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="02f64e0dada8db77cf246b82054d1a7d81557567" datatype="html">
-        <source>1 - 12 people</source>
-        <target state="translated">1 - 12 osób</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">72</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="beb13b8cf46197116e7cfc1d65c7c20b9dc9b43a" datatype="html">
-        <source>Annual billing</source>
-        <target state="translated">Rozliczenia roczne</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">51</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="4df6f726a512cf8846e5ead65423bb4121d3d379" datatype="html">
-        <source>Small</source>
-        <target state="translated">Mały</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">87</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="6b1ba85935a3d891a1e1b961ab11f4dd8d7052f6" datatype="html">
         <source>Starter</source>
         <target state="translated">Starter</target>
@@ -2711,60 +2655,12 @@
           <context context-type="linenumber">71</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="a1701a60ba8fe1e302b632bf9f04cf86a6450ad2" datatype="html">
-        <source>13 - 35 people</source>
-        <target state="translated">13 - 35 osób</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">88</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6695dcc9f3e85f97fc1b47b4e353875a20f7c543" datatype="html">
-        <source>200+ people</source>
-        <target state="translated">Ponad 200 osób</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">120</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="d207d07b14a509f32cc198bdcf1dec65ce3c05ba" datatype="html">
-        <source>36 - 200 people</source>
-        <target state="translated">36 - 200 osób</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">104</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="083be8d4a1c487c222a248a1d6a9a5b6dbbb596f" datatype="html">
         <source>Larger organizations</source>
         <target state="translated">Większe organizacje</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
           <context context-type="linenumber">119</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="0f65f2db1ec58eba243cde556ab7b20b82826ff5" datatype="html">
-        <source>Standard plan</source>
-        <target state="translated">Plan standardowy</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">103</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="c5376ad5fd8f2dece083dd9b46151312173e76c1" datatype="html">
-        <source>Monthly billing</source>
-        <target state="translated">Rozliczenia miesięczne</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">63</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="0948acbf2eb00c73d4eb4d6b2066a8044dd018b8" datatype="html">
-        <source>Pricing in US Dollars. All major credit cards accepted. <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> No minimum contract length.</source>
-        <target state="translated">Ceny w dolarach amerykańskich. Wszystkie główne karty kredytowe akceptowane. <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Brak minimalnej długości umowy.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">31,34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9ff2e34a90a800108fb0ba0393cfdf1c3db2c258" datatype="html">
@@ -3161,6 +3057,230 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
           <context context-type="linenumber">7,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="00e0cd04738f7d2fe0208a6405c6c672e8442624" datatype="html">
+        <source>Loading Maptio map</source>
+        <target state="translated">Ładowanie mapy Maptio</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/embed/pages/embed/embed.page.html</context>
+          <context context-type="linenumber">10,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5a5331045eea5bbc5c8dfd3a7246a4730a25c795" datatype="html">
+        <source>The requested Maptio map could not be found.</source>
+        <target state="translated">Mapa nie została odnaleziona.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/embed/pages/embed/embed.page.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4733181597636202178" datatype="html">
+        <source>A person with the same email is already a member of your organization</source>
+        <target state="translated">Osoba o tym samym adresie e-mail jest już członkiem Twojej organizacji</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.ts</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="498451842164304578" datatype="html">
+        <source>Multiple existing people with this email or name found</source>
+        <target state="translated">Znaleziono wiele istniejących osób z tym adresem e-mail lub imieniem i nazwiskiem</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.ts</context>
+          <context context-type="linenumber">95</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4494204084031514457" datatype="html">
+        <source>Added email address to existing person with the same name</source>
+        <target state="translated">Dodano adres e-mail do istniejącej osoby o tym samym imieniu</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.ts</context>
+          <context context-type="linenumber">114</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="580ee0f119c40b7426c7dfd3f85520321a1c2a5a" datatype="html">
+        <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;credit__text&quot;&gt;"/>Powered by<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_TAG_SPAN_1" ctype="x-span_1" equiv-text="&lt;span class=&quot;credit__link&quot;&gt;"/> Maptio<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
+        <target state="translated"><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;credit__text&quot;&gt;"/>Mapa stworzona w<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_TAG_SPAN_1" ctype="x-span_1" equiv-text="&lt;span class=&quot;credit__link&quot;&gt;"/> Maptio<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/embed/pages/embed/embed.page.html</context>
+          <context context-type="linenumber">25,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7254563407602262950" datatype="html">
+        <source>An unexpected duplication-related error occurred</source>
+        <target state="translated">Wystąpił nieoczekiwany błąd związany z duplikacją</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.ts</context>
+          <context context-type="linenumber">119</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9063678978754194989" datatype="html">
+        <source>A person with the same name is already a member of your organization</source>
+        <target state="translated">Osoba o tym samym imieniu i nazwisku jest już członkiem Twojej organizacji</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.ts</context>
+          <context context-type="linenumber">125</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="striversPlanDescription" datatype="html">
+        <source>individuals, <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> tiny teams, <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> and the cash-poor</source>
+        <target state="translated">osób indywidualnych, <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> małych zespołów, <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> i ubogich w gotówkę</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">67,72</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="intendedFor" datatype="html">
+        <source>Intended for:</source>
+        <target state="translated">Przeznaczone dla:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/payment-plan.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ourCauseIsToServe" datatype="html">
+        <source>Our cause is to serve as many other cause-driven initiatives as possible.</source>
+        <target state="translated">Naszym celem jest służenie jak największej liczbie innych inicjatyw prospołecznych.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">21,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="284f7a5a4e600a530964c571e426db23cd76b4fb" datatype="html">
+        <source>Pioneers</source>
+        <target state="needs-translation">Pionierzy</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="pleaseHelpFundUs" datatype="html">
+        <source>Please help fund us to improve Maptio for everyone.</source>
+        <target state="translated">Pomóż nam ulepszyć Maptio dla wszystkich.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">29,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="908d8a67826fc56e92aba7638b795d73b23fbaaf" datatype="html">
+        <source>Strivers</source>
+        <target state="translated">Dążący</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="weTrustYouToPay" datatype="html">
+        <source>We trust you to pay the right amount for you.</source>
+        <target state="translated">Ufamy, że zapłacisz odpowiednią dla Ciebie kwotę.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">25,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="youCanChooseYourOwnPrice" datatype="html">
+        <source>You can choose your own price level. <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br class=&quot;d-none d-md-block&quot; /&gt;"/> All levels have full access to Maptio.</source>
+        <target state="translated">Możesz wybrać swój własny poziom cenowy. <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br class=&quot;d-none d-md-block&quot; /&gt;"/> Wszystkie poziomy mają pełny dostęp do Maptio.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">36,39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="heroesPlanDescription" datatype="html">
+        <source>35 - 250 people in <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> commercial initiatives and <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> well-funded non-profits</source>
+        <target state="needs-translation">35 - 250 osób w &lt;x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/&gt; inicjatywach komercyjnych i &lt;x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/&gt; dobrze finansowanych organizacjach non-profit</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">104,109</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="discounts" datatype="html">
+        <source>Discounts</source>
+        <target state="translated">Zniżki</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">115</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="33a29e29d6c1ae044e8e3350733a49c8dbeb18af" datatype="html">
+        <source>Heroes</source>
+        <target state="translated">Bohaterowie</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">93</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="pleaseSupportTheDevelopmentOfMaptio" datatype="html">
+        <source>Please support the development of Maptio by only taking off what you really need.</source>
+        <target state="translated">Wspieraj rozwój Maptio, korzystając tylko z takiej zniżki, jakiej naprawdę potrzebujesz.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">135,137</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tryMaptioForFree" datatype="html">
+        <source>Try Maptio for FREE</source>
+        <target state="translated">Wypróbuj Maptio za DARMO</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">149,150</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6453822529269960276" datatype="html">
+        <source>An unexpected duplication error occurred</source>
+        <target state="needs-translation">Wystąpił nieoczekiwany błąd duplikacji</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.ts</context>
+          <context context-type="linenumber">130</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="14dayFreeTrialDiscountsAvailable" datatype="html">
+        <source>14 Day free trial <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Discounts available</source>
+        <target state="translated">14-dniowy bezpłatny okres próbny <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Dostępne zniżki</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/payment-plan.component.html</context>
+          <context context-type="linenumber">47,50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="discountCodes20love40help" datatype="html">
+        <source>20% off: use code <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>love<x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> 40% off: use code <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>help<x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/></source>
+        <target state="needs-translation">20% zniżki: użyj kodu &lt;x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/&gt;love&lt;x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/&gt;&lt;x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/&gt; 40% zniżki: użyj kodu &lt;x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/&gt;help&lt;x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/&gt;</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">127,131</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="pioneersPlanDescription" datatype="html">
+        <source>small teams of 10-35 people <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> and non-profits <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/></source>
+        <target state="translated">małych zespołów liczących od 10 do 35 osób <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> i organizacji non-profit <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">86,89</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="asACauseDrivenCompany" datatype="html">
+        <source>As a cause-driven company we don't want money to be a barrier for anyone.</source>
+        <target state="translated">Jako firma zorientowana na cele prospołeczne nie chcemy, aby pieniądze były dla kogokolwiek barierą.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">118,119</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="customersHaveDifferentAbilitiesToPay" datatype="html">
+        <source>Customers have very different abilities to pay, <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br class=&quot;d-none d-md-block&quot; /&gt;"/> so we have an honor-based pricing model.</source>
+        <target state="needs-translation">Klienci mają bardzo różne zdolności do płacenia, <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br class=&quot;d-none d-md-block&quot; /&gt;"/> więc mamy model cenowy oparty na honorze.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">12,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="youCanChooseYourIdealPrice" datatype="html">
+        <source>You can choose your ideal price point then take a discount you need to afford Maptio.</source>
+        <target state="translated">Możesz wybrać idealny punkt cenowy, a następnie skorzystać ze zniżki, której potrzebujesz, aby pozwolić sobie na Maptio.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
+          <context context-type="linenumber">122,124</context>
         </context-group>
       </trans-unit>
     </body>
