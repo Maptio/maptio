@@ -10,7 +10,7 @@ import { BillingSchedule } from './billing-schedule.enum';
 })
 export class PaymentPlanComponent implements OnChanges {
   @HostBinding('class') classes =
-    'col-12 col-md-3 accent-blue rounded-bottom box-shadow mx-2 my-3';
+    'col-12 col-md-4 accent-blue rounded-bottom box-shadow mx-2 my-3';
 
   @Input() name: string;
   @Input() text: number;

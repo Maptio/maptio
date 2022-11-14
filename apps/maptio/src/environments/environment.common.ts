@@ -22,26 +22,17 @@ export const commonEnvironment = {
   SUBSCRIBE_NOW_LINK: '/pricing',
 
   BILLING_PLANS: {
-    STARTER_MONTHLY_COST: '20',
-    STARTER_MONTHLY_URL:
-      'https://maptio.chargebee.com/hosted_pages/plans/standard-plan12',
-    STARTER_ANNUAL_COST: '18',
-    STARTER_ANNUAL_URL:
-      'https://maptio.chargebee.com/hosted_pages/plans/annual_12_18',
+    STRIVERS_MONTHLY_COST: '25',
+    STRIVERS_MONTHLY_URL:
+      'https://maptio.chargebee.com/hosted_pages/plans/monthy_strivers',
 
-    SMALL_MONTHLY_COST: '50',
-    SMALL_MONTHLY_URL:
-      'https://maptio.chargebee.com/hosted_pages/plans/standard-plan50',
-    SMALL_ANNUAL_COST: '45',
-    SMALL_ANNUAL_URL:
-      'https://maptio.chargebee.com/hosted_pages/plans/annual_35_50',
+    PIONEERS_MONTHLY_COST: '60',
+    PIONEERS_MONTHLY_URL:
+      'https://maptio.chargebee.com/hosted_pages/plans/monthy_pioneers',
 
-    STANDARD_MONTHLY_COST: '99',
-    STANDARD_MONTHLY_URL:
-      'https://maptio.chargebee.com/hosted_pages/plans/standard-plan',
-    STANDARD_ANNUAL_COST: '89',
-    STANDARD_ANNUAL_URL:
-      'https://maptio.chargebee.com/hosted_pages/plans/annual-standard-plan',
+    HEROES_MONTHLY_COST: '120',
+    HEROES_MONTHLY_URL:
+      'https://maptio.chargebee.com/hosted_pages/plans/monthy_heroes',
   },
 
   ONBOARDING_MESSAGES: {

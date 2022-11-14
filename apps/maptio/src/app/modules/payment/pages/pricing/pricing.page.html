@@ -2,18 +2,141 @@
   <div
     class="d-flex flex-column justify-content-center align-items-center col-12"
   >
-    <h1
-      class="w-100 d-none d-md-block text-left text-md-center mb-md-0"
-      i18n="@@chooseYourPlan"
+    <br />
+
+    <h1 i18n="@@pricing" class="text-bold">Pricing</h1>
+
+    <br />
+
+    <p class="h2 text-center" i18n="@@customersHaveDifferentAbilitiesToPay">
+      Customers have very different abilities to pay,
+      <br class="d-none d-md-block" />
+      so we have an honor-based pricing model.
+    </p>
+
+    <br />
+    <br />
+
+    <p i18n="@@ourCauseIsToServe">
+      Our cause is to serve as many other cause-driven initiatives as possible.
+    </p>
+
+    <p i18n="@@weTrustYouToPay">
+      We trust you to pay the right amount for you.
+    </p>
+
+    <p i18n="@@pleaseHelpFundUs">
+      Please help fund us to improve Maptio for everyone.
+    </p>
+
+    <br />
+    <br />
+
+    <p class="h3 text-center" i18n="@@youCanChooseYourOwnPrice">
+      You can choose your own price level.
+      <br class="d-none d-md-block" />
+      All levels have full access to Maptio.
+    </p>
+
+    <br />
+    <br />
+
+    <!--
+    <p class="text-center text-muted my-5" i18n>
+      Pricing in US Dollars. All major credit cards accepted.
+      <br />
+      No minimum contract length.
+    </p>
+    -->
+
+    <div
+      class="d-flex flex-column flex-md-row justify-content-center align-items-stretch"
     >
-      Choose your plan
-    </h1>
-    <h3
-      class="w-100 d-block d-md-none text-left text-md-center mb-md-0"
-      i18n="@@chooseYourPlan"
-    >
-      Choose your plan
-    </h3>
+      <maptio-payment-plan
+        name="Strivers"
+        i18n-name
+        i18n="@@striversPlanDescription"
+        [billingSchedule]="billingScheduleChoice"
+        [prices]="{
+          MONTHLY: BILLING_PLANS.STRIVERS_MONTHLY_COST
+        }"
+        [billingLinks]="{
+          MONTHLY: BILLING_PLANS.STRIVERS_MONTHLY_URL
+        }"
+      >
+        individuals,
+        <br />
+        tiny teams,
+        <br />
+        and the cash-poor
+      </maptio-payment-plan>
+
+      <maptio-payment-plan
+        name="Pioneers"
+        i18n-name
+        i18n="@@pioneersPlanDescription"
+        [billingSchedule]="billingScheduleChoice"
+        [prices]="{
+          MONTHLY: BILLING_PLANS.PIONEERS_MONTHLY_COST
+        }"
+        [billingLinks]="{
+          MONTHLY: BILLING_PLANS.PIONEERS_MONTHLY_URL
+        }"
+      >
+        small teams of 10-35 people
+        <br />
+        and non-profits
+        <br />
+      </maptio-payment-plan>
+
+      <maptio-payment-plan
+        name="Heroes"
+        i18n-name
+        i18n="@@heroesPlanDescription"
+        [billingSchedule]="billingScheduleChoice"
+        [prices]="{
+          MONTHLY: BILLING_PLANS.HEROES_MONTHLY_COST
+        }"
+        [billingLinks]="{
+          MONTHLY: BILLING_PLANS.HEROES_MONTHLY_URL
+        }"
+      >
+        35 - 250 people in
+        <br />
+        commercial initiatives and
+        <br />
+        well-funded non-profits
+      </maptio-payment-plan>
+    </div>
+
+    <br />
+    <br />
+
+    <h2 i18n="@@discounts">Discounts</h2>
+
+    <p i18n="@@asACauseDrivenCompany">
+      As a cause-driven company we don't want money to be a barrier for anyone.
+    </p>
+
+    <p i18n="@@youCanChooseYourIdealPrice">
+      You can choose your ideal price point then take a discount you need to
+      afford Maptio.
+    </p>
+
+    <p i18n="@@discountCodes20love40help">
+      20% off: use code
+      <b>love</b>
+      <br />
+      40% off: use code
+      <b>help</b>
+    </p>
+
+    <p i18n="@@pleaseSupportTheDevelopmentOfMaptio">
+      Please support the development of Maptio by only taking off what you
+      really need.
+    </p>
+
+    <p>❤️</p>
 
     <div class="col-12 px-0 col-md-auto">
       <button
@@ -21,115 +144,13 @@
         [isSignup]="true"
         *ngIf="(userService.isAuthenticated$ | async) === false"
         class="btn-block w-100 btn btn-success btn-md-lg my-4"
-        i18n
+        i18n="@@tryMaptioForFree"
       >
-        Get started - try Maptio for free
+        Try Maptio for FREE
       </button>
     </div>
 
-    <p class="text-center text-muted my-5" i18n>
-      Pricing in US Dollars. All major credit cards accepted.
-      <br />
-      No minimum contract length.
-    </p>
-
-    <div
-      ngbRadioGroup
-      [(ngModel)]="billingScheduleChoice"
-      class="btn-group btn-group-toggle mb-3"
-      name="radioBasic"
-    >
-      <label
-        ngbButtonLabel
-        class="btn-lg"
-        [class]="
-          billingScheduleChoice === BillingSchedule.ANNUAL ?
-          'btn-success' : 'btn-light'
-        "
-      >
-        <input ngbButton type="radio" [value]="BillingSchedule.ANNUAL" />
-        <ng-container i18n>Annual billing</ng-container>
-      </label>
-
-      <label
-        ngbButtonLabel
-        class="btn-lg"
-        [class]="
-          billingScheduleChoice === BillingSchedule.MONTHLY ?
-          'btn-success' : 'btn-light'
-        "
-      >
-        <input ngbButton type="radio" [value]="BillingSchedule.MONTHLY" />
-        <ng-container i18n>Monthly billing</ng-container>
-      </label>
-    </div>
-
-    <div
-      class="d-flex flex-column flex-md-row justify-content-center align-items-stretch"
-    >
-      <maptio-payment-plan
-        name="Starter"
-        text="1 - 12 people"
-        i18n-name
-        i18n-text
-        [billingSchedule]="billingScheduleChoice"
-        [prices]="{
-          MONTHLY: BILLING_PLANS.STARTER_MONTHLY_COST,
-          ANNUAL: BILLING_PLANS.STARTER_ANNUAL_COST
-        }"
-        [billingLinks]="{
-          MONTHLY: BILLING_PLANS.STARTER_MONTHLY_URL,
-          ANNUAL: BILLING_PLANS.STARTER_ANNUAL_URL
-        }"
-      ></maptio-payment-plan>
-
-      <maptio-payment-plan
-        name="Small"
-        text="13 - 35 people"
-        i18n-name
-        i18n-text
-        [billingSchedule]="billingScheduleChoice"
-        [prices]="{
-          MONTHLY: BILLING_PLANS.SMALL_MONTHLY_COST,
-          ANNUAL: BILLING_PLANS.SMALL_ANNUAL_COST
-        }"
-        [billingLinks]="{
-          MONTHLY: BILLING_PLANS.SMALL_MONTHLY_URL,
-          ANNUAL: BILLING_PLANS.SMALL_ANNUAL_URL
-        }"
-      ></maptio-payment-plan>
-
-      <maptio-payment-plan
-        name="Standard plan"
-        text="36 - 200 people"
-        i18n-name
-        i18n-text
-        [billingSchedule]="billingScheduleChoice"
-        [prices]="{
-          MONTHLY: BILLING_PLANS.STANDARD_MONTHLY_COST,
-          ANNUAL: BILLING_PLANS.STANDARD_ANNUAL_COST
-        }"
-        [billingLinks]="{
-          MONTHLY: BILLING_PLANS.STANDARD_MONTHLY_URL,
-          ANNUAL: BILLING_PLANS.STANDARD_ANNUAL_URL
-        }"
-      ></maptio-payment-plan>
-
-      <maptio-payment-plan
-        name="Larger organizations"
-        text="200+ people"
-        i18n-name
-        i18n-text
-      ></maptio-payment-plan>
-    </div>
-
-    <p class="text-center text-muted my-5" i18n>
-      Struggling to afford this? Let's talk and work something out.
-      <a href="mailto:support@maptio.com?subject=Deal request">Contact us.</a>
-      <br />
-      <br />
-      Our mission is to serve the most cause-driven organizations on the planet.
-      Discounts available for non-profits.
-    </p>
+    <br />
+    <br />
   </div>
 </div>
