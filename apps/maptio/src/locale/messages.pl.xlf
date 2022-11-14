@@ -2647,28 +2647,12 @@
           <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="6b1ba85935a3d891a1e1b961ab11f4dd8d7052f6" datatype="html">
-        <source>Starter</source>
-        <target state="translated">Starter</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">71</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="083be8d4a1c487c222a248a1d6a9a5b6dbbb596f" datatype="html">
         <source>Larger organizations</source>
         <target state="translated">Większe organizacje</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
           <context context-type="linenumber">119</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="9ff2e34a90a800108fb0ba0393cfdf1c3db2c258" datatype="html">
-        <source>Struggling to afford this? Let's talk and work something out. <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Deal request&quot;&gt;"/>Contact us.<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Our mission is to serve the most cause-driven organizations on the planet. Discounts available for non-profits.</source>
-        <target state="translated">Nie stać cię na to? Porozmawiajmy i znajdźmy rozwiązanie. <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Deal request&quot;&gt;"/>Skontaktuj się z nami.<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Naszą misją jest służyć najbardziej pro-społecznym organizacjom na świecie. Zniżki dostępne dla organizacji non-profit.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">127,133</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9d27d4f27b5aaef466a1168019027952abd5cbe5" datatype="html">
@@ -3189,7 +3173,7 @@
       </trans-unit>
       <trans-unit id="heroesPlanDescription" datatype="html">
         <source>35 - 250 people in <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> commercial initiatives and <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> well-funded non-profits</source>
-        <target state="needs-translation">35 - 250 osób w &lt;x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/&gt; inicjatywach komercyjnych i &lt;x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/&gt; dobrze finansowanych organizacjach non-profit</target>
+        <target state="translated">35 - 250 osób w <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> inicjatywach komercyjnych i <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> dobrze finansowanych organizacjach non-profit</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
           <context context-type="linenumber">104,109</context>
@@ -3245,7 +3229,7 @@
       </trans-unit>
       <trans-unit id="discountCodes20love40help" datatype="html">
         <source>20% off: use code <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>love<x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> 40% off: use code <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>help<x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/></source>
-        <target state="needs-translation">20% zniżki: użyj kodu &lt;x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/&gt;love&lt;x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/&gt;&lt;x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/&gt; 40% zniżki: użyj kodu &lt;x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/&gt;help&lt;x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/&gt;</target>
+        <target state="translated">20% zniżki: użyj kodu <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>love<x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> 40% zniżki: użyj kodu <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>help<x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
           <context context-type="linenumber">127,131</context>
