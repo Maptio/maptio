@@ -53,26 +53,9 @@
       class="d-flex flex-column flex-md-row justify-content-center align-items-stretch"
     >
       <maptio-payment-plan
-        name="Starter"
-        text="1 - 12 people"
+        name="Strivers"
         i18n-name
-        i18n-text
-        [billingSchedule]="billingScheduleChoice"
-        [prices]="{
-          MONTHLY: BILLING_PLANS.STARTER_MONTHLY_COST,
-          ANNUAL: BILLING_PLANS.STARTER_ANNUAL_COST
-        }"
-        [billingLinks]="{
-          MONTHLY: BILLING_PLANS.STARTER_MONTHLY_URL,
-          ANNUAL: BILLING_PLANS.STARTER_ANNUAL_URL
-        }"
-      ></maptio-payment-plan>
-
-      <maptio-payment-plan
-        name="Small"
-        text="13 - 35 people"
-        i18n-name
-        i18n-text
+        i18n="@@striversPlanDescription"
         [billingSchedule]="billingScheduleChoice"
         [prices]="{
           MONTHLY: BILLING_PLANS.SMALL_MONTHLY_COST,
@@ -82,13 +65,18 @@
           MONTHLY: BILLING_PLANS.SMALL_MONTHLY_URL,
           ANNUAL: BILLING_PLANS.SMALL_ANNUAL_URL
         }"
-      ></maptio-payment-plan>
+      >
+        individuals,
+        <br />
+        tiny teams,
+        <br />
+        and the cash-poor
+      </maptio-payment-plan>
 
       <maptio-payment-plan
-        name="Standard plan"
-        text="36 - 200 people"
+        name="Pioneers"
         i18n-name
-        i18n-text
+        i18n="@@pioneersPlanDescription"
         [billingSchedule]="billingScheduleChoice"
         [prices]="{
           MONTHLY: BILLING_PLANS.STANDARD_MONTHLY_COST,
@@ -98,7 +86,33 @@
           MONTHLY: BILLING_PLANS.STANDARD_MONTHLY_URL,
           ANNUAL: BILLING_PLANS.STANDARD_ANNUAL_URL
         }"
-      ></maptio-payment-plan>
+      >
+        small teams of 10-35 people
+        <br />
+        and non-profits
+        <br />
+      </maptio-payment-plan>
+
+      <maptio-payment-plan
+        name="Heroes"
+        i18n-name
+        i18n="@@heroesPlanDescription"
+        [billingSchedule]="billingScheduleChoice"
+        [prices]="{
+          MONTHLY: BILLING_PLANS.STARTER_MONTHLY_COST,
+          ANNUAL: BILLING_PLANS.STARTER_ANNUAL_COST
+        }"
+        [billingLinks]="{
+          MONTHLY: BILLING_PLANS.STARTER_MONTHLY_URL,
+          ANNUAL: BILLING_PLANS.STARTER_ANNUAL_URL
+        }"
+      >
+        35 - 250 people in
+        <br />
+        commercial initiatives and
+        <br />
+        well-funded non-profits
+      </maptio-payment-plan>
     </div>
 
     <br />

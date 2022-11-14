@@ -921,32 +921,46 @@
         <source>per month, <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> per organization</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/payment-plan.component.html</context>
-          <context context-type="linenumber">15,18</context>
+          <context context-type="linenumber">17,20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="contactUs" datatype="html">
         <source>Contact us</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/payment-plan.component.html</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="linenumber">30</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/payment-plan.component.html</context>
-          <context context-type="linenumber">57</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="intendedFor" datatype="html">
+        <source>Intended for:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/payment-plan.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="14dayFreeTrialDiscountsAvailable" datatype="html">
+        <source>14 Day free trial <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Discounts available</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/payment-plan.component.html</context>
+          <context context-type="linenumber">43,46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="signUp" datatype="html">
         <source>Sign up</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/payment-plan.component.html</context>
-          <context context-type="linenumber">41</context>
+          <context context-type="linenumber">56</context>
         </context-group>
       </trans-unit>
       <trans-unit id="subscribe" datatype="html">
         <source>Subscribe</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/payment-plan.component.html</context>
-          <context context-type="linenumber">49</context>
+          <context context-type="linenumber">64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="customersHaveDifferentAbilitiesToPay" datatype="html">
@@ -984,88 +998,88 @@
           <context context-type="linenumber">36,39</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="6b1ba85935a3d891a1e1b961ab11f4dd8d7052f6" datatype="html">
-        <source>Starter</source>
+      <trans-unit id="908d8a67826fc56e92aba7638b795d73b23fbaaf" datatype="html">
+        <source>Strivers</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
           <context context-type="linenumber">56</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="02f64e0dada8db77cf246b82054d1a7d81557567" datatype="html">
-        <source>1 - 12 people</source>
+      <trans-unit id="striversPlanDescription" datatype="html">
+        <source>individuals, <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> tiny teams, <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> and the cash-poor</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">57</context>
+          <context context-type="linenumber">69,74</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="4df6f726a512cf8846e5ead65423bb4121d3d379" datatype="html">
-        <source>Small</source>
+      <trans-unit id="284f7a5a4e600a530964c571e426db23cd76b4fb" datatype="html">
+        <source>Pioneers</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">72</context>
+          <context context-type="linenumber">77</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="a1701a60ba8fe1e302b632bf9f04cf86a6450ad2" datatype="html">
-        <source>13 - 35 people</source>
+      <trans-unit id="pioneersPlanDescription" datatype="html">
+        <source>small teams of 10-35 people <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> and non-profits <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">73</context>
+          <context context-type="linenumber">90,93</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="0f65f2db1ec58eba243cde556ab7b20b82826ff5" datatype="html">
-        <source>Standard plan</source>
+      <trans-unit id="33a29e29d6c1ae044e8e3350733a49c8dbeb18af" datatype="html">
+        <source>Heroes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">88</context>
+          <context context-type="linenumber">97</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="d207d07b14a509f32cc198bdcf1dec65ce3c05ba" datatype="html">
-        <source>36 - 200 people</source>
+      <trans-unit id="heroesPlanDescription" datatype="html">
+        <source>35 - 250 people in <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> commercial initiatives and <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> well-funded non-profits</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">89</context>
+          <context context-type="linenumber">110,115</context>
         </context-group>
       </trans-unit>
       <trans-unit id="discounts" datatype="html">
         <source>Discounts</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">107</context>
+          <context context-type="linenumber">121</context>
         </context-group>
       </trans-unit>
       <trans-unit id="asACauseDrivenCompany" datatype="html">
         <source>As a cause-driven company we don't want money to be a barrier for anyone.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">110,111</context>
+          <context context-type="linenumber">124,125</context>
         </context-group>
       </trans-unit>
       <trans-unit id="youCanChooseYourIdealPrice" datatype="html">
         <source>You can choose your ideal price point then take a discount you need to afford Maptio.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">114,116</context>
+          <context context-type="linenumber">128,130</context>
         </context-group>
       </trans-unit>
       <trans-unit id="discountCodes20love40help" datatype="html">
         <source>20% off: use code <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>love<x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> 40% off: use code <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>help<x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">119,123</context>
+          <context context-type="linenumber">133,137</context>
         </context-group>
       </trans-unit>
       <trans-unit id="pleaseSupportTheDevelopmentOfMaptio" datatype="html">
         <source>Please support the development of Maptio by only taking off what you really need.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">127,129</context>
+          <context context-type="linenumber">141,143</context>
         </context-group>
       </trans-unit>
       <trans-unit id="tryMaptioForFree" datatype="html">
         <source>Try Maptio for free</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">141,142</context>
+          <context context-type="linenumber">155,156</context>
         </context-group>
       </trans-unit>
       <trans-unit id="noPermission" datatype="html">

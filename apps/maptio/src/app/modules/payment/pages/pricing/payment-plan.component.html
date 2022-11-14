@@ -4,8 +4,10 @@
     isAuthenticated: userService.isAuthenticated$ | async
   } as observables"
 >
-  <div class="card-body border-0 bg-white text-center">
-    <div class="card-title border-bottom h4 py-4">
+  <div
+    class="card-body d-flex flex-column align-items-center border-0 bg-white text-center"
+  >
+    <div class="card-title border-bottom h4 py-4 w-100">
       {{ name }}
     </div>
 
@@ -29,7 +31,20 @@
       </a>
     </ng-template>
 
-    <div class="card-text text-muted">{{ text }}</div>
+    <div class="card-text text-muted my-2">
+      <b i18n="@@intendedFor">Intended for:</b>
+
+      <br />
+      <ng-content></ng-content>
+      <br />
+      <br />
+
+      <ng-container i18n="@@14dayFreeTrialDiscountsAvailable">
+        14 Day free trial
+        <br />
+        Discounts available
+      </ng-container>
+    </div>
 
     <div class="card-text">
       <button
