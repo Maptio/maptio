@@ -64,13 +64,8 @@
         class="nav-item d-none d-md-flex align-items-center"
         *ngIf="team?.isPaying === false"
       >
-        <a
-          class="nav-link"
-          target="blank"
-          routerLink="/pricing"
-          i18n="@@pricing"
-        >
-          Pricing
+        <a class="nav-link" target="blank" routerLink="/pricing">
+          <ng-container i18n="@@pricing">Pricing</ng-container>
         </a>
       </li>
 
@@ -296,8 +291,8 @@
         </a>
       </li>
       <li class="nav-item d-md-none">
-        <a class="btn btn-link px-0" routerLink="/pricing" i18n="@@pricing">
-          Pricing
+        <a class="btn btn-link px-0" routerLink="/pricing">
+          <ng-container i18n="@@pricing">Pricing</ng-container>
         </a>
       </li>
 
