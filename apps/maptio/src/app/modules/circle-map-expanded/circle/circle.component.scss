@@ -12,15 +12,11 @@ $shadow-scale-selected-not-hovered: 1;
 $shadow-scale-selected: 1.008;
 
 .circle {
-  fill-opacity: 0.15;
   cursor: pointer;
-  pointer-events: none;
   transition: all 0.2s ease-in;
 }
 
 .circle__info {
-  opacity: 0;
-  pointer-events: none;
   transform: scale(1);
   transition: all 0.2s ease-in;
 }
@@ -40,126 +36,126 @@ $shadow-scale-selected: 1.008;
   transition: transform 0.2s ease-in;
 }
 
-.circle--state-selected {
-  fill-opacity: 1;
-  pointer-events: auto;
+// .circle--state-selected {
+//   fill-opacity: 1;
+//   pointer-events: auto;
 
-  > .circle__circle {
-    stroke: white;
-    stroke-width: $stroke-width-selected-not-hovered;
-  }
+//   > .circle__circle {
+//     stroke: white;
+//     stroke-width: $stroke-width-selected-not-hovered;
+//   }
 
-  > .circle__shadow {
-    display: inline;
-    opacity: $shadow-opacity-selected-not-hovered;
-    transform: scale($shadow-scale-selected-not-hovered);
-  }
+//   > .circle__shadow {
+//     display: inline;
+//     opacity: $shadow-opacity-selected-not-hovered;
+//     transform: scale($shadow-scale-selected-not-hovered);
+//   }
 
-  > .circle__info {
-    opacity: 1;
-    pointer-events: auto;
-    transform: scale($info-scale-selected-not-hovered);
-  }
-}
+//   > .circle__info {
+//     opacity: 1;
+//     pointer-events: auto;
+//     transform: scale($info-scale-selected-not-hovered);
+//   }
+// }
 
-.circle--state-selected:not(.circle--state-opened):hover {
-  > .circle__circle {
-    stroke-width: $stroke-width-selected;
-  }
+// .circle--state-selected:not(.circle--state-opened):hover {
+//   > .circle__circle {
+//     stroke-width: $stroke-width-selected;
+//   }
 
-  > .circle__shadow {
-    display: inline;
-    opacity: $shadow-opacity-selected;
-    transform: scale($shadow-scale-selected);
-  }
+//   > .circle__shadow {
+//     display: inline;
+//     opacity: $shadow-opacity-selected;
+//     transform: scale($shadow-scale-selected);
+//   }
 
-  > .circle__info {
-    transform: scale($info-scale-selected);
-  }
-}
+//   > .circle__info {
+//     transform: scale($info-scale-selected);
+//   }
+// }
 
-.circle--state-opened > .circle__circle {
-  fill-opacity: 0.6;
-  stroke-width: $stroke-width-selected-not-hovered;
-}
+// .circle--state-opened > .circle__circle {
+//   fill-opacity: 0.6;
+//   stroke-width: $stroke-width-selected-not-hovered;
+// }
 
-.circle--state-opened > .circle__shadow {
-  opacity: $shadow-opacity-selected-not-hovered;
-  fill-opacity: 0.6;
-  transform: scale($shadow-scale-default);
-}
+// .circle--state-opened > .circle__shadow {
+//   opacity: $shadow-opacity-selected-not-hovered;
+//   fill-opacity: 0.6;
+//   transform: scale($shadow-scale-default);
+// }
 
-.circle--state-opened > .circle__info {
-  transform: scale(1);
-}
+// .circle--state-opened > .circle__info {
+//   transform: scale(1);
+// }
 
-.circle--state-selected > .circle__children > g > .circle {
-  > .circle__info {
-    opacity: 0.1;
-  }
-}
+// .circle--state-selected > .circle__children > g > .circle {
+//   > .circle__info {
+//     opacity: 0.1;
+//   }
+// }
 
-.circle--state-opened:not(.circle--type-leaf) {
-  fill-opacity: 0.15;
+// .circle--state-opened:not(.circle--type-leaf) {
+//   fill-opacity: 0.15;
 
-  > .circle__info {
-    opacity: 0;
-    pointer-events: none;
-    transform: scale(1.25);
-  }
-}
+//   > .circle__info {
+//     opacity: 0;
+//     pointer-events: none;
+//     transform: scale(1.25);
+//   }
+// }
 
-.circle--state-opened > .circle__children > g > .circle {
-  fill-opacity: 1;
-  pointer-events: auto;
+// .circle--state-opened > .circle__children > g > .circle {
+//   fill-opacity: 1;
+//   pointer-events: auto;
 
-  > .circle__shadow {
-    display: inline;
-    opacity: $shadow-opacity-selected-not-hovered;
-    transform: scale($shadow-scale-selected-not-hovered);
-  }
+//   > .circle__shadow {
+//     display: inline;
+//     opacity: $shadow-opacity-selected-not-hovered;
+//     transform: scale($shadow-scale-selected-not-hovered);
+//   }
 
-  > .circle__info {
-    opacity: 1;
-    pointer-events: auto;
-  }
-}
+//   > .circle__info {
+//     opacity: 1;
+//     pointer-events: auto;
+//   }
+// }
 
-// https://codepen.io/shshaw/pen/wWQZEB
+// // https://codepen.io/shshaw/pen/wWQZEB
 
-.circle--state-opened > .circle__children {
-  visibility: hidden;
-}
+// .circle--state-opened > .circle__children {
+//   visibility: hidden;
+// }
 
-.circle--state-opened > .circle__children > g {
-  visibility: visible;
-}
+// .circle--state-opened > .circle__children > g {
+//   visibility: visible;
+// }
 
-.circle--state-opened > .circle__children:hover > g > .circle {
-  opacity: 0.4;
+// .circle--state-opened > .circle__children:hover > g > .circle {
+//   opacity: 0.4;
 
-  > .circle__shadow {
-    transform: scale($shadow-scale-selected-not-hovered);
-    opacity: $shadow-opacity-selected-not-hovered;
-  }
-}
+//   > .circle__shadow {
+//     transform: scale($shadow-scale-selected-not-hovered);
+//     opacity: $shadow-opacity-selected-not-hovered;
+//   }
+// }
 
-.circle--state-opened > .circle__children:hover > g:hover > .circle {
-  opacity: 1;
+// .circle--state-opened > .circle__children:hover > g:hover > .circle {
+//   opacity: 1;
 
-  > .circle__circle {
-    stroke-width: $stroke-width-selected;
-  }
+//   > .circle__circle {
+//     stroke-width: $stroke-width-selected;
+//   }
 
-  > .circle__shadow {
-    transform: scale($shadow-scale-selected);
-    opacity: $shadow-opacity-selected;
-  }
+//   > .circle__shadow {
+//     transform: scale($shadow-scale-selected);
+//     opacity: $shadow-opacity-selected;
+//   }
 
-  > .circle__info {
-    transform: scale($info-scale-selected);
-  }
-}
+//   > .circle__info {
+//     transform: scale($info-scale-selected);
+//   }
+// }
 
 .circle__popover {
   // Styles copied from .mat-tooltip @ 11.2.8
