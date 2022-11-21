@@ -3,6 +3,7 @@ import { MappingNetworkComponent } from './pages/network/mapping.network.compone
 import { MappingTreeComponent } from './pages/tree/mapping.tree.component';
 import { MappingZoomableComponent } from './pages/circles/mapping.zoomable.component';
 import { MappingCirclesGradualRevealComponent } from './pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component';
+import { MappingCirclesExpandedComponent } from './pages/circles-expanded/mapping-circles-expanded.component';
 
 import { ColorHueModule } from 'ngx-color/hue'; // <color-hue-picker></color-hue-picker>
 import { SharedModule } from '../../shared/shared.module';
@@ -114,6 +115,7 @@ import { PermissionsMessagesModule } from '../permissions-messages/permissions-m
     MappingComponent,
     MappingZoomableComponent,
     MappingCirclesGradualRevealComponent,
+    MappingCirclesExpandedComponent,
     MappingTreeComponent,
     MappingNetworkComponent,
     MappingSummaryComponent,
