@@ -32,8 +32,8 @@ import { Team } from '../../../../shared/model/team.data';
 
 import { CircleMapData } from '@maptio-shared/model/circle-map-data.interface';
 import { DataSet } from '@maptio-shared/model/dataset.data';
-import { InitiativeNode } from '@maptio-circle-map/initiative.model';
-import { CircleMapService } from '@maptio-circle-map/circle-map.service';
+import { InitiativeNode } from '@maptio-circle-map-expanded/initiative.model';
+import { CircleMapService } from '@maptio-circle-map-expanded/circle-map.service';
 
 @Component({
   selector: 'maptio-circles-expanded',

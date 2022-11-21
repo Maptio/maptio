@@ -64,6 +64,7 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
 import { InitiativeInputSizeComponent } from './components/data-entry/details/parts/size/input-size.component';
 
 import { CircleMapModule } from '@maptio-circle-map/circle-map.module';
+import { CircleMapExpandedModule } from '@maptio-circle-map-expanded/circle-map-expanded.module';
 import { MemberFormModule } from '@maptio-member-form';
 import { OnboardingMessageModule } from '../onboarding-message/onboarding-message.module';
 import { SharingComponent } from './components/sharing/sharing.component';
@@ -92,6 +93,7 @@ import { PermissionsMessagesModule } from '../permissions-messages/permissions-m
     ColorHueModule,
     PermissionsModule,
     CircleMapModule,
+    CircleMapExpandedModule,
     MemberFormModule,
     OnboardingMessageModule,
     PermissionsMessagesModule,

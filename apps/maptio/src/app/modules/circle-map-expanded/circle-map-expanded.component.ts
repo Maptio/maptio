@@ -24,13 +24,13 @@ import { CircleMapService } from './circle-map.service';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'maptio-circle-map',
-  templateUrl: './circle-map.component.html',
-  styleUrls: ['./circle-map.component.css'],
+  selector: 'maptio-circle-map-expanded',
+  templateUrl: './circle-map-expanded.component.html',
+  styleUrls: ['./circle-map-expanded.component.css'],
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CircleMapComponent implements OnInit, OnDestroy {
+export class CircleMapExpandedComponent implements OnInit, OnDestroy {
   // All the data comes in as a single package
   @Input() circleMapData$: BehaviorSubject<CircleMapData>;
   @Input() showDetailsPanel: boolean;

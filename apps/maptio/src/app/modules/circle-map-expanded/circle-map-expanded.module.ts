@@ -5,7 +5,7 @@ import { SatPopoverModule } from '@ncstate/sat-popover';
 import { MarkdownModule } from 'ngx-markdown';
 
 import { SvgZoomPanComponent } from './svg-zoom-pan/svg-zoom-pan.component';
-import { CircleMapComponent } from './circle-map.component';
+import { CircleMapExpandedComponent } from './circle-map-expanded.component';
 import { CircleComponent } from './circle/circle.component';
 import { CircleInfoComponent } from './circle-info/circle-info.component';
 import { HelperAvatarComponent } from './helper-avatar/helper-avatar.component';
@@ -13,12 +13,12 @@ import { HelperAvatarComponent } from './helper-avatar/helper-avatar.component';
 @NgModule({
   declarations: [
     SvgZoomPanComponent,
-    CircleMapComponent,
+    CircleMapExpandedComponent,
     CircleComponent,
     CircleInfoComponent,
     HelperAvatarComponent,
   ],
   imports: [CommonModule, MarkdownModule.forChild(), SatPopoverModule],
-  exports: [CircleMapComponent],
+  exports: [CircleMapExpandedComponent],
 })
-export class CircleMapModule {}
+export class CircleMapExpandedModule {}
