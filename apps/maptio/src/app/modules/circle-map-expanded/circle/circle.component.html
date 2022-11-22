@@ -30,7 +30,25 @@
     <g maptioCircle *ngFor="let child of circle.children" [circle]="child"></g>
   </g>
 
-  <g class="circle__info">
+  <path
+    id="circleEdge"
+    d="M 500,0 A 500,500 0 0 1 -500,0 A 500,500 0 0 1 500,0"
+    fill="none"
+  />
+
+  <text
+    *ngIf="!circle.data.isLeaf"
+    fill="white"
+    stroke-width="0"
+    font-size="3rem"
+    font-weight="600"
+  >
+    <textPath xlink:href="#circleEdge" startOffset="75%" text-anchor="middle">
+      <tspan dy="43">{{ circle.data.name }}</tspan>
+    </textPath>
+  </text>
+
+  <g class="circle__info" *ngIf="circle.data.isLeaf">
     <foreignObject
       [attr.x]="infoX"
       [attr.y]="infoY"
