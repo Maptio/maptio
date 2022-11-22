@@ -59,24 +59,14 @@
     </foreignObject>
   </g>
 
-  <clipPath id="avatar-clip-path">
-    <circle
-      class="circle__circle"
-      [attr.cx]="0"
-      [attr.cy]="defaultRadius - 50"
-      [attr.r]="50"
-      [attr.fill]="'red'"
-    />
-  </clipPath>
-  <image
+  <g
     *ngIf="circle.data.accountable"
-    [attr.xlink:href]="circle.data.accountable.picture"
-    x="-50"
-    [attr.y]="defaultRadius - 100"
-    width="100"
-    height="100"
-    clip-path="url(#avatar-clip-path)"
-  />
+    maptioHelperAvatarSvg
+    [helper]="circle.data.accountable"
+    [attr.x]="0"
+    [attr.y]="defaultRadius - 50"
+    [attr.transform]="'translate(0,' + (defaultRadius - 50) + ')'"
+  ></g>
 </svg:g>
 
 <sat-popover
