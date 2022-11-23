@@ -3,7 +3,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { SatPopover } from '@ncstate/sat-popover';
 
 import { CircleMapService } from '../circle-map.service';
-import { InitiativeNode } from '../initiative.model';
+import { InitiativeNode, Helper } from '../initiative.model';
 
 @Component({
   selector: 'g[maptioCircle]', // eslint-disable-line @angular-eslint/component-selector
@@ -14,6 +14,8 @@ export class CircleComponent implements OnInit {
   @Input() circle!: InitiativeNode;
 
   @ViewChild('popover') popover?: SatPopover;
+
+  people: Helper[] = [];
 
   defaultRadius = 500;
 
@@ -51,6 +53,10 @@ export class CircleComponent implements OnInit {
     this.infoSize = (this.defaultRadius * 2) / Math.sqrt(2);
     this.infoX = -this.defaultRadius / Math.sqrt(2);
     this.infoY = -this.defaultRadius / Math.sqrt(2);
+
+    this.people = [this.circle.data.accountable].concat(
+      this.circle.data.helpers
+    );
   }
 
   onClick($event: MouseEvent) {

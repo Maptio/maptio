@@ -59,14 +59,20 @@
     </foreignObject>
   </g>
 
-  <g
-    *ngIf="circle.data.accountable"
-    maptioHelperAvatarSvg
-    [helper]="circle.data.accountable"
-    [attr.x]="0"
-    [attr.y]="defaultRadius - 50"
-    [attr.transform]="'translate(0,' + (defaultRadius - 50) + ')'"
-  ></g>
+  <ng-container *ngIf="!circle.data.isLeaf">
+    <g
+      *ngFor="let person of people; let i = index"
+      maptioHelperAvatarSvg
+      [helper]="person"
+      [attr.transform]="
+        'translate(' +
+        (defaultRadius - 60) * math.sin(0.27 * (i + 0.5 - people.length / 2)) +
+        ',' +
+        (defaultRadius - 60) * math.cos(0.27 * (i + 0.5 - people.length / 2)) +
+        ')'
+      "
+    ></g>
+  </ng-container>
 </svg:g>
 
 <sat-popover
