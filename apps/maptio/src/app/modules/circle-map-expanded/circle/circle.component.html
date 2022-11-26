@@ -36,6 +36,15 @@
     fill="none"
   />
 
+  <path
+    *ngIf="circle.data.tags.length > 0"
+    [attr.d]="getTagPath()"
+    [attr.stroke]="circle.data.tags[0].color"
+    stroke-width="36"
+    stroke-linecap="round"
+    fill="none"
+  />
+
   <text
     *ngIf="!circle.data.isLeaf"
     fill="white"
@@ -45,6 +54,14 @@
   >
     <textPath xlink:href="#circleEdge" startOffset="75%" text-anchor="middle">
       <tspan dy="43">{{ circle.data.name }}</tspan>
+
+      <ng-container *ngFor="let tag of circle.data.tags; let i = index">
+        <tspan>&nbsp;</tspan>
+
+        <tspan [attr.dy]="-15" font-size="1.5rem">
+          {{ tag.name }}
+        </tspan>
+      </ng-container>
     </textPath>
   </text>
 

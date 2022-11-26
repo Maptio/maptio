@@ -89,4 +89,40 @@ export class CircleComponent implements OnInit {
   onPopoverClose() {
     this.isPopoverHidden = true;
   }
+
+  getTagPath() {
+    const circleDiameter = 500;
+    const distanceFromCircumference = 22;
+    const pathDiameter = circleDiameter - distanceFromCircumference;
+
+    const pathStartAngle = 31; // degrees
+    const pathEndAngle = 43.5; // degrees
+
+    const pathStartingPoint = `M ${this.getPointString(
+      pathStartAngle,
+      pathDiameter
+    )}`;
+
+    const pathEndPointString = this.getPointString(pathEndAngle, pathDiameter);
+    const pathArc = `A ${pathDiameter},${pathDiameter} 0 0 1 ${pathEndPointString}`;
+
+    const path = `${pathStartingPoint} ${pathArc}`;
+
+    return path;
+  }
+
+  private getPointString(angleInDegrees, diameter) {
+    const x = this.getX(angleInDegrees, diameter);
+    const y = this.getY(angleInDegrees, diameter);
+
+    return `${x},${y}`;
+  }
+
+  private getX(angleInDegrees, diameter) {
+    return diameter * Math.sin((angleInDegrees / 360) * 2 * Math.PI);
+  }
+
+  private getY(angleInDegrees, diameter) {
+    return -1 * diameter * Math.cos((angleInDegrees / 360) * 2 * Math.PI);
+  }
 }
