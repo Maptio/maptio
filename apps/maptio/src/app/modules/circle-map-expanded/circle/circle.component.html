@@ -58,9 +58,20 @@
       <ng-container *ngFor="let tag of circle.data.tags; let i = index">
         <tspan>&nbsp;</tspan>
 
-        <tspan [attr.dy]="-15" font-size="1.5rem">
+        <tspan
+          *ngIf="i === 0; else nonFirstTag"
+          class="tag"
+          [attr.dy]="-15"
+          font-size="1.5rem"
+        >
           {{ tag.name }}
         </tspan>
+
+        <ng-template #nonFirstTag>
+          <tspan #nonFirstTag class="tag" font-size="1.5rem">
+            {{ tag.name }}
+          </tspan>
+        </ng-template>
       </ng-container>
     </textPath>
   </text>
