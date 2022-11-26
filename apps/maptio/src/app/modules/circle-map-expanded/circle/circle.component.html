@@ -38,6 +38,7 @@
 
   <path
     *ngIf="circle.data.tags.length > 0"
+    #namePath
     [attr.d]="getTagPath()"
     [attr.stroke]="circle.data.tags[0].color"
     stroke-width="36"
@@ -52,10 +53,16 @@
     font-size="3rem"
     font-weight="600"
   >
-    <textPath xlink:href="#circleEdge" startOffset="75%" text-anchor="middle">
-      <tspan dy="43">{{ circle.data.name }}</tspan>
+    <textPath
+      #name
+      xlink:href="#circleEdge"
+      startOffset="75%"
+      text-anchor="middle"
+    >
+      <!-- <tspan dy="43">{{ circle.data.name }}</tspan> -->
+      <tspan>{{ circle.data.name }}</tspan>
 
-      <ng-container *ngFor="let tag of circle.data.tags; let i = index">
+      <!-- <ng-container *ngFor="let tag of circle.data.tags; let i = index">
         <tspan>&nbsp;</tspan>
 
         <tspan
@@ -72,7 +79,7 @@
             {{ tag.name }}
           </tspan>
         </ng-template>
-      </ng-container>
+      </ng-container> -->
     </textPath>
   </text>
 

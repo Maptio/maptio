@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 import { SatPopover } from '@ncstate/sat-popover';
 
@@ -14,6 +14,8 @@ export class CircleComponent implements OnInit {
   @Input() circle!: InitiativeNode;
 
   @ViewChild('popover') popover?: SatPopover;
+  @ViewChild('name') name?: ElementRef<SVGTextElement>;
+  @ViewChild('namePath') namePath?: ElementRef<SVGPathElement>;
 
   people: Helper[] = [];
 
@@ -92,11 +94,33 @@ export class CircleComponent implements OnInit {
 
   getTagPath() {
     const circleDiameter = 500;
-    const distanceFromCircumference = 22;
+    const distanceFromCircumference = -18;
     const pathDiameter = circleDiameter - distanceFromCircumference;
 
-    const pathStartAngle = 31; // degrees
-    const pathEndAngle = 43.5; // degrees
+    let pathStartAngle;
+    let pathEndAngle;
+
+    if (this.name && this.namePath) {
+      const nameLength = this.name.nativeElement.getComputedTextLength();
+      // const circumference = this.namePath.nativeElement.getTotalLength();
+
+      const circumference = 2 * Math.PI * 500;
+
+      console.log(this.circle.data.name);
+      console.log(this.name);
+      console.log(nameLength);
+      console.log(this.namePath);
+      console.log(circumference);
+      console.log((nameLength / circumference) * 360);
+
+      pathStartAngle = ((nameLength / circumference) * 360) / 2 + 3;
+      pathEndAngle = pathStartAngle + 10;
+
+      console.log(`${pathStartAngle}, ${pathEndAngle}`);
+    } else {
+      pathStartAngle = 31; // degrees
+      pathEndAngle = 43.5; // degrees
+    }
 
     const pathStartingPoint = `M ${this.getPointString(
       pathStartAngle,
