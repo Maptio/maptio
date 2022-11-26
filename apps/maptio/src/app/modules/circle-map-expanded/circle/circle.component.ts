@@ -1,9 +1,9 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 
 import { SatPopover } from '@ncstate/sat-popover';
 
 import { CircleMapService } from '../circle-map.service';
-import { InitiativeNode, Helper } from '../initiative.model';
+import { InitiativeNode } from '../initiative.model';
 
 @Component({
   selector: 'g[maptioCircle]', // eslint-disable-line @angular-eslint/component-selector
@@ -14,10 +14,6 @@ export class CircleComponent implements OnInit {
   @Input() circle!: InitiativeNode;
 
   @ViewChild('popover') popover?: SatPopover;
-  @ViewChild('name') name?: ElementRef<SVGTextElement>;
-  @ViewChild('namePath') namePath?: ElementRef<SVGPathElement>;
-
-  people: Helper[] = [];
 
   defaultRadius = 500;
 
@@ -55,10 +51,6 @@ export class CircleComponent implements OnInit {
     this.infoSize = (this.defaultRadius * 2) / Math.sqrt(2);
     this.infoX = -this.defaultRadius / Math.sqrt(2);
     this.infoY = -this.defaultRadius / Math.sqrt(2);
-
-    this.people = [this.circle.data.accountable].concat(
-      this.circle.data.helpers
-    );
   }
 
   onClick($event: MouseEvent) {
@@ -90,63 +82,5 @@ export class CircleComponent implements OnInit {
 
   onPopoverClose() {
     this.isPopoverHidden = true;
-  }
-
-  getTagPath() {
-    const circleDiameter = 500;
-    const distanceFromCircumference = -18;
-    const pathDiameter = circleDiameter - distanceFromCircumference;
-
-    let pathStartAngle;
-    let pathEndAngle;
-
-    if (this.name && this.namePath) {
-      const nameLength = this.name.nativeElement.getComputedTextLength();
-      // const circumference = this.namePath.nativeElement.getTotalLength();
-
-      const circumference = 2 * Math.PI * 500;
-
-      console.log(this.circle.data.name);
-      console.log(this.name);
-      console.log(nameLength);
-      console.log(this.namePath);
-      console.log(circumference);
-      console.log((nameLength / circumference) * 360);
-
-      pathStartAngle = ((nameLength / circumference) * 360) / 2 + 3;
-      pathEndAngle = pathStartAngle + 10;
-
-      console.log(`${pathStartAngle}, ${pathEndAngle}`);
-    } else {
-      pathStartAngle = 31; // degrees
-      pathEndAngle = 43.5; // degrees
-    }
-
-    const pathStartingPoint = `M ${this.getPointString(
-      pathStartAngle,
-      pathDiameter
-    )}`;
-
-    const pathEndPointString = this.getPointString(pathEndAngle, pathDiameter);
-    const pathArc = `A ${pathDiameter},${pathDiameter} 0 0 1 ${pathEndPointString}`;
-
-    const path = `${pathStartingPoint} ${pathArc}`;
-
-    return path;
-  }
-
-  private getPointString(angleInDegrees, diameter) {
-    const x = this.getX(angleInDegrees, diameter);
-    const y = this.getY(angleInDegrees, diameter);
-
-    return `${x},${y}`;
-  }
-
-  private getX(angleInDegrees, diameter) {
-    return diameter * Math.sin((angleInDegrees / 360) * 2 * Math.PI);
-  }
-
-  private getY(angleInDegrees, diameter) {
-    return -1 * diameter * Math.cos((angleInDegrees / 360) * 2 * Math.PI);
   }
 }

@@ -1,0 +1,65 @@
+<svg:path
+  id="circleEdge"
+  #namePath
+  d="M 500,0 A 500,500 0 0 1 -500,0 A 500,500 0 0 1 500,0"
+  fill="none"
+/>
+
+<svg:path
+  *ngIf="circle.data.tags.length > 0"
+  [attr.d]="getTagPath()"
+  [attr.stroke]="circle.data.tags[0].color"
+  stroke-width="36"
+  stroke-linecap="round"
+  fill="none"
+/>
+
+<svg:text
+  *ngIf="!circle.data.isLeaf"
+  fill="white"
+  stroke-width="0"
+  font-size="3rem"
+  font-weight="600"
+>
+  <textPath
+    #name
+    xlink:href="#circleEdge"
+    startOffset="75%"
+    text-anchor="middle"
+  >
+    <!-- <tspan dy="43">{{ circle.data.name }}</tspan> -->
+    <tspan>{{ circle.data.name }}</tspan>
+
+    <!-- <ng-container *ngFor="let tag of circle.data.tags; let i = index">
+        <tspan>&nbsp;</tspan>
+
+        <tspan
+          *ngIf="i === 0; else nonFirstTag"
+          class="tag"
+          [attr.dy]="-15"
+          font-size="1.5rem"
+        >
+          {{ tag.name }}
+        </tspan>
+
+        <ng-template #nonFirstTag>
+          <tspan #nonFirstTag class="tag" font-size="1.5rem">
+            {{ tag.name }}
+          </tspan>
+        </ng-template>
+      </ng-container> -->
+  </textPath>
+</svg:text>
+
+<svg:g
+  *ngFor="let person of people; let i = index"
+  maptioHelperAvatarSvg
+  [helper]="person"
+  [attr.transform]="
+    'translate(' +
+    (radius - 60) * math.sin(0.27 * (i + 0.5 - people.length / 2)) +
+    ',' +
+    (radius - 60) * math.cos(0.27 * (i + 0.5 - people.length / 2)) +
+    ')'
+  "
+></svg:g>
