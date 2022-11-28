@@ -161,7 +161,7 @@ export class CircleMapExpandedComponent implements OnInit, OnDestroy {
   prepareLayout() {
     const diameter = 1000;
     const margin = 0;
-    const PADDING_CIRCLE = 180; // Used to be 20!
+    const PADDING_CIRCLE = 20; // Used to be 20!
 
     const packInitiatives = pack<InitiativeViewModel>()
       .size([diameter - margin, diameter - margin])

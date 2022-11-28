@@ -5,14 +5,14 @@
   fill="none"
 />
 
-<svg:path
+<!-- <svg:path
   *ngIf="circle.data.tags.length > 0"
   [attr.d]="getTagPath()"
   [attr.stroke]="circle.data.tags[0].color"
   stroke-width="36"
   stroke-linecap="round"
   fill="none"
-/>
+/> -->
 
 <svg:text
   *ngIf="!circle.data.isLeaf"
@@ -27,8 +27,8 @@
     startOffset="75%"
     text-anchor="middle"
   >
-    <!-- <tspan dy="43">{{ circle.data.name }}</tspan> -->
-    <tspan>{{ circle.data.name }}</tspan>
+    <tspan dy="46">{{ circle.data.name }}</tspan>
+    <!-- <tspan>{{ circle.data.name }}</tspan> -->
 
     <!-- <ng-container *ngFor="let tag of circle.data.tags; let i = index">
         <tspan>&nbsp;</tspan>
