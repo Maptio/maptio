@@ -20,10 +20,18 @@ export class CircleInfoSvgComponent implements OnInit {
   math = Math;
 
   ngOnInit() {
-    this.people = [this.circle.data.accountable].concat(
-      this.circle.data.helpers
-    );
-    console.log(this.people);
+    this.people = this.combineAllPeople();
+  }
+
+  private combineAllPeople(): Helper[] {
+    let people: Helper[] = [];
+
+    if (this.circle.data.accountable) {
+      people = [this.circle.data.accountable];
+    }
+    people = this.people.concat(this.circle.data.helpers);
+
+    return people;
   }
 
   getTagPath() {
