@@ -5,22 +5,7 @@
   fill="none"
 />
 
-<!-- <svg:path
-  *ngIf="circle.data.tags.length > 0"
-  [attr.d]="getTagPath()"
-  [attr.stroke]="circle.data.tags[0].color"
-  stroke-width="36"
-  stroke-linecap="round"
-  fill="none"
-/> -->
-
-<svg:text
-  *ngIf="!circle.data.isLeaf"
-  fill="white"
-  stroke-width="0"
-  font-size="3rem"
-  font-weight="600"
->
+<svg:text fill="white" stroke-width="0" font-size="3rem" font-weight="600">
   <textPath
     #name
     xlink:href="#circleEdge"
@@ -28,28 +13,33 @@
     text-anchor="middle"
   >
     <tspan dy="46">{{ circle.data.name }}</tspan>
-    <!-- <tspan>{{ circle.data.name }}</tspan> -->
-
-    <!-- <ng-container *ngFor="let tag of circle.data.tags; let i = index">
-        <tspan>&nbsp;</tspan>
-
-        <tspan
-          *ngIf="i === 0; else nonFirstTag"
-          class="tag"
-          [attr.dy]="-15"
-          font-size="1.5rem"
-        >
-          {{ tag.name }}
-        </tspan>
-
-        <ng-template #nonFirstTag>
-          <tspan #nonFirstTag class="tag" font-size="1.5rem">
-            {{ tag.name }}
-          </tspan>
-        </ng-template>
-      </ng-container> -->
   </textPath>
 </svg:text>
+
+<svg:g *ngFor="let tag of tags">
+  <svg:path
+    [attr.id]="tag.pathId"
+    [attr.d]="tag.path"
+    [attr.stroke]="tag.color"
+    stroke-width="36"
+    stroke-linecap="round"
+    fill="none"
+  />
+
+  <svg:text fill="white" stroke-width="0" font-size="3rem" font-weight="600">
+    <!-- <tspan font-size="1.5rem">
+      {{ tag.name }}
+    </tspan> -->
+
+    <textPath #name [attr.xlink:href]="'#' + tag.pathId">
+      <!-- text-anchor="middle" -->
+      <tspan>&nbsp;</tspan>
+      <tspan dy="34" font-size="1.5rem">
+        {{ tag.name }}
+      </tspan>
+    </textPath>
+  </svg:text>
+</svg:g>
 
 <svg:g
   *ngFor="let person of people; let i = index"

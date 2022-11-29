@@ -1,19 +1,27 @@
-import { Component, Input, ElementRef, ViewChild, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  ElementRef,
+  ViewChild,
+  OnInit,
+  AfterViewInit,
+} from '@angular/core';
 
-import { InitiativeNode, Helper } from '../initiative.model';
+import { InitiativeNode, Helper, TagViewModel } from '../initiative.model';
 
 @Component({
   selector: 'g[maptioCircleInfoSvg]', // eslint-disable-line @angular-eslint/component-selector
   templateUrl: './circle-info-svg.component.html',
   styleUrls: ['./circle-info-svg.component.scss'],
 })
-export class CircleInfoSvgComponent implements OnInit {
+export class CircleInfoSvgComponent implements OnInit, AfterViewInit {
   @Input() circle!: InitiativeNode;
   @Input() radius!: number;
 
   @ViewChild('name') name?: ElementRef<SVGTextElement>;
   @ViewChild('namePath') namePath?: ElementRef<SVGPathElement>;
 
+  tags: TagViewModel[] = [];
   people: Helper[] = [];
 
   // TODO: Move calculations into typescript code
@@ -21,6 +29,38 @@ export class CircleInfoSvgComponent implements OnInit {
 
   ngOnInit() {
     this.people = this.combineAllPeople();
+
+    const circleEdgePathFromPointAtBottom = `M 0,500 A 500,500 0 0 1 500,0 A 500,500 0 0 1 0,500`;
+
+    const nameLength = this.name?.nativeElement?.getComputedTextLength();
+    console.log('name length in ngOnInit():', nameLength);
+
+    this.tags = this.circle.data.tags.map((tagData, index) => {
+      const pathStartAngle = 45 + 40 * index;
+      const pathEndAngle = pathStartAngle + 30;
+      const path = this.getCirclePath(pathStartAngle, pathEndAngle);
+
+      const tag: TagViewModel = {
+        name: tagData.name,
+        color: tagData.color,
+        textStartOffset: 0,
+        pathId: `tagPath-${index}`,
+        pathStartAngle,
+        pathEndAngle,
+        path,
+      };
+
+      return tag;
+    });
+
+    // if (this.tags.length > 1) {
+    //   this.tags = [this.tags[0]];
+    // }
+  }
+
+  ngAfterViewInit() {
+    const nameLength = this.name?.nativeElement?.getComputedTextLength();
+    console.log('name length in ngAfterViewInit():', nameLength);
   }
 
   private combineAllPeople(): Helper[] {
@@ -34,13 +74,28 @@ export class CircleInfoSvgComponent implements OnInit {
     return people;
   }
 
-  getTagPath() {
+  getCirclePath(pathStartAngle, pathEndAngle) {
     const circleDiameter = 500;
-    const distanceFromCircumference = -18;
+    const distanceFromCircumference = 26;
     const pathDiameter = circleDiameter - distanceFromCircumference;
 
-    let pathStartAngle;
-    let pathEndAngle;
+    const pathStartingPoint = `M ${this.getPointString(
+      pathStartAngle,
+      pathDiameter
+    )}`;
+
+    const pathEndPointString = this.getPointString(pathEndAngle, pathDiameter);
+    const pathArc = `A ${pathDiameter},${pathDiameter} 0 0 1 ${pathEndPointString}`;
+
+    const path = `${pathStartingPoint} ${pathArc}`;
+
+    return path;
+  }
+
+  getTagPath(pathStartAngle, pathEndAngle) {
+    const circleDiameter = 500;
+    const distanceFromCircumference = 26;
+    const pathDiameter = circleDiameter - distanceFromCircumference;
 
     if (this.name && this.namePath) {
       const nameLength = this.name.nativeElement.getComputedTextLength();
@@ -50,18 +105,18 @@ export class CircleInfoSvgComponent implements OnInit {
 
       const circumference = 2 * Math.PI * 500;
 
-      console.log(this.circle.data.name);
-      console.log(this.name);
-      console.log(nameLength);
-      console.log(this.namePath);
-      console.log(circumference);
-      console.log(this.namePath.nativeElement.getTotalLength());
-      console.log((nameLength / circumference) * 360);
+      // console.log(this.circle.data.name);
+      // console.log(this.name);
+      // console.log(nameLength);
+      // console.log(this.namePath);
+      // console.log(circumference);
+      // console.log(this.namePath.nativeElement.getTotalLength());
+      // console.log((nameLength / circumference) * 360);
 
-      pathStartAngle = ((nameLength / circumference) * 360) / 2 + 3;
-      pathEndAngle = pathStartAngle + 10;
+      pathStartAngle = ((nameLength / circumference) * 360) / 2 + 5;
+      pathEndAngle = pathStartAngle + 12.5;
 
-      console.log(`${pathStartAngle}, ${pathEndAngle}`);
+      // console.log(`${pathStartAngle}, ${pathEndAngle}`);
     } else {
       pathStartAngle = 31; // degrees
       pathEndAngle = 43.5; // degrees

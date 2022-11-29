@@ -35,4 +35,14 @@ export interface Role {
   description?: string;
 }
 
+export interface TagViewModel {
+  name: string;
+  color: string;
+  textStartOffset: number;
+  pathId: string;
+  pathStartAngle: number;
+  pathEndAngle: number;
+  path: string;
+}
+
 export type InitiativeNode = HierarchyCircularNode<InitiativeViewModel>;
