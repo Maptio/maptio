@@ -44,7 +44,7 @@ export class CircleInfoSvgComponent implements OnInit, AfterViewInit {
         name: tagData.name,
         color: tagData.color,
         textStartOffset: 0,
-        pathId: `tagPath-${index}`,
+        pathId: `tagPath-circle-${this.circle.data.id}-tag-${index}`,
         pathStartAngle,
         pathEndAngle,
         path,
@@ -61,6 +61,7 @@ export class CircleInfoSvgComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     const nameLength = this.name?.nativeElement?.getComputedTextLength();
     console.log('name length in ngAfterViewInit():', nameLength);
+    this.calculateTagPositions();
   }
 
   private combineAllPeople(): Helper[] {
@@ -72,6 +73,66 @@ export class CircleInfoSvgComponent implements OnInit, AfterViewInit {
     people = this.people.concat(this.circle.data.helpers);
 
     return people;
+  }
+
+  private calculateTagPositions() {
+    const angularTagSpacing = 8; // degrees
+
+    let firstTagStartAngle; // degrees
+
+    if (this.name && this.namePath) {
+      const nameLength = this.name.nativeElement.getComputedTextLength();
+      const circumference = this.namePath.nativeElement.getTotalLength();
+
+      firstTagStartAngle =
+        ((nameLength / circumference) * 360) / 2 + angularTagSpacing;
+    } else {
+      throw Error(
+        'Tag positions are being calculated before the necessary information is available!'
+      );
+    }
+
+    let pathStartAngle = firstTagStartAngle;
+    const angularWidthOfLastTag = 20;
+    this.tags.forEach((tag) => {
+      tag.path = this.getCirclePath(
+        pathStartAngle,
+        pathStartAngle + angularWidthOfLastTag
+      );
+      pathStartAngle += angularWidthOfLastTag + angularTagSpacing;
+    });
+
+    // this.tags = this.circle.data.tags.map((tagData, index) => {
+    //   const pathStartAngle = 45 + 40 * index;
+    //   const pathEndAngle = pathStartAngle + 30;
+    //   const path = this.getCirclePath(pathStartAngle, pathEndAngle);
+
+    //   const tag: TagViewModel = {
+    //     name: tagData.name,
+    //     color: tagData.color,
+    //     textStartOffset: 0,
+    //     pathId: `tagPath-${index}`,
+    //     pathStartAngle,
+    //     pathEndAngle,
+    //     path,
+    //   };
+
+    //   return tag;
+    // });
+
+    // pathEndAngle = first + 12.5;
+
+    // const pathStartingPoint = `M ${this.getPointString(
+    //   pathStartAngle,
+    //   pathDiameter
+    // )}`;
+
+    // const pathEndPointString = this.getPointString(pathEndAngle, pathDiameter);
+    // const pathArc = `A ${pathDiameter},${pathDiameter} 0 0 1 ${pathEndPointString}`;
+
+    // const path = `${pathStartingPoint} ${pathArc}`;
+
+    // return path;
   }
 
   getCirclePath(pathStartAngle, pathEndAngle) {
