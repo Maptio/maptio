@@ -6,10 +6,10 @@
   [class.circle--type-child-of-primary]="circle.data.isChildOfPrimary"
   [class.circle--type-leaf]="circle.data.isLeaf"
   [style.transform]="'translate(' + x + '%, ' + y + '%) scale(' + scale + ')'"
-  [satPopoverAnchor]="popover"
-  [satPopoverHover]="300"
   (click)="onClick($event)"
 >
+  <!-- [satPopoverAnchor]="popover"
+  [satPopoverHover]="300" -->
   <circle
     class="circle__shadow"
     [attr.cx]="0"
@@ -46,7 +46,7 @@
   </ng-template>
 </svg:g>
 
-<sat-popover
+<!-- <sat-popover
   #popover
   verticalAlign="below"
   (opened)="onPopoverOpen()"
@@ -60,4 +60,4 @@
       {{ circle.data.name }}
     </div>
   </div>
-</sat-popover>
+</sat-popover> -->
