@@ -31,7 +31,7 @@
       {{ tag.name }}
     </tspan> -->
 
-    <textPath #name [attr.xlink:href]="'#' + tag.pathId">
+    <textPath #tagText [attr.xlink:href]="'#' + tag.pathId">
       <tspan dy="8" font-size="1.5rem">
         {{ tag.name }}
       </tspan>

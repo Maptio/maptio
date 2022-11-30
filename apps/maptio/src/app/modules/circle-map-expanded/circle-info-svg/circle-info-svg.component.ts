@@ -1,8 +1,10 @@
 import {
   Component,
   Input,
-  ElementRef,
   ViewChild,
+  ViewChildren,
+  ElementRef,
+  QueryList,
   OnInit,
   AfterViewInit,
 } from '@angular/core';
@@ -20,6 +22,7 @@ export class CircleInfoSvgComponent implements OnInit, AfterViewInit {
 
   @ViewChild('name') name?: ElementRef<SVGTextElement>;
   @ViewChild('namePath') namePath?: ElementRef<SVGPathElement>;
+  @ViewChildren('tagText') tagTexts?: QueryList<ElementRef<SVGTextElement>>;
 
   tags: TagViewModel[] = [];
   people: Helper[] = [];
@@ -70,7 +73,7 @@ export class CircleInfoSvgComponent implements OnInit, AfterViewInit {
     if (this.circle.data.accountable) {
       people = [this.circle.data.accountable];
     }
-    people = this.people.concat(this.circle.data.helpers);
+    people = people.concat(this.circle.data.helpers);
 
     return people;
   }
@@ -80,9 +83,10 @@ export class CircleInfoSvgComponent implements OnInit, AfterViewInit {
 
     let firstTagStartAngle; // degrees
 
+    let circumference;
     if (this.name && this.namePath) {
       const nameLength = this.name.nativeElement.getComputedTextLength();
-      const circumference = this.namePath.nativeElement.getTotalLength();
+      circumference = this.namePath.nativeElement.getTotalLength();
 
       firstTagStartAngle =
         ((nameLength / circumference) * 360) / 2 + angularTagSpacing;
@@ -94,13 +98,50 @@ export class CircleInfoSvgComponent implements OnInit, AfterViewInit {
 
     let pathStartAngle = firstTagStartAngle;
     const angularWidthOfLastTag = 20;
-    this.tags.forEach((tag) => {
+
+    // for (let i = 0; i < this.tags.length; i++) {
+    //   const tag = this.tags[i];
+    //   const tagTextElement = j;
+    // }
+
+    this.tagTexts.forEach((tagTextElement, index) => {
+      const textLength = tagTextElement.nativeElement.getComputedTextLength();
+      const angularWidth = (textLength / circumference) * 360 + 1;
+      // console.log(textLength);
+
+      // TODO Guard the shit out of this...?
+      const tag = this.tags[index];
+
       tag.path = this.getCirclePath(
         pathStartAngle,
-        pathStartAngle + angularWidthOfLastTag
+        pathStartAngle + angularWidth
       );
-      pathStartAngle += angularWidthOfLastTag + angularTagSpacing;
+
+      pathStartAngle += angularWidth + angularTagSpacing;
     });
+
+    // this.tags.forEach((tag, index) => {
+    //   tag.path = this.getCirclePath(
+    //     pathStartAngle,
+    //     pathStartAngle + angularWidthOfLastTag
+    //   );
+
+    //   // if (
+    //   //   index >= this.tagTexts.length &&
+    //   //   this.tagTexts[index] &&
+    //   //   this.tagTexts[index].nativeElement
+    //   // ) {
+    //   //   console.log(this.tagTexts[index].nativeElement.getComputedTextLength());
+    //   // } else {
+    //   //   console.log(index);
+    //   //   console.log(this.tagTexts);
+    //   //   console.log(this.tagTexts[index]);
+    //   //   console.log(this.tagTexts[index].nativeElement);
+    //   //   throw Error('Unable to read tag lengths');
+    //   // }
+
+    //   pathStartAngle += angularWidthOfLastTag + angularTagSpacing;
+    // });
 
     // this.tags = this.circle.data.tags.map((tagData, index) => {
     //   const pathStartAngle = 45 + 40 * index;
