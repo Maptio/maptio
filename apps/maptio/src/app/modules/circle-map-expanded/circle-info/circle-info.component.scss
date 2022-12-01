@@ -20,6 +20,14 @@
   }
 }
 
+.expanded-map {
+  .circle--type-leaf:not(.circle--type-primary):not(.circle--type-child-of-primary) {
+    .circle-info__name {
+      color: white;
+    }
+  }
+}
+
 // Styles for resolving spacing issues in the tags and pictures list
 // https://every-layout.dev/layouts/cluster/
 .cluster {

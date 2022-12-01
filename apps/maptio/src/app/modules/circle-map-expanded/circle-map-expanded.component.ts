@@ -221,16 +221,7 @@ export class CircleMapExpandedComponent implements OnInit, OnDestroy {
     );
 
     this.circles.forEach((circle) => {
-      const isPrimaryCircle = this.primaryCircles.includes(circle);
-      const isChildOfPrimaryCircle = circle.parent
-        ? this.primaryCircles.includes(circle.parent)
-        : false;
-
-      if (circle.data.isLeaf && !isPrimaryCircle && !isChildOfPrimaryCircle) {
-        circle.data.color = '#ffffff';
-      } else {
-        circle.data.color = colorRange(circle.depth - 1);
-      }
+      circle.data.color = colorRange(circle.depth - 1);
     });
   }
 

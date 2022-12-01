@@ -10,7 +10,7 @@
   ></markdown>
 </div>
 
-<maptio-svg-zoom-pan (click)="onBackdropClick()">
+<maptio-svg-zoom-pan class="expanded-map" (click)="onBackdropClick()">
   <svg:g
     maptioCircle
     *ngFor="let primaryCircle of rootCircle?.children"
