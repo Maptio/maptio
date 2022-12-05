@@ -172,7 +172,9 @@ export class CircleMapService {
   }
 
   onFilterByTag(tagsState: SelectableTag[]) {
-    console.log(tagsState);
+    this.circles.find((circle) => {
+      this.filterOutCircle(circle);
+    });
   }
 
   onZoomButtonPress(scaleChange: number) {
@@ -256,10 +258,19 @@ export class CircleMapService {
     circle.data.isOpened = false;
   }
 
+  filterOutCircle(circle: InitiativeNode) {
+    circle.data.isFilteredOut = true;
+  }
+
+  removeFilteringFromCircle(circle: InitiativeNode) {
+    circle.data.isFilteredOut = false;
+  }
+
   clearCircleStates() {
     this.circles.forEach((circle) => {
       circle.data.isSelected = false;
       circle.data.isOpened = false;
+      circle.data.isFilteredOut = false;
     });
   }
 

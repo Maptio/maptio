@@ -21,6 +21,7 @@ export interface InitiativeViewModel {
   isLeaf: boolean;
   isSelected: boolean;
   isOpened: boolean;
+  isFilteredOut: boolean;
 }
 
 export interface Helper {

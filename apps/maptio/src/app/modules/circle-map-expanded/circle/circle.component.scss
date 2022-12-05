@@ -36,6 +36,10 @@ $shadow-scale-selected: 1.008;
   transition: transform 0.2s ease-in;
 }
 
+.circle--state-filtered-out {
+  fill-opacity: 0.15;
+}
+
 // .circle--state-selected {
 //   fill-opacity: 1;
 //   pointer-events: auto;
