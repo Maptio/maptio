@@ -172,9 +172,26 @@ export class CircleMapService {
   }
 
   onFilterByTag(tagsState: SelectableTag[]) {
-    this.circles.find((circle) => {
-      this.filterOutCircle(circle);
-    });
+    if (this.areAnyTagsSelectedForFiltering(tagsState)) {
+      this.circles.find((circle) => {
+        if (!this.doesCircleHaveASelectedTag(circle, tagsState)) {
+          this.filterOutCircle(circle);
+        }
+      });
+    } else {
+      this.clearCircleStates();
+    }
+  }
+
+  private areAnyTagsSelectedForFiltering(tagsState: SelectableTag[]) {
+    return tagsState.some((tag) => tag.isSelected);
+  }
+
+  private doesCircleHaveASelectedTag(
+    circle: InitiativeNode,
+    tagsState: SelectableTag[]
+  ) {
+    return false;
   }
 
   onZoomButtonPress(scaleChange: number) {
