@@ -36,7 +36,7 @@ export class CircleInfoSvgComponent implements OnInit, AfterViewInit {
     const circleEdgePathFromPointAtBottom = `M 0,500 A 500,500 0 0 1 500,0 A 500,500 0 0 1 0,500`;
 
     const nameLength = this.name?.nativeElement?.getComputedTextLength();
-    console.log('name length in ngOnInit():', nameLength);
+    // console.log('name length in ngOnInit():', nameLength);
 
     this.tags = this.circle.data.tags.map((tagData, index) => {
       const pathStartAngle = 45 + 40 * index;
@@ -63,7 +63,7 @@ export class CircleInfoSvgComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     const nameLength = this.name?.nativeElement?.getComputedTextLength();
-    console.log('name length in ngAfterViewInit():', nameLength);
+    // console.log('name length in ngAfterViewInit():', nameLength);
     this.calculateTagPositions();
   }
 
