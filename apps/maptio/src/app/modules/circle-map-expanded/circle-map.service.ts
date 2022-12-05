@@ -9,6 +9,7 @@ import { Initiative } from '@maptio-shared/model/initiative.data';
 import { InitiativeNode } from './initiative.model';
 import { SvgZoomPanService } from './svg-zoom-pan/svg-zoom-pan.service';
 import { HierarchyNode } from 'd3-hierarchy';
+import { SelectableTag } from '@maptio-shared/model/tag.data';
 
 @Injectable({
   providedIn: 'root',
@@ -168,6 +169,10 @@ export class CircleMapService {
       this.resetZoom();
       this.zoomToCircle(highlightedCircle);
     }
+  }
+
+  onFilterByTag(tagsState: SelectableTag[]) {
+    console.log(tagsState);
   }
 
   onZoomButtonPress(scaleChange: number) {

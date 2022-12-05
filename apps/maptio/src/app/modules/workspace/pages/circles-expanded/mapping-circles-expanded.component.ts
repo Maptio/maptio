@@ -30,7 +30,7 @@ import { IDataVisualizer } from '../../components/canvas/mapping.interface';
 import { LoaderService } from '../../../../shared/components/loading/loader.service';
 import { Team } from '../../../../shared/model/team.data';
 
-import { CircleMapData } from '@maptio-shared/model/circle-map-data.interface';
+import { CircleMapDataExpanded } from '@maptio-shared/model/circle-map-data.interface';
 import { DataSet } from '@maptio-shared/model/dataset.data';
 import { InitiativeNode } from '@maptio-circle-map-expanded/initiative.model';
 import { CircleMapService } from '@maptio-circle-map-expanded/circle-map.service';
@@ -84,7 +84,7 @@ export class MappingCirclesExpandedComponent
   dataset: DataSet;
   seedColor: string;
 
-  circleMapData$ = new BehaviorSubject<CircleMapData>(undefined);
+  circleMapData$ = new BehaviorSubject<CircleMapDataExpanded>(undefined);
 
   isFirstLoad = true;
 
@@ -107,8 +107,12 @@ export class MappingCirclesExpandedComponent
 
     const data$ = this.dataService.get();
 
-    this.subs.sink = combineLatest([data$, this.mapColor$]).subscribe(
-      (complexData: [any, string]) => {
+    this.subs.sink = combineLatest([
+      data$,
+      this.mapColor$,
+      this.selectableTags$,
+    ]).subscribe(
+      (complexData: [any, string, SelectableTag[]]) => {
         if (this.isFirstLoad) {
           this.subs.sink = this.circleMapService.selectedCircle.subscribe(
             () => {
@@ -132,6 +136,11 @@ export class MappingCirclesExpandedComponent
             this.cd.markForCheck();
           });
 
+          this.subs.sink = this.selectableTags$.subscribe((tagsStatus) => {
+            this.circleMapService.onFilterByTag(tagsStatus);
+            this.cd.markForCheck();
+          });
+
           this.subs.sink = this.zoom$.subscribe((scaleChange) => {
             this.circleMapService.onZoomButtonPress(scaleChange);
             this.cd.markForCheck();
@@ -149,10 +158,11 @@ export class MappingCirclesExpandedComponent
           teamId: (<Team>complexData[0].team).team_id,
         });
 
-        const circleMapData: CircleMapData = {
+        const circleMapData: CircleMapDataExpanded = {
           dataset: complexData[0].dataset,
           rootInitiative: complexData[0].initiative,
           seedColor: complexData[1],
+          tagsState: complexData[2],
         };
 
         this.circleMapData$.next(circleMapData);
