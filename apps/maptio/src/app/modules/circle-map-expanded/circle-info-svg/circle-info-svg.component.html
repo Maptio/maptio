@@ -17,7 +17,7 @@
     <!-- This is here to move the following tspans -->
     <tspan dy="-15">&nbsp;</tspan>
 
-    <ng-container *ngFor="let tag of tags">
+    <ng-container *ngFor="let tag of circle.data.tags">
       <tspan [attr.style]="'fill: ' + tag.color">
         <tspan font-size="20px">&nbsp;&nbsp;⬤</tspan>
         <tspan dx="-18" dy="10" font-size="39px">◼</tspan>
@@ -28,29 +28,6 @@
     </ng-container>
   </textPath>
 </svg:text>
-
-<svg:g *ngFor="let tag of tags">
-  <svg:path
-    [attr.id]="tag.pathId"
-    [attr.d]="tag.path"
-    [attr.stroke]="tag.color"
-    stroke-width="36"
-    stroke-linecap="round"
-    fill="none"
-  />
-
-  <svg:text fill="white" stroke-width="0" font-size="3rem" font-weight="600">
-    <!-- <tspan font-size="1.5rem">
-      {{ tag.name }}
-    </tspan> -->
-
-    <textPath #tagText [attr.xlink:href]="'#' + tag.pathId">
-      <tspan dy="8" font-size="1.5rem">
-        {{ tag.name }}
-      </tspan>
-    </textPath>
-  </svg:text>
-</svg:g>
 
 <svg:g
   *ngFor="let person of people; let i = index"
