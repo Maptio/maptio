@@ -191,7 +191,12 @@ export class CircleMapService {
     circle: InitiativeNode,
     tagsState: SelectableTag[]
   ) {
-    return false;
+    return circle.data.tags.some((tagInCircle) => {
+      const tagStateMatchingTagInCircle = tagsState.find((tag) => {
+        return tag.shortid === tagInCircle.shortid;
+      });
+      return tagStateMatchingTagInCircle.isSelected;
+    });
   }
 
   onZoomButtonPress(scaleChange: number) {

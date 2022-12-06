@@ -38,6 +38,18 @@ $shadow-scale-selected: 1.008;
 
 .circle--state-filtered-out {
   fill-opacity: 0.15;
+
+  > .circle__info {
+    opacity: 0.15;
+  }
+}
+
+.circle:not(.circle--state-filtered-out) {
+  fill-opacity: 1;
+
+  > .circle__info {
+    opacity: 1;
+  }
 }
 
 // .circle--state-selected {

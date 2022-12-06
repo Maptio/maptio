@@ -13,6 +13,7 @@ export interface InitiativeViewModel {
   tags?: {
     name: string;
     color: string;
+    shortid: string;
   }[];
 
   // TODO: Consider moving these additions for state and type elsewhere
