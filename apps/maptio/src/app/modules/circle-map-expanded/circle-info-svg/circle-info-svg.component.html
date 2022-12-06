@@ -13,6 +13,19 @@
     text-anchor="middle"
   >
     <tspan dy="46">{{ circle.data.name }}</tspan>
+
+    <!-- This is here to move the following tspans -->
+    <tspan dy="-15">&nbsp;</tspan>
+
+    <ng-container *ngFor="let tag of tags">
+      <tspan [attr.style]="'fill: ' + tag.color">
+        <tspan font-size="20px">&nbsp;&nbsp;⬤</tspan>
+        <tspan dx="-18" dy="10" font-size="39px">◼</tspan>
+        <tspan dx="-22" font-size="39px">◼</tspan>
+        <tspan dx="-22" font-size="39px">◼</tspan>
+        <tspan dx="-18" dy="-10" font-size="20px">⬤</tspan>
+      </tspan>
+    </ng-container>
   </textPath>
 </svg:text>
 
