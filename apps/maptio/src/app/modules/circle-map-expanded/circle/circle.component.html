@@ -27,7 +27,7 @@
     [attr.fill]="circle.data.color"
   />
 
-  <g class="circle__children" [style.transform]="'scale(' + 0.9 + ')'">
+  <g class="circle__children">
     <g maptioCircle *ngFor="let child of circle.children" [circle]="child"></g>
   </g>
 

@@ -54,6 +54,9 @@ export class CircleMapExpandedComponent implements OnInit, OnDestroy {
   selectedCircleName$: Observable<string>;
   showDescriptions$: Observable<boolean>;
 
+  // And we need to scale down child circles to make room for circle info
+  scalingFactor = 0.9;
+
   isLoading: boolean;
   isFirstLoad = true;
 
@@ -179,7 +182,33 @@ export class CircleMapExpandedComponent implements OnInit, OnDestroy {
 
     this.circles = packInitiatives(rootHierarchyNodeViewModel).descendants();
 
+    this.circles = this.scaleChildCircles(this.circles);
+
     this.circleMapService.setCircles(this.circles);
+  }
+
+  private scaleChildCircles(circles: InitiativeNode[]) {
+    circles.forEach((circle) => {
+      // Skip circles that aren't contained in any visible circles
+      if (circle.depth < 2) {
+        return;
+      }
+
+      this.scaleChildCircle(circle, circle.parent.x, circle.parent.y);
+    });
+
+    return circles;
+  }
+
+  private scaleChildCircle(circle, centerX, centerY) {
+    circle.r = this.scalingFactor * circle.r;
+
+    circle.x = centerX + this.scalingFactor * (circle.x - centerX);
+    circle.y = centerY + this.scalingFactor * (circle.y - centerY);
+
+    circle.children?.forEach((circle) =>
+      this.scaleChildCircle(circle, centerX, centerY)
+    );
   }
 
   identifyCircleTypes() {
