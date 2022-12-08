@@ -34,9 +34,11 @@ import { Role } from '../../../../../shared/model/role.data';
 import { DataSet } from '../../../../../shared/model/dataset.data';
 import { UserService } from '../../../../../shared/services/user/user.service';
 import { RoleLibraryService } from '../../../services/role-library.service';
-import { CircleMapService } from '@maptio-circle-map/circle-map.service';
 import { intersectionBy } from 'lodash';
 import { Subject, Subscription } from 'rxjs';
+
+import { CircleMapService } from '@maptio-circle-map/circle-map.service';
+import { CircleMapService as CircleMapServiceExpanded } from '@maptio-circle-map-expanded/circle-map.service';
 
 @Component({
   selector: 'building',
@@ -168,7 +170,8 @@ export class BuildingComponent implements OnDestroy {
     private roleLibrary: RoleLibraryService,
     private cd: ChangeDetectorRef,
     private loaderService: LoaderService,
-    private circleMapService: CircleMapService
+    private circleMapService: CircleMapService,
+    private circleMapServiceExpanded: CircleMapServiceExpanded
   ) {
     // this.nodes = [];
 
@@ -241,6 +244,7 @@ export class BuildingComponent implements OnDestroy {
   openNodeDetails(node: Initiative) {
     this.openDetails.emit(node);
     this.circleMapService.onInitiativeClickInOutline(node);
+    this.circleMapServiceExpanded.onInitiativeClickInOutline(node);
   }
 
   onEditingTags(tags: Tag[]) {
