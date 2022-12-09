@@ -1,0 +1,17 @@
+<svg:tspan
+  [attr.style]="'fill: ' + tag.color"
+  [satPopoverAnchor]="popover"
+  [satPopoverHover]="300"
+>
+  <tspan font-size="20px">&nbsp;&nbsp;⬤</tspan>
+  <tspan dx="-18" dy="10" font-size="39px">◼</tspan>
+  <tspan dx="-22" font-size="39px">◼</tspan>
+  <tspan dx="-22" font-size="39px">◼</tspan>
+  <tspan dx="-18" dy="-10" font-size="20px">⬤</tspan>
+</svg:tspan>
+
+<sat-popover #popover verticalAlign="below">
+  <div class="helper-avatar__details">
+    <div class="helper-avatar__name">{{ tag.name }}</div>
+  </div>
+</sat-popover>

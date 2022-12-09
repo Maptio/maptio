@@ -1,0 +1,39 @@
+<svg:path
+  id="circleEdge"
+  #namePath
+  d="M 0,500 A 500,500 0 0 1 0,-500 A 500,500 0 0 1 0,500"
+  fill="none"
+/>
+
+<svg:text fill="white" stroke-width="0" font-size="3rem" font-weight="600">
+  <textPath
+    #name
+    xlink:href="#circleEdge"
+    startOffset="50%"
+    text-anchor="middle"
+  >
+    <tspan dy="46">{{ circle.data.name }}</tspan>
+
+    <!-- This is here to move the following tspans -->
+    <tspan dy="-15">&nbsp;</tspan>
+
+    <tspan
+      maptioTagSvg
+      *ngFor="let tag of circle.data.tags"
+      [tag]="tag"
+    ></tspan>
+  </textPath>
+</svg:text>
+
+<svg:g
+  *ngFor="let person of people; let i = index"
+  maptioHelperAvatarSvg
+  [helper]="person"
+  [attr.transform]="
+    'translate(' +
+    (radius - 45) * math.sin(0.2 * (i + 0.5 - people.length / 2)) +
+    ',' +
+    (radius - 45) * math.cos(0.2 * (i + 0.5 - people.length / 2)) +
+    ')'
+  "
+></svg:g>

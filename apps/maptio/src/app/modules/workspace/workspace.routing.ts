@@ -12,6 +12,7 @@ import { WorkspaceComponent } from './pages/workspace/workspace.component';
 import { WorkspaceComponentResolver } from './pages/workspace/workspace.resolver';
 import { MappingZoomableComponent } from './pages/circles/mapping.zoomable.component';
 import { MappingCirclesGradualRevealComponent } from './pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component';
+import { MappingCirclesExpandedComponent } from './pages/circles-expanded/mapping-circles-expanded.component';
 import { MappingTreeComponent } from './pages/tree/mapping.tree.component';
 import { MappingNetworkComponent } from './pages/network/mapping.network.component';
 import { MappingSummaryComponent } from './pages/directory/summary.component';
@@ -36,7 +37,7 @@ const routes: Routes = [
       },
       {
         path: 'expanded',
-        component: MappingZoomableComponent,
+        component: MappingCirclesExpandedComponent,
         canActivate: [WorkspaceGuard],
       },
       {

@@ -3,6 +3,7 @@ import { MappingNetworkComponent } from './pages/network/mapping.network.compone
 import { MappingTreeComponent } from './pages/tree/mapping.tree.component';
 import { MappingZoomableComponent } from './pages/circles/mapping.zoomable.component';
 import { MappingCirclesGradualRevealComponent } from './pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component';
+import { MappingCirclesExpandedComponent } from './pages/circles-expanded/mapping-circles-expanded.component';
 
 import { ColorHueModule } from 'ngx-color/hue'; // <color-hue-picker></color-hue-picker>
 import { SharedModule } from '../../shared/shared.module';
@@ -63,6 +64,7 @@ import { InitiativeHelperPrivilegeComponent } from './components/data-entry/deta
 import { InitiativeInputSizeComponent } from './components/data-entry/details/parts/size/input-size.component';
 
 import { CircleMapModule } from '@maptio-circle-map/circle-map.module';
+import { CircleMapExpandedModule } from '@maptio-circle-map-expanded/circle-map-expanded.module';
 import { MemberFormModule } from '@maptio-member-form';
 import { OnboardingMessageModule } from '../onboarding-message/onboarding-message.module';
 import { SharingComponent } from './components/sharing/sharing.component';
@@ -91,6 +93,7 @@ import { PermissionsMessagesModule } from '../permissions-messages/permissions-m
     ColorHueModule,
     PermissionsModule,
     CircleMapModule,
+    CircleMapExpandedModule,
     MemberFormModule,
     OnboardingMessageModule,
     PermissionsMessagesModule,
@@ -114,6 +117,7 @@ import { PermissionsMessagesModule } from '../permissions-messages/permissions-m
     MappingComponent,
     MappingZoomableComponent,
     MappingCirclesGradualRevealComponent,
+    MappingCirclesExpandedComponent,
     MappingTreeComponent,
     MappingNetworkComponent,
     MappingSummaryComponent,

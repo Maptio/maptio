@@ -1,0 +1,69 @@
+<svg:g
+  class="circle"
+  [class.circle--state-selected]="circle.data.isSelected"
+  [class.circle--state-opened]="circle.data.isOpened"
+  [class.circle--state-filtered-out]="circle.data.isFilteredOut"
+  [class.circle--type-primary]="circle.data.isPrimary"
+  [class.circle--type-child-of-primary]="circle.data.isChildOfPrimary"
+  [class.circle--type-leaf]="circle.data.isLeaf"
+  [style.transform]="'translate(' + x + '%, ' + y + '%) scale(' + scale + ')'"
+  [satPopoverAnchor]="popover"
+  [satPopoverHover]="300"
+  (click)="onClick($event)"
+>
+  <circle
+    class="circle__shadow"
+    [attr.cx]="0"
+    [attr.cy]="0"
+    [attr.r]="defaultRadius"
+    [attr.fill]="circle.data.color"
+  />
+
+  <circle
+    class="circle__circle"
+    [attr.cx]="0"
+    [attr.cy]="0"
+    [attr.r]="defaultRadius"
+    [attr.fill]="circle.data.color"
+  />
+
+  <g class="circle__children">
+    <g maptioCircle *ngFor="let child of circle.children" [circle]="child"></g>
+  </g>
+
+  <g class="circle__info" *ngIf="circle.data.isLeaf; else svgInfo">
+    <foreignObject
+      [attr.x]="infoX"
+      [attr.y]="infoY"
+      [attr.width]="infoSize"
+      [attr.height]="infoSize"
+    >
+      <g maptioCircleInfo [circle]="circle"></g>
+    </foreignObject>
+  </g>
+
+  <ng-template #svgInfo>
+    <g
+      class="circle__info"
+      maptioCircleInfoSvg
+      [circle]="circle"
+      [radius]="defaultRadius"
+    ></g>
+  </ng-template>
+</svg:g>
+
+<sat-popover
+  #popover
+  verticalAlign="below"
+  (opened)="onPopoverOpen()"
+  (closed)="onPopoverClose()"
+>
+  <div
+    class="circle__popover"
+    [class.circle__popover--hidden]="isPopoverHidden"
+  >
+    <div class="circle__popover-name">
+      {{ circle.data.name }}
+    </div>
+  </div>
+</sat-popover>

@@ -1,0 +1,33 @@
+<svg:g>
+  <clipPath id="avatar-clip-path">
+    <circle cx="0" cy="0" r="40" />
+  </clipPath>
+
+  <image
+    [attr.xlink:href]="helper.picture"
+    x="-40"
+    y="-40"
+    width="80"
+    height="80"
+    preserveAspectRatio="xMidYMid slice"
+    clip-path="url(#avatar-clip-path)"
+    [satPopoverAnchor]="popover"
+    [satPopoverHover]="300"
+  />
+</svg:g>
+
+<sat-popover #popover verticalAlign="below">
+  <div class="helper-avatar__details">
+    <div class="helper-avatar__name">
+      {{ helper.name }}
+    </div>
+
+    <ul class="helper-avatar__roles" *ngIf="showRoles">
+      <li *ngFor="let role of helper.roles">
+        <span class="helper-avatar__role">
+          {{ role?.title }}
+        </span>
+      </li>
+    </ul>
+  </div>
+</sat-popover>
