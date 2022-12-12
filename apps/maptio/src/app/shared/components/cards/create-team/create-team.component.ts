@@ -73,7 +73,12 @@ export class CreateTeamComponent implements OnInit {
             if (this.isRedirectHome) {
               this.router.navigateByUrl('/home');
             } else {
-              this.router.navigate(['teams', team.team_id, team.getSlug()]);
+              this.router.navigate([
+                'teams',
+                team.team_id,
+                team.getSlug(),
+                'maps',
+              ]);
             }
             this.isCreating = false;
           })
