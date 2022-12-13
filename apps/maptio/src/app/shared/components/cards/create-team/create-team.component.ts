@@ -23,6 +23,7 @@ export class CreateTeamComponent implements OnInit {
   isCreating: boolean;
   cannotCreateMoreTeamMessage: string;
   Permissions = Permissions;
+  errorMessage: string;
 
   @Input() existingTeamCount: number;
   @Input() user: User;
@@ -55,26 +56,33 @@ export class CreateTeamComponent implements OnInit {
       if (this.createForm.dirty && this.createForm.valid) {
         const teamName = this.createForm.controls['teamName'].value;
         this.isCreating = true;
-        this.teamService
-          .create(teamName, this.user)
-          .then((team: Team) => {
-            if (this.isRedirectHome) {
-              this.router.navigateByUrl('/home');
-            } else {
-              this.router.navigate([
-                'teams',
-                team.team_id,
-                team.getSlug(),
-                'maps',
-              ]);
-            }
-            this.isCreating = false;
-          })
-          .catch((error) => {
-            this.errorMessage.emit(error);
-            this.isCreating = false;
-            this.cd.markForCheck();
-          });
+
+        try {
+          this.teamService
+            .create(teamName, this.user)
+            .then((team: Team) => {
+              if (this.isRedirectHome) {
+                this.router.navigateByUrl('/home');
+              } else {
+                this.router.navigate([
+                  'teams',
+                  team.team_id,
+                  team.getSlug(),
+                  'maps',
+                ]);
+              }
+              this.isCreating = false;
+            })
+            .catch((error) => {
+              this.errorMessage = error;
+              this.isCreating = false;
+              this.cd.markForCheck();
+            });
+        } catch (error) {
+          this.errorMessage = error;
+          this.isCreating = false;
+          this.cd.markForCheck();
+        }
       }
     }
   }
