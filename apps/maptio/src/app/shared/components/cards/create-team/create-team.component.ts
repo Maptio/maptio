@@ -16,7 +16,7 @@ import { Permissions } from '../../../model/permission.data';
 import { TeamService } from '../../../services/team/team.service';
 
 @Component({
-  selector: 'common-create-team',
+  selector: 'maptio-create-team',
   templateUrl: './create-team.component.html',
 })
 export class CreateTeamComponent implements OnInit {
@@ -25,12 +25,12 @@ export class CreateTeamComponent implements OnInit {
   cannotCreateMoreTeamMessage: string;
   Permissions = Permissions;
 
-  @Input('existingTeamCount') existingTeamCount: number;
-  @Input('user') user: User;
-  @Input('isRedirectHome') isRedirectHome: boolean;
+  @Input() existingTeamCount: number;
+  @Input() user: User;
+  @Input() isRedirectHome: boolean;
 
-  @Output('create') create: EventEmitter<Team> = new EventEmitter<Team>();
-  @Output('error') error: EventEmitter<string> = new EventEmitter<string>();
+  @Output() create: EventEmitter<Team> = new EventEmitter<Team>();
+  @Output() errorMessage: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(
     private renderer: Renderer2,
@@ -83,7 +83,7 @@ export class CreateTeamComponent implements OnInit {
             this.isCreating = false;
           })
           .catch((error) => {
-            this.error.emit(error);
+            this.errorMessage.emit(error);
             this.isCreating = false;
             this.cd.markForCheck();
           });

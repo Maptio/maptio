@@ -15,11 +15,12 @@
         </button>
         {{ errorMessage }}
       </div>
-      <common-create-team
-        [existingTeamCount]="teamsName"
+
+      <maptio-create-team
+        [existingTeamCount]="0"
         [user]="user"
-        (error)="errorMessage = $event"
-      ></common-create-team>
+        (errorMessage)="errorMessage = $event"
+      ></maptio-create-team>
     </div>
   </div>
 </ng-container>
