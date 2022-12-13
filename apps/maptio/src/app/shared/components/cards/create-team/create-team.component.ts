@@ -2,7 +2,6 @@ import {
   Component,
   EventEmitter,
   OnInit,
-  TemplateRef,
   Renderer2,
   Input,
   Output,
@@ -47,17 +46,6 @@ export class CreateTeamComponent implements OnInit {
       }),
     });
   }
-
-  public disableFieldset = (templateRef: TemplateRef<any>) => {
-    this.renderer.setAttribute(
-      templateRef.elementRef.nativeElement.nextSibling,
-      'disabled',
-      ''
-    );
-  };
-  public enableFieldset = (templateRef: TemplateRef<any>) => {
-    // this.renderer.removeAttribute(templateRef.elementRef.nativeElement.nextSibling, "disabled");
-  };
 
   createNewTeam() {
     if (this.existingTeamCount >= 1) {

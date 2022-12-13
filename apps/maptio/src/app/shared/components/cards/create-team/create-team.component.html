@@ -1,39 +1,87 @@
-<h1 class="text-center">Choose a name for your organisation</h1>
-<form [formGroup]="createForm" (submit)="createNewTeam()" class="form-group">
-  <fieldset
+<form [formGroup]="createForm" (submit)="createNewTeam()">
+  <ng-container
     *permissionsOnly="
-      Permissions.canCreateTeam;
-      authorisedStrategy: enableFieldset;
-      unauthorisedStrategy: disableFieldset
+      Permissions.canCreateMap;
+      else elseCreateTeamBlock;
+      then: thenCreateTeamBlock
     "
-  >
-    <div class="input-group form-group">
-      <input
-        type="text"
-        class="form-control rounded mr-1"
-        [class.is-invalid]="
-          createForm.controls['teamName'].invalid &&
-          (createForm.controls['teamName'].dirty ||
-            createForm.controls['teamName'].touched)
-        "
-        formControlName="teamName"
-        required
-      />
-      <span class="input-group-btn">
-        <button type="submit" class="btn btn-success">Create</button>
-      </span>
-      <div class="input-group-append">
-        <span
-          class="icon-disabled text-muted transparent bg-white border-white input-group-text"
-          [stickyPopover]="adminTipContent"
-          placement="right"
-        ></span>
+  ></ng-container>
+
+  <ng-template #thenCreateTeamBlock>
+    <fieldset>
+      <div class="input-group form-group">
+        <label class="lead" for="teamName" i18n="@@createneworganisation">
+          Create a new organisation
+        </label>
+
+        <input
+          type="text"
+          class="form-control rounded mr-1"
+          [class.is-invalid]="
+            createForm.controls['teamName'].invalid &&
+            (createForm.controls['teamName'].dirty ||
+              createForm.controls['teamName'].touched)
+          "
+          formControlName="teamName"
+          required
+        />
+
+        <span class="input-group-btn">
+          <button type="submit" class="btn btn-success">Create</button>
+        </span>
+
+        <div class="input-group-append">
+          <span
+            class="icon-disabled text-muted transparent bg-white border-white input-group-text"
+            [stickyPopover]="adminTipContent"
+            placement="right"
+          ></span>
+        </div>
+
+        <small class="invalid-feedback">
+          Please enter at least 2 characters
+        </small>
       </div>
-      <small class="invalid-feedback">Please enter at least 2 characters</small>
-    </div>
-    <div *ngIf="isCreating" class="text-green">
-      <i class="fas fa-circle-notch fa-spin"></i>
-      Setting up your team
-    </div>
-  </fieldset>
+
+      <div *ngIf="isCreating" class="text-green">
+        <i class="fas fa-circle-notch fa-spin"></i>
+        Setting up your team
+      </div>
+    </fieldset>
+  </ng-template>
+
+  <ng-template #permissionsTipContent>
+    <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
+  </ng-template>
+
+  <ng-template #elseCreateTeamBlock>
+    <fieldset
+      [stickyPopover]="permissionsTipContent"
+      class="input-group d-flex flex-column"
+    >
+      <div class="form-group">
+        <label class="lead" for="teamName" i18n="@@createneworganisation">
+          Create a new organisation
+        </label>
+
+        <input
+          type="text"
+          class="form-control rounded mr-1 w-100"
+          disabled
+          required
+        />
+      </div>
+
+      <div class="form-group d-flex justify-content-end">
+        <button
+          disabled
+          type="submit"
+          class="btn btn-success cursor-not-allowed"
+          i18n="@@create"
+        >
+          Create
+        </button>
+      </div>
+    </fieldset>
+  </ng-template>
 </form>
