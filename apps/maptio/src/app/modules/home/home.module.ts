@@ -5,9 +5,11 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { SanitizerModule } from '../../shared/sanitizer.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PermissionsModule } from '../../shared/permissions.module';
-import { CreateMapModule } from '../../shared/create-map.module';
 import { HomeRoutingModule } from './home.routing';
 import { LoginModule } from '../login/login.module';
+
+import { CreateMapModule } from '@maptio-shared/create-map.module';
+import { CreateTeamModule } from '@maptio-shared/create-team.module';
 
 @NgModule({
   declarations: [HomeComponent, DashboardComponent],
@@ -16,6 +18,7 @@ import { LoginModule } from '../login/login.module';
     ReactiveFormsModule,
     PermissionsModule,
     CreateMapModule,
+    CreateTeamModule,
     SanitizerModule,
     HomeRoutingModule,
     LoginModule,
