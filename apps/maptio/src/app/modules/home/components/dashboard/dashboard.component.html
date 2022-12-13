@@ -201,6 +201,7 @@
           </div>
         </div>
       </div>
+
       <div
         class="card bg-light border-0 mb-3 rounded d-none d-md-block"
         *ngIf="datasets?.length > 5"
@@ -216,6 +217,7 @@
               class="form-control w-100"
               (keyup)="onKeyDown(inputQuickFilter.value)"
             />
+
             <div
               [class.invisible]="!inputQuickFilter.value"
               class="d-flex justify-content-between align-items-center w-100"
@@ -234,8 +236,9 @@
           </div>
         </div>
       </div>
+
       <div
-        class="card bg-light border-0 d-none d-md-block"
+        class="card bg-light border-0 mb-3 d-none d-md-block"
         *ngIf="isOutOfSampleMode && !isZeroMaps()"
       >
         <div class="card-body">
@@ -247,7 +250,7 @@
         </div>
       </div>
 
-      <div class="card bg-light border-0 d-none d-md-block">
+      <div class="card bg-light border-0 mb-3 d-none d-md-block">
         <div class="card-body">
           <maptio-create-team
             [existingTeamCount]="0"
