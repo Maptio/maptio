@@ -70,22 +70,6 @@
           <context context-type="linenumber">15</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="02f64e0dada8db77cf246b82054d1a7d81557567" datatype="html">
-        <source>1 - 12 people</source>
-        <target state="translated">1 - 12 personnes</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">72</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="d207d07b14a509f32cc198bdcf1dec65ce3c05ba" datatype="html">
-        <source>36 - 200 people</source>
-        <target state="translated">36 - 200 personnes</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">104</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="8ab5c5d7148fa401898fefbaca3bc90f0fe779b5" datatype="html">
         <source>Add circle</source>
         <target state="translated">Ajouter un cercle</target>
@@ -352,18 +336,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/onboarding-banner.component.html</context>
           <context context-type="linenumber">34</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="chooseYourPlan" datatype="html">
-        <source>Choose your plan</source>
-        <target state="translated">Choisissez votre forfait</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">9,10</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">15,16</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c5a788882b1c45a1d293a6586c308f5436e6120b" datatype="html">
@@ -1386,14 +1358,6 @@
           <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="c5376ad5fd8f2dece083dd9b46151312173e76c1" datatype="html">
-        <source>Monthly billing</source>
-        <target state="translated">Facturation mensuelle</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">63</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="e6746170f3f39bd0b0a905cb9b232cae9d3a9e50" datatype="html">
         <source>Enable public read-only embeddable map?</source>
         <target state="translated">Activer la carte publique intégrable en lecture seule ?</target>
@@ -1896,28 +1860,12 @@
           <context context-type="linenumber">113,115</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="6749bd6f3260caf15a962486c71fd518612d8dad" datatype="html">
-        <source>Please enter at least 2 characters</source>
-        <target state="translated">Veuillez entrer au moins 2 caractères</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
-          <context context-type="linenumber">29,30</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="d5cec7468241d72cafd86ad1af6d55b09a6e3ae5" datatype="html">
         <source>Restore</source>
         <target state="translated">Restaurer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
           <context context-type="linenumber">228</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="d52c1bfda95850b6d21dc6dd6467b586a20b7b35" datatype="html">
-        <source>Select an organisation</source>
-        <target state="translated">Sélectionnez une entreprise</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
-          <context context-type="linenumber">47,48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="029eef2057495d8fa305c0fcfdf78cf31faf8ba8" datatype="html">
@@ -2119,14 +2067,6 @@
         </context-group>
         <note priority="1" from="description">Subheading of onboarding screen on lead and helper terminology
         </note>
-      </trans-unit>
-      <trans-unit id="5890913d356d2bc3a9a4d7bfa5527428ec85aeb1" datatype="html">
-        <source><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fas fa-circle-notch fa-spin text-green mx-1&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Creating</source>
-        <target state="translated"><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fas fa-circle-notch fa-spin text-green mx-1&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Création en cours</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
-          <context context-type="linenumber">77,79</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="c3d4de943e9007c1df3c003b1042299a702aeee8" datatype="html">
         <source><x id="START_LINK" ctype="x-a" equiv-text="&lt;a target=&quot;blank&quot; href=&quot;https://fieldmapping.org&quot;&gt;"/>Read our free guide<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> to mapping your organisation</source>
@@ -2682,22 +2622,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">365,369</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="4df6f726a512cf8846e5ead65423bb4121d3d379" datatype="html">
-        <source>Small</source>
-        <target state="translated">Petite entreprise</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">87</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6b1ba85935a3d891a1e1b961ab11f4dd8d7052f6" datatype="html">
-        <source>Starter</source>
-        <target state="translated">Entreprise en démarrage</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">71</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0dc7f0a562777e3b69f1cde5d26ea7dad2cdfc35" datatype="html">

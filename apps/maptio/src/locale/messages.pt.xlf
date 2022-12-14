@@ -1804,20 +1804,6 @@
           <context context-type="linenumber">91,92</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="6749bd6f3260caf15a962486c71fd518612d8dad" datatype="html">
-        <source>Please enter at least 2 characters</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
-          <context context-type="linenumber">29,30</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="d52c1bfda95850b6d21dc6dd6467b586a20b7b35" datatype="html">
-        <source>Select an organisation</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
-          <context context-type="linenumber">47,48</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="donthaveorganisation" datatype="html">
         <source>Don't have a organisation?</source>
         <context-group purpose="location">
@@ -1838,13 +1824,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
           <context context-type="linenumber">122,123</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="5890913d356d2bc3a9a4d7bfa5527428ec85aeb1" datatype="html">
-        <source><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fas fa-circle-notch fa-spin text-green mx-1&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Creating</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
-          <context context-type="linenumber">77,79</context>
         </context-group>
       </trans-unit>
       <trans-unit id="87f9ba6e48fde91ad3e76adda599d865d431a1fa" datatype="html">

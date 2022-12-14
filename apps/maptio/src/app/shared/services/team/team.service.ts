@@ -28,6 +28,10 @@ export class TeamService {
     isTemporary?: boolean,
     isExample?: boolean
   ) {
+    if (members === undefined) {
+      members = [user];
+    }
+
     return this.teamFactory
       .create(
         new Team({

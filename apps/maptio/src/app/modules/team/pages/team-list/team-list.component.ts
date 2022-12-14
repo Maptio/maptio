@@ -26,7 +26,6 @@ export class TeamListComponent implements OnInit {
   public userSubscription: Subscription;
   public routeSubscription: Subscription;
   public teams: Array<Team>;
-  public errorMessage: string;
   public cannotCreateMoreTeamMessage: string;
   public isCreating: boolean;
 

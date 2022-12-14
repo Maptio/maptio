@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { environment } from '@maptio-config/environment';
 
@@ -8,5 +8,5 @@ import { environment } from '@maptio-config/environment';
   styleUrls: ['./insufficient-permissions-message.component.scss'],
 })
 export class InsufficientPermissionsMessageComponent {
-  KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
+  @Input() url: string = environment.KB_URL_PERMISSIONS;
 }

@@ -18,7 +18,7 @@ import { MemberSingleComponent } from './components/member-details/member-single
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { PermissionsModule } from '../../shared/permissions.module';
 import { CardTeamComponent } from '../../shared/components/cards/team/card-team.component';
-import { CreateTeamComponent } from '../../shared/components/cards/create-team/create-team.component';
+import { CreateTeamModule } from '../../shared/create-team.module';
 import { CreateMapModule } from '../../shared/create-map.module';
 import { TeamRoutingModule } from './team.routing';
 
@@ -36,12 +36,12 @@ import { MemberFormModule } from '@maptio-member-form';
     SharedModule,
     NgbTooltipModule,
     PermissionsModule,
+    CreateTeamModule,
     CreateMapModule,
     MemberFormModule,
   ],
   declarations: [
     CardTeamComponent,
-    CreateTeamComponent,
     TeamComponent,
     TeamListComponent,
     TeamMembersComponent,

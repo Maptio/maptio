@@ -89,12 +89,11 @@ export class UserRoleService {
       Permissions.canEditSize,
       Permissions.canGiveHelperPrivileges,
       Permissions.canSubscribe,
+      Permissions.canCreateUnlimitedTeams,
     ];
   }
 
   private getSuperPermissions(): Permissions[] {
-    return this.getAdminPermissions().concat([
-      Permissions.canCreateUnlimitedTeams,
-    ]);
+    return this.getAdminPermissions();
   }
 }

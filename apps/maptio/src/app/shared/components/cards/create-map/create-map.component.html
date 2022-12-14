@@ -25,7 +25,7 @@
         class="form-control w-100"
         required
       />
-      <small class="invalid-feedback" i18n>
+      <small class="invalid-feedback" i18n="@@atLeast2Chars">
         Please enter at least 2 characters
       </small>
     </div>
@@ -42,9 +42,9 @@
           value="null"
           disabled="true"
           [selected]="teams?.length > 1"
-          i18n
+          i18n="@@selectAnOrganization"
         >
-          Select an organisation
+          Select an organization
         </option>
         <option
           *ngFor="let team of teams; let i = index"
@@ -56,27 +56,21 @@
       </select>
       <a *ngIf="teams?.length === 0" class="text-green" routerLink="/teams">
         <small class="offset-md-6" i18n="@@donthaveorganisation">
-          Don't have a organisation?
+          Don't have a organization?
         </small>
       </a>
     </div>
+
     <div class="d-flex justify-content-end">
-      <button
-        *ngIf="!isCreatingMap"
-        type="submit"
-        class="btn btn-success pull-right"
-        i18n="@@create"
-      >
-        Create
+      <button [disabled]="isCreatingMap" type="submit" class="btn btn-success">
+        <ng-container *ngIf="isCreatingMap; else createButtonEnabled">
+          <i class="fas fa-circle-notch fa-spin"></i>
+          <span>&nbsp;</span>
+          <span i18n="@@creating">Creating</span>
+        </ng-container>
+
+        <ng-template #createButtonEnabled i18n="@@create">Create</ng-template>
       </button>
-      <div
-        *ngIf="isCreatingMap"
-        class="text-green d-flex justify-content-end align-items-center"
-        i18n
-      >
-        <i class="fas fa-circle-notch fa-spin text-green mx-1"></i>
-        Creating
-      </div>
     </div>
   </ng-template>
 
