@@ -36,6 +36,8 @@ export class CreateTeamComponent implements OnInit {
   }
 
   createNewTeam() {
+    this.errorMessage = '';
+
     if (this.createForm.dirty && this.createForm.valid) {
       const teamName = this.createForm.controls['teamName'].value;
       this.isCreating = true;

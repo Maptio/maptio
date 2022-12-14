@@ -29,23 +29,21 @@
         <small class="invalid-feedback" i18n="@@atLeast2Chars">
           Please enter at least 2 characters
         </small>
+
+        <small *ngIf="errorMessage" class="text-danger">
+          {{ errorMessage }}
+        </small>
       </div>
 
-      <div class="form-group d-flex flex-row">
-        <div class="w-100 mt-1">
-          <div *ngIf="isCreating" class="text-green">
+      <div class="d-flex justify-content-end">
+        <button [disabled]="isCreating" type="submit" class="btn btn-success">
+          <ng-container *ngIf="isCreating; else createButtonEnabled">
             <i class="fas fa-circle-notch fa-spin"></i>
             <span>&nbsp;</span>
-            <span i18n="@@settingUpYourTeam">Setting up your team</span>
-          </div>
+            <span i18n="@@creating">Creating</span>
+          </ng-container>
 
-          <div *ngIf="errorMessage" class="text-danger">
-            {{ errorMessage }}
-          </div>
-        </div>
-
-        <button type="submit" class="btn btn-success" i18n="@@create">
-          Create
+          <ng-template #createButtonEnabled i18n="@@create">Create</ng-template>
         </button>
       </div>
     </fieldset>
