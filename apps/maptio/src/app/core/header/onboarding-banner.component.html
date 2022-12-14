@@ -1,4 +1,6 @@
 <nav class="onboarding-banner">
+  <b *ngIf="showTeamName">{{ this.teamName }}</b>
+
   <div
     class="onboarding-banner__free-trial-text"
     [ngbTooltip]="freeTrialCutoffDateMessage"
