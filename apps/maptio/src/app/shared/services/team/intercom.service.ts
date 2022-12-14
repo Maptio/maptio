@@ -13,6 +13,7 @@ export class IntercomService {
 
   createTeam(user: User, team: Team): Observable<boolean> {
     const userUpdatePayload = {
+      email: user.email,
       user_id: user.user_id,
       company: {
         company_id: team.team_id,
