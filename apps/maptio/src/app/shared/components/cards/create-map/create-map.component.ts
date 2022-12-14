@@ -73,11 +73,6 @@ export class CreateMapComponent implements OnInit {
       this.mapService
         .createTemplate(mapName, teamId)
         .then((created: DataSet) => {
-          this.created.emit(created);
-          this.form.reset();
-
-          this.isCreatingMap = false;
-          this.cd.markForCheck();
           return created;
         })
         .then((created) => {
@@ -88,12 +83,18 @@ export class CreateMapComponent implements OnInit {
           return created;
         })
         .then((created) => {
-          if (this.isRedirect)
+          if (this.isRedirect) {
             this.router.navigate([
               'map',
               created.datasetId,
               created.initiative.getSlug(),
             ]);
+          } else {
+            this.created.emit(created);
+            this.form.reset();
+            this.cd.markForCheck();
+            this.isCreatingMap = false;
+          }
         })
         .catch(() => {});
     }
