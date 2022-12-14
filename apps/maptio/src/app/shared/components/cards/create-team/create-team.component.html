@@ -52,7 +52,12 @@
   </ng-template>
 
   <ng-template #permissionsTipContent>
-    <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
+    <maptio-insufficient-permissions-message
+      url="https://learning.maptio.com/create-new-org"
+    >
+      Currently, only Admin users can create new organizations here, however,
+      you can set up your own organization in an alternative way.
+    </maptio-insufficient-permissions-message>
   </ng-template>
 
   <ng-template #elseCreateTeamBlock>
