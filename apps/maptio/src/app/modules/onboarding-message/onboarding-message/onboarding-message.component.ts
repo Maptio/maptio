@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,6 +15,12 @@ import { UserService } from '@maptio-shared/services/user/user.service';
 })
 export class OnboardingMessageComponent {
   @Input() floating = false;
+
+  @HostBinding('style.display') display = 'block';
+  @HostBinding('style.padding-top') paddingTopValue: number;
+  @Input() set paddingTop(paddingTop: number) {
+    this.paddingTopValue = paddingTop;
+  }
 
   messageKey$ = new BehaviorSubject<string>('');
   @Input() set messageKey(messageKey: string) {
