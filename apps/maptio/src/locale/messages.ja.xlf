@@ -1989,14 +1989,6 @@
           <context context-type="linenumber">91,92</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="6749bd6f3260caf15a962486c71fd518612d8dad" datatype="html">
-        <source>Please enter at least 2 characters</source>
-        <target state="translated">2文字以上入力してください</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
-          <context context-type="linenumber">29,30</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="d52c1bfda95850b6d21dc6dd6467b586a20b7b35" datatype="html">
         <source>Select an organisation</source>
         <target state="translated">組織の選択</target>
@@ -2662,22 +2654,6 @@
           <context context-type="linenumber">155</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="4df6f726a512cf8846e5ead65423bb4121d3d379" datatype="html">
-        <source>Small</source>
-        <target state="translated">スモールチーム</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">87</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="083be8d4a1c487c222a248a1d6a9a5b6dbbb596f" datatype="html">
-        <source>Larger organizations</source>
-        <target state="translated">大規模な組織</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">119</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="map" datatype="html">
         <source>Map</source>
         <target state="translated">マップ</target>
@@ -2810,14 +2786,6 @@
           <context context-type="linenumber">102</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="a1701a60ba8fe1e302b632bf9f04cf86a6450ad2" datatype="html">
-        <source>13 - 35 people</source>
-        <target state="translated">13～35名</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">88</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="5471671537361039738" datatype="html">
         <source>A friendly heads-up: One or more of your maps has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version before adding an existing user. Sorry for the hassle.</source>
         <target state="translated">【お知らせ】あなたの1つまたは複数のマップが、他のユーザーによって（または別のブラウザタブであなたによって）変更されています。既存のユーザーを追加する前に、更新を押して最新版を読み込んでください。ご面倒をおかけして申し訳ありません。</target>
@@ -2944,14 +2912,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/http/map/dataset.factory.ts</context>
           <context context-type="linenumber">50</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="9ff2e34a90a800108fb0ba0393cfdf1c3db2c258" datatype="html">
-        <source>Struggling to afford this? Let's talk and work something out. <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Deal request&quot;&gt;"/>Contact us.<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Our mission is to serve the most cause-driven organizations on the planet. Discounts available for non-profits.</source>
-        <target state="translated">この価格を支払うことに躊躇していますか？ぜひ話し合わせてください。<x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:support@maptio.com?subject=Deal request&quot;&gt;"/>こちらまでご連絡ください。<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> 私たちの使命は、パーパスドリブンな組織にサービスを提供することです。非営利団体へのディスカウントを用意しています。</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">127,133</context>
         </context-group>
       </trans-unit>
       <trans-unit id="241e40292ec853c5f7357b6a9b02a93c82486417" datatype="html">

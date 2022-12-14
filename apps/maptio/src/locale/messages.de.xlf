@@ -2006,14 +2006,6 @@
           <context context-type="linenumber">91,92</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="6749bd6f3260caf15a962486c71fd518612d8dad" datatype="html">
-        <source>Please enter at least 2 characters</source>
-        <target state="translated">Bitte gib mindestens 2 Zeichen ein</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
-          <context context-type="linenumber">29,30</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="d52c1bfda95850b6d21dc6dd6467b586a20b7b35" datatype="html">
         <source>Select an organisation</source>
         <target state="translated">Organisation auswählen</target>
@@ -2461,22 +2453,6 @@
           <context context-type="linenumber">57</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="02f64e0dada8db77cf246b82054d1a7d81557567" datatype="html">
-        <source>1 - 12 people</source>
-        <target state="translated">1 - 12 Personen</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">72</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6695dcc9f3e85f97fc1b47b4e353875a20f7c543" datatype="html">
-        <source>200+ people</source>
-        <target state="translated">200+ Personen</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">120</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="1d13cd52e7cd00d13b2e10f9f6d48dc032738f38" datatype="html">
         <source>Add new role</source>
         <target state="translated">Neue Rolle hinzufügen</target>
@@ -2655,30 +2631,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/payment-plan.component.html</context>
           <context context-type="linenumber">49</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="0948acbf2eb00c73d4eb4d6b2066a8044dd018b8" datatype="html">
-        <source>Pricing in US Dollars. All major credit cards accepted. <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> No minimum contract length.</source>
-        <target state="translated">Preise in US Dollar. Alle gängigen Kreditkarten werden akzeptiert. <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Keine Mindestvertragslaufzeit.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">31,34</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6b1ba85935a3d891a1e1b961ab11f4dd8d7052f6" datatype="html">
-        <source>Starter</source>
-        <target state="translated">Starter</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">71</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="083be8d4a1c487c222a248a1d6a9a5b6dbbb596f" datatype="html">
-        <source>Larger organizations</source>
-        <target state="translated">Größere Organisationen</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/pricing.page.html</context>
-          <context context-type="linenumber">119</context>
         </context-group>
       </trans-unit>
       <trans-unit id="selectAll" datatype="html">
