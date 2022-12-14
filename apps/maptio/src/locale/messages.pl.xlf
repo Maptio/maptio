@@ -1108,7 +1108,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="donthaveorganisation" datatype="html">
-        <source>Don't have a organisation?</source>
+        <source>Don't have a organization?</source>
         <target state="translated">Nie masz organizacji?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
@@ -1117,22 +1117,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
           <context context-type="linenumber">115,116</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="d52c1bfda95850b6d21dc6dd6467b586a20b7b35" datatype="html">
-        <source>Select an organisation</source>
-        <target state="translated">Wybierz organizację</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
-          <context context-type="linenumber">47,48</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="5890913d356d2bc3a9a4d7bfa5527428ec85aeb1" datatype="html">
-        <source><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fas fa-circle-notch fa-spin text-green mx-1&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Creating</source>
-        <target state="translated"><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fas fa-circle-notch fa-spin text-green mx-1&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Tworzymy</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
-          <context context-type="linenumber">77,79</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9ffd36b1dd21215f819a55e2911229b5e8ca6a82" datatype="html">
@@ -3283,20 +3267,32 @@
           <context context-type="linenumber">30,31</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="settingUpYourTeam" datatype="html">
-        <source>Setting up your team</source>
-        <target state="translated">Konfigurujemy organizację</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-team/create-team.component.html</context>
-          <context context-type="linenumber">39</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="onlyAdminsCreateOrganisations" datatype="html">
         <source>Currently, only Admin users can create new organizations here, however, you can set up your own organization in an alternative way.</source>
         <target state="translated">Obecnie tylko administratorzy mogą tutaj tworzyć nowe organizacje, możesz jednak założyć własną organizację w alternatywny sposób.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-team/create-team.component.html</context>
           <context context-type="linenumber">59,61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="selectAnOrganization" datatype="html">
+        <source>Select an organization</source>
+        <target state="translated">Wybierz organizację</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
+          <context context-type="linenumber">47,48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="creating" datatype="html">
+        <source>Creating</source>
+        <target state="translated">Tworzymy</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-map/create-map.component.html</context>
+          <context context-type="linenumber">69</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-team/create-team.component.html</context>
+          <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
     </body>
