@@ -11,7 +11,7 @@ import { User } from '@maptio-shared/model/user.data';
 })
 export class OnboardingBannerComponent {
   @Input() set user(user: User) {
-    if (user.teams.length > 1) {
+    if (user?.teams?.length > 1) {
       this.showTeamName = true;
     } else {
       this.showTeamName = false;
