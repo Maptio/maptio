@@ -14,11 +14,14 @@ const INTERCOM_ACCESS_TOKEN = process.env.INTERCOM_ACCESS_TOKEN;
 var client = new Intercom.Client({ token: INTERCOM_ACCESS_TOKEN });
 
 router.post('/user/update', function (req, res, next) {
+  let user_id = req.body.user_id;
   let email = req.body.email;
   let company = req.body.company;
+
   client.users.update(
     {
-      email: email,
+      user_id,
+      email,
       companies: [company],
     },
     function (error, user) {
