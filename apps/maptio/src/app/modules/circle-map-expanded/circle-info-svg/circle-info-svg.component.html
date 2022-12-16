@@ -29,11 +29,5 @@
   *ngFor="let person of people; let i = index"
   maptioHelperAvatarSvg
   [helper]="person"
-  [attr.transform]="
-    'translate(' +
-    (radius - 45) * math.sin(0.2 * (i + 0.5 - people.length / 2)) +
-    ',' +
-    (radius - 45) * math.cos(0.2 * (i + 0.5 - people.length / 2)) +
-    ')'
-  "
+  [attr.transform]="person.position"
 ></svg:g>
