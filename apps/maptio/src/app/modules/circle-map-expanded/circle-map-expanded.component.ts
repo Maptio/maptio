@@ -55,7 +55,8 @@ export class CircleMapExpandedComponent implements OnInit, OnDestroy {
   showDescriptions$: Observable<boolean>;
 
   // And we need to scale down child circles to make room for circle info
-  scalingFactor = 0.9;
+  // This specific number was chosen to ensure enough space above and below avatars
+  scalingFactor = 0.853;
 
   isLoading: boolean;
   isFirstLoad = true;
