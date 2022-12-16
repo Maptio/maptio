@@ -52,27 +52,27 @@ $shadow-scale-selected: 1.008;
   }
 }
 
-// .circle--state-selected {
-//   fill-opacity: 1;
-//   pointer-events: auto;
+.circle--state-selected {
+  fill-opacity: 1;
+  pointer-events: auto;
 
-//   > .circle__circle {
-//     stroke: white;
-//     stroke-width: $stroke-width-selected-not-hovered;
-//   }
+  > .circle__circle {
+    stroke: white;
+    stroke-width: $stroke-width-selected-not-hovered;
+  }
 
-//   > .circle__shadow {
-//     display: inline;
-//     opacity: $shadow-opacity-selected-not-hovered;
-//     transform: scale($shadow-scale-selected-not-hovered);
-//   }
+  > .circle__shadow {
+    display: inline;
+    opacity: $shadow-opacity-selected-not-hovered;
+    transform: scale($shadow-scale-selected-not-hovered);
+  }
 
-//   > .circle__info {
-//     opacity: 1;
-//     pointer-events: auto;
-//     transform: scale($info-scale-selected-not-hovered);
-//   }
-// }
+  > .circle__info {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale($info-scale-selected-not-hovered);
+  }
+}
 
 // .circle--state-selected:not(.circle--state-opened):hover {
 //   > .circle__circle {
