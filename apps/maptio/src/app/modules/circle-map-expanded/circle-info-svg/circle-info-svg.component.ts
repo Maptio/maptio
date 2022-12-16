@@ -14,9 +14,6 @@ export class CircleInfoSvgComponent implements OnInit {
   tags: TagViewModel[] = [];
   people: Helper[] = [];
 
-  // TODO: Move calculations into typescript code
-  math = Math;
-
   ngOnInit() {
     this.people = this.combineAllPeople();
     this.people = this.calculateAvatarPositions(this.people);
