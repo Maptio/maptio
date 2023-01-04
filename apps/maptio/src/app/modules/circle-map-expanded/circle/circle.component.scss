@@ -1,8 +1,9 @@
-$info-scale-selected-not-hovered: 0.995;
-$info-scale-selected: 0.99;
-
 $stroke-width-selected-not-hovered: 0.25rem;
 $stroke-width-selected: 0.375rem;
+
+$opacity-default: 1;
+$opacity-filtered-out: 0.15;
+$opacity-not-hovered: 0.5;
 
 $shadow-filter-blur: 0.75rem;
 $shadow-opacity-default: 0;
@@ -32,30 +33,30 @@ $shadow-scale-selected: 1.004;
 .circle__shadow {
   display: none;
   opacity: $shadow-opacity-default;
-  // filter: blur($shadow-filter-blur);
+  transform: scale($shadow-scale-default);
   filter: drop-shadow(0 0 $shadow-filter-blur gray);
   transition: opacity 0.2s ease-in;
   transition: transform 0.2s ease-in;
 }
 
 .circle--state-filtered-out {
-  fill-opacity: 0.15;
+  fill-opacity: $opacity-filtered-out;
 
   > .circle__info {
-    opacity: 0.15;
+    opacity: $opacity-filtered-out;
   }
 }
 
 .circle:not(.circle--state-filtered-out) {
-  fill-opacity: 1;
+  fill-opacity: $opacity-default;
 
   > .circle__info {
-    opacity: 1;
+    opacity: $opacity-default;
   }
 }
 
 .circle--state-selected {
-  fill-opacity: 1;
+  fill-opacity: $opacity-default;
   pointer-events: auto;
 
   > .circle__circle {
@@ -70,32 +71,34 @@ $shadow-scale-selected: 1.004;
   }
 
   > .circle__info {
-    opacity: 1;
+    opacity: $opacity-default;
     pointer-events: auto;
-    // transform: scale($info-scale-selected-not-hovered);
   }
 }
 
 .circle:has(.circle:hover) {
   .circle__circle {
-    fill-opacity: 0.5;
+    fill-opacity: $opacity-not-hovered;
   }
 
   .circle__info {
-    opacity: 0.5;
+    opacity: $opacity-not-hovered;
   }
 }
 
-// .circle > .circle__children > g > .circle:hover {
+// For hover effects isolated to a single circle, with the current nested SVG
+// structure, we need to check that only circles without children that are also
+// being hovered over, i.e. that we're selecting only the topmost hovered
+// circle
 .circle:not(:has(.circle:hover)):hover {
-  opacity: 1;
+  opacity: $opacity-default;
 
   > .circle__circle {
     stroke-width: $stroke-width-selected;
   }
 
   .circle__circle {
-    fill-opacity: 1;
+    fill-opacity: $opacity-default;
   }
 
   > .circle__shadow {
@@ -105,109 +108,9 @@ $shadow-scale-selected: 1.004;
   }
 
   .circle__info {
-    opacity: 1;
-    //   transform: scale($info-scale-selected);
+    opacity: $opacity-default;
   }
 }
-
-// .circle--state-selected:not(.circle--state-opened):hover {
-//   > .circle__circle {
-//     stroke-width: $stroke-width-selected;
-//   }
-
-//   > .circle__shadow {
-//     display: inline;
-//     opacity: $shadow-opacity-selected;
-//     transform: scale($shadow-scale-selected);
-//   }
-
-//   > .circle__info {
-//     transform: scale($info-scale-selected);
-//   }
-// }
-
-// .circle--state-opened > .circle__circle {
-//   fill-opacity: 0.6;
-//   stroke-width: $stroke-width-selected-not-hovered;
-// }
-
-// .circle--state-opened > .circle__shadow {
-//   opacity: $shadow-opacity-selected-not-hovered;
-//   fill-opacity: 0.6;
-//   transform: scale($shadow-scale-default);
-// }
-
-// .circle--state-opened > .circle__info {
-//   transform: scale(1);
-// }
-
-// .circle--state-selected > .circle__children > g > .circle {
-//   > .circle__info {
-//     opacity: 0.1;
-//   }
-// }
-
-// .circle--state-opened:not(.circle--type-leaf) {
-//   fill-opacity: 0.15;
-
-//   > .circle__info {
-//     opacity: 0;
-//     pointer-events: none;
-//     transform: scale(1.25);
-//   }
-// }
-
-// .circle--state-opened > .circle__children > g > .circle {
-//   fill-opacity: 1;
-//   pointer-events: auto;
-
-//   > .circle__shadow {
-//     display: inline;
-//     opacity: $shadow-opacity-selected-not-hovered;
-//     transform: scale($shadow-scale-selected-not-hovered);
-//   }
-
-//   > .circle__info {
-//     opacity: 1;
-//     pointer-events: auto;
-//   }
-// }
-
-// // https://codepen.io/shshaw/pen/wWQZEB
-
-// .circle--state-opened > .circle__children {
-//   visibility: hidden;
-// }
-
-// .circle--state-opened > .circle__children > g {
-//   visibility: visible;
-// }
-
-// .circle--state-opened > .circle__children:hover > g > .circle {
-//   opacity: 0.4;
-
-//   > .circle__shadow {
-//     transform: scale($shadow-scale-selected-not-hovered);
-//     opacity: $shadow-opacity-selected-not-hovered;
-//   }
-// }
-
-// .circle--state-opened > .circle__children:hover > g:hover > .circle {
-//   opacity: 1;
-
-//   > .circle__circle {
-//     stroke-width: $stroke-width-selected;
-//   }
-
-//   > .circle__shadow {
-//     transform: scale($shadow-scale-selected);
-//     opacity: $shadow-opacity-selected;
-//   }
-
-//   > .circle__info {
-//     transform: scale($info-scale-selected);
-//   }
-// }
 
 .circle__popover {
   // Styles copied from .mat-tooltip @ 11.2.8
