@@ -93,7 +93,7 @@
 
               <button
                 class="btn btn-light toolbar-button p-1 text-dark d-flex flex-column justify-content-between align-items-center"
-                [class.disabled]="isFilterDisabled || isMapSettingsDisabled"
+                [class.disabled]="isMapSettingsDisabled"
                 (click)="isFiltersToggled = !isFiltersToggled"
                 data-toggle="collapse"
                 href="#collapseFilter"
@@ -269,6 +269,8 @@
       class="collapse rounded mb-3 col-12 bg-light p-3"
     >
       <filter-tags
+        [isFilterDisabled]="this.isFilterDisabled"
+        [expandedMapLink]="'/map/' + datasetId + '/' + slug + '/expanded'"
         [team]="team"
         [tags]="tags"
         (changeTagsSelection)="broadcastTagsSelection($event)"

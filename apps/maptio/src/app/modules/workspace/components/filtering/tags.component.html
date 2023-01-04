@@ -1,4 +1,7 @@
-<div class="card bg-transparent border-0">
+<div
+  class="card bg-transparent border-0"
+  *ngIf="!isFilterDisabled; else filterDisabledMessage"
+>
   <div class="card-body">
     <div class="d-flex flex-wrap">
       <span *ngFor="let tag of tags; let i = index" class="mr-1 my-1">
@@ -43,3 +46,19 @@
     </button>
   </div>
 </div>
+
+<ng-template #filterDisabledMessage>
+  <h3 class="editing-title" i18n>Please use the expanded view</h3>
+
+  <p i18n>
+    The expanded view is more suitable for filtering by tags. Please navigate
+    there by choosing the expanded view from the toolbar or clicking the button
+    below.
+  </p>
+
+  <div class="d-flex flex-row w-100 mt-3 justify-content-end">
+    <button class="btn btn-success" [routerLink]="expandedMapLink">
+      <ng-container i18n="@@takeMeThere">Take me there</ng-container>
+    </button>
+  </div>
+</ng-template>
