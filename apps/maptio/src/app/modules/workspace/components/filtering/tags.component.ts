@@ -11,7 +11,7 @@ import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 })
 export class FilterTagsComponent implements OnInit {
   @Input() isFilterDisabled: boolean;
-  @Input() expandedMapLink: boolean;
+  @Input() expandedMapLink: string;
   @Input() tags: SelectableTag[];
   @Input() team: Team;
   @Output() changeTagsSettings: EventEmitter<
