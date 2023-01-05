@@ -11,7 +11,7 @@ import { InitiativeNode } from '../initiative.model';
 export class CircleInfoComponent implements OnInit {
   @Input() circle!: InitiativeNode;
 
-  fontSizeInitial = 72;
+  fontSizeInitial = 56;
   fontSizeUnit = 'px'; // Using pixels rather than rem leads to better rendering at small sizes
   fontSizeScalingFactor = 4;
   fontSize: string;

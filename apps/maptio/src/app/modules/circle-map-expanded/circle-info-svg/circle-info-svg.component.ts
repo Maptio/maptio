@@ -14,11 +14,9 @@ export class CircleInfoSvgComponent implements OnInit {
   tags: TagViewModel[] = [];
   people: Helper[] = [];
 
-  // TODO: Move calculations into typescript code
-  math = Math;
-
   ngOnInit() {
     this.people = this.combineAllPeople();
+    this.people = this.calculateAvatarPositions(this.people);
   }
 
   private combineAllPeople(): Helper[] {
@@ -28,6 +26,19 @@ export class CircleInfoSvgComponent implements OnInit {
       people = [this.circle.data.accountable];
     }
     people = people.concat(this.circle.data.helpers);
+
+    return people;
+  }
+
+  private calculateAvatarPositions(people: Helper[]) {
+    people.forEach((person, index) => {
+      person.position =
+        'translate(' +
+        (this.radius - 45) * Math.sin(0.2 * (index + 0.5 - people.length / 2)) +
+        ',' +
+        (this.radius - 45) * Math.cos(0.2 * (index + 0.5 - people.length / 2)) +
+        ')';
+    });
 
     return people;
   }

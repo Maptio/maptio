@@ -29,6 +29,7 @@ export interface Helper {
   shortid: string;
   picture: string;
   name: string;
+  position: string;
   roles: Array<Role>;
 }
 
