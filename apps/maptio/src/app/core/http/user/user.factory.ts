@@ -6,8 +6,6 @@ import { Injectable } from '@angular/core';
 import * as shortid from 'shortid';
 import { chunk, flattenDeep } from 'lodash-es';
 
-import { environment } from '@maptio-environment';
-
 @Injectable()
 export class UserFactory {
   constructor(private http: HttpClient) {}
