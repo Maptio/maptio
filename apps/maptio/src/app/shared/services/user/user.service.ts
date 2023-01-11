@@ -267,7 +267,34 @@ export class UserService implements OnDestroy {
    * User creation
    */
 
-  createUserFromAuth0Signup(profile): User {
+  /**
+   * This function is used whenever a user is being added to a team
+   */
+  createUserAndAddToTeam(
+    team: Team,
+    email: string,
+    firstname: string,
+    lastname: string,
+    picture: string,
+    isAdmin?: boolean
+  ): Promise<User> {
+    const userId = this.generateNewUserId();
+    const user = this.createUser(
+      userId,
+      email,
+      firstname,
+      lastname,
+      picture,
+      isAdmin
+    );
+
+    return this.addTeamDataToUserObjectUserToTeamAndSaveBoth(team, user);
+  }
+
+  /**
+   * This function is only used to create admin users from initial signups
+   */
+  private createUserFromAuth0Signup(profile): User {
     return this.createUser(
       profile.sub,
       profile.email,
@@ -279,77 +306,10 @@ export class UserService implements OnDestroy {
     );
   }
 
-  createUserFromMemberForm(
-    email: string,
-    firstname: string,
-    lastname: string,
-    picture: string,
-    isAdmin?: boolean
-  ): User {
-    const userId = this.generateNewUserId();
-    return this.createUser(
-      userId,
-      email,
-      firstname,
-      lastname,
-      picture,
-      isAdmin
-    );
-  }
-
-  createUserAndAddToTeam(
-    team: Team,
-    email: string,
-    firstname: string,
-    lastname: string,
-    picture: string,
-    isAdmin?: boolean
-  ): Promise<boolean> {
-    const userId = this.generateNewUserId();
-    const user = this.createUser(
-      userId,
-      email,
-      firstname,
-      lastname,
-      picture,
-      isAdmin
-    );
-
-    return this.datasetFactory
-      .get(team)
-      .then(
-        (datasets: DataSet[]) => {
-          user.teams = [team.team_id];
-          user.datasets = datasets.map((d) => d.datasetId);
-
-          return user;
-        },
-        (reason) => {
-          return Promise.reject($localize`Can't create ${email} : ${reason}`);
-        }
-      )
-      .then((user: User) => {
-        this.userFactory.create(user);
-        return user;
-      })
-      .then((user: User) => {
-        team.members.push(user);
-        this.teamFactory.upsert(team);
-      })
-      .then(() => {
-        this.intercomService.trackEvent('Create user', {
-          team: team.name,
-          teamId: team.team_id,
-          email: email,
-        });
-        return true;
-      })
-      .catch((reason) => {
-        console.error(reason);
-        throw Error(reason);
-      });
-  }
-
+  /**
+   * This is the function used by all the other user creation methods - it does
+   * the actual work
+   */
   private createUser(
     userId: string,
     email: string,
@@ -386,6 +346,48 @@ export class UserService implements OnDestroy {
     };
 
     return User.create().deserialize(newUserData);
+  }
+
+  private addTeamDataToUserObjectUserToTeamAndSaveBoth(
+    team: Team,
+    user: User
+  ): Promise<User> {
+    return this.datasetFactory
+      .get(team)
+      .then(
+        (datasets: DataSet[]) => {
+          user.teams = [team.team_id];
+          user.datasets = datasets.map((d) => d.datasetId);
+
+          return user;
+        },
+        (reason) => {
+          return Promise.reject(
+            $localize`Can't create ${user.email} : ${reason}`
+          );
+        }
+      )
+      .then((user: User) => {
+        this.userFactory.create(user);
+        return user;
+      })
+      .then((user: User) => {
+        team.members.push(user);
+        this.teamFactory.upsert(team);
+        return user;
+      })
+      .then((user: User) => {
+        this.intercomService.trackEvent('Create user', {
+          team: team.name,
+          teamId: team.team_id,
+          email: user.email,
+        });
+        return user;
+      })
+      .catch((reason) => {
+        console.error(reason);
+        throw Error(reason);
+      });
   }
 
   /*

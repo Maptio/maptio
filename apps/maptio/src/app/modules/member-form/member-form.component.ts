@@ -186,7 +186,7 @@ export class MemberFormComponent implements OnInit {
       await this.updateUser(this.isUserSignUp);
       this.router.navigateByUrl('/home');
     } else {
-      await this.createUserAndAddToTeam();
+      await this.createUserAndAddToThisTeam();
     }
 
     this.isSubmissionAttempted = false;
@@ -203,67 +203,23 @@ export class MemberFormComponent implements OnInit {
     );
   }
 
-  private async createUserAndAddToTeam() {
-    await this.createUserFullDetails();
+  private async createUserAndAddToThisTeam() {
+    try {
+      this.createdUser = await this.userService.createUserAndAddToTeam(
+        this.team,
+        this.email,
+        this.firstname,
+        this.lastname,
+        this.picture
+      );
 
-    this.addMember.emit(this.createdUser);
-    this.reset();
-  }
+      this.newMember = undefined;
 
-  private async createUserFullDetails() {
-    this.createdUser = this.userService.createUserFromMemberForm(
-      this.email,
-      this.firstname,
-      this.lastname,
-      this.picture
-    );
-
-    return this.datasetFactory
-      .get(this.team)
-      .then(
-        (datasets: DataSet[]) => {
-          this.createdUser.teams = [this.team.team_id];
-          this.createdUser.datasets = datasets.map((d) => d.datasetId);
-
-          return this.createdUser;
-        },
-        (reason) => {
-          return Promise.reject(
-            $localize`Can't create ${this.email} : ${reason}`
-          );
-        }
-      )
-      .then((user: User) => {
-        this.userFactory.create(user);
-        return user;
-      })
-      .then((user: User) => {
-        this.team.members.push(user);
-        this.teamFactory.upsert(this.team).then(() => {
-          this.newMember = undefined;
-        });
-      })
-      .then(() => {
-        this.analytics.eventTrack('Team', {
-          action: 'create',
-          team: this.team.name,
-          teamId: this.team.team_id,
-        });
-        return true;
-      })
-      .then(() => {
-        this.intercom.trackEvent('Create user', {
-          team: this.team.name,
-          teamId: this.team.team_id,
-          email: this.email,
-        });
-        return true;
-      })
-      .catch((reason) => {
-        console.error(reason);
-        this.errorMessage = reason;
-        throw Error(reason);
-      });
+      this.addMember.emit(this.createdUser);
+      this.reset();
+    } catch (reason) {
+      this.errorMessage = reason;
+    }
   }
 
   private async updateUser(setAsActivated?: boolean) {
