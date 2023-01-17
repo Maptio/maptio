@@ -275,8 +275,7 @@ export class UserService implements OnDestroy {
     email: string,
     firstname: string,
     lastname: string,
-    picture: string,
-    isAdmin?: boolean
+    picture: string
   ): Promise<User> {
     const userId = this.generateNewUserId();
     const user = this.createUser(
@@ -316,7 +315,6 @@ export class UserService implements OnDestroy {
     firstname: string,
     lastname: string,
     picture?: string,
-    isAdmin?: boolean,
     isInAuth0 = false
   ): User {
     const imageUrl = picture

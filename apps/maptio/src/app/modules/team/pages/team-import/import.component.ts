@@ -84,8 +84,7 @@ export class TeamImportComponent implements OnInit {
         email,
         firstname,
         lastname,
-        '',
-        false
+        ''
       );
     }
 
