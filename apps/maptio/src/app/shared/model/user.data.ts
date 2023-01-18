@@ -1,7 +1,9 @@
 import * as slug from 'slug';
 import { parseISO } from 'date-fns';
+import { cloneDeep } from 'lodash-es';
 
 import { Serializable } from '../interfaces/serializable.interface';
+import { Team } from './team.data';
 import { UserRole } from './permission.data';
 import { OnboardingProgress } from './onboarding-progress.data';
 
@@ -64,7 +66,7 @@ export class User implements Serializable<User> {
   // public permissions: Permissions[];
 
   /** User status e.g. Standard, Admin, Guest, etc. */
-  public userRole: UserRole;
+  public userRole: Map<string, UserRole>;
 
   public onboardingProgress: OnboardingProgress;
 
@@ -77,6 +79,12 @@ export class User implements Serializable<User> {
 
   static create(): User {
     return new User();
+  }
+
+  getSerializable(): SerializableUser {
+    const serializableUser = (cloneDeep(this) as unknown) as SerializableUser;
+    serializableUser.userRole = JSON.stringify([...this.userRole]);
+    return serializableUser;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -105,11 +113,6 @@ export class User implements Serializable<User> {
 
     deserialized.isInvitationSent = input.isInvitationSent;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    deserialized.userRole = (<any>UserRole)[input.userRole]
-      ? input.userRole
-      : UserRole.Standard;
-
     deserialized.loginsCount = input.loginsCount;
     deserialized.lastSeenAt = input.lastSeenAt
       ? parseISO(input.lastSeenAt)
@@ -125,11 +128,16 @@ export class User implements Serializable<User> {
 
     deserialized.teams = [];
     if (input.teams) {
-      input.teams.forEach((t: any) => {
+      input.teams.forEach((t: Team) => {
         // eslint-disable-line @typescript-eslint/no-explicit-any
         deserialized.teams.push(t);
       });
     }
+
+    deserialized.userRole = this.deserializeUserRole(
+      input.userRole,
+      deserialized.teams
+    );
 
     deserialized.datasets = [];
     if (input.datasets) {
@@ -185,6 +193,62 @@ export class User implements Serializable<User> {
       return name;
     }
   }
+
+  /**
+   * Deal with old data where userRole was a string
+   *
+   * This method converts the old string values to a map of teamId -> UserRole
+   * as well as simply reading the new format
+   *
+   * @param userRole
+   * @param teams
+   */
+  deserializeUserRole(
+    userRoleInput:
+      | Record<string, UserRole>
+      | string
+      | number
+      | undefined
+      | null,
+    teamIds: string[]
+  ): Map<string, UserRole> {
+    let userRole = new Map<string, UserRole>();
+
+    if (
+      userRoleInput === 0 ||
+      userRoleInput === '0' ||
+      userRoleInput === 1 ||
+      userRoleInput === '1'
+    ) {
+      // Old format, convert to new format
+      teamIds.forEach((teamId) => {
+        // Convert input string to UserRole, if it fails, use Standard
+        // Old code:
+        // deserialized.userRole = (<any>UserRole)[input.userRole]
+        //   ? input.userRole
+        //   : UserRole.Standard;
+        const convertedUserRole = UserRole[userRoleInput] // New code, does this work?!?
+          ? ((userRoleInput as unknown) as UserRole)
+          : UserRole.Standard;
+
+        userRole.set(teamId, convertedUserRole);
+      });
+    } else if (userRoleInput === undefined || userRoleInput === null) {
+      // Old format, convert to new format
+      teamIds.forEach((teamId) => {
+        userRole.set(teamId, UserRole.Standard);
+      });
+    } else {
+      // New format, just read it
+      userRole = new Map(JSON.parse(userRoleInput as string));
+    }
+
+    return userRole;
+  }
+}
+
+export interface SerializableUser extends Omit<User, 'userRole'> {
+  userRole: string;
 }
 
 export class SelectableUser extends User {

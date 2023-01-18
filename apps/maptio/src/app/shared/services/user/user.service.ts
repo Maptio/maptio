@@ -49,6 +49,8 @@ import { DuplicationError } from './duplication.error';
 
 @Injectable()
 export class UserService implements OnDestroy {
+  private NEW_TEAM_ID = 'new-team-id';
+
   // Keep auth variables in the user service for convenience, allowing us to
   // skip importing the Auth0 SDK in components
   public isAuthenticated$ = this.auth.isAuthenticated$;
@@ -277,6 +279,8 @@ export class UserService implements OnDestroy {
     lastname: string,
     picture: string
   ): Promise<User> {
+    const userRole = new Map([[team.team_id, UserRole.Standard]]);
+
     const userId = this.generateNewUserId();
     const user = this.createUser(
       userId,
@@ -284,7 +288,7 @@ export class UserService implements OnDestroy {
       firstname,
       lastname,
       picture,
-      isAdmin
+      userRole
     );
 
     return this.addTeamDataToUserObjectUserToTeamAndSaveBoth(team, user);
@@ -294,14 +298,24 @@ export class UserService implements OnDestroy {
    * This function is only used to create admin users from initial signups
    */
   private createUserFromAuth0Signup(profile): User {
+    // Because this function is used early on in the onboarding process, we
+    // don't have a team yet, so we use a placeholder team ID, which will be
+    // replaced once the team is created
+    const userRole = new Map([[this.NEW_TEAM_ID, UserRole.Admin]]);
+
+    // Base user ID on what's in Auth0
+    const userId = profile.sub;
+
+    const isInAuth0 = true;
+
     return this.createUser(
-      profile.sub,
+      userId,
       profile.email,
       profile.given_name,
       profile.family_name,
       profile.picture,
-      true,
-      true // isInAuth0
+      userRole,
+      isInAuth0
     );
   }
 
@@ -314,7 +328,8 @@ export class UserService implements OnDestroy {
     email: string,
     firstname: string,
     lastname: string,
-    picture?: string,
+    picture: string,
+    userRole: Map<string, UserRole>,
     isInAuth0 = false
   ): User {
     const imageUrl = picture
@@ -335,7 +350,7 @@ export class UserService implements OnDestroy {
       lastSeenAt: undefined,
       createdAt: new Date().toISOString(),
       loginsCount: 0,
-      userRole: isAdmin ? UserRole.Admin : UserRole.Standard,
+      userRole,
       onboardingProgress: {
         showEditingPanelMessage: true,
         showCircleDetailsPanelMessage: true,
