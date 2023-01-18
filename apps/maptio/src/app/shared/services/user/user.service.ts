@@ -528,8 +528,12 @@ export class UserService implements OnDestroy {
     return this.userFactory.upsert(user);
   }
 
-  public updateUserRole(user: User, userRole: UserRole): Promise<boolean> {
-    user.userRole = userRole;
+  public updateUserRole(
+    user: User,
+    team: Team,
+    newUserRoleInOrganization: UserRole
+  ): Promise<boolean> {
+    user.userRole.set(team.team_id, newUserRoleInOrganization);
     return this.userFactory.upsert(user);
   }
 

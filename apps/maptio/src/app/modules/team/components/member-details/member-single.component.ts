@@ -56,12 +56,14 @@ export class MemberSingleComponent {
     this.isDisplayUpdatingLoader = true;
     this.cd.markForCheck();
 
-    const userRole = Number(userRoleString) as UserRole;
+    const newUserRoleInOrganization = Number(userRoleString) as UserRole;
 
-    this.userService.updateUserRole(this.member, userRole).then(() => {
-      this.isDisplayUpdatingLoader = false;
-      this.cd.markForCheck();
-    });
+    this.userService
+      .updateUserRole(this.member, this.team, newUserRoleInOrganization)
+      .then(() => {
+        this.isDisplayUpdatingLoader = false;
+        this.cd.markForCheck();
+      });
   }
 
   inviteUser(): Promise<void> {
