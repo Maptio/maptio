@@ -4,6 +4,8 @@ import {
   Output,
   EventEmitter,
   ChangeDetectorRef,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
@@ -21,7 +23,7 @@ import { DuplicationError } from '@maptio-shared/services/user/duplication.error
   templateUrl: './member-single.component.html',
   styleUrls: ['./member-single.component.css'],
 })
-export class MemberSingleComponent {
+export class MemberSingleComponent implements OnChanges {
   UserRole = UserRole;
   Permissions = Permissions;
 
@@ -31,6 +33,8 @@ export class MemberSingleComponent {
   @Input() isOnlyMember: boolean;
 
   @Output() delete = new EventEmitter<User>();
+
+  memberRoleInOrganization: UserRole;
 
   isDisplaySendingLoader: boolean;
   isDisplayUpdatingLoader: boolean;
@@ -47,6 +51,19 @@ export class MemberSingleComponent {
     private analytics: Angulartics2Mixpanel,
     private intercom: Intercom
   ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes.member &&
+      changes.team &&
+      changes.member.currentValue &&
+      changes.team.currentValue
+    ) {
+      this.memberRoleInOrganization = this.member.userRole.get(
+        this.team.team_id
+      );
+    }
+  }
 
   deleteMember() {
     this.delete.emit(this.member);
