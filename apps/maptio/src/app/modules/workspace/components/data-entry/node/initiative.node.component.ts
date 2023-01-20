@@ -110,12 +110,16 @@ export class InitiativeNodeComponent {
     newNode.children = [];
     newNode.team_id = initiative.team_id;
     newNode.hasFocus = true;
-    if (this.user.userRole === UserRole.Standard) {
-      const helper = <Helper>this.user;
-      helper.roles = [];
-      helper.hasAuthorityPrivileges = true;
-      newNode.helpers.push(helper);
-    }
+
+    // See #375, perhaps we can bring this back in the near future, but for now
+    // this is unnecessary
+    // if (this.user.userRole === UserRole.Standard) {
+    //   const helper = <Helper>this.user;
+    //   helper.roles = [];
+    //   helper.hasAuthorityPrivileges = true;
+    //   newNode.helpers.push(helper);
+    // }
+
     setTimeout(() => {
       newNode.hasFocus = false;
     });
