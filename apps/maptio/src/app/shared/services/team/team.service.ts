@@ -176,11 +176,16 @@ export class TeamService {
     return success;
   }
 
-  async addMember(team: Team, user: User): Promise<boolean> {
+  private async addMember(
+    team: Team,
+    user: User,
+    userRoleInOrganization: UserRole
+  ): Promise<boolean> {
     let success: boolean;
     let teamDatasets: DataSet[];
 
     user.teams.push(team.team_id);
+    user.setUserRole(team.team_id, userRoleInOrganization);
 
     try {
       teamDatasets = await this.datasetFactory.get(team);
@@ -222,6 +227,10 @@ export class TeamService {
     memberToBeReplaced: User,
     memberToBeAdded: User
   ): Promise<boolean> {
+    const userRoleInOrganization = memberToBeReplaced.getUserRoleInOrganization(
+      team.team_id
+    );
+
     this.removeMember(team, memberToBeReplaced);
 
     const isMemberToBeAddedAlreadyInTeam = team.members.some(
@@ -229,7 +238,7 @@ export class TeamService {
     );
 
     if (!isMemberToBeAddedAlreadyInTeam) {
-      return this.addMember(team, memberToBeAdded);
+      return this.addMember(team, memberToBeAdded, userRoleInOrganization);
     } else {
       return this.teamFactory.upsert(team);
     }
