@@ -237,11 +237,7 @@ export class User implements Serializable<User> {
       // Old format, convert to new format
       teamIds.forEach((teamId) => {
         // Convert input string to UserRole, if it fails, use Standard
-        // Old code:
-        // deserialized.userRole = (<any>UserRole)[input.userRole]
-        //   ? input.userRole
-        //   : UserRole.Standard;
-        const convertedUserRole = UserRole[userRoleInput] // New code, does this work?!?
+        const convertedUserRole = UserRole[userRoleInput]
           ? ((userRoleInput as unknown) as UserRole)
           : UserRole.Standard;
 
@@ -254,8 +250,6 @@ export class User implements Serializable<User> {
       });
     } else {
       // New format, just read it
-      // userRoleMap = new Map(JSON.parse(userRoleInput as string));
-      // userRoleMap = new Map((userRoleInput as unknown) as UserRoleArray);
       userRoleMap = new Map(userRoleInput as UserRoleArray);
     }
 
