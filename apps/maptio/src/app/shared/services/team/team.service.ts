@@ -154,8 +154,35 @@ export class TeamService {
   }
 
   async removeMember(team: Team, user: User): Promise<boolean> {
+    let success: boolean;
+    let teamDatasets: DataSet[];
+
     if (team.members.length === 1) {
       return;
+    }
+
+    remove(user.teams, (userTeamId) => userTeamId === team.team_id);
+    user.deleteUserRole(team.team_id);
+
+    try {
+      teamDatasets = await this.datasetFactory.get(team);
+    } catch {
+      throw new Error($localize`
+        Encountered an error while fetching datasets for a team to add a member
+        to the team.
+      `);
+    }
+
+    const teamDatasetIds = teamDatasets.map((dataset) => dataset.datasetId);
+    remove(user.datasets, (datasetId) => teamDatasetIds.includes(datasetId));
+
+    try {
+      success = await this.userFactory.upsert(user);
+    } catch {
+      throw new Error($localize`
+        Encountered an error while updating user object after adding member to
+        team.
+      `);
     }
 
     remove(team.members, function (member) {
