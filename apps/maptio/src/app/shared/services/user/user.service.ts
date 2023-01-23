@@ -27,7 +27,7 @@ import { environment } from '@maptio-environment';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
-import { User } from '@maptio-shared/model/user.data';
+import { User, UserRoleArray } from '@maptio-shared/model/user.data';
 import { OnboardingProgress } from '@maptio-shared/model/onboarding-progress.data';
 import { Helper } from '@maptio-shared/model/helper.data';
 import { Team } from '@maptio-shared/model/team.data';
@@ -203,8 +203,6 @@ export class UserService implements OnDestroy {
 
     user.exampleTeamIds = await this.identifyExampleTeams(user);
 
-    this.permissions = this.userRoleService.get(user.userRole);
-
     const datasetIds = await this.datasetFactory.get(user);
     user.datasets = uniq(datasetIds);
 
@@ -301,7 +299,8 @@ export class UserService implements OnDestroy {
     // Because this function is used early on in the onboarding process, we
     // don't have a team yet, so we use a placeholder team ID, which will be
     // replaced once the team is created
-    const userRole = new Map([[this.NEW_TEAM_ID, UserRole.Admin]]);
+    const userRoleMap = this.teamService.createTemporaryUserRole();
+    const userRole = Array.from(userRoleMap.entries());
 
     // Base user ID on what's in Auth0
     const userId = profile.sub;
@@ -329,7 +328,7 @@ export class UserService implements OnDestroy {
     firstname: string,
     lastname: string,
     picture: string,
-    userRole: Map<string, UserRole>,
+    userRole: UserRoleArray,
     isInAuth0 = false
   ): User {
     const imageUrl = picture
@@ -533,7 +532,7 @@ export class UserService implements OnDestroy {
     team: Team,
     newUserRoleInOrganization: UserRole
   ): Promise<boolean> {
-    user.userRole.set(team.team_id, newUserRoleInOrganization);
+    user.setUserRole(team.team_id, newUserRoleInOrganization);
     return this.userFactory.upsert(user);
   }
 

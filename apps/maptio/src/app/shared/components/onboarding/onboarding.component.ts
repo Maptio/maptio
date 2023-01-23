@@ -185,13 +185,7 @@ export class OnboardingComponent implements OnInit {
       if (exist) {
         return this.teamService.save(team);
       } else {
-        return this.teamService.create(
-          team.name,
-          this.user,
-          [this.user],
-          false,
-          false
-        );
+        return this.teamService.create(team.name, this.user, true);
       }
     });
   }

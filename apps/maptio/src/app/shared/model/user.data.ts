@@ -1,11 +1,14 @@
 import * as slug from 'slug';
 import { parseISO } from 'date-fns';
-import { cloneDeep } from 'lodash-es';
 
 import { Serializable } from '../interfaces/serializable.interface';
 import { Team } from './team.data';
 import { UserRole } from './permission.data';
 import { OnboardingProgress } from './onboarding-progress.data';
+
+// Helper types to make matching user roles within teams easier
+export type UserRoleArray = [string, UserRole][];
+export type UserRoleMap = Map<string, UserRole>;
 
 /**
  * A user
@@ -65,8 +68,13 @@ export class User implements Serializable<User> {
   /** List of permissions */
   // public permissions: Permissions[];
 
-  /** User status e.g. Standard, Admin, Guest, etc. */
-  public userRole: Map<string, UserRole>;
+  /**
+   * User status e.g. Standard, Admin, Guest, etc. in each team
+   *
+   * This is an array of tuples instead of the more natural Map to make
+   * serialization easier.
+   */
+  public userRole: UserRoleArray;
 
   public onboardingProgress: OnboardingProgress;
 
@@ -79,12 +87,6 @@ export class User implements Serializable<User> {
 
   static create(): User {
     return new User();
-  }
-
-  getSerializable(): SerializableUser {
-    const serializableUser = (cloneDeep(this) as unknown) as SerializableUser;
-    serializableUser.userRole = JSON.stringify([...this.userRole]);
-    return serializableUser;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -194,6 +196,23 @@ export class User implements Serializable<User> {
     }
   }
 
+  getUserRoleInOrganization(teamId: string): UserRole {
+    const userRoleMap = this.convertUserRoleArrayToMap(this.userRole);
+    return userRoleMap.get(teamId);
+  }
+
+  setUserRole(teamId: string, newUserRoleInOrganization: UserRole) {
+    const userRoleMap = this.convertUserRoleArrayToMap(this.userRole);
+    userRoleMap.set(teamId, newUserRoleInOrganization);
+    this.userRole = this.convertUserRoleMapToArray(userRoleMap);
+  }
+
+  deleteUserRole(teamId: string) {
+    const userRoleMap = this.convertUserRoleArrayToMap(this.userRole);
+    userRoleMap.delete(teamId);
+    this.userRole = this.convertUserRoleMapToArray(userRoleMap);
+  }
+
   /**
    * Deal with old data where userRole was a string
    *
@@ -204,15 +223,10 @@ export class User implements Serializable<User> {
    * @param teams
    */
   deserializeUserRole(
-    userRoleInput:
-      | Record<string, UserRole>
-      | string
-      | number
-      | undefined
-      | null,
+    userRoleInput: UserRoleArray | string | number | undefined | null,
     teamIds: string[]
-  ): Map<string, UserRole> {
-    let userRole = new Map<string, UserRole>();
+  ): [string, UserRole][] {
+    let userRoleMap = new Map<string, UserRole>();
 
     if (
       userRoleInput === 0 ||
@@ -231,19 +245,31 @@ export class User implements Serializable<User> {
           ? ((userRoleInput as unknown) as UserRole)
           : UserRole.Standard;
 
-        userRole.set(teamId, convertedUserRole);
+        userRoleMap.set(teamId, convertedUserRole);
       });
     } else if (userRoleInput === undefined || userRoleInput === null) {
       // Old format, convert to new format
       teamIds.forEach((teamId) => {
-        userRole.set(teamId, UserRole.Standard);
+        userRoleMap.set(teamId, UserRole.Standard);
       });
     } else {
       // New format, just read it
-      userRole = new Map(JSON.parse(userRoleInput as string));
+      // userRoleMap = new Map(JSON.parse(userRoleInput as string));
+      // userRoleMap = new Map((userRoleInput as unknown) as UserRoleArray);
+      userRoleMap = new Map(userRoleInput as UserRoleArray);
     }
 
-    return userRole;
+    return this.convertUserRoleMapToArray(userRoleMap);
+  }
+
+  private convertUserRoleArrayToMap(userRoleArray: UserRoleArray): UserRoleMap {
+    return new Map(userRoleArray);
+  }
+
+  private convertUserRoleMapToArray(
+    userRoleMap: Map<string, UserRole>
+  ): [string, UserRole][] {
+    return Array.from(userRoleMap.entries());
   }
 }
 

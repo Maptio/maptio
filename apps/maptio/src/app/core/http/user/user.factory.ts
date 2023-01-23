@@ -94,7 +94,7 @@ export class UserFactory {
   create(input: User): Promise<User> {
     input.shortid = shortid.generate();
     return this.http
-      .post(`/api/v1/user`, input.getSerializable())
+      .post(`/api/v1/user`, input)
       .pipe(
         map((responseData) => {
           return responseData;
@@ -113,7 +113,7 @@ export class UserFactory {
    */
   upsert(user: User): Promise<boolean> {
     return this.http
-      .put(`/api/v1/user/${user.user_id}`, user.getSerializable())
+      .put(`/api/v1/user/${user.user_id}`, user)
       .pipe(
         map((responseData) => {
           return responseData;

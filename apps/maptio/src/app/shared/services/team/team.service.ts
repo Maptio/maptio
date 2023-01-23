@@ -10,9 +10,12 @@ import { remove } from 'lodash-es';
 
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { DataSet } from '@maptio-shared/model/dataset.data';
+import { UserRole } from '@maptio-shared/model/permission.data';
 
 @Injectable()
 export class TeamService {
+  private NEW_TEAM_ID_PLACEHOLDER = 'new-team-id-placeholder';
+
   constructor(
     private teamFactory: TeamFactory,
     private userFactory: UserFactory,
@@ -21,24 +24,16 @@ export class TeamService {
     private intercomService: IntercomService
   ) {}
 
-  create(
-    name: string,
-    user: User,
-    members?: User[],
-    isTemporary?: boolean,
-    isExample?: boolean
-  ) {
-    if (members === undefined) {
-      members = [user];
-    }
+  create(name: string, user: User, replaceNewTeamIdPlaceHolder?: boolean) {
+    const members = [user];
 
     return this.teamFactory
       .create(
         new Team({
           name: name,
           members: members,
-          isTemporary: isTemporary,
-          isExample: isExample,
+          isTemporary: false,
+          isExample: false,
           freeTrialLength: 14,
           isPaying: false,
         })
@@ -46,18 +41,23 @@ export class TeamService {
       .then(
         (team: Team) => {
           user.teams.push(team.team_id);
+
+          if (replaceNewTeamIdPlaceHolder) {
+            user = this.replaceTemporaryUserRole(user, team.team_id);
+          } else {
+            user.setUserRole(team.team_id, UserRole.Admin);
+          }
+
           return this.userFactory
             .upsert(user)
             .then(
               (result: boolean) => {
                 if (result) {
-                  if (!isTemporary && !isExample) {
-                    this.analytics.eventTrack('Create team', {
-                      email: user.email,
-                      name: name,
-                      teamId: team.team_id,
-                    });
-                  }
+                  this.analytics.eventTrack('Create team', {
+                    email: user.email,
+                    name: name,
+                    teamId: team.team_id,
+                  });
                 } else {
                   throw $localize`Unable to add you to organisation ${name}!`;
                 }
@@ -75,17 +75,13 @@ export class TeamService {
         }
       )
       .then((team: Team) => {
-        if (!isExample) {
-          return this.intercomService
-            .createTeam(user, team)
-            .toPromise()
-            .then((result) => {
-              if (result) return team;
-              else throw $localize`Cannot sync organisation with Intercom.`;
-            });
-        } else {
-          return team;
-        }
+        return this.intercomService
+          .createTeam(user, team)
+          .toPromise()
+          .then((result) => {
+            if (result) return team;
+            else throw $localize`Cannot sync organisation with Intercom.`;
+          });
       });
   }
 
@@ -140,6 +136,21 @@ export class TeamService {
         throw $localize`Error while updating the organisation`;
       }
     });
+  }
+
+  createTemporaryUserRole() {
+    return new Map([[this.NEW_TEAM_ID_PLACEHOLDER, UserRole.Admin]]);
+  }
+
+  replaceTemporaryUserRole(user: User, teamId: string): User {
+    // Find and modify user role for team with id NEW_TEAM_ID
+    const userRoleInOrganization = user.getUserRoleInOrganization(
+      this.NEW_TEAM_ID_PLACEHOLDER
+    );
+    user.deleteUserRole(this.NEW_TEAM_ID_PLACEHOLDER);
+    user.setUserRole(teamId, userRoleInOrganization);
+
+    return user;
   }
 
   async removeMember(team: Team, user: User): Promise<boolean> {
