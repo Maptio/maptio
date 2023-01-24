@@ -254,14 +254,6 @@ export class UserService implements OnDestroy {
   }
 
   /*
-   * User permissions
-   */
-
-  public getPermissions(): Permissions[] {
-    return this.permissions;
-  }
-
-  /*
    * User creation
    */
 
