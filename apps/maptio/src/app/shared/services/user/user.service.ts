@@ -49,8 +49,6 @@ import { DuplicationError } from './duplication.error';
 
 @Injectable()
 export class UserService implements OnDestroy {
-  private NEW_TEAM_ID = 'new-team-id';
-
   // Keep auth variables in the user service for convenience, allowing us to
   // skip importing the Auth0 SDK in components
   public isAuthenticated$ = this.auth.isAuthenticated$;
@@ -277,7 +275,8 @@ export class UserService implements OnDestroy {
     lastname: string,
     picture: string
   ): Promise<User> {
-    const userRole = new Map([[team.team_id, UserRole.Standard]]);
+    const userRoleMap = new Map([[team.team_id, UserRole.Standard]]);
+    const userRole = Array.from(userRoleMap.entries());
 
     const userId = this.generateNewUserId();
     const user = this.createUser(
