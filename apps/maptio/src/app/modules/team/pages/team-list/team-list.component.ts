@@ -14,7 +14,9 @@ import { Team } from '../../../../shared/model/team.data';
 import { Router, ActivatedRoute } from '@angular/router';
 import { isEmpty } from 'lodash';
 import { LoaderService } from '../../../../shared/components/loading/loader.service';
+
 import { UserService } from '@maptio-shared/services/user/user.service';
+import { PermissionsService } from '@maptio-shared/services/permissions/permissions.service';
 
 @Component({
   selector: 'team-list',
@@ -42,6 +44,7 @@ export class TeamListComponent implements OnInit {
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
     public userService: UserService,
+    public permissionsService: PermissionsService,
     public router: Router,
     private loaderService: LoaderService
   ) {}
@@ -68,9 +71,7 @@ export class TeamListComponent implements OnInit {
   }
 
   canCreateUnlimitedTeams() {
-    return this.userService
-      .getPermissions()
-      .includes(Permissions.canCreateUnlimitedTeams);
+    return this.permissionsService.canCreateUnlimitedTeams();
   }
 
   trackByTeamId(index: number, team: Team) {
