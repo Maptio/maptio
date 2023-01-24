@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { UserService } from '../user/user.service';
-import { Permissions } from '../../model/permission.data';
+import { Permissions, UserRoleService } from '../../model/permission.data';
 import { Initiative } from '../../model/initiative.data';
 import { Helper } from '../../model/helper.data';
 
@@ -9,14 +9,28 @@ import { Helper } from '../../model/helper.data';
 export class PermissionsService {
   Permission: Permissions;
 
-  private userId: string;
   private userPermissions: Permissions[];
 
-  constructor(private userService: UserService) {
-    if (localStorage.getItem('profile')) {
-      this.userId = JSON.parse(localStorage.getItem('profile')).user_id;
-    }
-    this.userPermissions = this.userService.getPermissions();
+  constructor(
+    private userService: UserService,
+    private userRoleService: UserRoleService
+  ) {
+    // TODO: REDO the dependencies of this to make the flow reactive
+    // TODO: unsubscribe
+    this.userService.user$.subscribe((user) => {
+      // TODO: HARDCODED FOR NOW!!!
+      // "Guardians of the Galaxy" where I'm an admin...
+      const currentTeamId = '59bed8e434a28352f6b9a0a8';
+      // "Test with Tom" where I'm a standard user...
+      // const currentTeamId = '618bf6bacf864d00043fd960';
+
+      const currentUserRole = user.getUserRoleInOrganization(currentTeamId);
+      this.userPermissions = this.userRoleService.get(currentUserRole);
+    });
+  }
+
+  public getUserPermissions(): Permissions[] {
+    return this.userPermissions;
   }
 
   public canMoveInitiative(): boolean {
@@ -138,5 +152,9 @@ export class PermissionsService {
     return this.userPermissions.includes(
       Permissions.canOpenInitiativeContextMenu
     );
+  }
+
+  public canCreateUnlimitedTeams(): boolean {
+    return this.userPermissions.includes(Permissions.canCreateUnlimitedTeams);
   }
 }
