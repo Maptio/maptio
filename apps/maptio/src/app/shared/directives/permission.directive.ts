@@ -60,18 +60,13 @@ export class PermissionsDirective implements OnInit, OnDestroy {
   private currentAuthorizedState: boolean;
 
   private userPermissions: Permissions[];
-  private userId: string;
 
   constructor(
     private viewContainer: ViewContainerRef,
     private templateRef: TemplateRef<any>,
-    private userService: UserService,
-    private permissionService: PermissionsService
+    private permissionsService: PermissionsService
   ) {
-    this.userPermissions = this.userService.getPermissions();
-    if (localStorage.getItem('profile')) {
-      this.userId = JSON.parse(localStorage.getItem('profile')).user_id;
-    }
+    this.userPermissions = this.permissionsService.getUserPermissions();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -228,39 +223,39 @@ export class PermissionsDirective implements OnInit, OnDestroy {
   private checkPermission() {
     switch (this.permission) {
       case Permissions.canMoveInitiative:
-        return this.permissionService.canMoveInitiative();
+        return this.permissionsService.canMoveInitiative();
       case Permissions.canDeleteInitiative:
-        return this.permissionService.canDeleteInitiative(this.initiative);
+        return this.permissionsService.canDeleteInitiative(this.initiative);
       case Permissions.canEditInitiativeName:
-        return this.permissionService.canEditInitiativeName(this.initiative);
+        return this.permissionsService.canEditInitiativeName(this.initiative);
       case Permissions.canEditInitiativeDescription:
-        return this.permissionService.canEditInitiativeDescription(
+        return this.permissionsService.canEditInitiativeDescription(
           this.initiative
         );
       case Permissions.canEditInitiativeTags:
-        return this.permissionService.canEditInitiativeTags(this.initiative);
+        return this.permissionsService.canEditInitiativeTags(this.initiative);
       case Permissions.canEditInitiativeAuthority:
-        return this.permissionService.canEditInitiativeAuthority(
+        return this.permissionsService.canEditInitiativeAuthority(
           this.initiative
         );
       case Permissions.canAddHelper:
-        return this.permissionService.canAddHelper(this.initiative);
+        return this.permissionsService.canAddHelper(this.initiative);
       case Permissions.canDeleteHelper:
-        return this.permissionService.canDeleteHelper(
+        return this.permissionsService.canDeleteHelper(
           this.initiative,
           this.helper
         );
       case Permissions.canEditHelper:
-        return this.permissionService.canEditHelper(
+        return this.permissionsService.canEditHelper(
           this.initiative,
           this.helper
         );
       case Permissions.canEditVacancies:
-        return this.permissionService.canEditVacancies();
+        return this.permissionsService.canEditVacancies();
       case Permissions.canEditSize:
-        return this.permissionService.canEditSize();
+        return this.permissionsService.canEditSize();
       case Permissions.canGiveHelperPrivileges:
-        return this.permissionService.canGiveHelperPrivilege(this.initiative);
+        return this.permissionsService.canGiveHelperPrivilege(this.initiative);
       default:
         return this.userPermissions.includes(this.permission);
     }
