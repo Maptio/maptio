@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
 
+import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { EmitterService } from '@maptio-core/services/emitter.service';
+
 import { UserService } from '../user/user.service';
 import { Permissions, UserRoleService } from '../../model/permission.data';
 import { Initiative } from '../../model/initiative.data';
@@ -9,23 +14,45 @@ import { Helper } from '../../model/helper.data';
 export class PermissionsService {
   Permission: Permissions;
 
+  // TODO: Move to non-archaic state management
+  private currentTeam$ = EmitterService.get('currentTeam');
   private userPermissions: Permissions[];
+
+  private userPermissions$ = combineLatest([
+    this.userService.user$,
+    this.currentTeam$,
+  ]).pipe(
+    map(([user, currentTeam]) => {
+      if (currentTeam) {
+        const currentUserRole = user.getUserRoleInOrganization(
+          currentTeam.team_id
+        );
+        return this.userRoleService.get(currentUserRole);
+      } else {
+        return [];
+      }
+    })
+  );
 
   constructor(
     private userService: UserService,
     private userRoleService: UserRoleService
   ) {
-    // TODO: REDO the dependencies of this to make the flow reactive
-    // TODO: unsubscribe
-    this.userService.user$.subscribe((user) => {
-      // TODO: HARDCODED FOR NOW!!!
-      // "Guardians of the Galaxy" where I'm an admin...
-      const currentTeamId = '59bed8e434a28352f6b9a0a8';
-      // "Test with Tom" where I'm a standard user...
-      // const currentTeamId = '618bf6bacf864d00043fd960';
+    // // TODO: REDO the dependencies of this to make the flow reactive
+    // // TODO: unsubscribe
+    // this.userService.user$.subscribe((user) => {
+    //   // TODO: HARDCODED FOR NOW!!!
+    //   // "Guardians of the Galaxy" where I'm an admin...
+    //   const currentTeamId = '59bed8e434a28352f6b9a0a8';
+    //   // "Test with Tom" where I'm a standard user...
+    //   // const currentTeamId = '618bf6bacf864d00043fd960';
 
-      const currentUserRole = user.getUserRoleInOrganization(currentTeamId);
-      this.userPermissions = this.userRoleService.get(currentUserRole);
+    //   const currentUserRole = user.getUserRoleInOrganization(currentTeamId);
+    //   this.userPermissions = this.userRoleService.get(currentUserRole);
+    // });
+
+    this.userPermissions$.subscribe((permissions) => {
+      this.userPermissions = permissions;
     });
   }
 
