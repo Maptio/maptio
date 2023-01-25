@@ -149,6 +149,7 @@
     "@angular/compiler-cli": "12.0.4",
     "@angular/language-service": "12.0.4",
     "@compodoc/compodoc": "^1.1.11",
+    "@ngrx/schematics": "^15.1.0",
     "@nrwl/cli": "12.3.6",
     "@nrwl/cypress": "12.3.6",
     "@nrwl/eslint-plugin-nx": "12.3.6",
@@ -191,6 +192,7 @@
     "eslint": "7.22.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-cypress": "^2.10.3",
+    "eslint-plugin-ngrx": "^1.0.0",
     "firebase-tools": "^8.0.0",
     "fuzzy": "^0.1.3",
     "inquirer": "^6.2.2",
@@ -202,7 +204,6 @@
     "prettier": "2.2.1",
     "ts-jest": "26.5.5",
     "ts-node": "~9.1.1",
-    "typescript": "4.2.4",
-    "eslint-plugin-ngrx": "^1.0.0"
+    "typescript": "4.2.4"
   }
 }
