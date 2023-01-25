@@ -59,7 +59,7 @@ export class MemberSingleComponent implements OnChanges {
       changes.member.currentValue &&
       changes.team.currentValue
     ) {
-      this.memberRoleInOrganization = this.member.userRole.get(
+      this.memberRoleInOrganization = this.member.getUserRoleInOrganization(
         this.team.team_id
       );
     }
