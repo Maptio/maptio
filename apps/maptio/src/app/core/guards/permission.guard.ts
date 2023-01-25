@@ -4,15 +4,22 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { CanActivate, CanActivateChild, Router } from '@angular/router';
 import { PermissionsService } from '@maptio-shared/services/permissions/permissions.service';
+import { Store } from '@ngrx/store';
+
+import { setCurrentOrganisationId } from 'app/state/current-organisation.actions';
 
 @Injectable()
 export class PermissionGuard implements CanActivate, CanActivateChild {
   constructor(
+    private store: Store,
     private permissionsService: PermissionsService,
     private router: Router
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
+    const currentOrganisationId: string = route.parent.paramMap.get('teamid');
+    this.store.dispatch(setCurrentOrganisationId({ currentOrganisationId }));
+
     const userPermissions = this.permissionsService.getUserPermissions();
 
     route.data.permissions.forEach((required: Permissions) => {

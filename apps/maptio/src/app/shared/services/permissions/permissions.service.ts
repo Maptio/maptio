@@ -3,7 +3,11 @@ import { Injectable } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { Store } from '@ngrx/store';
+
 import { EmitterService } from '@maptio-core/services/emitter.service';
+
+import { selectCurrentOrganisationId } from 'app/state/current-organisation.selectors';
 
 import { UserService } from '../user/user.service';
 import { Permissions, UserRoleService } from '../../model/permission.data';
@@ -16,7 +20,8 @@ export class PermissionsService {
 
   // TODO: Move to non-archaic state management
   private currentTeam$ = EmitterService.get('currentTeam');
-  private userPermissions: Permissions[];
+  private currentOrganisationId$;
+  private userPermissions: Permissions[] = [];
 
   private userPermissions$ = combineLatest([
     this.userService.user$,
@@ -35,6 +40,7 @@ export class PermissionsService {
   );
 
   constructor(
+    private store: Store,
     private userService: UserService,
     private userRoleService: UserRoleService
   ) {
@@ -50,6 +56,14 @@ export class PermissionsService {
     //   const currentUserRole = user.getUserRoleInOrganization(currentTeamId);
     //   this.userPermissions = this.userRoleService.get(currentUserRole);
     // });
+
+    this.currentOrganisationId$ = this.store.select(
+      selectCurrentOrganisationId
+    );
+
+    this.currentOrganisationId$.subscribe((currentOrganisationId) => {
+      console.log('currentOrganisationId', currentOrganisationId);
+    });
 
     this.userPermissions$.subscribe((permissions) => {
       this.userPermissions = permissions;

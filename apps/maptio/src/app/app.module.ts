@@ -15,6 +15,7 @@ import {
 // import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from '@angular/router';
 
+import { StoreModule } from '@ngrx/store';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { SubSink } from 'subsink';
 import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
@@ -25,7 +26,8 @@ import { CoreModule } from './core/core.module';
 import { AnalyticsModule } from './core/analytics.module';
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app.routing';
-import { StoreModule } from '@ngrx/store';
+
+import { currentOrganisationIdReducer } from './state/current-organisation.reducer';
 
 // Override default Hammer.js configuration for SVG zoom and pan gesture support
 @Injectable()
@@ -111,7 +113,9 @@ export function markedOptionsFactory(): MarkedOptions {
     // core & shared
     CoreModule,
     SharedModule.forRoot(),
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({
+      currentOrganisationId: currentOrganisationIdReducer,
+    }),
   ],
   exports: [RouterModule],
   providers: [
