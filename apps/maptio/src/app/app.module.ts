@@ -25,6 +25,7 @@ import { CoreModule } from './core/core.module';
 import { AnalyticsModule } from './core/analytics.module';
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app.routing';
+import { StoreModule } from '@ngrx/store';
 
 // Override default Hammer.js configuration for SVG zoom and pan gesture support
 @Injectable()
@@ -110,6 +111,7 @@ export function markedOptionsFactory(): MarkedOptions {
     // core & shared
     CoreModule,
     SharedModule.forRoot(),
+    StoreModule.forRoot({}, {}),
   ],
   exports: [RouterModule],
   providers: [
