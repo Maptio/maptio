@@ -5,9 +5,10 @@ import { map } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 
+// TODO: Remove
 import { EmitterService } from '@maptio-core/services/emitter.service';
-
-import { selectCurrentOrganisationId } from 'app/state/current-organisation.selectors';
+import { AppState } from '@maptio-state/app.state';
+import { selectCurrentOrganisationId } from '@maptio-state/current-organisation.selectors';
 
 import { UserService } from '../user/user.service';
 import { Permissions, UserRoleService } from '../../model/permission.data';
@@ -18,19 +19,28 @@ import { Helper } from '../../model/helper.data';
 export class PermissionsService {
   Permission: Permissions;
 
-  // TODO: Move to non-archaic state management
+  // TODO: Remove
   private currentTeam$ = EmitterService.get('currentTeam');
-  private currentOrganisationId$;
-  private userPermissions: Permissions[] = [];
+
+  private currentOrganisationId$ = this.store.select(
+    selectCurrentOrganisationId
+  );
 
   private userPermissions$ = combineLatest([
     this.userService.user$,
-    this.currentTeam$,
+    this.currentOrganisationId$,
   ]).pipe(
-    map(([user, currentTeam]) => {
-      if (currentTeam) {
+    map(([user, state]) => {
+      // Convert the state object to get at the hidden ID of the current
+      // organisation
+      // TODO: This needs to be refactored away by a correct implementation of
+      // state, selectors, etc.
+      const currentOrganisationId = ((state as unknown) as AppState)
+        ?.currentOrganisationId;
+
+      if (currentOrganisationId) {
         const currentUserRole = user.getUserRoleInOrganization(
-          currentTeam.team_id
+          currentOrganisationId
         );
         return this.userRoleService.get(currentUserRole);
       } else {
@@ -38,6 +48,9 @@ export class PermissionsService {
       }
     })
   );
+
+  // Keep the non-reactive version populated for now
+  private userPermissions: Permissions[] = [];
 
   constructor(
     private store: Store,
@@ -52,19 +65,16 @@ export class PermissionsService {
     //   const currentTeamId = '59bed8e434a28352f6b9a0a8';
     //   // "Test with Tom" where I'm a standard user...
     //   // const currentTeamId = '618bf6bacf864d00043fd960';
-
     //   const currentUserRole = user.getUserRoleInOrganization(currentTeamId);
     //   this.userPermissions = this.userRoleService.get(currentUserRole);
     // });
 
-    this.currentOrganisationId$ = this.store.select(
-      selectCurrentOrganisationId
-    );
+    // this.currentOrganisationId$.subscribe((currentOrganisationId) => {
+    //   console.log('currentOrganisationId', currentOrganisationId);
+    // });
 
-    this.currentOrganisationId$.subscribe((currentOrganisationId) => {
-      console.log('currentOrganisationId', currentOrganisationId);
-    });
-
+    // We'll keep the non-reactive version of the user permissions populated
+    // for now as we transition
     this.userPermissions$.subscribe((permissions) => {
       this.userPermissions = permissions;
     });
