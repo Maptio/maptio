@@ -16,6 +16,7 @@ import {
 import { RouterModule } from '@angular/router';
 
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { SubSink } from 'subsink';
 import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
@@ -115,6 +116,11 @@ export function markedOptionsFactory(): MarkedOptions {
     SharedModule.forRoot(),
     StoreModule.forRoot({
       currentOrganisationId: currentOrganisationIdReducer,
+    }),
+    StoreDevtoolsModule.instrument({
+      name: 'Maptio',
+      maxAge: 25,
+      logOnly: environment.production,
     }),
   ],
   exports: [RouterModule],
