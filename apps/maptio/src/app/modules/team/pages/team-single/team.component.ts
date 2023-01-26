@@ -14,6 +14,10 @@ import { TeamIntegrationsComponent } from '../team-integrations/integrations.com
 import { TeamBillingComponent } from '../team-billing/billing.component';
 import { ThrowStmt } from '@angular/compiler';
 
+import { Store } from '@ngrx/store';
+
+import { setCurrentOrganisationId } from '@maptio-state/current-organisation.actions';
+
 @Component({
   selector: 'team',
   templateUrl: './team.component.html',
@@ -25,13 +29,21 @@ export class TeamComponent implements OnInit {
   team: Team;
   Permissions = Permissions;
   pageName: string;
-  constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef) {}
+  constructor(
+    private route: ActivatedRoute,
+    private cd: ChangeDetectorRef,
+    private store: Store
+  ) {}
 
   ngOnInit() {
     this.routeSubscription = this.route.data.subscribe(
       (data: { assets: { team: Team; datasets: DataSet[] } }) => {
         this.team = data.assets.team;
         EmitterService.get('currentTeam').emit(this.team);
+        const currentOrganisationId = this.team?.team_id;
+        this.store.dispatch(
+          setCurrentOrganisationId({ currentOrganisationId })
+        );
         this.cd.markForCheck();
       }
     );
@@ -43,6 +55,9 @@ export class TeamComponent implements OnInit {
 
   ngOnDestroy() {
     EmitterService.get('currentTeam').emit(null);
+    this.store.dispatch(
+      setCurrentOrganisationId({ currentOrganisationId: undefined })
+    );
 
     this.routeSubscription.unsubscribe();
   }
