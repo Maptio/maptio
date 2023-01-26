@@ -1,9 +1,12 @@
 import { Component, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+
 import { SubSink } from 'subsink';
 import { isEmpty } from 'lodash-es';
 
 import { environment } from '@maptio-config/environment';
+import { setCurrentOrganisationId } from '@maptio-state/current-organisation.actions';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
 import { EmitterService } from '@maptio-core/services/emitter.service';
@@ -34,6 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private cd: ChangeDetectorRef,
+    private store: Store,
     public datasetFactory: DatasetFactory,
     public teamFactory: TeamFactory,
     public userService: UserService,
@@ -67,6 +71,11 @@ export class HomeComponent implements OnInit, OnDestroy {
               }
 
               EmitterService.get('currentTeam').emit(this.teams[0]);
+
+              const currentOrganisationId = this.teams[0]?.team_id;
+              this.store.dispatch(
+                setCurrentOrganisationId({ currentOrganisationId })
+              );
 
               this.cd.markForCheck();
               this.loaderService.hide();
