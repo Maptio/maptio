@@ -12,9 +12,9 @@ import {
   TemplateRef,
   ViewContainerRef,
   SimpleChanges,
+  ChangeDetectorRef,
 } from '@angular/core';
 
-import { UserService } from '@maptio-shared/services/user/user.service';
 import { PermissionsService } from '../services/permissions/permissions.service';
 
 export type StrategyFunction = (templateRef?: TemplateRef<any>) => void;
@@ -64,10 +64,9 @@ export class PermissionsDirective implements OnInit, OnDestroy {
   constructor(
     private viewContainer: ViewContainerRef,
     private templateRef: TemplateRef<any>,
+    private changeDetector: ChangeDetectorRef,
     private permissionsService: PermissionsService
-  ) {
-    this.userPermissions = this.permissionsService.getUserPermissions();
-  }
+  ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.permissionsOnlyInitiative) {
@@ -115,7 +114,9 @@ export class PermissionsDirective implements OnInit, OnDestroy {
   }
 
   private validateExceptOnlyPermissions(): Subscription {
-    return observableOf(this.userPermissions).subscribe(() => {
+    return this.permissionsService.userPermissions$.subscribe((permissions) => {
+      this.userPermissions = permissions;
+
       if (this.permission) {
         this.validateOnlyPermissions();
         return;
@@ -181,6 +182,7 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     }
 
     this.viewContainer.createEmbeddedView(template);
+    this.changeDetector.markForCheck();
   }
 
   private getAuthorisedTemplates(): TemplateRef<any> {
