@@ -1,4 +1,4 @@
-import { of as observableOf, Subscription, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Helper } from './../model/helper.data';
 import { Initiative } from './../model/initiative.data';
 import { Permissions } from './../model/permission.data';
