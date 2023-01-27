@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 
@@ -22,11 +22,11 @@ export class PermissionsService {
   // TODO: Remove
   private currentTeam$ = EmitterService.get('currentTeam');
 
-  private currentOrganisationId$ = this.store.select(
-    selectCurrentOrganisationId
-  );
+  private currentOrganisationId$ = this.store
+    .select(selectCurrentOrganisationId)
+    .pipe(distinctUntilChanged());
 
-  private userPermissions$ = combineLatest([
+  public userPermissions$ = combineLatest([
     this.userService.user$,
     this.currentOrganisationId$,
   ]).pipe(
@@ -46,7 +46,9 @@ export class PermissionsService {
       } else {
         return [];
       }
-    })
+    }),
+
+    shareReplay(1)
   );
 
   // Keep the non-reactive version populated for now
