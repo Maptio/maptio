@@ -70,6 +70,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 this.onboardingService.open(this.user);
               }
 
+              // TODO: Move this to ngrx state too
               EmitterService.get('currentTeam').emit(this.teams[0]);
 
               const currentOrganisationId = this.teams[0]?.team_id;
