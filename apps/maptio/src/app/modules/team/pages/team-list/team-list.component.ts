@@ -70,10 +70,6 @@ export class TeamListComponent implements OnInit {
     if (this.routeSubscription) this.routeSubscription.unsubscribe();
   }
 
-  canCreateUnlimitedTeams() {
-    return this.permissionsService.canCreateUnlimitedTeams();
-  }
-
   trackByTeamId(index: number, team: Team) {
     return team.team_id;
   }
