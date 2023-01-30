@@ -1,12 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
 import { combineLatest } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
+import { SubSink } from 'subsink';
 
-// TODO: Remove
-import { EmitterService } from '@maptio-core/services/emitter.service';
 import { AppState } from '@maptio-state/app.state';
 import { selectCurrentOrganisationId } from '@maptio-state/current-organisation.selectors';
 
@@ -16,11 +15,8 @@ import { Initiative } from '../../model/initiative.data';
 import { Helper } from '../../model/helper.data';
 
 @Injectable()
-export class PermissionsService {
+export class PermissionsService implements OnDestroy {
   Permission: Permissions;
-
-  // TODO: Remove
-  private currentTeam$ = EmitterService.get('currentTeam');
 
   private currentOrganisationId$ = this.store
     .select(selectCurrentOrganisationId)
@@ -51,35 +47,25 @@ export class PermissionsService {
     shareReplay(1)
   );
 
-  // Keep the non-reactive version populated for now
+  // Keep the non-reactive version populated for now, see TODO below
   private userPermissions: Permissions[] = [];
 
   constructor(
+    private subs: SubSink,
     private store: Store,
     private userService: UserService,
     private userRoleService: UserRoleService
   ) {
-    // // TODO: REDO the dependencies of this to make the flow reactive
-    // // TODO: unsubscribe
-    // this.userService.user$.subscribe((user) => {
-    //   // TODO: HARDCODED FOR NOW!!!
-    //   // "Guardians of the Galaxy" where I'm an admin...
-    //   const currentTeamId = '59bed8e434a28352f6b9a0a8';
-    //   // "Test with Tom" where I'm a standard user...
-    //   // const currentTeamId = '618bf6bacf864d00043fd960';
-    //   const currentUserRole = user.getUserRoleInOrganization(currentTeamId);
-    //   this.userPermissions = this.userRoleService.get(currentUserRole);
-    // });
-
-    // this.currentOrganisationId$.subscribe((currentOrganisationId) => {
-    //   console.log('currentOrganisationId', currentOrganisationId);
-    // });
-
-    // We'll keep the non-reactive version of the user permissions populated
-    // for now as we transition
-    this.userPermissions$.subscribe((permissions) => {
+    // TODO: Ideally, it'd be nice to redo all of the permissions architecture
+    // to be reactive, but this will take time, so let's keep the subscription
+    // here until there's a reason to invest in redoing this
+    this.subs.sink = this.userPermissions$.subscribe((permissions) => {
       this.userPermissions = permissions;
     });
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
   }
 
   public getUserPermissions(): Permissions[] {
