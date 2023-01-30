@@ -41,6 +41,7 @@ export enum Permissions {
   canEditSize,
   canGiveHelperPrivileges,
   canSubscribe,
+  canSeeOnboardingMessages,
 }
 
 export class UserRoleService {
@@ -89,6 +90,7 @@ export class UserRoleService {
       Permissions.canEditSize,
       Permissions.canGiveHelperPrivileges,
       Permissions.canSubscribe,
+      Permissions.canSeeOnboardingMessages,
     ];
   }
 

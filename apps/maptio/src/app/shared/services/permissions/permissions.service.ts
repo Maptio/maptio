@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 
-import { combineLatest } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
@@ -49,6 +49,13 @@ export class PermissionsService implements OnDestroy {
 
   // Keep the non-reactive version populated for now, see TODO below
   private userPermissions: Permissions[] = [];
+
+  // This is perhaps what the service could look like if it was reactive
+  public canSeeOnboardingMessages$ = this.userPermissions$.pipe(
+    map((permissions) =>
+      permissions.includes(Permissions.canSeeOnboardingMessages)
+    )
+  );
 
   constructor(
     private subs: SubSink,
