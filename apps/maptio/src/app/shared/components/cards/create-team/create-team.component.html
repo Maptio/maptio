@@ -1,92 +1,41 @@
 <form [formGroup]="createForm" (submit)="createNewTeam()">
-  <ng-container
-    *permissionsOnly="
-      Permissions.canCreateMap;
-      else elseCreateTeamBlock;
-      then: thenCreateTeamBlock
-    "
-  ></ng-container>
+  <fieldset class="d-flex flex-column">
+    <div class="form-group">
+      <label class="lead" for="teamName" i18n="@@createneworganisation">
+        Create a new organisation
+      </label>
 
-  <ng-template #thenCreateTeamBlock>
-    <fieldset class="d-flex flex-column">
-      <div class="form-group">
-        <label class="lead" for="teamName" i18n="@@createneworganisation">
-          Create a new organisation
-        </label>
+      <input
+        type="text"
+        class="form-control rounded mr-1 w-100"
+        [class.is-invalid]="
+          createForm.controls['teamName'].invalid &&
+          (createForm.controls['teamName'].dirty ||
+            createForm.controls['teamName'].touched)
+        "
+        formControlName="teamName"
+        required
+      />
 
-        <input
-          type="text"
-          class="form-control rounded mr-1 w-100"
-          [class.is-invalid]="
-            createForm.controls['teamName'].invalid &&
-            (createForm.controls['teamName'].dirty ||
-              createForm.controls['teamName'].touched)
-          "
-          formControlName="teamName"
-          required
-        />
+      <small class="invalid-feedback" i18n="@@atLeast2Chars">
+        Please enter at least 2 characters
+      </small>
 
-        <small class="invalid-feedback" i18n="@@atLeast2Chars">
-          Please enter at least 2 characters
-        </small>
+      <small *ngIf="errorMessage" class="text-danger">
+        {{ errorMessage }}
+      </small>
+    </div>
 
-        <small *ngIf="errorMessage" class="text-danger">
-          {{ errorMessage }}
-        </small>
-      </div>
+    <div class="d-flex justify-content-end">
+      <button [disabled]="isCreating" type="submit" class="btn btn-success">
+        <ng-container *ngIf="isCreating; else createButtonEnabled">
+          <i class="fas fa-circle-notch fa-spin"></i>
+          <span>&nbsp;</span>
+          <span i18n="@@creating">Creating</span>
+        </ng-container>
 
-      <div class="d-flex justify-content-end">
-        <button [disabled]="isCreating" type="submit" class="btn btn-success">
-          <ng-container *ngIf="isCreating; else createButtonEnabled">
-            <i class="fas fa-circle-notch fa-spin"></i>
-            <span>&nbsp;</span>
-            <span i18n="@@creating">Creating</span>
-          </ng-container>
-
-          <ng-template #createButtonEnabled i18n="@@create">Create</ng-template>
-        </button>
-      </div>
-    </fieldset>
-  </ng-template>
-
-  <ng-template #permissionsTipContent>
-    <maptio-insufficient-permissions-message
-      url="https://learning.maptio.com/create-new-org"
-      i18n="@@onlyAdminsCreateOrganisations"
-    >
-      Currently, only Admin users can create new organizations here, however,
-      you can set up your own organization in an alternative way.
-    </maptio-insufficient-permissions-message>
-  </ng-template>
-
-  <ng-template #elseCreateTeamBlock>
-    <fieldset
-      [stickyPopover]="permissionsTipContent"
-      class="d-flex flex-column"
-    >
-      <div class="form-group">
-        <label class="lead" for="teamName" i18n="@@createneworganisation">
-          Create a new organisation
-        </label>
-
-        <input
-          type="text"
-          class="form-control rounded mr-1 w-100"
-          disabled
-          required
-        />
-      </div>
-
-      <div class="form-group d-flex justify-content-end">
-        <button
-          disabled
-          type="submit"
-          class="btn btn-success cursor-not-allowed"
-          i18n="@@create"
-        >
-          Create
-        </button>
-      </div>
-    </fieldset>
-  </ng-template>
+        <ng-template #createButtonEnabled i18n="@@create">Create</ng-template>
+      </button>
+    </div>
+  </fieldset>
 </form>
