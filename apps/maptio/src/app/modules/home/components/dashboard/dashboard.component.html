@@ -243,6 +243,7 @@
       >
         <div class="card-body">
           <common-create-map
+            [user]="user"
             [teams]="teams"
             [isRedirect]="true"
             (created)="onNewMap($event)"
