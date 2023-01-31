@@ -85,18 +85,6 @@ export class TeamService {
       });
   }
 
-  createTemporary(user: User) {
-    return this.create('', user, [], true, false);
-  }
-
-  renameTemporary(team: Team, name: string) {
-    if (!name)
-      return Promise.reject($localize`Organisation name cannot be empty`);
-    team.name = name;
-    team.isTemporary = false;
-    return this.teamFactory.upsert(team);
-  }
-
   save(team: Team) {
     if (!team.name)
       return Promise.reject($localize`Organisation name cannot be empty`);
@@ -188,8 +176,6 @@ export class TeamService {
     remove(team.members, function (member) {
       return member.user_id === user.user_id;
     });
-
-    let success: boolean;
 
     try {
       success = await this.teamFactory.upsert(team);

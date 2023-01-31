@@ -159,27 +159,6 @@ export class DashboardComponent {
     this.userService.refreshUserData();
   }
 
-  getExampleMap(): Promise<DataSet> {
-    // temporary team is already created
-    if (this._teams.length === 1) {
-      if (this._datasets.length === 0) {
-        // there is no dataset, create a new one
-        return this.mapService.createTemplate(
-          'Example map',
-          this._teams[0].team_id
-        );
-      } else {
-        return this.mapService.get(this._datasets[0].datasetId);
-      }
-    }
-    // no team createt yet, so create a temp one and add a dataset to it
-    else {
-      return this.teamService.createTemporary(this.user).then((team) => {
-        return this.mapService.createTemplate('Example map', team.team_id);
-      });
-    }
-  }
-
   onKeyDown(search: string) {
     this.filterMaps$.next(search);
   }
