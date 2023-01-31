@@ -1,22 +1,82 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
+
+import { Observable, combineLatest } from 'rxjs';
+import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
+
+import { Store } from '@ngrx/store';
+import { SubSink } from 'subsink';
+
+import { AppState } from '@maptio-state/app.state';
+import { selectCurrentOrganisationId } from '@maptio-state/current-organisation.selectors';
 
 import { UserService } from '../user/user.service';
-import { Permissions } from '../../model/permission.data';
+import { Permissions, UserRoleService } from '../../model/permission.data';
 import { Initiative } from '../../model/initiative.data';
 import { Helper } from '../../model/helper.data';
 
 @Injectable()
-export class PermissionsService {
+export class PermissionsService implements OnDestroy {
   Permission: Permissions;
 
-  private userId: string;
-  private userPermissions: Permissions[];
+  private currentOrganisationId$ = this.store
+    .select(selectCurrentOrganisationId)
+    .pipe(distinctUntilChanged());
 
-  constructor(private userService: UserService) {
-    if (localStorage.getItem('profile')) {
-      this.userId = JSON.parse(localStorage.getItem('profile')).user_id;
-    }
-    this.userPermissions = this.userService.getPermissions();
+  public userPermissions$ = combineLatest([
+    this.userService.user$,
+    this.currentOrganisationId$,
+  ]).pipe(
+    map(([user, state]) => {
+      // Convert the state object to get at the hidden ID of the current
+      // organisation
+      // TODO: This needs to be refactored away by a correct implementation of
+      // state, selectors, etc.
+      const currentOrganisationId = ((state as unknown) as AppState)
+        ?.currentOrganisationId;
+
+      if (currentOrganisationId) {
+        const currentUserRole = user.getUserRoleInOrganization(
+          currentOrganisationId
+        );
+        return this.userRoleService.get(currentUserRole);
+      } else {
+        return [];
+      }
+    }),
+
+    shareReplay(1)
+  );
+
+  // Keep the non-reactive version populated for now, see TODO below
+  private userPermissions: Permissions[] = [];
+
+  // This is perhaps what the service could look like if it was reactive
+  public canSeeOnboardingMessages$ = this.userPermissions$.pipe(
+    map((permissions) =>
+      permissions.includes(Permissions.canSeeOnboardingMessages)
+    )
+  );
+
+  constructor(
+    private subs: SubSink,
+    private store: Store,
+    private userService: UserService,
+    private userRoleService: UserRoleService
+  ) {
+    // TODO: Ideally, it'd be nice to redo all of the permissions architecture
+    // to be reactive, but this will take time, so let's keep the subscription
+    // here until there's a reason to invest in redoing this
+    this.subs.sink = this.userPermissions$.subscribe((permissions) => {
+      this.userPermissions = permissions;
+    });
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
+
+  public getUserPermissions(): Permissions[] {
+    return this.userPermissions;
   }
 
   public canMoveInitiative(): boolean {
@@ -138,5 +198,9 @@ export class PermissionsService {
     return this.userPermissions.includes(
       Permissions.canOpenInitiativeContextMenu
     );
+  }
+
+  public canCreateUnlimitedTeams(): boolean {
+    return this.userPermissions.includes(Permissions.canCreateUnlimitedTeams);
   }
 }

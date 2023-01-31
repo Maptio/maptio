@@ -110,10 +110,9 @@
       </ng-container>
 
       <ng-template #elseRoleBlock>
-        {UserRole[member.userRole], select, Standard {Standard} Admin {Admin}
-        Superuser {Superuser}}
+        {UserRole[memberRoleInOrganization], select, Standard {Standard} Admin
+        {Admin} Superuser {Superuser}}
       </ng-template>
-      <!-- {{ UserRole[member.userRole] }} -->
 
       <ng-template #thenRoleBlock>
         <select
@@ -123,12 +122,11 @@
           <option
             *ngFor="let userRole of UserRole | keys | slice: 0:2"
             [value]="userRole.key"
-            [selected]="member.userRole"
+            [selected]="memberRoleInOrganization"
           >
             {userRole.value, select, Standard {Standard} Admin {Admin} Superuser
             {Superuser}}
           </option>
-          <!-- {{ userRole.value }} -->
         </select>
       </ng-template>
     </div>

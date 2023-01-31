@@ -1,7 +1,7 @@
 {
   "version": 1,
   "cli": {
-    "defaultCollection": "@nrwl/angular"
+    "schematicCollections": ["@nrwl/angular", "@ngrx/schematics"]
   },
   "defaultProject": "maptio",
   "schematics": {

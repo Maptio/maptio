@@ -1,19 +1,14 @@
 import { environment } from '../../../../config/environment';
 import { Subscription } from 'rxjs';
 import { Permissions } from '../../../../shared/model/permission.data';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import {
-  Component,
-  OnInit,
-  ChangeDetectorRef,
-  TemplateRef,
-  Renderer2,
-} from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { User } from '../../../../shared/model/user.data';
 import { Team } from '../../../../shared/model/team.data';
 import { Router, ActivatedRoute } from '@angular/router';
 import { isEmpty } from 'lodash';
 import { LoaderService } from '../../../../shared/components/loading/loader.service';
+
 import { UserService } from '@maptio-shared/services/user/user.service';
 
 @Component({
@@ -65,12 +60,6 @@ export class TeamListComponent implements OnInit {
   ngOnDestroy(): void {
     if (this.userSubscription) this.userSubscription.unsubscribe();
     if (this.routeSubscription) this.routeSubscription.unsubscribe();
-  }
-
-  canCreateUnlimitedTeams() {
-    return this.userService
-      .getPermissions()
-      .includes(Permissions.canCreateUnlimitedTeams);
   }
 
   trackByTeamId(index: number, team: Team) {

@@ -41,6 +41,7 @@ export enum Permissions {
   canEditSize,
   canGiveHelperPrivileges,
   canSubscribe,
+  canSeeOnboardingMessages,
 }
 
 export class UserRoleService {
@@ -58,7 +59,7 @@ export class UserRoleService {
   }
 
   private getStandardPermissions(): Permissions[] {
-    return [];
+    return [Permissions.canCreateUnlimitedTeams];
   }
 
   private getAdminPermissions(): Permissions[] {
@@ -89,7 +90,7 @@ export class UserRoleService {
       Permissions.canEditSize,
       Permissions.canGiveHelperPrivileges,
       Permissions.canSubscribe,
-      Permissions.canCreateUnlimitedTeams,
+      Permissions.canSeeOnboardingMessages,
     ];
   }
 

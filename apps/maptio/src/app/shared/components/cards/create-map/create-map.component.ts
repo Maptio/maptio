@@ -9,12 +9,14 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Team } from '../../../model/team.data';
-import { Permissions } from '../../../model/permission.data';
 import { DataSet } from '../../../model/dataset.data';
 import { Router } from '@angular/router';
 import { Intercom } from 'ng-intercom';
 import { MapService } from '../../../services/map/map.service';
 import { environment } from '../../../../config/environment';
+
+import { User } from '@maptio-shared/model/user.data';
+import { Permissions, UserRole } from '@maptio-shared/model/permission.data';
 
 @Component({
   selector: 'common-create-map',
@@ -28,11 +30,14 @@ export class CreateMapComponent implements OnInit {
 
   KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
 
-  @Input('teams') teams: Team[];
-  @Input('isRedirect') isRedirect: boolean;
+  @Input() user: User;
+  @Input() teams: Team[];
+  @Input() isRedirect: boolean;
 
-  @Output('close') close = new EventEmitter<void>();
-  @Output('created') created = new EventEmitter<DataSet>();
+  @Output() close = new EventEmitter<void>();
+  @Output() created = new EventEmitter<DataSet>();
+
+  teamsWithAdminRole: Team[];
 
   constructor(
     private mapService: MapService,
@@ -42,17 +47,19 @@ export class CreateMapComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.teamsWithAdminRole = this.filterOutNonAdminTeams(this.teams);
+
     this.form = new FormGroup({
       mapName: new FormControl('', {
         validators: [Validators.required, Validators.minLength(2)],
         updateOn: 'submit',
       }),
       teamId: new FormControl(
-        this.teams.length == 0
+        this.teamsWithAdminRole.length == 0
           ? null
-          : this.teams.length > 1
+          : this.teamsWithAdminRole.length > 1
           ? null
-          : this.teams[0].team_id,
+          : this.teamsWithAdminRole[0].team_id,
         [Validators.required]
       ),
     });
@@ -61,7 +68,21 @@ export class CreateMapComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.teams && changes.teams.currentValue) {
       this.teams = changes.teams.currentValue.filter((t: Team) => !t.isExample);
+      this.teamsWithAdminRole = this.filterOutNonAdminTeams(this.teams);
     }
+  }
+
+  /**
+   * Returns only teams where the user has an admin role
+   *
+   * TODO: This should probably look for the map creation permissions instead
+   */
+  private filterOutNonAdminTeams(teams: Team[]): Team[] {
+    return teams.filter((team) => {
+      return (
+        this.user.getUserRoleInOrganization(team.team_id) === UserRole.Admin
+      );
+    });
   }
 
   submit() {

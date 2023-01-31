@@ -30,7 +30,7 @@
       </small>
     </div>
 
-    <div class="form-group" *ngIf="teams?.length > 1">
+    <div class="form-group" *ngIf="teamsWithAdminRole?.length > 1">
       <label for="inputTeamName" i18n="@@organisation">Organisation</label>
       <select
         id="inputTeamName"
@@ -41,20 +41,24 @@
         <option
           value="null"
           disabled="true"
-          [selected]="teams?.length > 1"
+          [selected]="teamsWithAdminRole?.length > 1"
           i18n="@@selectAnOrganization"
         >
           Select an organization
         </option>
         <option
-          *ngFor="let team of teams; let i = index"
+          *ngFor="let team of teamsWithAdminRole; let i = index"
           [value]="team.team_id"
-          [selected]="teams?.length === 1 && i === 0"
+          [selected]="teamsWithAdminRole?.length === 1 && i === 0"
         >
           {{ team?.name }}
         </option>
       </select>
-      <a *ngIf="teams?.length === 0" class="text-green" routerLink="/teams">
+      <a
+        *ngIf="teamsWithAdminRole?.length === 0"
+        class="text-green"
+        routerLink="/teams"
+      >
         <small class="offset-md-6" i18n="@@donthaveorganisation">
           Don't have a organization?
         </small>
@@ -92,14 +96,18 @@
         />
       </div>
 
-      <div class="form-group" *ngIf="teams?.length > 1">
+      <div class="form-group" *ngIf="teamsWithAdminRole?.length > 1">
         <label for="inputTeamName" i18n="@@organisation">Organisation</label>
         <select
           id="inputTeamName"
           disabled
           class="form-control cursor-not-allowed"
         ></select>
-        <a *ngIf="teams?.length === 0" class="text-green" routerLink="/teams">
+        <a
+          *ngIf="teamsWithAdminRole?.length === 0"
+          class="text-green"
+          routerLink="/teams"
+        >
           <small class="offset-md-6" i18n="@@donthaveorganisation">
             Don't have a organisation?
           </small>

@@ -19,12 +19,15 @@
             ]
           }
         ]
-      }
+      },
+      "plugins": ["ngrx"],
+      "extends": ["plugin:ngrx/recommended"]
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
-      "rules": {}
+      "extends": ["plugin:@nrwl/nx/typescript", "plugin:ngrx/recommended"],
+      "rules": {},
+      "plugins": ["ngrx"]
     },
     {
       "files": ["*.js", "*.jsx"],

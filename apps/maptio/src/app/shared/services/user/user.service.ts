@@ -27,7 +27,7 @@ import { environment } from '@maptio-environment';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
-import { User } from '@maptio-shared/model/user.data';
+import { User, UserRoleArray } from '@maptio-shared/model/user.data';
 import { OnboardingProgress } from '@maptio-shared/model/onboarding-progress.data';
 import { Helper } from '@maptio-shared/model/helper.data';
 import { Team } from '@maptio-shared/model/team.data';
@@ -201,8 +201,6 @@ export class UserService implements OnDestroy {
 
     user.exampleTeamIds = await this.identifyExampleTeams(user);
 
-    this.permissions = this.userRoleService.get(user.userRole);
-
     const datasetIds = await this.datasetFactory.get(user);
     user.datasets = uniq(datasetIds);
 
@@ -256,55 +254,23 @@ export class UserService implements OnDestroy {
   }
 
   /*
-   * User permissions
-   */
-
-  public getPermissions(): Permissions[] {
-    return this.permissions;
-  }
-
-  /*
    * User creation
    */
 
-  createUserFromAuth0Signup(profile): User {
-    return this.createUser(
-      profile.sub,
-      profile.email,
-      profile.given_name,
-      profile.family_name,
-      profile.picture,
-      true,
-      true // isInAuth0
-    );
-  }
-
-  createUserFromMemberForm(
-    email: string,
-    firstname: string,
-    lastname: string,
-    picture: string,
-    isAdmin?: boolean
-  ): User {
-    const userId = this.generateNewUserId();
-    return this.createUser(
-      userId,
-      email,
-      firstname,
-      lastname,
-      picture,
-      isAdmin
-    );
-  }
-
+  /**
+   * This function is used whenever a user is being added to a team immediately
+   * after being created
+   */
   createUserAndAddToTeam(
     team: Team,
     email: string,
     firstname: string,
     lastname: string,
-    picture: string,
-    isAdmin?: boolean
-  ): Promise<boolean> {
+    picture: string
+  ): Promise<User> {
+    const userRoleMap = new Map([[team.team_id, UserRole.Standard]]);
+    const userRole = Array.from(userRoleMap.entries());
+
     const userId = this.generateNewUserId();
     const user = this.createUser(
       userId,
@@ -312,51 +278,49 @@ export class UserService implements OnDestroy {
       firstname,
       lastname,
       picture,
-      isAdmin
+      userRole
     );
 
-    return this.datasetFactory
-      .get(team)
-      .then(
-        (datasets: DataSet[]) => {
-          user.teams = [team.team_id];
-          user.datasets = datasets.map((d) => d.datasetId);
-
-          return user;
-        },
-        (reason) => {
-          return Promise.reject($localize`Can't create ${email} : ${reason}`);
-        }
-      )
-      .then((user: User) => {
-        this.userFactory.create(user);
-        return user;
-      })
-      .then((user: User) => {
-        team.members.push(user);
-        this.teamFactory.upsert(team);
-      })
-      .then(() => {
-        this.intercomService.trackEvent('Create user', {
-          team: team.name,
-          teamId: team.team_id,
-          email: email,
-        });
-        return true;
-      })
-      .catch((reason) => {
-        console.error(reason);
-        throw Error(reason);
-      });
+    return this.addTeamDataToUserObjectUserToTeamAndSaveBoth(team, user);
   }
 
+  /**
+   * This function is only used to create admin users from initial signups
+   */
+  private createUserFromAuth0Signup(profile): User {
+    // Because this function is used early on in the onboarding process, we
+    // don't have a team yet, so we use a placeholder team ID, which will be
+    // replaced once the team is created
+    const userRoleMap = this.teamService.createTemporaryUserRole();
+    const userRole = Array.from(userRoleMap.entries());
+
+    // Base user ID on what's in Auth0
+    const userId = profile.sub;
+
+    const isInAuth0 = true;
+
+    return this.createUser(
+      userId,
+      profile.email,
+      profile.given_name,
+      profile.family_name,
+      profile.picture,
+      userRole,
+      isInAuth0
+    );
+  }
+
+  /**
+   * This is the function used by all the other user creation methods - it does
+   * the actual work
+   */
   private createUser(
     userId: string,
     email: string,
     firstname: string,
     lastname: string,
-    picture?: string,
-    isAdmin?: boolean,
+    picture: string,
+    userRole: UserRoleArray,
     isInAuth0 = false
   ): User {
     const imageUrl = picture
@@ -377,7 +341,7 @@ export class UserService implements OnDestroy {
       lastSeenAt: undefined,
       createdAt: new Date().toISOString(),
       loginsCount: 0,
-      userRole: isAdmin ? UserRole.Admin : UserRole.Standard,
+      userRole,
       onboardingProgress: {
         showEditingPanelMessage: true,
         showCircleDetailsPanelMessage: true,
@@ -386,6 +350,48 @@ export class UserService implements OnDestroy {
     };
 
     return User.create().deserialize(newUserData);
+  }
+
+  private addTeamDataToUserObjectUserToTeamAndSaveBoth(
+    team: Team,
+    user: User
+  ): Promise<User> {
+    return this.datasetFactory
+      .get(team)
+      .then(
+        (datasets: DataSet[]) => {
+          user.teams = [team.team_id];
+          user.datasets = datasets.map((d) => d.datasetId);
+
+          return user;
+        },
+        (reason) => {
+          return Promise.reject(
+            $localize`Can't create ${user.email} : ${reason}`
+          );
+        }
+      )
+      .then((user: User) => {
+        this.userFactory.create(user);
+        return user;
+      })
+      .then((user: User) => {
+        team.members.push(user);
+        this.teamFactory.upsert(team);
+        return user;
+      })
+      .then((user: User) => {
+        this.intercomService.trackEvent('Create user', {
+          team: team.name,
+          teamId: team.team_id,
+          email: user.email,
+        });
+        return user;
+      })
+      .catch((reason) => {
+        console.error(reason);
+        throw Error(reason);
+      });
   }
 
   /*
@@ -513,8 +519,12 @@ export class UserService implements OnDestroy {
     return this.userFactory.upsert(user);
   }
 
-  public updateUserRole(user: User, userRole: UserRole): Promise<boolean> {
-    user.userRole = userRole;
+  public updateUserRole(
+    user: User,
+    team: Team,
+    newUserRoleInOrganization: UserRole
+  ): Promise<boolean> {
+    user.setUserRole(team.team_id, newUserRoleInOrganization);
     return this.userFactory.upsert(user);
   }
 

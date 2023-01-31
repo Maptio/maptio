@@ -7,6 +7,7 @@ import { environment } from '@maptio-environment';
 import { User } from '@maptio-shared/model/user.data';
 import { UserRole } from '@maptio-shared/model/permission.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
+import { PermissionsService } from '@maptio-shared/services/permissions/permissions.service';
 
 @Component({
   selector: 'maptio-onboarding-message',
@@ -36,18 +37,19 @@ export class OnboardingMessageComponent {
   // Show message only if user has not already dismissed it and only if they
   // are an admin
   showMessage$ = combineLatest([
-    this.messageKey$,
-    this.userService.user$,
     this.hideMessageManually$,
+    this.permissionsService.canSeeOnboardingMessages$,
+    this.userService.user$,
+    this.messageKey$,
   ]).pipe(
-    map(([messageKey, user, hideMessageManually]) => {
+    map(([hideMessageManually, canSeeOnboardingMessages, user, messageKey]) => {
       this.user = user;
 
       if (
         !hideMessageManually &&
+        canSeeOnboardingMessages &&
         user &&
         messageKey &&
-        user.userRole === UserRole.Admin &&
         Object.prototype.hasOwnProperty.call(
           user.onboardingProgress,
           messageKey
@@ -61,7 +63,10 @@ export class OnboardingMessageComponent {
     })
   );
 
-  constructor(public userService: UserService) {}
+  constructor(
+    public userService: UserService,
+    private permissionsService: PermissionsService
+  ) {}
 
   dismissMessage() {
     const messageKey = this.messageKey$.value;

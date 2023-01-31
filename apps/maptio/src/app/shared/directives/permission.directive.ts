@@ -1,4 +1,4 @@
-import { of as observableOf, Subscription, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Helper } from './../model/helper.data';
 import { Initiative } from './../model/initiative.data';
 import { Permissions } from './../model/permission.data';
@@ -12,9 +12,9 @@ import {
   TemplateRef,
   ViewContainerRef,
   SimpleChanges,
+  ChangeDetectorRef,
 } from '@angular/core';
 
-import { UserService } from '@maptio-shared/services/user/user.service';
 import { PermissionsService } from '../services/permissions/permissions.service';
 
 export type StrategyFunction = (templateRef?: TemplateRef<any>) => void;
@@ -60,19 +60,13 @@ export class PermissionsDirective implements OnInit, OnDestroy {
   private currentAuthorizedState: boolean;
 
   private userPermissions: Permissions[];
-  private userId: string;
 
   constructor(
     private viewContainer: ViewContainerRef,
     private templateRef: TemplateRef<any>,
-    private userService: UserService,
-    private permissionService: PermissionsService
-  ) {
-    this.userPermissions = this.userService.getPermissions();
-    if (localStorage.getItem('profile')) {
-      this.userId = JSON.parse(localStorage.getItem('profile')).user_id;
-    }
-  }
+    private changeDetector: ChangeDetectorRef,
+    private permissionsService: PermissionsService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.permissionsOnlyInitiative) {
@@ -120,7 +114,9 @@ export class PermissionsDirective implements OnInit, OnDestroy {
   }
 
   private validateExceptOnlyPermissions(): Subscription {
-    return observableOf(this.userPermissions).subscribe(() => {
+    return this.permissionsService.userPermissions$.subscribe((permissions) => {
+      this.userPermissions = permissions;
+
       if (this.permission) {
         this.validateOnlyPermissions();
         return;
@@ -186,6 +182,7 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     }
 
     this.viewContainer.createEmbeddedView(template);
+    this.changeDetector.markForCheck();
   }
 
   private getAuthorisedTemplates(): TemplateRef<any> {
@@ -228,39 +225,39 @@ export class PermissionsDirective implements OnInit, OnDestroy {
   private checkPermission() {
     switch (this.permission) {
       case Permissions.canMoveInitiative:
-        return this.permissionService.canMoveInitiative();
+        return this.permissionsService.canMoveInitiative();
       case Permissions.canDeleteInitiative:
-        return this.permissionService.canDeleteInitiative(this.initiative);
+        return this.permissionsService.canDeleteInitiative(this.initiative);
       case Permissions.canEditInitiativeName:
-        return this.permissionService.canEditInitiativeName(this.initiative);
+        return this.permissionsService.canEditInitiativeName(this.initiative);
       case Permissions.canEditInitiativeDescription:
-        return this.permissionService.canEditInitiativeDescription(
+        return this.permissionsService.canEditInitiativeDescription(
           this.initiative
         );
       case Permissions.canEditInitiativeTags:
-        return this.permissionService.canEditInitiativeTags(this.initiative);
+        return this.permissionsService.canEditInitiativeTags(this.initiative);
       case Permissions.canEditInitiativeAuthority:
-        return this.permissionService.canEditInitiativeAuthority(
+        return this.permissionsService.canEditInitiativeAuthority(
           this.initiative
         );
       case Permissions.canAddHelper:
-        return this.permissionService.canAddHelper(this.initiative);
+        return this.permissionsService.canAddHelper(this.initiative);
       case Permissions.canDeleteHelper:
-        return this.permissionService.canDeleteHelper(
+        return this.permissionsService.canDeleteHelper(
           this.initiative,
           this.helper
         );
       case Permissions.canEditHelper:
-        return this.permissionService.canEditHelper(
+        return this.permissionsService.canEditHelper(
           this.initiative,
           this.helper
         );
       case Permissions.canEditVacancies:
-        return this.permissionService.canEditVacancies();
+        return this.permissionsService.canEditVacancies();
       case Permissions.canEditSize:
-        return this.permissionService.canEditSize();
+        return this.permissionsService.canEditSize();
       case Permissions.canGiveHelperPrivileges:
-        return this.permissionService.canGiveHelperPrivilege(this.initiative);
+        return this.permissionsService.canGiveHelperPrivilege(this.initiative);
       default:
         return this.userPermissions.includes(this.permission);
     }

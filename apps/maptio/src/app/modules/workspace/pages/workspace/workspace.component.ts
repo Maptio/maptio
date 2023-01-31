@@ -25,6 +25,9 @@ import { Role } from '../../../../shared/model/role.data';
 import { Intercom } from 'ng-intercom';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
+import { Store } from '@ngrx/store';
+
+import { setCurrentOrganisationId } from '@maptio-state/current-organisation.actions';
 import { MapService } from '@maptio-shared/services/map/map.service';
 
 @Component({
@@ -72,12 +75,13 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private cd: ChangeDetectorRef,
+    private store: Store,
     private datasetFactory: DatasetFactory,
     private teamFactory: TeamFactory,
     private dataService: DataService,
     private mapService: MapService,
     private roleLibrary: RoleLibraryService,
-    private cd: ChangeDetectorRef,
     private mixpanel: Angulartics2Mixpanel,
     private intercom: Intercom
   ) {}
@@ -129,6 +133,12 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
           this.teamName = this.team.name;
           this.teamId = this.team.team_id;
           EmitterService.get('currentTeam').emit(this.team);
+
+          const currentOrganisationId = this.team?.team_id;
+          this.store.dispatch(
+            setCurrentOrganisationId({ currentOrganisationId })
+          );
+
           this.isEmptyMap =
             !this.dataset.initiative.children ||
             this.dataset.initiative.children.length === 0;
@@ -139,6 +149,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     EmitterService.get('currentTeam').emit(undefined);
+    this.store.dispatch(
+      setCurrentOrganisationId({ currentOrganisationId: undefined })
+    );
+
     if (this.routeSubscription) this.routeSubscription.unsubscribe();
   }
 
