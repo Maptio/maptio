@@ -258,7 +258,8 @@ export class UserService implements OnDestroy {
    */
 
   /**
-   * This function is used whenever a user is being added to a team
+   * This function is used whenever a user is being added to a team immediately
+   * after being created
    */
   createUserAndAddToTeam(
     team: Team,
