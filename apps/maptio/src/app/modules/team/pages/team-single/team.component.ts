@@ -12,7 +12,6 @@ import { TeamMapsComponent } from '../team-maps/maps.component';
 import { TeamSettingsComponent } from '../team-settings/settings.component';
 import { TeamIntegrationsComponent } from '../team-integrations/integrations.component';
 import { TeamBillingComponent } from '../team-billing/billing.component';
-import { ThrowStmt } from '@angular/compiler';
 
 import { Store } from '@ngrx/store';
 
