@@ -3,7 +3,6 @@
   "cli": {
     "schematicCollections": ["@nrwl/angular", "@ngrx/schematics"]
   },
-  "defaultProject": "maptio",
   "schematics": {
     "@nrwl/angular": {
       "application": {
