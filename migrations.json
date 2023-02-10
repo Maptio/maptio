@@ -1,18 +1,11 @@
 {
   "migrations": [
     {
-      "version": "13.0.0-0",
-      "description": "Updates Angular Material to v13",
-      "factory": "./ng-update/index#updateToV13",
-      "package": "@angular/material",
-      "name": "migration-v13"
-    },
-    {
-      "version": "13.0.0-0",
-      "description": "Updates the Angular CDK to v13",
-      "factory": "./ng-update/index#updateToV13",
-      "package": "@angular/cdk",
-      "name": "migration-v13"
+      "version": "14.0.0",
+      "factory": "./update-14/update-tsconfig-target",
+      "description": "Update TypeScript compilation target to 'ES2020'.",
+      "package": "@angular/cli",
+      "name": "update-tsconfig-target"
     }
   ]
 }
