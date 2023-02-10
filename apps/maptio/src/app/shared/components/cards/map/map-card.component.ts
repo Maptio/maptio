@@ -8,7 +8,7 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 import { cloneDeep } from 'lodash-es';
 import { saveAs } from 'file-saver';
@@ -42,7 +42,7 @@ export class MapCardComponent implements OnInit, OnChanges {
   isRestoring: boolean;
   isArchiving: boolean;
   isUpdateFailed: boolean;
-  form: FormGroup;
+  form: UntypedFormGroup;
   isEditAvailable: boolean;
   Permissions = Permissions;
 
@@ -57,8 +57,8 @@ export class MapCardComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    this.form = new FormGroup({
-      mapName: new FormControl('', {
+    this.form = new UntypedFormGroup({
+      mapName: new UntypedFormControl('', {
         validators: [Validators.required],
         updateOn: 'submit',
       }),

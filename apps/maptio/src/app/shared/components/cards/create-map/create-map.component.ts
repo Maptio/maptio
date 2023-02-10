@@ -7,7 +7,7 @@ import {
   SimpleChanges,
   ChangeDetectorRef,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Team } from '../../../model/team.data';
 import { DataSet } from '../../../model/dataset.data';
 import { Router } from '@angular/router';
@@ -24,7 +24,7 @@ import { Permissions, UserRole } from '@maptio-shared/model/permission.data';
   styleUrls: ['./create-map.component.css'],
 })
 export class CreateMapComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
   isCreatingMap: boolean;
   Permissions = Permissions;
 
@@ -49,12 +49,12 @@ export class CreateMapComponent implements OnInit {
   ngOnInit(): void {
     this.teamsWithAdminRole = this.filterOutNonAdminTeams(this.teams);
 
-    this.form = new FormGroup({
-      mapName: new FormControl('', {
+    this.form = new UntypedFormGroup({
+      mapName: new UntypedFormControl('', {
         validators: [Validators.required, Validators.minLength(2)],
         updateOn: 'submit',
       }),
-      teamId: new FormControl(
+      teamId: new UntypedFormControl(
         this.teamsWithAdminRole.length == 0
           ? null
           : this.teamsWithAdminRole.length > 1

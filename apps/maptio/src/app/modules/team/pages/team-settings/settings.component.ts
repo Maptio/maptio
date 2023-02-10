@@ -13,7 +13,7 @@ import {
   EventEmitter,
   isDevMode,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Team } from '../../../../shared/model/team.data';
 import { TeamFactory } from '../../../../core/http/team/team.factory';
 import { Intercom } from 'ng-intercom';
@@ -28,7 +28,7 @@ export class TeamSettingsComponent implements OnInit {
   @Output('changeName')
   changeName: EventEmitter<string> = new EventEmitter<string>();
 
-  public teamSettingsForm: FormGroup;
+  public teamSettingsForm: UntypedFormGroup;
   public teamName: string;
   public teamAuthority: string;
   public teamHelper: string;
@@ -47,16 +47,16 @@ export class TeamSettingsComponent implements OnInit {
     private renderer: Renderer2,
     private intercom: Intercom
   ) {
-    this.teamSettingsForm = new FormGroup({
-      name: new FormControl(this.teamName, {
+    this.teamSettingsForm = new UntypedFormGroup({
+      name: new UntypedFormControl(this.teamName, {
         validators: [Validators.required, Validators.minLength(2)],
         updateOn: 'submit',
       }),
-      authority: new FormControl(this.teamAuthority, {
+      authority: new UntypedFormControl(this.teamAuthority, {
         validators: [],
         updateOn: 'submit',
       }),
-      helper: new FormControl(this.teamHelper, {
+      helper: new UntypedFormControl(this.teamHelper, {
         validators: [],
         updateOn: 'submit',
       }),

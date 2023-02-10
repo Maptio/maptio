@@ -1,7 +1,7 @@
 import { environment } from '../../../../config/environment';
 import { Subscription } from 'rxjs';
 import { Permissions } from '../../../../shared/model/permission.data';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { User } from '../../../../shared/model/user.data';
 import { Team } from '../../../../shared/model/team.data';
@@ -24,7 +24,7 @@ export class TeamListComponent implements OnInit {
   public cannotCreateMoreTeamMessage: string;
   public isCreating: boolean;
 
-  public createForm: FormGroup;
+  public createForm: UntypedFormGroup;
   public teamName: string;
   public teamsNumber: number;
   public isZeroTeam: boolean;

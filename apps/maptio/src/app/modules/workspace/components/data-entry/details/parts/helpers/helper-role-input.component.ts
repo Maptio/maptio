@@ -9,8 +9,8 @@ import {
   OnDestroy,
 } from '@angular/core';
 import {
-  FormGroup,
-  FormControl,
+  UntypedFormGroup,
+  UntypedFormControl,
   Validators,
   ValidatorFn,
   ValidationErrors,
@@ -26,7 +26,7 @@ import { RoleLibraryService } from '../../../../../services/role-library.service
 import { MapService } from '@maptio-shared/services/map/map.service';
 
 const eitherTitleOrDescriptionProvided: ValidatorFn = (
-  control: FormGroup
+  control: UntypedFormGroup
 ): ValidationErrors | null => {
   const title = control.get('title');
   const description = control.get('description');
@@ -41,7 +41,7 @@ const eitherTitleOrDescriptionProvided: ValidatorFn = (
 };
 
 const noWhitespaceValidator: ValidatorFn = (
-  control: FormControl
+  control: UntypedFormControl
 ): ValidationErrors | null => {
   const isWhitespace = (control.value || '').trim().length === 0;
   const isValid = !isWhitespace;
@@ -65,10 +65,10 @@ export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
   KB_URL_ROLE_TYPES = environment.KB_URL_ROLE_TYPES;
   KB_URL_MARKDOWN = environment.KB_URL_MARKDOWN;
 
-  roleForm: FormGroup;
-  title = new FormControl();
-  description = new FormControl();
-  saveAsLibraryRole = new FormControl();
+  roleForm: UntypedFormGroup;
+  title = new UntypedFormControl();
+  description = new UntypedFormControl();
+  saveAsLibraryRole = new UntypedFormControl();
   isAlreadySavedInLibrary = false;
 
   saveAsLibraryRoleSubscription: Subscription;
@@ -81,7 +81,7 @@ export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
     private roleLibrary: RoleLibraryService,
     private mapService: MapService
   ) {
-    this.roleForm = new FormGroup({
+    this.roleForm = new UntypedFormGroup({
       title: this.title,
       description: this.description,
       saveAsLibraryRole: this.saveAsLibraryRole,
