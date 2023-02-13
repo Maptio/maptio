@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SatPopoverModule } from '@ncstate/sat-popover';
+import { SatPopoverModule } from '@wjaspers/sat-popover';
 import { MarkdownModule } from 'ngx-markdown';
 
 import { SvgZoomPanComponent } from './svg-zoom-pan/svg-zoom-pan.component';
