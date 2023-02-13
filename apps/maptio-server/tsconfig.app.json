@@ -6,6 +6,6 @@
     "types": ["node", "express"],
     "esModuleInterop": true
   },
-  "exclude": ["**/*.spec.ts"],
+  "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
   "include": ["**/*.ts"]
 }
