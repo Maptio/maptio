@@ -143,8 +143,9 @@
   "devDependencies": {
     "@angular-devkit/architect": "0.1501.5",
     "@angular-devkit/build-angular": "15.1.5",
-    "@angular-eslint/eslint-plugin": "12.0.0",
-    "@angular-eslint/eslint-plugin-template": "12.0.0",
+    "@angular-eslint/eslint-plugin": "15.2.1",
+    "@angular-eslint/eslint-plugin-template": "15.2.1",
+    "@angular-eslint/schematics": "^15.2.1",
     "@angular-eslint/template-parser": "12.0.0",
     "@angular/cli": "15.1.5",
     "@angular/compiler-cli": "15.1.4",
@@ -208,4 +209,3 @@
     "typescript": "4.8"
   }
 }
-
