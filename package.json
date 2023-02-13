@@ -141,12 +141,12 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/architect": "0.1402.10",
-    "@angular-devkit/build-angular": "14.2.10",
+    "@angular-devkit/architect": "0.1501.5",
+    "@angular-devkit/build-angular": "15.1.5",
     "@angular-eslint/eslint-plugin": "12.0.0",
     "@angular-eslint/eslint-plugin-template": "12.0.0",
     "@angular-eslint/template-parser": "12.0.0",
-    "@angular/cli": "14.2.10",
+    "@angular/cli": "15.1.5",
     "@angular/compiler-cli": "15.1.4",
     "@angular/language-service": "15.1.4",
     "@compodoc/compodoc": "^1.1.11",
@@ -208,3 +208,4 @@
     "typescript": "4.8"
   }
 }
+
