@@ -6,7 +6,7 @@ import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { SubSink } from 'subsink';
 
-import { AppState } from '@maptio-state/app.state';
+import { GlobalState } from '@maptio-state/app.state';
 import { selectCurrentOrganisationId } from '@maptio-state/current-organisation.selectors';
 
 import { UserService } from '../user/user.service';
@@ -26,14 +26,11 @@ export class PermissionsService implements OnDestroy {
     this.userService.user$,
     this.currentOrganisationId$,
   ]).pipe(
-    map(([user, state]) => {
+    map(([user, currentOrganisationId]) => {
       // Convert the state object to get at the hidden ID of the current
       // organisation
       // TODO: This needs to be refactored away by a correct implementation of
       // state, selectors, etc.
-      const currentOrganisationId = ((state as unknown) as AppState)
-        ?.currentOrganisationId;
-
       if (currentOrganisationId) {
         const currentUserRole = user.getUserRoleInOrganization(
           currentOrganisationId

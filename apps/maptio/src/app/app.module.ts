@@ -115,7 +115,7 @@ export function markedOptionsFactory(): MarkedOptions {
     CoreModule,
     SharedModule.forRoot(),
     StoreModule.forRoot({
-      currentOrganisationId: currentOrganisationIdReducer,
+      global: currentOrganisationIdReducer,
     }),
     StoreDevtoolsModule.instrument({
       name: 'Maptio',

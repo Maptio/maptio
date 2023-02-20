@@ -1,4 +1,7 @@
-export interface AppState {
+export interface GlobalState {
   currentOrganisationId: string;
 }
 
+export interface AppState {
+  global: GlobalState;
+}
