@@ -10,6 +10,7 @@ import { setCurrentOrganisationId } from '@maptio-state/current-organisation.act
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
 import { EmitterService } from '@maptio-core/services/emitter.service';
+import { AppState } from '@maptio-state/app.state';
 import { DataSet } from '@maptio-shared/model/dataset.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { User } from '@maptio-shared/model/user.data';
@@ -37,7 +38,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private cd: ChangeDetectorRef,
-    private store: Store,
+    private store: Store<AppState>,
     public datasetFactory: DatasetFactory,
     public teamFactory: TeamFactory,
     public userService: UserService,

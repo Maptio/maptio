@@ -6,7 +6,7 @@ import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { SubSink } from 'subsink';
 
-import { GlobalState } from '@maptio-state/app.state';
+import { AppState } from '@maptio-state/app.state';
 import { selectCurrentOrganisationId } from '@maptio-state/current-organisation.selectors';
 
 import { UserService } from '../user/user.service';
@@ -56,7 +56,7 @@ export class PermissionsService implements OnDestroy {
 
   constructor(
     private subs: SubSink,
-    private store: Store,
+    private store: Store<AppState>,
     private userService: UserService,
     private userRoleService: UserRoleService
   ) {

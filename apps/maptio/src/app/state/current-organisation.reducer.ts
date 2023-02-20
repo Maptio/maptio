@@ -5,7 +5,7 @@ import { setCurrentOrganisationId } from './current-organisation.actions';
 
 export const initialState: GlobalState = { currentOrganisationId: undefined };
 
-export const currentOrganisationIdReducer = createReducer(
+export const currentOrganisationIdReducer = createReducer<GlobalState>(
   initialState,
   on(
     setCurrentOrganisationId,

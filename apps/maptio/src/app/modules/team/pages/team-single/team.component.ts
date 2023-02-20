@@ -15,6 +15,7 @@ import { TeamBillingComponent } from '../team-billing/billing.component';
 
 import { Store } from '@ngrx/store';
 
+import { AppState } from '@maptio-state/app.state';
 import { setCurrentOrganisationId } from '@maptio-state/current-organisation.actions';
 
 @Component({
@@ -31,7 +32,7 @@ export class TeamComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
-    private store: Store
+    private store: Store<AppState>
   ) {}
 
   ngOnInit() {
