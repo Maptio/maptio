@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
 
 import { SatPopoverModule } from '@wjaspers/sat-popover';
 import { MarkdownModule } from 'ngx-markdown';
@@ -20,7 +24,14 @@ import { SearchComponent } from './search/search.component';
     HelperAvatarComponent,
     SearchComponent,
   ],
-  imports: [CommonModule, MarkdownModule.forChild(), SatPopoverModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MarkdownModule.forChild(),
+    SatPopoverModule,
+  ],
   exports: [CircleMapComponent],
 })
 export class CircleMapModule {}

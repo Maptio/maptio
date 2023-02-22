@@ -1,7 +1,15 @@
-.circle-details {
+.search-panel {
   position: absolute;
   width: 25%;
-  max-height: calc(100% - 2vw);
+  margin: 1vw;
+  padding: 1vw;
+}
+
+.circle-details {
+  position: absolute;
+  top: 3rem;
+  width: 25%;
+  max-height: calc(100% - 3rem - 2vw);
   margin: 1vw;
   padding: 1vw;
   border-radius: 1vw;
