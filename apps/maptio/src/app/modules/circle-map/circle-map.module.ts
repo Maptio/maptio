@@ -9,6 +9,7 @@ import { CircleMapComponent } from './circle-map.component';
 import { CircleComponent } from './circle/circle.component';
 import { CircleInfoComponent } from './circle-info/circle-info.component';
 import { HelperAvatarComponent } from './helper-avatar/helper-avatar.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { HelperAvatarComponent } from './helper-avatar/helper-avatar.component';
     CircleComponent,
     CircleInfoComponent,
     HelperAvatarComponent,
+    SearchComponent,
   ],
   imports: [CommonModule, MarkdownModule.forChild(), SatPopoverModule],
   exports: [CircleMapComponent],
