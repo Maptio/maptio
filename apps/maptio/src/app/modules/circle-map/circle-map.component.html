@@ -1,5 +1,5 @@
 <div class="search-panel" *ngIf="showDetailsPanel">
-  <maptio-search></maptio-search>
+  <maptio-search [rootCircle]="rootCircle"></maptio-search>
 </div>
 
 <div class="circle-details" *ngIf="showDescriptions$ | async">
