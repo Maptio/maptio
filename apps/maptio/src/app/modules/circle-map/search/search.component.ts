@@ -22,6 +22,11 @@ export class SearchComponent implements OnInit {
   }
 
   private _filter(value: string): string[] {
+    if (value === '') {
+      // Simulate typeahead behavior
+      return [];
+    }
+
     const filterValue = value.toLowerCase();
 
     return this.options.filter((option) =>
