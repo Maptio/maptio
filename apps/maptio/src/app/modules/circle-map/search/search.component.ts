@@ -51,13 +51,15 @@ export class SearchComponent implements OnInit {
   private filterInitiatives(value: string): string[] {
     if (value === '') {
       // Simulate typeahead behavior
-      return this.initiatives.map((initiative) => initiative.name).slice(0, 5);
+      return [];
     }
 
     const filterValue = value.toLowerCase();
 
-    return this.options.filter((option) =>
-      option.toLowerCase().includes(filterValue)
-    );
+    return this.initiatives
+      .filter((initiative) =>
+        initiative.name.toLowerCase().includes(filterValue)
+      )
+      .map((initiative) => initiative.name);
   }
 }
