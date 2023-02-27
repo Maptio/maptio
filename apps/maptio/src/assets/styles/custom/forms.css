@@ -1,4 +1,4 @@
-input[type='text'],
+input[type='text']:not(.mdc-text-field__input),
 input[type='email'],
 input[type='password'] {
   box-shadow: inset 0 1px 4px hsla(0, 0%, 0%, 0.08);
