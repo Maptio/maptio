@@ -26,6 +26,9 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
     this.initiatives = this.flattenInitiatives(this.rootCircle);
 
+    // Skip the root circle
+    this.initiatives.shift();
+
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map((value) => this.filterInitiatives(value || ''))
@@ -35,9 +38,7 @@ export class SearchComponent implements OnInit {
   private flattenInitiatives(
     rootCircle: InitiativeNode
   ): InitiativeViewModel[] {
-    // Not starting with the root circle itself as it's not really a circle on
-    // the map
-    const initiatives = [];
+    const initiatives = [rootCircle.data];
 
     if (rootCircle.children) {
       rootCircle.children.forEach((child) => {
