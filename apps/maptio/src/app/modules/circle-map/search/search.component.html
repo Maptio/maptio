@@ -1,24 +1,19 @@
-<form>
-  <mat-form-field appearance="outline">
-    <input
-      type="text"
-      placeholder="Search"
-      aria-label="Search"
-      matInput
-      [formControl]="inputField"
-      [matAutocomplete]="auto"
-    />
+<mat-form-field appearance="outline">
+  <input
+    type="text"
+    placeholder="Search"
+    aria-label="Search"
+    matInput
+    [formControl]="inputField"
+    [matAutocomplete]="auto"
+  />
 
-    <mat-autocomplete
-      #auto="matAutocomplete"
-      (optionSelected)="onSelect($event)"
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelect($event)">
+    <mat-option
+      *ngFor="let initiativeNode of filteredOptions$ | async"
+      [value]="initiativeNode"
     >
-      <mat-option
-        *ngFor="let initiativeNode of filteredOptions$ | async"
-        [value]="initiativeNode"
-      >
-        {{ initiativeNode.data.name }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-</form>
+      {{ initiativeNode.data.name }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
