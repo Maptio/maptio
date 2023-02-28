@@ -9,12 +9,15 @@
       [matAutocomplete]="auto"
     />
 
-    <mat-autocomplete #auto="matAutocomplete">
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="onSelect($event)"
+    >
       <mat-option
-        *ngFor="let option of filteredOptions | async"
-        [value]="option"
+        *ngFor="let initiativeNode of filteredOptions$ | async"
+        [value]="initiativeNode"
       >
-        {{ option }}
+        {{ initiativeNode.data.name }}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
