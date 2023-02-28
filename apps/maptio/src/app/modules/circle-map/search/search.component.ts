@@ -18,7 +18,7 @@ export class SearchComponent implements OnInit {
 
   initiatives: InitiativeNode[];
 
-  myControl = new FormControl('');
+  inputField = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions$: Observable<InitiativeNode[]>;
 
@@ -30,8 +30,19 @@ export class SearchComponent implements OnInit {
     // Skip the root circle
     this.initiatives.shift();
 
-    this.filteredOptions$ = this.myControl.valueChanges.pipe(
+    this.filteredOptions$ = this.inputField.valueChanges.pipe(
       startWith(''),
+
+      // Change input field value if it's not a string
+      map((value) => {
+        if (typeof value !== 'string') {
+          this.inputField.setValue('');
+          return '';
+        } else {
+          return value;
+        }
+      }),
+
       map((value) => this.filterInitiatives(value || ''))
     );
   }
@@ -50,6 +61,12 @@ export class SearchComponent implements OnInit {
   private filterInitiatives(value: string): InitiativeNode[] {
     if (value === '') {
       // Simulate typeahead behavior
+      return [];
+    }
+
+    // Skip filtering if value is not a string
+    if (typeof value !== 'string') {
+      console.error('The search value is not a string, aborting search');
       return [];
     }
 
