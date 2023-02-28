@@ -80,7 +80,7 @@ export class SearchComponent implements OnInit {
   onSelect(circleSelectionEvent: MatAutocompleteSelectedEvent) {
     const circle: InitiativeNode = circleSelectionEvent.option.value;
 
-    this.circleMapService.onCircleClick(circle);
+    this.circleMapService.onHighlightInitiativeNode(circle);
   }
 }
 
