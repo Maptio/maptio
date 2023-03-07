@@ -47,10 +47,11 @@ export class TeamImportComponent implements OnInit {
   ngOnInit() {
     this.route.parent.data.subscribe(
       (data: { assets: { team: Team; datasets: DataSet[] } }) => {
-        // This version of the team object doesn't contain members email
-        // addresses, which then caused deduplication errors, ouch!
-        // We should address this - either with the state management overhaul
-        // or just reading the team information in a different way.
+        // TODO: This version of the team object doesn't contain members email
+        // addresses, which then caused deduplication errors, ouch! We should
+        // address this - either with the state management overhaul or just
+        // getting all the member information here as its done in the members
+        // component.
         // Related issue: https://github.com/Maptio/maptio/issues/739
         this.team = data.assets.team;
       }
@@ -69,7 +70,8 @@ export class TeamImportComponent implements OnInit {
     //   return Promise.reject(new Error('Something really bad happened!'));
     // }
 
-    // Deal with duplication here? Separately for emails and names?
+    // TODO: This doesn't work correctly in this context, see
+    // https://github.com/Maptio/maptio/issues/739
     const duplicateUsers = await this.userService.checkForDuplicateTeamMembers(
       this.team,
       email,
@@ -99,6 +101,8 @@ export class TeamImportComponent implements OnInit {
     const existingUser = duplicateUsers[0];
     const name = `${firstname} ${lastname}`;
 
+    // TODO: existingUser.email is always undefined here, see
+    // https://github.com/Maptio/maptio/issues/739
     if (existingUser.email === email) {
       return Promise.reject(
         new Error(
@@ -106,18 +110,19 @@ export class TeamImportComponent implements OnInit {
         )
       );
     } else if (!existingUser.email && email && existingUser.name === name) {
-      try {
-        this.userService.updateUserEmail(existingUser, email);
-        return Promise.reject(
-          new Error(
-            $localize`Added email address to existing person with the same name`
-          )
-        );
-      } catch {
-        return Promise.reject(
-          new Error($localize`An unexpected duplication-related error occurred`)
-        );
-      }
+      // TODO, see comments here: https://github.com/Maptio/maptio/issues/739
+      // try {
+      //   this.userService.updateUserEmail(existingUser, email);
+      //   return Promise.reject(
+      //     new Error(
+      //       $localize`Added email address to existing person with the same name`
+      //     )
+      //   );
+      // } catch {
+      //   return Promise.reject(
+      //     new Error($localize`An unexpected duplication-related error occurred`)
+      //   );
+      // }
     } else if (existingUser.name === name) {
       return Promise.reject(
         new Error(
