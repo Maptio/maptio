@@ -5,7 +5,9 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
-import { InitiativeNode } from '@maptio-circle-map/initiative.model';
+import { remove, flatten, filter } from 'lodash-es';
+
+import { Helper, InitiativeNode } from '@maptio-circle-map/initiative.model';
 import { CircleMapService } from '@maptio-circle-map/circle-map.service';
 
 @Component({
@@ -72,9 +74,40 @@ export class SearchComponent implements OnInit {
 
     const filterValue = value.toLowerCase();
 
-    return this.initiatives.filter((initiative) =>
-      initiative.data.name.toLowerCase().includes(filterValue)
+    return this.findInitiatives(filterValue);
+  }
+
+  private findInitiatives(term: string): InitiativeNode[] {
+    return this.initiatives.filter(
+      (initiativeNode) =>
+        initiativeNode.data.name?.toLowerCase().indexOf(term.toLowerCase()) >
+          -1 ||
+        (initiativeNode.data.description &&
+          initiativeNode.data.description
+            .toLowerCase()
+            .indexOf(term.toLowerCase()) > -1) ||
+        (initiativeNode.data.accountable &&
+          initiativeNode.data.accountable.name
+            .toLowerCase()
+            .indexOf(term.toLowerCase()) > -1) ||
+        (this.getAllParticipants(initiativeNode) &&
+          this.getAllParticipants(initiativeNode)
+            .map((h) => h.name)
+            .join('')
+            .toLowerCase()
+            .indexOf(term.toLowerCase()) > -1) ||
+        (this.getAllParticipants(initiativeNode) &&
+          this.getAllParticipants(initiativeNode)
+            .map((h) => (h.roles && h.roles[0] ? h.roles[0].description : ''))
+            .join('')
+            .toLowerCase()
+            .indexOf(term.toLowerCase()) > -1)
     );
+  }
+
+  private getAllParticipants(initiativeNode: InitiativeNode): Helper[] {
+    const initiative = initiativeNode.data;
+    return remove(flatten([...[initiative.accountable], initiative.helpers]));
   }
 
   onSelect(circleSelectionEvent: MatAutocompleteSelectedEvent) {
@@ -83,4 +116,3 @@ export class SearchComponent implements OnInit {
     this.circleMapService.onHighlightInitiativeNode(circle);
   }
 }
-
