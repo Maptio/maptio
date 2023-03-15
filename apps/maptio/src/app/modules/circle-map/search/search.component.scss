@@ -1,9 +1,8 @@
-.example-form {
-  min-width: 150px;
-  max-width: 500px;
+.search {
   width: 100%;
 }
 
-.example-full-width {
-  width: 100%;
+::ng-deep .mdc-text-field {
+  background-color: white;
+  border-radius: 4px !important;
 }
