@@ -26,7 +26,7 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'maptio-circle-map',
   templateUrl: './circle-map.component.html',
-  styleUrls: ['./circle-map.component.css'],
+  styleUrls: ['./circle-map.component.scss'],
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
