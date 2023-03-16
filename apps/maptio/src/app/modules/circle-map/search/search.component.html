@@ -1,0 +1,24 @@
+<mat-form-field class="search" appearance="outline">
+  <input
+    class="search__input"
+    type="text"
+    placeholder="Search"
+    aria-label="Search"
+    matInput
+    [formControl]="inputField"
+    [matAutocomplete]="auto"
+  />
+
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    autoActiveFirstOption
+    (optionSelected)="onSelect($event)"
+  >
+    <mat-option
+      *ngFor="let initiativeNode of filteredOptions$ | async"
+      [value]="initiativeNode"
+    >
+      {{ initiativeNode.data.name }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

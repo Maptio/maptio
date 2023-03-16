@@ -1,7 +1,7 @@
 import { environment } from '../../../../../config/environment';
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { Tag, SelectableTag } from '../../../../../shared/model/tag.data';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Team } from '../../../../../shared/model/team.data';
 import { Permissions } from '../../../../../shared/model/permission.data';
@@ -22,19 +22,19 @@ export class EditTagsComponent implements OnInit {
 
   KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
 
-  public newTagForm: FormGroup;
+  public newTagForm: UntypedFormGroup;
   public newTagColor = '#aaa';
   public isEditTags: boolean;
 
   constructor(private analytics: Angulartics2Mixpanel) {}
 
   ngOnInit(): void {
-    this.newTagForm = new FormGroup({
-      name: new FormControl('', {
+    this.newTagForm = new UntypedFormGroup({
+      name: new UntypedFormControl('', {
         validators: [Validators.required],
         updateOn: 'submit',
       }),
-      color: new FormControl(this.newTagColor, {
+      color: new UntypedFormControl(this.newTagColor, {
         validators: [Validators.required],
         updateOn: 'submit',
       }),

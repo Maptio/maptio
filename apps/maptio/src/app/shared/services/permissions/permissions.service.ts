@@ -26,14 +26,11 @@ export class PermissionsService implements OnDestroy {
     this.userService.user$,
     this.currentOrganisationId$,
   ]).pipe(
-    map(([user, state]) => {
+    map(([user, currentOrganisationId]) => {
       // Convert the state object to get at the hidden ID of the current
       // organisation
       // TODO: This needs to be refactored away by a correct implementation of
       // state, selectors, etc.
-      const currentOrganisationId = ((state as unknown) as AppState)
-        ?.currentOrganisationId;
-
       if (currentOrganisationId) {
         const currentUserRole = user.getUserRoleInOrganization(
           currentOrganisationId
@@ -59,7 +56,7 @@ export class PermissionsService implements OnDestroy {
 
   constructor(
     private subs: SubSink,
-    private store: Store,
+    private store: Store<AppState>,
     private userService: UserService,
     private userRoleService: UserRoleService
   ) {

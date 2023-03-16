@@ -1,23 +1,17 @@
 import { createReducer, on } from '@ngrx/store';
 
+import { GlobalState } from './app.state';
 import { setCurrentOrganisationId } from './current-organisation.actions';
 
-export const currentOrganisationFeatureKey = 'currentOrganisation';
+export const initialState: GlobalState = { currentOrganisationId: undefined };
 
-export interface State {
-  currentOrganisationId: string;
-}
-
-export const initialState = undefined;
-
-export const currentOrganisationIdReducer = createReducer(
+export const currentOrganisationIdReducer = createReducer<GlobalState>(
   initialState,
   on(
     setCurrentOrganisationId,
-    (state, action): State => ({
+    (state, action): GlobalState => ({
       ...state,
       currentOrganisationId: action.currentOrganisationId,
     })
   )
 );
-

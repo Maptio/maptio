@@ -26,7 +26,7 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'maptio-circle-map',
   templateUrl: './circle-map.component.html',
-  styleUrls: ['./circle-map.component.css'],
+  styleUrls: ['./circle-map.component.scss'],
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -170,12 +170,12 @@ export class CircleMapComponent implements OnInit, OnDestroy {
         return PADDING_CIRCLE;
       });
 
-    const rootHierarchyNode = this.circleMapService.calculateD3RootHierarchyNode(
-      this.rootInitiative
-    );
+    const rootHierarchyNode =
+      this.circleMapService.calculateD3RootHierarchyNode(this.rootInitiative);
 
     // We perform this type conversion to later populate each node's data with some view-specific properties
-    const rootHierarchyNodeViewModel = (rootHierarchyNode as unknown) as HierarchyNode<InitiativeViewModel>;
+    const rootHierarchyNodeViewModel =
+      rootHierarchyNode as unknown as HierarchyNode<InitiativeViewModel>;
 
     this.circles = packInitiatives(rootHierarchyNodeViewModel).descendants();
 

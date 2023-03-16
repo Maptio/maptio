@@ -12,7 +12,7 @@ import {
   HammerGestureConfig,
   HAMMER_GESTURE_CONFIG,
 } from '@angular/platform-browser';
-// import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
 import { StoreModule } from '@ngrx/store';
@@ -78,7 +78,7 @@ export function markedOptionsFactory(): MarkedOptions {
   imports: [
     // angular
     BrowserModule,
-    // BrowserAnimationsModule,
+    BrowserAnimationsModule,
     HammerModule,
     // routing
     AppRoutingModule,
@@ -115,7 +115,7 @@ export function markedOptionsFactory(): MarkedOptions {
     CoreModule,
     SharedModule.forRoot(),
     StoreModule.forRoot({
-      currentOrganisationId: currentOrganisationIdReducer,
+      global: currentOrganisationIdReducer,
     }),
     StoreDevtoolsModule.instrument({
       name: 'Maptio',

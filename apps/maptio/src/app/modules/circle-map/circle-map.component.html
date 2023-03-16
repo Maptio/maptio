@@ -1,3 +1,7 @@
+<div class="search-panel" *ngIf="showDetailsPanel">
+  <maptio-search [rootCircle]="rootCircle"></maptio-search>
+</div>
+
 <div class="circle-details" *ngIf="showDescriptions$ | async">
   <h1 class="circle-details__name">
     {{ selectedCircleName$ | async }}

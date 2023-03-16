@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 
-import { SatPopover } from '@ncstate/sat-popover';
+import { SatPopover } from '@wjaspers/sat-popover';
 
 import { CircleMapService } from '../circle-map.service';
 import { InitiativeNode } from '../initiative.model';

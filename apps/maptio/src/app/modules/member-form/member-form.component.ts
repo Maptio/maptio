@@ -6,7 +6,7 @@ import {
   OnInit,
   ChangeDetectorRef,
 } from '@angular/core';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { UntypedFormControl, Validators, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Intercom } from 'ng-intercom';
@@ -34,7 +34,7 @@ export class MemberFormComponent implements OnInit {
   public errorMessage: string;
 
   public createdUser: User;
-  public memberForm: FormGroup;
+  public memberForm: UntypedFormGroup;
 
   private firstname: string;
   private lastname: string;
@@ -79,12 +79,12 @@ export class MemberFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.memberForm = new FormGroup({
-      firstname: new FormControl('', {
+    this.memberForm = new UntypedFormGroup({
+      firstname: new UntypedFormControl('', {
         validators: [Validators.required, Validators.minLength(2)],
       }),
-      lastname: new FormControl('', { validators: [Validators.minLength(2)] }),
-      email: new FormControl('', { validators: [Validators.email] }),
+      lastname: new UntypedFormControl('', { validators: [Validators.minLength(2)] }),
+      email: new UntypedFormControl('', { validators: [Validators.email] }),
     });
 
     if (this.member) {
@@ -126,7 +126,7 @@ export class MemberFormComponent implements OnInit {
 
       this.memberForm.addControl(
         'isTermsAccepted',
-        new FormControl(false, { validators: [Validators.requiredTrue] })
+        new UntypedFormControl(false, { validators: [Validators.requiredTrue] })
       );
     }
   }

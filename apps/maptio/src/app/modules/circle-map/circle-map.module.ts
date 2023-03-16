@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { SatPopoverModule } from '@ncstate/sat-popover';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+
+import { SatPopoverModule } from '@wjaspers/sat-popover';
 import { MarkdownModule } from 'ngx-markdown';
 
 import { SvgZoomPanComponent } from './svg-zoom-pan/svg-zoom-pan.component';
@@ -9,6 +13,7 @@ import { CircleMapComponent } from './circle-map.component';
 import { CircleComponent } from './circle/circle.component';
 import { CircleInfoComponent } from './circle-info/circle-info.component';
 import { HelperAvatarComponent } from './helper-avatar/helper-avatar.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -17,8 +22,16 @@ import { HelperAvatarComponent } from './helper-avatar/helper-avatar.component';
     CircleComponent,
     CircleInfoComponent,
     HelperAvatarComponent,
+    SearchComponent,
   ],
-  imports: [CommonModule, MarkdownModule.forChild(), SatPopoverModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MarkdownModule.forChild(),
+    SatPopoverModule,
+  ],
   exports: [CircleMapComponent],
 })
 export class CircleMapModule {}

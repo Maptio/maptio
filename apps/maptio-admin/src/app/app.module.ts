@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    RouterModule.forRoot([], { initialNavigation: 'enabled' }),
+    RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
     AuthModule.forRoot({ ...environment.auth }),
   ],
   providers: [],

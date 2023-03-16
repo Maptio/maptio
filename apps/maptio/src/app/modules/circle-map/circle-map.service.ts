@@ -158,15 +158,20 @@ export class CircleMapService {
     this.resetZoom();
   }
 
-  onHighlightInitiative(node: any) {
+  onHighlightInitiative(initiative: any) {
     const highlightedCircle = this.circles.find(
-      (circle) => circle.data.id === node.id
+      (circle) => circle.data.id === initiative.id
     );
-    if (highlightedCircle) {
+
+    this.onHighlightInitiativeNode(highlightedCircle);
+  }
+
+  onHighlightInitiativeNode(initiativeNode: InitiativeNode) {
+    if (initiativeNode) {
       this.clearCircleStates();
-      this.selectCircle(highlightedCircle);
+      this.selectCircle(initiativeNode);
       this.resetZoom();
-      this.zoomToCircle(highlightedCircle);
+      this.zoomToCircle(initiativeNode);
     }
   }
 

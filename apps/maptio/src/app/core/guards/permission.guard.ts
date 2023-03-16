@@ -8,12 +8,13 @@ import { CanActivate, CanActivateChild, Router } from '@angular/router';
 import { PermissionsService } from '@maptio-shared/services/permissions/permissions.service';
 import { Store } from '@ngrx/store';
 
-import { setCurrentOrganisationId } from 'app/state/current-organisation.actions';
+import { AppState } from '@maptio-state/app.state';
+import { setCurrentOrganisationId } from '@maptio-state/current-organisation.actions';
 
 @Injectable()
 export class PermissionGuard implements CanActivate, CanActivateChild {
   constructor(
-    private store: Store,
+    private store: Store<AppState>,
     private permissionsService: PermissionsService,
     private router: Router
   ) {}

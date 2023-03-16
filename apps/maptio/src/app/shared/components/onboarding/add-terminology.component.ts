@@ -7,7 +7,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { Team } from '../../model/team.data';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../model/user.data';
 import { DatasetFactory } from '../../../core/http/map/dataset.factory';
@@ -23,7 +23,7 @@ import { TeamService } from '../../services/team/team.service';
   templateUrl: './add-terminology.component.html',
 })
 export class AddTerminologyComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
   isAdded: boolean;
   isAdding: boolean;
   errorMessage: string;
@@ -38,12 +38,12 @@ export class AddTerminologyComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.form = new FormGroup({
-      authority: new FormControl(this.team.settings.authority, {
+    this.form = new UntypedFormGroup({
+      authority: new UntypedFormControl(this.team.settings.authority, {
         validators: [Validators.required],
         updateOn: 'change',
       }),
-      helper: new FormControl(this.team.settings.helper, {
+      helper: new UntypedFormControl(this.team.settings.helper, {
         validators: [Validators.required],
         updateOn: 'change',
       }),

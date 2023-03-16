@@ -27,6 +27,7 @@ import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 import { Store } from '@ngrx/store';
 
+import { AppState } from '@maptio-state/app.state';
 import { setCurrentOrganisationId } from '@maptio-state/current-organisation.actions';
 import { MapService } from '@maptio-shared/services/map/map.service';
 
@@ -76,7 +77,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
-    private store: Store,
+    private store: Store<AppState>,
     private datasetFactory: DatasetFactory,
     private teamFactory: TeamFactory,
     private dataService: DataService,

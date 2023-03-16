@@ -12,10 +12,10 @@ import { TeamMapsComponent } from '../team-maps/maps.component';
 import { TeamSettingsComponent } from '../team-settings/settings.component';
 import { TeamIntegrationsComponent } from '../team-integrations/integrations.component';
 import { TeamBillingComponent } from '../team-billing/billing.component';
-import { ThrowStmt } from '@angular/compiler';
 
 import { Store } from '@ngrx/store';
 
+import { AppState } from '@maptio-state/app.state';
 import { setCurrentOrganisationId } from '@maptio-state/current-organisation.actions';
 
 @Component({
@@ -32,7 +32,7 @@ export class TeamComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
-    private store: Store
+    private store: Store<AppState>
   ) {}
 
   ngOnInit() {
