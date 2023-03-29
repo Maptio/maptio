@@ -25,7 +25,11 @@
             "main": "apps/maptio/src/main.ts",
             "polyfills": "apps/maptio/src/polyfills.ts",
             "tsConfig": "apps/maptio/tsconfig.app.json",
-            "assets": ["apps/maptio/src/favicon.ico", "apps/maptio/src/assets"],
+            "assets": [
+              "apps/maptio/src/favicon.ico",
+              "apps/maptio/src/assets",
+              "apps/maptio/src/assets/other/auth0-account-linking-page.css"
+            ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "apps/maptio/src/assets/styles/vendor-google-fonts.css",
