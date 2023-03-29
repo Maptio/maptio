@@ -1,0 +1,94 @@
+/**
+ * This file is hosted by us and used to override the default styles for the
+ * Auth0 account linking page. This is a temporary solution until Auth0 update
+ * the extension (hopefully) or we do something ourselves or move away from
+ * Auth0.
+ */
+
+.auth0-lock.auth0-lock {
+  font-family: ulp-font, -apple-system, BlinkMacSystemFont, Roboto, Helvetica,
+    sans-serif;
+}
+
+.auth0-lock.auth0-lock .auth0-lock-form p {
+  font-size: 0.875rem;
+  color: #2d333a;
+}
+
+.auth0-lock.auth0-lock .auth0-lock-header {
+  height: auto;
+}
+
+.auth0-lock.auth0-lock .auth0-lock-content {
+  color: #1e212a;
+  padding: 0;
+}
+
+p#message {
+  display: none;
+}
+
+div#content-container > div::before {
+  content: 'It looks like you have another account with the same email address. We recommend you link these accounts by clicking "Continue" and logging in with your existing password. From then on, you will be able to log in with Google.';
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 2.25rem;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.3125rem;
+}
+
+.auth0-lock-alternative {
+  display: none;
+}
+
+.auth0-lock.auth0-lock .auth0-lock-submit {
+  height: 3.25rem;
+  border-radius: 3px;
+  font-size: 1rem;
+  text-transform: none;
+}
+
+.auth0-lock.auth0-lock .auth0-label-submit {
+  transform: none !important;
+  transition: none !important;
+}
+
+#label-value {
+  line-height: 1.1 !important;
+  height: 18px !important;
+  transform: none !important;
+  transition: none !important;
+  display: block;
+  margin-top: 3px;
+}
+
+.auth0-lock.auth0-lock .icon-text {
+  display: none;
+}
+
+.auth0-lock-badge-bottom {
+  display: none;
+}
+
+.auth0-lock.auth0-lock .auth0-lock-overlay {
+  background: white;
+}
+
+.auth0-lock.auth0-lock .auth0-lock-widget {
+  width: calc(400px - 5rem);
+  padding: 2.5rem; /* [ ] NEXT! */
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12) !important;
+}
+
+.auth0-lock-header-bg {
+  background: white !important;
+}
+
+.auth0-lock.auth0-lock .auth0-lock-header-logo {
+  height: 3.25rem;
+}
+
+.auth0-lock-name {
+  display: none;
+}
