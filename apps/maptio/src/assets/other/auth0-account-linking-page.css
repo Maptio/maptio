@@ -29,7 +29,7 @@ p#message {
 }
 
 div#content-container > div::before {
-  content: 'It looks like you have another account with the same email address. We recommend you link these accounts. Please click Continue to do so. You can also go back and log in with your existing username and password.';
+  content: 'It looks like you have another account with the same email address. We recommend you link these accounts by clicking "Continue" and logging in with your existing password. From then on, you will be able to log in with Google.';
   display: block;
   margin-top: 1rem;
   margin-bottom: 2.25rem;

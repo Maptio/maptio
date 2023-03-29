@@ -207,11 +207,6 @@ app.use('/api/v1/embeddable-dataset/', embeddableDatasets);
 app.set('port', port);
 app.get(cache('5 seconds'));
 
-app.use(
-  '/assets/other/auth0-account-linking-page.css',
-  express.static(DIST_DIR + '/assets/other/auth0-account-linking-page.css')
-);
-
 if (!environment.isDevelopment) {
   app.use(express.static(DIST_DIR));
 
