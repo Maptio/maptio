@@ -1,3 +1,4 @@
+<!-- prettier-ignore -->
 .
 ├── file-tree.md
 ├── jest.config.ts
