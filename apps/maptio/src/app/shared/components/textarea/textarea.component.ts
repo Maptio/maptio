@@ -47,4 +47,14 @@ export class CommonTextareaComponent implements OnInit {
     this.save.emit(text);
     this.cd.markForCheck();
   }
+
+  onClick(event: Event) {
+    const eventTarget = event.target as HTMLElement;
+    const isLink = eventTarget.nodeName === 'A';
+
+    if (!isLink && !this.isUnauthorized) {
+      this.isEditMode = true;
+      this.cd.markForCheck();
+    }
+  }
 }
