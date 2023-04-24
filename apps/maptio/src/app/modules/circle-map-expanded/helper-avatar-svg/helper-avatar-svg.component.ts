@@ -7,12 +7,12 @@ import { NgIf, NgFor } from '@angular/common';
 import { SatPopoverModule } from '@wjaspers/sat-popover';
 
 @Component({
-    selector: 'g[maptioHelperAvatarSvg]',
-    templateUrl: './helper-avatar-svg.component.html',
-    styleUrls: ['./helper-avatar-svg.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    standalone: true,
-    imports: [SatPopoverModule, NgIf, NgFor]
+  selector: 'g[maptioHelperAvatarSvg]',
+  templateUrl: './helper-avatar-svg.component.html',
+  styleUrls: ['./helper-avatar-svg.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [SatPopoverModule, NgIf, NgFor],
 })
 export class HelperAvatarSvgComponent implements OnInit {
   @Input() helper!: Helper;

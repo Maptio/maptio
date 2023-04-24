@@ -10,18 +10,17 @@ import { ImageModule } from '@maptio-shared/image.module';
 import { MemberFormComponent } from './member-form.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        ConfirmationPopoverModule.forRoot({
-            confirmButtonType: 'danger',
-            cancelButtonType: 'link',
-        }),
-        PermissionsModule,
-        ImageModule,
-        MemberModule,
-        MemberFormComponent
-    ],
-    exports: [MemberFormComponent]
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ConfirmationPopoverModule.forRoot({
+      confirmButtonType: 'danger',
+      cancelButtonType: 'link',
+    }),
+    PermissionsModule,
+    ImageModule,
+    MemberFormComponent,
+  ],
+  exports: [MemberFormComponent],
 })
 export class MemberFormModule {}

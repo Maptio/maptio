@@ -12,18 +12,18 @@ import { CreateMapModule } from '@maptio-shared/create-map.module';
 import { CreateTeamModule } from '@maptio-shared/create-team.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        PermissionsModule,
-        CreateMapModule,
-        CreateTeamModule,
-        SanitizerModule,
-        HomeRoutingModule,
-        LoginModule,
-        HomeComponent, DashboardComponent
-    ],
-    exports: [],
-    providers: []
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    PermissionsModule,
+    CreateMapModule,
+    CreateTeamModule,
+    HomeRoutingModule,
+    LoginModule,
+    HomeComponent,
+    DashboardComponent,
+  ],
+  exports: [],
+  providers: [],
 })
 export class HomeModule {}

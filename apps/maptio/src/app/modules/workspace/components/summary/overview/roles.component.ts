@@ -24,13 +24,19 @@ import { InitiativeHelperRoleInputComponent } from '../../data-entry/details/par
 import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-    selector: 'summary-roles',
-    templateUrl: './roles.component.html',
-    styleUrls: ['./roles.component.css'],
-    host: { class: 'd-flex flex-column w-100' },
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [NgIf, InitiativeHelperRoleInputComponent, NgFor, InitiativeHelperRoleComponent, RoleHoldersInInitiativeComponent]
+  selector: 'summary-roles',
+  templateUrl: './roles.component.html',
+  styleUrls: ['./roles.component.css'],
+  host: { class: 'd-flex flex-column w-100' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    InitiativeHelperRoleInputComponent,
+    NgFor,
+    InitiativeHelperRoleComponent,
+    RoleHoldersInInitiativeComponent,
+  ],
 })
 export class RolesSummaryComponent implements OnInit {
   initiative: Initiative;

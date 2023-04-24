@@ -24,11 +24,19 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { PermissionsDirective } from '../../../../shared/directives/permission.directive';
 
 @Component({
-    selector: 'maptio-members',
-    templateUrl: './members.component.html',
-    styleUrls: ['./members.component.css'],
-    standalone: true,
-    imports: [PermissionsDirective, NgIf, MemberFormComponent, NgbTooltipModule, NgFor, MemberSingleComponent, AsyncPipe]
+  selector: 'maptio-members',
+  templateUrl: './members.component.html',
+  styleUrls: ['./members.component.css'],
+  standalone: true,
+  imports: [
+    PermissionsDirective,
+    NgIf,
+    MemberFormComponent,
+    NgbTooltipModule,
+    NgFor,
+    MemberSingleComponent,
+    AsyncPipe,
+  ],
 })
 export class TeamMembersComponent implements OnInit, OnDestroy {
   team: Team;

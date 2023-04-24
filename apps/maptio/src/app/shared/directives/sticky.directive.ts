@@ -21,9 +21,9 @@ import { DOCUMENT } from '@angular/common';
 import { NgbPopover, NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Directive({
-    selector: '[stickyPopover]',
-    exportAs: 'stickyPopover',
-    standalone: true
+  selector: '[stickyPopover]',
+  exportAs: 'stickyPopover',
+  standalone: true,
 })
 export class StickyPopoverDirective extends NgbPopover {
   @Input() stickyPopover: TemplateRef<any>;

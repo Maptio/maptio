@@ -6,7 +6,13 @@ import {
   OnInit,
   ChangeDetectorRef,
 } from '@angular/core';
-import { UntypedFormControl, Validators, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  Validators,
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Intercom } from 'ng-intercom';
@@ -26,11 +32,19 @@ import { NgIf, NgFor } from '@angular/common';
 import { ImageUploadComponent } from '../../shared/components/image-upload/image-upload.component';
 
 @Component({
-    selector: 'maptio-member-form',
-    templateUrl: './member-form.component.html',
-    styleUrls: ['./member-form.component.scss'],
-    standalone: true,
-    imports: [FormsModule, ReactiveFormsModule, ImageUploadComponent, NgIf, ConfirmationPopoverModule, NgFor, MemberComponent]
+  selector: 'maptio-member-form',
+  templateUrl: './member-form.component.html',
+  styleUrls: ['./member-form.component.scss'],
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    ImageUploadComponent,
+    NgIf,
+    ConfirmationPopoverModule,
+    NgFor,
+    MemberComponent,
+  ],
 })
 export class MemberFormComponent implements OnInit {
   TERMS_AND_CONDITIONS_URL = environment.TERMS_AND_CONDITIONS_URL;

@@ -7,10 +7,10 @@ import { LoginRedirectDirective } from '../../../login/login-redirect/login-redi
 import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'maptio-payment-plan',
-    templateUrl: './payment-plan.component.html',
-    standalone: true,
-    imports: [NgIf, LoginRedirectDirective, AsyncPipe]
+  selector: 'maptio-payment-plan',
+  templateUrl: './payment-plan.component.html',
+  standalone: true,
+  imports: [NgIf, LoginRedirectDirective, AsyncPipe],
 })
 export class PaymentPlanComponent implements OnChanges {
   @HostBinding('class') classes =

@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 import { environment } from '@maptio-environment';
 
 @Component({
-    selector: 'app-terms',
-    template: `
+  selector: 'app-terms',
+  template: `
     <iframe
       src="${environment.TERMS_AND_CONDITIONS_URL}"
       width="100%"
@@ -12,6 +12,6 @@ import { environment } from '@maptio-environment';
       frameborder="0"
     ></iframe>
   `,
-    standalone: true
+  standalone: true,
 })
 export class TermsComponent {}

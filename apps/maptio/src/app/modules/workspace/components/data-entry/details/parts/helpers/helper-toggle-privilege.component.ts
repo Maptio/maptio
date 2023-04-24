@@ -11,11 +11,11 @@ import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-    selector: 'initiative-helper-privilege',
-    templateUrl: './helper-toggle-privilege.component.html',
-    styleUrls: ['./helper-toggle-privilege.component.css'],
-    standalone: true,
-    imports: [NgbTooltipModule, FormsModule]
+  selector: 'initiative-helper-privilege',
+  templateUrl: './helper-toggle-privilege.component.html',
+  styleUrls: ['./helper-toggle-privilege.component.css'],
+  standalone: true,
+  imports: [NgbTooltipModule, FormsModule],
 })
 export class InitiativeHelperPrivilegeComponent implements OnInit {
   @Input('helper') helper: Helper;

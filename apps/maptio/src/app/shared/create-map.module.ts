@@ -9,19 +9,19 @@ import { PermissionsModule } from './permissions.module';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        RouterModule,
-        PermissionsModule,
-        PermissionsMessagesModule,
-        ConfirmationPopoverModule.forRoot({
-            confirmButtonType: 'danger',
-            cancelButtonType: 'link',
-        }),
-        CreateMapComponent, MapCardComponent
-    ],
-    exports: [CreateMapComponent, MapCardComponent],
-    providers: []
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    PermissionsModule,
+    ConfirmationPopoverModule.forRoot({
+      confirmButtonType: 'danger',
+      cancelButtonType: 'link',
+    }),
+    CreateMapComponent,
+    MapCardComponent,
+  ],
+  exports: [CreateMapComponent, MapCardComponent],
+  providers: [],
 })
 export class CreateMapModule {}

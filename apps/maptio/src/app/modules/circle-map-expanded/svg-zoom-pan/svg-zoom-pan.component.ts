@@ -13,10 +13,10 @@ import { SvgZoomPanService } from './svg-zoom-pan.service';
 import { InitiativeNode } from '../initiative.model';
 
 @Component({
-    selector: 'maptio-svg-zoom-pan',
-    templateUrl: './svg-zoom-pan.component.html',
-    styleUrls: ['./svg-zoom-pan.component.scss'],
-    standalone: true
+  selector: 'maptio-svg-zoom-pan',
+  templateUrl: './svg-zoom-pan.component.html',
+  styleUrls: ['./svg-zoom-pan.component.scss'],
+  standalone: true,
 })
 export class SvgZoomPanComponent implements OnInit, OnDestroy {
   @ViewChild('map') private svgElement: ElementRef;

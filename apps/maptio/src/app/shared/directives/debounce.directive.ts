@@ -12,8 +12,8 @@ import {
 import { NgModel } from '@angular/forms';
 
 @Directive({
-    selector: '[debounce]',
-    standalone: true
+  selector: '[debounce]',
+  standalone: true,
 })
 export class DebounceDirective implements OnInit {
   @Input() delay = 750;

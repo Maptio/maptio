@@ -5,10 +5,10 @@ import { MemberFormComponent } from '../../../member-form/member-form.component'
 import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'maptio-signup',
-    templateUrl: './signup.page.html',
-    standalone: true,
-    imports: [NgIf, MemberFormComponent, AsyncPipe]
+  selector: 'maptio-signup',
+  templateUrl: './signup.page.html',
+  standalone: true,
+  imports: [NgIf, MemberFormComponent, AsyncPipe],
 })
 export class SignupComponent {
   user$ = this.userService.user$;

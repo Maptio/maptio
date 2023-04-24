@@ -11,7 +11,14 @@ import {
   ViewChild,
   ElementRef,
 } from '@angular/core';
-import { ActivatedRoute, Router, Params, RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  Params,
+  RouterLinkActive,
+  RouterLink,
+  RouterOutlet,
+} from '@angular/router';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { compact } from 'lodash-es';
 import { BehaviorSubject, ReplaySubject, Subject, Subscription } from 'rxjs';
@@ -49,12 +56,28 @@ import { NgTemplateOutlet, NgIf } from '@angular/common';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-    selector: 'mapping',
-    templateUrl: './mapping.component.html',
-    styleUrls: ['./mapping.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [NgbTooltipModule, RouterLinkActive, RouterLink, RouterOutlet, NgTemplateOutlet, NgIf, ContextMenuComponent, ClosableDirective, SearchComponent, FilterTagsComponent, SharingComponent, ColorPickerComponent, PermissionsDirective, StickyPopoverDirective, InsufficientPermissionsMessageComponent]
+  selector: 'mapping',
+  templateUrl: './mapping.component.html',
+  styleUrls: ['./mapping.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgbTooltipModule,
+    RouterLinkActive,
+    RouterLink,
+    RouterOutlet,
+    NgTemplateOutlet,
+    NgIf,
+    ContextMenuComponent,
+    ClosableDirective,
+    SearchComponent,
+    FilterTagsComponent,
+    SharingComponent,
+    ColorPickerComponent,
+    PermissionsDirective,
+    StickyPopoverDirective,
+    InsufficientPermissionsMessageComponent,
+  ],
 })
 export class MappingComponent {
   isFirstEdit: boolean;

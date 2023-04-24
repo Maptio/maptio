@@ -11,11 +11,11 @@ import { PermissionsDirective } from '../../../../shared/directives/permission.d
 import { NgIf } from '@angular/common';
 
 @Component({
-    selector: 'team-billing',
-    templateUrl: './billing.component.html',
-    styleUrls: ['./billing.component.css'],
-    standalone: true,
-    imports: [NgIf, PermissionsDirective, RouterLink]
+  selector: 'team-billing',
+  templateUrl: './billing.component.html',
+  styleUrls: ['./billing.component.css'],
+  standalone: true,
+  imports: [NgIf, PermissionsDirective, RouterLink],
 })
 export class TeamBillingComponent implements OnInit {
   public team: Team;
