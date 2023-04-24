@@ -7,22 +7,20 @@ import { RouterLink } from '@angular/router';
 import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-    selector: 'filter-tags',
-    templateUrl: './tags.component.html',
-    standalone: true,
-    imports: [NgIf, NgFor, RouterLink]
+  selector: 'filter-tags',
+  templateUrl: './tags.component.html',
+  standalone: true,
+  imports: [NgIf, NgFor, RouterLink],
 })
 export class FilterTagsComponent implements OnInit {
   @Input() isFilterDisabled: boolean;
   @Input() expandedMapLink: string;
   @Input() tags: SelectableTag[];
   @Input() team: Team;
-  @Output() changeTagsSettings: EventEmitter<
-    SelectableTag[]
-  > = new EventEmitter<SelectableTag[]>();
-  @Output() changeTagsSelection: EventEmitter<
-    SelectableTag[]
-  > = new EventEmitter<SelectableTag[]>();
+  @Output() changeTagsSettings: EventEmitter<SelectableTag[]> =
+    new EventEmitter<SelectableTag[]>();
+  @Output() changeTagsSelection: EventEmitter<SelectableTag[]> =
+    new EventEmitter<SelectableTag[]>();
 
   constructor(private analytics: Angulartics2Mixpanel) {}
 

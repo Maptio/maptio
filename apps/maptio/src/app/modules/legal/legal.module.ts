@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { LegalRoutingModule } from './legal.routing';
 
 @NgModule({
-    imports: [CommonModule, LegalRoutingModule, PrivacyComponent, TermsComponent],
-    providers: []
+  imports: [CommonModule, LegalRoutingModule, PrivacyComponent, TermsComponent],
+  providers: [],
 })
 export class LegalModule {}

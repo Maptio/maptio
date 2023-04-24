@@ -20,10 +20,16 @@ import { StickyPopoverDirective } from '../../../../../../../shared/directives/s
 import { NgIf, LowerCasePipe } from '@angular/common';
 
 @Component({
-    selector: 'maptio-initiative-helpers-select',
-    templateUrl: './helpers-select.component.html',
-    standalone: true,
-    imports: [NgIf, StickyPopoverDirective, CommonAutocompleteComponent, MemberFormComponent, LowerCasePipe]
+  selector: 'maptio-initiative-helpers-select',
+  templateUrl: './helpers-select.component.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    StickyPopoverDirective,
+    CommonAutocompleteComponent,
+    MemberFormComponent,
+    LowerCasePipe,
+  ],
 })
 export class InitiativeHelpersSelectComponent implements OnChanges {
   @Input() team: Team;
@@ -50,8 +56,9 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.team && changes.team.currentValue) {
-      this.placeholder = $localize`Start typing the name of a ${(changes.team
-        .currentValue as Team).settings.helper.toLowerCase()}`;
+      this.placeholder = $localize`Start typing the name of a ${(
+        changes.team.currentValue as Team
+      ).settings.helper.toLowerCase()}`;
     }
     this.cd.markForCheck();
   }

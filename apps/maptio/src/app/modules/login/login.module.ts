@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-
-
 import { MemberFormModule } from '@maptio-member-form';
 
 import { LoginRoutingModule } from './login.routing';
@@ -13,7 +11,7 @@ import { ProfilePageComponent } from './pages/profile/profile.page';
 import { LoginRedirectDirective } from './login-redirect/login-redirect.directive';
 
 @NgModule({
-    imports: [
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     MemberFormModule,
@@ -21,9 +19,9 @@ import { LoginRedirectDirective } from './login-redirect/login-redirect.directiv
     LogoutComponent,
     SignupComponent,
     ProfilePageComponent,
-    LoginRedirectDirective
-],
-    exports: [LoginRedirectDirective],
-    providers: []
+    LoginRedirectDirective,
+  ],
+  exports: [LoginRedirectDirective],
+  providers: [],
 })
 export class LoginModule {}

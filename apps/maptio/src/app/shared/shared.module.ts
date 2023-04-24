@@ -22,12 +22,11 @@ import { MarkdownUtilsService } from './services/markdown/markdown-utils.service
 import { ColorService } from './services/color/color.service';
 import { FocusIfDirective } from './directives/focusif.directive';
 
-
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
 
 @NgModule({
-    imports: [
+  imports: [
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
@@ -35,9 +34,11 @@ import { NgProgressRouterModule } from '@ngx-progressbar/router';
     NgbPopoverModule,
     NgProgressModule,
     NgProgressRouterModule,
-    DebounceDirective, ClosableDirective, FocusIfDirective
-],
-    exports: [DebounceDirective, ClosableDirective, FocusIfDirective]
+    DebounceDirective,
+    ClosableDirective,
+    FocusIfDirective,
+  ],
+  exports: [DebounceDirective, ClosableDirective, FocusIfDirective],
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders<SharedModule> {

@@ -85,13 +85,13 @@ const d3 = Object.assign(
 );
 
 @Component({
-    selector: 'network',
-    templateUrl: './mapping.network.component.html',
-    styleUrls: ['./mapping.network.component.css'],
-    encapsulation: ViewEncapsulation.Emulated,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [NgIf, RouterLink, FormsModule, AsyncPipe]
+  selector: 'network',
+  templateUrl: './mapping.network.component.html',
+  styleUrls: ['./mapping.network.component.css'],
+  encapsulation: ViewEncapsulation.Emulated,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgIf, RouterLink, FormsModule, AsyncPipe],
 })
 export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public datasetId: string;
@@ -117,9 +117,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public team: Team;
 
   public _isDisplayOptions = false;
-  private isAuthorityCentricMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    true
-  );
+  private isAuthorityCentricMode$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(true);
   public _isAuthorityCentricMode = true;
 
   public showContextMenuOf$: Subject<{
@@ -668,7 +667,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     const uiService = this.uiService;
     const showDetailsOf$ = this.showDetailsOf$;
     const showToolipOf$ = this.showToolipOf$;
-    const canOpenInitiativeContextMenu = this.permissionsService.canOpenInitiativeContextMenu();
+    const canOpenInitiativeContextMenu =
+      this.permissionsService.canOpenInitiativeContextMenu();
     const showContextMenuOf$ = this.showContextMenuOf$;
     const datasetSlug = this.slug;
     const datasetId = this.datasetId;

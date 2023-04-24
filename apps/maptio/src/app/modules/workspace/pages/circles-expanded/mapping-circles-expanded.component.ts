@@ -38,17 +38,18 @@ import { CircleMapExpandedComponent } from '../../../circle-map-expanded/circle-
 import { OnboardingMessageComponent } from '../../../onboarding-message/onboarding-message/onboarding-message.component';
 
 @Component({
-    selector: 'maptio-circles-expanded',
-    templateUrl: './mapping-circles-expanded.component.html',
-    styleUrls: ['./mapping-circles-expanded.component.css'],
-    host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
-    encapsulation: ViewEncapsulation.Emulated,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [OnboardingMessageComponent, CircleMapExpandedComponent]
+  selector: 'maptio-circles-expanded',
+  templateUrl: './mapping-circles-expanded.component.html',
+  styleUrls: ['./mapping-circles-expanded.component.css'],
+  host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
+  encapsulation: ViewEncapsulation.Emulated,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [OnboardingMessageComponent, CircleMapExpandedComponent],
 })
 export class MappingCirclesExpandedComponent
-  implements IDataVisualizer, OnInit, OnDestroy {
+  implements IDataVisualizer, OnInit, OnDestroy
+{
   public datasetId: string;
   public width: number;
   public height: number;
@@ -202,7 +203,7 @@ export class MappingCirclesExpandedComponent
 
   showInfoPanelFor(circle: InitiativeNode) {
     this.showToolipOf$.next({
-      initiatives: [(circle.data as unknown) as Initiative],
+      initiatives: [circle.data as unknown as Initiative],
       isNameOnly: false,
     });
   }

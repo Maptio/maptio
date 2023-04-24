@@ -9,10 +9,10 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { PaymentPlanComponent } from './payment-plan.component';
 
 @Component({
-    selector: 'maptio-pricing',
-    templateUrl: './pricing.page.html',
-    standalone: true,
-    imports: [PaymentPlanComponent, NgIf, LoginRedirectDirective, AsyncPipe]
+  selector: 'maptio-pricing',
+  templateUrl: './pricing.page.html',
+  standalone: true,
+  imports: [PaymentPlanComponent, NgIf, LoginRedirectDirective, AsyncPipe],
 })
 export class PricingComponent {
   BILLING_PLANS = environment.BILLING_PLANS;

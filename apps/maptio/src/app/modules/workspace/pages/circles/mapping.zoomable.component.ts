@@ -61,13 +61,13 @@ const d3 = Object.assign(
 );
 
 @Component({
-    selector: 'zoomable',
-    templateUrl: './mapping.zoomable.component.html',
-    styleUrls: ['./mapping.zoomable.component.css'],
-    host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
-    encapsulation: ViewEncapsulation.Emulated,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true
+  selector: 'zoomable',
+  templateUrl: './mapping.zoomable.component.html',
+  styleUrls: ['./mapping.zoomable.component.css'],
+  host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
+  encapsulation: ViewEncapsulation.Emulated,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class MappingZoomableComponent implements IDataVisualizer {
   private browser: Browsers;
@@ -421,10 +421,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
       ? this.zooming.scaleExtent()
       : [0.5, 5];
     this.outerFontScale.domain(scaleExtent);
-    const myInnerFontScale: ScaleLogarithmic<
-      number,
-      number
-    > = this.innerFontScale.domain(scaleExtent);
+    const myInnerFontScale: ScaleLogarithmic<number, number> =
+      this.innerFontScale.domain(scaleExtent);
 
     const outerFontSize: number = this.outerFontScale(zoomFactor);
     const select: Function = d3.select;
@@ -557,7 +555,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const CIRCLE_RADIUS = this.CIRCLE_RADIUS;
     const TRANSITION_DURATION = this.TRANSITION_DURATION;
     const showToolipOf$ = this.showToolipOf$;
-    const canOpenInitiativeContextMenu = this.permissionsService.canOpenInitiativeContextMenu();
+    const canOpenInitiativeContextMenu =
+      this.permissionsService.canOpenInitiativeContextMenu();
     const showContextMenuOf$ = this.showContextMenuOf$;
     // let getCenteredMargin = this.getCenteredMargin.bind(this);
     const browser = this.browser;
@@ -574,9 +573,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const COLOR_ADD_CIRCLE = getComputedStyle(document.body).getPropertyValue(
       '--maptio-blue'
     );
-    const COLOR_DELETE_CIRCLE = getComputedStyle(document.body).getPropertyValue(
-      '--maptio-red'
-    );
+    const COLOR_DELETE_CIRCLE = getComputedStyle(
+      document.body
+    ).getPropertyValue('--maptio-red');
 
     const pack = d3
       .pack()
@@ -673,9 +672,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     initiativeWithChildren = initiativeWithChildrenEnter.merge(
       initiativeWithChildren
     );
-    initiativeNoChildren = initiativeNoChildrenEnter.merge(
-      initiativeNoChildren
-    );
+    initiativeNoChildren =
+      initiativeNoChildrenEnter.merge(initiativeNoChildren);
 
     g.selectAll('g.node').sort((a: any, b: any) => {
       return b.height - a.height;

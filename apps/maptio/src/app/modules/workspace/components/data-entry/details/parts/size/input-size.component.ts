@@ -15,11 +15,16 @@ import { NgIf } from '@angular/common';
 import { InsufficientPermissionsMessageComponent } from '../../../../../../permissions-messages/insufficient-permissions-message.component';
 
 @Component({
-    selector: 'initiative-input-size',
-    templateUrl: './input-size.component.html',
-    styleUrls: ['./input-size.component.scss'],
-    standalone: true,
-    imports: [InsufficientPermissionsMessageComponent, NgIf, StickyPopoverDirective, ConfirmationPopoverModule]
+  selector: 'initiative-input-size',
+  templateUrl: './input-size.component.html',
+  styleUrls: ['./input-size.component.scss'],
+  standalone: true,
+  imports: [
+    InsufficientPermissionsMessageComponent,
+    NgIf,
+    StickyPopoverDirective,
+    ConfirmationPopoverModule,
+  ],
 })
 export class InitiativeInputSizeComponent implements OnChanges {
   @Input() sizeAdjustment: string;

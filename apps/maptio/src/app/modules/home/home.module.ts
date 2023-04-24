@@ -12,7 +12,7 @@ import { CreateMapModule } from '@maptio-shared/create-map.module';
 import { CreateTeamModule } from '@maptio-shared/create-team.module';
 
 @NgModule({
-    imports: [
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     PermissionsModule,
@@ -20,9 +20,10 @@ import { CreateTeamModule } from '@maptio-shared/create-team.module';
     CreateTeamModule,
     HomeRoutingModule,
     LoginModule,
-    HomeComponent, DashboardComponent
-],
-    exports: [],
-    providers: []
+    HomeComponent,
+    DashboardComponent,
+  ],
+  exports: [],
+  providers: [],
 })
 export class HomeModule {}

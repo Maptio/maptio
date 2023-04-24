@@ -59,13 +59,13 @@ const d3 = Object.assign(
 );
 
 @Component({
-    selector: 'tree',
-    templateUrl: './mapping.tree.component.html',
-    styleUrls: ['./mapping.tree.component.css'],
-    encapsulation: ViewEncapsulation.Emulated,
-    host: { class: 'w-100' },
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true
+  selector: 'tree',
+  templateUrl: './mapping.tree.component.html',
+  styleUrls: ['./mapping.tree.component.css'],
+  encapsulation: ViewEncapsulation.Emulated,
+  host: { class: 'w-100' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public width: number;
@@ -89,12 +89,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   // public fontColor$: Observable<string>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
-  public isAllExpanded$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
-  );
-  public isAllCollapsed$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
-  );
+  public isAllExpanded$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+  public isAllCollapsed$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
   public isReset$: Observable<boolean>;
 
   private zoomSubscription: Subscription;
@@ -410,7 +408,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     const router = this.router;
     const userFactory = this.userFactory;
     const showDetailsOf$ = this.showDetailsOf$;
-    const canOpenInitiativeContextMenu = this.permissionsService.canOpenInitiativeContextMenu();
+    const canOpenInitiativeContextMenu =
+      this.permissionsService.canOpenInitiativeContextMenu();
     const showContextMenuOf$ = this.showContextMenuOf$;
     const showToolipOf$ = this.showToolipOf$;
     const g = this.g;

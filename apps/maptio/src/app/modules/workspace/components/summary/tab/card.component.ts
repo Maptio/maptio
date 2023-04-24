@@ -10,11 +10,17 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgIf, NgFor, LowerCasePipe } from '@angular/common';
 
 @Component({
-    selector: 'personal-card',
-    templateUrl: './card.component.html',
-    styleUrls: ['./card.component.css'],
-    standalone: true,
-    imports: [NgIf, NgbTooltipModule, NgFor, InitiativeHelperRoleComponent, LowerCasePipe]
+  selector: 'personal-card',
+  templateUrl: './card.component.html',
+  styleUrls: ['./card.component.css'],
+  standalone: true,
+  imports: [
+    NgIf,
+    NgbTooltipModule,
+    NgFor,
+    InitiativeHelperRoleComponent,
+    LowerCasePipe,
+  ],
 })
 export class PersonalCardComponent implements OnInit {
   @Input('initiative') initiative: Initiative;

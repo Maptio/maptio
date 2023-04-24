@@ -35,12 +35,18 @@ import { InitiativeComponent } from '../../components/data-entry/details/initiat
 import { NgIf, NgClass } from '@angular/common';
 
 @Component({
-    selector: 'maptio-workspace',
-    templateUrl: 'workspace.component.html',
-    styleUrls: ['./workspace.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [NgIf, BuildingComponent, NgClass, InitiativeComponent, MappingComponent]
+  selector: 'maptio-workspace',
+  templateUrl: 'workspace.component.html',
+  styleUrls: ['./workspace.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    BuildingComponent,
+    NgClass,
+    InitiativeComponent,
+    MappingComponent,
+  ],
 })
 export class WorkspaceComponent implements OnInit, OnDestroy {
   @ViewChild('building', { static: true })

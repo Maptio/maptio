@@ -7,22 +7,21 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
 import { PermissionsModule } from './permissions.module';
 
-
 import { CreateTeamComponent } from './components/cards/create-team/create-team.component';
 
 @NgModule({
-    imports: [
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
     PermissionsModule,
     ConfirmationPopoverModule.forRoot({
-        confirmButtonType: 'danger',
-        cancelButtonType: 'link',
+      confirmButtonType: 'danger',
+      cancelButtonType: 'link',
     }),
-    CreateTeamComponent
-],
-    exports: [CreateTeamComponent],
-    providers: []
+    CreateTeamComponent,
+  ],
+  exports: [CreateTeamComponent],
+  providers: [],
 })
 export class CreateTeamModule {}

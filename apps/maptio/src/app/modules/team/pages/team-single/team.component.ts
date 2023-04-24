@@ -1,6 +1,11 @@
 import { DataSet } from '../../../../shared/model/dataset.data';
 import { Permissions } from '../../../../shared/model/permission.data';
-import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import {
+  ActivatedRoute,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from '@angular/router';
 import { Team } from '../../../../shared/model/team.data';
 import { Subscription } from 'rxjs';
 import { OnInit } from '@angular/core';
@@ -21,11 +26,17 @@ import { PermissionsDirective } from '../../../../shared/directives/permission.d
 import { NgIf } from '@angular/common';
 
 @Component({
-    selector: 'team',
-    templateUrl: './team.component.html',
-    styleUrls: ['./team.component.css'],
-    standalone: true,
-    imports: [RouterLink, RouterLinkActive, NgIf, PermissionsDirective, RouterOutlet]
+  selector: 'team',
+  templateUrl: './team.component.html',
+  styleUrls: ['./team.component.css'],
+  standalone: true,
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    NgIf,
+    PermissionsDirective,
+    RouterOutlet,
+  ],
 })
 export class TeamComponent implements OnInit {
   routeSubscription: Subscription;

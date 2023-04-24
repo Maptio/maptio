@@ -14,14 +14,19 @@ import { HelperAvatarSvgComponent } from './helper-avatar-svg/helper-avatar-svg.
 import { TagSvgComponent } from './tag-svg/tag-svg.component';
 
 @NgModule({
-    imports: [CommonModule, MarkdownModule.forChild(), SatPopoverModule, SvgZoomPanComponent,
-        CircleMapExpandedComponent,
-        CircleComponent,
-        CircleInfoComponent,
-        CircleInfoSvgComponent,
-        HelperAvatarComponent,
-        HelperAvatarSvgComponent,
-        TagSvgComponent],
-    exports: [CircleMapExpandedComponent]
+  imports: [
+    CommonModule,
+    MarkdownModule.forChild(),
+    SatPopoverModule,
+    SvgZoomPanComponent,
+    CircleMapExpandedComponent,
+    CircleComponent,
+    CircleInfoComponent,
+    CircleInfoSvgComponent,
+    HelperAvatarComponent,
+    HelperAvatarSvgComponent,
+    TagSvgComponent,
+  ],
+  exports: [CircleMapExpandedComponent],
 })
 export class CircleMapExpandedModule {}

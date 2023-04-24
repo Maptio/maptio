@@ -18,11 +18,17 @@ import { PermissionsDirective } from '../../../../shared/directives/permission.d
 import { NgFor, NgIf, SlicePipe } from '@angular/common';
 
 @Component({
-    selector: 'context-menu',
-    templateUrl: './context-menu.component.html',
-    styleUrls: ['./context-menu.component.css'],
-    standalone: true,
-    imports: [NgFor, NgIf, PermissionsDirective, InsufficientPermissionsMessageComponent, SlicePipe]
+  selector: 'context-menu',
+  templateUrl: './context-menu.component.html',
+  styleUrls: ['./context-menu.component.css'],
+  standalone: true,
+  imports: [
+    NgFor,
+    NgIf,
+    PermissionsDirective,
+    InsufficientPermissionsMessageComponent,
+    SlicePipe,
+  ],
 })
 export class ContextMenuComponent implements OnInit {
   @Input('initiatives') initiatives: Initiative[];

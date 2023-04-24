@@ -73,7 +73,7 @@ import { SharingComponent } from './components/sharing/sharing.component';
 // import { OnboardingMessageModule } from "@maptio-onboarding-message";
 
 @NgModule({
-    imports: [
+  imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -82,8 +82,8 @@ import { SharingComponent } from './components/sharing/sharing.component';
     AnalyticsModule,
     MarkdownModule.forChild(),
     ConfirmationPopoverModule.forRoot({
-        confirmButtonType: 'danger',
-        cancelButtonType: 'link',
+      confirmButtonType: 'danger',
+      cancelButtonType: 'link',
     }),
     SharedModule,
     NgbNavModule,
@@ -134,16 +134,16 @@ import { SharingComponent } from './components/sharing/sharing.component';
     CommonTextareaComponent,
     StripMarkdownPipe,
     EllipsisPipe,
-    SharingComponent
-],
-    providers: [
-        BillingGuard,
-        WorkspaceGuard,
-        UIService,
-        DataService,
-        RoleLibraryService,
-        MapSettingsService,
-        WorkspaceComponentResolver,
-    ]
+    SharingComponent,
+  ],
+  providers: [
+    BillingGuard,
+    WorkspaceGuard,
+    UIService,
+    DataService,
+    RoleLibraryService,
+    MapSettingsService,
+    WorkspaceComponentResolver,
+  ],
 })
 export class WorkspaceModule {}

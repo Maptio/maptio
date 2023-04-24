@@ -7,21 +7,20 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { PermissionsModule } from '@maptio-shared/permissions.module';
 import { ImageModule } from '@maptio-shared/image.module';
 
-
 import { MemberFormComponent } from './member-form.component';
 
 @NgModule({
-    imports: [
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     ConfirmationPopoverModule.forRoot({
-        confirmButtonType: 'danger',
-        cancelButtonType: 'link',
+      confirmButtonType: 'danger',
+      cancelButtonType: 'link',
     }),
     PermissionsModule,
     ImageModule,
-    MemberFormComponent
-],
-    exports: [MemberFormComponent]
+    MemberFormComponent,
+  ],
+  exports: [MemberFormComponent],
 })
 export class MemberFormModule {}

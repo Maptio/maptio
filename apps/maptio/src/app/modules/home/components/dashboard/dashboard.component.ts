@@ -21,11 +21,19 @@ import { RouterLink } from '@angular/router';
 import { NgIf, NgFor, NgTemplateOutlet } from '@angular/common';
 
 @Component({
-    selector: 'dashboard',
-    templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.css'],
-    standalone: true,
-    imports: [NgIf, NgFor, RouterLink, MapCardComponent, NgTemplateOutlet, CreateMapComponent, CreateTeamComponent]
+  selector: 'dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css'],
+  standalone: true,
+  imports: [
+    NgIf,
+    NgFor,
+    RouterLink,
+    MapCardComponent,
+    NgTemplateOutlet,
+    CreateMapComponent,
+    CreateTeamComponent,
+  ],
 })
 export class DashboardComponent {
   @Input('datasets') datasets: DataSet[];

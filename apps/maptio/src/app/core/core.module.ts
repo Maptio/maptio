@@ -38,48 +38,48 @@ export function tokenGetter(): string {
 }
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        HttpClientModule,
-        NgbTooltipModule,
-        JwtModule.forRoot({
-            config: {
-                tokenGetter: tokenGetter,
-                allowedDomains: [],
-            },
-        }),
-        OnboardingModule,
-        NgProgressModule,
-        NgProgressRouterModule,
-        LoginModule,
-        HeaderComponent,
-        OnboardingBannerComponent,
-        FooterComponent,
-        LoaderComponent,
-        UnauthorizedComponent,
-        NotFoundComponent,
-        LoginErrorPageComponent,
-        ErrorPageComponent,
-        LanguagePickerComponent
-    ],
-    exports: [
-        HeaderComponent,
-        FooterComponent,
-        LoaderComponent,
-        OnboardingComponent,
-    ],
-    providers: [
-        CookieService,
-        AccessGuard,
-        ActivationGuard,
-        BillingGuard,
-        PermissionGuard,
-        WorkspaceGuard,
-        DatasetFactory,
-        TeamFactory,
-        UserFactory,
-        DeviceDetectorService,
-    ]
+  imports: [
+    CommonModule,
+    RouterModule,
+    HttpClientModule,
+    NgbTooltipModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: [],
+      },
+    }),
+    OnboardingModule,
+    NgProgressModule,
+    NgProgressRouterModule,
+    LoginModule,
+    HeaderComponent,
+    OnboardingBannerComponent,
+    FooterComponent,
+    LoaderComponent,
+    UnauthorizedComponent,
+    NotFoundComponent,
+    LoginErrorPageComponent,
+    ErrorPageComponent,
+    LanguagePickerComponent,
+  ],
+  exports: [
+    HeaderComponent,
+    FooterComponent,
+    LoaderComponent,
+    OnboardingComponent,
+  ],
+  providers: [
+    CookieService,
+    AccessGuard,
+    ActivationGuard,
+    BillingGuard,
+    PermissionGuard,
+    WorkspaceGuard,
+    DatasetFactory,
+    TeamFactory,
+    UserFactory,
+    DeviceDetectorService,
+  ],
 })
 export class CoreModule {}

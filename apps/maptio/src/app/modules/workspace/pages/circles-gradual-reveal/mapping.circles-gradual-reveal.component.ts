@@ -38,17 +38,18 @@ import { CircleMapComponent } from '../../../circle-map/circle-map.component';
 import { OnboardingMessageComponent } from '../../../onboarding-message/onboarding-message/onboarding-message.component';
 
 @Component({
-    selector: 'maptio-circles-gradual-reveal',
-    templateUrl: './mapping.circles-gradual-reveal.component.html',
-    styleUrls: ['./mapping.circles-gradual-reveal.component.css'],
-    host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
-    encapsulation: ViewEncapsulation.Emulated,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [OnboardingMessageComponent, CircleMapComponent]
+  selector: 'maptio-circles-gradual-reveal',
+  templateUrl: './mapping.circles-gradual-reveal.component.html',
+  styleUrls: ['./mapping.circles-gradual-reveal.component.css'],
+  host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
+  encapsulation: ViewEncapsulation.Emulated,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [OnboardingMessageComponent, CircleMapComponent],
 })
 export class MappingCirclesGradualRevealComponent
-  implements IDataVisualizer, OnInit, OnDestroy {
+  implements IDataVisualizer, OnInit, OnDestroy
+{
   public datasetId: string;
   public width: number;
   public height: number;
@@ -192,7 +193,7 @@ export class MappingCirclesGradualRevealComponent
 
   showInfoPanelFor(circle: InitiativeNode) {
     this.showToolipOf$.next({
-      initiatives: [(circle.data as unknown) as Initiative],
+      initiatives: [circle.data as unknown as Initiative],
       isNameOnly: false,
     });
   }

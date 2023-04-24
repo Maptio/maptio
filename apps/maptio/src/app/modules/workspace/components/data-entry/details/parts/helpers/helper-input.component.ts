@@ -20,11 +20,22 @@ import { RouterLink } from '@angular/router';
 import { InsufficientPermissionsMessageComponent } from '../../../../../../permissions-messages/insufficient-permissions-message.component';
 
 @Component({
-    selector: 'initiative-helper-input',
-    templateUrl: './helper-input.component.html',
-    styleUrls: ['./helper-input.component.css'],
-    standalone: true,
-    imports: [InsufficientPermissionsMessageComponent, RouterLink, NgIf, ConfirmationPopoverModule, StickyPopoverDirective, InitiativeHelperRoleSelectComponent, InitiativeHelperRoleInputComponent, NgFor, InitiativeHelperRoleComponent, TitleCasePipe]
+  selector: 'initiative-helper-input',
+  templateUrl: './helper-input.component.html',
+  styleUrls: ['./helper-input.component.css'],
+  standalone: true,
+  imports: [
+    InsufficientPermissionsMessageComponent,
+    RouterLink,
+    NgIf,
+    ConfirmationPopoverModule,
+    StickyPopoverDirective,
+    InitiativeHelperRoleSelectComponent,
+    InitiativeHelperRoleInputComponent,
+    NgFor,
+    InitiativeHelperRoleComponent,
+    TitleCasePipe,
+  ],
 })
 export class InitiativeHelperInputComponent implements OnInit {
   @Input('helper') helper: Helper;

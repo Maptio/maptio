@@ -28,13 +28,20 @@ import { MarkdownModule } from 'ngx-markdown';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'maptio-circle-map-expanded',
-    templateUrl: './circle-map-expanded.component.html',
-    styleUrls: ['./circle-map-expanded.component.css'],
-    encapsulation: ViewEncapsulation.Emulated,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [NgIf, MarkdownModule, SvgZoomPanComponent, NgFor, CircleComponent, AsyncPipe]
+  selector: 'maptio-circle-map-expanded',
+  templateUrl: './circle-map-expanded.component.html',
+  styleUrls: ['./circle-map-expanded.component.css'],
+  encapsulation: ViewEncapsulation.Emulated,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    MarkdownModule,
+    SvgZoomPanComponent,
+    NgFor,
+    CircleComponent,
+    AsyncPipe,
+  ],
 })
 export class CircleMapExpandedComponent implements OnInit, OnDestroy {
   // All the data comes in as a single package
@@ -180,12 +187,12 @@ export class CircleMapExpandedComponent implements OnInit, OnDestroy {
         return PADDING_CIRCLE;
       });
 
-    const rootHierarchyNode = this.circleMapService.calculateD3RootHierarchyNode(
-      this.rootInitiative
-    );
+    const rootHierarchyNode =
+      this.circleMapService.calculateD3RootHierarchyNode(this.rootInitiative);
 
     // We perform this type conversion to later populate each node's data with some view-specific properties
-    const rootHierarchyNodeViewModel = (rootHierarchyNode as unknown) as HierarchyNode<InitiativeViewModel>;
+    const rootHierarchyNodeViewModel =
+      rootHierarchyNode as unknown as HierarchyNode<InitiativeViewModel>;
 
     this.circles = packInitiatives(rootHierarchyNodeViewModel).descendants();
 

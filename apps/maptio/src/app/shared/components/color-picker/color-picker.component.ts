@@ -8,10 +8,16 @@ import { ColorHueModule } from 'ngx-color/hue';
 import { NgIf } from '@angular/common';
 
 @Component({
-    selector: 'common-color-picker',
-    templateUrl: './color-picker.component.html',
-    standalone: true,
-    imports: [NgIf, ColorHueModule, NgbPopoverModule, InsufficientPermissionsMessageComponent, StickyPopoverDirective]
+  selector: 'common-color-picker',
+  templateUrl: './color-picker.component.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    ColorHueModule,
+    NgbPopoverModule,
+    InsufficientPermissionsMessageComponent,
+    StickyPopoverDirective,
+  ],
 })
 export class ColorPickerComponent implements OnInit {
   @Input('color') color: string;

@@ -6,11 +6,11 @@ import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { NgIf } from '@angular/common';
 
 @Component({
-    selector: 'maptio-sharing',
-    templateUrl: './sharing.component.html',
-    styleUrls: ['./sharing.component.scss'],
-    standalone: true,
-    imports: [NgIf]
+  selector: 'maptio-sharing',
+  templateUrl: './sharing.component.html',
+  styleUrls: ['./sharing.component.scss'],
+  standalone: true,
+  imports: [NgIf],
 })
 export class SharingComponent implements OnInit {
   @Input() dataset: DataSet;

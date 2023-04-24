@@ -11,11 +11,11 @@ import { PermissionsService } from '@maptio-shared/services/permissions/permissi
 import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'maptio-onboarding-message',
-    templateUrl: './onboarding-message.component.html',
-    styleUrls: ['./onboarding-message.component.scss'],
-    standalone: true,
-    imports: [NgIf, AsyncPipe]
+  selector: 'maptio-onboarding-message',
+  templateUrl: './onboarding-message.component.html',
+  styleUrls: ['./onboarding-message.component.scss'],
+  standalone: true,
+  imports: [NgIf, AsyncPipe],
 })
 export class OnboardingMessageComponent {
   @Input() floating = false;

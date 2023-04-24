@@ -40,13 +40,26 @@ import { InitiativeInputNameComponent } from './parts/name/initiative-input-name
 import { OnboardingMessageComponent } from '../../../../onboarding-message/onboarding-message/onboarding-message.component';
 
 @Component({
-    selector: 'initiative',
-    templateUrl: './initiative.component.html',
-    styleUrls: ['./initiative.component.css'],
-    providers: [Angulartics2Mixpanel],
-    changeDetection: ChangeDetectionStrategy.Default,
-    standalone: true,
-    imports: [OnboardingMessageComponent, InitiativeInputNameComponent, InsufficientPermissionsMessageComponent, InitiativeListTagsComponent, InitiativeAuthoritySelectComponent, InitiativeDescriptionTextareaComponent, InitiativeHelpersSelectComponent, NgFor, InitiativeHelperInputComponent, NgTemplateOutlet, InitiativeVacanciesInputComponent, InitiativeInputSizeComponent]
+  selector: 'initiative',
+  templateUrl: './initiative.component.html',
+  styleUrls: ['./initiative.component.css'],
+  providers: [Angulartics2Mixpanel],
+  changeDetection: ChangeDetectionStrategy.Default,
+  standalone: true,
+  imports: [
+    OnboardingMessageComponent,
+    InitiativeInputNameComponent,
+    InsufficientPermissionsMessageComponent,
+    InitiativeListTagsComponent,
+    InitiativeAuthoritySelectComponent,
+    InitiativeDescriptionTextareaComponent,
+    InitiativeHelpersSelectComponent,
+    NgFor,
+    InitiativeHelperInputComponent,
+    NgTemplateOutlet,
+    InitiativeVacanciesInputComponent,
+    InitiativeInputSizeComponent,
+  ],
 })
 export class InitiativeComponent implements OnChanges {
   @Input() node: Initiative;
