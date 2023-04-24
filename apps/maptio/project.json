@@ -1,0 +1,167 @@
+{
+  "name": "maptio",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "i18n": {
+    "sourceLocale": "en-US",
+    "locales": {
+      "de": "apps/maptio/src/locale/messages.de.xlf",
+      "fr": "apps/maptio/src/locale/messages.fr.xlf",
+      "ja": "apps/maptio/src/locale/messages.ja.xlf",
+      "pl": "apps/maptio/src/locale/messages.pl.xlf"
+    }
+  },
+  "projectType": "application",
+  "sourceRoot": "apps/maptio/src",
+  "prefix": "maptio",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "options": {
+        "localize": false,
+        "outputPath": "dist/apps/maptio",
+        "index": "apps/maptio/src/index.html",
+        "main": "apps/maptio/src/main.ts",
+        "polyfills": "apps/maptio/src/polyfills.ts",
+        "tsConfig": "apps/maptio/tsconfig.app.json",
+        "assets": ["apps/maptio/src/favicon.ico", "apps/maptio/src/assets"],
+        "styles": [
+          "node_modules/bootstrap/dist/css/bootstrap.min.css",
+          "apps/maptio/src/assets/styles/vendor-google-fonts.css",
+          "apps/maptio/src/assets/styles/vendor-font-awesome.css",
+          "apps/maptio/src/assets/styles/custom/animations.css",
+          "apps/maptio/src/assets/styles/custom/global.css",
+          "apps/maptio/src/assets/styles/custom/forms.css",
+          "apps/maptio/src/assets/styles/custom/angular-tree-component.css",
+          "apps/maptio/src/assets/styles/custom/tooltip.css",
+          "apps/maptio/src/assets/styles/custom/tags.css",
+          "apps/maptio/src/assets/styles/custom/markdown.css",
+          "apps/maptio/src/assets/styles/custom/progress-bar.css",
+          "apps/maptio/src/assets/styles/custom/ribbon.css",
+          "apps/maptio/src/assets/styles/custom/popover.css",
+          "apps/maptio/src/assets/styles/custom/color-picker.css",
+          "apps/maptio/src/assets/styles/custom/maps.css",
+          "apps/maptio/src/assets/styles/custom/typeahead.css",
+          "apps/maptio/src/styles.scss"
+        ],
+        "scripts": [
+          "node_modules/jquery/dist/jquery.js",
+          "node_modules/popper.js/dist/umd/popper.min.js",
+          "node_modules/bootstrap/dist/js/bootstrap.min.js"
+        ],
+        "vendorChunk": true,
+        "extractLicenses": false,
+        "buildOptimizer": false,
+        "sourceMap": true,
+        "optimization": false,
+        "namedChunks": true
+      },
+      "configurations": {
+        "staging": {
+          "fileReplacements": [
+            {
+              "replace": "apps/maptio/src/environments/environment.ts",
+              "with": "apps/maptio/src/environments/environment.staging.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "10kb"
+            }
+          ]
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/maptio/src/environments/environment.ts",
+              "with": "apps/maptio/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "10kb"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": ""
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "browserTarget": "maptio:build",
+        "proxyConfig": "apps/maptio/src/proxy.conf.json"
+      },
+      "configurations": {
+        "production": {
+          "browserTarget": "maptio:build:production"
+        }
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "maptio:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/maptio/src/**/*.ts",
+          "apps/maptio/src/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/maptio"],
+      "options": {
+        "jestConfig": "apps/maptio/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "deploy": {
+      "executor": "@angular/fire:deploy",
+      "options": {
+        "buildTarget": "maptio:build:staging",
+        "firebaseProject": "maptio-preview-staging"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "maptio:build:production",
+          "firebaseProject": "maptio-preview"
+        }
+      }
+    }
+  },
+  "tags": []
+}
