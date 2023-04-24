@@ -5,22 +5,21 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MapCardComponent } from './components/cards/map/map-card.component';
 import { RouterModule } from '@angular/router';
 import { PermissionsModule } from './permissions.module';
-import { PermissionsMessagesModule } from 'app/modules/permissions-messages/permissions-messages.module';
+
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
 @NgModule({
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        RouterModule,
-        PermissionsModule,
-        PermissionsMessagesModule,
-        ConfirmationPopoverModule.forRoot({
-            confirmButtonType: 'danger',
-            cancelButtonType: 'link',
-        }),
-        CreateMapComponent, MapCardComponent
-    ],
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    PermissionsModule,
+    ConfirmationPopoverModule.forRoot({
+        confirmButtonType: 'danger',
+        cancelButtonType: 'link',
+    }),
+    CreateMapComponent, MapCardComponent
+],
     exports: [CreateMapComponent, MapCardComponent],
     providers: []
 })

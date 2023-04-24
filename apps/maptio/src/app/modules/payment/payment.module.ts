@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { SanitizerModule } from '@maptio-shared/sanitizer.module';
 import { LoginModule } from '@maptio-login/login.module';
 
 import { CheckoutComponent } from './checkout/checkout.page';
@@ -18,7 +17,6 @@ import { PaymentRoutingModule } from './payment.routing';
     CommonModule,
     FormsModule,
     NgbModule,
-    SanitizerModule,
     PaymentRoutingModule,
     LoginModule,
     CheckoutComponent,

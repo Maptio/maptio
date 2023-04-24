@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { SanitizerModule } from '@maptio-shared/sanitizer.module';
+
 
 import { MemberFormModule } from '@maptio-member-form';
 
@@ -14,16 +14,15 @@ import { LoginRedirectDirective } from './login-redirect/login-redirect.directiv
 
 @NgModule({
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        SanitizerModule,
-        MemberFormModule,
-        LoginRoutingModule,
-        LogoutComponent,
-        SignupComponent,
-        ProfilePageComponent,
-        LoginRedirectDirective
-    ],
+    CommonModule,
+    ReactiveFormsModule,
+    MemberFormModule,
+    LoginRoutingModule,
+    LogoutComponent,
+    SignupComponent,
+    ProfilePageComponent,
+    LoginRedirectDirective
+],
     exports: [LoginRedirectDirective],
     providers: []
 })
