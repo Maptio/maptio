@@ -69,9 +69,6 @@ import { MemberFormModule } from '@maptio-member-form';
 
 import { SharingComponent } from './components/sharing/sharing.component';
 
-// TODO: Why is this not working instead of the above line, what am I missing?
-// import { OnboardingMessageModule } from "@maptio-onboarding-message";
-
 @NgModule({
   imports: [
     CommonModule,
