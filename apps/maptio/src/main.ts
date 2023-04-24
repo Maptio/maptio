@@ -3,7 +3,6 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import 'hammerjs';
 
-import { CustomHammerConfig, markedOptionsFactory } from './app/app.module';
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -32,8 +31,48 @@ import {
   PathLocationStrategy,
 } from '@angular/common';
 
-const renderer = new MarkedRenderer();
-let linkHtml = `<a href=${href} class="markdown-link" target="_blank"`;
+// Override default Hammer.js configuration for SVG zoom and pan gesture support
+@Injectable()
+export class CustomHammerConfig extends HammerGestureConfig {
+  overrides = {
+    pan: {
+      direction: Hammer.DIRECTION_ALL, // Enable vertical panning too
+      threshold: 0, // Make the smallest movements trigger panning
+    },
+  };
+}
+
+export function markedOptionsFactory(): MarkedOptions {
+  const renderer = new MarkedRenderer();
+
+  renderer.link = (href: string, title: string, text: string) => {
+    let linkHtml = `<a href=${href} class="markdown-link" target="_blank"`;
+
+    if (title) {
+      linkHtml += ` title="${title}"`;
+    }
+
+    linkHtml += `>${text}</a>`;
+
+    return linkHtml;
+  };
+
+  renderer.paragraph = (text: string) => {
+    return `<p class="markdown">${text}</p>`;
+  };
+
+  renderer.listitem = (text: string) => {
+    return text.includes('type="checkbox"')
+      ? `<li class="task-list-item">${text}</li>`
+      : `<li>${text}</li>`;
+  };
+
+  return {
+    renderer: renderer,
+    breaks: true,
+    smartLists: true,
+  };
+}
 
 if (environment.production) {
   enableProdMode();
