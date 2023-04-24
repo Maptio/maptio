@@ -13,20 +13,18 @@ import { ProfilePageComponent } from './pages/profile/profile.page';
 import { LoginRedirectDirective } from './login-redirect/login-redirect.directive';
 
 @NgModule({
-  declarations: [
-    LogoutComponent,
-    SignupComponent,
-    ProfilePageComponent,
-    LoginRedirectDirective,
-  ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    SanitizerModule,
-    MemberFormModule,
-    LoginRoutingModule,
-  ],
-  exports: [LoginRedirectDirective],
-  providers: [],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        SanitizerModule,
+        MemberFormModule,
+        LoginRoutingModule,
+        LogoutComponent,
+        SignupComponent,
+        ProfilePageComponent,
+        LoginRedirectDirective
+    ],
+    exports: [LoginRedirectDirective],
+    providers: []
 })
 export class LoginModule {}

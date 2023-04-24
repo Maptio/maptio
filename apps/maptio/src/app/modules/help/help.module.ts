@@ -4,8 +4,7 @@ import { HelpComponent } from './pages/help/help.page';
 import { HelpRoutingModule } from './help.routing';
 
 @NgModule({
-  declarations: [HelpComponent],
-  imports: [CommonModule, HelpRoutingModule],
-  providers: [],
+    imports: [CommonModule, HelpRoutingModule, HelpComponent],
+    providers: []
 })
 export class HelpModule {}

@@ -22,13 +22,18 @@ import { User } from '../../../../../shared/model/user.data';
 import { Permissions } from '../../../../../shared/model/permission.data';
 import { Initiative } from '../../../../../shared/model/initiative.data';
 import { LoaderService } from '../../../../../shared/components/loading/loader.service';
+import { PermissionsDirective } from '../../../../../shared/directives/permission.directive';
+import { PersonalSummaryComponent } from './personal.component';
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 
 @Component({
-  selector: 'summary-people',
-  templateUrl: './people.component.html',
-  styleUrls: ['./people.component.css'],
-  host: { class: 'd-flex flex-row w-100' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'summary-people',
+    templateUrl: './people.component.html',
+    styleUrls: ['./people.component.css'],
+    host: { class: 'd-flex flex-row w-100' },
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgFor, NgIf, PersonalSummaryComponent, PermissionsDirective, NgTemplateOutlet]
 })
 export class PeopleSummaryComponent implements OnInit {
   members: User[];

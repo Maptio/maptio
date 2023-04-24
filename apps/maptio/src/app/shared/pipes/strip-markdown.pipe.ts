@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { MarkdownUtilsService } from '../services/markdown/markdown-utils.service';
 
 @Pipe({
-  name: 'stripMarkdown',
+    name: 'stripMarkdown',
+    standalone: true
 })
 export class StripMarkdownPipe implements PipeTransform {
   constructor(private markdownUtilsService: MarkdownUtilsService) {}

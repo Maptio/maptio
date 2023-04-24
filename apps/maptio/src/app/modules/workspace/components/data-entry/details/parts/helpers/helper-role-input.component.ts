@@ -8,13 +8,7 @@ import {
   SimpleChanges,
   OnDestroy,
 } from '@angular/core';
-import {
-  UntypedFormGroup,
-  UntypedFormControl,
-  Validators,
-  ValidatorFn,
-  ValidationErrors,
-} from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, ValidatorFn, ValidationErrors, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Subscription } from 'rxjs';
 
@@ -24,6 +18,9 @@ import { Role } from '../../../../../../../shared/model/role.data';
 import { Helper } from '../../../../../../../shared/model/helper.data';
 import { RoleLibraryService } from '../../../../../services/role-library.service';
 import { MapService } from '@maptio-shared/services/map/map.service';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgIf } from '@angular/common';
 
 const eitherTitleOrDescriptionProvided: ValidatorFn = (
   control: UntypedFormGroup
@@ -49,9 +46,11 @@ const noWhitespaceValidator: ValidatorFn = (
 };
 
 @Component({
-  selector: 'initiative-helper-role-input',
-  templateUrl: './helper-role-input.component.html',
-  styleUrls: ['./helper-role-input.component.css'],
+    selector: 'initiative-helper-role-input',
+    templateUrl: './helper-role-input.component.html',
+    styleUrls: ['./helper-role-input.component.css'],
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule, NgIf, NgbTooltipModule, ConfirmationPopoverModule]
 })
 export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
   @Input('role') role: Role;

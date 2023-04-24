@@ -16,12 +16,16 @@ import { Router } from '@angular/router';
 import { sortBy } from 'lodash-es';
 import { DataSet } from '../../../../../shared/model/dataset.data';
 import { MapSettingsService } from '../../../services/map-settings.service';
+import { PersonalCardComponent } from '../tab/card.component';
+import { NgIf, NgFor, LowerCasePipe, TitleCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'summary-personal',
-  templateUrl: './personal.component.html',
-  styleUrls: ['./personal.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'summary-personal',
+    templateUrl: './personal.component.html',
+    styleUrls: ['./personal.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, NgFor, PersonalCardComponent, LowerCasePipe, TitleCasePipe]
 })
 export class PersonalSummaryComponent implements OnInit {
   authorities: Array<Initiative> = [];

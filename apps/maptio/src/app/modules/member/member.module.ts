@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MemberComponent } from './member.component';
 
 @NgModule({
-  declarations: [MemberComponent],
-  imports: [CommonModule],
-  exports: [MemberComponent],
+    imports: [CommonModule, MemberComponent],
+    exports: [MemberComponent]
 })
 export class MemberModule {}

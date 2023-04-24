@@ -34,14 +34,18 @@ import { CircleMapData } from '@maptio-shared/model/circle-map-data.interface';
 import { DataSet } from '@maptio-shared/model/dataset.data';
 import { InitiativeNode } from '@maptio-circle-map/initiative.model';
 import { CircleMapService } from '@maptio-circle-map/circle-map.service';
+import { CircleMapComponent } from '../../../circle-map/circle-map.component';
+import { OnboardingMessageComponent } from '../../../onboarding-message/onboarding-message/onboarding-message.component';
 
 @Component({
-  selector: 'maptio-circles-gradual-reveal',
-  templateUrl: './mapping.circles-gradual-reveal.component.html',
-  styleUrls: ['./mapping.circles-gradual-reveal.component.css'],
-  host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
-  encapsulation: ViewEncapsulation.Emulated,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'maptio-circles-gradual-reveal',
+    templateUrl: './mapping.circles-gradual-reveal.component.html',
+    styleUrls: ['./mapping.circles-gradual-reveal.component.css'],
+    host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
+    encapsulation: ViewEncapsulation.Emulated,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [OnboardingMessageComponent, CircleMapComponent]
 })
 export class MappingCirclesGradualRevealComponent
   implements IDataVisualizer, OnInit, OnDestroy {

@@ -14,11 +14,18 @@ import { MapService } from '../../../../shared/services/map/map.service';
 import { OnboardingService } from '../../../../shared/components/onboarding/onboarding.service';
 import { environment } from '../../../../config/environment';
 import { UserService } from '@maptio-shared/services/user/user.service';
+import { CreateTeamComponent } from '../../../../shared/components/cards/create-team/create-team.component';
+import { CreateMapComponent } from '../../../../shared/components/cards/create-map/create-map.component';
+import { MapCardComponent } from '../../../../shared/components/cards/map/map-card.component';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgFor, NgTemplateOutlet } from '@angular/common';
 
 @Component({
-  selector: 'dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
+    selector: 'dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.css'],
+    standalone: true,
+    imports: [NgIf, NgFor, RouterLink, MapCardComponent, NgTemplateOutlet, CreateMapComponent, CreateTeamComponent]
 })
 export class DashboardComponent {
   @Input('datasets') datasets: DataSet[];

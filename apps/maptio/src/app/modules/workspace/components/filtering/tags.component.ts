@@ -3,11 +3,14 @@ import { SelectableTag, Tag } from '../../../../shared/model/tag.data';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'filter-tags',
-  templateUrl: './tags.component.html',
-  // styleUrls: ["./tags.component.css"]
+    selector: 'filter-tags',
+    templateUrl: './tags.component.html',
+    standalone: true,
+    imports: [NgIf, NgFor, RouterLink]
 })
 export class FilterTagsComponent implements OnInit {
   @Input() isFilterDisabled: boolean;

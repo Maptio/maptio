@@ -4,7 +4,7 @@ import { Role } from '../../../../shared/model/role.data';
 import { User } from '../../../../shared/model/user.data';
 import { ColorService } from '@maptio-shared/services/color/color.service';
 import { UIService } from '../../services/ui.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { URIService } from '../../../../shared/services/uri/uri.service';
 import { PermissionsService } from '../../../../shared/services/permissions/permissions.service';
@@ -56,6 +56,8 @@ import {
   MapSettingsService,
 } from '../../services/map-settings.service';
 import { MapService } from '@maptio-shared/services/map/map.service';
+import { FormsModule } from '@angular/forms';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 const d3 = Object.assign(
   {},
@@ -83,11 +85,13 @@ const d3 = Object.assign(
 );
 
 @Component({
-  selector: 'network',
-  templateUrl: './mapping.network.component.html',
-  styleUrls: ['./mapping.network.component.css'],
-  encapsulation: ViewEncapsulation.Emulated,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'network',
+    templateUrl: './mapping.network.component.html',
+    styleUrls: ['./mapping.network.component.css'],
+    encapsulation: ViewEncapsulation.Emulated,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, RouterLink, FormsModule, AsyncPipe]
 })
 export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public datasetId: string;

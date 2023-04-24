@@ -22,13 +22,19 @@ import { ColorService } from '@maptio-shared/services/color/color.service';
 import { InitiativeViewModel, InitiativeNode } from './initiative.model';
 import { CircleMapService } from './circle-map.service';
 import { map } from 'rxjs/operators';
+import { CircleComponent } from './circle/circle.component';
+import { SvgZoomPanComponent } from './svg-zoom-pan/svg-zoom-pan.component';
+import { MarkdownModule } from 'ngx-markdown';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'maptio-circle-map-expanded',
-  templateUrl: './circle-map-expanded.component.html',
-  styleUrls: ['./circle-map-expanded.component.css'],
-  encapsulation: ViewEncapsulation.Emulated,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'maptio-circle-map-expanded',
+    templateUrl: './circle-map-expanded.component.html',
+    styleUrls: ['./circle-map-expanded.component.css'],
+    encapsulation: ViewEncapsulation.Emulated,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, MarkdownModule, SvgZoomPanComponent, NgFor, CircleComponent, AsyncPipe]
 })
 export class CircleMapExpandedComponent implements OnInit, OnDestroy {
   // All the data comes in as a single package

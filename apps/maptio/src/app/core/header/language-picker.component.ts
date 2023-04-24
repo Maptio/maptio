@@ -1,5 +1,5 @@
 import { Component, Inject, LOCALE_ID } from '@angular/core';
-import { Location } from '@angular/common';
+import { Location, NgFor } from '@angular/common';
 
 import { CookieService } from 'ngx-cookie-service';
 
@@ -8,9 +8,11 @@ import { environment } from '@maptio-environment';
 import { Locale } from './locale.interface';
 
 @Component({
-  selector: 'maptio-language-picker',
-  templateUrl: './language-picker.component.html',
-  styleUrls: ['./language-picker.component.scss'],
+    selector: 'maptio-language-picker',
+    templateUrl: './language-picker.component.html',
+    styleUrls: ['./language-picker.component.scss'],
+    standalone: true,
+    imports: [NgFor]
 })
 export class LanguagePickerComponent {
   LOCALES = environment.LOCALES;

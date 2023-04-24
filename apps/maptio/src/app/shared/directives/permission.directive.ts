@@ -20,7 +20,8 @@ import { PermissionsService } from '../services/permissions/permissions.service'
 export type StrategyFunction = (templateRef?: TemplateRef<any>) => void;
 
 @Directive({
-  selector: '[permissionsOnly]',
+    selector: '[permissionsOnly]',
+    standalone: true
 })
 export class PermissionsDirective implements OnInit, OnDestroy {
   permission: Permissions;

@@ -6,8 +6,7 @@ import { SanitizerModule } from '../../shared/sanitizer.module';
 import { LegalRoutingModule } from './legal.routing';
 
 @NgModule({
-  declarations: [PrivacyComponent, TermsComponent],
-  imports: [CommonModule, SanitizerModule, LegalRoutingModule],
-  providers: [],
+    imports: [CommonModule, SanitizerModule, LegalRoutingModule, PrivacyComponent, TermsComponent],
+    providers: []
 })
 export class LegalModule {}

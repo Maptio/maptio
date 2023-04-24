@@ -1,17 +1,21 @@
 import { map, mergeMap } from 'rxjs/operators';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { BillingService } from '../../../../shared/services/billing/billing.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Team } from '../../../../shared/model/team.data';
 import { DataSet } from '../../../../shared/model/dataset.data';
 import { Permissions } from '../../../../shared/model/permission.data';
 import { environment } from '../../../../config/environment';
 import { LoaderService } from '../../../../shared/components/loading/loader.service';
+import { PermissionsDirective } from '../../../../shared/directives/permission.directive';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'team-billing',
-  templateUrl: './billing.component.html',
-  styleUrls: ['./billing.component.css'],
+    selector: 'team-billing',
+    templateUrl: './billing.component.html',
+    styleUrls: ['./billing.component.css'],
+    standalone: true,
+    imports: [NgIf, PermissionsDirective, RouterLink]
 })
 export class TeamBillingComponent implements OnInit {
   public team: Team;

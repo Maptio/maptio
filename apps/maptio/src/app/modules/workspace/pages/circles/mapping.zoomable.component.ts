@@ -61,13 +61,13 @@ const d3 = Object.assign(
 );
 
 @Component({
-  selector: 'zoomable',
-  templateUrl: './mapping.zoomable.component.html',
-  styleUrls: ['./mapping.zoomable.component.css'],
-
-  host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
-  encapsulation: ViewEncapsulation.Emulated,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'zoomable',
+    templateUrl: './mapping.zoomable.component.html',
+    styleUrls: ['./mapping.zoomable.component.css'],
+    host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
+    encapsulation: ViewEncapsulation.Emulated,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true
 })
 export class MappingZoomableComponent implements IDataVisualizer {
   private browser: Browsers;

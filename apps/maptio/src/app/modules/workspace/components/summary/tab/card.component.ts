@@ -5,11 +5,16 @@ import { DataSet } from '../../../../../shared/model/dataset.data';
 import { Team } from '../../../../../shared/model/team.data';
 import { User } from '../../../../../shared/model/user.data';
 import { sortBy } from 'lodash';
+import { InitiativeHelperRoleComponent } from '../../data-entry/details/parts/helpers/helper-role.component';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgIf, NgFor, LowerCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'personal-card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.css'],
+    selector: 'personal-card',
+    templateUrl: './card.component.html',
+    styleUrls: ['./card.component.css'],
+    standalone: true,
+    imports: [NgIf, NgbTooltipModule, NgFor, InitiativeHelperRoleComponent, LowerCasePipe]
 })
 export class PersonalCardComponent implements OnInit {
   @Input('initiative') initiative: Initiative;

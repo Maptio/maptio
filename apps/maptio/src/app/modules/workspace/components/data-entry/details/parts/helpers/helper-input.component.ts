@@ -10,11 +10,21 @@ import {
 import { Helper } from '../../../../../../../shared/model/helper.data';
 import { Team } from '../../../../../../../shared/model/team.data';
 import { Role } from '../../../../../../../shared/model/role.data';
+import { InitiativeHelperRoleComponent } from './helper-role.component';
+import { InitiativeHelperRoleInputComponent } from './helper-role-input.component';
+import { InitiativeHelperRoleSelectComponent } from './helper-role-select.component';
+import { StickyPopoverDirective } from '../../../../../../../shared/directives/sticky.directive';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { NgIf, NgFor, TitleCasePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { InsufficientPermissionsMessageComponent } from '../../../../../../permissions-messages/insufficient-permissions-message.component';
 
 @Component({
-  selector: 'initiative-helper-input',
-  templateUrl: './helper-input.component.html',
-  styleUrls: ['./helper-input.component.css'],
+    selector: 'initiative-helper-input',
+    templateUrl: './helper-input.component.html',
+    styleUrls: ['./helper-input.component.css'],
+    standalone: true,
+    imports: [InsufficientPermissionsMessageComponent, RouterLink, NgIf, ConfirmationPopoverModule, StickyPopoverDirective, InitiativeHelperRoleSelectComponent, InitiativeHelperRoleInputComponent, NgFor, InitiativeHelperRoleComponent, TitleCasePipe]
 })
 export class InitiativeHelperInputComponent implements OnInit {
   @Input('helper') helper: Helper;

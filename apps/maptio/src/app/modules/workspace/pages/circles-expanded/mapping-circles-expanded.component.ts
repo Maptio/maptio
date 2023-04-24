@@ -34,14 +34,18 @@ import { CircleMapDataExpanded } from '@maptio-shared/model/circle-map-data.inte
 import { DataSet } from '@maptio-shared/model/dataset.data';
 import { InitiativeNode } from '@maptio-circle-map-expanded/initiative.model';
 import { CircleMapService } from '@maptio-circle-map-expanded/circle-map.service';
+import { CircleMapExpandedComponent } from '../../../circle-map-expanded/circle-map-expanded.component';
+import { OnboardingMessageComponent } from '../../../onboarding-message/onboarding-message/onboarding-message.component';
 
 @Component({
-  selector: 'maptio-circles-expanded',
-  templateUrl: './mapping-circles-expanded.component.html',
-  styleUrls: ['./mapping-circles-expanded.component.css'],
-  host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
-  encapsulation: ViewEncapsulation.Emulated,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'maptio-circles-expanded',
+    templateUrl: './mapping-circles-expanded.component.html',
+    styleUrls: ['./mapping-circles-expanded.component.css'],
+    host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
+    encapsulation: ViewEncapsulation.Emulated,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [OnboardingMessageComponent, CircleMapExpandedComponent]
 })
 export class MappingCirclesExpandedComponent
   implements IDataVisualizer, OnInit, OnDestroy {

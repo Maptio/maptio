@@ -14,12 +14,6 @@ import { PricingSelectionComponent } from './pricing-selection/pricing-selection
 import { PaymentRoutingModule } from './payment.routing';
 
 @NgModule({
-  declarations: [
-    CheckoutComponent,
-    PricingComponent,
-    PricingInfoComponent,
-    PricingSelectionComponent,
-  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -27,8 +21,10 @@ import { PaymentRoutingModule } from './payment.routing';
     SanitizerModule,
     PaymentRoutingModule,
     LoginModule,
+    CheckoutComponent,
+    PricingComponent,
+    PaymentPlanComponent,
   ],
-  exports: [PricingSelectionComponent],
   providers: [],
 })
 export class PaymentModule {}
