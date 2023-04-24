@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[focusif]',
-  standalone: true,
+    selector: '[focusif]',
+    standalone: true
 })
 export class FocusIfDirective implements OnChanges, OnInit {
   @Input('focusif') focusif: string;

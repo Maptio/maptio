@@ -26,19 +26,18 @@ import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
 
 @NgModule({
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    CommonModule,
-    RouterModule,
-    NgbPopoverModule,
-    NgProgressModule,
-    NgProgressRouterModule,
-    DebounceDirective,
-    ClosableDirective,
-    FocusIfDirective,
-  ],
-  exports: [DebounceDirective, ClosableDirective, FocusIfDirective],
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        CommonModule,
+        RouterModule,
+        NgbPopoverModule,
+        NgProgressModule,
+        NgProgressRouterModule,
+        PermissionsMessagesModule,
+        DebounceDirective, ClosableDirective, FocusIfDirective
+    ],
+    exports: [DebounceDirective, ClosableDirective, FocusIfDirective]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders<SharedModule> {

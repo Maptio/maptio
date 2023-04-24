@@ -33,22 +33,11 @@ import { PermissionsDirective } from '../../../../../shared/directives/permissio
 import { InsufficientPermissionsMessageComponent } from '../../../../permissions-messages/insufficient-permissions-message.component';
 
 @Component({
-  selector: 'initiative-node',
-  templateUrl: './initiative.node.component.html',
-  styleUrls: ['./initiative.node.component.css'],
-  standalone: true,
-  imports: [
-    InsufficientPermissionsMessageComponent,
-    PermissionsDirective,
-    FormsModule,
-    DebounceDirective,
-    FocusIfDirective,
-    NgIf,
-    Angulartics2OnModule,
-    NgbTooltipModule,
-    StickyPopoverDirective,
-    NgTemplateOutlet,
-  ],
+    selector: 'initiative-node',
+    templateUrl: './initiative.node.component.html',
+    styleUrls: ['./initiative.node.component.css'],
+    standalone: true,
+    imports: [InsufficientPermissionsMessageComponent, PermissionsDirective, FormsModule, DebounceDirective, FocusIfDirective, NgIf, Angulartics2OnModule, NgbTooltipModule, StickyPopoverDirective, NgTemplateOutlet]
 })
 export class InitiativeNodeComponent {
   PLACEMENT = 'top';

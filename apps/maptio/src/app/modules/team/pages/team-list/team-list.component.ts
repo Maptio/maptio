@@ -15,11 +15,11 @@ import { CreateTeamComponent } from '../../../../shared/components/cards/create-
 import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'team-list',
-  templateUrl: './team-list.component.html',
-  styleUrls: ['./team-list-component.css'],
-  standalone: true,
-  imports: [NgIf, CreateTeamComponent, NgFor, CardTeamComponent],
+    selector: 'team-list',
+    templateUrl: './team-list.component.html',
+    styleUrls: ['./team-list-component.css'],
+    standalone: true,
+    imports: [NgIf, CreateTeamComponent, NgFor, CardTeamComponent]
 })
 export class TeamListComponent implements OnInit {
   public user: User;

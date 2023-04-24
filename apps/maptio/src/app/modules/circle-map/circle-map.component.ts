@@ -29,21 +29,13 @@ import { SearchComponent } from './search/search.component';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'maptio-circle-map',
-  templateUrl: './circle-map.component.html',
-  styleUrls: ['./circle-map.component.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    NgIf,
-    SearchComponent,
-    MarkdownModule,
-    SvgZoomPanComponent,
-    NgFor,
-    CircleComponent,
-    AsyncPipe,
-  ],
+    selector: 'maptio-circle-map',
+    templateUrl: './circle-map.component.html',
+    styleUrls: ['./circle-map.component.scss'],
+    encapsulation: ViewEncapsulation.Emulated,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, SearchComponent, MarkdownModule, SvgZoomPanComponent, NgFor, CircleComponent, AsyncPipe]
 })
 export class CircleMapComponent implements OnInit, OnDestroy {
   // All the data comes in as a single package

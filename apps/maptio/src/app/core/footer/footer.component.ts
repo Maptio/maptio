@@ -6,11 +6,11 @@ import { NgTemplateOutlet, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'footer',
-  templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.css'],
-  standalone: true,
-  imports: [RouterLink, NgTemplateOutlet, DatePipe],
+    selector: 'footer',
+    templateUrl: './footer.component.html',
+    styleUrls: ['./footer.component.css'],
+    standalone: true,
+    imports: [RouterLink, NgTemplateOutlet, DatePipe]
 })
 export class FooterComponent {
   @Input() isMobile: boolean;

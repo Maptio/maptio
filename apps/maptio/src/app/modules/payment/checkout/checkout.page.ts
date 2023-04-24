@@ -1,19 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { ActivatedRoute, Params, RouterLink } from '@angular/router';
-
-import { Subscription, forkJoin } from 'rxjs';
-import { tap, combineLatest, flatMap } from 'rxjs/operators';
-
+import { Subscription, Observable, forkJoin } from 'rxjs';
 import { Intercom } from 'ng-intercom';
 
 import { environment } from '@maptio-environment';
-import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
-import { TeamFactory } from '@maptio-core/http/team/team.factory';
-import { Team } from '@maptio-shared/model/team.data';
-import { DataSet } from '@maptio-shared/model/dataset.data';
-import { User } from '@maptio-shared/model/user.data';
-import { UserService } from '@maptio-shared/services/user/user.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'pricing-checkout',

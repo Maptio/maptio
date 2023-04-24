@@ -32,22 +32,12 @@ import { OnboardingBannerComponent } from './onboarding-banner.component';
 import { NgIf, NgClass, NgFor, AsyncPipe, SlicePipe } from '@angular/common';
 
 @Component({
-  selector: 'maptio-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css'],
-  changeDetection: ChangeDetectionStrategy.Default,
-  standalone: true,
-  imports: [
-    NgIf,
-    OnboardingBannerComponent,
-    RouterLink,
-    NgClass,
-    NgFor,
-    LanguagePickerComponent,
-    LoginRedirectDirective,
-    AsyncPipe,
-    SlicePipe,
-  ],
+    selector: 'maptio-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.css'],
+    changeDetection: ChangeDetectionStrategy.Default,
+    standalone: true,
+    imports: [NgIf, OnboardingBannerComponent, RouterLink, NgClass, NgFor, LanguagePickerComponent, LoginRedirectDirective, AsyncPipe, SlicePipe]
 })
 export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new SubSink();

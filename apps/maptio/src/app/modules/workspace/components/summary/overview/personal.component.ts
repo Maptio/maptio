@@ -20,12 +20,12 @@ import { PersonalCardComponent } from '../tab/card.component';
 import { NgIf, NgFor, LowerCasePipe, TitleCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'summary-personal',
-  templateUrl: './personal.component.html',
-  styleUrls: ['./personal.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgIf, NgFor, PersonalCardComponent, LowerCasePipe, TitleCasePipe],
+    selector: 'summary-personal',
+    templateUrl: './personal.component.html',
+    styleUrls: ['./personal.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, NgFor, PersonalCardComponent, LowerCasePipe, TitleCasePipe]
 })
 export class PersonalSummaryComponent implements OnInit {
   authorities: Array<Initiative> = [];

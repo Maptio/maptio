@@ -19,11 +19,11 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgIf, NgFor, TitleCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'role-holders-in-initiative',
-  templateUrl: './role-holders-in-initiative.component.html',
-  styleUrls: ['./role-holders-in-initiative.component.css'],
-  standalone: true,
-  imports: [NgIf, NgFor, NgbTooltipModule, TitleCasePipe],
+    selector: 'role-holders-in-initiative',
+    templateUrl: './role-holders-in-initiative.component.html',
+    styleUrls: ['./role-holders-in-initiative.component.css'],
+    standalone: true,
+    imports: [NgIf, NgFor, NgbTooltipModule, TitleCasePipe]
 })
 export class RoleHoldersInInitiativeComponent implements OnInit {
   @Input('initiative') initiative: Initiative;

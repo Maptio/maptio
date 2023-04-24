@@ -21,8 +21,7 @@ import { PaymentRoutingModule } from './payment.routing';
     LoginModule,
     CheckoutComponent,
     PricingComponent,
-    PricingInfoComponent,
-    PricingSelectionComponent,
+    PaymentPlanComponent,
   ],
   providers: [],
 })

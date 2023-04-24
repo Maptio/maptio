@@ -59,13 +59,13 @@ const d3 = Object.assign(
 );
 
 @Component({
-  selector: 'tree',
-  templateUrl: './mapping.tree.component.html',
-  styleUrls: ['./mapping.tree.component.css'],
-  encapsulation: ViewEncapsulation.Emulated,
-  host: { class: 'w-100' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
+    selector: 'tree',
+    templateUrl: './mapping.tree.component.html',
+    styleUrls: ['./mapping.tree.component.css'],
+    encapsulation: ViewEncapsulation.Emulated,
+    host: { class: 'w-100' },
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true
 })
 export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public width: number;

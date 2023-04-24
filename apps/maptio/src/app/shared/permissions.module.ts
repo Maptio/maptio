@@ -5,8 +5,8 @@ import { StickyPopoverDirective } from './directives/sticky.directive';
 import { PermissionsService } from './services/permissions/permissions.service';
 
 @NgModule({
-  imports: [CommonModule, StickyPopoverDirective, PermissionsDirective],
-  exports: [PermissionsDirective, StickyPopoverDirective],
-  providers: [PermissionsService],
+    imports: [CommonModule, StickyPopoverDirective, PermissionsDirective],
+    exports: [PermissionsDirective, StickyPopoverDirective],
+    providers: [PermissionsService]
 })
 export class PermissionsModule {}

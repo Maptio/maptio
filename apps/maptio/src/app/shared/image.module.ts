@@ -11,16 +11,16 @@ export const cloudinaryLib = {
 };
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FileUploadModule,
-    CloudinaryModule.forRoot(cloudinaryLib, {
-      cloud_name: environment.CLOUDINARY_CLOUDNAME,
-      upload_preset: environment.CLOUDINARY_UPLOAD_PRESET,
-    }),
-    ImageUploadComponent,
-  ],
-  exports: [ImageUploadComponent],
-  providers: [],
+    imports: [
+        CommonModule,
+        FileUploadModule,
+        CloudinaryModule.forRoot(cloudinaryLib, {
+            cloud_name: environment.CLOUDINARY_CLOUDNAME,
+            upload_preset: environment.CLOUDINARY_UPLOAD_PRESET,
+        }),
+        ImageUploadComponent
+    ],
+    exports: [ImageUploadComponent],
+    providers: []
 })
 export class ImageModule {}

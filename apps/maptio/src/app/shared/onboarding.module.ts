@@ -13,19 +13,19 @@ import { AddTerminologyComponent } from './components/onboarding/add-terminology
 import { ConsentComponent } from './components/onboarding/consent.component';
 
 @NgModule({
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    CommonModule,
-    RouterModule,
-    SharedModule,
-    NgbModalModule,
-    OnboardingComponent,
-    AddTerminologyComponent,
-    ConsentComponent,
-    CommonModalComponent,
-  ],
-  providers: [IntercomService, OnboardingService],
-  exports: [OnboardingComponent, AddTerminologyComponent, CommonModalComponent],
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        CommonModule,
+        RouterModule,
+        SharedModule,
+        NgbModalModule,
+        OnboardingComponent,
+        AddTerminologyComponent,
+        ConsentComponent,
+        CommonModalComponent
+    ],
+    providers: [IntercomService, OnboardingService],
+    exports: [OnboardingComponent, AddTerminologyComponent, CommonModalComponent]
 })
 export class OnboardingModule {}

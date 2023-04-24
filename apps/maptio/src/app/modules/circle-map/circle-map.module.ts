@@ -16,20 +16,20 @@ import { HelperAvatarComponent } from './helper-avatar/helper-avatar.component';
 import { SearchComponent } from './search/search.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    MarkdownModule.forChild(),
-    SatPopoverModule,
-    SvgZoomPanComponent,
-    CircleMapComponent,
-    CircleComponent,
-    CircleInfoComponent,
-    HelperAvatarComponent,
-    SearchComponent,
-  ],
-  exports: [CircleMapComponent],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatAutocompleteModule,
+        MarkdownModule.forChild(),
+        SatPopoverModule,
+        SvgZoomPanComponent,
+        CircleMapComponent,
+        CircleComponent,
+        CircleInfoComponent,
+        HelperAvatarComponent,
+        SearchComponent
+    ],
+    exports: [CircleMapComponent]
 })
 export class CircleMapModule {}

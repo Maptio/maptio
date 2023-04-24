@@ -6,9 +6,9 @@ import { Intercom } from 'ng-intercom';
 import { UserService } from '@maptio-shared/services/user/user.service';
 
 @Component({
-  selector: 'help',
-  templateUrl: './help.page.html',
-  standalone: true,
+    selector: 'help',
+    templateUrl: './help.page.html',
+    standalone: true
 })
 export class HelpComponent implements OnInit {
   KB_URL_HOME = environment.KB_URL_HOME;

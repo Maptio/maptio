@@ -16,21 +16,10 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import {
-  TreeNode,
-  TREE_ACTIONS,
-  TreeComponent,
-  TreeModule,
-} from '@circlon/angular-tree-component';
+import { TreeNode, TREE_ACTIONS, TreeComponent, TreeModule } from '@circlon/angular-tree-component';
 
 import { InitiativeNodeComponent } from '../node/initiative.node.component';
-import {
-  NgbModal,
-  NgbNav,
-  NgbNavChangeEvent,
-  NgbNavModule,
-  NgbTooltipModule,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbNav, NgbNavChangeEvent, NgbNavModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderService } from '../../../../../shared/components/loading/loader.service';
 import { Tag } from '../../../../../shared/model/tag.data';
 import { Role } from '../../../../../shared/model/role.data';
@@ -50,23 +39,12 @@ import { PermissionsDirective } from '../../../../../shared/directives/permissio
 import { OnboardingMessageComponent } from '../../../../onboarding-message/onboarding-message/onboarding-message.component';
 
 @Component({
-  selector: 'building',
-  templateUrl: './building.component.html',
-  styleUrls: ['./building.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    OnboardingMessageComponent,
-    NgbNavModule,
-    PermissionsDirective,
-    NgIf,
-    NgbTooltipModule,
-    InsufficientPermissionsMessageComponent,
-    StickyPopoverDirective,
-    TreeModule,
-    InitiativeNodeComponent,
-    EditTagsComponent,
-  ],
+    selector: 'building',
+    templateUrl: './building.component.html',
+    styleUrls: ['./building.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [OnboardingMessageComponent, NgbNavModule, PermissionsDirective, NgIf, NgbTooltipModule, InsufficientPermissionsMessageComponent, StickyPopoverDirective, TreeModule, InitiativeNodeComponent, EditTagsComponent]
 })
 export class BuildingComponent implements OnDestroy {
   searched: string;

@@ -4,21 +4,16 @@ import { NgIf, AsyncPipe, NgForOf } from '@angular/common';
 import { environment } from '@maptio-environment';
 import { UserService } from '@maptio-shared/services/user/user.service';
 
-import { LoginRedirectDirective } from '@maptio-login/login-redirect/login-redirect.directive';
-import { PricingInfoComponent } from '../pricing-info/pricing-info.component';
-import { PricingSelectionComponent } from '../pricing-selection/pricing-selection.component';
+import { BillingSchedule } from './billing-schedule.enum';
+import { LoginRedirectDirective } from '../../../login/login-redirect/login-redirect.directive';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { PaymentPlanComponent } from './payment-plan.component';
 
 @Component({
-  selector: 'maptio-pricing',
-  templateUrl: './pricing.page.html',
-  standalone: true,
-  imports: [
-    NgIf,
-    AsyncPipe,
-    LoginRedirectDirective,
-    PricingInfoComponent,
-    PricingSelectionComponent,
-  ],
+    selector: 'maptio-pricing',
+    templateUrl: './pricing.page.html',
+    standalone: true,
+    imports: [PaymentPlanComponent, NgIf, LoginRedirectDirective, AsyncPipe]
 })
 export class PricingComponent {
   BILLING_PLANS = environment.BILLING_PLANS;

@@ -10,18 +10,19 @@ import { PermissionsModule } from './permissions.module';
 import { CreateTeamComponent } from './components/cards/create-team/create-team.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
-    PermissionsModule,
-    ConfirmationPopoverModule.forRoot({
-      confirmButtonType: 'danger',
-      cancelButtonType: 'link',
-    }),
-    CreateTeamComponent,
-  ],
-  exports: [CreateTeamComponent],
-  providers: [],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        RouterModule,
+        PermissionsModule,
+        PermissionsMessagesModule,
+        ConfirmationPopoverModule.forRoot({
+            confirmButtonType: 'danger',
+            cancelButtonType: 'link',
+        }),
+        CreateTeamComponent
+    ],
+    exports: [CreateTeamComponent],
+    providers: []
 })
 export class CreateTeamModule {}

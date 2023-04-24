@@ -14,17 +14,11 @@ import { CreateMapComponent } from '../../../../shared/components/cards/create-m
 import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'team-single-maps',
-  templateUrl: './maps.component.html',
-  styleUrls: ['./maps.component.css'],
-  standalone: true,
-  imports: [
-    NgIf,
-    CreateMapComponent,
-    PermissionsDirective,
-    NgFor,
-    MapCardComponent,
-  ],
+    selector: 'team-single-maps',
+    templateUrl: './maps.component.html',
+    styleUrls: ['./maps.component.css'],
+    standalone: true,
+    imports: [NgIf, CreateMapComponent, PermissionsDirective, NgFor, MapCardComponent]
 })
 export class TeamMapsComponent implements OnInit {
   public datasets: DataSet[];

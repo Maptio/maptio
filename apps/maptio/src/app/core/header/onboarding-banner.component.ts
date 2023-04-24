@@ -8,11 +8,11 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'maptio-onboarding-banner',
-  templateUrl: './onboarding-banner.component.html',
-  styleUrls: ['./onboarding-banner.component.scss'],
-  standalone: true,
-  imports: [NgIf, NgbTooltipModule, RouterLink],
+    selector: 'maptio-onboarding-banner',
+    templateUrl: './onboarding-banner.component.html',
+    styleUrls: ['./onboarding-banner.component.scss'],
+    standalone: true,
+    imports: [NgIf, NgbTooltipModule, RouterLink]
 })
 export class OnboardingBannerComponent {
   @Input() set user(user: User) {

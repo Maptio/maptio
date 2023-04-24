@@ -9,11 +9,11 @@ import { LoginRedirectDirective } from '../../login-redirect/login-redirect.dire
 import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'maptio-logout',
-  templateUrl: './logout.page.html',
-  styleUrls: ['./logout.page.css'],
-  standalone: true,
-  imports: [NgIf, LoginRedirectDirective, AsyncPipe, SafePipe],
+    selector: 'maptio-logout',
+    templateUrl: './logout.page.html',
+    styleUrls: ['./logout.page.css'],
+    standalone: true,
+    imports: [NgIf, LoginRedirectDirective, AsyncPipe, SafePipe]
 })
 export class LogoutComponent implements OnInit {
   isComingFromAuth0 = false;

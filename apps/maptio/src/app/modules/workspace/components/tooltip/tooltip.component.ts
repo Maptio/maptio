@@ -13,12 +13,12 @@ import { MarkdownModule } from 'ngx-markdown';
 import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'tooltip',
-  templateUrl: './tooltip.component.html',
-  styleUrls: ['./tooltip.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgIf, NgFor, MarkdownModule],
+    selector: 'tooltip',
+    templateUrl: './tooltip.component.html',
+    styleUrls: ['./tooltip.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, NgFor, MarkdownModule]
 })
 export class TooltipComponent {
   @Input('initiative') initiative: Initiative;

@@ -23,17 +23,11 @@ import { DashboardComponent } from '../../components/dashboard/dashboard.compone
 import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'maptio-home',
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.css'],
-  standalone: true,
-  imports: [
-    NgIf,
-    DashboardComponent,
-    LoginRedirectDirective,
-    AsyncPipe,
-    SafePipe,
-  ],
+    selector: 'maptio-home',
+    templateUrl: './home.page.html',
+    styleUrls: ['./home.page.css'],
+    standalone: true,
+    imports: [NgIf, DashboardComponent, LoginRedirectDirective, AsyncPipe, SafePipe]
 })
 export class HomeComponent implements OnInit, OnDestroy {
   private subs = new SubSink();

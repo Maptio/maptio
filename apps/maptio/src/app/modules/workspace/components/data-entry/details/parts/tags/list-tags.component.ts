@@ -5,15 +5,10 @@ import { NgIf, NgFor } from '@angular/common';
 import { InsufficientPermissionsMessageComponent } from '../../../../../../permissions-messages/insufficient-permissions-message.component';
 
 @Component({
-  selector: 'initiative-list-tags',
-  templateUrl: './list-tags.component.html',
-  standalone: true,
-  imports: [
-    InsufficientPermissionsMessageComponent,
-    NgIf,
-    StickyPopoverDirective,
-    NgFor,
-  ],
+    selector: 'initiative-list-tags',
+    templateUrl: './list-tags.component.html',
+    standalone: true,
+    imports: [InsufficientPermissionsMessageComponent, NgIf, StickyPopoverDirective, NgFor]
 })
 export class InitiativeListTagsComponent implements OnInit {
   @Input('available') availableTags: Array<Tag>;

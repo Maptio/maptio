@@ -1,22 +1,17 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { Cloudinary } from '@cloudinary/angular-5.x';
-import {
-  FileUploaderOptions,
-  FileUploader,
-  FileLikeObject,
-  FileUploadModule,
-} from 'ng2-file-upload';
+import { FileUploaderOptions, FileUploader, FileLikeObject, FileUploadModule } from 'ng2-file-upload';
 
 import { environment } from '@maptio-config/environment';
 import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'maptio-image-upload',
-  templateUrl: './image-upload.component.html',
-  styleUrls: ['./image-upload.component.scss'],
-  standalone: true,
-  imports: [NgIf, FileUploadModule],
+    selector: 'maptio-image-upload',
+    templateUrl: './image-upload.component.html',
+    styleUrls: ['./image-upload.component.scss'],
+    standalone: true,
+    imports: [NgIf, FileUploadModule]
 })
 export class ImageUploadComponent implements OnInit {
   public uploader: FileUploader;

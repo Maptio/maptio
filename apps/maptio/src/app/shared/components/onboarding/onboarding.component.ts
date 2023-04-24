@@ -17,18 +17,11 @@ import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { CommonModalComponent } from '../modal/modal.component';
 
 @Component({
-  selector: 'maptio-common-onboarding',
-  templateUrl: './onboarding.component.html',
-  styleUrls: ['./onboarding.component.css'],
-  standalone: true,
-  imports: [
-    CommonModalComponent,
-    NgIf,
-    NgTemplateOutlet,
-    FormsModule,
-    AddTerminologyComponent,
-    ConsentComponent,
-  ],
+    selector: 'maptio-common-onboarding',
+    templateUrl: './onboarding.component.html',
+    styleUrls: ['./onboarding.component.css'],
+    standalone: true,
+    imports: [CommonModalComponent, NgIf, NgTemplateOutlet, FormsModule, AddTerminologyComponent, ConsentComponent]
 })
 export class OnboardingComponent implements OnInit {
   @Input() user: User;

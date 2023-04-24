@@ -7,10 +7,10 @@ import { RouterLink } from '@angular/router';
 import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'common-card-team',
-  templateUrl: './card-team.component.html',
-  standalone: true,
-  imports: [NgIf, RouterLink, NgFor, NgbTooltipModule],
+    selector: 'common-card-team',
+    templateUrl: './card-team.component.html',
+    standalone: true,
+    imports: [NgIf, RouterLink, NgFor, NgbTooltipModule]
 })
 export class CardTeamComponent implements OnInit {
   @Input('team') team: Team;

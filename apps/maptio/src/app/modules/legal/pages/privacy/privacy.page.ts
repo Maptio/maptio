@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from '@maptio-environment';
 
 @Component({
-  selector: 'app-privacy',
-  template: `
+    selector: 'app-privacy',
+    template: `
     <iframe
       src="${environment.PRIVACY_POLICY_URL}"
       width="100%"
@@ -11,7 +11,7 @@ import { environment } from '@maptio-environment';
       frameborder="0"
     ></iframe>
   `,
-  standalone: true,
+    standalone: true
 })
 export class PrivacyComponent {
   constructor() {}
