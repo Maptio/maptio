@@ -1,38 +1,40 @@
-import { tap } from 'rxjs/operators';
-import { BuildingComponent } from '../../components/data-entry/hierarchy/building.component';
-import { DataService } from '../../services/data.service';
-import { RoleLibraryService } from '../../services/role-library.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription, Subject } from 'rxjs';
-import { Initiative } from '../../../../shared/model/initiative.data';
-import { DataSet } from '../../../../shared/model/dataset.data';
-import { Team } from '../../../../shared/model/team.data';
-import { EmitterService } from '../../../../core/services/emitter.service';
-import { DatasetFactory } from '../../../../core/http/map/dataset.factory';
-import { TeamFactory } from '../../../../core/http/team/team.factory';
-import { ViewChild } from '@angular/core';
 import {
   Component,
   OnInit,
   OnDestroy,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
+  ViewChild,
 } from '@angular/core';
+import { NgIf, NgClass } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '../../../../shared/model/user.data';
-import { Tag } from '../../../../shared/model/tag.data';
-import { Role } from '../../../../shared/model/role.data';
+
+import { Subscription, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
+import { Store } from '@ngrx/store';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Intercom } from 'ng-intercom';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
-import { Store } from '@ngrx/store';
-
+import { EmitterService } from '@maptio-core/services/emitter.service';
+import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
+import { TeamFactory } from '@maptio-core/http/team/team.factory';
+import { Initiative } from '@maptio-shared/model/initiative.data';
+import { DataSet } from '@maptio-shared/model/dataset.data';
+import { Team } from '@maptio-shared/model/team.data';
+import { User } from '@maptio-shared/model/user.data';
+import { Tag } from '@maptio-shared/model/tag.data';
+import { Role } from '@maptio-shared/model/role.data';
+import { MapService } from '@maptio-shared/services/map/map.service';
 import { AppState } from '@maptio-state/app.state';
 import { setCurrentOrganisationId } from '@maptio-state/current-organisation.actions';
-import { MapService } from '@maptio-shared/services/map/map.service';
-import { MappingComponent } from '../../components/canvas/mapping.component';
-import { InitiativeComponent } from '../../components/data-entry/details/initiative.component';
-import { NgIf, NgClass } from '@angular/common';
+
+import { BuildingComponent } from '@maptio-old-workspace/components/data-entry/hierarchy/building.component';
+import { DataService } from '@maptio-old-workspace/services/data.service';
+import { RoleLibraryService } from '@maptio-old-workspace/services/role-library.service';
+import { MappingComponent } from '@maptio-old-workspace/components/canvas/mapping.component';
+import { InitiativeComponent } from '@maptio-old-workspace/components/data-entry/details/initiative.component';
 
 @Component({
   selector: 'maptio-workspace',
