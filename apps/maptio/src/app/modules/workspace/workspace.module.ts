@@ -13,7 +13,6 @@ import { FilterTagsComponent } from './components/filtering/tags.component';
 import { SearchComponent } from './components/searching/search.component';
 import { TreeModule } from '@circlon/angular-tree-component';
 import { WorkspaceGuard } from '../../core/guards/workspace.guard';
-import { WorkspaceComponent } from './pages/workspace/workspace.component';
 import { WorkspaceComponentResolver } from './pages/workspace/workspace.resolver';
 import { InitiativeComponent } from './components/data-entry/details/initiative.component';
 import { InitiativeNodeComponent } from './components/data-entry/node/initiative.node.component';
@@ -92,7 +91,6 @@ import { SharingComponent } from './components/sharing/sharing.component';
     CircleMapModule,
     CircleMapExpandedModule,
     MemberFormModule,
-    WorkspaceComponent,
     BuildingComponent,
     InitiativeNodeComponent,
     InitiativeComponent,
