@@ -41,6 +41,9 @@
 /scripts/migrations/logs
 /scripts/migrations/data
 
+# use package-lock.json as source of truth
+yarn.lock
+
 # misc
 /.angular/cache
 /.sass-cache
