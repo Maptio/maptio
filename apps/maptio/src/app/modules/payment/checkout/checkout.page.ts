@@ -1,16 +1,18 @@
-import { tap, combineLatest, flatMap, map } from 'rxjs/operators';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Subscription, Observable, forkJoin } from 'rxjs';
+
+import { tap, combineLatest, flatMap } from 'rxjs/operators';
+import { Subscription, forkJoin } from 'rxjs';
+
 import { Intercom } from 'ng-intercom';
-import { DatasetFactory } from '../../../../core/http/map/dataset.factory';
-import { Team } from '../../../../shared/model/team.data';
-import { DataSet } from '../../../../shared/model/dataset.data';
-import { TeamFactory } from '../../../../core/http/team/team.factory';
-import { User } from '../../../../shared/model/user.data';
-import { UserService } from '@maptio-shared/services/user/user.service';
 
 import { environment } from '@maptio-environment';
+import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
+import { TeamFactory } from '@maptio-core/http/team/team.factory';
+import { Team } from '@maptio-shared/model/team.data';
+import { DataSet } from '@maptio-shared/model/dataset.data';
+import { User } from '@maptio-shared/model/user.data';
+import { UserService } from '@maptio-shared/services/user/user.service';
 
 @Component({
   selector: 'pricing-checkout',
