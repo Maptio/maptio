@@ -10,6 +10,7 @@ import { LoginModule } from '@maptio-login/login.module';
 import { CheckoutComponent } from './checkout/checkout.page';
 import { PricingComponent } from './pricing/pricing.page';
 import { PricingInfoComponent } from './pricing-info/pricing-info.component';
+import { PricingSelectionComponent } from './pricing-selection/pricing-selection.component';
 import { PaymentPlanComponent } from './pricing/payment-plan.component';
 import { PaymentRoutingModule } from './payment.routing';
 
@@ -19,6 +20,7 @@ import { PaymentRoutingModule } from './payment.routing';
     PricingComponent,
     PricingInfoComponent,
     PaymentPlanComponent,
+    PricingSelectionComponent,
   ],
   imports: [
     CommonModule,
@@ -28,6 +30,7 @@ import { PaymentRoutingModule } from './payment.routing';
     PaymentRoutingModule,
     LoginModule,
   ],
+  exports: [PricingSelectionComponent],
   providers: [],
 })
 export class PaymentModule {}
