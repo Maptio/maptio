@@ -1,1 +1,224 @@
-<p>pricing-selection works!</p>
+<div class="container">
+  <p>
+    Your free trial has ended. Need a little longer? Email
+    <a href="mailto:support@maptio.com">support@maptio.com</a>
+  </p>
+
+  <p>
+    If you love Maptio and want to continue using it, you can subscribe and
+    choose your own level of contribution. Here are some suggestions, but it's
+    your decision. Click below to expand sections.
+  </p>
+
+  <!-- TODO: Redo using this: https://ng-bootstrap.github.io/releases/9.x/#/components/accordion/examples -->
+  <div class="accordion" id="accordionExample">
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <h2 class="mb-0">
+          <button
+            class="btn btn-link btn-block text-left"
+            type="button"
+            data-toggle="collapse"
+            data-target="#collapseOne"
+            aria-expanded="true"
+            aria-controls="collapseOne"
+          >
+            Companies and funded non-profits with 30 - 300 people earning their
+            livelihood
+          </button>
+        </h2>
+      </div>
+
+      <div
+        id="collapseOne"
+        class="collapse show"
+        aria-labelledby="headingOne"
+        data-parent="#accordionExample"
+      >
+        <div class="card-body">
+          We suggest $70 - $150 per month. Adjust upward or downward depending
+          on your team size, and to find your sweetspot of affordability, value,
+          and contribution.
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h2 class="mb-0">
+          <button
+            class="btn btn-link btn-block text-left collapsed"
+            type="button"
+            data-toggle="collapse"
+            data-target="#collapseTwo"
+            aria-expanded="false"
+            aria-controls="collapseTwo"
+          >
+            Smaller, but funded, companies and non-profits
+          </button>
+        </h2>
+      </div>
+      <div
+        id="collapseTwo"
+        class="collapse"
+        aria-labelledby="headingTwo"
+        data-parent="#accordionExample"
+      >
+        <div class="card-body">
+          We suggest $20 - $60 per month. Adjust upward or downward depending on
+          your team size, and to find your sweetspot of affordability, value,
+          and contribution.
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="headingThree">
+        <h2 class="mb-0">
+          <button
+            class="btn btn-link btn-block text-left collapsed"
+            type="button"
+            data-toggle="collapse"
+            data-target="#collapseThree"
+            aria-expanded="false"
+            aria-controls="collapseThree"
+          >
+            Unfunded Early-stage start-ups, and non-profits with little or no
+            funding
+          </button>
+        </h2>
+      </div>
+      <div
+        id="collapseThree"
+        class="collapse"
+        aria-labelledby="headingThree"
+        data-parent="#accordionExample"
+      >
+        <div class="card-body">
+          We suggest $10 or $20 per month. If you attract revenue or funding
+          later you can increase this any time.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" id="headingFour">
+        <h2 class="mb-0">
+          <button
+            class="btn btn-link btn-block text-left collapsed"
+            type="button"
+            data-toggle="collapse"
+            data-target="#collapseFour"
+            aria-expanded="false"
+            aria-controls="collapseFour"
+          >
+            Individuals using Maptio mostly as a solo tool
+          </button>
+        </h2>
+      </div>
+
+      <div
+        id="collapseFour"
+        class="collapse"
+        aria-labelledby="headingFour"
+        data-parent="#accordionExample"
+      >
+        <div class="card-body">
+          We suggest $10 - $70 per month. Adjust upward or downward depending on
+          the value you get from Maptio, whether you work in a commercial or
+          non-profit environment, and the relative cost of living in your
+          country.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" id="headingFive">
+        <h2 class="mb-0">
+          <button
+            class="btn btn-link btn-block text-left collapsed"
+            type="button"
+            data-toggle="collapse"
+            data-target="#collapseFive"
+            aria-expanded="false"
+            aria-controls="collapseFive"
+          >
+            Initiatives and individuals with very challenging finances
+          </button>
+        </h2>
+      </div>
+
+      <div
+        id="collapseFive"
+        class="collapse"
+        aria-labelledby="headingFive"
+        data-parent="#accordionExample"
+      >
+        <div class="card-body">
+          No problem, we’ve got you covered. You’re very welcome to use Maptio
+          either for a small contribution that you choose, or email us at
+          support@maptio.com to request a free account if you’re unable pay. We
+          can only offer free accounts if most customers do contribute money,
+          and we might sometimes have to limit the number of free accounts
+          available. So if you’re able to make even a small contribution, please
+          do.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br />
+
+  <h2>Choose your monthly contribution</h2>
+
+  <br />
+
+  <form (ngSubmit)="onSubmit()" #contributionForm="ngForm">
+    <div class="form-group">
+      <select
+        class="form-control form-control-lg col-md-6"
+        id="contribution"
+        required
+        [(ngModel)]="contribution"
+        name="contribution"
+        #contributionSelect="ngModel"
+      >
+        <option [value]="null">Your contribution (in US$)</option>
+
+        <option
+          *ngFor="let contributionOption of contributionOptions"
+          [value]="contributionOption"
+        >
+          ${{ contributionOption }}
+        </option>
+      </select>
+
+      <div
+        [hidden]="contributionSelect.valid || contributionSelect.pristine"
+        class="alert alert-danger"
+      >
+        Please select a contribution value
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-success btn-md-lg my-4 col-md-2"
+      i18n="@@subscribe"
+      [disabled]="!contributionForm.form.valid || submitted"
+    >
+      Subscribe
+    </button>
+  </form>
+
+  <p>
+    Email
+    <a href="mailto:support@maptio.com">support@maptio.com</a>
+    to request a free account.
+  </p>
+
+  <p>
+    Remember, as well as money, we also welcome non-monetary contributions like
+    testimonials, blog, and social media posts to tell your friends about us,
+    and contributions to our open source project. Or perhaps you can suggest
+    another way you'd like to contribute?
+  </p>
+</div>
