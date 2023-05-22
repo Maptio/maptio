@@ -61,7 +61,7 @@
 
   <div
     *ngIf="!isEditMode && !isTextEmpty"
-    (click)="!isUnauthorized && (isEditMode = true)"
+    (click)="onClick($event)"
     class="position-relative w-100 bg-light p-2 rounded"
   >
     <markdown
