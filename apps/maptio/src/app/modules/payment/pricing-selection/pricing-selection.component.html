@@ -1,0 +1,226 @@
+<div class="h5">
+  <p>
+    If you love Maptio and want to continue using it, you can subscribe and
+    choose your own level of contribution. Here are some suggestions, but it's
+    your decision.
+  </p>
+
+  <ngb-accordion
+    #acc="ngbAccordion"
+    [closeOthers]="true"
+    activeIds="first-panel"
+  >
+    <ngb-panel id="first-panel">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <button
+          ngbPanelToggle
+          class="d-flex align-items-center justify-content-between btn btn-link p-0 w-100"
+        >
+          <div class="h5 m-0">
+            Companies and funded non-profits with 30 - 300 people earning their
+            livelihood
+          </div>
+
+          <div>
+            <i
+              class="fas"
+              [ngClass]="{
+                'fa-chevron-up': opened,
+                'fa-chevron-down': !opened
+              }"
+            ></i>
+          </div>
+        </button>
+      </ng-template>
+
+      <ng-template ngbPanelContent>
+        We suggest $70 - $150 per month. Adjust upward or downward depending on
+        your team size, and to find your sweetspot of affordability, value, and
+        contribution.
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel>
+      <ng-template ngbPanelHeader let-opened="opened">
+        <button
+          ngbPanelToggle
+          class="d-flex align-items-center justify-content-between btn btn-link p-0 w-100"
+        >
+          <div class="h5 m-0">
+            Smaller, but funded, companies and non-profits
+          </div>
+
+          <div>
+            <i
+              class="fas"
+              [ngClass]="{
+                'fa-chevron-up': opened,
+                'fa-chevron-down': !opened
+              }"
+            ></i>
+          </div>
+        </button>
+      </ng-template>
+
+      <ng-template ngbPanelContent>
+        We suggest $20 - $60 per month. Adjust upward or downward depending on
+        your team size, and to find your sweetspot of affordability, value, and
+        contribution.
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel>
+      <ng-template ngbPanelHeader let-opened="opened">
+        <button
+          ngbPanelToggle
+          class="d-flex align-items-center justify-content-between btn btn-link p-0 w-100"
+        >
+          <div class="h5 m-0">
+            Unfunded Early-stage start-ups, and non-profits with little or no
+            funding
+          </div>
+
+          <div>
+            <i
+              class="fas"
+              [ngClass]="{
+                'fa-chevron-up': opened,
+                'fa-chevron-down': !opened
+              }"
+            ></i>
+          </div>
+        </button>
+      </ng-template>
+
+      <ng-template ngbPanelContent>
+        We suggest $10 or $20 per month. If you attract revenue or funding later
+        you can increase this any time.
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel>
+      <ng-template ngbPanelHeader let-opened="opened">
+        <button
+          ngbPanelToggle
+          class="d-flex align-items-center justify-content-between btn btn-link p-0 w-100"
+        >
+          <div class="h5 m-0">
+            Individuals using Maptio mostly as a solo tool
+          </div>
+
+          <div>
+            <i
+              class="fas"
+              [ngClass]="{
+                'fa-chevron-up': opened,
+                'fa-chevron-down': !opened
+              }"
+            ></i>
+          </div>
+        </button>
+      </ng-template>
+
+      <ng-template ngbPanelContent>
+        We suggest $10 - $70 per month. Adjust upward or downward depending on
+        the value you get from Maptio, whether you work in a commercial or
+        non-profit environment, and the relative cost of living in your country.
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel>
+      <ng-template ngbPanelHeader let-opened="opened">
+        <button
+          ngbPanelToggle
+          class="d-flex align-items-center justify-content-between btn btn-link p-0 w-100"
+        >
+          <div class="h5 m-0">
+            Initiatives and individuals with very challenging finances
+          </div>
+
+          <div>
+            <i
+              class="fas"
+              [ngClass]="{
+                'fa-chevron-up': opened,
+                'fa-chevron-down': !opened
+              }"
+            ></i>
+          </div>
+        </button>
+      </ng-template>
+
+      <ng-template ngbPanelContent>
+        No problem, we've got you covered. You're very welcome to use Maptio
+        either for a small contribution that you choose, or email us at
+        <a href="mailto:support@maptio.com">support@maptio.com</a>
+        to request a free account if you're unable pay. We can only offer free
+        accounts if most customers do contribute money, and we might sometimes
+        have to limit the number of free accounts available. So if you're able
+        to make even a small contribution, please do.
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+
+  <br />
+  <br />
+
+  <h2>Choose your monthly contribution</h2>
+
+  <form
+    (ngSubmit)="onSubmit()"
+    #contributionForm="ngForm"
+    class="d-flex flex-row row mb-2"
+  >
+    <div
+      class="form-group col-md-8 col-lg-6 col-xl-5 mt-3"
+      style="max-width: 329px !important"
+    >
+      <select
+        class="form-control form-control-lg"
+        id="contribution"
+        required
+        [(ngModel)]="contribution"
+        name="contribution"
+        #contributionSelect="ngModel"
+      >
+        <option [value]="null">Your contribution (in US$)</option>
+
+        <option
+          *ngFor="let contributionOption of contributionOptions"
+          [value]="contributionOption"
+        >
+          ${{ contributionOption }}
+        </option>
+      </select>
+
+      <div
+        [hidden]="contributionSelect.valid || contributionSelect.pristine"
+        class="alert alert-danger"
+      >
+        Please select a contribution value
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-success btn-lg my-3 col-md-2"
+      i18n="@@subscribe"
+      [disabled]="!contributionForm.form.valid || submitted"
+    >
+      Subscribe
+    </button>
+  </form>
+
+  <p>
+    Email
+    <a href="mailto:support@maptio.com">support@maptio.com</a>
+    to request a free account.
+  </p>
+
+  <p>
+    Remember, as well as money, we also welcome non-monetary contributions like
+    testimonials, blog, and social media posts to tell your friends about us,
+    and contributions to our open source project. Or perhaps you can suggest
+    another way you'd like to contribute?
+  </p>
+</div>

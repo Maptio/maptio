@@ -21,19 +21,14 @@ export const commonEnvironment = {
   FEATURE_REQUEST_EMAIL: 'mailto:support@maptio.com?subject=Feature request',
   SUBSCRIBE_NOW_LINK: '/pricing',
 
-  BILLING_PLANS: {
-    STRIVERS_MONTHLY_COST: '25',
-    STRIVERS_MONTHLY_URL:
-      'https://maptio.chargebee.com/hosted_pages/plans/monthy_strivers',
+  BILLING_PLANS: [
+    10, 20, 30, 40, 50, 60, 70, 80, 90, 100,
 
-    PIONEERS_MONTHLY_COST: '60',
-    PIONEERS_MONTHLY_URL:
-      'https://maptio.chargebee.com/hosted_pages/plans/monthy_pioneers',
+    110, 120, 130, 140, 150, 200, 300, 500,
+  ],
 
-    HEROES_MONTHLY_COST: '120',
-    HEROES_MONTHLY_URL:
-      'https://maptio.chargebee.com/hosted_pages/plans/monthy_heroes',
-  },
+  BILLING_BASE_URL:
+    'https://maptio.chargebee.com/hosted_pages/plans/contribute-',
 
   ONBOARDING_MESSAGES: {
     showEditingPanelMessage:
