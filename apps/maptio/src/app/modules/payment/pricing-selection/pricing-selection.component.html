@@ -166,12 +166,17 @@
 
   <h2>Choose your monthly contribution</h2>
 
-  <br />
-
-  <form (ngSubmit)="onSubmit()" #contributionForm="ngForm">
-    <div class="form-group">
+  <form
+    (ngSubmit)="onSubmit()"
+    #contributionForm="ngForm"
+    class="d-flex flex-row row mb-2"
+  >
+    <div
+      class="form-group col-md-8 col-lg-6 col-xl-5 mt-3"
+      style="max-width: 329px !important"
+    >
       <select
-        class="form-control form-control-lg col-md-4"
+        class="form-control form-control-lg"
         id="contribution"
         required
         [(ngModel)]="contribution"
@@ -198,7 +203,7 @@
 
     <button
       type="submit"
-      class="btn btn-success btn-md-lg my-4 col-md-2"
+      class="btn btn-success btn-lg my-3 col-md-2"
       i18n="@@subscribe"
       [disabled]="!contributionForm.form.valid || submitted"
     >
