@@ -1,5 +1,5 @@
 <div *ngIf="!isLoading" class="row">
-  <div *ngIf="team?.isPaying" class="col-12 my-5">
+  <div *ngIf="team?.isPaying" class="col-12 my-2">
     <div>
       <h5 i18n>Subscription status</h5>
       <hr />
@@ -45,24 +45,32 @@
     </div>
   </div>
 
-  <div *ngIf="!team?.isPaying" class="col-12 my-5">
-    <div class="mb-5" *ngIf="remaningTrialDays > 1">
-      {{ remaningTrialDaysMessage }}
-    </div>
+  <div *ngIf="!team?.isPaying && remaningTrialDays >= 0" class="col-12 my-2">
+    <div>
+      <h5 i18n="@@freeTrial">Free trial</h5>
 
-    <div class="mb-5" *ngIf="remaningTrialDays <= 1">
-      <p>
-        <b class="text-danger">{{ remaningTrialDaysMessage }}</b>
-      </p>
+      <hr />
 
-      <p i18n>
-        Subscribe to a plan below to continue using Maptio or
-        <a
-          href="mailto:support@maptio.com?subject=I need more time to try Maptio"
-        >
-          ask us for a free trial extension.
-        </a>
-      </p>
+      <div class="mb-5" *ngIf="remaningTrialDays > 1">
+        <p>
+          {{ remaningTrialDaysMessage }}
+        </p>
+      </div>
+
+      <div class="mb-5" *ngIf="remaningTrialDays <= 1">
+        <p>
+          <b class="text-danger">{{ remaningTrialDaysMessage }}</b>
+        </p>
+
+        <p i18n>
+          Subscribe to a plan below to continue using Maptio or
+          <a
+            href="mailto:support@maptio.com?subject=I need more time to try Maptio"
+          >
+            ask us for a free trial extension.
+          </a>
+        </p>
+      </div>
     </div>
 
     <div>
@@ -76,5 +84,14 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div *ngIf="!team?.isPaying && remaningTrialDays < 0" class="col-12 my-2">
+    <p>
+      Your free trial has ended. Need a little longer? Email
+      <a href="mailto:support@maptio.com">support@maptio.com</a>
+    </p>
+
+    <maptio-pricing-selection></maptio-pricing-selection>
   </div>
 </div>
