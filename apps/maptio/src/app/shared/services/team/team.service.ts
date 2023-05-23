@@ -34,7 +34,7 @@ export class TeamService {
           members: members,
           isTemporary: false,
           isExample: false,
-          freeTrialLength: 14,
+          freeTrialLength: 30,
           isPaying: false,
         })
       )

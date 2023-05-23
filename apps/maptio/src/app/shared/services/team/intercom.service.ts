@@ -21,7 +21,7 @@ export class IntercomService {
         created_at: Math.floor(Date.now() / 1000),
         custom_attributes: {
           is_paying: false,
-          free_trial_length: 14,
+          free_trial_length: 30,
         },
       },
     };
