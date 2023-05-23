@@ -1,35 +1,39 @@
-<div class="container">
+<div class="h5">
   <h1 i18n="@@three-ways-to-get-maptio">Three ways to get Maptio</h1>
 
-  <dl>
-    <dt>1. Hosted: Your own account on our hosted platform</dt>
-    <dd>
+  <dl class="mt-3 mb-5">
+    <dt class="h4 font-weight-bold">
+      1. Maptio Hosted: Your own account on our hosted platform
+    </dt>
+    <dd class="mb-4">
       The simplest, most popular option. We take care of all maintenance and
       tech support.
-      <a>Try it free for 30 days.</a>
+      <a routerLink="/signup">Try it free for 30 days.</a>
     </dd>
 
-    <dt>
+    <dt class="h4 font-weight-bold">
       2. Open Source Self-hosted: Install and run your own instance of Maptio
     </dt>
-    <dd>
+    <dd class="mb-4">
       You'll be responsible for set-up, support and maintenance yourself
       although we'll try to help when we can.
-      <a>Get started.</a>
+      <a href="https://github.com/Maptio/maptio#readme">Get started.</a>
     </dd>
 
-    <dt>3. Custom: A tailored, maintained and supported instance of Maptio</dt>
-    <dd>
+    <dt class="h4 font-weight-bold">
+      3. Maptio Custom: A tailored, maintained and supported instance of Maptio
+    </dt>
+    <dd class="mb-4">
       Giving you the highest level of control, data protection, integrations and
       security possible.
-      <a>Contact us to chat.</a>
+      <a href="mailto:support@maptio.com">Contact us to chat.</a>
     </dd>
   </dl>
 
-  <h1>What does Maptio Hosted cost?</h1>
+  <h1 class="mt-5">What does Maptio Hosted cost?</h1>
 
-  <p>
-    <b>We want Maptio Hosted to be accessible to everyone, globally.</b>
+  <p class="my-4 font-weight-bold">
+    We want Maptio Hosted to be accessible to everyone, globally.
   </p>
 
   <p>
@@ -46,11 +50,12 @@
   </p>
 
   <p>
-    You can try Maptio for free, and if you love it, you decide what to
-    contribute.
+    You can
+    <a routerLink="/signup">try Maptio for free,</a>
+    and if you love it, you decide what to contribute.
   </p>
 
-  <h1>Finding the price you'd love to pay</h1>
+  <h1 class="mt-5">Finding the price you'd love to pay</h1>
 
   <p>
     We love it when customers contribute $50 - $150 per month, depending on the
@@ -94,7 +99,7 @@
   <button
     maptioLoginRedirect
     [isSignup]="true"
-    class="btn btn-success btn-md-lg my-4"
+    class="btn btn-success btn-lg mt-4 mb-5"
     i18n="@@tryMaptioForFree"
   >
     Try Maptio for FREE

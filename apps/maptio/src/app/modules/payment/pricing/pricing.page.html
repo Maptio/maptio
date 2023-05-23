@@ -1,9 +1,9 @@
-<maptio-pricing-info
-  *ngIf="(userService.isAuthenticated$ | async) === false; else pricingSelection"
-></maptio-pricing-info>
+<div class="container my-2">
+  <maptio-pricing-info
+    *ngIf="(userService.isAuthenticated$ | async) === false; else pricingSelection"
+  ></maptio-pricing-info>
 
-<ng-template #pricingSelection>
-  <div class="container my-2">
+  <ng-template #pricingSelection>
     <maptio-pricing-selection></maptio-pricing-selection>
-  </div>
-</ng-template>
+  </ng-template>
+</div>
