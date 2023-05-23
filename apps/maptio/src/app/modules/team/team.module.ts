@@ -21,6 +21,7 @@ import { CardTeamComponent } from '../../shared/components/cards/team/card-team.
 import { CreateTeamModule } from '../../shared/create-team.module';
 import { CreateMapModule } from '../../shared/create-map.module';
 import { TeamRoutingModule } from './team.routing';
+import { PaymentModule } from '../payment/payment.module';
 
 import { MemberFormModule } from '@maptio-member-form';
 
@@ -39,6 +40,7 @@ import { MemberFormModule } from '@maptio-member-form';
     CreateTeamModule,
     CreateMapModule,
     MemberFormModule,
+    PaymentModule,
   ],
   declarations: [
     CardTeamComponent,
