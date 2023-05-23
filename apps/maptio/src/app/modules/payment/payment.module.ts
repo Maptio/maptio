@@ -11,7 +11,6 @@ import { CheckoutComponent } from './checkout/checkout.page';
 import { PricingComponent } from './pricing/pricing.page';
 import { PricingInfoComponent } from './pricing-info/pricing-info.component';
 import { PricingSelectionComponent } from './pricing-selection/pricing-selection.component';
-import { PaymentPlanComponent } from './pricing/payment-plan.component';
 import { PaymentRoutingModule } from './payment.routing';
 
 @NgModule({
@@ -19,7 +18,6 @@ import { PaymentRoutingModule } from './payment.routing';
     CheckoutComponent,
     PricingComponent,
     PricingInfoComponent,
-    PaymentPlanComponent,
     PricingSelectionComponent,
   ],
   imports: [
