@@ -1,0 +1,17 @@
+version:  '3'
+services:
+  db:
+    image: mongo:5
+    volumes:
+      - ./local_data:/data/db
+
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: maptio
+      MONGO_INITDB_ROOT_PASSWORD: example
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      MONGODB_URI: mongodb://maptio:example@db:27017/maptio
+
