@@ -69,7 +69,9 @@ export class SearchComponent implements OnInit {
       const roles = initiative
         .getAllParticipants()
         .flatMap((participant) => participant.roles ?? [])
-        .map((role) => `${role.title} ${role.description}`.toLowerCase())
+        .map((role) =>
+          `${role?.title ?? ''} ${role?.description ?? ''}`.toLowerCase()
+        )
         .join('');
       const rolesMatch = roles?.includes(searchTerm);
 
