@@ -77,7 +77,7 @@ export class SearchComponent implements OnInit {
     return this.findInitiatives(filterValue);
   }
 
-  findInitiatives(term: string): InitiativeNode[] {
+  private findInitiatives(term: string): InitiativeNode[] {
     const searchTerm = term.toLowerCase();
 
     return this.initiatives.filter((initiativeNode) => {
