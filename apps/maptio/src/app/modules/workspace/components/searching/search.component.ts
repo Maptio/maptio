@@ -91,12 +91,32 @@ export class SearchComponent implements OnInit {
   }
 
   findUsers(term: string): SearchResult[] {
-    return uniqBy(
-      flatten(this.list.map((i) => i.getAllParticipants())),
-      (u) => u.user_id
-    )
-      .filter((u) => u.name.toLowerCase().indexOf(term.toLowerCase()) > -1)
-      .map((i) => <SearchResult>{ type: SearchResultType.User, result: i });
+    const searchTerm = term.toLowerCase();
+
+    // Get all users from all initiatives
+    const users = flatten(
+      this.list.map((initiative) => initiative.getAllParticipants())
+    );
+
+    const matchingUsers = users.filter((user) => {
+      const nameMatches = user.name.toLowerCase().includes(searchTerm);
+
+      const roles = user.roles
+        .map((role) =>
+          `${role?.title ?? ''} ${role?.description ?? ''}`.toLowerCase()
+        )
+        .join('');
+      const rolesMatch = roles?.includes(searchTerm);
+
+      return nameMatches || rolesMatch;
+    });
+
+    const uniqueMatchingUsers = uniqBy(matchingUsers, (user) => user.user_id);
+
+    return uniqueMatchingUsers.map((user) => ({
+      type: SearchResultType.User,
+      result: user,
+    }));
   }
 
   addHeader(results: SearchResult[], header: SearchResult) {
