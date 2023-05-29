@@ -77,32 +77,38 @@ export class SearchComponent implements OnInit {
     return this.findInitiatives(filterValue);
   }
 
-  private findInitiatives(term: string): InitiativeNode[] {
-    return this.initiatives.filter(
-      (initiativeNode) =>
-        initiativeNode.data.name?.toLowerCase().indexOf(term.toLowerCase()) >
-          -1 ||
-        (initiativeNode.data.description &&
-          initiativeNode.data.description
-            .toLowerCase()
-            .indexOf(term.toLowerCase()) > -1) ||
-        (initiativeNode.data.accountable &&
-          initiativeNode.data.accountable.name
-            .toLowerCase()
-            .indexOf(term.toLowerCase()) > -1) ||
-        (this.getAllParticipants(initiativeNode) &&
-          this.getAllParticipants(initiativeNode)
-            .map((h) => h.name)
-            .join('')
-            .toLowerCase()
-            .indexOf(term.toLowerCase()) > -1) ||
-        (this.getAllParticipants(initiativeNode) &&
-          this.getAllParticipants(initiativeNode)
-            .map((h) => (h.roles && h.roles[0] ? h.roles[0].description : ''))
-            .join('')
-            .toLowerCase()
-            .indexOf(term.toLowerCase()) > -1)
-    );
+  findInitiatives(term: string): InitiativeNode[] {
+    const searchTerm = term.toLowerCase();
+
+    return this.initiatives.filter((initiativeNode) => {
+      const name = initiativeNode.data.name?.toLowerCase();
+      const nameMatches = name?.includes(searchTerm);
+
+      const description = initiativeNode.data.description?.toLowerCase();
+      const descriptionMatches = description?.includes(searchTerm);
+
+      const accountable = initiativeNode.data.accountable?.name?.toLowerCase();
+      const accountableMatches = accountable?.includes(searchTerm);
+
+      const participants = this.getAllParticipants(initiativeNode)
+        .map((participant) => participant.name.toLowerCase())
+        .join('');
+      const participantsMatch = participants?.includes(searchTerm);
+
+      const roles = this.getAllParticipants(initiativeNode)
+        .flatMap((participant) => participant.roles ?? [])
+        .map((role) => `${role.title} ${role.description}`.toLowerCase())
+        .join('');
+      const rolesMatch = roles?.includes(searchTerm);
+
+      return (
+        nameMatches ||
+        descriptionMatches ||
+        accountableMatches ||
+        participantsMatch ||
+        rolesMatch
+      );
+    });
   }
 
   private getAllParticipants(initiativeNode: InitiativeNode): Helper[] {
