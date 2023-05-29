@@ -88,36 +88,6 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  // findInitiativesOld(term: string): SearchResult[] {
-  //   return this.list
-  //     .filter(
-  //       (v) =>
-  //         v.name?.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
-  //         (v.description &&
-  //           v.description.toLowerCase().indexOf(term.toLowerCase()) > -1) ||
-  //         (v.accountable &&
-  //           v.accountable.name.toLowerCase().indexOf(term.toLowerCase()) >
-  //             -1) ||
-  //         (v.getAllParticipants() &&
-  //           v
-  //             .getAllParticipants()
-  //             .map((h) => h.name)
-  //             .join('')
-  //             .toLowerCase()
-  //             .indexOf(term.toLowerCase()) > -1) ||
-  //         (v.getAllParticipants() &&
-  //           v
-  //             .getAllParticipants()
-  //             .map((h) => (h.roles && h.roles[0] ? h.roles[0].description : ''))
-  //             .join('')
-  //             .toLowerCase()
-  //             .indexOf(term.toLowerCase()) > -1)
-  //     )
-  //     .map(
-  //       (i) => <SearchResult>{ type: SearchResultType.Initiative, result: i }
-  //     );
-  // }
-
   findUsers(term: string): SearchResult[] {
     return uniqBy(
       flatten(this.list.map((i) => i.getAllParticipants())),
