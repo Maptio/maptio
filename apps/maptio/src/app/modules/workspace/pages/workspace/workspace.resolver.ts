@@ -1,9 +1,5 @@
 import { first, map, flatMap } from 'rxjs/operators';
-import {
-  ActivatedRouteSnapshot,
-  Resolve,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { DatasetFactory } from '../../../../core/http/map/dataset.factory';
 import { DataSet } from '../../../../shared/model/dataset.data';
 import { Injectable } from '@angular/core';
@@ -18,8 +14,7 @@ import { UserService } from '../../../../shared/services/user/user.service';
 
 @Injectable()
 export class WorkspaceComponentResolver
-  implements
-    Resolve<{ dataset: DataSet; team: Team; members: User[]; user: User }> {
+   {
   constructor(
     private datasetFactory: DatasetFactory,
     private teamFactory: TeamFactory,

@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateChild,
-  Router,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 
 import { filter, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -16,7 +10,7 @@ import { User } from '@maptio-shared/model/user.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 
 @Injectable()
-export class AccessGuard implements CanActivate, CanActivateChild {
+export class AccessGuard  {
   constructor(
     private router: Router,
     private intercom: Intercom,
