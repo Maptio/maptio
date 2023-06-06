@@ -1,27 +1,29 @@
 import { ApplicationConfig } from '@angular/core';
-import { enableProdMode, importProvidersFrom } from '@angular/core';
-import {
-  BrowserModule,
-  HammerModule,
-  bootstrapApplication,
-} from '@angular/platform-browser';
-import { AppRoutingModule } from './app.routing';
-import { AnalyticsModule } from './core/analytics.module';
-import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
-import { authConfig, hammerProvider, markedConfig } from 'providers';
-import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
-import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
+import { importProvidersFrom } from '@angular/core';
 import {
   Location,
   LocationStrategy,
   PathLocationStrategy,
 } from '@angular/common';
-import { SubSink } from 'subsink';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
+
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
+import { SubSink } from 'subsink';
+import { MarkdownModule } from 'ngx-markdown';
+
+import { authConfig, hammerProvider, markedConfig } from 'providers';
+
+import { environment } from '../environments/environment';
+import { AnalyticsModule } from './core/analytics.module';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
+import { currentOrganisationIdReducer } from './state/current-organisation.reducer';
+import { AppRoutingModule } from './app.routing';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(

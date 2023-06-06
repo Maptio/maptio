@@ -1,11 +1,11 @@
-import { appConfig } from './app/app.config';
-
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-
-import { AppComponent } from './app/app.component';
-import { currentOrganisationIdReducer } from './app/state/current-organisation.reducer';
+import { enableProdMode } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
 
 import 'hammerjs';
+
+import { environment } from './environments/environment';
+import { appConfig } from './app/app.config';
+import { AppComponent } from './app/app.component';
 
 if (environment.production) {
   enableProdMode();
