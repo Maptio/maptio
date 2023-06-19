@@ -59,7 +59,7 @@ cd maptio/
 Unforutnately, Maptio currently relies on external services, many of which need to be set up for the app to work.
 If you'd like to set them up, please use the `.env.sample` template to create a `.env` file in the root folder and use the environment variables there as a guide for what services to set up and what environment variables to obtain from them.
 
-We're aware that this makes setting up Maptio for local development difficult and hope to be able to improve this - and all help is very much welcome! Please see #820 for a discussion and to share your thoughts.
+We're aware that this makes setting up Maptio for local development difficult and hope to be able to improve this - and all help is very much welcome! Please see [#811](https://github.com/Maptio/maptio/issues/811) for a discussion and to share your thoughts.
 
 #### 3. Set up a local database
 
