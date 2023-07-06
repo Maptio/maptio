@@ -67,6 +67,11 @@ import { CircleMapExpandedModule } from '@maptio-circle-map-expanded/circle-map-
 import { MemberFormModule } from '@maptio-member-form';
 
 import { SharingComponent } from './components/sharing/sharing.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import * as fromWorkspace from './+state/workspace.reducer';
+import { WorkspaceEffects } from './+state/workspace.effects';
+import { WorkspaceFacade } from './+state/workspace.facade';
 
 @NgModule({
   imports: [
@@ -130,6 +135,11 @@ import { SharingComponent } from './components/sharing/sharing.component';
     StripMarkdownPipe,
     EllipsisPipe,
     SharingComponent,
+    StoreModule.forFeature(
+      fromWorkspace.WORKSPACE_FEATURE_KEY,
+      fromWorkspace.workspaceReducer
+    ),
+    EffectsModule.forFeature([WorkspaceEffects]),
   ],
   providers: [
     BillingGuard,
@@ -139,6 +149,7 @@ import { SharingComponent } from './components/sharing/sharing.component';
     RoleLibraryService,
     MapSettingsService,
     WorkspaceComponentResolver,
+    WorkspaceFacade,
   ],
 })
 export class WorkspaceModule {}
