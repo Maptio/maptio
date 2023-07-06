@@ -1,5 +1,5 @@
 import { ApplicationConfig } from '@angular/core';
-import { importProvidersFrom } from '@angular/core';
+import { importProvidersFrom, isDevMode } from '@angular/core';
 import {
   Location,
   LocationStrategy,
@@ -9,8 +9,12 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreModule, provideStore, provideState } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import {
+  StoreDevtoolsModule,
+  provideStoreDevtools,
+} from '@ngrx/store-devtools';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { SubSink } from 'subsink';
 import { MarkdownModule } from 'ngx-markdown';
@@ -21,11 +25,18 @@ import { environment } from '../environments/environment';
 import { AnalyticsModule } from './core/analytics.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-import { currentOrganisationIdReducer } from './state/current-organisation.reducer';
 import { AppRoutingModule } from './app.routing';
+import { currentOrganisationIdReducer } from './state/current-organisation.reducer';
+import * as fromGlobal from './state/global.reducer';
+import { GlobalEffects } from './state/global.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideEffects(GlobalEffects),
+    provideState(fromGlobal.GLOBAL_FEATURE_KEY, fromGlobal.globalReducer),
+    provideStoreDevtools({ logOnly: !isDevMode() }),
+    provideEffects(),
+    provideStore(),
     importProvidersFrom(
       BrowserModule,
       HammerModule,
@@ -35,6 +46,7 @@ export const appConfig: ApplicationConfig = {
       MarkdownModule.forRoot(markedConfig),
       CoreModule,
       SharedModule.forRoot(),
+      // TODO: Move all global state to newly scaffolded structures!
       StoreModule.forRoot({
         global: currentOrganisationIdReducer,
       }),
