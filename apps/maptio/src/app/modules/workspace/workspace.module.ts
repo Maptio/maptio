@@ -139,6 +139,7 @@ import { WorkspaceFacade } from './+state/workspace.facade';
       fromWorkspace.WORKSPACE_FEATURE_KEY,
       fromWorkspace.workspaceReducer
     ),
+    EffectsModule.forRoot([]),
     EffectsModule.forFeature([WorkspaceEffects]),
   ],
   providers: [
