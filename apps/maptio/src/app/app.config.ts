@@ -26,17 +26,11 @@ import { AnalyticsModule } from './core/analytics.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app.routing';
-import { currentOrganisationIdReducer } from './state/current-organisation.reducer';
 import * as fromGlobal from './state/global.reducer';
 import { GlobalEffects } from './state/global.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideEffects(GlobalEffects),
-    provideState(fromGlobal.GLOBAL_FEATURE_KEY, fromGlobal.globalReducer),
-    provideStoreDevtools({ logOnly: !isDevMode() }),
-    provideEffects(),
-    provideStore(),
     importProvidersFrom(
       BrowserModule,
       HammerModule,
@@ -46,16 +40,24 @@ export const appConfig: ApplicationConfig = {
       MarkdownModule.forRoot(markedConfig),
       CoreModule,
       SharedModule.forRoot(),
-      // TODO: Move all global state to newly scaffolded structures!
-      StoreModule.forRoot({
-        global: currentOrganisationIdReducer,
-      }),
-      StoreDevtoolsModule.instrument({
-        name: 'Maptio',
-        maxAge: 25,
-        logOnly: environment.production,
-      })
+
+      // This is necessary here as we're still old and standalone NgRx APIs.
+      // Note that this needs to be placed before `provideState` for the global
+      // state to be available in the store.
+      // See: https://github.com/ngrx/platform/issues/3700#issuecomment-1443965068
+      StoreModule.forRoot()
     ),
+
+    // NgRx Store configuration
+    provideStore(),
+    provideState(fromGlobal.GLOBAL_FEATURE_KEY, fromGlobal.globalReducer),
+    provideStoreDevtools({
+      name: 'Maptio',
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
+    provideEffects(GlobalEffects),
+
     // BrowserAnimationsModule,
     Location,
     { provide: LocationStrategy, useClass: PathLocationStrategy },

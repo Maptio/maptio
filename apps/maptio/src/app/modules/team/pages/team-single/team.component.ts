@@ -21,7 +21,7 @@ import { TeamBillingComponent } from '../team-billing/billing.component';
 import { Store } from '@ngrx/store';
 
 import { AppState } from '@maptio-state/app.state';
-import { setCurrentOrganisationId } from '@maptio-state/current-organisation.actions';
+import { setCurrentOrganisationId } from '@maptio-state/global.actions';
 import { PermissionsDirective } from '../../../../shared/directives/permission.directive';
 import { NgIf } from '@angular/common';
 

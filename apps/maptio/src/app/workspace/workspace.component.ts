@@ -28,7 +28,7 @@ import { Tag } from '@maptio-shared/model/tag.data';
 import { Role } from '@maptio-shared/model/role.data';
 import { MapService } from '@maptio-shared/services/map/map.service';
 import { AppState } from '@maptio-state/app.state';
-import { setCurrentOrganisationId } from '@maptio-state/current-organisation.actions';
+import { setCurrentOrganisationId } from '@maptio-state/global.actions';
 
 import { BuildingComponent } from '@maptio-old-workspace/components/data-entry/hierarchy/building.component';
 import { DataService } from '@maptio-old-workspace/services/data.service';
