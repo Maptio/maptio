@@ -7,7 +7,7 @@ import { DataService } from '../../../services/data.service';
 import { Initiative } from '../../../../../shared/model/initiative.data';
 
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
-import { EventEmitter, OnDestroy } from '@angular/core';
+import { EventEmitter, OnDestroy, inject } from '@angular/core';
 import {
   Component,
   ViewChild,
@@ -22,6 +22,10 @@ import {
   TreeComponent,
   TreeModule,
 } from '@circlon/angular-tree-component';
+
+import { Store } from '@ngrx/store';
+import { AppState } from '@maptio-state/app.state';
+import * as WorkspaceActions from '@maptio-old-workspace/+state/workspace.actions';
 
 import { InitiativeNodeComponent } from '../node/initiative.node.component';
 import {
@@ -69,6 +73,8 @@ import { OnboardingMessageComponent } from '../../../../onboarding-message/onboa
   ],
 })
 export class BuildingComponent implements OnDestroy {
+  private readonly store = inject(Store<AppState>);
+
   searched: string;
   nodes: Array<Initiative>;
 
@@ -264,6 +270,14 @@ export class BuildingComponent implements OnDestroy {
   }
 
   openNodeDetails(node: Initiative) {
+    // TODO: Instead of the dispatch below consider using the facade like this:
+    // this.workspaceFacade.setSelectedInitiativeID(node.id);
+    this.store.dispatch(
+      WorkspaceActions.setSelectedInitiativeID({
+        selectedInitiativeID: node.id,
+      })
+    );
+
     this.openDetails.emit(node);
     this.circleMapService.onInitiativeClickInOutline(node);
     this.circleMapServiceExpanded.onInitiativeClickInOutline(node);
