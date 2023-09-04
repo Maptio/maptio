@@ -14,7 +14,7 @@ import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Intercom } from 'ng-intercom';
+import { Intercom } from '@supy-io/ngx-intercom';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 import { EmitterService } from '@maptio-core/services/emitter.service';

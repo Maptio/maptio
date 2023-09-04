@@ -5,7 +5,7 @@ import { ActivatedRoute, Params, RouterLink } from '@angular/router';
 import { tap, combineLatest, flatMap } from 'rxjs/operators';
 import { Subscription, forkJoin } from 'rxjs';
 
-import { Intercom } from 'ng-intercom';
+import { Intercom } from '@supy-io/ngx-intercom';
 
 import { environment } from '@maptio-environment';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';

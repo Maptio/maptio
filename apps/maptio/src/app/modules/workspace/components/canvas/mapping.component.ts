@@ -31,7 +31,7 @@ import { UIService } from '../../services/ui.service';
 import { URIService } from '../../../../shared/services/uri/uri.service';
 import { IDataVisualizer } from './mapping.interface';
 import { ExportService } from '../../../../shared/services/export/export.service';
-import { Intercom } from 'ng-intercom';
+import { Intercom } from '@supy-io/ngx-intercom';
 import { User } from '../../../../shared/model/user.data';
 import { Permissions } from '../../../../shared/model/permission.data';
 import { MappingSummaryComponent } from '../../pages/directory/summary.component';

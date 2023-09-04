@@ -17,7 +17,7 @@ import {
 import { Team } from '../../../model/team.data';
 import { DataSet } from '../../../model/dataset.data';
 import { Router, RouterLink } from '@angular/router';
-import { Intercom } from 'ng-intercom';
+import { Intercom } from '@supy-io/ngx-intercom';
 import { MapService } from '../../../services/map/map.service';
 import { environment } from '../../../../config/environment';
 

@@ -21,7 +21,7 @@ import { DataSet } from '../../model/dataset.data';
 import { UserFactory } from '../../../core/http/user/user.factory';
 import { TeamFactory } from '../../../core/http/team/team.factory';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
-import { Intercom } from 'ng-intercom';
+import { Intercom } from '@supy-io/ngx-intercom';
 import { TeamService } from '../../services/team/team.service';
 
 @Component({

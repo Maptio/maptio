@@ -15,7 +15,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Intercom } from 'ng-intercom';
+import { Intercom } from '@supy-io/ngx-intercom';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 import { environment } from '@maptio-environment';

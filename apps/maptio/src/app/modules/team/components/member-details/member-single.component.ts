@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
-import { Intercom } from 'ng-intercom';
+import { Intercom } from '@supy-io/ngx-intercom';
 
 import { User } from '@maptio-shared/model/user.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
