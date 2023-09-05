@@ -22,6 +22,7 @@ import {
   TreeComponent,
   TreeModule,
 } from '@circlon/angular-tree-component';
+import { OutlineModule } from '@notebits/outline';
 
 import { Store } from '@ngrx/store';
 import { AppState } from '@maptio-state/app.state';
@@ -70,6 +71,7 @@ import { OnboardingMessageComponent } from '../../../../onboarding-message/onboa
     TreeModule,
     InitiativeNodeComponent,
     EditTagsComponent,
+    OutlineModule,
   ],
 })
 export class BuildingComponent implements OnDestroy {
