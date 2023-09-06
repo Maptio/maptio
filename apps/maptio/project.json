@@ -17,7 +17,6 @@
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "options": {
-        "localize": ["en-US", "de", "fr", "ja", "pl"],
         "outputPath": "dist/apps/maptio",
         "index": "apps/maptio/src/index.html",
         "main": "apps/maptio/src/main.ts",
@@ -63,6 +62,7 @@
               "with": "apps/maptio/src/environments/environment.staging.ts"
             }
           ],
+          "localize": ["en-US", "de", "fr", "ja", "pl"],
           "optimization": true,
           "outputHashing": "all",
           "sourceMap": false,
@@ -90,6 +90,7 @@
               "with": "apps/maptio/src/environments/environment.prod.ts"
             }
           ],
+          "localize": ["en-US", "de", "es", "fr", "ja", "nl", "pl", "pt"],
           "optimization": true,
           "outputHashing": "all",
           "sourceMap": false,
@@ -109,6 +110,12 @@
               "maximumError": "10kb"
             }
           ]
+        },
+        "en-US": {
+          "localize": ["en-US"]
+        },
+        "de": {
+          "localize": ["de"]
         }
       },
       "defaultConfiguration": ""
@@ -122,6 +129,12 @@
       "configurations": {
         "production": {
           "browserTarget": "maptio:build:production"
+        },
+        "en-US": {
+          "browserTarget": "maptio:build:en-US"
+        },
+        "de": {
+          "browserTarget": "maptio:build:de"
         }
       }
     },
