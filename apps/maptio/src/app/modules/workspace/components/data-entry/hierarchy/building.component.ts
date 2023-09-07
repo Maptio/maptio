@@ -22,7 +22,7 @@ import {
   TreeComponent,
   TreeModule,
 } from '@circlon/angular-tree-component';
-import { OutlineModule } from '@notebits/outline';
+import { NotebitsOutlineData, OutlineModule } from '@notebits/outline';
 
 import { Store } from '@ngrx/store';
 import { AppState } from '@maptio-state/app.state';
@@ -54,6 +54,31 @@ import { NgIf } from '@angular/common';
 import { PermissionsDirective } from '../../../../../shared/directives/permission.directive';
 import { OnboardingMessageComponent } from '../../../../onboarding-message/onboarding-message/onboarding-message.component';
 
+// TODO: Remove when no longer needed
+const TREE_DATA: NotebitsOutlineData = [
+  {
+    value: 'Fruit',
+    children: [
+      { value: 'Apple' },
+      { value: 'Banana' },
+      { value: 'Fruit loops' },
+    ],
+  },
+  {
+    value: 'Vegetables',
+    children: [
+      {
+        value: 'Green',
+        children: [{ value: 'Broccoli' }, { value: 'Brussels sprouts' }],
+      },
+      {
+        value: 'Orange',
+        children: [{ value: 'Pumpkins' }, { value: 'Carrots' }],
+      },
+    ],
+  },
+];
+
 @Component({
   selector: 'building',
   templateUrl: './building.component.html',
@@ -75,6 +100,10 @@ import { OnboardingMessageComponent } from '../../../../onboarding-message/onboa
   ],
 })
 export class BuildingComponent implements OnDestroy {
+  // TODO: Remove when no longer needed
+  TREE_DATA = TREE_DATA;
+  outlineData: NotebitsOutlineData;
+
   private readonly store = inject(Store<AppState>);
 
   searched: string;
@@ -268,6 +297,7 @@ export class BuildingComponent implements OnDestroy {
 
   updateTree() {
     // this will saveChanges() on the callback
+    console.log('updateTree');
     this.tree.treeModel.update();
   }
 
@@ -505,6 +535,11 @@ export class BuildingComponent implements OnDestroy {
           .catch(() => {});
       })
       .then(() => {
+        this.outlineData = this.transformNodesIntoOutlineData(
+          this.nodes[0].children
+        );
+        console.log(this.outlineData);
+
         this.dataService.set({
           initiative: this.nodes[0],
           dataset: dataset,
@@ -517,5 +552,21 @@ export class BuildingComponent implements OnDestroy {
       .then(() => {
         this.loaderService.hide();
       });
+  }
+
+  transformNodesIntoOutlineData(nodes): NotebitsOutlineData {
+    return nodes.map((node) => {
+      console.log('children', node.children);
+
+      const children =
+        node.children && node.children.length > 0
+          ? this.transformNodesIntoOutlineData(node.children)
+          : [];
+
+      return {
+        value: node.name,
+        children,
+      };
+    });
   }
 }
