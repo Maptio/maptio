@@ -87,7 +87,7 @@ export class UserService implements OnDestroy {
       }
     }),
 
-    catchError(this.handleLoginError),
+    catchError((error) => this.handleLoginError(error)),
 
     // Cache the user
     shareReplay(1)
