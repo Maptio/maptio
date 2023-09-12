@@ -54,31 +54,6 @@ import { NgIf } from '@angular/common';
 import { PermissionsDirective } from '../../../../../shared/directives/permission.directive';
 import { OnboardingMessageComponent } from '../../../../onboarding-message/onboarding-message/onboarding-message.component';
 
-// TODO: Remove when no longer needed
-const TREE_DATA: NotebitsOutlineData = [
-  {
-    value: 'Fruit',
-    children: [
-      { value: 'Apple' },
-      { value: 'Banana' },
-      { value: 'Fruit loops' },
-    ],
-  },
-  {
-    value: 'Vegetables',
-    children: [
-      {
-        value: 'Green',
-        children: [{ value: 'Broccoli' }, { value: 'Brussels sprouts' }],
-      },
-      {
-        value: 'Orange',
-        children: [{ value: 'Pumpkins' }, { value: 'Carrots' }],
-      },
-    ],
-  },
-];
-
 @Component({
   selector: 'building',
   templateUrl: './building.component.html',
@@ -100,8 +75,6 @@ const TREE_DATA: NotebitsOutlineData = [
   ],
 })
 export class BuildingComponent implements OnDestroy {
-  // TODO: Remove when no longer needed
-  TREE_DATA = TREE_DATA;
   outlineData: NotebitsOutlineData;
 
   private readonly store = inject(Store<AppState>);
@@ -564,6 +537,7 @@ export class BuildingComponent implements OnDestroy {
           : [];
 
       return {
+        id: node.id,
         value: node.name,
         children,
       };
