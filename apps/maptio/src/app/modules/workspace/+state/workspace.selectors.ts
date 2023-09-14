@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import {
   WORKSPACE_FEATURE_KEY,
   WorkspaceState,
-  workspaceAdapter,
+  // workspaceAdapter,
 } from './workspace.reducer';
 
 // Lookup the 'Workspace' feature state managed by NgRx
@@ -10,35 +10,35 @@ export const selectWorkspaceState = createFeatureSelector<WorkspaceState>(
   WORKSPACE_FEATURE_KEY
 );
 
-const { selectAll, selectEntities } = workspaceAdapter.getSelectors();
+// const { selectAll, selectEntities } = workspaceAdapter.getSelectors();
 
-export const selectWorkspaceLoaded = createSelector(
+// export const selectWorkspaceLoaded = createSelector(
+//   selectWorkspaceState,
+//   (state: WorkspaceState) => state.loaded
+// );
+
+// export const selectWorkspaceError = createSelector(
+//   selectWorkspaceState,
+//   (state: WorkspaceState) => state.error
+// );
+
+// export const selectAllWorkspace = createSelector(
+//   selectWorkspaceState,
+//   (state: WorkspaceState) => selectAll(state)
+// );
+
+// export const selectWorkspaceEntities = createSelector(
+//   selectWorkspaceState,
+//   (state: WorkspaceState) => selectEntities(state)
+// );
+
+export const selectSelectedInitiativeID = createSelector(
   selectWorkspaceState,
-  (state: WorkspaceState) => state.loaded
+  (state: WorkspaceState) => state.selectedInitiativeID
 );
 
-export const selectWorkspaceError = createSelector(
-  selectWorkspaceState,
-  (state: WorkspaceState) => state.error
-);
-
-export const selectAllWorkspace = createSelector(
-  selectWorkspaceState,
-  (state: WorkspaceState) => selectAll(state)
-);
-
-export const selectWorkspaceEntities = createSelector(
-  selectWorkspaceState,
-  (state: WorkspaceState) => selectEntities(state)
-);
-
-export const selectSelectedId = createSelector(
-  selectWorkspaceState,
-  (state: WorkspaceState) => state.selectedId
-);
-
-export const selectEntity = createSelector(
-  selectWorkspaceEntities,
-  selectSelectedId,
-  (entities, selectedId) => (selectedId ? entities[selectedId] : undefined)
-);
+// export const selectEntity = createSelector(
+//   selectWorkspaceEntities,
+//   selectSelectedInitiativeID,
+//   (entities, selectedId) => (selectedId ? entities[selectedId] : undefined)
+// );

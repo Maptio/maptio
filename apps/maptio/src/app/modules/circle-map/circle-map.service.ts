@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Injectable, inject } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -14,6 +14,8 @@ import { HierarchyNode } from 'd3-hierarchy';
   providedIn: 'root',
 })
 export class CircleMapService {
+  private svgZoomPanService = inject(SvgZoomPanService);
+
   public selectedCircle = new BehaviorSubject<InitiativeNode | undefined>(
     undefined
   );
@@ -26,8 +28,6 @@ export class CircleMapService {
   circles: InitiativeNode[] = [];
 
   changeDetectionTrigger$ = new EventEmitter();
-
-  constructor(private svgZoomPanService: SvgZoomPanService) {}
 
   setDataset(datasetId: string, dataset: any) {
     this.datasetId = datasetId;
@@ -136,6 +136,19 @@ export class CircleMapService {
     }
   }
 
+  onSelectedIdChange(selectedId: number) {
+    const circle = this.getCircleByInitiativeId(selectedId);
+
+    if (circle) {
+      this.deselectSelectedCircle();
+      this.closeOpenedCircle();
+
+      this.selectCircle(circle);
+      this.zoomToCircle(circle);
+    }
+  }
+
+  // TODO: Remove when we remove the old outliner
   onInitiativeClickInOutline(node: Initiative) {
     const circle = this.getCircleByInitiative(node);
 
@@ -305,6 +318,10 @@ export class CircleMapService {
   }
 
   getCircleByInitiative(node: Initiative): InitiativeNode {
-    return this.circles.find((circle) => circle.data.id === node.id);
+    return this.getCircleByInitiativeId(node.id);
+  }
+
+  getCircleByInitiativeId(nodeId: number): InitiativeNode {
+    return this.circles.find((circle) => circle.data.id === nodeId);
   }
 }

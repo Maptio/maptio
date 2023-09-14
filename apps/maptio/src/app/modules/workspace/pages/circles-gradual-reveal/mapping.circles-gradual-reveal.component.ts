@@ -6,6 +6,8 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   isDevMode,
+  effect,
+  inject,
 } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -34,7 +36,9 @@ import { CircleMapData } from '@maptio-shared/model/circle-map-data.interface';
 import { DataSet } from '@maptio-shared/model/dataset.data';
 import { InitiativeNode } from '@maptio-circle-map/initiative.model';
 import { CircleMapService } from '@maptio-circle-map/circle-map.service';
-import { CircleMapComponent } from '../../../circle-map/circle-map.component';
+import { CircleMapComponent } from '@maptio-circle-map/circle-map.component';
+
+import { WorkspaceFacade } from '../../+state/workspace.facade';
 import { OnboardingMessageComponent } from '../../../onboarding-message/onboarding-message/onboarding-message.component';
 
 @Component({
@@ -50,6 +54,8 @@ import { OnboardingMessageComponent } from '../../../onboarding-message/onboardi
 export class MappingCirclesGradualRevealComponent
   implements IDataVisualizer, OnInit, OnDestroy
 {
+  workspaceFacade = inject(WorkspaceFacade);
+
   public datasetId: string;
   public width: number;
   public height: number;
@@ -105,6 +111,11 @@ export class MappingCirclesGradualRevealComponent
     private circleMapService: CircleMapService
   ) {
     // this.T = d3.transition(null).duration(this.TRANSITION_DURATION);
+    effect(() => {
+      this.circleMapService.onSelectedIdChange(
+        this.workspaceFacade.selectedInitiativeId()
+      );
+    });
   }
 
   ngOnInit() {

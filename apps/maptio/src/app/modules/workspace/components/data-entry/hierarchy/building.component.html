@@ -102,7 +102,10 @@
             </div>
           </div>
           <div>
-            <notebits-outline [outlineData]="outlineData"></notebits-outline>
+            <notebits-outline
+              [outlineData]="outlineData"
+              (selectedItemId)="onSelectedItemIdChange($event)"
+            ></notebits-outline>
 
             <tree-root
               #tree

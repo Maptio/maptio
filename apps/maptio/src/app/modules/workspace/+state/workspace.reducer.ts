@@ -2,7 +2,7 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { createReducer, on, Action } from '@ngrx/store';
 
 import * as WorkspaceActions from './workspace.actions';
-// import { WorkspaceEntity } from './workspace.models';
+import { WorkspaceEntity } from './workspace.models';
 // import { set } from 'lodash';
 
 export const WORKSPACE_FEATURE_KEY = 'workspace';
@@ -15,8 +15,8 @@ export interface WorkspacePartialState {
   readonly [WORKSPACE_FEATURE_KEY]: WorkspaceState;
 }
 
-// export const workspaceAdapter: EntityAdapter<WorkspaceEntity> =
-//   createEntityAdapter<WorkspaceEntity>();
+export const workspaceAdapter: EntityAdapter<WorkspaceEntity> =
+  createEntityAdapter<WorkspaceEntity>();
 
 export const initialWorkspaceState: WorkspaceState = {
   selectedInitiativeID: undefined,

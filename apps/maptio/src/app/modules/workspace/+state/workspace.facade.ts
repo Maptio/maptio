@@ -1,9 +1,10 @@
 import { Injectable, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { select, Store, Action } from '@ngrx/store';
 
 // import * as WorkspaceActions from './workspace.actions';
 // import * as WorkspaceFeature from './workspace.reducer';
-// import * as WorkspaceSelectors from './workspace.selectors';
+import * as WorkspaceSelectors from './workspace.selectors';
 
 @Injectable()
 export class WorkspaceFacade {
@@ -19,11 +20,23 @@ export class WorkspaceFacade {
   // );
   // selectedWorkspace$ = this.store.pipe(select(WorkspaceSelectors.selectEntity));
 
+  selectedInitiativeId = this.store.selectSignal(
+    WorkspaceSelectors.selectSelectedInitiativeID
+  );
+
   /**
    * Use the initialization action to perform one
    * or more tasks in your Effects.
    */
   // init() {
   //   this.store.dispatch(WorkspaceActions.initWorkspace());
+  // }
+
+  // setSelectedInitiativeID(selectedItemId: number) {
+  //   this.store.dispatch(
+  //     WorkspaceActions.setSelectedInitiativeID({
+  //       selectedInitiativeID: Number(selectedItemId),
+  //     })
+  //   );
   // }
 }

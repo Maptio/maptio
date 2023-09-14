@@ -26,7 +26,6 @@ import { NotebitsOutlineData, OutlineModule } from '@notebits/outline';
 
 import { Store } from '@ngrx/store';
 import { AppState } from '@maptio-state/app.state';
-import * as WorkspaceActions from '@maptio-old-workspace/+state/workspace.actions';
 
 import { InitiativeNodeComponent } from '../node/initiative.node.component';
 import {
@@ -54,6 +53,10 @@ import { NgIf } from '@angular/common';
 import { PermissionsDirective } from '../../../../../shared/directives/permission.directive';
 import { OnboardingMessageComponent } from '../../../../onboarding-message/onboarding-message/onboarding-message.component';
 
+import * as WorkspaceActions from '../../../+state/workspace.actions';
+// TODO: Replace the above import with the one below
+// import { WorkspaceFacade } from '../../../+state/workspace.facade';
+
 @Component({
   selector: 'building',
   templateUrl: './building.component.html',
@@ -78,6 +81,7 @@ export class BuildingComponent implements OnDestroy {
   outlineData: NotebitsOutlineData;
 
   private readonly store = inject(Store<AppState>);
+  // private readonly workspaceFacade = inject(WorkspaceFacade);
 
   searched: string;
   nodes: Array<Initiative>;
@@ -283,7 +287,9 @@ export class BuildingComponent implements OnDestroy {
       })
     );
 
+    // TODO: Connect the sidebar itself to the store and remove this
     this.openDetails.emit(node);
+    // TODO: Remove this once we're ready to remove the outine
     this.circleMapService.onInitiativeClickInOutline(node);
     this.circleMapServiceExpanded.onInitiativeClickInOutline(node);
   }
@@ -542,5 +548,14 @@ export class BuildingComponent implements OnDestroy {
         children,
       };
     });
+  }
+
+  onSelectedItemIdChange(selectedItemId: string | null) {
+    // this.workspaceFacade.setSelectedInitiativeID(Number(selectedItemId));
+    this.store.dispatch(
+      WorkspaceActions.setSelectedInitiativeID({
+        selectedInitiativeID: Number(selectedItemId),
+      })
+    );
   }
 }
