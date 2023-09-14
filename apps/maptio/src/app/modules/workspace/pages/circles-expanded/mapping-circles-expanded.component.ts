@@ -6,6 +6,8 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   isDevMode,
+  effect,
+  inject,
 } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -37,6 +39,8 @@ import { CircleMapService } from '@maptio-circle-map-expanded/circle-map.service
 import { CircleMapExpandedComponent } from '../../../circle-map-expanded/circle-map-expanded.component';
 import { OnboardingMessageComponent } from '../../../onboarding-message/onboarding-message/onboarding-message.component';
 
+import { WorkspaceFacade } from '../../+state/workspace.facade';
+
 @Component({
   selector: 'maptio-circles-expanded',
   templateUrl: './mapping-circles-expanded.component.html',
@@ -50,6 +54,8 @@ import { OnboardingMessageComponent } from '../../../onboarding-message/onboardi
 export class MappingCirclesExpandedComponent
   implements IDataVisualizer, OnInit, OnDestroy
 {
+  workspaceFacade = inject(WorkspaceFacade);
+
   public datasetId: string;
   public width: number;
   public height: number;
@@ -105,6 +111,11 @@ export class MappingCirclesExpandedComponent
     private circleMapService: CircleMapService
   ) {
     // this.T = d3.transition(null).duration(this.TRANSITION_DURATION);
+    effect(() => {
+      this.circleMapService.onSelectedIdChange(
+        this.workspaceFacade.selectedInitiativeId()
+      );
+    });
   }
 
   ngOnInit() {

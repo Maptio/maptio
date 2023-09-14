@@ -137,6 +137,19 @@ export class CircleMapService {
     }
   }
 
+  onSelectedIdChange(selectedId: number) {
+    const circle = this.getCircleByInitiativeId(selectedId);
+
+    if (circle) {
+      this.deselectSelectedCircle();
+      this.closeOpenedCircle();
+
+      this.selectCircle(circle);
+      this.zoomToCircle(circle);
+    }
+  }
+
+  // TODO: Remove when we remove the old outliner
   onInitiativeClickInOutline(node: Initiative) {
     const circle = this.getCircleByInitiative(node);
 
@@ -338,6 +351,10 @@ export class CircleMapService {
   }
 
   getCircleByInitiative(node: Initiative): InitiativeNode {
-    return this.circles.find((circle) => circle.data.id === node.id);
+    return this.getCircleByInitiativeId(node.id);
+  }
+
+  getCircleByInitiativeId(nodeId: number): InitiativeNode {
+    return this.circles.find((circle) => circle.data.id === nodeId);
   }
 }
