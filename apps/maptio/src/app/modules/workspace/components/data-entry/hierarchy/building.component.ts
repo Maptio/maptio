@@ -53,9 +53,7 @@ import { NgIf } from '@angular/common';
 import { PermissionsDirective } from '../../../../../shared/directives/permission.directive';
 import { OnboardingMessageComponent } from '../../../../onboarding-message/onboarding-message/onboarding-message.component';
 
-import * as WorkspaceActions from '../../../+state/workspace.actions';
-// TODO: Replace the above import with the one below
-// import { WorkspaceFacade } from '../../../+state/workspace.facade';
+import { WorkspaceFacade } from '../../../+state/workspace.facade';
 
 @Component({
   selector: 'building',
@@ -81,7 +79,7 @@ export class BuildingComponent implements OnDestroy {
   outlineData: NotebitsOutlineData;
 
   private readonly store = inject(Store<AppState>);
-  // private readonly workspaceFacade = inject(WorkspaceFacade);
+  private readonly workspaceFacade = inject(WorkspaceFacade);
 
   searched: string;
   nodes: Array<Initiative>;
@@ -278,14 +276,9 @@ export class BuildingComponent implements OnDestroy {
     this.tree.treeModel.update();
   }
 
+  // TODO: Remove this completely when we remove the old outliner
   openNodeDetails(node: Initiative) {
-    // TODO: Instead of the dispatch below consider using the facade like this:
-    // this.workspaceFacade.setSelectedInitiativeID(node.id);
-    this.store.dispatch(
-      WorkspaceActions.setSelectedInitiativeID({
-        selectedInitiativeID: node.id,
-      })
-    );
+    this.workspaceFacade.setSelectedInitiativeID(node.id);
 
     // TODO: Connect the sidebar itself to the store and remove this
     this.openDetails.emit(node);
@@ -550,12 +543,9 @@ export class BuildingComponent implements OnDestroy {
     });
   }
 
-  onSelectedItemIdChange(selectedItemId: string | null) {
-    // this.workspaceFacade.setSelectedInitiativeID(Number(selectedItemId));
-    this.store.dispatch(
-      WorkspaceActions.setSelectedInitiativeID({
-        selectedInitiativeID: Number(selectedItemId),
-      })
-    );
+  onSelectedInitiativeIdChange(selectedInitiativeId: string | null) {
+    // TODO: Handle nulls correctly when the time comes, i.e. when the outliner
+    // starts sending those
+    this.workspaceFacade.setSelectedInitiativeID(Number(selectedInitiativeId));
   }
 }

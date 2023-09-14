@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { select, Store, Action } from '@ngrx/store';
 
-// import * as WorkspaceActions from './workspace.actions';
+import * as WorkspaceActions from './workspace.actions';
 // import * as WorkspaceFeature from './workspace.reducer';
 import * as WorkspaceSelectors from './workspace.selectors';
 
@@ -32,11 +32,11 @@ export class WorkspaceFacade {
   //   this.store.dispatch(WorkspaceActions.initWorkspace());
   // }
 
-  // setSelectedInitiativeID(selectedItemId: number) {
-  //   this.store.dispatch(
-  //     WorkspaceActions.setSelectedInitiativeID({
-  //       selectedInitiativeID: Number(selectedItemId),
-  //     })
-  //   );
-  // }
+  setSelectedInitiativeID(selectedItemId: number) {
+    this.store.dispatch(
+      WorkspaceActions.setSelectedInitiativeID({
+        selectedInitiativeID: Number(selectedItemId),
+      })
+    );
+  }
 }
