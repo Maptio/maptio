@@ -6,6 +6,7 @@ import {
   ViewEncapsulation,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
+  Output,
 } from '@angular/core';
 
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
@@ -47,6 +48,14 @@ export class CircleMapExpandedComponent implements OnInit, OnDestroy {
   // All the data comes in as a single package
   @Input() circleMapData$: BehaviorSubject<CircleMapData>;
   @Input() showDetailsPanel: boolean;
+
+  @Input()
+  set selectedCircleId(selectedCircleId: number) {
+    this.circleMapService.onSelectedIdChange(selectedCircleId);
+  }
+
+  @Output() selectedCircleIdChange =
+    this.circleMapService.selectedCircleIdChange;
 
   // We then extract the individual pieces of the data package
   private rootInitiative: Initiative;
