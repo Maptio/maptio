@@ -81,6 +81,8 @@ export class BuildingComponent implements OnDestroy {
   private readonly store = inject(Store<AppState>);
   private readonly workspaceFacade = inject(WorkspaceFacade);
 
+  selecteInitiativeId = this.workspaceFacade.selectedInitiativeId;
+
   searched: string;
   nodes: Array<Initiative>;
 

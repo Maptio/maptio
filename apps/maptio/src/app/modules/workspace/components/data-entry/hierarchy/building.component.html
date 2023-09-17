@@ -104,7 +104,8 @@
           <div>
             <notebits-outline
               [outlineData]="outlineData"
-              (selectedItemId)="onSelectedInitiativeIdChange($event)"
+              [selectedItemId]="selecteInitiativeId()"
+              (selectedItemIdChange)="onSelectedInitiativeIdChange($event)"
             ></notebits-outline>
 
             <tree-root

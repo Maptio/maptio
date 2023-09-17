@@ -23,6 +23,8 @@ export class CircleMapService {
     undefined
   );
 
+  public selectedCircleIdChange = new EventEmitter<number>();
+
   public datasetId?: string;
   public dataset?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   circles: InitiativeNode[] = [];
@@ -111,6 +113,7 @@ export class CircleMapService {
     } else if (isPrimary && !isOpened) {
       this.selectCircle(circle);
       this.zoomToCircle(circle);
+      this.emitSelectedIdChange(circle);
 
       if (this.openedCircle.value) {
         this.closeCircle(this.openedCircle.value);
@@ -129,6 +132,7 @@ export class CircleMapService {
       // If a circle is not selected
       this.selectCircle(circle);
       this.zoomToCircle(circle);
+      this.emitSelectedIdChange(circle);
 
       if (circle.parent) {
         this.closeCircle(circle.parent);
@@ -145,6 +149,14 @@ export class CircleMapService {
 
       this.selectCircle(circle);
       this.zoomToCircle(circle);
+    }
+  }
+
+  emitSelectedIdChange(circle: InitiativeNode) {
+    if (circle) {
+      this.selectedCircleIdChange.emit(circle.data.id);
+    } else {
+      this.selectedCircleIdChange.emit(null);
     }
   }
 
@@ -293,8 +305,10 @@ export class CircleMapService {
       this.selectCircle(parentCircle);
       this.zoomToCircle(parentCircle);
       this.openCircle(parentCircle);
+      this.emitSelectedIdChange(parentCircle);
     } else {
       this.deselectSelectedCircle();
+      this.emitSelectedIdChange(null);
       this.resetZoom();
     }
   }

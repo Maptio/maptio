@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { tap } from 'rxjs/operators';
 import {
   Observable,
   Subject,
@@ -99,6 +98,8 @@ export class MappingCirclesGradualRevealComponent
 
   isFirstLoad = true;
 
+  selectedCircleId = this.workspaceFacade.selectedInitiativeId;
+
   constructor(
     public colorService: ColorService,
     public uiService: UIService,
@@ -111,11 +112,6 @@ export class MappingCirclesGradualRevealComponent
     private circleMapService: CircleMapService
   ) {
     // this.T = d3.transition(null).duration(this.TRANSITION_DURATION);
-    effect(() => {
-      this.circleMapService.onSelectedIdChange(
-        this.workspaceFacade.selectedInitiativeId()
-      );
-    });
   }
 
   ngOnInit() {
@@ -211,5 +207,9 @@ export class MappingCirclesGradualRevealComponent
 
   hideInfoPanel() {
     this.showToolipOf$.next({ initiatives: null, isNameOnly: false });
+  }
+
+  onSelectedCircleIdChange(circleId: number) {
+    this.workspaceFacade.setSelectedInitiativeID(circleId);
   }
 }
