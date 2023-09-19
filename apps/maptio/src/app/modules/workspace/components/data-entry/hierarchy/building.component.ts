@@ -22,7 +22,11 @@ import {
   TreeComponent,
   TreeModule,
 } from '@circlon/angular-tree-component';
-import { NotebitsOutlineData, OutlineModule } from '@notebits/outline';
+import {
+  OutlineModule,
+  NotebitsOutlineData,
+  OutlineItemEditEvent,
+} from '@notebits/outline';
 
 import { Store } from '@ngrx/store';
 import { AppState } from '@maptio-state/app.state';
@@ -549,5 +553,35 @@ export class BuildingComponent implements OnDestroy {
     // TODO: Handle nulls correctly when the time comes, i.e. when the outliner
     // starts sending those
     this.workspaceFacade.setSelectedInitiativeID(Number(selectedInitiativeId));
+  }
+
+  onInitiativeEdit({ id: idString, value }: OutlineItemEditEvent) {
+    let id = Number(idString);
+
+    const initiative = this.findNodeById(id);
+    initiative.name = value;
+
+    // TODO: This only works so simply because of the deal with the devil that
+    // was the debounce that I now moved to the notebits outliner. Ideally, we
+    // want to propagate the state changes immediately and only run the
+    // debounce on the actual call to the API!
+    this.saveChanges();
+  }
+
+  findNodeById(id: number): Initiative {
+    let nodeFound;
+
+    if (this.nodes[0].id === id) {
+      nodeFound = this.nodes[0];
+    } else {
+      this.nodes[0].traverse((node: Initiative) => {
+        if (node.id === id) {
+          nodeFound = node;
+          return;
+        }
+      });
+    }
+
+    return nodeFound;
   }
 }
