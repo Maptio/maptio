@@ -7,7 +7,7 @@ import { DataService } from '../../../services/data.service';
 import { Initiative } from '../../../../../shared/model/initiative.data';
 
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
-import { EventEmitter, OnDestroy, inject } from '@angular/core';
+import { EventEmitter, OnDestroy, Signal, inject, signal } from '@angular/core';
 import {
   Component,
   ViewChild,
@@ -80,7 +80,7 @@ import { WorkspaceFacade } from '../../../+state/workspace.facade';
   ],
 })
 export class BuildingComponent implements OnDestroy {
-  outlineData: NotebitsOutlineData;
+  outlineData = signal<NotebitsOutlineData>([]);
 
   private readonly store = inject(Store<AppState>);
   private readonly workspaceFacade = inject(WorkspaceFacade);
@@ -513,10 +513,7 @@ export class BuildingComponent implements OnDestroy {
           .catch(() => {});
       })
       .then(() => {
-        this.outlineData = this.transformNodesIntoOutlineData(
-          this.nodes[0].children
-        );
-        console.log(this.outlineData);
+        this.sendInitiativesToOutliner();
 
         this.dataService.set({
           initiative: this.nodes[0],
@@ -532,7 +529,13 @@ export class BuildingComponent implements OnDestroy {
       });
   }
 
-  transformNodesIntoOutlineData(nodes): NotebitsOutlineData {
+  private sendInitiativesToOutliner() {
+    this.outlineData.set(
+      this.transformNodesIntoOutlineData(this.nodes[0].children)
+    );
+  }
+
+  private transformNodesIntoOutlineData(nodes): NotebitsOutlineData {
     return nodes.map((node) => {
       console.log('children', node.children);
 
@@ -568,7 +571,23 @@ export class BuildingComponent implements OnDestroy {
     this.saveChanges();
   }
 
-  findNodeById(id: number): Initiative {
+  onInitiativeCreate(parentId: number) {
+    const parent = this.findNodeById(parentId);
+
+    const newInitiative = new Initiative();
+    newInitiative.id = Math.floor(Math.random() * 10000000000000);
+    newInitiative.team_id = parent.team_id;
+    newInitiative.hasFocus = true;
+
+    parent.children = parent.children || [];
+    parent.children.unshift(newInitiative);
+
+    this.sendInitiativesToOutliner();
+
+    this.saveChanges();
+  }
+
+  private findNodeById(id: number): Initiative {
     let nodeFound;
 
     if (this.nodes[0].id === id) {

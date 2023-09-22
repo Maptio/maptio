@@ -103,10 +103,12 @@
           </div>
           <div>
             <notebits-outline
-              [outlineData]="outlineData"
+              [outlineData]="outlineData()"
               [selectedItemId]="selecteInitiativeId()"
               (selectedItemIdChange)="onSelectedInitiativeIdChange($event)"
-              (itemEdit)="onInitiativeEdit($event)"
+              (itemEdited)="onInitiativeEdit($event)"
+              (itemCreated)="onInitiativeCreate($event)"
+              style="display: block; margin-bottom: 1.5rem"
             ></notebits-outline>
 
             <tree-root
