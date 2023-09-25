@@ -86,6 +86,7 @@ export class BuildingComponent implements OnDestroy {
   private readonly workspaceFacade = inject(WorkspaceFacade);
 
   selectedInitiativeId = this.workspaceFacade.selectedInitiativeId;
+  expandInitiativeId = signal<number | null>(null);
 
   searched: string;
   nodes: Array<Initiative>;
@@ -583,6 +584,14 @@ export class BuildingComponent implements OnDestroy {
     parent.children.unshift(newInitiative);
 
     this.sendInitiativesToOutliner();
+
+    // TODO: This should be done differently, by taking the same approach as in
+    // the original Angular Material tree probably, namely by using a
+    // TreeControl class for directly controlling expansion
+    this.expandInitiativeId.set(null);
+    this.expandInitiativeId.set(parentId);
+
+    this.workspaceFacade.setSelectedInitiativeID(newInitiative.id);
 
     this.saveChanges();
   }
