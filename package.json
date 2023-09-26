@@ -84,7 +84,7 @@
     "@ngx-progressbar/core": "^5.3.2",
     "@ngx-progressbar/http": "^5.3.2",
     "@ngx-progressbar/router": "^5.3.2",
-    "@notebits/outline": "^0.0.15",
+    "@notebits/outline": "^0.0.16",
     "@nx/angular": "16.3.2",
     "@openreplay/tracker": "^3.5.12",
     "@supy-io/ngx-intercom": "^14.2.12",

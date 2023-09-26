@@ -390,6 +390,7 @@ export class BuildingComponent implements OnDestroy {
     }
 
     this.updateTree();
+    this.sendInitiativesToOutliner();
   }
 
   addNodeTo(node: Initiative, subNode: Initiative) {
@@ -594,6 +595,11 @@ export class BuildingComponent implements OnDestroy {
     this.workspaceFacade.setSelectedInitiativeID(newInitiative.id);
 
     this.saveChanges();
+  }
+
+  onInitiativeDelete(id: number) {
+    const initiative = this.findNodeById(id);
+    this.onDeleteNode(initiative);
   }
 
   private findNodeById(id: number): Initiative {
