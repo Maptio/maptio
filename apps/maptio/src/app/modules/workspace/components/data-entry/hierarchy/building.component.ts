@@ -26,6 +26,7 @@ import {
   OutlineModule,
   NotebitsOutlineData,
   OutlineItemEditEvent,
+  OutlineItemMoveEvent,
 } from '@notebits/outline';
 
 import { Store } from '@ngrx/store';
@@ -585,15 +586,39 @@ export class BuildingComponent implements OnDestroy {
     parent.children.unshift(newInitiative);
 
     this.sendInitiativesToOutliner();
-
-    // TODO: This should be done differently, by taking the same approach as in
-    // the original Angular Material tree probably, namely by using a
-    // TreeControl class for directly controlling expansion
-    this.expandInitiativeId.set(null);
-    this.expandInitiativeId.set(parentId);
-
+    this.expandInitiative(parentId);
     this.workspaceFacade.setSelectedInitiativeID(newInitiative.id);
+    this.saveChanges();
+  }
 
+  onInitiativeMove(event: OutlineItemMoveEvent) {
+    const initiative = this.findNodeById(Number(event.id));
+
+    const oldParent =
+      event.oldParentId === null
+        ? this.nodes[0]
+        : this.findNodeById(Number(event.oldParentId));
+
+    const newParent =
+      event.newParentId === null
+        ? this.nodes[0]
+        : this.findNodeById(Number(event.newParentId));
+
+    const oldIndex = oldParent.children.indexOf(initiative);
+    const newIndex = event.newIndex;
+
+
+    // Move initiative to new parent at given index
+    oldParent.children.splice(oldIndex, 1);
+
+    if (newParent.children === undefined) {
+      newParent.children = [];
+    }
+
+    newParent.children.splice(newIndex, 0, initiative);
+
+    this.sendInitiativesToOutliner();
+    this.expandInitiative(newParent.id);
     this.saveChanges();
   }
 
@@ -617,5 +642,13 @@ export class BuildingComponent implements OnDestroy {
     }
 
     return nodeFound;
+  }
+
+  expandInitiative(id: number) {
+    // TODO: This should be done differently, by taking the same approach as in
+    // the original Angular Material tree probably, namely by using a
+    // TreeControl class for directly controlling expansion
+    this.expandInitiativeId.set(null);
+    this.expandInitiativeId.set(id);
   }
 }

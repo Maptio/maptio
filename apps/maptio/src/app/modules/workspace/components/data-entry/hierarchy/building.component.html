@@ -107,8 +107,9 @@
               [selectedItemId]="selectedInitiativeId()"
               [expandItemId]="expandInitiativeId()"
               (selectedItemIdChange)="onSelectedInitiativeIdChange($event)"
-              (itemEdited)="onInitiativeEdit($event)"
               (itemCreated)="onInitiativeCreate($event)"
+              (itemEdited)="onInitiativeEdit($event)"
+              (itemMoved)="onInitiativeMove($event)"
               (itemDeleted)="onInitiativeDelete($event)"
               style="display: block; margin-bottom: 1.5rem"
             ></notebits-outline>
