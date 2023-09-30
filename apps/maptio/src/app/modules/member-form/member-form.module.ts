@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
 import { PermissionsModule } from '@maptio-shared/permissions.module';
-import { ImageModule } from '@maptio-shared/image.module';
 
 import { MemberFormComponent } from './member-form.component';
 
@@ -18,7 +17,6 @@ import { MemberFormComponent } from './member-form.component';
       cancelButtonType: 'link',
     }),
     PermissionsModule,
-    ImageModule,
     MemberFormComponent,
   ],
   exports: [MemberFormComponent],

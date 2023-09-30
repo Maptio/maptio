@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
-import { Cloudinary } from '@cloudinary/angular-5.x';
+import { Cloudinary } from '@cloudinary/url-gen';
+import { CloudinaryModule } from '@cloudinary/ng';
 import {
   FileUploaderOptions,
   FileUploader,
@@ -16,20 +17,18 @@ import { NgIf } from '@angular/common';
   templateUrl: './image-upload.component.html',
   styleUrls: ['./image-upload.component.scss'],
   standalone: true,
-  imports: [NgIf, FileUploadModule],
+  imports: [NgIf, FileUploadModule, CloudinaryModule],
 })
 export class ImageUploadComponent implements OnInit {
   public uploader: FileUploader;
   private uploaderOptions: FileUploaderOptions = {
-    url: `https://api.cloudinary.com/v1_1/${
-      this.cloudinary.config().cloud_name
-    }/upload`,
+    url: `https://api.cloudinary.com/v1_1/${environment.CLOUDINARY_CLOUDNAME}/upload`,
     // Upload files automatically upon addition to upload queue
     autoUpload: true,
     // Use xhrTransport in favor of iframeTransport
     isHTML5: true,
-
-    maxFileSize: 1024000 * 2,
+    // Maximum file size allowed for upload
+    maxFileSize: 1024000 * 2, // 2 MB
     // Calculate progress independently for each uploaded file
     removeAfterUpload: true,
     // XHR request headers
@@ -41,6 +40,13 @@ export class ImageUploadComponent implements OnInit {
     ],
   };
 
+  private cloudinary: Cloudinary;
+  private cloudinaryOptions = {
+    cloud: {
+      cloudName: environment.CLOUDINARY_CLOUDNAME,
+    },
+  };
+
   public isRefreshingPicture: boolean;
 
   @Input() imageUrl: string;
@@ -48,10 +54,12 @@ export class ImageUploadComponent implements OnInit {
   @Output() uploadedImageUrl = new EventEmitter<string>();
   @Output() errorMessage = new EventEmitter<string>();
 
-  constructor(private cloudinary: Cloudinary) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.uploader = new FileUploader(this.uploaderOptions);
+    this.cloudinary = new Cloudinary(this.cloudinaryOptions);
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
       this.buildItemForm(fileItem, form);
@@ -120,7 +128,7 @@ export class ImageUploadComponent implements OnInit {
     }
 
     // Add Cloudinary's unsigned upload preset to the upload form
-    form.append('upload_preset', this.cloudinary.config().upload_preset);
+    form.append('upload_preset', environment.CLOUDINARY_UPLOAD_PRESET);
     // Add built-in and custom tags for displaying the uploaded photo in the list
     form.append('context', `user_id=${encodeURIComponent(userId)}`);
     form.append('tags', environment.CLOUDINARY_PROFILE_TAGNAME);
@@ -128,6 +136,7 @@ export class ImageUploadComponent implements OnInit {
 
     // Use default "withCredentials" value for CORS requests
     fileItem.withCredentials = false;
+
     return { fileItem, form };
   }
 
