@@ -38,3 +38,10 @@ $maptio-theme: mat.define-light-theme(
 
 // html, body { height: 100%; }
 // body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// TODO: Reorganise these global CSS overrides into separate files
+// Fix reboot.scss overriding material styles
+.mat-mdc-icon-button {
+  line-height: 1;
+}
+
