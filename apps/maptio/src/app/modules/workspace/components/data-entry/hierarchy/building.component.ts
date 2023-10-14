@@ -572,6 +572,8 @@ export class BuildingComponent implements OnDestroy {
     // want to propagate the state changes immediately and only run the
     // debounce on the actual call to the API!
     this.saveChanges();
+
+    this.sendInitiativesToOutliner();
   }
 
   onInitiativeCreate(parentId: number) {
@@ -606,7 +608,6 @@ export class BuildingComponent implements OnDestroy {
 
     const oldIndex = oldParent.children.indexOf(initiative);
     const newIndex = event.newIndex;
-
 
     // Move initiative to new parent at given index
     oldParent.children.splice(oldIndex, 1);
