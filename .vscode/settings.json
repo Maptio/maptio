@@ -23,5 +23,25 @@
   ],
   "liquid.format.ignore": [
     "apps/maptio-server/src/assets/templates/invitation-subject.liquid"
-  ]
+  ],
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#64baba",
+    "activityBar.background": "#64baba",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#b04fb0",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#15202b99",
+    "sash.hoverBorder": "#64baba",
+    "statusBar.background": "#48a3a3",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.hoverBackground": "#388080",
+    "statusBarItem.remoteBackground": "#48a3a3",
+    "statusBarItem.remoteForeground": "#15202b",
+    "titleBar.activeBackground": "#48a3a3",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveBackground": "#48a3a399",
+    "titleBar.inactiveForeground": "#15202b99"
+  },
+  "peacock.color": "48a3a3"
 }
