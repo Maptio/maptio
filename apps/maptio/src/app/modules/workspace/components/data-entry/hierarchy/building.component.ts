@@ -572,8 +572,6 @@ export class BuildingComponent implements OnDestroy {
     // want to propagate the state changes immediately and only run the
     // debounce on the actual call to the API!
     this.saveChanges();
-
-    this.sendInitiativesToOutliner();
   }
 
   onInitiativeCreate(parentId: number) {
