@@ -554,7 +554,7 @@ export class BuildingComponent implements OnDestroy {
 
       return {
         id: node.id,
-        value: node.name,
+        value: node.name || '',
         children,
       };
     });
