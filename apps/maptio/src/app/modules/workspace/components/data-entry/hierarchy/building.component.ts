@@ -516,7 +516,7 @@ export class BuildingComponent implements OnDestroy {
           .catch(() => {});
       })
       .then(() => {
-        this.sendInitiativesToOutliner();
+        this.prepareOutliner();
 
         this.dataService.set({
           initiative: this.nodes[0],
@@ -530,6 +530,11 @@ export class BuildingComponent implements OnDestroy {
       .then(() => {
         this.loaderService.hide();
       });
+  }
+
+  private prepareOutliner() {
+    this.sendInitiativesToOutliner();
+    this.expandFirstLevelNodes();
   }
 
   private sendInitiativesToOutliner() {
@@ -552,6 +557,16 @@ export class BuildingComponent implements OnDestroy {
         value: node.name,
         children,
       };
+    });
+  }
+
+  private expandFirstLevelNodes() {
+    this.nodes[0].children.forEach((node) => {
+      // TODO: This needs to be done properly, not in this hacky way, see also
+      // TODO below in the `expandInitiative` method itelf
+      setTimeout(() => {
+        this.expandInitiative(node.id);
+      });
     });
   }
 
