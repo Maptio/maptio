@@ -41,11 +41,11 @@
           *ngFor="let tag of initiative.tags; let i = index"
         >
           <span
-            class="badge badge-pill p-2 border-thick text-white mr-1 my-1"
+            class="badge badge-pill p-2 border-thick text-white me-1 my-1"
             [style.border-color]="tag.color"
             [style.background]="tag.color"
           >
-            <i class="fa fa-tag mr-1" aria-hidden="true"></i>
+            <i class="fa fa-tag me-1" aria-hidden="true"></i>
             {{ tag?.name }}
           </span>
         </li>
@@ -107,7 +107,7 @@
                   />
                 </button>
 
-                <div class="mb-2 ml-2">
+                <div class="mb-2 ms-2">
                   <initiative-helper-role
                     *ngFor="let role of h.roles"
                     [role]="role"

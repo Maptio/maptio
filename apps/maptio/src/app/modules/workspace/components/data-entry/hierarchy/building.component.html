@@ -23,7 +23,7 @@
                 role="button"
               >
                 <i
-                  class="fas mr-1"
+                  class="fas me-1"
                   [class.fa-angle-double-down]="!isExpanding"
                   [class.fa-circle-notch]="isExpanding"
                   [class.fa-spin]="isExpanding"
@@ -39,7 +39,7 @@
                 role="button"
               >
                 <i
-                  class="fas mr-1"
+                  class="fas me-1"
                   [class.fa-angle-double-up]="!isCollapsing"
                   [class.fa-circle-notch]="isCollapsing"
                   [class.fa-spin]="isCollapsing"
@@ -63,7 +63,7 @@
                   *ngIf="isEmptyMap"
                   name=""
                   id=""
-                  class="btn btn-outline-secondary ml-auto"
+                  class="btn btn-outline-secondary ms-auto"
                   (click)="addRootNode()"
                   role="button"
                   placement="top"
@@ -87,7 +87,7 @@
                   *ngIf="isEmptyMap"
                   name=""
                   id=""
-                  class="btn btn-outline-secondary ml-auto disabled cursor-not-allowed"
+                  class="btn btn-outline-secondary ms-auto disabled cursor-not-allowed"
                   role="button"
                   placement="top"
                   container="body"

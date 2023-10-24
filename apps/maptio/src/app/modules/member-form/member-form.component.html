@@ -124,7 +124,7 @@
     <button
       *ngIf="showCancelButton && !(memberForm.dirty || isNewImageUploaded)"
       type="button"
-      class="btn btn-outline-secondary mr-2"
+      class="btn btn-outline-secondary me-2"
       (click)="onCancel()"
     >
       <ng-container i18n="@@cancel">Cancel</ng-container>
@@ -134,7 +134,7 @@
     <button
       *ngIf="showCancelButton && (memberForm.dirty || isNewImageUploaded)"
       type="button"
-      class="btn btn-outline-secondary mr-2"
+      class="btn btn-outline-secondary me-2"
       placement="top"
       container="body"
       mwlConfirmationPopover
@@ -196,7 +196,7 @@
     <div class="d-flex justify-content-end mt-3">
       <button
         type="button"
-        class="btn btn-outline-secondary mr-2"
+        class="btn btn-outline-secondary me-2"
         (click)="onCancelDeduplication()"
         i18n
       >
@@ -251,7 +251,7 @@
     <div class="d-flex row container justify-content-start">
       <button
         type="button"
-        class="btn btn-outline-secondary mr-2"
+        class="btn btn-outline-secondary me-2"
         (click)="onIgnoreDeduplicationWarning()"
         i18n
       >

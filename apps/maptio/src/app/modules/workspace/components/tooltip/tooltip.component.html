@@ -12,11 +12,11 @@
       <ul class="tags small">
         <li *ngFor="let tag of initiative.tags">
           <span
-            class="badge badge-pill p-2 border-thick text-white mr-1 my-1"
+            class="badge badge-pill p-2 border-thick text-white me-1 my-1"
             [style.border-color]="tag.color"
             [style.background]="tag.color"
           >
-            <i class="fa fa-tag mr-1" aria-hidden="true"></i>
+            <i class="fa fa-tag me-1" aria-hidden="true"></i>
             {{ tag.name }}
           </span>
         </li>
@@ -25,7 +25,7 @@
 
     <p class="card-title my-2" *ngIf="initiative.accountable">
       <span class="d-flex align-items-center flex-nowrap">
-        <img src="{{ initiative.accountable?.picture }}" class="avatar mr-1" />
+        <img src="{{ initiative.accountable?.picture }}" class="avatar me-1" />
         <span class="d-flex flex-nowrap">
           {{ initiative.accountable?.name }}
         </span>
@@ -41,12 +41,12 @@
       class="card-text d-flex align-items-center flex-wrap"
       *ngIf="initiative.helpers && initiative.helpers.length > 0"
     >
-      <span class="text-muted mr-1">with</span>
+      <span class="text-muted me-1">with</span>
       <span *ngFor="let helper of initiative.helpers" class="my-1">
         <img
           src="{{ helper.picture }}"
           alt="{{ helper.name }}"
-          class="avatar mr-1"
+          class="avatar me-1"
         />
       </span>
     </p>

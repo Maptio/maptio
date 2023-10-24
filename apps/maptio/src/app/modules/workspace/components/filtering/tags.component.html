@@ -4,7 +4,7 @@
 >
   <div class="card-body">
     <div class="d-flex flex-wrap">
-      <span *ngFor="let tag of tags; let i = index" class="mr-1 my-1">
+      <span *ngFor="let tag of tags; let i = index" class="me-1 my-1">
         <span
           *ngIf="!tag.isSelected"
           class="cursor-pointer badge badge-pill p-2 border-thick"
@@ -33,7 +33,7 @@
 
   <div class="card-footer border-0 bg-transparent">
     <button
-      class="btn btn-outline-secondary btn-sm mr-1"
+      class="btn btn-outline-secondary btn-sm me-1"
       (click)="selectAllTags()"
     >
       <ng-container i18n="@@selectAll">Select all</ng-container>

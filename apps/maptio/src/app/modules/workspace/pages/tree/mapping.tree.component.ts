@@ -669,7 +669,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           const tagsSpan = d.data.tags
             .map(
               (tag: Tag) =>
-                `<i class="fas fa-tag mr-1" style="color: ${tag.color};"></i>`
+                `<i class="fas fa-tag me-1" style="color: ${tag.color};"></i>`
             )
             .join('');
           return `<div class="small">${
@@ -739,7 +739,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           const tagsSpan = d.data.tags
             .map(
               (tag: Tag) =>
-                `<i class="fas fa-tag mr-1" style="color: ${tag.color};"></i>`
+                `<i class="fas fa-tag me-1" style="color: ${tag.color};"></i>`
             )
             .join('');
 

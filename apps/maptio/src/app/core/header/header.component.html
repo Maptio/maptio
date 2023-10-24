@@ -9,7 +9,7 @@
 ></maptio-onboarding-banner>
 
 <nav
-  class="d-flex header navbar navbar-expand-md navbar-light bg-transparent justify-content-between align-items-baseline pr-3"
+  class="d-flex header navbar navbar-expand-md navbar-light bg-transparent justify-content-between align-items-baseline px-3"
   [class.grayscale]="loaderService.isLoading"
 >
   <a routerLink="home" class="no-underline navbar-brand">
@@ -122,7 +122,7 @@
       </li>
 
       <li
-        class="nav-item dropdown ml-3"
+        class="nav-item dropdown ms-3"
         id="profileInformation"
         *ngIf="userService.isAuthenticated$ | async"
       >
@@ -163,7 +163,7 @@
           <ng-container *ngIf="teams?.length > 1">
             <a
               class="dropdown-item"
-              *ngFor="let team of teams | slice: 1:5"
+              *ngFor="let team of teams | slice : 1 : 5"
               routerLink="/teams/{{ team.team_id }}/{{ team?.getSlug() }}"
             >
               {{ team?.name }}
@@ -197,7 +197,7 @@
 
       <li
         *ngIf="(userService.isAuthenticated$ | async) === false && !isSignUp()"
-        class="nav-item d-flex align-items-center pl-2"
+        class="nav-item d-flex align-items-center ps-2"
       >
         <a maptioLoginRedirect class="btn btn-link px-0" i18n>Log in</a>
       </li>
@@ -220,7 +220,7 @@
 
         <li
           class="nav-item d-md-none"
-          *ngFor="let dataset of datasets | slice: 0:2"
+          *ngFor="let dataset of datasets | slice : 0 : 2"
         >
           <a
             class="btn btn-link px-0"
@@ -244,7 +244,10 @@
           Organizations
         </li>
 
-        <li class="nav-item d-md-none" *ngFor="let team of teams | slice: 0:2">
+        <li
+          class="nav-item d-md-none"
+          *ngFor="let team of teams | slice : 0 : 2"
+        >
           <a
             class="btn btn-link px-0"
             routerLink="/teams/{{ team.team_id }}/{{ team.getSlug() }}"

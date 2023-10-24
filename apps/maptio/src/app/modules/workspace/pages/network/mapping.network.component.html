@@ -14,7 +14,7 @@
 </div>
 
 <div
-  class="d-none d-md-block control card bg-light top-left position-absolute col-4 p-0 ml-5 border border-light rounded-bottom"
+  class="d-none d-md-block control card bg-light top-left position-absolute col-4 p-0 ms-5 border border-light rounded-bottom"
   *ngIf="!(hideOptions$ | async)"
 >
   <h6
@@ -22,11 +22,11 @@
   >
     <ng-container i18n>Network map options</ng-container>
     <button
-      class="btn btn-link btn-sm pl-0 ml-auto"
+      class="btn btn-link btn-sm ps-0 ms-auto"
       (click)="isOptionsVisible = !isOptionsVisible"
     >
       <span class="">
-        <span class="mr-1">
+        <span class="me-1">
           {!!isOptionsVisible, select, true {Hide} false {Show}}
         </span>
 

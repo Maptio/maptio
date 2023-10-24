@@ -7,7 +7,7 @@
         height="128"
         src="{{ member?.picture }}"
       />
-      <div class="ml-3 w-100" role="navigation">
+      <div class="ms-3 w-100" role="navigation">
         <div class="position-absolute d-flex flex-column">
           <h1 class="">{{ member?.name }}</h1>
           <h6 class="text-muted d-none d-md-block">
@@ -16,7 +16,7 @@
           </h6>
         </div>
         <ul class="nav nav-tabs justify-content-end my-3" role="tablist">
-          <li class="nav-item mr-1">
+          <li class="nav-item me-1">
             <a
               class="nav-link active d-flex flex-column align-items-center"
               id="authority-tab"
@@ -140,7 +140,7 @@
   </div>
 
   <!-- <div class="d-flex justify-content-between mt-3">
-            <div class="w-50 mr-1">
+            <div class="w-50 me-1">
                 <span *ngIf="authorities.length===0" class="card-title text-muted">Not a {{_team?.settings.authority | lowercase }} yet</span>
                 <span *ngIf="authorities.length>0" class="card-title text-muted">{{_team?.settings.authority | titlecase }} of circles</span>
 
@@ -150,7 +150,7 @@
 
 
             </div>
-            <div class="w-50 ml-1">
+            <div class="w-50 ms-1">
 
                 <span *ngIf="helps.length===0" class="card-title text-muted">No helping participation yet</span>
                 <span *ngIf="helps.length>0" class="card-title text-muted">A {{_team.settings.helper | lowercase }} in circles</span>
