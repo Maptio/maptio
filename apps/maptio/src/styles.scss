@@ -49,3 +49,6 @@ $maptio-theme: mat.define-light-theme(
   padding-top: 0.75rem !important;
   padding-bottom: 0.75rem !important;
 }
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
