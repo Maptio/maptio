@@ -14,9 +14,25 @@
   word-break: break-word;
   color: white;
 
-  .circle--type-leaf:not(.circle--type-primary):not(.circle--type-child-of-primary)
+  .circle--type-leaf:not(.circle--type-primary):not(
+      .circle--type-child-of-primary
+    )
     & {
     color: black;
+  }
+}
+
+// TODO: We should either have one circle info component dealing for both the
+// expanded and the gradually-revealing map, or we should have two
+// differently-named components. At the moment we have clashes between the two
+// components with duplicate names, ouch.
+.expanded-map {
+  .circle--type-leaf:not(.circle--type-primary):not(
+      .circle--type-child-of-primary
+    ) {
+    .circle-info__name {
+      color: white;
+    }
   }
 }
 
