@@ -1,7 +1,6 @@
 import { SelectableTag } from '../../../../shared/model/tag.data';
 import { Initiative } from '../../../../shared/model/initiative.data';
 import { Subject, Observable } from 'rxjs';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 export interface IDataVisualizer {
   datasetId: string;
@@ -33,8 +32,6 @@ export interface IDataVisualizer {
     y: number;
     isReadOnlyContextMenu: boolean;
   }>;
-
-  analytics: Angulartics2Mixpanel;
 
   init(): void;
 }

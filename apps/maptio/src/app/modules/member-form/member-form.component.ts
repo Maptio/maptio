@@ -16,7 +16,6 @@ import {
 import { Router } from '@angular/router';
 
 import { Intercom } from '@supy-io/ngx-intercom';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 import { environment } from '@maptio-environment';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
@@ -94,7 +93,6 @@ export class MemberFormComponent implements OnInit {
     private userFactory: UserFactory,
     private teamFactory: TeamFactory,
     private userService: UserService,
-    private analytics: Angulartics2Mixpanel,
     private intercom: Intercom
   ) {}
 

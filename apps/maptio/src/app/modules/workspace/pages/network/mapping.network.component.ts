@@ -26,7 +26,6 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { IDataVisualizer } from '../../components/canvas/mapping.interface';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import {
   flatten,
   uniqBy,
@@ -141,7 +140,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     initiatives: Initiative[];
     isNameOnly: boolean;
   }> = new Subject<{ initiatives: Initiative[]; isNameOnly: boolean }>();
-  public analytics: Angulartics2Mixpanel;
 
   private zoomSubscription: Subscription;
   private dataSubscription: Subscription;
@@ -210,12 +208,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         this.slug = data.getSlug();
         this._isAuthorityCentricMode = authorityCentricMode;
         this.update(data, color, this._isAuthorityCentricMode);
-        this.analytics.eventTrack('Map', {
-          action: 'viewing',
-          view: 'connections',
-          team: (<Team>dataset.team).name,
-          teamId: (<Team>dataset.team).team_id,
-        });
         this.isLoading = false;
         this.cd.markForCheck();
       });

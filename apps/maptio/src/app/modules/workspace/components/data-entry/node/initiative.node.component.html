@@ -57,7 +57,6 @@
           placement="top"
           [ngbTooltip]="addButtonTooltip"
           container="body"
-          angulartics2On="click"
           angularticsEvent="Map"
           [angularticsProperties]="{
             mode: 'list',
@@ -66,8 +65,6 @@
             teamId: teamId
           }"
         ></button>
-        <!-- <button class="btn edit border border-left-0 border-right-0 btn-outline-secondary" *ngIf="!isRoot()" (click)="openNode(node.data)"
-				placement="top" container="body" ngbTooltip="Open circle" angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'edit', team:teamName, teamId:teamId }"></button> -->
       </ng-template>
 
       <ng-template #elseCreateBlock>
@@ -100,7 +97,6 @@
             team: teamName,
             teamId: teamId
           }"
-          angulartics2On="click"
         ></button>
       </ng-template>
       <ng-template #elseDeleteBlock>

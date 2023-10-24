@@ -7,7 +7,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TeamService } from '../../services/team/team.service';
 import { Router } from '@angular/router';
 import { MapService } from '../../services/map/map.service';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 import { OpenReplayService } from '@maptio-shared/services/open-replay.service';
 import { ConsentComponent } from './consent.component';
@@ -66,7 +65,6 @@ export class OnboardingComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private cd: ChangeDetectorRef,
     private openReplayService: OpenReplayService,
-    private mixpanel: Angulartics2Mixpanel,
     private teamService: TeamService,
     private mapService: MapService,
     private router: Router
@@ -131,7 +129,6 @@ export class OnboardingComponent implements OnInit {
       }
     } else if (this.currentStep === 'Consent') {
       this.startSessionRecordingIfConsentIsGiven();
-      this.sendOnboardingEventToMixpanel();
 
       this.isCreatingMap = true;
       this.nextActionName = $localize`:onboarding|Message shown after the last step of onboarding:Creating your map`;
@@ -160,16 +157,6 @@ export class OnboardingComponent implements OnInit {
     if (this.user.consentForSessionRecordings) {
       this.openReplayService.start();
     }
-  }
-
-  private sendOnboardingEventToMixpanel() {
-    this.mixpanel.eventTrack('Onboarding', {
-      step: this.steps[this.currentIndex - 1],
-      members: this.members.length,
-      authority: this.team.settings.authority,
-      helper: this.team.settings.helper,
-      mapName: this.mapName,
-    });
   }
 
   private goToNextStep() {

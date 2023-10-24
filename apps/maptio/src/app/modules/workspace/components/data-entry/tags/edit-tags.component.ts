@@ -8,7 +8,6 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Team } from '../../../../../shared/model/team.data';
 import { Permissions } from '../../../../../shared/model/permission.data';
 import { StickyPopoverDirective } from '../../../../../shared/directives/sticky.directive';
@@ -50,7 +49,7 @@ export class EditTagsComponent implements OnInit {
   public newTagColor = '#aaa';
   public isEditTags: boolean;
 
-  constructor(private analytics: Angulartics2Mixpanel) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.newTagForm = new UntypedFormGroup({
@@ -90,11 +89,6 @@ export class EditTagsComponent implements OnInit {
       this.tags.unshift(<SelectableTag>tag);
       this.edit.emit(this.tags);
       this.newTagForm.reset({ name: '', color: this.newTagColor });
-      this.analytics.eventTrack('Map', {
-        action: 'Add tag',
-        team: this.team.name,
-        teamId: this.team.team_id,
-      });
     }
   }
 
@@ -102,11 +96,6 @@ export class EditTagsComponent implements OnInit {
     const index = this.tags.findIndex((t) => t.shortid === tag.shortid);
     if (index >= 0) {
       this.tags.splice(index, 1);
-      this.analytics.eventTrack('Map', {
-        action: 'Remove tag',
-        team: this.team.name,
-        teamId: this.team.team_id,
-      });
     }
     this.edit.emit(this.tags);
   }

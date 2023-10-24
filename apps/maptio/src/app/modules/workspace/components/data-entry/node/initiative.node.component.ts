@@ -24,7 +24,6 @@ import {
 import { TreeNode, TreeModel } from '@circlon/angular-tree-component';
 import { StickyPopoverDirective } from '../../../../../shared/directives/sticky.directive';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { Angulartics2OnModule } from 'angulartics2';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { FocusIfDirective } from '../../../../../shared/directives/focusif.directive';
 import { DebounceDirective } from '../../../../../shared/directives/debounce.directive';
@@ -44,7 +43,6 @@ import { InsufficientPermissionsMessageComponent } from '../../../../permissions
     DebounceDirective,
     FocusIfDirective,
     NgIf,
-    Angulartics2OnModule,
     NgbTooltipModule,
     StickyPopoverDirective,
     NgTemplateOutlet,

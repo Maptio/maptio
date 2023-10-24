@@ -11,8 +11,6 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
-
 import { DataService } from '../../../services/data.service';
 import { UserFactory } from '../../../../../core/http/user/user.factory';
 import { UserService } from '../../../../../shared/services/user/user.service';
@@ -60,8 +58,7 @@ export class PeopleSummaryComponent implements OnInit {
     private dataService: DataService,
     public loaderService: LoaderService,
     private router: Router,
-    private cd: ChangeDetectorRef,
-    private analytics: Angulartics2Mixpanel
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -90,12 +87,6 @@ export class PeopleSummaryComponent implements OnInit {
         this.dataset = data.dataset;
         this.team = data.team;
         this.loaderService.hide();
-        this.analytics.eventTrack('Map', {
-          action: 'viewing',
-          view: 'summary',
-          team: (<Team>data.team).name,
-          teamId: (<Team>data.team).team_id,
-        });
         this.filteredMembers = [].concat(this.members);
         this.cd.markForCheck();
       });

@@ -15,7 +15,6 @@ import { Subject } from 'rxjs';
 
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { remove } from 'lodash-es';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 import { environment } from '../../../../../config/environment';
 import { Permissions } from '../../../../../shared/model/permission.data';
@@ -43,7 +42,6 @@ import { OnboardingMessageComponent } from '../../../../onboarding-message/onboa
   selector: 'initiative',
   templateUrl: './initiative.component.html',
   styleUrls: ['./initiative.component.css'],
-  providers: [Angulartics2Mixpanel],
   changeDetection: ChangeDetectionStrategy.Default,
   standalone: true,
   imports: [
@@ -97,7 +95,6 @@ export class InitiativeComponent implements OnChanges {
   constructor(
     private teamFactory: TeamFactory,
     private permissionsService: PermissionsService,
-    private analytics: Angulartics2Mixpanel,
     private cd: ChangeDetectorRef
   ) {}
 
@@ -174,22 +171,12 @@ export class InitiativeComponent implements OnChanges {
 
   saveName(newName: string) {
     this.node.name = newName;
-    this.analytics.eventTrack('Initiative', {
-      action: 'change name',
-      team: this.teamName,
-      teamId: this.teamId,
-    });
     this.onBlur();
     this.cd.markForCheck();
   }
 
   saveTags(newTags: Array<Tag>) {
     this.node.tags = newTags;
-    this.analytics.eventTrack('Initiative', {
-      action: 'edit tags',
-      team: this.teamName,
-      teamId: this.teamId,
-    });
     this.onBlur();
     this.cd.markForCheck();
   }
@@ -233,11 +220,6 @@ export class InitiativeComponent implements OnChanges {
 
     this.onBlur();
     this.cd.markForCheck();
-    this.analytics.eventTrack('Initiative', {
-      action: 'add authority',
-      team: this.teamName,
-      teamId: this.teamId,
-    });
   }
 
   saveDescription(newDesc: string) {
@@ -264,11 +246,6 @@ export class InitiativeComponent implements OnChanges {
 
     if (save) {
       this.onBlur();
-      this.analytics.eventTrack('Initiative', {
-        action: 'remove helper',
-        team: this.teamName,
-        teamId: this.teamId,
-      });
       this.cd.markForCheck();
     }
   }

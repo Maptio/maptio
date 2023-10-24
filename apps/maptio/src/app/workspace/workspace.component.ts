@@ -15,7 +15,6 @@ import { tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Intercom } from '@supy-io/ngx-intercom';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 import { EmitterService } from '@maptio-core/services/emitter.service';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
@@ -96,7 +95,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     private dataService: DataService,
     private mapService: MapService,
     private roleLibrary: RoleLibraryService,
-    private mixpanel: Angulartics2Mixpanel,
     private intercom: Intercom
   ) {}
 
@@ -236,13 +234,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
       )
       .then(() => {
         this.intercom.trackEvent('Editing map', {
-          team: this.team.name,
-          teamId: this.team.team_id,
-          datasetId: this.datasetId,
-          mapName: change.initiative.name,
-          circles: depth,
-        });
-        this.mixpanel.eventTrack('Editing map', {
           team: this.team.name,
           teamId: this.team.team_id,
           datasetId: this.datasetId,

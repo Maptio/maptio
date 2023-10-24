@@ -6,7 +6,6 @@ import { DatasetFactory } from '../../../../../core/http/map/dataset.factory';
 import { DataService } from '../../../services/data.service';
 import { Initiative } from '../../../../../shared/model/initiative.data';
 
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { EventEmitter, OnDestroy, Signal, inject, signal } from '@angular/core';
 import {
   Component,
@@ -118,38 +117,17 @@ export class BuildingComponent implements OnDestroy {
 
           if (from.parent.id === to.parent.id) {
             // if simple reordering, we dont ask for confirmation
-            this.analytics.eventTrack('Map', {
-              action: 'move',
-              mode: 'list',
-              confirmed: true,
-              team: this.team.name,
-              teamId: this.team.team_id,
-            });
             TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to });
           } else {
             this.modalService
               .open(this.dragConfirmationModal, { centered: true })
               .result.then((result) => {
                 if (result) {
-                  this.analytics.eventTrack('Map', {
-                    action: 'move',
-                    mode: 'list',
-                    confirmed: true,
-                    team: this.team.name,
-                    teamId: this.team.team_id,
-                  });
                   TREE_ACTIONS.MOVE_NODE(tree, node, $event, {
                     from: from,
                     to: to,
                   });
                 } else {
-                  this.analytics.eventTrack('Initiative', {
-                    action: 'move',
-                    mode: 'list',
-                    confirm: false,
-                    team: this.team.name,
-                    teamId: this.team.team_id,
-                  });
                 }
               })
               .catch((reason) => {});
@@ -204,7 +182,6 @@ export class BuildingComponent implements OnDestroy {
     private dataService: DataService,
     private datasetFactory: DatasetFactory,
     private modalService: NgbModal,
-    private analytics: Angulartics2Mixpanel,
     private userFactory: UserFactory,
     private userService: UserService,
     private roleLibrary: RoleLibraryService,
