@@ -90,7 +90,7 @@
     "@wjaspers/sat-popover": "^10.2.4",
     "angular-confirmation-popover": "^7.0.0",
     "angular2-uuid": "^1.1.1",
-    "angulartics2": "^10.0.0",
+    "angulartics2": "^12.2.1",
     "apicache": "^1.6.2",
     "auth0": "^2.37.0",
     "auth0-js": "9.11.3",
