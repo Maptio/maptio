@@ -20,7 +20,6 @@ import {
   TreeNode,
   TREE_ACTIONS,
   TreeComponent,
-  TreeModule,
 } from '@circlon/angular-tree-component';
 import {
   OutlineModule,
@@ -74,7 +73,6 @@ import { WorkspaceFacade } from '../../../+state/workspace.facade';
     NgbTooltipModule,
     InsufficientPermissionsMessageComponent,
     StickyPopoverDirective,
-    TreeModule,
     InitiativeNodeComponent,
     EditTagsComponent,
     OutlineModule,
