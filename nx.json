@@ -7,13 +7,8 @@
     "default": {
       "runner": "nx-cloud",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ],
-        "accessToken": "OWY0ZGRiZmEtNjE4Ni00NDJmLTkzZGQtMmI0YWUwNzI5ZmU3fHJlYWQtd3JpdGU=",
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "accessToken": "MTQwMWFkMDEtYmRmMi00YzI5LWFjZDktOGQ0MmFkOTE1YmU2fHJlYWQtd3JpdGU=",
         "canTrackAnalytics": false,
         "showUsageWarnings": true,
         "parallel": 1
@@ -48,29 +43,19 @@
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "sharedGlobals"
-    ],
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": [
       "{workspaceRoot}/angular.json",
       "{workspaceRoot}/tsconfig.base.json",
       "{workspaceRoot}/tslint.json",
       "{workspaceRoot}/nx.json"
     ],
-    "production": [
-      "default"
-    ]
+    "production": ["default"]
   }
 }
