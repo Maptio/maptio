@@ -55,7 +55,7 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["coverage/apps/maptio-server"],
+      "outputs": ["{workspaceRoot}/coverage/apps/maptio-server"],
       "options": {
         "jestConfig": "apps/maptio-server/jest.config.ts",
         "passWithNoTests": true

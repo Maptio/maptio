@@ -85,7 +85,7 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["coverage/apps/maptio-admin"],
+      "outputs": ["{workspaceRoot}/coverage/apps/maptio-admin"],
       "options": {
         "jestConfig": "apps/maptio-admin/jest.config.ts",
         "passWithNoTests": true
