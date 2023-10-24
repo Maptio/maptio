@@ -13,7 +13,7 @@
   ></div>
   <ng-template #thenNameBlock>
     <input
-      class="form-control input inputNodeName box-shadow-0 border-left-0 border-right-0 text-truncate"
+      class="form-control input inputNodeName box-shadow-0 border-start-0 border-end-0 text-truncate"
       type="text"
       [focusif]="node.data.hasFocus"
       [ngModel]="node.data.name"
@@ -25,7 +25,7 @@
   </ng-template>
   <ng-template #elseNameBlock>
     <input
-      class="text-muted form-control input inputNodeName box-shadow-0 border-left-0 border-right-0 text-truncate"
+      class="text-muted form-control input inputNodeName box-shadow-0 border-start-0 border-end-0 text-truncate"
       type="text"
       [ngModel]="node.data.name"
       (keydown)="$event.preventDefault(); isEditWarningToggled = true"
@@ -52,7 +52,7 @@
 
       <ng-template #thenCreateBlock>
         <button
-          class="btn add border border-left-0 border-right-0 btn-outline-secondary"
+          class="btn add border border-start-0 border-end-0 btn-outline-secondary"
           (click)="addChildNode(node.data)"
           placement="top"
           [ngbTooltip]="addButtonTooltip"
@@ -69,7 +69,7 @@
 
       <ng-template #elseCreateBlock>
         <button
-          class="btn add border border-left-0 border-right-0 btn-outline-secondary disabled cursor-not-allowed"
+          class="btn add border border-start-0 border-end-0 btn-outline-secondary disabled cursor-not-allowed"
           placement="top"
           [stickyPopover]="insufficientPermissionsTipContent"
           container="body"
@@ -89,7 +89,7 @@
       <ng-template #thenDeleteBlock>
         <button
           (click)="onDeleteNode(node.data)"
-          class="btn remove border border-left-0 btn-outline-secondary"
+          class="btn remove border border-start-0 btn-outline-secondary"
           angularticsEvent="Map"
           [angularticsProperties]="{
             mode: 'list',
@@ -101,7 +101,7 @@
       </ng-template>
       <ng-template #elseDeleteBlock>
         <button
-          class="btn remove border border-left-0 btn-outline-secondary disabled cursor-not-allowed"
+          class="btn remove border border-start-0 btn-outline-secondary disabled cursor-not-allowed"
           placement="top"
           [stickyPopover]="insufficientPermissionsTipContent"
         ></button>
@@ -136,9 +136,7 @@
   <ng-template #elseMoveBlock>
     <div class="input-group rounded">
       <div class="input-group-prepend">
-        <span
-          class="input-group-text knurled text-secondary p-0 border-right-0"
-        >
+        <span class="input-group-text knurled text-secondary p-0 border-end-0">
           <i class="fa fa-ellipsis-v invisible" aria-hidden="true"></i>
         </span>
       </div>
