@@ -88,7 +88,7 @@
     "@popperjs/core": "^2.11.6",
     "@supy-io/ngx-intercom": "^14.2.12",
     "@wjaspers/sat-popover": "^10.2.4",
-    "angular-confirmation-popover": "^6.0.0",
+    "angular-confirmation-popover": "^7.0.0",
     "angular2-uuid": "^1.1.1",
     "angulartics2": "^10.0.0",
     "apicache": "^1.6.2",
