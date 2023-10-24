@@ -27,7 +27,6 @@
         "tsConfig": "apps/maptio/tsconfig.app.json",
         "assets": ["apps/maptio/src/favicon.ico", "apps/maptio/src/assets"],
         "styles": [
-          "node_modules/bootstrap/dist/css/bootstrap.min.css",
           "apps/maptio/src/assets/styles/vendor-google-fonts.css",
           "apps/maptio/src/assets/styles/vendor-font-awesome.css",
           "apps/maptio/src/assets/styles/custom/animations.css",
@@ -47,8 +46,7 @@
         ],
         "scripts": [
           "node_modules/jquery/dist/jquery.js",
-          "node_modules/popper.js/dist/umd/popper.min.js",
-          "node_modules/bootstrap/dist/js/bootstrap.min.js"
+          "node_modules/popper.js/dist/umd/popper.min.js"
         ],
         "vendorChunk": true,
         "extractLicenses": false,
