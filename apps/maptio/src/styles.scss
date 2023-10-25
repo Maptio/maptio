@@ -108,10 +108,6 @@ $spacer: 1rem;
 // 5. Add additional custom code here
 
 // Bootrap overrides after upgrade from 4 to 5
-.container-fluid {
-  padding: 0 15px;
-}
-
 a,
 .btn-link {
   text-decoration: none;
@@ -126,4 +122,16 @@ a.nav-link:hover,
 a.dropdown-toggle:hover,
 a.dropdown-item:hover {
   text-decoration: none;
+}
+
+.container-fluid {
+  padding: 0 15px;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
 }
