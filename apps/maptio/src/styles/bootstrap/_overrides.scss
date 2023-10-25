@@ -1,0 +1,28 @@
+// Bootrap overrides after upgrade from 4 to 5
+a,
+.btn-link {
+  text-decoration: none;
+}
+
+a:hover,
+.btn-link:hover {
+  text-decoration: underline;
+}
+
+a.nav-link:hover,
+a.dropdown-toggle:hover,
+a.dropdown-item:hover {
+  text-decoration: none;
+}
+
+.container-fluid {
+  padding: 0 15px;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}

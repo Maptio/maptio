@@ -42,7 +42,7 @@
           "apps/maptio/src/assets/styles/custom/color-picker.css",
           "apps/maptio/src/assets/styles/custom/maps.css",
           "apps/maptio/src/assets/styles/custom/typeahead.css",
-          "apps/maptio/src/styles.scss"
+          "apps/maptio/src/styles/styles.scss"
         ],
         "scripts": [
           "node_modules/jquery/dist/jquery.js",
