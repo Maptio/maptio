@@ -107,3 +107,23 @@ $spacer: 1rem;
 
 // 5. Add additional custom code here
 
+// Bootrap overrides after upgrade from 4 to 5
+.container-fluid {
+  padding: 0 15px;
+}
+
+a,
+.btn-link {
+  text-decoration: none;
+}
+
+a:hover,
+.btn-link:hover {
+  text-decoration: underline;
+}
+
+a.nav-link:hover,
+a.dropdown-toggle:hover,
+a.dropdown-item:hover {
+  text-decoration: none;
+}
