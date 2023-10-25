@@ -1,7 +1,7 @@
 <form class="mt-2 mb-3" [formGroup]="memberForm" (submit)="save()">
   <div class="form-group">
     <label
-      class="mb-0 text-uppercase text-bold text-gray-light small"
+      class="form-label mb-0 text-uppercase text-bold text-gray-light small"
       for="inputFirstname"
     >
       <ng-container i18n="@@firstName">First name</ng-container>
@@ -24,7 +24,7 @@
 
   <div class="form-group">
     <label
-      class="mb-0 text-uppercase text-bold text-gray-light small"
+      class="form-label mb-0 text-uppercase text-bold text-gray-light small"
       for="inputFirstname"
     >
       <ng-container i18n="@@lastName">Last name</ng-container>
@@ -46,7 +46,10 @@
   </div>
 
   <div class="form-group">
-    <label class="mb-0 text-uppercase text-bold text-gray-light small" i18n>
+    <label
+      class="form-label mb-0 text-uppercase text-bold text-gray-light small"
+      i18n
+    >
       Profile Image
     </label>
 
@@ -63,7 +66,7 @@
 
   <div class="form-group">
     <label
-      class="mb-0 text-uppercase text-bold text-gray-light small"
+      class="form-label mb-0 text-uppercase text-bold text-gray-light small"
       for="inputEmail"
     >
       <ng-container i18n="@@email">Email</ng-container>
@@ -92,7 +95,11 @@
         [class.is-invalid]="isFieldInvalid('isTermsAccepted')"
       />
 
-      <label class="custom-control-label" for="inputIsTermsAccepted" i18n>
+      <label
+        class="form-label custom-control-label"
+        for="inputIsTermsAccepted"
+        i18n
+      >
         I agree to Maptio's
         <a href="{{ TERMS_AND_CONDITIONS_URL }}" target="_blank">
           Terms of Service

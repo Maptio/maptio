@@ -2,7 +2,7 @@
   <div class="form-group">
     <label
       for="inputTitle"
-      class="mb-0 text-uppercase text-bold text-gray-light small"
+      class="form-label mb-0 text-uppercase text-bold text-gray-light small"
       i18n
     >
       Role title
@@ -32,7 +32,10 @@
   </div>
 
   <div class="form-group mb-0">
-    <label class="mb-0 text-uppercase text-bold text-gray-light small" i18n>
+    <label
+      class="form-label mb-0 text-uppercase text-bold text-gray-light small"
+      i18n
+    >
       Role description
     </label>
     <textarea
@@ -83,7 +86,10 @@
         class="custom-control-input"
       />
 
-      <label class="custom-control-label" [for]="getCustomRoleInputId()">
+      <label
+        class="form-label custom-control-label"
+        [for]="getCustomRoleInputId()"
+      >
         <ng-container
           *ngIf="
             isAlreadySavedInLibrary;
@@ -109,7 +115,10 @@
         class="custom-control-input"
       />
 
-      <label class="custom-control-label" [for]="getLibraryRoleInputId()">
+      <label
+        class="form-label custom-control-label"
+        [for]="getLibraryRoleInputId()"
+      >
         <ng-container
           *ngIf="
             isAlreadySavedInLibrary;

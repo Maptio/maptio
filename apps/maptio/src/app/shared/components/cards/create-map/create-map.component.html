@@ -11,7 +11,7 @@
 
   <ng-template #thenCreateMapBlock>
     <div class="form-group">
-      <label class="lead" for="inputMapName" i18n="@@createnewmap">
+      <label class="form-label lead" for="inputMapName" i18n="@@createnewmap">
         Create a new map
       </label>
       <input
@@ -31,7 +31,9 @@
     </div>
 
     <div class="form-group" *ngIf="teamsWithAdminRole?.length > 1">
-      <label for="inputTeamName" i18n="@@organisation">Organisation</label>
+      <label class="form-label" for="inputTeamName" i18n="@@organisation">
+        Organisation
+      </label>
       <select
         id="inputTeamName"
         formControlName="teamId"
@@ -85,7 +87,7 @@
   <ng-template #elseCreateMapBlock>
     <div [stickyPopover]="permissionsTipContent">
       <div class="form-group">
-        <label class="lead" for="inputMapName" i18n="@@createnewmap">
+        <label class="form-label lead" for="inputMapName" i18n="@@createnewmap">
           Create a new map
         </label>
         <input
@@ -97,7 +99,9 @@
       </div>
 
       <div class="form-group" *ngIf="teamsWithAdminRole?.length > 1">
-        <label for="inputTeamName" i18n="@@organisation">Organisation</label>
+        <label class="form-label" for="inputTeamName" i18n="@@organisation">
+          Organisation
+        </label>
         <select
           id="inputTeamName"
           disabled
