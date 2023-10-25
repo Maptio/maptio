@@ -11,6 +11,8 @@ import { Router, RouterLink } from '@angular/router';
 import { from, partition } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { SubSink } from 'subsink';
 
 import { environment } from '@maptio-config/environment';
@@ -47,6 +49,7 @@ import { NgIf, NgClass, NgFor, AsyncPipe, SlicePipe } from '@angular/common';
     LoginRedirectDirective,
     AsyncPipe,
     SlicePipe,
+    NgbDropdownModule,
   ],
 })
 export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {

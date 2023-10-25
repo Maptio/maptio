@@ -81,6 +81,7 @@
       </li>
 
       <li
+        ngbDropdown
         class="nav-item dropdown d-none d-md-flex align-items-center"
         *ngIf="
           (userService.isAuthenticated$ | async) &&
@@ -91,21 +92,20 @@
         <a
           class="nav-link dropdown-toggle"
           id="mapsListDropdownLink"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
+          ngbDropdownToggle
         >
           <ng-conatiner i18n>Maps</ng-conatiner>
         </a>
 
         <div
-          class="dropdown-menu dropdown-menu-right overflow"
+          class="dropdown-menu dropdown-menu-end overflow"
+          ngbDropdownMenu
           aria-labelledby="mapsListDropdownLink"
         >
           <ng-container *ngFor="let dataset of datasets">
             <ng-container *ngIf="dataset.initiative">
               <a
-                class="dropdown-item"
+                ngbDropdownItem
                 routerLink="/map/{{ dataset.datasetId }}/{{
                   dataset.initiative.getSlug()
                 }}"
@@ -117,11 +117,10 @@
         </div>
       </li>
 
-      <li class="nav-item dropdown d-none d-md-flex align-items-center">
-        <maptio-language-picker></maptio-language-picker>
-      </li>
+      <maptio-language-picker></maptio-language-picker>
 
       <li
+        ngbDropdown
         class="nav-item dropdown ms-3"
         id="profileInformation"
         *ngIf="userService.isAuthenticated$ | async"
@@ -129,9 +128,7 @@
         <a
           class="nav-link dropdown-toggle without-caret px-0 d-none d-md-block"
           id="profileDropdownLink"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
+          ngbDropdownToggle
         >
           <div>
             <img
@@ -142,10 +139,12 @@
           </div>
         </a>
         <div
-          class="dropdown-menu dropdown-menu-right"
+          ngbDropdownMenu
+          class="dropdown-menu dropdown-menu-end"
           aria-labelledby="profileDropdownLink"
         >
           <a
+            ngbDropdownItem
             class="dropdown-item py-2"
             routerLink="profile/{{ user?.shortid }}/{{
               user?.getSlug() || 'profile'
@@ -162,6 +161,7 @@
 
           <ng-container *ngIf="teams?.length > 1">
             <a
+              ngbDropdownItem
               class="dropdown-item"
               *ngFor="let team of teams | slice : 1 : 5"
               routerLink="/teams/{{ team.team_id }}/{{ team?.getSlug() }}"
@@ -169,10 +169,13 @@
               {{ team?.name }}
             </a>
 
-            <a class="dropdown-item" routerLink="/teams" i18n>More ...</a>
+            <a ngbDropdownItem class="dropdown-item" routerLink="/teams" i18n>
+              More ...
+            </a>
           </ng-container>
 
           <a
+            ngbDropdownItem
             class="dropdown-item"
             *ngIf="teams?.length === 1"
             routerLink="/teams/{{ teams[0]?.team_id }}/{{
@@ -185,6 +188,7 @@
           <div class="dropdown-divider"></div>
 
           <a
+            ngbDropdownItem
             class="dropdown-item py-2"
             id="logoutButton"
             routerLink="/logout"
