@@ -38,7 +38,7 @@
         id="inputTeamName"
         formControlName="teamId"
         required
-        class="form-control"
+        class="form-select"
       >
         <option
           value="null"
@@ -105,7 +105,7 @@
         <select
           id="inputTeamName"
           disabled
-          class="form-control cursor-not-allowed"
+          class="form-select cursor-not-allowed"
         ></select>
         <a
           *ngIf="teamsWithAdminRole?.length === 0"
