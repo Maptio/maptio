@@ -7,7 +7,7 @@
       <span *ngFor="let tag of tags; let i = index" class="me-1 my-1">
         <span
           *ngIf="!tag.isSelected"
-          class="cursor-pointer badge badge-pill p-2 border-thick"
+          class="cursor-pointer badge rounded-pill p-2 border-thick"
           [style.color]="tag.color"
           [style.border-color]="tag.color"
           (click)="toggleTag(tag)"
@@ -18,7 +18,7 @@
         </span>
         <span
           *ngIf="tag.isSelected"
-          class="cursor-pointer badge badge-pill p-2 border-thick text-white"
+          class="cursor-pointer badge rounded-pill p-2 border-thick text-white"
           [style.border-color]="tag.color"
           [style.background]="tag.color"
           (click)="toggleTag(tag)"
