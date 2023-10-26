@@ -52,7 +52,10 @@ import { SearchComponent } from '../searching/search.component';
 import { ClosableDirective } from '../../../../shared/directives/closable.directive';
 import { ContextMenuComponent } from '../context-menu/context-menu.component';
 import { NgTemplateOutlet, NgIf } from '@angular/common';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbCollapseModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'mapping',
@@ -61,12 +64,13 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    NgbTooltipModule,
     RouterLinkActive,
     RouterLink,
     RouterOutlet,
     NgTemplateOutlet,
     NgIf,
+    NgbTooltipModule,
+    NgbCollapseModule,
     ContextMenuComponent,
     ClosableDirective,
     SearchComponent,
@@ -97,7 +101,6 @@ export class MappingComponent {
   isPrinting: boolean;
   hasNotified: boolean;
   hasConfigurationError: boolean;
-  isSharingToggled: boolean;
 
   public x: number;
   public y: number;
@@ -127,9 +130,11 @@ export class MappingComponent {
   public instance: IDataVisualizer;
   public settings: MapSettings;
 
-  public isSettingToggled: boolean;
-  public isSearchToggled: boolean;
+  public isSearchToggled = false;
   public isFiltersToggled = false;
+  public isSharingToggled = false;
+  public isSettingToggled = false;
+
   public isMapSettingsDisabled: boolean;
   public isSearchDisabled = false;
   public isFilterDisabled = false;
@@ -442,6 +447,38 @@ export class MappingComponent {
     // this.hoveredInitiatives = nodes;
     // this.isNameOnly = isNameOnly;
     // this.cd.markForCheck();
+  }
+
+  onSearchToggle(event: Event) {
+    this.isSearchToggled = !this.isSearchToggled;
+    this.isFiltersToggled = false;
+    this.isSharingToggled = false;
+    this.isSettingToggled = false;
+    event.stopPropagation();
+  }
+
+  onFiltersToggle(event: Event) {
+    this.isSearchToggled = false;
+    this.isFiltersToggled = !this.isFiltersToggled;
+    this.isSharingToggled = false;
+    this.isSettingToggled = false;
+    event.stopPropagation();
+  }
+
+  onSharingToggle(event: Event) {
+    this.isSearchToggled = false;
+    this.isFiltersToggled = false;
+    this.isSharingToggled = !this.isSharingToggled;
+    this.isSettingToggled = false;
+    event.stopPropagation();
+  }
+
+  onSettingToggle(event: Event) {
+    this.isSearchToggled = false;
+    this.isFiltersToggled = false;
+    this.isSharingToggled = false;
+    this.isSettingToggled = !this.isSettingToggled;
+    event.stopPropagation();
   }
 
   zoomOut() {
