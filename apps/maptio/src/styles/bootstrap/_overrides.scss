@@ -10,6 +10,7 @@ a:hover,
 }
 
 a.nav-link:hover,
+a.badge:hover,
 a.dropdown-toggle:hover,
 a.dropdown-item:hover {
   text-decoration: none;
@@ -29,4 +30,8 @@ a.dropdown-item:hover {
 
 .form-group {
   margin-bottom: 1rem;
+}
+
+.badge {
+  color: var(--bs-btn-color);
 }
