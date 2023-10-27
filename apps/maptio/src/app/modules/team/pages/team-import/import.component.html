@@ -10,20 +10,17 @@
     <div class="card-body">
       <div class="d-flex justify-content-between">
         <div class="d-flex justify-content-start w-75">
-          <div class="custom-file">
+          <div>
             <input
               #fileImportInput
               name="File Upload"
               id="txtFileUpload"
               type="file"
-              class="custom-file-input"
-              id="customFile"
+              class="form-control"
+              id="importFile"
               (change)="onFileChange($event)"
               accept=".csv"
             />
-            <label class="form-label custom-file-label" for="customFile" i18n>
-              Choose file
-            </label>
           </div>
 
           <button class="btn btn-outline-secondary ms-1" (click)="onReset()">
