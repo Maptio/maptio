@@ -75,14 +75,12 @@
     <div
       class="form-row w-100 d-flex justify-content-center align-items-center flex-column"
     >
-      <input
-        [(ngModel)]="team.name"
-        type="text"
-        class="form-control col-12 col-md-10 col-lg-6"
-      />
-      <small *ngIf="teamCreationErrorMessage" class="form-text text-danger">
-        {{ teamCreationErrorMessage }}
-      </small>
+      <div class="col-12 col-md-10 col-lg-6">
+        <input [(ngModel)]="team.name" type="text" class="form-control" />
+        <small *ngIf="teamCreationErrorMessage" class="form-text text-danger">
+          {{ teamCreationErrorMessage }}
+        </small>
+      </div>
     </div>
   </div>
 </ng-template>
@@ -162,7 +160,7 @@
     <img
       src="assets/images/tom.png"
       alt="Portrait photo of Tom Nixon"
-      class="text-start rounded-circle w-25 m-3"
+      class="float-start rounded-circle w-25 m-3"
     />
 
     <p
@@ -226,7 +224,7 @@
     <img
       src="assets/images/tom.png"
       alt="Portrait photo of Tom Nixon"
-      class="text-start rounded-circle w-25 m-3"
+      class="float-start rounded-circle w-25 m-3"
     />
 
     <p

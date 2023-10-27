@@ -9,6 +9,7 @@ a:hover,
   text-decoration: underline;
 }
 
+a.btn:hover,
 a.nav-link:hover,
 a.badge:hover,
 a.dropdown-toggle:hover,
@@ -78,4 +79,35 @@ $card-columns-margin: $card-spacer-y !default;
     var(--maptio-blue),
     var(--maptio-accent)
   ) !important;
+}
+
+.btn-info {
+  color: #fff;
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+.btn-info:hover {
+  color: #fff;
+  background-color: #138496;
+  border-color: #117a8b;
+}
+
+.btn-info:focus,
+.btn-info.focus {
+  box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.5);
+}
+
+.btn-info.disabled,
+.btn-info:disabled {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+.btn-info:active,
+.btn-info.active,
+.show > .btn-info.dropdown-toggle {
+  background-color: #138496;
+  background-image: none;
+  border-color: #117a8b;
 }
