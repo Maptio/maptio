@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgProgressModule } from '@ngx-progressbar/core';
+import { NgProgressModule } from 'ngx-progressbar';
 
 @Component({
   selector: 'loader',

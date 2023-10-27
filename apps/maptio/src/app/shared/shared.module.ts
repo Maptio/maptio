@@ -22,8 +22,8 @@ import { MarkdownUtilsService } from './services/markdown/markdown-utils.service
 import { ColorService } from './services/color/color.service';
 import { FocusIfDirective } from './directives/focusif.directive';
 
-import { NgProgressModule } from '@ngx-progressbar/core';
-import { NgProgressRouterModule } from '@ngx-progressbar/router';
+import { NgProgressModule } from 'ngx-progressbar';
+import { NgProgressRouterModule } from 'ngx-progressbar/router';
 
 @NgModule({
   imports: [
