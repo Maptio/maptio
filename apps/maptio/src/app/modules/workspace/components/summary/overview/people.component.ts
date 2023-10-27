@@ -1,6 +1,3 @@
-import { of as observableOf, Observable, Subscription, Subject } from 'rxjs';
-
-import { debounceTime, switchMap, combineLatest } from 'rxjs/operators';
 import {
   Component,
   OnInit,
@@ -9,7 +6,13 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+
+import { of as observableOf, Subscription, Subject } from 'rxjs';
+import { debounceTime, switchMap, combineLatest } from 'rxjs/operators';
+
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { DataService } from '../../../services/data.service';
 import { UserFactory } from '../../../../../core/http/user/user.factory';
@@ -22,7 +25,6 @@ import { Initiative } from '../../../../../shared/model/initiative.data';
 import { LoaderService } from '../../../../../shared/components/loading/loader.service';
 import { PermissionsDirective } from '../../../../../shared/directives/permission.directive';
 import { PersonalSummaryComponent } from './personal.component';
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'summary-people',
@@ -34,9 +36,10 @@ import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
   imports: [
     NgFor,
     NgIf,
+    NgTemplateOutlet,
+    NgbCollapseModule,
     PersonalSummaryComponent,
     PermissionsDirective,
-    NgTemplateOutlet,
   ],
 })
 export class PeopleSummaryComponent implements OnInit {

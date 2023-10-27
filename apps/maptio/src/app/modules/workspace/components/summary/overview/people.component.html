@@ -20,9 +20,7 @@
       class="btn btn-link btn-sm d-none d-md-block"
       type="button"
       (click)="isOthersPeopleVisible = !isOthersPeopleVisible"
-      data-toggle="collapse"
-      data-target="#collapseOtherMembers"
-      aria-expanded="false"
+      [aria-expanded]="isOthersPeopleVisible"
       aria-controls="collapseOtherMembers"
       i18n
     >
@@ -43,6 +41,7 @@
 
 <div
   id="collapseOtherMembers"
+  [(ngbCollapse)]="!isOthersPeopleVisible"
   [class.col-3]="selectedMember"
   [class.collapse]="selectedMember"
   [class.w-100]="!selectedMember"
