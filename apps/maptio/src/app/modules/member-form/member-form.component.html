@@ -86,17 +86,17 @@
   </div>
 
   <div *ngIf="isUserSignUp" class="form-group mt-4">
-    <div class="custom-control custom-checkbox">
+    <div class="form-check custom-checkbox">
       <input
         type="checkbox"
         id="inputIsTermsAccepted"
         formControlName="isTermsAccepted"
-        class="custom-control-input"
+        class="form-check-input"
         [class.is-invalid]="isFieldInvalid('isTermsAccepted')"
       />
 
       <label
-        class="form-label custom-control-label"
+        class="form-label form-check-label"
         for="inputIsTermsAccepted"
         i18n
       >
