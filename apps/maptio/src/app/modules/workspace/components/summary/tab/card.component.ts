@@ -1,13 +1,18 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { Initiative } from '../../../../../shared/model/initiative.data';
-import { Router } from '@angular/router';
-import { DataSet } from '../../../../../shared/model/dataset.data';
-import { Team } from '../../../../../shared/model/team.data';
-import { User } from '../../../../../shared/model/user.data';
-import { sortBy } from 'lodash';
-import { InitiativeHelperRoleComponent } from '../../data-entry/details/parts/helpers/helper-role.component';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgIf, NgFor, LowerCasePipe } from '@angular/common';
+import { Router } from '@angular/router';
+
+import {
+  NgbCollapseModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
+import { sortBy } from 'lodash';
+
+import { Initiative } from '@maptio-shared/model/initiative.data';
+import { Team } from '@maptio-shared/model/team.data';
+import { User } from '@maptio-shared/model/user.data';
+
+import { InitiativeHelperRoleComponent } from '../../data-entry/details/parts/helpers/helper-role.component';
 
 @Component({
   selector: 'personal-card',
@@ -16,10 +21,13 @@ import { NgIf, NgFor, LowerCasePipe } from '@angular/common';
   standalone: true,
   imports: [
     NgIf,
-    NgbTooltipModule,
     NgFor,
-    InitiativeHelperRoleComponent,
     LowerCasePipe,
+
+    NgbTooltipModule,
+    NgbCollapseModule,
+
+    InitiativeHelperRoleComponent,
   ],
 })
 export class PersonalCardComponent implements OnInit {

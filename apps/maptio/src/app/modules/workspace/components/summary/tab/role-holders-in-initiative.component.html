@@ -19,8 +19,7 @@
         [class.bg-light]="isShowRoles"
       >
         <a
-          class="btn btn-link px-3 text-start"
-          data-toggle="collapse"
+          class="col-auto btn btn-link px-3 text-start"
           [attr.data-target]="'.' + getMultipleCollapseClass()"
           [attr.aria-controls]="getMultipleCollapseId()"
           (click)="isShowRoles = !isShowRoles"
@@ -35,10 +34,11 @@
           ></i>
         </a>
 
-        <div>
+        <div class="col-auto ps-0">
           <!-- Members list when expanded -->
           <div
-            class="collapse {{ getMultipleCollapseClass() }} w-100"
+            [(ngbCollapse)]="!isShowRoles"
+            class="{{ getMultipleCollapseClass() }} w-100"
             id="{{ getWithDescriptionId() }}"
           >
             <div *ngFor="let h of roleHolders">
@@ -77,8 +77,9 @@
 
           <!-- Members list when collapsed -->
           <div
-            class="collapse {{ getMultipleCollapseClass() }} w-100 show"
+            class="{{ getMultipleCollapseClass() }} w-100"
             id="{{ getNoDescriptionId() }}"
+            *ngIf="!isShowRoles"
           >
             <div class="d-flex justify-content-start flex-wrap">
               <ul
