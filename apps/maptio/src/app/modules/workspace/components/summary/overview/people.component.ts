@@ -1,10 +1,10 @@
 import {
   Component,
   OnInit,
-  Output,
-  EventEmitter,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
+  computed,
+  signal,
 } from '@angular/core';
 import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -48,11 +48,15 @@ export class PeopleSummaryComponent implements OnInit {
   initiative: Initiative;
   team: Team;
   dataset: DataSet;
-  selectedMember: User;
   dataSubscription: Subscription;
   filterMembers$: Subject<string> = new Subject<string>();
-  isOthersPeopleVisible: boolean;
   Permissions = Permissions;
+
+  selectedMember = signal<User>(null);
+  showOtherMembers = signal<boolean>(false);
+  showAllMembers = computed(() => {
+    return this.selectedMember() === null || this.showOtherMembers();
+  });
 
   constructor(
     public route: ActivatedRoute,
@@ -73,13 +77,11 @@ export class PeopleSummaryComponent implements OnInit {
         switchMap((data: [any, Params]) => {
           if (data[1].member) {
             return this.userFactory.get(data[1].member).then((user: User) => {
-              this.selectedMember = user;
-              this.cd.markForCheck();
+              this.selectedMember.set(user);
               return data[0];
             });
           } else {
-            this.selectedMember = null;
-            this.cd.markForCheck();
+            this.selectedMember.set(null);
             return observableOf(data[0]);
           }
         })
@@ -121,12 +123,15 @@ export class PeopleSummaryComponent implements OnInit {
   }
 
   onSelectMember(user: User) {
-    this.selectedMember = user;
-    this.cd.markForCheck();
+    this.selectedMember.set(user);
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { member: user.shortid },
     });
+  }
+
+  toggleShowOtherMembers() {
+    this.showOtherMembers.set(!this.showOtherMembers());
   }
 
   onSelectInitiative(initiative: Initiative) {
