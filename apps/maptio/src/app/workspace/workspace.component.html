@@ -37,7 +37,7 @@
     >
       <div
         id="sidenav-hierarchy"
-        class="hierarchy w-100 h-100 card border-light border-right bg-white"
+        class="hierarchy w-100 h-100 card border-light border-end bg-white"
       >
         <button
           class="clean-close-button position-absolute top-right btn bg-transparent"
@@ -67,7 +67,7 @@
       id="details"
       [class.hide]="isDetailsPanelCollapsed || !isBuildingVisible"
       [ngClass]="{
-        'show border-right': !isDetailsPanelCollapsed && isBuildingVisible
+        'show border-end': !isDetailsPanelCollapsed && isBuildingVisible
       }"
       class="position-relative d-none d-md-block collapsible bg-white details h-100 justify-content-start"
     >
