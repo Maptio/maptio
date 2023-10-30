@@ -2,8 +2,8 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { ActivatedRoute, Params, RouterLink } from '@angular/router';
 
-import { Subscription, forkJoin } from 'rxjs';
 import { tap, combineLatest, flatMap } from 'rxjs/operators';
+import { Subscription, forkJoin } from 'rxjs';
 
 import { Intercom } from 'ng-intercom';
 

@@ -26,6 +26,8 @@
       "@maptio-shared/*": ["app/shared/*"],
       "@maptio-state/*": ["app/state/*"],
       "@maptio-login/*": ["app/modules/login/*"],
+      "@maptio-workspace/*": ["app/workspace/*"],
+      "@maptio-old-workspace/*": ["app/modules/workspace/*"],
       "@maptio-circle-map/*": ["app/modules/circle-map/*"],
       "@maptio-circle-map-expanded/*": ["app/modules/circle-map-expanded/*"],
       "@maptio-member": ["app/modules/member"],
