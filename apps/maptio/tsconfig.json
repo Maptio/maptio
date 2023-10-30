@@ -20,6 +20,7 @@
     "allowSyntheticDefaultImports": false,
     "baseUrl": "src",
     "paths": {
+      "@angular/*": ["./node_modules/@angular/*"],
       "@maptio-environment": ["environments/environment"],
       "@maptio-config/*": ["app/config/*"],
       "@maptio-core/*": ["app/core/*"],

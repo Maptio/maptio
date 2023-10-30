@@ -2,18 +2,14 @@ import { from as observableFrom, Observable } from 'rxjs';
 import { sortBy } from 'lodash-es';
 import { DatasetFactory } from '../../../../core/http/map/dataset.factory';
 import { DataSet } from '../../../../shared/model/dataset.data';
-import {
-  ActivatedRouteSnapshot,
-  Resolve,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { TeamFactory } from '../../../../core/http/team/team.factory';
 import { Team } from '../../../../shared/model/team.data';
 
 @Injectable()
 export class TeamComponentResolver
-  implements Resolve<{ team: Team; datasets: DataSet[] }> {
+   {
   constructor(
     private teamFactory: TeamFactory,
     private datasetFactory: DatasetFactory

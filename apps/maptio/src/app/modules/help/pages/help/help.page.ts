@@ -2,7 +2,7 @@ import { environment } from '../../../../config/environment';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../../../shared/model/user.data';
 import { Subscription } from 'rxjs';
-import { Intercom } from 'ng-intercom';
+import { Intercom } from '@supy-io/ngx-intercom';
 import { UserService } from '@maptio-shared/services/user/user.service';
 
 @Component({

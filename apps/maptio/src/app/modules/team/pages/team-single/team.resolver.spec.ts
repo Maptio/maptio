@@ -1,7 +1,7 @@
 import { TestBed, inject, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgProgressModule, NgProgress } from '@ngx-progressbar/core';
-import { IntercomModule } from 'ng-intercom';
+import { IntercomModule } from '@supy-io/ngx-intercom';
 import { TeamComponentResolver } from './team.resolver';
 import { Auth } from '../../../../core/authentication/auth.service';
 import { UserRoleService } from '../../../../shared/model/permission.data';
@@ -71,71 +71,65 @@ describe('team.resolver.ts', () => {
     });
   });
 
-  it(
-    'resolves when all datasets and teams load',
-    waitForAsync(
-      inject(
-        [TeamComponentResolver, DatasetFactory, TeamFactory],
-        (
-          target: TeamComponentResolver,
-          datasetFactory: DatasetFactory,
-          teamFactory: TeamFactory
-        ) => {
-          const spyGetDataSet = spyOn(datasetFactory, 'get').and.callFake(() => {
-            return Promise.resolve([
-              new DataSet({
-                datasetId: '1',
-                tags: [],
-                initiative: new Initiative({ name: `One`, team_id: `team_id` }),
+  it('resolves when all datasets and teams load', waitForAsync(
+    inject(
+      [TeamComponentResolver, DatasetFactory, TeamFactory],
+      (
+        target: TeamComponentResolver,
+        datasetFactory: DatasetFactory,
+        teamFactory: TeamFactory
+      ) => {
+        const spyGetDataSet = spyOn(datasetFactory, 'get').and.callFake(() => {
+          return Promise.resolve([
+            new DataSet({
+              datasetId: '1',
+              tags: [],
+              initiative: new Initiative({ name: `One`, team_id: `team_id` }),
+            }),
+            new DataSet({
+              datasetId: '2',
+              tags: [],
+              initiative: new Initiative({ name: `Two`, team_id: `team_id` }),
+            }),
+            new DataSet({
+              datasetId: '3',
+              tags: [],
+              initiative: new Initiative({
+                name: `Three`,
+                team_id: `team_id`,
               }),
-              new DataSet({
-                datasetId: '2',
-                tags: [],
-                initiative: new Initiative({ name: `Two`, team_id: `team_id` }),
-              }),
-              new DataSet({
-                datasetId: '3',
-                tags: [],
-                initiative: new Initiative({
-                  name: `Three`,
-                  team_id: `team_id`,
-                }),
-              }),
-            ]);
-          });
+            }),
+          ]);
+        });
 
-          const spyGetTeam = spyOn(teamFactory, 'get').and.callFake(() => {
-            return Promise.resolve(
-              new Team({
-                team_id: 'team_id',
-                name: `Team`,
-                members: [
-                  new User({ user_id: '1' }),
-                  new User({ user_id: '2' }),
-                ],
-              })
-            );
-          });
+        const spyGetTeam = spyOn(teamFactory, 'get').and.callFake(() => {
+          return Promise.resolve(
+            new Team({
+              team_id: 'team_id',
+              name: `Team`,
+              members: [new User({ user_id: '1' }), new User({ user_id: '2' })],
+            })
+          );
+        });
 
-          const snapshot = new ActivatedRouteSnapshot();
-          snapshot.params = { teamid: '123' };
-          target.resolve(snapshot, undefined).subscribe((data) => {
-            expect(spyGetDataSet).toHaveBeenCalledWith(
-              jasmine.objectContaining({ team_id: '123' })
-            );
-            expect(spyGetTeam).toHaveBeenCalledWith('123');
+        const snapshot = new ActivatedRouteSnapshot();
+        snapshot.params = { teamid: '123' };
+        target.resolve(snapshot, undefined).subscribe((data) => {
+          expect(spyGetDataSet).toHaveBeenCalledWith(
+            jasmine.objectContaining({ team_id: '123' })
+          );
+          expect(spyGetTeam).toHaveBeenCalledWith('123');
 
-            expect(data.team.team_id).toBe('team_id');
-            expect(data.team.name).toBe('Team');
-            expect(data.team.members.length).toBe(2);
+          expect(data.team.team_id).toBe('team_id');
+          expect(data.team.name).toBe('Team');
+          expect(data.team.members.length).toBe(2);
 
-            expect(data.datasets.length).toBe(3);
-            expect(data.datasets[0].initiative.name).toBe('One');
-            expect(data.datasets[1].initiative.name).toBe('Three');
-            expect(data.datasets[2].initiative.name).toBe('Two');
-          });
-        }
-      )
+          expect(data.datasets.length).toBe(3);
+          expect(data.datasets[0].initiative.name).toBe('One');
+          expect(data.datasets[1].initiative.name).toBe('Three');
+          expect(data.datasets[2].initiative.name).toBe('Two');
+        });
+      }
     )
-  );
+  ));
 });

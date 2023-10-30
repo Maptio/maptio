@@ -17,7 +17,7 @@
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "options": {
-        "localize": false,
+        "localize": ["en-US", "de", "fr", "ja", "pl"],
         "outputPath": "dist/apps/maptio",
         "index": "apps/maptio/src/index.html",
         "main": "apps/maptio/src/main.ts",
@@ -146,7 +146,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "apps/maptio/src/**/*.ts",
@@ -156,7 +156,7 @@
       "outputs": ["{options.outputFile}"]
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["coverage/apps/maptio"],
       "options": {
         "jestConfig": "apps/maptio/jest.config.ts",

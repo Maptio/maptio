@@ -2,7 +2,7 @@ import { NgModule, isDevMode } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
-import { IntercomModule, Intercom } from 'ng-intercom';
+import { IntercomModule, Intercom } from '@supy-io/ngx-intercom';
 
 import { environment } from '@maptio-environment';
 

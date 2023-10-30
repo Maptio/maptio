@@ -16,7 +16,7 @@ import {
 import { Subscription } from 'rxjs';
 
 import { SubSink } from 'subsink';
-import { Intercom } from 'ng-intercom';
+import { Intercom } from '@supy-io/ngx-intercom';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { environment } from '@maptio-environment';

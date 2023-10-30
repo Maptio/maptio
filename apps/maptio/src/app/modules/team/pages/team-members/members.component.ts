@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 
 import { cloneDeep, compact, uniqBy, sortBy } from 'lodash-es';
-import { Intercom } from 'ng-intercom';
+import { Intercom } from '@supy-io/ngx-intercom';
 
 import { environment } from '@maptio-environment';
 import { environment as config } from '@maptio-config/environment';
