@@ -1,21 +1,30 @@
-import { User } from '../../../../../shared/model/user.data';
-import { Team } from '../../../../../shared/model/team.data';
-import { Permissions } from '../../../../../shared/model/permission.data';
-import { UserFactory } from '../../../../../core/http/user/user.factory';
-import { DatasetFactory } from '../../../../../core/http/map/dataset.factory';
-import { DataService } from '../../../services/data.service';
-import { Initiative } from '../../../../../shared/model/initiative.data';
-
-import { EventEmitter, OnDestroy, Signal, inject, signal } from '@angular/core';
+import {} from '@angular/core';
 import {
   Component,
-  ViewChild,
-  Output,
   Input,
+  Output,
+  EventEmitter,
+  OnDestroy,
+  inject,
+  signal,
+  ViewChild,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { NgIf } from '@angular/common';
+
+import { Subscription, map } from 'rxjs';
+
+import {
+  NgbModal,
+  NgbNav,
+  NgbNavModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
+
+import { intersectionBy } from 'lodash';
+
 import {
   OutlineModule,
   NotebitsOutlineData,
@@ -23,38 +32,30 @@ import {
   OutlineItemMoveEvent,
 } from '@notebits/outline';
 
-import { Store } from '@ngrx/store';
-import { AppState } from '@maptio-state/app.state';
+import { UserFactory } from '@maptio-core/http/user/user.factory';
+import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 
-import {
-  NgbModal,
-  NgbNav,
-  NgbNavChangeEvent,
-  NgbNavModule,
-  NgbTooltipModule,
-} from '@ng-bootstrap/ng-bootstrap';
-
-import { intersectionBy } from 'lodash';
-import { Subscription, map } from 'rxjs';
-
+import { User } from '@maptio-shared/model/user.data';
+import { Team } from '@maptio-shared/model/team.data';
+import { Permissions } from '@maptio-shared/model/permission.data';
+import { Initiative } from '@maptio-shared/model/initiative.data';
 import { PermissionsService } from '@maptio-shared/services/permissions/permissions.service';
-import { LoaderService } from '../../../../../shared/components/loading/loader.service';
-import { Tag } from '../../../../../shared/model/tag.data';
-import { Role } from '../../../../../shared/model/role.data';
-import { DataSet } from '../../../../../shared/model/dataset.data';
-import { UserService } from '../../../../../shared/services/user/user.service';
-import { RoleLibraryService } from '../../../services/role-library.service';
+import { LoaderService } from '@maptio-shared/components/loading/loader.service';
+import { Tag } from '@maptio-shared/model/tag.data';
+import { Role } from '@maptio-shared/model/role.data';
+import { DataSet } from '@maptio-shared/model/dataset.data';
+import { StickyPopoverDirective } from '@maptio-shared/directives/sticky.directive';
+import { PermissionsDirective } from '@maptio-shared/directives/permission.directive';
 
 import { CircleMapService } from '@maptio-circle-map/circle-map.service';
 import { CircleMapService as CircleMapServiceExpanded } from '@maptio-circle-map-expanded/circle-map.service';
-import { EditTagsComponent } from '../tags/edit-tags.component';
-import { StickyPopoverDirective } from '../../../../../shared/directives/sticky.directive';
-import { InsufficientPermissionsMessageComponent } from '../../../../permissions-messages/insufficient-permissions-message.component';
-import { NgIf } from '@angular/common';
-import { PermissionsDirective } from '../../../../../shared/directives/permission.directive';
-import { OnboardingMessageComponent } from '../../../../onboarding-message/onboarding-message/onboarding-message.component';
 
+import { InsufficientPermissionsMessageComponent } from '../../../../permissions-messages/insufficient-permissions-message.component';
+import { OnboardingMessageComponent } from '../../../../onboarding-message/onboarding-message/onboarding-message.component';
 import { WorkspaceFacade } from '../../../+state/workspace.facade';
+import { DataService } from '../../../services/data.service';
+import { RoleLibraryService } from '../../../services/role-library.service';
+import { EditTagsComponent } from '../tags/edit-tags.component';
 
 @Component({
   selector: 'building',
