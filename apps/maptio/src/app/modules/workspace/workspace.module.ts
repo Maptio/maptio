@@ -14,7 +14,6 @@ import { SearchComponent } from './components/searching/search.component';
 import { WorkspaceGuard } from '../../core/guards/workspace.guard';
 import { WorkspaceComponentResolver } from './pages/workspace/workspace.resolver';
 import { InitiativeComponent } from './components/data-entry/details/initiative.component';
-import { InitiativeNodeComponent } from './components/data-entry/node/initiative.node.component';
 import { BuildingComponent } from './components/data-entry/hierarchy/building.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -95,7 +94,6 @@ import { WorkspaceFacade } from './+state/workspace.facade';
     CircleMapExpandedModule,
     MemberFormModule,
     BuildingComponent,
-    InitiativeNodeComponent,
     InitiativeComponent,
     InitiativeInputNameComponent,
     InitiativeListTagsComponent,

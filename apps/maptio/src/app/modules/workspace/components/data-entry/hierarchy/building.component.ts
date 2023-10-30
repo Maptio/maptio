@@ -17,11 +17,6 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
-  TreeNode,
-  TREE_ACTIONS,
-  TreeComponent,
-} from '@circlon/angular-tree-component';
-import {
   OutlineModule,
   NotebitsOutlineData,
   OutlineItemEditEvent,
@@ -31,7 +26,6 @@ import {
 import { Store } from '@ngrx/store';
 import { AppState } from '@maptio-state/app.state';
 
-import { InitiativeNodeComponent } from '../node/initiative.node.component';
 import {
   NgbModal,
   NgbNav,
@@ -76,7 +70,6 @@ import { WorkspaceFacade } from '../../../+state/workspace.facade';
     NgbTooltipModule,
     InsufficientPermissionsMessageComponent,
     StickyPopoverDirective,
-    InitiativeNodeComponent,
     EditTagsComponent,
     OutlineModule,
   ],
@@ -102,63 +95,9 @@ export class BuildingComponent implements OnDestroy {
   searched: string;
   nodes: Array<Initiative>;
 
-  options = {
-    allowDrag: (node: TreeNode) => node.data.isDraggable,
-    allowDrop: (element: any, to: { parent: any; index: number }) => {
-      return to.parent.parent !== null;
-    },
-    nodeClass: (node: TreeNode) => {
-      return node.parent && node.isRoot ? 'node-root' : '';
-    },
-    nodeHeight: 55,
-    actionMapping: {
-      mouse: {
-        dragStart: () => {
-          this.cd.detach();
-        },
-        dragEnd: () => {
-          this.cd.reattach();
-        },
-        drop: (
-          tree: any,
-          node: TreeNode,
-          $event: any,
-          { from, to }: { from: TreeNode; to: TreeNode }
-        ) => {
-          this.fromInitiative = from.data;
-          this.toInitiative = to.parent.data;
+  eermissions = Permissions;
 
-          if (from.parent.id === to.parent.id) {
-            // if simple reordering, we dont ask for confirmation
-            TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to });
-          } else {
-            this.modalService
-              .open(this.dragConfirmationModal, { centered: true })
-              .result.then((result) => {
-                if (result) {
-                  TREE_ACTIONS.MOVE_NODE(tree, node, $event, {
-                    from: from,
-                    to: to,
-                  });
-                } else {
-                }
-              })
-              .catch((reason) => {});
-          }
-        },
-      },
-    },
-  };
-
-  SAVING_FREQUENCY = 10;
-
-  Permissions = Permissions;
-
-  @ViewChild('tree') public tree: TreeComponent;
   @ViewChild('nav', { static: true }) public tabs: NgbNav;
-
-  @ViewChild(InitiativeNodeComponent)
-  node: InitiativeNodeComponent;
 
   @ViewChild('deleteConfirmation', { static: true })
   deleteConfirmationModal: NgbModal;
@@ -196,7 +135,6 @@ export class BuildingComponent implements OnDestroy {
     private datasetFactory: DatasetFactory,
     private modalService: NgbModal,
     private userFactory: UserFactory,
-    private userService: UserService,
     private roleLibrary: RoleLibraryService,
     private cd: ChangeDetectorRef,
     private loaderService: LoaderService,
@@ -222,11 +160,6 @@ export class BuildingComponent implements OnDestroy {
         this.onLibraryRoleDelete(deletedRole);
       }
     );
-
-    // Open all nodes unless we have saved state
-    if (!this.state) {
-      this.toggleAll(true);
-    }
   }
 
   ngOnDestroy() {
@@ -234,13 +167,6 @@ export class BuildingComponent implements OnDestroy {
     if (this.roleEditedSubscription) this.roleEditedSubscription.unsubscribe();
     if (this.roleDeletedSubscription)
       this.roleDeletedSubscription.unsubscribe();
-  }
-
-  ngAfterViewChecked() {
-    try {
-      const someNode = this.tree.treeModel.getFirstRoot();
-      someNode.expand();
-    } catch (e) {}
   }
 
   saveChanges() {
@@ -264,12 +190,6 @@ export class BuildingComponent implements OnDestroy {
 
   updateTreeModel(treeModel: any) {
     treeModel.update();
-  }
-
-  updateTree() {
-    // this will saveChanges() on the callback
-    console.log('updateTree');
-    this.tree.treeModel.update();
   }
 
   // TODO: Remove this completely when we remove the old outliner
@@ -350,18 +270,7 @@ export class BuildingComponent implements OnDestroy {
       .catch();
   }
 
-  moveNode(node: Initiative, from: Initiative, to: Initiative) {
-    const foundTreeNode = this.tree.treeModel.getNodeById(node.id);
-    const foundToNode = this.tree.treeModel.getNodeById(to.id);
-    TREE_ACTIONS.MOVE_NODE(
-      this.tree.treeModel,
-      foundToNode,
-      {},
-      { from: foundTreeNode, to: { parent: foundToNode } }
-    );
-  }
-
-  removeNode(node: Initiative) {
+  private removeNode(node: Initiative) {
     let hasFoundNode = false;
 
     const index = this.nodes[0].children.findIndex((c) => c.id === node.id);
@@ -378,7 +287,6 @@ export class BuildingComponent implements OnDestroy {
       });
     }
 
-    this.updateTree();
     this.sendInitiativesToOutliner();
   }
 
@@ -410,34 +318,10 @@ export class BuildingComponent implements OnDestroy {
         }
       });
     }
-
-    this.updateTree();
   }
 
   addRootNode() {
     this.addNodeTo(this.nodes[0], new Initiative());
-  }
-
-  toggleAll(isExpand: boolean) {
-    if (this.isToggling) return;
-    this.isToggling = true;
-    this.isExpanding = isExpand === true;
-    this.isCollapsing = isExpand === false;
-    this.cd.markForCheck();
-
-    setTimeout(() => {
-      isExpand
-        ? this.tree.treeModel.expandAll()
-        : this.tree.treeModel.collapseAll();
-
-      // This is handled in setState already... but that doesn't fire
-      // the tree is already expanded, effectively breaking the
-      // expand/collapse all buttons - so we repeat this here
-      this.isCollapsing = false;
-      this.isExpanding = false;
-      this.isToggling = false;
-      this.cd.markForCheck();
-    }, 100);
   }
 
   /**

@@ -72,7 +72,6 @@
     "@angular/router": "16.2.11",
     "@auth0/angular-jwt": "^5.1.2",
     "@auth0/auth0-angular": "^1.11.1",
-    "@circlon/angular-tree-component": "^11.0.4",
     "@cloudinary/ng": "^2.0.0",
     "@cloudinary/url-gen": "^1.11.2",
     "@ng-bootstrap/ng-bootstrap": "^15.1.1",

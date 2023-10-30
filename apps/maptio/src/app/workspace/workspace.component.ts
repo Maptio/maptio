@@ -263,22 +263,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     this.buildingComponent.addNodeTo(data.node, data.subNode);
   }
 
-  removeInitiative(node: Initiative) {
-    this.buildingComponent.removeNode(node);
-  }
-
-  moveInitiative({
-    node,
-    from,
-    to,
-  }: {
-    node: Initiative;
-    from: Initiative;
-    to: Initiative;
-  }) {
-    this.buildingComponent.moveNode(node, from, to);
-  }
-
   openDetailsPanel() {
     this.isDetailsPanelCollapsed = false;
     // this.resizeMap();
