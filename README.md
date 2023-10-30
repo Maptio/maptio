@@ -28,12 +28,11 @@ To launch it on your local server, see the [Setting up dev](#setting-up-dev) sec
 
 ### Built With
 
-- Angular 7.2.1
-- Typescript 3.3.3
-- Webpack 4.28.4
-- Bootstrap 4.1.1
-- D3 4.0
-- Express 4.14.1
+- Angular
+- Typescript
+- Bootstrap
+- D3
+- Express
 
 Additionally , we use these services/packages : 
 - Angular Tree Component `angular2-tree-component`
@@ -57,12 +56,10 @@ cd maptio/
 
 #### 2. Setup the environment variables
 
-Go to our #instructions channels in slack and copy 
-https://maptio.slack.com/files/U2V4KAPJP/FDXNFAUBE/_env__root_folder_.md to ./.env
-https://maptio.slack.com/files/U2V4KAPJP/FDZ9UK64E/id_rsa__root_folder__no_extension_.diff to ./id_rsa
-https://maptio.slack.com/files/U2V4KAPJP/FDXNG2XJQ/rsa_pub__root_folder_.diff to ./rsa.pub
+Unforutnately, Maptio currently relies on external services, many of which need to be set up for the app to work.
+If you'd like to set them up, please use the `.env.sample` template to create a `.env` file in the root folder and use the environment variables there as a guide for what services to set up and what environment variables to obtain from them.
 
-Please note, the environment variables point to the production database, please handle these safely and be careful when making changes locally. To avoid problems, it's recommended that you set up at least the DB locally - see the next step.
+We're aware that this makes setting up Maptio for local development difficult and hope to be able to improve this - and all help is very much welcome! Please see [#811](https://github.com/Maptio/maptio/issues/811) for a discussion and to share your thoughts.
 
 #### 3. Set up a local database
 
@@ -89,7 +86,7 @@ A webpack analyzer window might open at http://localhost:8888, ignore this for n
 
 #### 5. Access
 
-Go to  `http://localhost:3000` to see it in the browser.
+Go to  `http://localhost:4200` to see it in the browser.
 
 If you have previously logged in to the app locally using the production
 database, you will find it's now impossible to log in to the app locally if
