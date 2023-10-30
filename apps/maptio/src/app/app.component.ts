@@ -6,7 +6,12 @@ import {
   OnDestroy,
   Renderer2,
 } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import {
+  Router,
+  ActivatedRoute,
+  NavigationEnd,
+  RouterOutlet,
+} from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
@@ -16,12 +21,25 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { environment } from '@maptio-environment';
 import { LoaderService } from './shared/components/loading/loader.service';
+import { FooterComponent } from './core/footer/footer.component';
+import { LoaderComponent } from './shared/components/loading/loader.component';
+import { HeaderComponent } from './core/header/header.component';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'maptio-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    HeaderComponent,
+    LoaderComponent,
+    RouterOutlet,
+    FooterComponent,
+    AsyncPipe,
+  ],
 })
 export class AppComponent implements OnInit, OnDestroy {
   private subs = new SubSink();

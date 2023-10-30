@@ -1,0 +1,30 @@
+{
+  "name": "maptio-admin-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/maptio-admin-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/maptio-admin-e2e/cypress.json",
+        "tsConfig": "apps/maptio-admin-e2e/tsconfig.e2e.json",
+        "devServerTarget": "maptio-admin:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "maptio-admin:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/maptio-admin-e2e/**/*.{js,ts}"]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["maptio-admin"]
+}

@@ -21,7 +21,6 @@ import { TeamService } from './services/team/team.service';
 import { MarkdownUtilsService } from './services/markdown/markdown-utils.service';
 import { ColorService } from './services/color/color.service';
 import { FocusIfDirective } from './directives/focusif.directive';
-import { PermissionsMessagesModule } from '../modules/permissions-messages/permissions-messages.module';
 
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
@@ -35,9 +34,10 @@ import { NgProgressRouterModule } from '@ngx-progressbar/router';
     NgbPopoverModule,
     NgProgressModule,
     NgProgressRouterModule,
-    PermissionsMessagesModule,
+    DebounceDirective,
+    ClosableDirective,
+    FocusIfDirective,
   ],
-  declarations: [DebounceDirective, ClosableDirective, FocusIfDirective],
   exports: [DebounceDirective, ClosableDirective, FocusIfDirective],
 })
 export class SharedModule {

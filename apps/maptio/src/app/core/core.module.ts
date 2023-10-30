@@ -38,17 +38,6 @@ export function tokenGetter(): string {
 }
 
 @NgModule({
-  declarations: [
-    HeaderComponent,
-    OnboardingBannerComponent,
-    FooterComponent,
-    LoaderComponent,
-    UnauthorizedComponent,
-    NotFoundComponent,
-    LoginErrorPageComponent,
-    ErrorPageComponent,
-    LanguagePickerComponent,
-  ],
   imports: [
     CommonModule,
     RouterModule,
@@ -64,6 +53,15 @@ export function tokenGetter(): string {
     NgProgressModule,
     NgProgressRouterModule,
     LoginModule,
+    HeaderComponent,
+    OnboardingBannerComponent,
+    FooterComponent,
+    LoaderComponent,
+    UnauthorizedComponent,
+    NotFoundComponent,
+    LoginErrorPageComponent,
+    ErrorPageComponent,
+    LanguagePickerComponent,
   ],
   exports: [
     HeaderComponent,

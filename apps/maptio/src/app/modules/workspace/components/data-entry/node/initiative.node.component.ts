@@ -22,11 +22,33 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { TreeNode, TreeModel } from '@circlon/angular-tree-component';
+import { StickyPopoverDirective } from '../../../../../shared/directives/sticky.directive';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { Angulartics2OnModule } from 'angulartics2';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { FocusIfDirective } from '../../../../../shared/directives/focusif.directive';
+import { DebounceDirective } from '../../../../../shared/directives/debounce.directive';
+import { FormsModule } from '@angular/forms';
+import { PermissionsDirective } from '../../../../../shared/directives/permission.directive';
+import { InsufficientPermissionsMessageComponent } from '../../../../permissions-messages/insufficient-permissions-message.component';
 
 @Component({
   selector: 'initiative-node',
   templateUrl: './initiative.node.component.html',
   styleUrls: ['./initiative.node.component.css'],
+  standalone: true,
+  imports: [
+    InsufficientPermissionsMessageComponent,
+    PermissionsDirective,
+    FormsModule,
+    DebounceDirective,
+    FocusIfDirective,
+    NgIf,
+    Angulartics2OnModule,
+    NgbTooltipModule,
+    StickyPopoverDirective,
+    NgTemplateOutlet,
+  ],
 })
 export class InitiativeNodeComponent {
   PLACEMENT = 'top';

@@ -10,9 +10,13 @@ import {
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
 
-import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbTypeaheadSelectItemEvent,
+  NgbTypeaheadModule,
+} from '@ng-bootstrap/ng-bootstrap';
 
 import { flatten, uniqBy } from 'lodash-es';
+import { NgIf } from '@angular/common';
 
 import { Initiative } from '@maptio-shared/model/initiative.data';
 import { User } from '@maptio-shared/model/user.data';
@@ -32,6 +36,8 @@ class SearchResult {
   selector: 'search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css'],
+  standalone: true,
+  imports: [NgIf, NgbTypeaheadModule],
 })
 export class SearchComponent implements OnInit {
   @Input() list: Initiative[];

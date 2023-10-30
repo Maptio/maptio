@@ -27,6 +27,17 @@ import { User } from '../../../../../shared/model/user.data';
 import { Tag } from '../../../../../shared/model/tag.data';
 import { Initiative } from '../../../../../shared/model/initiative.data';
 import { PermissionsService } from '../../../../../shared/services/permissions/permissions.service';
+import { InitiativeInputSizeComponent } from './parts/size/input-size.component';
+import { InitiativeVacanciesInputComponent } from './parts/helpers/vacancies-input.component';
+import { InitiativeHelperInputComponent } from './parts/helpers/helper-input.component';
+import { NgFor, NgTemplateOutlet } from '@angular/common';
+import { InitiativeHelpersSelectComponent } from './parts/helpers/helpers-select.component';
+import { InitiativeDescriptionTextareaComponent } from './parts/description/description-textarea.component';
+import { InitiativeAuthoritySelectComponent } from './parts/authority/authority-select.component';
+import { InitiativeListTagsComponent } from './parts/tags/list-tags.component';
+import { InsufficientPermissionsMessageComponent } from '../../../../permissions-messages/insufficient-permissions-message.component';
+import { InitiativeInputNameComponent } from './parts/name/initiative-input-name.component';
+import { OnboardingMessageComponent } from '../../../../onboarding-message/onboarding-message/onboarding-message.component';
 
 @Component({
   selector: 'initiative',
@@ -34,6 +45,21 @@ import { PermissionsService } from '../../../../../shared/services/permissions/p
   styleUrls: ['./initiative.component.css'],
   providers: [Angulartics2Mixpanel],
   changeDetection: ChangeDetectionStrategy.Default,
+  standalone: true,
+  imports: [
+    OnboardingMessageComponent,
+    InitiativeInputNameComponent,
+    InsufficientPermissionsMessageComponent,
+    InitiativeListTagsComponent,
+    InitiativeAuthoritySelectComponent,
+    InitiativeDescriptionTextareaComponent,
+    InitiativeHelpersSelectComponent,
+    NgFor,
+    InitiativeHelperInputComponent,
+    NgTemplateOutlet,
+    InitiativeVacanciesInputComponent,
+    InitiativeInputSizeComponent,
+  ],
 })
 export class InitiativeComponent implements OnChanges {
   @Input() node: Initiative;

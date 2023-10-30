@@ -11,7 +11,10 @@ import {
 } from '@angular/core';
 import { NgModel } from '@angular/forms';
 
-@Directive({ selector: '[debounce]' })
+@Directive({
+  selector: '[debounce]',
+  standalone: true,
+})
 export class DebounceDirective implements OnInit {
   @Input() delay = 750;
   @Output() func: EventEmitter<any> = new EventEmitter();

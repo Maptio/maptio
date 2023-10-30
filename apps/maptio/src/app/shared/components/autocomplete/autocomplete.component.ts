@@ -16,6 +16,7 @@ import { Observable, merge, Subject } from 'rxjs';
 import {
   NgbTypeaheadSelectItemEvent,
   NgbTypeahead,
+  NgbTypeaheadModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import {
   map,
@@ -23,12 +24,16 @@ import {
   debounceTime,
   distinctUntilChanged,
 } from 'rxjs/operators';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { FormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'common-autocomplete',
   templateUrl: './autocomplete.component.html',
   host: { class: 'w-100' },
-  // styleUrls: ['./autocomplete.component.css']
+  standalone: true,
+  imports: [NgIf, FormsModule, NgbTypeaheadModule, ConfirmationPopoverModule],
 })
 export class CommonAutocompleteComponent implements OnInit {
   @Input('placeholder') placeholder: string;

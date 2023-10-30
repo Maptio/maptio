@@ -6,7 +6,13 @@ import {
   OnInit,
   ChangeDetectorRef,
 } from '@angular/core';
-import { UntypedFormControl, Validators, UntypedFormGroup } from '@angular/forms';
+import {
+  UntypedFormControl,
+  Validators,
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Intercom } from 'ng-intercom';
@@ -20,11 +26,25 @@ import { Team } from '@maptio-shared/model/team.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
+import { MemberComponent } from '../member/member.component';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { NgIf, NgFor } from '@angular/common';
+import { ImageUploadComponent } from '../../shared/components/image-upload/image-upload.component';
 
 @Component({
   selector: 'maptio-member-form',
   templateUrl: './member-form.component.html',
   styleUrls: ['./member-form.component.scss'],
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    ImageUploadComponent,
+    NgIf,
+    ConfirmationPopoverModule,
+    NgFor,
+    MemberComponent,
+  ],
 })
 export class MemberFormComponent implements OnInit {
   TERMS_AND_CONDITIONS_URL = environment.TERMS_AND_CONDITIONS_URL;
@@ -83,7 +103,9 @@ export class MemberFormComponent implements OnInit {
       firstname: new UntypedFormControl('', {
         validators: [Validators.required, Validators.minLength(2)],
       }),
-      lastname: new UntypedFormControl('', { validators: [Validators.minLength(2)] }),
+      lastname: new UntypedFormControl('', {
+        validators: [Validators.minLength(2)],
+      }),
       email: new UntypedFormControl('', { validators: [Validators.email] }),
     });
 

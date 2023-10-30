@@ -34,6 +34,8 @@ import { CircleMapData } from '@maptio-shared/model/circle-map-data.interface';
 import { DataSet } from '@maptio-shared/model/dataset.data';
 import { InitiativeNode } from '@maptio-circle-map/initiative.model';
 import { CircleMapService } from '@maptio-circle-map/circle-map.service';
+import { CircleMapComponent } from '../../../circle-map/circle-map.component';
+import { OnboardingMessageComponent } from '../../../onboarding-message/onboarding-message/onboarding-message.component';
 
 @Component({
   selector: 'maptio-circles-gradual-reveal',
@@ -42,9 +44,12 @@ import { CircleMapService } from '@maptio-circle-map/circle-map.service';
   host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [OnboardingMessageComponent, CircleMapComponent],
 })
 export class MappingCirclesGradualRevealComponent
-  implements IDataVisualizer, OnInit, OnDestroy {
+  implements IDataVisualizer, OnInit, OnDestroy
+{
   public datasetId: string;
   public width: number;
   public height: number;
@@ -188,7 +193,7 @@ export class MappingCirclesGradualRevealComponent
 
   showInfoPanelFor(circle: InitiativeNode) {
     this.showToolipOf$.next({
-      initiatives: [(circle.data as unknown) as Initiative],
+      initiatives: [circle.data as unknown as Initiative],
       isNameOnly: false,
     });
   }

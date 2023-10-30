@@ -34,6 +34,8 @@ import { CircleMapDataExpanded } from '@maptio-shared/model/circle-map-data.inte
 import { DataSet } from '@maptio-shared/model/dataset.data';
 import { InitiativeNode } from '@maptio-circle-map-expanded/initiative.model';
 import { CircleMapService } from '@maptio-circle-map-expanded/circle-map.service';
+import { CircleMapExpandedComponent } from '../../../circle-map-expanded/circle-map-expanded.component';
+import { OnboardingMessageComponent } from '../../../onboarding-message/onboarding-message/onboarding-message.component';
 
 @Component({
   selector: 'maptio-circles-expanded',
@@ -42,9 +44,12 @@ import { CircleMapService } from '@maptio-circle-map-expanded/circle-map.service
   host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [OnboardingMessageComponent, CircleMapExpandedComponent],
 })
 export class MappingCirclesExpandedComponent
-  implements IDataVisualizer, OnInit, OnDestroy {
+  implements IDataVisualizer, OnInit, OnDestroy
+{
   public datasetId: string;
   public width: number;
   public height: number;
@@ -198,7 +203,7 @@ export class MappingCirclesExpandedComponent
 
   showInfoPanelFor(circle: InitiativeNode) {
     this.showToolipOf$.next({
-      initiatives: [(circle.data as unknown) as Initiative],
+      initiatives: [circle.data as unknown as Initiative],
       isNameOnly: false,
     });
   }

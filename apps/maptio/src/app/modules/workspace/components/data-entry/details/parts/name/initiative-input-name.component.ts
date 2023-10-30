@@ -9,11 +9,13 @@ import {
   ElementRef,
 } from '@angular/core';
 import { Permissions } from '../../../../../../../shared/model/permission.data';
+import { CommonTextareaComponent } from '../../../../../../../shared/components/textarea/textarea.component';
 
 @Component({
   selector: 'maptio-initiative-input-name',
   templateUrl: './initiative-input-name.component.html',
-  // styleUrls: ['./input-name.component.css']
+  standalone: true,
+  imports: [CommonTextareaComponent],
 })
 export class InitiativeInputNameComponent implements OnInit {
   @Input('name') name: string;

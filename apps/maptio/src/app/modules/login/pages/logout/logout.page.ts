@@ -4,11 +4,16 @@ import { ActivatedRoute } from '@angular/router';
 import { environment } from '@maptio-environment';
 import { environment as config } from '@maptio-config/environment';
 import { UserService } from '@maptio-shared/services/user/user.service';
+import { SafePipe } from '../../../../shared/pipes/safe.pipe';
+import { LoginRedirectDirective } from '../../login-redirect/login-redirect.directive';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'maptio-logout',
   templateUrl: './logout.page.html',
   styleUrls: ['./logout.page.css'],
+  standalone: true,
+  imports: [NgIf, LoginRedirectDirective, AsyncPipe, SafePipe],
 })
 export class LogoutComponent implements OnInit {
   isComingFromAuth0 = false;

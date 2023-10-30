@@ -20,6 +20,7 @@ import {
   TreeNode,
   TREE_ACTIONS,
   TreeComponent,
+  TreeModule,
 } from '@circlon/angular-tree-component';
 
 import { InitiativeNodeComponent } from '../node/initiative.node.component';
@@ -27,6 +28,8 @@ import {
   NgbModal,
   NgbNav,
   NgbNavChangeEvent,
+  NgbNavModule,
+  NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderService } from '../../../../../shared/components/loading/loader.service';
 import { Tag } from '../../../../../shared/model/tag.data';
@@ -39,12 +42,31 @@ import { Subject, Subscription } from 'rxjs';
 
 import { CircleMapService } from '@maptio-circle-map/circle-map.service';
 import { CircleMapService as CircleMapServiceExpanded } from '@maptio-circle-map-expanded/circle-map.service';
+import { EditTagsComponent } from '../tags/edit-tags.component';
+import { StickyPopoverDirective } from '../../../../../shared/directives/sticky.directive';
+import { InsufficientPermissionsMessageComponent } from '../../../../permissions-messages/insufficient-permissions-message.component';
+import { NgIf } from '@angular/common';
+import { PermissionsDirective } from '../../../../../shared/directives/permission.directive';
+import { OnboardingMessageComponent } from '../../../../onboarding-message/onboarding-message/onboarding-message.component';
 
 @Component({
   selector: 'building',
   templateUrl: './building.component.html',
   styleUrls: ['./building.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    OnboardingMessageComponent,
+    NgbNavModule,
+    PermissionsDirective,
+    NgIf,
+    NgbTooltipModule,
+    InsufficientPermissionsMessageComponent,
+    StickyPopoverDirective,
+    TreeModule,
+    InitiativeNodeComponent,
+    EditTagsComponent,
+  ],
 })
 export class BuildingComponent implements OnDestroy {
   searched: string;

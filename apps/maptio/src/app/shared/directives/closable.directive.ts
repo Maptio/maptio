@@ -2,6 +2,7 @@ import { Directive, ElementRef, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[closable]',
+  standalone: true,
 })
 export class ClosableDirective {
   constructor(elr: ElementRef, private renderer: Renderer2) {

@@ -18,6 +18,10 @@ import { Team } from '../../../../../shared/model/team.data';
 import { User } from '../../../../../shared/model/user.data';
 import { Initiative } from '../../../../../shared/model/initiative.data';
 import { LoaderService } from '../../../../../shared/components/loading/loader.service';
+import { RoleHoldersInInitiativeComponent } from '../tab/role-holders-in-initiative.component';
+import { InitiativeHelperRoleComponent } from '../../data-entry/details/parts/helpers/helper-role.component';
+import { InitiativeHelperRoleInputComponent } from '../../data-entry/details/parts/helpers/helper-role-input.component';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
   selector: 'summary-roles',
@@ -25,6 +29,14 @@ import { LoaderService } from '../../../../../shared/components/loading/loader.s
   styleUrls: ['./roles.component.css'],
   host: { class: 'd-flex flex-column w-100' },
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    InitiativeHelperRoleInputComponent,
+    NgFor,
+    InitiativeHelperRoleComponent,
+    RoleHoldersInInitiativeComponent,
+  ],
 })
 export class RolesSummaryComponent implements OnInit {
   initiative: Initiative;
@@ -104,9 +116,8 @@ export class RolesSummaryComponent implements OnInit {
           if (helper && helper.roles) {
             helper.roles.forEach((helperRole) => {
               if (this.roleLibrary.findRoleInList(helperRole, this.roles)) {
-                const libraryRole = this.roleLibrary.findRoleInLibrary(
-                  helperRole
-                );
+                const libraryRole =
+                  this.roleLibrary.findRoleInLibrary(helperRole);
                 if (!this.getInitiativesFor(libraryRole).includes(initiative)) {
                   this.initiativesWithRole.set(
                     libraryRole,

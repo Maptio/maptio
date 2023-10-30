@@ -11,7 +11,14 @@ import {
   ViewChild,
   ElementRef,
 } from '@angular/core';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  Params,
+  RouterLinkActive,
+  RouterLink,
+  RouterOutlet,
+} from '@angular/router';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { compact } from 'lodash-es';
 import { BehaviorSubject, ReplaySubject, Subject, Subscription } from 'rxjs';
@@ -36,12 +43,41 @@ import {
   MapSettingsService,
   MapSettings,
 } from '../../services/map-settings.service';
+import { InsufficientPermissionsMessageComponent } from '../../../permissions-messages/insufficient-permissions-message.component';
+import { StickyPopoverDirective } from '../../../../shared/directives/sticky.directive';
+import { PermissionsDirective } from '../../../../shared/directives/permission.directive';
+import { ColorPickerComponent } from '../../../../shared/components/color-picker/color-picker.component';
+import { SharingComponent } from '../sharing/sharing.component';
+import { FilterTagsComponent } from '../filtering/tags.component';
+import { SearchComponent } from '../searching/search.component';
+import { ClosableDirective } from '../../../../shared/directives/closable.directive';
+import { ContextMenuComponent } from '../context-menu/context-menu.component';
+import { NgTemplateOutlet, NgIf } from '@angular/common';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'mapping',
   templateUrl: './mapping.component.html',
   styleUrls: ['./mapping.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgbTooltipModule,
+    RouterLinkActive,
+    RouterLink,
+    RouterOutlet,
+    NgTemplateOutlet,
+    NgIf,
+    ContextMenuComponent,
+    ClosableDirective,
+    SearchComponent,
+    FilterTagsComponent,
+    SharingComponent,
+    ColorPickerComponent,
+    PermissionsDirective,
+    StickyPopoverDirective,
+    InsufficientPermissionsMessageComponent,
+  ],
 })
 export class MappingComponent {
   isFirstEdit: boolean;
@@ -162,9 +198,9 @@ export class MappingComponent {
           .setAttribute('height', `${this.uiService.getCanvasHeight()}`);
       } else {
         if (document.querySelector('#summary-canvas'))
-          (document.querySelector(
-            '#summary-canvas'
-          ) as HTMLElement).style.maxHeight = this.isFullScreen
+          (
+            document.querySelector('#summary-canvas') as HTMLElement
+          ).style.maxHeight = this.isFullScreen
             ? null
             : `${this.uiService.getCanvasHeight() * 0.95}px`;
         this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();

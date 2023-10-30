@@ -1,10 +1,19 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Tag } from '../../../../../../../shared/model/tag.data';
+import { StickyPopoverDirective } from '../../../../../../../shared/directives/sticky.directive';
+import { NgIf, NgFor } from '@angular/common';
+import { InsufficientPermissionsMessageComponent } from '../../../../../../permissions-messages/insufficient-permissions-message.component';
 
 @Component({
   selector: 'initiative-list-tags',
   templateUrl: './list-tags.component.html',
-  // styleUrls: ['./list-tags.component.css']
+  standalone: true,
+  imports: [
+    InsufficientPermissionsMessageComponent,
+    NgIf,
+    StickyPopoverDirective,
+    NgFor,
+  ],
 })
 export class InitiativeListTagsComponent implements OnInit {
   @Input('available') availableTags: Array<Tag>;

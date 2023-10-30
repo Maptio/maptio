@@ -8,7 +8,13 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  UntypedFormControl,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 import { cloneDeep } from 'lodash-es';
 import { saveAs } from 'file-saver';
@@ -18,11 +24,24 @@ import { DataSet } from '@maptio-shared/model/dataset.data';
 import { MapService } from '@maptio-shared/services/map/map.service';
 import { ExportService } from '@maptio-shared/services/export/export.service';
 import { Permissions } from '@maptio-shared/model/permission.data';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { PermissionsDirective } from '../../../directives/permission.directive';
+import { RouterLink } from '@angular/router';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'maptio-map-card',
   templateUrl: './map-card.component.html',
   styleUrls: ['./map-card.component.css'],
+  standalone: true,
+  imports: [
+    NgIf,
+    RouterLink,
+    FormsModule,
+    ReactiveFormsModule,
+    PermissionsDirective,
+    ConfirmationPopoverModule,
+  ],
 })
 export class MapCardComponent implements OnInit, OnChanges {
   @Input() dataset: DataSet;

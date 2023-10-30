@@ -66,9 +66,9 @@ import { InitiativeInputSizeComponent } from './components/data-entry/details/pa
 import { CircleMapModule } from '@maptio-circle-map/circle-map.module';
 import { CircleMapExpandedModule } from '@maptio-circle-map-expanded/circle-map-expanded.module';
 import { MemberFormModule } from '@maptio-member-form';
-import { OnboardingMessageModule } from '../onboarding-message/onboarding-message.module';
+
 import { SharingComponent } from './components/sharing/sharing.component';
-import { PermissionsMessagesModule } from '../permissions-messages/permissions-messages.module';
+
 // TODO: Why is this not working instead of the above line, what am I missing?
 // import { OnboardingMessageModule } from "@maptio-onboarding-message";
 
@@ -95,10 +95,6 @@ import { PermissionsMessagesModule } from '../permissions-messages/permissions-m
     CircleMapModule,
     CircleMapExpandedModule,
     MemberFormModule,
-    OnboardingMessageModule,
-    PermissionsMessagesModule,
-  ],
-  declarations: [
     WorkspaceComponent,
     BuildingComponent,
     InitiativeNodeComponent,
@@ -128,7 +124,6 @@ import { PermissionsMessagesModule } from '../permissions-messages/permissions-m
     VacanciesSummaryComponent,
     RoleHoldersInInitiativeComponent,
     InitiativeInputSizeComponent,
-
     SearchComponent,
     FilterTagsComponent,
     TooltipComponent,
@@ -137,7 +132,6 @@ import { PermissionsMessagesModule } from '../permissions-messages/permissions-m
     EditTagsComponent,
     CommonAutocompleteComponent,
     CommonTextareaComponent,
-
     StripMarkdownPipe,
     EllipsisPipe,
     SharingComponent,

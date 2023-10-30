@@ -30,12 +30,23 @@ import { Store } from '@ngrx/store';
 import { AppState } from '@maptio-state/app.state';
 import { setCurrentOrganisationId } from '@maptio-state/current-organisation.actions';
 import { MapService } from '@maptio-shared/services/map/map.service';
+import { MappingComponent } from '../../components/canvas/mapping.component';
+import { InitiativeComponent } from '../../components/data-entry/details/initiative.component';
+import { NgIf, NgClass } from '@angular/common';
 
 @Component({
   selector: 'maptio-workspace',
   templateUrl: 'workspace.component.html',
   styleUrls: ['./workspace.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    BuildingComponent,
+    NgClass,
+    InitiativeComponent,
+    MappingComponent,
+  ],
 })
 export class WorkspaceComponent implements OnInit, OnDestroy {
   @ViewChild('building', { static: true })

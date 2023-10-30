@@ -6,11 +6,13 @@ import {
   EventEmitter,
   ChangeDetectorRef,
 } from '@angular/core';
+import { CommonTextareaComponent } from '../../../../../../../shared/components/textarea/textarea.component';
 
 @Component({
   selector: 'initiative-description-textarea',
   templateUrl: './description-textarea.component.html',
-  // styleUrls: ['./description-textarea.component.css']
+  standalone: true,
+  imports: [CommonTextareaComponent],
 })
 export class InitiativeDescriptionTextareaComponent implements OnInit {
   @Input('description') description: string;

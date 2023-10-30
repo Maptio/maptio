@@ -1,14 +1,23 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, forwardRef } from '@angular/core';
 
-import { SatPopover } from '@wjaspers/sat-popover';
+import { SatPopover, SatPopoverModule } from '@wjaspers/sat-popover';
 
 import { CircleMapService } from '../circle-map.service';
 import { InitiativeNode } from '../initiative.model';
+import { CircleInfoComponent } from '../circle-info/circle-info.component';
+import { NgFor } from '@angular/common';
 
 @Component({
-  selector: 'g[maptioCircle]', // eslint-disable-line @angular-eslint/component-selector
+  selector: 'g[maptioCircle]',
   templateUrl: './circle.component.html',
   styleUrls: ['./circle.component.scss'],
+  standalone: true,
+  imports: [
+    SatPopoverModule,
+    NgFor,
+    forwardRef(() => CircleComponent),
+    CircleInfoComponent,
+  ],
 })
 export class CircleComponent implements OnInit {
   @Input() circle!: InitiativeNode;

@@ -6,7 +6,7 @@ import {
   AfterViewInit,
   OnDestroy,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { from, partition } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
@@ -26,12 +26,28 @@ import { LoaderService } from '@maptio-shared/components/loading/loader.service'
 import { DatasetFactory } from '../http/map/dataset.factory';
 import { TeamFactory } from '../http/team/team.factory';
 import { EmitterService } from '../services/emitter.service';
+import { LoginRedirectDirective } from '../../modules/login/login-redirect/login-redirect.directive';
+import { LanguagePickerComponent } from './language-picker.component';
+import { OnboardingBannerComponent } from './onboarding-banner.component';
+import { NgIf, NgClass, NgFor, AsyncPipe, SlicePipe } from '@angular/common';
 
 @Component({
   selector: 'maptio-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
   changeDetection: ChangeDetectionStrategy.Default,
+  standalone: true,
+  imports: [
+    NgIf,
+    OnboardingBannerComponent,
+    RouterLink,
+    NgClass,
+    NgFor,
+    LanguagePickerComponent,
+    LoginRedirectDirective,
+    AsyncPipe,
+    SlicePipe,
+  ],
 })
 export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new SubSink();

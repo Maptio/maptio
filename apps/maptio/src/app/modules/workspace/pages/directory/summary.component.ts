@@ -1,5 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {
+  ActivatedRoute,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from '@angular/router';
 import { Observable, Subject, Subscription } from 'rxjs';
 
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
@@ -22,6 +27,8 @@ import { IDataVisualizer } from '../../components/canvas/mapping.interface';
   styleUrls: ['./summary.component.css'],
   host: { class: 'w-100' },
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [RouterLink, RouterLinkActive, RouterOutlet],
 })
 export class MappingSummaryComponent implements OnInit, IDataVisualizer {
   public datasetId: string;

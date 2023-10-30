@@ -1,15 +1,39 @@
 import { environment } from '../../../../../config/environment';
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { Tag, SelectableTag } from '../../../../../shared/model/tag.data';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  UntypedFormControl,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Team } from '../../../../../shared/model/team.data';
 import { Permissions } from '../../../../../shared/model/permission.data';
+import { StickyPopoverDirective } from '../../../../../shared/directives/sticky.directive';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { NgIf, NgFor } from '@angular/common';
+import { ColorPickerComponent } from '../../../../../shared/components/color-picker/color-picker.component';
+import { PermissionsDirective } from '../../../../../shared/directives/permission.directive';
+import { InsufficientPermissionsMessageComponent } from '../../../../permissions-messages/insufficient-permissions-message.component';
 
 @Component({
   selector: 'edit-tags',
   templateUrl: './edit-tags.component.html',
   styleUrls: ['./edit-tags.component.css'],
+  standalone: true,
+  imports: [
+    InsufficientPermissionsMessageComponent,
+    PermissionsDirective,
+    FormsModule,
+    ReactiveFormsModule,
+    ColorPickerComponent,
+    NgIf,
+    NgFor,
+    ConfirmationPopoverModule,
+    StickyPopoverDirective,
+  ],
 })
 export class EditTagsComponent implements OnInit {
   @Input() tags: SelectableTag[];

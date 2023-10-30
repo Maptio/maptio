@@ -5,8 +5,7 @@ import { EmbedRoutingModule } from './embed.routing';
 import { CircleMapModule } from '@maptio-circle-map/circle-map.module';
 
 @NgModule({
-  declarations: [EmbedComponent],
-  imports: [CommonModule, EmbedRoutingModule, CircleMapModule],
+  imports: [CommonModule, EmbedRoutingModule, CircleMapModule, EmbedComponent],
   exports: [],
   providers: [],
 })
