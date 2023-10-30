@@ -15,6 +15,7 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   TreeNode,
   TREE_ACTIONS,
@@ -38,14 +39,17 @@ import {
   NgbNavModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
+
+import { intersectionBy } from 'lodash';
+import { Subscription, map } from 'rxjs';
+
+import { PermissionsService } from '@maptio-shared/services/permissions/permissions.service';
 import { LoaderService } from '../../../../../shared/components/loading/loader.service';
 import { Tag } from '../../../../../shared/model/tag.data';
 import { Role } from '../../../../../shared/model/role.data';
 import { DataSet } from '../../../../../shared/model/dataset.data';
 import { UserService } from '../../../../../shared/services/user/user.service';
 import { RoleLibraryService } from '../../../services/role-library.service';
-import { intersectionBy } from 'lodash';
-import { Subject, Subscription } from 'rxjs';
 
 import { CircleMapService } from '@maptio-circle-map/circle-map.service';
 import { CircleMapService as CircleMapServiceExpanded } from '@maptio-circle-map-expanded/circle-map.service';
@@ -78,13 +82,22 @@ import { WorkspaceFacade } from '../../../+state/workspace.facade';
   ],
 })
 export class BuildingComponent implements OnDestroy {
-  outlineData = signal<NotebitsOutlineData>([]);
-
-  private readonly store = inject(Store<AppState>);
   private readonly workspaceFacade = inject(WorkspaceFacade);
+  private readonly permissionsService = inject(PermissionsService);
+
+  outlineData = signal<NotebitsOutlineData>([]);
 
   selectedInitiativeId = this.workspaceFacade.selectedInitiativeId;
   expandInitiativeId = signal<number | null>(null);
+
+  // TODO: Using `canSeeOnboardingMessages` as a proxy for all editing
+  // permissions, this will need to be reviewed when we bring back more
+  // granular permissions
+  disableEditing = toSignal(
+    this.permissionsService.canSeeOnboardingMessages$.pipe(
+      map((value) => !value)
+    )
+  );
 
   searched: string;
   nodes: Array<Initiative>;
