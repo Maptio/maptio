@@ -1,4 +1,3 @@
-import {} from '@angular/core';
 import {
   Component,
   Input,
@@ -9,7 +8,6 @@ import {
   signal,
   ViewChild,
   ChangeDetectorRef,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NgIf } from '@angular/common';
@@ -61,7 +59,6 @@ import { EditTagsComponent } from '../tags/edit-tags.component';
   selector: 'building',
   templateUrl: './building.component.html',
   styleUrls: ['./building.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     OnboardingMessageComponent,
