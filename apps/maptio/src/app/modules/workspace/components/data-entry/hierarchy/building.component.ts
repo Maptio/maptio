@@ -167,7 +167,12 @@ export class BuildingComponent implements OnDestroy {
       this.roleDeletedSubscription.unsubscribe();
   }
 
-  saveChanges() {
+  saveChangesAndUpdateOutliner() {
+    this.sendInitiativesToOutliner();
+    this.saveChanges();
+  }
+
+  private saveChanges() {
     this.save.emit({ initiative: this.nodes[0], tags: this.tags });
   }
 
@@ -286,6 +291,7 @@ export class BuildingComponent implements OnDestroy {
     }
 
     this.sendInitiativesToOutliner();
+    this.saveChanges();
   }
 
   addNodeTo(node: Initiative, subNode: Initiative) {
