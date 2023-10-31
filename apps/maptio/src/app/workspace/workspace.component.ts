@@ -169,7 +169,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   }
 
   saveDetailChanges() {
-    this.buildingComponent.saveChanges();
+    this.buildingComponent.saveChangesAndUpdateOutliner();
   }
 
   // applySettings(data: { initiative: Initiative, tags: Tag[] }) {
