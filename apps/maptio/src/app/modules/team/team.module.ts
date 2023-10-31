@@ -40,9 +40,6 @@ import { MemberFormModule } from '@maptio-member-form';
     CreateTeamModule,
     CreateMapModule,
     MemberFormModule,
-    PaymentModule,
-  ],
-  declarations: [
     CardTeamComponent,
     TeamComponent,
     TeamListComponent,

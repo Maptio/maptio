@@ -20,8 +20,6 @@ import { ConsentComponent } from './components/onboarding/consent.component';
     RouterModule,
     SharedModule,
     NgbModalModule,
-  ],
-  declarations: [
     OnboardingComponent,
     AddTerminologyComponent,
     ConsentComponent,

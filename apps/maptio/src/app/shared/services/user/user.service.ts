@@ -18,7 +18,7 @@ import {
 
 import { SubSink } from 'subsink';
 import { AuthService } from '@auth0/auth0-angular';
-import { Intercom } from 'ng-intercom';
+import { Intercom } from '@supy-io/ngx-intercom';
 import { UUID } from 'angular2-uuid/index';
 import { isEmpty, remove, sortBy, uniq } from 'lodash-es';
 import { nanoid } from 'nanoid';

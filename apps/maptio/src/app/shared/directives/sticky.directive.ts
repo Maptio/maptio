@@ -9,7 +9,6 @@ import {
   EventEmitter,
   Renderer2,
   Injector,
-  ComponentFactoryResolver,
   ViewContainerRef,
   NgZone,
   Inject,
@@ -23,6 +22,7 @@ import { NgbPopover, NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 @Directive({
   selector: '[stickyPopover]',
   exportAs: 'stickyPopover',
+  standalone: true,
 })
 export class StickyPopoverDirective extends NgbPopover {
   @Input() stickyPopover: TemplateRef<any>;
@@ -83,7 +83,6 @@ export class StickyPopoverDirective extends NgbPopover {
     private _elRef: ElementRef,
     private _render: Renderer2,
     injector: Injector,
-    componentFactoryResolver: ComponentFactoryResolver,
     private viewContainerRef: ViewContainerRef,
     config: NgbPopoverConfig,
     ngZone: NgZone,
@@ -95,7 +94,6 @@ export class StickyPopoverDirective extends NgbPopover {
       _elRef,
       _render,
       injector,
-      componentFactoryResolver,
       viewContainerRef,
       config,
       ngZone,

@@ -6,11 +6,16 @@ import {
   OnInit,
   ChangeDetectorRef,
 } from '@angular/core';
-import { UntypedFormControl, Validators, UntypedFormGroup } from '@angular/forms';
+import {
+  UntypedFormControl,
+  Validators,
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Intercom } from 'ng-intercom';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
+import { Intercom } from '@supy-io/ngx-intercom';
 
 import { environment } from '@maptio-environment';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
@@ -18,13 +23,27 @@ import { DataSet } from '@maptio-shared/model/dataset.data';
 import { User, MemberFormFields } from '@maptio-shared/model/user.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
+import { ImageUploadComponent } from '@maptio-shared/components/image-upload/image-upload.component';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
+import { MemberComponent } from '../member/member.component';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
   selector: 'maptio-member-form',
   templateUrl: './member-form.component.html',
   styleUrls: ['./member-form.component.scss'],
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    ImageUploadComponent,
+    NgIf,
+    ConfirmationPopoverModule,
+    NgFor,
+    MemberComponent,
+  ],
 })
 export class MemberFormComponent implements OnInit {
   TERMS_AND_CONDITIONS_URL = environment.TERMS_AND_CONDITIONS_URL;
@@ -74,7 +93,6 @@ export class MemberFormComponent implements OnInit {
     private userFactory: UserFactory,
     private teamFactory: TeamFactory,
     private userService: UserService,
-    private analytics: Angulartics2Mixpanel,
     private intercom: Intercom
   ) {}
 
@@ -83,7 +101,9 @@ export class MemberFormComponent implements OnInit {
       firstname: new UntypedFormControl('', {
         validators: [Validators.required, Validators.minLength(2)],
       }),
-      lastname: new UntypedFormControl('', { validators: [Validators.minLength(2)] }),
+      lastname: new UntypedFormControl('', {
+        validators: [Validators.minLength(2)],
+      }),
       email: new UntypedFormControl('', { validators: [Validators.email] }),
     });
 

@@ -7,21 +7,42 @@ import {
   SimpleChanges,
   ChangeDetectorRef,
 } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  UntypedFormControl,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Team } from '../../../model/team.data';
 import { DataSet } from '../../../model/dataset.data';
-import { Router } from '@angular/router';
-import { Intercom } from 'ng-intercom';
+import { Router, RouterLink } from '@angular/router';
+import { Intercom } from '@supy-io/ngx-intercom';
 import { MapService } from '../../../services/map/map.service';
 import { environment } from '../../../../config/environment';
 
 import { User } from '@maptio-shared/model/user.data';
 import { Permissions, UserRole } from '@maptio-shared/model/permission.data';
+import { StickyPopoverDirective } from '../../../directives/sticky.directive';
+import { InsufficientPermissionsMessageComponent } from '../../../../modules/permissions-messages/insufficient-permissions-message.component';
+import { NgIf, NgFor } from '@angular/common';
+import { PermissionsDirective } from '../../../directives/permission.directive';
 
 @Component({
   selector: 'common-create-map',
   templateUrl: './create-map.component.html',
   styleUrls: ['./create-map.component.css'],
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    PermissionsDirective,
+    NgIf,
+    NgFor,
+    RouterLink,
+    InsufficientPermissionsMessageComponent,
+    StickyPopoverDirective,
+  ],
 })
 export class CreateMapComponent implements OnInit {
   form: UntypedFormGroup;

@@ -4,15 +4,15 @@ import { map } from 'rxjs/operators';
 import { Permissions } from '../../shared/model/permission.data';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
-import { CanActivate, CanActivateChild, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { PermissionsService } from '@maptio-shared/services/permissions/permissions.service';
 import { Store } from '@ngrx/store';
 
 import { AppState } from '@maptio-state/app.state';
-import { setCurrentOrganisationId } from '@maptio-state/current-organisation.actions';
+import { setCurrentOrganisationId } from '@maptio-state/global.actions';
 
 @Injectable()
-export class PermissionGuard implements CanActivate, CanActivateChild {
+export class PermissionGuard {
   constructor(
     private store: Store<AppState>,
     private permissionsService: PermissionsService,

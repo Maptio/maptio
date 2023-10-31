@@ -8,8 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
-import { Intercom } from 'ng-intercom';
+import { Intercom } from '@supy-io/ngx-intercom';
 
 import { User } from '@maptio-shared/model/user.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
@@ -17,11 +16,32 @@ import { MultipleUserDuplicationError } from '@maptio-shared/services/user/multi
 import { UserRole, Permissions } from '@maptio-shared/model/permission.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { DuplicationError } from '@maptio-shared/services/user/duplication.error';
+import { KeysPipe } from '../../../../shared/pipes/keys.pipe';
+import { MemberFormComponent } from '../../../member-form/member-form.component';
+import { StickyPopoverDirective } from '../../../../shared/directives/sticky.directive';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgIf, NgFor, SlicePipe } from '@angular/common';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { PermissionsDirective } from '../../../../shared/directives/permission.directive';
 
 @Component({
   selector: 'maptio-member-single',
   templateUrl: './member-single.component.html',
   styleUrls: ['./member-single.component.css'],
+  standalone: true,
+  imports: [
+    PermissionsDirective,
+    ConfirmationPopoverModule,
+    NgIf,
+    NgbTooltipModule,
+    NgFor,
+    FormsModule,
+    StickyPopoverDirective,
+    MemberFormComponent,
+    SlicePipe,
+    KeysPipe,
+  ],
 })
 export class MemberSingleComponent implements OnChanges {
   UserRole = UserRole;
@@ -48,7 +68,6 @@ export class MemberSingleComponent implements OnChanges {
   constructor(
     private cd: ChangeDetectorRef,
     private userService: UserService,
-    private analytics: Angulartics2Mixpanel,
     private intercom: Intercom
   ) {}
 
@@ -109,14 +128,6 @@ export class MemberSingleComponent implements OnChanges {
           throw new Error();
         }
 
-        return;
-      })
-      .then(() => {
-        this.analytics.eventTrack('Team', {
-          action: 'invite',
-          team: this.team.name,
-          teamId: this.team.team_id,
-        });
         return;
       })
       .then(() => {

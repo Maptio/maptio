@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DatasetFactory } from '../../../core/http/map/dataset.factory';
-import { Intercom } from 'ng-intercom';
+import { Intercom } from '@supy-io/ngx-intercom';
 import { Initiative } from '../../model/initiative.data';
 
 import { DataSet } from '@maptio-shared/model/dataset.data';

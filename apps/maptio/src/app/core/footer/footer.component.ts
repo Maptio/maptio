@@ -2,11 +2,15 @@ import { Component, Input } from '@angular/core';
 
 import { environment } from '@maptio-environment';
 import { environment as config } from '@maptio-config/environment';
+import { NgTemplateOutlet, DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css'],
+  standalone: true,
+  imports: [RouterLink, NgTemplateOutlet, DatePipe],
 })
 export class FooterComponent {
   @Input() isMobile: boolean;

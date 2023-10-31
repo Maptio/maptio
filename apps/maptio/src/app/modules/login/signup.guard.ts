@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Router,
-  CanActivate,
-  CanActivateChild,
-  UrlTree,
-} from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
@@ -14,7 +9,7 @@ import { UserService } from '@maptio-shared/services/user/user.service';
 @Injectable({
   providedIn: 'root',
 })
-export class SignupGuard implements CanActivate, CanActivateChild {
+export class SignupGuard  {
   constructor(private router: Router, private user: UserService) {}
 
   canActivate(): Observable<boolean | UrlTree> {

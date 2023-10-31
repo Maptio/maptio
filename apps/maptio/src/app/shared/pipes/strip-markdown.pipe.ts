@@ -3,6 +3,7 @@ import { MarkdownUtilsService } from '../services/markdown/markdown-utils.servic
 
 @Pipe({
   name: 'stripMarkdown',
+  standalone: true,
 })
 export class StripMarkdownPipe implements PipeTransform {
   constructor(private markdownUtilsService: MarkdownUtilsService) {}

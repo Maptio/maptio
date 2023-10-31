@@ -13,15 +13,25 @@ import {
   EventEmitter,
   isDevMode,
 } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  UntypedFormControl,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Team } from '../../../../shared/model/team.data';
 import { TeamFactory } from '../../../../core/http/team/team.factory';
-import { Intercom } from 'ng-intercom';
+import { Intercom } from '@supy-io/ngx-intercom';
+import { NgIf } from '@angular/common';
+import { PermissionsDirective } from '../../../../shared/directives/permission.directive';
 
 @Component({
   selector: 'team-single-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css'],
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule, PermissionsDirective, NgIf],
 })
 export class TeamSettingsComponent implements OnInit {
   @Input() team: Team;

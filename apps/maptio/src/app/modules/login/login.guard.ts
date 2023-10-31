@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Router,
-  CanActivate,
-  CanActivateChild,
-  UrlTree,
-} from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -14,7 +9,7 @@ import { AuthService } from '@auth0/auth0-angular';
 @Injectable({
   providedIn: 'root',
 })
-export class LoginGuard implements CanActivate, CanActivateChild {
+export class LoginGuard  {
   constructor(private router: Router, private auth: AuthService) {}
 
   canActivate(): Observable<boolean | UrlTree> {

@@ -5,7 +5,6 @@ import { UserFactory } from '../../../../core/http/user/user.factory';
 import { Browsers, UIService } from '../../services/ui.service';
 import { ColorService } from '@maptio-shared/services/color/color.service';
 import { PermissionsService } from '../../../../shared/services/permissions/permissions.service';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Initiative } from '../../../../shared/model/initiative.data';
 import { SelectableUser } from '../../../../shared/model/user.data';
 import { SelectableTag, Tag } from '../../../../shared/model/tag.data';
@@ -64,10 +63,10 @@ const d3 = Object.assign(
   selector: 'zoomable',
   templateUrl: './mapping.zoomable.component.html',
   styleUrls: ['./mapping.zoomable.component.css'],
-
   host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class MappingZoomableComponent implements IDataVisualizer {
   private browser: Browsers;
@@ -114,8 +113,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
   private selectableTagsSubscription: Subscription;
 
   private zooming: any;
-
-  public analytics: Angulartics2Mixpanel;
 
   private svg: any;
   private g: any;
@@ -191,12 +188,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
           this.counter += 1;
           this.loaderService.hide();
-          this.analytics.eventTrack('Map', {
-            action: 'viewing',
-            view: 'initiatives',
-            team: (<Team>complexData[0].team).name,
-            teamId: (<Team>complexData[0].team).team_id,
-          });
           this.isLoading = false;
           this.cd.markForCheck();
         },
@@ -421,10 +412,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
       ? this.zooming.scaleExtent()
       : [0.5, 5];
     this.outerFontScale.domain(scaleExtent);
-    const myInnerFontScale: ScaleLogarithmic<
-      number,
-      number
-    > = this.innerFontScale.domain(scaleExtent);
+    const myInnerFontScale: ScaleLogarithmic<number, number> =
+      this.innerFontScale.domain(scaleExtent);
 
     const outerFontSize: number = this.outerFontScale(zoomFactor);
     const select: Function = d3.select;
@@ -557,7 +546,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const CIRCLE_RADIUS = this.CIRCLE_RADIUS;
     const TRANSITION_DURATION = this.TRANSITION_DURATION;
     const showToolipOf$ = this.showToolipOf$;
-    const canOpenInitiativeContextMenu = this.permissionsService.canOpenInitiativeContextMenu();
+    const canOpenInitiativeContextMenu =
+      this.permissionsService.canOpenInitiativeContextMenu();
     const showContextMenuOf$ = this.showContextMenuOf$;
     // let getCenteredMargin = this.getCenteredMargin.bind(this);
     const browser = this.browser;
@@ -574,9 +564,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const COLOR_ADD_CIRCLE = getComputedStyle(document.body).getPropertyValue(
       '--maptio-blue'
     );
-    const COLOR_DELETE_CIRCLE = getComputedStyle(document.body).getPropertyValue(
-      '--maptio-red'
-    );
+    const COLOR_DELETE_CIRCLE = getComputedStyle(
+      document.body
+    ).getPropertyValue('--maptio-red');
 
     const pack = d3
       .pack()
@@ -673,9 +663,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     initiativeWithChildren = initiativeWithChildrenEnter.merge(
       initiativeWithChildren
     );
-    initiativeNoChildren = initiativeNoChildrenEnter.merge(
-      initiativeNoChildren
-    );
+    initiativeNoChildren =
+      initiativeNoChildrenEnter.merge(initiativeNoChildren);
 
     g.selectAll('g.node').sort((a: any, b: any) => {
       return b.height - a.height;

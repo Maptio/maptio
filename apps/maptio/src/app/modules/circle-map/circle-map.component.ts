@@ -6,13 +6,13 @@ import {
   ViewEncapsulation,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
+  Output,
 } from '@angular/core';
 
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 
 import { SubSink } from 'subsink';
 import { HierarchyNode, pack } from 'd3-hierarchy';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 import { CircleMapData } from '@maptio-shared/model/circle-map-data.interface';
 import { DataSet } from '@maptio-shared/model/dataset.data';
@@ -22,6 +22,11 @@ import { ColorService } from '@maptio-shared/services/color/color.service';
 import { InitiativeViewModel, InitiativeNode } from './initiative.model';
 import { CircleMapService } from './circle-map.service';
 import { map } from 'rxjs/operators';
+import { CircleComponent } from './circle/circle.component';
+import { SvgZoomPanComponent } from './svg-zoom-pan/svg-zoom-pan.component';
+import { MarkdownModule } from 'ngx-markdown';
+import { SearchComponent } from './search/search.component';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'maptio-circle-map',
@@ -29,11 +34,29 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./circle-map.component.scss'],
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    SearchComponent,
+    MarkdownModule,
+    SvgZoomPanComponent,
+    NgFor,
+    CircleComponent,
+    AsyncPipe,
+  ],
 })
 export class CircleMapComponent implements OnInit, OnDestroy {
   // All the data comes in as a single package
   @Input() circleMapData$: BehaviorSubject<CircleMapData>;
   @Input() showDetailsPanel: boolean;
+
+  @Input()
+  set selectedCircleId(selectedCircleId: number) {
+    this.circleMapService.onSelectedIdChange(selectedCircleId);
+  }
+
+  @Output() selectedCircleIdChange =
+    this.circleMapService.selectedCircleIdChange;
 
   // We then extract the individual pieces of the data package
   private rootInitiative: Initiative;
@@ -57,7 +80,6 @@ export class CircleMapComponent implements OnInit, OnDestroy {
   isLoading: boolean;
   isFirstLoad = true;
 
-  public analytics: Angulartics2Mixpanel;
   private subs = new SubSink();
 
   constructor(

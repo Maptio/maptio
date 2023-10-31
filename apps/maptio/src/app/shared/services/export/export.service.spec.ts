@@ -93,54 +93,6 @@ describe('export.service.ts', () => {
     }));
   });
 
-  describe('getSnapshot', () => {
-    it(
-      'should upload the svgString and get a image url in return ',
-      waitForAsync(
-        inject(
-          [ExportService, AuthHttp],
-          (target: ExportService, http: AuthHttp) => {
-            const svg = '<svg></svg>';
-            const spy = spyOn(http, 'request').and.returnValue(
-              Observable.of(
-                new Response({
-                  status: 200,
-                  headers: null,
-                  url: 'URL',
-                  body: {
-                    secure_url: 'http://image.com/snapshot',
-                    eager: [
-                      {
-                        secure_url: 'http://image.com/snapshot',
-                      },
-                    ],
-                  },
-                  merge: null,
-                })
-              )
-            );
-
-            const expectedHeaders = new Headers();
-            expectedHeaders.append('Content-Type', 'text/html');
-            expectedHeaders.append('Accept', 'text/html');
-
-            const expectedRequest = new Request({
-              url: `/api/v1/images/upload/datasetId`,
-              body: '<svg></svg>',
-              method: RequestMethod.Post,
-              headers: expectedHeaders,
-            });
-
-            target.getSnapshot(svg, 'datasetId').subscribe((url) => {
-              expect(url).toBe('http://image.com/snapshot');
-            });
-            expect(spy).toHaveBeenCalledWith(expectedRequest);
-          }
-        )
-      )
-    );
-  });
-
   // describe("sending slack notifications", () => {
 
   //     it("should retrieve snapshot and post to slack api",

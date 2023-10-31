@@ -7,20 +7,27 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { Team } from '../../model/team.data';
-import { UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  Validators,
+  UntypedFormControl,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../model/user.data';
 import { DatasetFactory } from '../../../core/http/map/dataset.factory';
 import { DataSet } from '../../model/dataset.data';
 import { UserFactory } from '../../../core/http/user/user.factory';
 import { TeamFactory } from '../../../core/http/team/team.factory';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
-import { Intercom } from 'ng-intercom';
+import { Intercom } from '@supy-io/ngx-intercom';
 import { TeamService } from '../../services/team/team.service';
 
 @Component({
   selector: 'onboarding-add-terminology',
   templateUrl: './add-terminology.component.html',
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule],
 })
 export class AddTerminologyComponent implements OnInit {
   form: UntypedFormGroup;

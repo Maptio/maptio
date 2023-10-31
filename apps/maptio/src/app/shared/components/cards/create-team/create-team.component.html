@@ -1,13 +1,17 @@
 <form [formGroup]="createForm" (submit)="createNewTeam()">
   <fieldset class="d-flex flex-column">
     <div class="form-group">
-      <label class="lead" for="teamName" i18n="@@createneworganisation">
+      <label
+        class="form-label lead"
+        for="teamName"
+        i18n="@@createneworganisation"
+      >
         Create a new organisation
       </label>
 
       <input
         type="text"
-        class="form-control rounded mr-1 w-100"
+        class="form-control rounded me-1 w-100"
         [class.is-invalid]="
           createForm.controls['teamName'].invalid &&
           (createForm.controls['teamName'].dirty ||

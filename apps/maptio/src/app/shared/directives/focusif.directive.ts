@@ -9,6 +9,7 @@ import {
 
 @Directive({
   selector: '[focusif]',
+  standalone: true,
 })
 export class FocusIfDirective implements OnChanges, OnInit {
   @Input('focusif') focusif: string;

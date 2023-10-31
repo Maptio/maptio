@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { environment } from '@maptio-config/environment';
 
@@ -11,11 +11,14 @@ import {
   Constants,
   FileService,
 } from '@maptio-shared/services/file/file.service';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
   selector: 'maptio-team-import',
   templateUrl: './import.component.html',
   styleUrls: ['./import.component.css'],
+  standalone: true,
+  imports: [NgIf, NgFor, RouterLink],
 })
 export class TeamImportComponent implements OnInit {
   team: Team;

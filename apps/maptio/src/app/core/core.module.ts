@@ -25,8 +25,8 @@ import { TeamFactory } from './http/team/team.factory';
 import { UserFactory } from './http/user/user.factory';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { LoaderComponent } from '../shared/components/loading/loader.component';
-import { NgProgressModule } from '@ngx-progressbar/core';
-import { NgProgressRouterModule } from '@ngx-progressbar/router';
+import { NgProgressModule } from 'ngx-progressbar';
+import { NgProgressRouterModule } from 'ngx-progressbar/router';
 import { OnboardingModule } from '../shared/onboarding.module';
 import { OnboardingComponent } from '../shared/components/onboarding/onboarding.component';
 import { LoginModule } from 'app/modules/login/login.module';
@@ -38,17 +38,6 @@ export function tokenGetter(): string {
 }
 
 @NgModule({
-  declarations: [
-    HeaderComponent,
-    OnboardingBannerComponent,
-    FooterComponent,
-    LoaderComponent,
-    UnauthorizedComponent,
-    NotFoundComponent,
-    LoginErrorPageComponent,
-    ErrorPageComponent,
-    LanguagePickerComponent,
-  ],
   imports: [
     CommonModule,
     RouterModule,
@@ -64,6 +53,15 @@ export function tokenGetter(): string {
     NgProgressModule,
     NgProgressRouterModule,
     LoginModule,
+    HeaderComponent,
+    OnboardingBannerComponent,
+    FooterComponent,
+    LoaderComponent,
+    UnauthorizedComponent,
+    NotFoundComponent,
+    LoginErrorPageComponent,
+    ErrorPageComponent,
+    LanguagePickerComponent,
   ],
   exports: [
     HeaderComponent,

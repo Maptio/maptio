@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { SanitizerModule } from '@maptio-shared/sanitizer.module';
 import { LoginModule } from '@maptio-login/login.module';
 
 import { CheckoutComponent } from './checkout/checkout.page';
@@ -14,21 +13,17 @@ import { PricingSelectionComponent } from './pricing-selection/pricing-selection
 import { PaymentRoutingModule } from './payment.routing';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgbModule,
+    PaymentRoutingModule,
+    LoginModule,
     CheckoutComponent,
     PricingComponent,
     PricingInfoComponent,
     PricingSelectionComponent,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    NgbModule,
-    SanitizerModule,
-    PaymentRoutingModule,
-    LoginModule,
-  ],
-  exports: [PricingSelectionComponent],
   providers: [],
 })
 export class PaymentModule {}
