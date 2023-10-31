@@ -9,10 +9,10 @@ import { PermissionsService } from '@maptio-shared/services/permissions/permissi
 import { Store } from '@ngrx/store';
 
 import { AppState } from '@maptio-state/app.state';
-import { setCurrentOrganisationId } from '@maptio-state/current-organisation.actions';
+import { setCurrentOrganisationId } from '@maptio-state/global.actions';
 
 @Injectable()
-export class PermissionGuard  {
+export class PermissionGuard {
   constructor(
     private store: Store<AppState>,
     private permissionsService: PermissionsService,

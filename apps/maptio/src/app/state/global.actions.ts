@@ -1,11 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
 export const setCurrentOrganisationId = createAction(
-  '[Current Organisation ID] Set',
+  '[Global] Set Current Organisation ID',
   props<{ currentOrganisationId: string }>()
 );
-
-export const setCurrentOrganisation = createAction(
-  '[Current Organisation] Set'
-);
-

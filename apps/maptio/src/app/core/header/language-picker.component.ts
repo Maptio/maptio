@@ -1,6 +1,8 @@
 import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { Location, NgFor } from '@angular/common';
 
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { CookieService } from 'ngx-cookie-service';
 
 import { environment } from '@maptio-environment';
@@ -12,7 +14,7 @@ import { Locale } from './locale.interface';
   templateUrl: './language-picker.component.html',
   styleUrls: ['./language-picker.component.scss'],
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor, NgbDropdownModule],
 })
 export class LanguagePickerComponent {
   LOCALES = environment.LOCALES;

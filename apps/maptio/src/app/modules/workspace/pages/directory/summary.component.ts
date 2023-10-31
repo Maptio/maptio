@@ -7,8 +7,6 @@ import {
 } from '@angular/router';
 import { Observable, Subject, Subscription } from 'rxjs';
 
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
-
 import { DataService } from '../../services/data.service';
 import { TeamFactory } from '../../../../core/http/team/team.factory';
 import { UserFactory } from '../../../../core/http/user/user.factory';
@@ -67,7 +65,6 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     y: number;
     isReadOnlyContextMenu: boolean;
   }>();
-  public analytics: Angulartics2Mixpanel;
 
   initiative: Initiative;
   team: Team;

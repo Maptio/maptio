@@ -4,5 +4,6 @@
 
 .image-upload__button {
   margin-bottom: 0; // Counteract label styles to ensure centering
-  margin-left: 1rem;
+  margin-left: 1rem !important;
+  border-radius: var(--bs-btn-border-radius) !important;
 }

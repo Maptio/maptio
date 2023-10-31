@@ -6,10 +6,11 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   isDevMode,
+  effect,
+  inject,
 } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { tap } from 'rxjs/operators';
 import {
   Observable,
   Subject,
@@ -23,7 +24,6 @@ import { SubSink } from 'subsink';
 import { DataService } from '../../services/data.service';
 import { UIService } from '../../services/ui.service';
 import { ColorService } from '@maptio-shared/services/color/color.service';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Initiative } from '../../../../shared/model/initiative.data';
 import { SelectableTag } from '../../../../shared/model/tag.data';
 import { IDataVisualizer } from '../../components/canvas/mapping.interface';
@@ -34,7 +34,9 @@ import { CircleMapData } from '@maptio-shared/model/circle-map-data.interface';
 import { DataSet } from '@maptio-shared/model/dataset.data';
 import { InitiativeNode } from '@maptio-circle-map/initiative.model';
 import { CircleMapService } from '@maptio-circle-map/circle-map.service';
-import { CircleMapComponent } from '../../../circle-map/circle-map.component';
+import { CircleMapComponent } from '@maptio-circle-map/circle-map.component';
+
+import { WorkspaceFacade } from '../../+state/workspace.facade';
 import { OnboardingMessageComponent } from '../../../onboarding-message/onboarding-message/onboarding-message.component';
 
 @Component({
@@ -50,6 +52,8 @@ import { OnboardingMessageComponent } from '../../../onboarding-message/onboardi
 export class MappingCirclesGradualRevealComponent
   implements IDataVisualizer, OnInit, OnDestroy
 {
+  workspaceFacade = inject(WorkspaceFacade);
+
   public datasetId: string;
   public width: number;
   public height: number;
@@ -82,8 +86,6 @@ export class MappingCirclesGradualRevealComponent
     isReadOnlyContextMenu: boolean;
   }>();
 
-  public analytics: Angulartics2Mixpanel;
-
   private subs = new SubSink();
 
   dataset: DataSet;
@@ -92,6 +94,8 @@ export class MappingCirclesGradualRevealComponent
   circleMapData$ = new BehaviorSubject<CircleMapData>(undefined);
 
   isFirstLoad = true;
+
+  selectedCircleId = this.workspaceFacade.selectedInitiativeId;
 
   constructor(
     public colorService: ColorService,
@@ -147,13 +151,6 @@ export class MappingCirclesGradualRevealComponent
           });
         }
 
-        this.analytics.eventTrack('Map', {
-          action: 'viewing',
-          view: 'initiatives',
-          team: (<Team>complexData[0].team).name,
-          teamId: (<Team>complexData[0].team).team_id,
-        });
-
         const circleMapData: CircleMapData = {
           dataset: complexData[0].dataset,
           rootInitiative: complexData[0].initiative,
@@ -200,5 +197,9 @@ export class MappingCirclesGradualRevealComponent
 
   hideInfoPanel() {
     this.showToolipOf$.next({ initiatives: null, isNameOnly: false });
+  }
+
+  onSelectedCircleIdChange(circleId: number) {
+    this.workspaceFacade.setSelectedInitiativeID(circleId);
   }
 }

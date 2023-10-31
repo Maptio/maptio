@@ -4,7 +4,6 @@ import { DataSet } from '../../../../shared/model/dataset.data';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { User } from '../../../../shared/model/user.data';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Permissions } from '../../../../shared/model/permission.data';
 import { sortBy } from 'lodash-es';
 import { UserService } from '@maptio-shared/services/user/user.service';
@@ -37,7 +36,6 @@ export class TeamMapsComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private cd: ChangeDetectorRef,
-    private analytics: Angulartics2Mixpanel,
     private router: Router
   ) {}
   ngOnInit() {
@@ -64,12 +62,6 @@ export class TeamMapsComponent implements OnInit {
   }
 
   onNewMap(dataset: DataSet) {
-    this.analytics.eventTrack('Create a map', {
-      email: this.user.email,
-      name: dataset.initiative.name,
-      team: dataset.initiative.team_id,
-    });
-
     this.ngOnInit();
   }
 

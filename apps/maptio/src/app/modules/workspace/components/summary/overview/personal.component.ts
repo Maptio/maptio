@@ -8,16 +8,19 @@ import {
   EventEmitter,
   SimpleChanges,
 } from '@angular/core';
+import { NgIf, NgFor, LowerCasePipe, TitleCasePipe } from '@angular/common';
+import { Router } from '@angular/router';
+
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { sortBy } from 'lodash-es';
+
 import { Initiative } from '../../../../../shared/model/initiative.data';
 import { User } from '../../../../../shared/model/user.data';
 // import { Tag, SelectableTag } from "../../../../../shared/model/tag.data";
 import { Team } from '../../../../../shared/model/team.data';
-import { Router } from '@angular/router';
-import { sortBy } from 'lodash-es';
 import { DataSet } from '../../../../../shared/model/dataset.data';
 import { MapSettingsService } from '../../../services/map-settings.service';
 import { PersonalCardComponent } from '../tab/card.component';
-import { NgIf, NgFor, LowerCasePipe, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'summary-personal',
@@ -25,7 +28,14 @@ import { NgIf, NgFor, LowerCasePipe, TitleCasePipe } from '@angular/common';
   styleUrls: ['./personal.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgIf, NgFor, PersonalCardComponent, LowerCasePipe, TitleCasePipe],
+  imports: [
+    NgIf,
+    NgFor,
+    NgbNavModule,
+    LowerCasePipe,
+    TitleCasePipe,
+    PersonalCardComponent,
+  ],
 })
 export class PersonalSummaryComponent implements OnInit {
   authorities: Array<Initiative> = [];

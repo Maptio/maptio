@@ -16,7 +16,6 @@ import {
 import { Router } from '@angular/router';
 
 import { Intercom } from '@supy-io/ngx-intercom';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 import { environment } from '@maptio-environment';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
@@ -24,12 +23,12 @@ import { DataSet } from '@maptio-shared/model/dataset.data';
 import { User, MemberFormFields } from '@maptio-shared/model/user.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
+import { ImageUploadComponent } from '@maptio-shared/components/image-upload/image-upload.component';
 import { UserFactory } from '@maptio-core/http/user/user.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
 import { MemberComponent } from '../member/member.component';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NgIf, NgFor } from '@angular/common';
-import { ImageUploadComponent } from '../../shared/components/image-upload/image-upload.component';
 
 @Component({
   selector: 'maptio-member-form',
@@ -94,7 +93,6 @@ export class MemberFormComponent implements OnInit {
     private userFactory: UserFactory,
     private teamFactory: TeamFactory,
     private userService: UserService,
-    private analytics: Angulartics2Mixpanel,
     private intercom: Intercom
   ) {}
 

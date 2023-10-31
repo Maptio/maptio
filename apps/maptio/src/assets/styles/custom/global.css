@@ -403,7 +403,9 @@ button.cursor-not-allowed {
 }
 
 .btn-link,
-a:not(.btn-tag):not(.alert-link):not(.text-white):not(.text-gray-light):not(.text-success):not(.nav-link) {
+a:not(.btn-tag):not(.alert-link):not(.text-white):not(.text-gray-light):not(
+    .text-success
+  ):not(.nav-link) {
   color: var(--maptio-blue) !important;
 }
 
@@ -517,10 +519,10 @@ a.no-underline:hover {
   font-size: 1rem;
 }
 
-.custom-control-input:checked ~ .custom-control-label::before {
+.form-check-input:checked {
   color: #fff;
-  border-color: var(--maptio-accent);
-  background-color: var(--maptio-accent);
+  border-color: var(--maptio-accent) !important;
+  background-color: var(--maptio-accent) !important;
 }
 
 .nowrap {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NgProgress, NgProgressRef } from '@ngx-progressbar/core';
+import { NgProgress, NgProgressRef } from 'ngx-progressbar';
 
 @Injectable()
 export class LoaderService {

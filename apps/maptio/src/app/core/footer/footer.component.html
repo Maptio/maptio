@@ -1,27 +1,27 @@
 <ng-template #links>
   <span class="navbar-text d-none d-md-flex">
     <div>
-      <a class="small mr-1" routerLink="/legal/terms">
+      <a class="small me-1" routerLink="/legal/terms">
         <span i18n>Terms</span>
       </a>
       |
-      <a class="small mr-1" routerLink="/legal/privacy">
+      <a class="small me-1" routerLink="/legal/privacy">
         <span i18n>Privacy</span>
       </a>
       |
-      <a class="small mr-1" href="{{ GITHUB_URL }}" target="blank">
+      <a class="small me-1" href="{{ GITHUB_URL }}" target="blank">
         <span>Github</span>
       </a>
       |
-      <a class="small mr-1" href="{{ BLOG_URL }}" target="blank">
+      <a class="small me-1" href="{{ BLOG_URL }}" target="blank">
         <span i18n>Blog</span>
       </a>
       |
-      <a class="small mr-1" href="{{ KB_URL_HOME }}" target="blank">
+      <a class="small me-1" href="{{ KB_URL_HOME }}" target="blank">
         <span i18n>Help</span>
       </a>
       |
-      <a class="small mr-1" routerLink="/pricing">
+      <a class="small me-1" routerLink="/pricing">
         <span i18n="@@pricing">Pricing</span>
       </a>
     </div>
@@ -32,7 +32,7 @@
       <ng-container i18n>Copyright</ng-container>
       <span>&nbsp;</span>
       <i class="far fa-copyright" aria-hidden="true"></i>
-      {{ today | date: 'yyyy' }} Maptio Ltd
+      {{ today | date : 'yyyy' }} Maptio Ltd
     </small>
   </span>
 </ng-template>

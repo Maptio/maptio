@@ -2,7 +2,6 @@ import { SearchComponent, SearchResultType } from './search.component';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Helper } from '../../../../shared/model/helper.data';
 import { Initiative } from '../../../../shared/model/initiative.data';
 import { Observable } from 'rxjs';
@@ -12,23 +11,17 @@ describe('search.component.ts', () => {
   let component: SearchComponent;
   let target: ComponentFixture<SearchComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [SearchComponent],
-        schemas: [NO_ERRORS_SCHEMA],
-        imports: [RouterTestingModule, AnalyticsModule],
-      })
-        .overrideComponent(SearchComponent, {
-          set: {
-            // providers: [
-            //     Angulartics2Mixpanel
-            // ]
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [SearchComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+      imports: [RouterTestingModule, AnalyticsModule],
     })
-  );
+      .overrideComponent(SearchComponent, {
+        set: {},
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     target = TestBed.createComponent(SearchComponent);
@@ -143,24 +136,21 @@ describe('search.component.ts', () => {
   });
 
   describe('Search', () => {
-    it(
-      'calls correct dependencies',
-      waitForAsync(() => {
-        const spyObj = {
-          debounceTime: jest.fn().mockReturnThis(),
-          distinctUntilChanged: jest.fn().mockReturnThis(),
-          do: jest.fn().mockReturnThis(),
-          map: jest.fn().mockReturnThis(),
-        } as any;
+    it('calls correct dependencies', waitForAsync(() => {
+      const spyObj = {
+        debounceTime: jest.fn().mockReturnThis(),
+        distinctUntilChanged: jest.fn().mockReturnThis(),
+        do: jest.fn().mockReturnThis(),
+        map: jest.fn().mockReturnThis(),
+      } as any;
 
-        const spyFilter = spyOn(component, 'findInitiatives').and.returnValue([]);
+      const spyFilter = spyOn(component, 'findInitiatives').and.returnValue([]);
 
-        component.search(spyObj);
+      component.search(spyObj);
 
-        expect(spyObj.debounceTime).toHaveBeenCalledWith(200);
-        expect(spyObj.distinctUntilChanged).toHaveBeenCalledTimes(1);
-        expect(spyObj.do).toHaveBeenCalledTimes(2);
-      })
-    );
+      expect(spyObj.debounceTime).toHaveBeenCalledWith(200);
+      expect(spyObj.distinctUntilChanged).toHaveBeenCalledTimes(1);
+      expect(spyObj.do).toHaveBeenCalledTimes(2);
+    }));
   });
 });

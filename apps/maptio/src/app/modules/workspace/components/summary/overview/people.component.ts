@@ -1,17 +1,18 @@
-import { of as observableOf, Observable, Subscription, Subject } from 'rxjs';
-
-import { debounceTime, switchMap, combineLatest } from 'rxjs/operators';
 import {
   Component,
   OnInit,
-  Output,
-  EventEmitter,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
+  computed,
+  signal,
 } from '@angular/core';
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
+import { of as observableOf, Subscription, Subject } from 'rxjs';
+import { debounceTime, switchMap, combineLatest } from 'rxjs/operators';
+
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { DataService } from '../../../services/data.service';
 import { UserFactory } from '../../../../../core/http/user/user.factory';
@@ -24,7 +25,6 @@ import { Initiative } from '../../../../../shared/model/initiative.data';
 import { LoaderService } from '../../../../../shared/components/loading/loader.service';
 import { PermissionsDirective } from '../../../../../shared/directives/permission.directive';
 import { PersonalSummaryComponent } from './personal.component';
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'summary-people',
@@ -36,9 +36,10 @@ import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
   imports: [
     NgFor,
     NgIf,
+    NgTemplateOutlet,
+    NgbCollapseModule,
     PersonalSummaryComponent,
     PermissionsDirective,
-    NgTemplateOutlet,
   ],
 })
 export class PeopleSummaryComponent implements OnInit {
@@ -47,11 +48,15 @@ export class PeopleSummaryComponent implements OnInit {
   initiative: Initiative;
   team: Team;
   dataset: DataSet;
-  selectedMember: User;
   dataSubscription: Subscription;
   filterMembers$: Subject<string> = new Subject<string>();
-  isOthersPeopleVisible: boolean;
   Permissions = Permissions;
+
+  selectedMember = signal<User>(null);
+  showOtherMembers = signal<boolean>(false);
+  showAllMembers = computed(() => {
+    return this.selectedMember() === null || this.showOtherMembers();
+  });
 
   constructor(
     public route: ActivatedRoute,
@@ -60,8 +65,7 @@ export class PeopleSummaryComponent implements OnInit {
     private dataService: DataService,
     public loaderService: LoaderService,
     private router: Router,
-    private cd: ChangeDetectorRef,
-    private analytics: Angulartics2Mixpanel
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -73,13 +77,11 @@ export class PeopleSummaryComponent implements OnInit {
         switchMap((data: [any, Params]) => {
           if (data[1].member) {
             return this.userFactory.get(data[1].member).then((user: User) => {
-              this.selectedMember = user;
-              this.cd.markForCheck();
+              this.selectedMember.set(user);
               return data[0];
             });
           } else {
-            this.selectedMember = null;
-            this.cd.markForCheck();
+            this.selectedMember.set(null);
             return observableOf(data[0]);
           }
         })
@@ -90,12 +92,6 @@ export class PeopleSummaryComponent implements OnInit {
         this.dataset = data.dataset;
         this.team = data.team;
         this.loaderService.hide();
-        this.analytics.eventTrack('Map', {
-          action: 'viewing',
-          view: 'summary',
-          team: (<Team>data.team).name,
-          teamId: (<Team>data.team).team_id,
-        });
         this.filteredMembers = [].concat(this.members);
         this.cd.markForCheck();
       });
@@ -127,12 +123,15 @@ export class PeopleSummaryComponent implements OnInit {
   }
 
   onSelectMember(user: User) {
-    this.selectedMember = user;
-    this.cd.markForCheck();
+    this.selectedMember.set(user);
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { member: user.shortid },
     });
+  }
+
+  toggleShowOtherMembers() {
+    this.showOtherMembers.set(!this.showOtherMembers());
   }
 
   onSelectInitiative(initiative: Initiative) {

@@ -13,117 +13,19 @@
 
       <ng-template ngbNavContent>
         <div class="d-flex flex-column">
-          <div class="card mb-3 w-100 border-0 bg-transparent">
-            <div class="card-body px-0 pb-1 pt-4 align-self-center">
-              <button
-                name=""
-                id=""
-                class="btn btn-outline-secondary"
-                (click)="!isToggling && toggleAll(true)"
-                role="button"
-              >
-                <i
-                  class="fas mr-1"
-                  [class.fa-angle-double-down]="!isExpanding"
-                  [class.fa-circle-notch]="isExpanding"
-                  [class.fa-spin]="isExpanding"
-                  aria-hidden="true"
-                ></i>
-                <ng-container i18n>Expand all</ng-container>
-              </button>
-              <button
-                name=""
-                id=""
-                class="btn btn-outline-secondary mx-2"
-                (click)="!isToggling && toggleAll(false)"
-                role="button"
-              >
-                <i
-                  class="fas mr-1"
-                  [class.fa-angle-double-up]="!isCollapsing"
-                  [class.fa-circle-notch]="isCollapsing"
-                  [class.fa-spin]="isCollapsing"
-                  aria-hidden="true"
-                ></i>
-                <ng-container i18n>Collapse all</ng-container>
-              </button>
-
-              <ng-container
-                *permissionsOnly="
-                  Permissions.canCreateRootInitiative;
-                  else elseFirstNodeBlock;
-                  then: thenFirstNodeBlock
-                "
-              >
-                main
-              </ng-container>
-
-              <ng-template #thenFirstNodeBlock>
-                <button
-                  *ngIf="isEmptyMap"
-                  name=""
-                  id=""
-                  class="btn btn-outline-secondary ml-auto"
-                  (click)="addRootNode()"
-                  role="button"
-                  placement="top"
-                  container="body"
-                  ngbTooltip="Add a new circle"
-                  i18n-ngbTooltip
-                >
-                  <i class="fa fa-plus large" aria-hidden="true"></i>
-                  <ng-conatiner i18n="@@newOuterCircle">
-                    New outer circle
-                  </ng-conatiner>
-                </button>
-              </ng-template>
-
-              <ng-template #permissionsTipContent>
-                <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
-              </ng-template>
-
-              <ng-template #elseFirstNodeBlock>
-                <button
-                  *ngIf="isEmptyMap"
-                  name=""
-                  id=""
-                  class="btn btn-outline-secondary ml-auto disabled cursor-not-allowed"
-                  role="button"
-                  placement="top"
-                  container="body"
-                  [stickyPopover]="permissionsTipContent"
-                >
-                  <i class="fa fa-plus large" aria-hidden="true"></i>
-                  <ng-conatiner i18n="@@newOuterCircle">
-                    New outer circle
-                  </ng-conatiner>
-                </button>
-              </ng-template>
-            </div>
-          </div>
-          <div>
-            <tree-root
-              #tree
-              [nodes]="nodes"
-              (updateData)="saveChanges()"
-              [options]="options"
-              [state]="state"
-              (stateChange)="setState($event)"
-            >
-              <ng-template #treeNodeTemplate let-node let-index="index">
-                <initiative-node
-                  [node]="node"
-                  [datasetId]="datasetId"
-                  [team]="team"
-                  [user]="user"
-                  (edited)="saveChanges()"
-                  (update)="updateTreeModel(tree.treeModel)"
-                  (open)="openNodeDetails($event)"
-                  (add)="openNodeDetails($event)"
-                  (delete)="onDeleteNode($event)"
-                ></initiative-node>
-              </ng-template>
-            </tree-root>
+          <div class="mt-4">
+            <notebits-outline
+              [outlineData]="outlineData()"
+              [selectedItemId]="selectedInitiativeId()"
+              [expandItemId]="expandInitiativeId()"
+              [disableEditing]="disableEditing()"
+              (selectedItemIdChange)="onSelectedInitiativeIdChange($event)"
+              (itemCreated)="onInitiativeCreate($event)"
+              (itemEdited)="onInitiativeEdit($event)"
+              (itemMoved)="onInitiativeMove($event)"
+              (itemDeleted)="onInitiativeDelete($event)"
+              style="display: block; margin-bottom: 1.5rem"
+            ></notebits-outline>
           </div>
         </div>
       </ng-template>

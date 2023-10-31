@@ -58,21 +58,4 @@ export class ExportService {
   //         }
   //     })
   // }
-
-  getSnapshot(svgString: string, datasetId: string) {
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'text/html');
-    headers.append('Accept', 'text/html');
-    const req = new HttpRequest(
-      'POST',
-      `/api/v1/images/upload/${datasetId}`,
-      svgString,
-      { headers }
-    );
-    return this.http.request(req).pipe(
-      map((responseData) => {
-        return <string>responseData['data'].eager[0].secure_url;
-      })
-    );
-  }
 }

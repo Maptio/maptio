@@ -5,9 +5,12 @@
     "sourceLocale": "en-US",
     "locales": {
       "de": "apps/maptio/src/locale/messages.de.xlf",
+      "es": "apps/maptio/src/locale/messages.es.xlf",
       "fr": "apps/maptio/src/locale/messages.fr.xlf",
       "ja": "apps/maptio/src/locale/messages.ja.xlf",
-      "pl": "apps/maptio/src/locale/messages.pl.xlf"
+      "nl": "apps/maptio/src/locale/messages.nl.xlf",
+      "pl": "apps/maptio/src/locale/messages.pl.xlf",
+      "pt": "apps/maptio/src/locale/messages.pt.xlf"
     }
   },
   "projectType": "application",
@@ -17,7 +20,6 @@
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "options": {
-        "localize": ["en-US", "de", "fr", "ja", "pl"],
         "outputPath": "dist/apps/maptio",
         "index": "apps/maptio/src/index.html",
         "main": "apps/maptio/src/main.ts",
@@ -25,13 +27,11 @@
         "tsConfig": "apps/maptio/tsconfig.app.json",
         "assets": ["apps/maptio/src/favicon.ico", "apps/maptio/src/assets"],
         "styles": [
-          "node_modules/bootstrap/dist/css/bootstrap.min.css",
           "apps/maptio/src/assets/styles/vendor-google-fonts.css",
           "apps/maptio/src/assets/styles/vendor-font-awesome.css",
           "apps/maptio/src/assets/styles/custom/animations.css",
           "apps/maptio/src/assets/styles/custom/global.css",
           "apps/maptio/src/assets/styles/custom/forms.css",
-          "apps/maptio/src/assets/styles/custom/angular-tree-component.css",
           "apps/maptio/src/assets/styles/custom/tooltip.css",
           "apps/maptio/src/assets/styles/custom/tags.css",
           "apps/maptio/src/assets/styles/custom/markdown.css",
@@ -41,12 +41,11 @@
           "apps/maptio/src/assets/styles/custom/color-picker.css",
           "apps/maptio/src/assets/styles/custom/maps.css",
           "apps/maptio/src/assets/styles/custom/typeahead.css",
-          "apps/maptio/src/styles.scss"
+          "apps/maptio/src/styles/styles.scss"
         ],
         "scripts": [
           "node_modules/jquery/dist/jquery.js",
-          "node_modules/popper.js/dist/umd/popper.min.js",
-          "node_modules/bootstrap/dist/js/bootstrap.min.js"
+          "node_modules/popper.js/dist/umd/popper.min.js"
         ],
         "vendorChunk": true,
         "extractLicenses": false,
@@ -146,7 +145,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
           "apps/maptio/src/**/*.ts",
@@ -157,7 +156,7 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["coverage/apps/maptio"],
+      "outputs": ["{workspaceRoot}/coverage/apps/maptio"],
       "options": {
         "jestConfig": "apps/maptio/jest.config.ts",
         "passWithNoTests": true

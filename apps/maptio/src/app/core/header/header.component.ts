@@ -11,6 +11,11 @@ import { Router, RouterLink } from '@angular/router';
 import { from, partition } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
+import {
+  NgbDropdownModule,
+  NgbCollapseModule,
+} from '@ng-bootstrap/ng-bootstrap';
+
 import { SubSink } from 'subsink';
 
 import { environment } from '@maptio-config/environment';
@@ -39,14 +44,18 @@ import { NgIf, NgClass, NgFor, AsyncPipe, SlicePipe } from '@angular/common';
   standalone: true,
   imports: [
     NgIf,
-    OnboardingBannerComponent,
     RouterLink,
     NgClass,
     NgFor,
-    LanguagePickerComponent,
-    LoginRedirectDirective,
     AsyncPipe,
     SlicePipe,
+
+    NgbDropdownModule,
+    NgbCollapseModule,
+
+    LanguagePickerComponent,
+    LoginRedirectDirective,
+    OnboardingBannerComponent,
   ],
 })
 export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {

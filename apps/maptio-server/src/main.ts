@@ -176,14 +176,12 @@ const users = require('./routes/users');
 const teams = require('./routes/teams');
 const inviting = require('./routes/invite');
 const encoding = require('./routes/encoding');
-const images = require('./routes/images');
 const notifications = require('./routes/notifications');
 const oauth = require('./routes/oauth');
 const intercom = require('./routes/intercom');
 
 app.use('/api/v1/jwt/', encoding);
 
-app.use('/api/v1/images/', jwtCheck, checkscopes(['api']), images);
 app.use(
   '/api/v1/notifications/',
   jwtCheck,

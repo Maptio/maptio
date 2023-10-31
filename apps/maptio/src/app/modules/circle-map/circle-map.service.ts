@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Injectable, inject } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -14,6 +14,8 @@ import { HierarchyNode } from 'd3-hierarchy';
   providedIn: 'root',
 })
 export class CircleMapService {
+  private svgZoomPanService = inject(SvgZoomPanService);
+
   public selectedCircle = new BehaviorSubject<InitiativeNode | undefined>(
     undefined
   );
@@ -21,13 +23,13 @@ export class CircleMapService {
     undefined
   );
 
+  public selectedCircleIdChange = new EventEmitter<number>();
+
   public datasetId?: string;
   public dataset?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   circles: InitiativeNode[] = [];
 
   changeDetectionTrigger$ = new EventEmitter();
-
-  constructor(private svgZoomPanService: SvgZoomPanService) {}
 
   setDataset(datasetId: string, dataset: any) {
     this.datasetId = datasetId;
@@ -111,6 +113,7 @@ export class CircleMapService {
     } else if (isPrimary && !isOpened) {
       this.selectCircle(circle);
       this.zoomToCircle(circle);
+      this.emitSelectedIdChange(circle);
 
       if (this.openedCircle.value) {
         this.closeCircle(this.openedCircle.value);
@@ -129,6 +132,7 @@ export class CircleMapService {
       // If a circle is not selected
       this.selectCircle(circle);
       this.zoomToCircle(circle);
+      this.emitSelectedIdChange(circle);
 
       if (circle.parent) {
         this.closeCircle(circle.parent);
@@ -136,6 +140,27 @@ export class CircleMapService {
     }
   }
 
+  onSelectedIdChange(selectedId: number) {
+    const circle = this.getCircleByInitiativeId(selectedId);
+
+    if (circle) {
+      this.deselectSelectedCircle();
+      this.closeOpenedCircle();
+
+      this.selectCircle(circle);
+      this.zoomToCircle(circle);
+    }
+  }
+
+  emitSelectedIdChange(circle: InitiativeNode) {
+    if (circle) {
+      this.selectedCircleIdChange.emit(circle.data.id);
+    } else {
+      this.selectedCircleIdChange.emit(null);
+    }
+  }
+
+  // TODO: Remove when we remove the old outliner
   onInitiativeClickInOutline(node: Initiative) {
     const circle = this.getCircleByInitiative(node);
 
@@ -280,8 +305,10 @@ export class CircleMapService {
       this.selectCircle(parentCircle);
       this.zoomToCircle(parentCircle);
       this.openCircle(parentCircle);
+      this.emitSelectedIdChange(parentCircle);
     } else {
       this.deselectSelectedCircle();
+      this.emitSelectedIdChange(null);
       this.resetZoom();
     }
   }
@@ -305,6 +332,10 @@ export class CircleMapService {
   }
 
   getCircleByInitiative(node: Initiative): InitiativeNode {
-    return this.circles.find((circle) => circle.data.id === node.id);
+    return this.getCircleByInitiativeId(node.id);
+  }
+
+  getCircleByInitiativeId(nodeId: number): InitiativeNode {
+    return this.circles.find((circle) => circle.data.id === nodeId);
   }
 }

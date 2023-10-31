@@ -11,11 +11,9 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { MarkdownModule } from 'ngx-markdown';
 import { FilterTagsComponent } from './components/filtering/tags.component';
 import { SearchComponent } from './components/searching/search.component';
-import { TreeModule } from '@circlon/angular-tree-component';
 import { WorkspaceGuard } from '../../core/guards/workspace.guard';
 import { WorkspaceComponentResolver } from './pages/workspace/workspace.resolver';
 import { InitiativeComponent } from './components/data-entry/details/initiative.component';
-import { InitiativeNodeComponent } from './components/data-entry/node/initiative.node.component';
 import { BuildingComponent } from './components/data-entry/hierarchy/building.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -67,6 +65,11 @@ import { CircleMapExpandedModule } from '@maptio-circle-map-expanded/circle-map-
 import { MemberFormModule } from '@maptio-member-form';
 
 import { SharingComponent } from './components/sharing/sharing.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import * as fromWorkspace from './+state/workspace.reducer';
+import { WorkspaceEffects } from './+state/workspace.effects';
+import { WorkspaceFacade } from './+state/workspace.facade';
 
 @NgModule({
   imports: [
@@ -74,7 +77,6 @@ import { SharingComponent } from './components/sharing/sharing.component';
     FormsModule,
     ReactiveFormsModule,
     WorkspaceRoutingModule,
-    TreeModule,
     AnalyticsModule,
     MarkdownModule.forChild(),
     ConfirmationPopoverModule.forRoot({
@@ -92,7 +94,6 @@ import { SharingComponent } from './components/sharing/sharing.component';
     CircleMapExpandedModule,
     MemberFormModule,
     BuildingComponent,
-    InitiativeNodeComponent,
     InitiativeComponent,
     InitiativeInputNameComponent,
     InitiativeListTagsComponent,
@@ -130,6 +131,12 @@ import { SharingComponent } from './components/sharing/sharing.component';
     StripMarkdownPipe,
     EllipsisPipe,
     SharingComponent,
+    StoreModule.forFeature(
+      fromWorkspace.WORKSPACE_FEATURE_KEY,
+      fromWorkspace.workspaceReducer
+    ),
+    EffectsModule.forRoot([]),
+    EffectsModule.forFeature([WorkspaceEffects]),
   ],
   providers: [
     BillingGuard,
@@ -139,6 +146,7 @@ import { SharingComponent } from './components/sharing/sharing.component';
     RoleLibraryService,
     MapSettingsService,
     WorkspaceComponentResolver,
+    WorkspaceFacade,
   ],
 })
 export class WorkspaceModule {}

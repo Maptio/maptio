@@ -5,7 +5,6 @@ import { UserFactory } from '../../../../core/http/user/user.factory';
 import { Browsers, UIService } from '../../services/ui.service';
 import { ColorService } from '@maptio-shared/services/color/color.service';
 import { PermissionsService } from '../../../../shared/services/permissions/permissions.service';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Initiative } from '../../../../shared/model/initiative.data';
 import { SelectableUser } from '../../../../shared/model/user.data';
 import { SelectableTag, Tag } from '../../../../shared/model/tag.data';
@@ -115,8 +114,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   private zooming: any;
 
-  public analytics: Angulartics2Mixpanel;
-
   private svg: any;
   private g: any;
   private diameter: number;
@@ -191,12 +188,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
           this.counter += 1;
           this.loaderService.hide();
-          this.analytics.eventTrack('Map', {
-            action: 'viewing',
-            view: 'initiatives',
-            team: (<Team>complexData[0].team).name,
-            teamId: (<Team>complexData[0].team).team_id,
-          });
           this.isLoading = false;
           this.cd.markForCheck();
         },
