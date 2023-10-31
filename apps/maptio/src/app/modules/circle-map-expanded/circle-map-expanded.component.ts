@@ -13,7 +13,6 @@ import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 
 import { SubSink } from 'subsink';
 import { HierarchyNode, pack } from 'd3-hierarchy';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 import { CircleMapData } from '@maptio-shared/model/circle-map-data.interface';
 import { DataSet } from '@maptio-shared/model/dataset.data';
@@ -83,7 +82,6 @@ export class CircleMapExpandedComponent implements OnInit, OnDestroy {
   isLoading: boolean;
   isFirstLoad = true;
 
-  public analytics: Angulartics2Mixpanel;
   private subs = new SubSink();
 
   constructor(

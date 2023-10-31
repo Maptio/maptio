@@ -5,7 +5,6 @@ import { User } from '../../../../shared/model/user.data';
 import { PermissionsDirective } from '../../../../shared/directives/permission.directive';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { NgProgressModule, NgProgress } from '@ngx-progressbar/core';
 import { IntercomModule } from '@supy-io/ngx-intercom';
 import { LoaderService } from '../../../../shared/components/loading/loader.service';
@@ -105,7 +104,6 @@ describe('team-list.component.ts', () => {
             MockBackend,
             BaseRequestOptions,
             ErrorService,
-            Angulartics2Mixpanel,
           ],
         },
       })

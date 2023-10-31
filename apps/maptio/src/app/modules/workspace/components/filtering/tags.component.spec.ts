@@ -2,7 +2,6 @@ import { FilterTagsComponent } from './tags.component';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Team } from '../../../../shared/model/team.data';
 import { SelectableTag } from '../../../../shared/model/tag.data';
 import { AnalyticsModule } from '../../../../core/analytics.module';
@@ -11,23 +10,17 @@ describe('tags.component.ts', () => {
   let component: FilterTagsComponent;
   let target: ComponentFixture<FilterTagsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [FilterTagsComponent],
-        schemas: [NO_ERRORS_SCHEMA],
-        imports: [RouterTestingModule, AnalyticsModule],
-      })
-        .overrideComponent(FilterTagsComponent, {
-          set: {
-            // providers: [
-            //     Angulartics2Mixpanel
-            // ]
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [FilterTagsComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+      imports: [RouterTestingModule, AnalyticsModule],
     })
-  );
+      .overrideComponent(FilterTagsComponent, {
+        set: {},
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     target = TestBed.createComponent(FilterTagsComponent);

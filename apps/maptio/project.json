@@ -27,13 +27,11 @@
         "tsConfig": "apps/maptio/tsconfig.app.json",
         "assets": ["apps/maptio/src/favicon.ico", "apps/maptio/src/assets"],
         "styles": [
-          "node_modules/bootstrap/dist/css/bootstrap.min.css",
           "apps/maptio/src/assets/styles/vendor-google-fonts.css",
           "apps/maptio/src/assets/styles/vendor-font-awesome.css",
           "apps/maptio/src/assets/styles/custom/animations.css",
           "apps/maptio/src/assets/styles/custom/global.css",
           "apps/maptio/src/assets/styles/custom/forms.css",
-          "apps/maptio/src/assets/styles/custom/angular-tree-component.css",
           "apps/maptio/src/assets/styles/custom/tooltip.css",
           "apps/maptio/src/assets/styles/custom/tags.css",
           "apps/maptio/src/assets/styles/custom/markdown.css",
@@ -43,12 +41,11 @@
           "apps/maptio/src/assets/styles/custom/color-picker.css",
           "apps/maptio/src/assets/styles/custom/maps.css",
           "apps/maptio/src/assets/styles/custom/typeahead.css",
-          "apps/maptio/src/styles.scss"
+          "apps/maptio/src/styles/styles.scss"
         ],
         "scripts": [
           "node_modules/jquery/dist/jquery.js",
-          "node_modules/popper.js/dist/umd/popper.min.js",
-          "node_modules/bootstrap/dist/js/bootstrap.min.js"
+          "node_modules/popper.js/dist/umd/popper.min.js"
         ],
         "vendorChunk": true,
         "extractLicenses": false,
@@ -148,7 +145,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
           "apps/maptio/src/**/*.ts",

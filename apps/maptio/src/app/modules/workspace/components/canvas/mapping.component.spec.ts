@@ -1,7 +1,6 @@
 import { of as observableOf, Observable } from 'rxjs';
 import { MappingComponent } from './mapping.component';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { AuthHttp } from 'angular2-jwt';
@@ -26,59 +25,57 @@ describe('mapping.component.ts', () => {
   let component: MappingComponent;
   let target: ComponentFixture<MappingComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          {
-            provide: Http,
-            useFactory: (
-              mockBackend: MockBackend,
-              options: BaseRequestOptions
-            ) => {
-              return new Http(mockBackend, options);
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: Http,
+          useFactory: (
+            mockBackend: MockBackend,
+            options: BaseRequestOptions
+          ) => {
+            return new Http(mockBackend, options);
+          },
+          deps: [MockBackend, BaseRequestOptions],
+        },
+        MockBackend,
+        {
+          provide: AuthHttp,
+          useFactory: authHttpServiceFactoryTesting,
+          deps: [Http, BaseRequestOptions],
+        },
+        {
+          provide: UIService,
+          useValue: {
+            getCanvasWidth() {
+              return 1000;
             },
-            deps: [MockBackend, BaseRequestOptions],
-          },
-          MockBackend,
-          {
-            provide: AuthHttp,
-            useFactory: authHttpServiceFactoryTesting,
-            deps: [Http, BaseRequestOptions],
-          },
-          {
-            provide: UIService,
-            useValue: {
-              getCanvasWidth() {
-                return 1000;
-              },
-              getCanvasHeight() {
-                return 1000;
-              },
+            getCanvasHeight() {
+              return 1000;
             },
           },
-          BaseRequestOptions,
-          {
-            provide: ActivatedRoute,
-            useValue: {
-              params: observableOf({ mapid: 123, layout: 'initiatives' }),
-              fragment: observableOf(`x=50&y=50&scale=1.2`),
-              snapshot: { fragment: undefined },
-              queryParams: observableOf({ id: '123345' }),
-            },
+        },
+        BaseRequestOptions,
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: observableOf({ mapid: 123, layout: 'initiatives' }),
+            fragment: observableOf(`x=50&y=50&scale=1.2`),
+            snapshot: { fragment: undefined },
+            queryParams: observableOf({ id: '123345' }),
           },
-        ],
-        schemas: [NO_ERRORS_SCHEMA],
-        declarations: [],
-        imports: [
-          RouterTestingModule,
-          AnalyticsModule,
-          WorkspaceModule,
-          SharedModule.forRoot(),
-        ],
-      }).compileComponents();
-    })
-  );
+        },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+      declarations: [],
+      imports: [
+        RouterTestingModule,
+        AnalyticsModule,
+        WorkspaceModule,
+        SharedModule.forRoot(),
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     target = TestBed.createComponent(MappingComponent);
@@ -93,25 +90,19 @@ describe('mapping.component.ts', () => {
 
   describe('Controller', () => {
     describe('zoomIn', () => {
-      it(
-        'should set the zoom factor to 1.2',
-        waitForAsync(() => {
-          const spy = spyOn(component.zoom$, 'next');
-          component.zoomIn();
-          expect(spy).toHaveBeenCalledWith(3);
-        })
-      );
+      it('should set the zoom factor to 1.2', waitForAsync(() => {
+        const spy = spyOn(component.zoom$, 'next');
+        component.zoomIn();
+        expect(spy).toHaveBeenCalledWith(3);
+      }));
     });
 
     describe('zoomOut', () => {
-      it(
-        'should set the zoom factor to 0.8',
-        waitForAsync(() => {
-          const spy = spyOn(component.zoom$, 'next');
-          component.zoomOut();
-          expect(spy).toHaveBeenCalledWith(1 / 3);
-        })
-      );
+      it('should set the zoom factor to 0.8', waitForAsync(() => {
+        const spy = spyOn(component.zoom$, 'next');
+        component.zoomOut();
+        expect(spy).toHaveBeenCalledWith(1 / 3);
+      }));
     });
 
     // describe("getFragment", () => {

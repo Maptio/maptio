@@ -34,7 +34,7 @@
             (submit)="save()"
           >
             <input
-              class="form-control mr-1 col"
+              class="form-control me-1 col"
               formControlName="mapName"
               required
               [class.is-invalid]="
@@ -140,10 +140,10 @@
       *ngIf="isExportAvailable"
       [class.invisible]="dataset.isArchived"
       [class.invisible]="isEditing"
-      class="btn btn-sm btn-link pl-0"
+      class="btn btn-sm btn-link ps-0"
       (click)="export(dataset)"
     >
-      <i class="fas fa-table mr-1" aria-hidden="true"></i>
+      <i class="fas fa-table me-1" aria-hidden="true"></i>
       <span class="d-none d-md-block" *ngIf="!isExporting" i18n="@@export">
         Export
       </span>
@@ -156,11 +156,11 @@
     <ng-container *permissionsOnly="Permissions.canEditMapName">
       <button
         *ngIf="isEditAvailable && !dataset?.team?.isExample"
-        class="btn btn-link btn-sm pr-0 underline-on-hover"
+        class="btn btn-link btn-sm pe-0 underline-on-hover"
         [class.invisible]="isEditing || dataset.isArchived"
         (click)="toggleConfiguringEmbedding()"
       >
-        <i class="fas fa-code mr-1"></i>
+        <i class="fas fa-code me-1"></i>
         <span class="d-none d-md-block" i18n="@@embed">Embed</span>
       </button>
 
@@ -171,7 +171,7 @@
         [class.invisible]="isEditing"
         (click)="isEditing = true"
       >
-        <i class="fas fa-pen mr-1"></i>
+        <i class="fas fa-pen me-1"></i>
         <span class="d-none d-md-block" i18n>Edit name</span>
       </button>
 
@@ -182,7 +182,7 @@
         [class.d-none]="isEditing"
         (click)="duplicate()"
       >
-        <i class="fas fa-copy mr-1"></i>
+        <i class="fas fa-copy me-1"></i>
         <span class="d-none d-md-block" *ngIf="!isCopying" i18n="@@copy">
           Copy
         </span>
@@ -195,7 +195,7 @@
         *ngIf="
           !dataset.isArchived && isEditAvailable && !dataset?.team?.isExample
         "
-        class="btn btn-link btn-sm pr-0 underline-on-hover"
+        class="btn btn-link btn-sm pe-0 underline-on-hover"
         [class.invisible]="isEditing"
         mwlConfirmationPopover
         [popoverTitle]="'Archive this map?'"
@@ -214,17 +214,17 @@
         i18n-confirmText="@@confirm"
         i18n-cancelText="@@cancel"
       >
-        <i class="fas fa-archive mr-1"></i>
+        <i class="fas fa-archive me-1"></i>
         <span class="d-none d-md-block" i18n>Archive</span>
       </button>
 
       <button
         *ngIf="dataset.isArchived && !dataset?.team?.isExample"
-        class="btn btn-link btn-sm pr-0 underline-on-hover"
+        class="btn btn-link btn-sm pe-0 underline-on-hover"
         [class.invisible]="isEditing"
         (click)="restore()"
       >
-        <i class="fas fa-undo mr-1"></i>
+        <i class="fas fa-undo me-1"></i>
         <span class="d-none d-md-block" i18n>Restore</span>
       </button>
     </ng-container>
@@ -244,7 +244,7 @@
       </ng-container>
 
       <img
-        class="ml-2"
+        class="ms-2"
         width="50px"
         height="64px"
         style="width: 50px; height: 64px"

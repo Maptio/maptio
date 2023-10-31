@@ -5,7 +5,6 @@ import { UserFactory } from '../../../../core/http/user/user.factory';
 import { UIService } from '../../services/ui.service';
 import { ColorService } from '@maptio-shared/services/color/color.service';
 import { PermissionsService } from '../../../../shared/services/permissions/permissions.service';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Initiative } from '../../../../shared/model/initiative.data';
 import { SelectableTag, Tag } from '../../../../shared/model/tag.data';
 import { IDataVisualizer } from '../../components/canvas/mapping.interface';
@@ -100,7 +99,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   private resetSubscription: Subscription;
   private tagsSubscription: Subscription;
 
-  public analytics: Angulartics2Mixpanel;
   public TRANSITION_DURATION = 250;
 
   private svg: any;
@@ -170,12 +168,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           this.setSeedColor(complexData[2]);
           this.setData(data);
           this.update(complexData[1], complexData[3], complexData[4]);
-          this.analytics.eventTrack('Map', {
-            action: 'viewing',
-            view: 'people',
-            team: (<Team>complexData[0].team).name,
-            teamId: (<Team>complexData[0].team).team_id,
-          });
           this.isLoading = false;
           this.cd.markForCheck();
         }
@@ -677,7 +669,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           const tagsSpan = d.data.tags
             .map(
               (tag: Tag) =>
-                `<i class="fas fa-tag mr-1" style="color: ${tag.color};"></i>`
+                `<i class="fas fa-tag me-1" style="color: ${tag.color};"></i>`
             )
             .join('');
           return `<div class="small">${
@@ -747,7 +739,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           const tagsSpan = d.data.tags
             .map(
               (tag: Tag) =>
-                `<i class="fas fa-tag mr-1" style="color: ${tag.color};"></i>`
+                `<i class="fas fa-tag me-1" style="color: ${tag.color};"></i>`
             )
             .join('');
 

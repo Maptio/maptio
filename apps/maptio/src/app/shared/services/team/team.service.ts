@@ -3,7 +3,6 @@ import { TeamFactory } from '../../../core/http/team/team.factory';
 import { UserFactory } from '../../../core/http/user/user.factory';
 import { User } from '../../model/user.data';
 import { Team } from '../../model/team.data';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { IntercomService } from './intercom.service';
 
 import { remove } from 'lodash-es';
@@ -20,7 +19,6 @@ export class TeamService {
     private teamFactory: TeamFactory,
     private userFactory: UserFactory,
     private datasetFactory: DatasetFactory,
-    private analytics: Angulartics2Mixpanel,
     private intercomService: IntercomService
   ) {}
 
@@ -52,13 +50,7 @@ export class TeamService {
             .upsert(user)
             .then(
               (result: boolean) => {
-                if (result) {
-                  this.analytics.eventTrack('Create team', {
-                    email: user.email,
-                    name: name,
-                    teamId: team.team_id,
-                  });
-                } else {
+                if (!result) {
                   throw $localize`Unable to add you to organisation ${name}!`;
                 }
               },

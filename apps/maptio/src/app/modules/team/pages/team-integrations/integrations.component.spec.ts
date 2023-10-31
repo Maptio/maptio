@@ -120,7 +120,6 @@ describe('integrations.component.ts', () => {
                 parent = new MockActivatedRoute();
               },
             },
-            // Angulartics2Mixpanel, Angulartics2
           ],
         },
       })

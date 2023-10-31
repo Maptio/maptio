@@ -1,27 +1,30 @@
-import { User } from '../../../../../shared/model/user.data';
-import { Team } from '../../../../../shared/model/team.data';
-import { Permissions } from '../../../../../shared/model/permission.data';
-import { UserFactory } from '../../../../../core/http/user/user.factory';
-import { DatasetFactory } from '../../../../../core/http/map/dataset.factory';
-import { DataService } from '../../../services/data.service';
-import { Initiative } from '../../../../../shared/model/initiative.data';
-
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
-import { EventEmitter, OnDestroy, Signal, inject, signal } from '@angular/core';
+import {} from '@angular/core';
 import {
   Component,
-  ViewChild,
-  Output,
   Input,
+  Output,
+  EventEmitter,
+  OnDestroy,
+  inject,
+  signal,
+  ViewChild,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NgIf } from '@angular/common';
+
+import { Subscription, map } from 'rxjs';
+
 import {
-  TreeNode,
-  TREE_ACTIONS,
-  TreeComponent,
-  TreeModule,
-} from '@circlon/angular-tree-component';
+  NgbModal,
+  NgbNav,
+  NgbNavModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
+
+import { intersectionBy } from 'lodash';
+
 import {
   OutlineModule,
   NotebitsOutlineData,
@@ -29,36 +32,30 @@ import {
   OutlineItemMoveEvent,
 } from '@notebits/outline';
 
-import { Store } from '@ngrx/store';
-import { AppState } from '@maptio-state/app.state';
+import { UserFactory } from '@maptio-core/http/user/user.factory';
+import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 
-import { InitiativeNodeComponent } from '../node/initiative.node.component';
-import {
-  NgbModal,
-  NgbNav,
-  NgbNavChangeEvent,
-  NgbNavModule,
-  NgbTooltipModule,
-} from '@ng-bootstrap/ng-bootstrap';
-import { LoaderService } from '../../../../../shared/components/loading/loader.service';
-import { Tag } from '../../../../../shared/model/tag.data';
-import { Role } from '../../../../../shared/model/role.data';
-import { DataSet } from '../../../../../shared/model/dataset.data';
-import { UserService } from '../../../../../shared/services/user/user.service';
-import { RoleLibraryService } from '../../../services/role-library.service';
-import { intersectionBy } from 'lodash';
-import { Subject, Subscription } from 'rxjs';
+import { User } from '@maptio-shared/model/user.data';
+import { Team } from '@maptio-shared/model/team.data';
+import { Permissions } from '@maptio-shared/model/permission.data';
+import { Initiative } from '@maptio-shared/model/initiative.data';
+import { PermissionsService } from '@maptio-shared/services/permissions/permissions.service';
+import { LoaderService } from '@maptio-shared/components/loading/loader.service';
+import { Tag } from '@maptio-shared/model/tag.data';
+import { Role } from '@maptio-shared/model/role.data';
+import { DataSet } from '@maptio-shared/model/dataset.data';
+import { StickyPopoverDirective } from '@maptio-shared/directives/sticky.directive';
+import { PermissionsDirective } from '@maptio-shared/directives/permission.directive';
 
 import { CircleMapService } from '@maptio-circle-map/circle-map.service';
 import { CircleMapService as CircleMapServiceExpanded } from '@maptio-circle-map-expanded/circle-map.service';
-import { EditTagsComponent } from '../tags/edit-tags.component';
-import { StickyPopoverDirective } from '../../../../../shared/directives/sticky.directive';
-import { InsufficientPermissionsMessageComponent } from '../../../../permissions-messages/insufficient-permissions-message.component';
-import { NgIf } from '@angular/common';
-import { PermissionsDirective } from '../../../../../shared/directives/permission.directive';
-import { OnboardingMessageComponent } from '../../../../onboarding-message/onboarding-message/onboarding-message.component';
 
+import { InsufficientPermissionsMessageComponent } from '../../../../permissions-messages/insufficient-permissions-message.component';
+import { OnboardingMessageComponent } from '../../../../onboarding-message/onboarding-message/onboarding-message.component';
 import { WorkspaceFacade } from '../../../+state/workspace.facade';
+import { DataService } from '../../../services/data.service';
+import { RoleLibraryService } from '../../../services/role-library.service';
+import { EditTagsComponent } from '../tags/edit-tags.component';
 
 @Component({
   selector: 'building',
@@ -74,102 +71,34 @@ import { WorkspaceFacade } from '../../../+state/workspace.facade';
     NgbTooltipModule,
     InsufficientPermissionsMessageComponent,
     StickyPopoverDirective,
-    TreeModule,
-    InitiativeNodeComponent,
     EditTagsComponent,
     OutlineModule,
   ],
 })
 export class BuildingComponent implements OnDestroy {
-  outlineData = signal<NotebitsOutlineData>([]);
-
-  private readonly store = inject(Store<AppState>);
   private readonly workspaceFacade = inject(WorkspaceFacade);
+  private readonly permissionsService = inject(PermissionsService);
+
+  outlineData = signal<NotebitsOutlineData>([]);
 
   selectedInitiativeId = this.workspaceFacade.selectedInitiativeId;
   expandInitiativeId = signal<number | null>(null);
 
+  // TODO: Using `canSeeOnboardingMessages` as a proxy for all editing
+  // permissions, this will need to be reviewed when we bring back more
+  // granular permissions
+  disableEditing = toSignal(
+    this.permissionsService.canSeeOnboardingMessages$.pipe(
+      map((value) => !value)
+    )
+  );
+
   searched: string;
   nodes: Array<Initiative>;
 
-  options = {
-    allowDrag: (node: TreeNode) => node.data.isDraggable,
-    allowDrop: (element: any, to: { parent: any; index: number }) => {
-      return to.parent.parent !== null;
-    },
-    nodeClass: (node: TreeNode) => {
-      return node.parent && node.isRoot ? 'node-root' : '';
-    },
-    nodeHeight: 55,
-    actionMapping: {
-      mouse: {
-        dragStart: () => {
-          this.cd.detach();
-        },
-        dragEnd: () => {
-          this.cd.reattach();
-        },
-        drop: (
-          tree: any,
-          node: TreeNode,
-          $event: any,
-          { from, to }: { from: TreeNode; to: TreeNode }
-        ) => {
-          this.fromInitiative = from.data;
-          this.toInitiative = to.parent.data;
+  eermissions = Permissions;
 
-          if (from.parent.id === to.parent.id) {
-            // if simple reordering, we dont ask for confirmation
-            this.analytics.eventTrack('Map', {
-              action: 'move',
-              mode: 'list',
-              confirmed: true,
-              team: this.team.name,
-              teamId: this.team.team_id,
-            });
-            TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to });
-          } else {
-            this.modalService
-              .open(this.dragConfirmationModal, { centered: true })
-              .result.then((result) => {
-                if (result) {
-                  this.analytics.eventTrack('Map', {
-                    action: 'move',
-                    mode: 'list',
-                    confirmed: true,
-                    team: this.team.name,
-                    teamId: this.team.team_id,
-                  });
-                  TREE_ACTIONS.MOVE_NODE(tree, node, $event, {
-                    from: from,
-                    to: to,
-                  });
-                } else {
-                  this.analytics.eventTrack('Initiative', {
-                    action: 'move',
-                    mode: 'list',
-                    confirm: false,
-                    team: this.team.name,
-                    teamId: this.team.team_id,
-                  });
-                }
-              })
-              .catch((reason) => {});
-          }
-        },
-      },
-    },
-  };
-
-  SAVING_FREQUENCY = 10;
-
-  Permissions = Permissions;
-
-  @ViewChild('tree') public tree: TreeComponent;
   @ViewChild('nav', { static: true }) public tabs: NgbNav;
-
-  @ViewChild(InitiativeNodeComponent)
-  node: InitiativeNodeComponent;
 
   @ViewChild('deleteConfirmation', { static: true })
   deleteConfirmationModal: NgbModal;
@@ -206,9 +135,7 @@ export class BuildingComponent implements OnDestroy {
     private dataService: DataService,
     private datasetFactory: DatasetFactory,
     private modalService: NgbModal,
-    private analytics: Angulartics2Mixpanel,
     private userFactory: UserFactory,
-    private userService: UserService,
     private roleLibrary: RoleLibraryService,
     private cd: ChangeDetectorRef,
     private loaderService: LoaderService,
@@ -234,11 +161,6 @@ export class BuildingComponent implements OnDestroy {
         this.onLibraryRoleDelete(deletedRole);
       }
     );
-
-    // Open all nodes unless we have saved state
-    if (!this.state) {
-      this.toggleAll(true);
-    }
   }
 
   ngOnDestroy() {
@@ -246,13 +168,6 @@ export class BuildingComponent implements OnDestroy {
     if (this.roleEditedSubscription) this.roleEditedSubscription.unsubscribe();
     if (this.roleDeletedSubscription)
       this.roleDeletedSubscription.unsubscribe();
-  }
-
-  ngAfterViewChecked() {
-    try {
-      const someNode = this.tree.treeModel.getFirstRoot();
-      someNode.expand();
-    } catch (e) {}
   }
 
   saveChanges() {
@@ -276,12 +191,6 @@ export class BuildingComponent implements OnDestroy {
 
   updateTreeModel(treeModel: any) {
     treeModel.update();
-  }
-
-  updateTree() {
-    // this will saveChanges() on the callback
-    console.log('updateTree');
-    this.tree.treeModel.update();
   }
 
   // TODO: Remove this completely when we remove the old outliner
@@ -362,18 +271,7 @@ export class BuildingComponent implements OnDestroy {
       .catch();
   }
 
-  moveNode(node: Initiative, from: Initiative, to: Initiative) {
-    const foundTreeNode = this.tree.treeModel.getNodeById(node.id);
-    const foundToNode = this.tree.treeModel.getNodeById(to.id);
-    TREE_ACTIONS.MOVE_NODE(
-      this.tree.treeModel,
-      foundToNode,
-      {},
-      { from: foundTreeNode, to: { parent: foundToNode } }
-    );
-  }
-
-  removeNode(node: Initiative) {
+  private removeNode(node: Initiative) {
     let hasFoundNode = false;
 
     const index = this.nodes[0].children.findIndex((c) => c.id === node.id);
@@ -390,7 +288,6 @@ export class BuildingComponent implements OnDestroy {
       });
     }
 
-    this.updateTree();
     this.sendInitiativesToOutliner();
   }
 
@@ -422,34 +319,10 @@ export class BuildingComponent implements OnDestroy {
         }
       });
     }
-
-    this.updateTree();
   }
 
   addRootNode() {
     this.addNodeTo(this.nodes[0], new Initiative());
-  }
-
-  toggleAll(isExpand: boolean) {
-    if (this.isToggling) return;
-    this.isToggling = true;
-    this.isExpanding = isExpand === true;
-    this.isCollapsing = isExpand === false;
-    this.cd.markForCheck();
-
-    setTimeout(() => {
-      isExpand
-        ? this.tree.treeModel.expandAll()
-        : this.tree.treeModel.collapseAll();
-
-      // This is handled in setState already... but that doesn't fire
-      // the tree is already expanded, effectively breaking the
-      // expand/collapse all buttons - so we repeat this here
-      this.isCollapsing = false;
-      this.isExpanding = false;
-      this.isToggling = false;
-      this.cd.markForCheck();
-    }, 100);
   }
 
   /**

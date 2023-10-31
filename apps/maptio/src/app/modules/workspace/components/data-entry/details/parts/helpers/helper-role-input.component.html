@@ -2,7 +2,7 @@
   <div class="form-group">
     <label
       for="inputTitle"
-      class="mb-0 text-uppercase text-bold text-gray-light small"
+      class="form-label mb-0 text-uppercase text-bold text-gray-light small"
       i18n
     >
       Role title
@@ -32,7 +32,10 @@
   </div>
 
   <div class="form-group mb-0">
-    <label class="mb-0 text-uppercase text-bold text-gray-light small" i18n>
+    <label
+      class="form-label mb-0 text-uppercase text-bold text-gray-light small"
+      i18n
+    >
       Role description
     </label>
     <textarea
@@ -74,16 +77,16 @@
       <i class="fa fa-info-circle text-gray-light" aria-hidden="true"></i>
     </a>
 
-    <div class="custom-control custom-radio">
+    <div class="form-check custom-radio">
       <input
         type="radio"
         formControlName="saveAsLibraryRole"
         [value]="false"
         [id]="getCustomRoleInputId()"
-        class="custom-control-input"
+        class="form-check-input"
       />
 
-      <label class="custom-control-label" [for]="getCustomRoleInputId()">
+      <label class="form-label form-check-label" [for]="getCustomRoleInputId()">
         <ng-container
           *ngIf="
             isAlreadySavedInLibrary;
@@ -100,16 +103,19 @@
       </label>
     </div>
 
-    <div class="custom-control custom-radio">
+    <div class="form-check custom-radio">
       <input
         type="radio"
         formControlName="saveAsLibraryRole"
         [value]="true"
         [id]="getLibraryRoleInputId()"
-        class="custom-control-input"
+        class="form-check-input"
       />
 
-      <label class="custom-control-label" [for]="getLibraryRoleInputId()">
+      <label
+        class="form-label form-check-label"
+        [for]="getLibraryRoleInputId()"
+      >
         <ng-container
           *ngIf="
             isAlreadySavedInLibrary;
@@ -130,7 +136,7 @@
     <button
       *ngIf="!roleForm.dirty"
       type="button"
-      class="btn btn-outline-secondary mr-2"
+      class="btn btn-outline-secondary me-2"
       (click)="onCancel()"
     >
       <ng-container i18n="@@cancel">Cancel</ng-container>
@@ -138,7 +144,7 @@
     <button
       *ngIf="roleForm.dirty"
       type="button"
-      class="btn btn-outline-secondary mr-2"
+      class="btn btn-outline-secondary me-2"
       placement="top"
       container="body"
       mwlConfirmationPopover
@@ -170,7 +176,7 @@
   <div class="d-flex justify-content-end mt-2" *ngIf="showDeleteButton()">
     <button
       type="button"
-      class="btn btn-danger ml-auto"
+      class="btn btn-danger ms-auto"
       placement="top"
       container="body"
       mwlConfirmationPopover

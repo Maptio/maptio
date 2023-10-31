@@ -24,7 +24,6 @@ import { SubSink } from 'subsink';
 import { DataService } from '../../services/data.service';
 import { UIService } from '../../services/ui.service';
 import { ColorService } from '@maptio-shared/services/color/color.service';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Initiative } from '../../../../shared/model/initiative.data';
 import { SelectableTag } from '../../../../shared/model/tag.data';
 import { IDataVisualizer } from '../../components/canvas/mapping.interface';
@@ -86,8 +85,6 @@ export class MappingCirclesExpandedComponent
     y: number;
     isReadOnlyContextMenu: boolean;
   }>();
-
-  public analytics: Angulartics2Mixpanel;
 
   private subs = new SubSink();
 
@@ -162,13 +159,6 @@ export class MappingCirclesExpandedComponent
             this.circleMapService.onZoomFitButtonPress();
           });
         }
-
-        this.analytics.eventTrack('Map', {
-          action: 'viewing',
-          view: 'initiatives',
-          team: (<Team>complexData[0].team).name,
-          teamId: (<Team>complexData[0].team).team_id,
-        });
 
         const circleMapData: CircleMapDataExpanded = {
           dataset: complexData[0].dataset,

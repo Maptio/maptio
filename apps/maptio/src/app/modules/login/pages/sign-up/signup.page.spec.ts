@@ -5,7 +5,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgProgressModule, NgProgress } from '@ngx-progressbar/core';
 import { IntercomModule } from '@supy-io/ngx-intercom';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Auth } from '../../../../core/authentication/auth.service';
 import { DatasetFactory } from '../../../../core/http/map/dataset.factory';
 import { UserFactory } from '../../../../core/http/user/user.factory';

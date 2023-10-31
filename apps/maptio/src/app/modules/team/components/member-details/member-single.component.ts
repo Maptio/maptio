@@ -8,7 +8,6 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Intercom } from '@supy-io/ngx-intercom';
 
 import { User } from '@maptio-shared/model/user.data';
@@ -69,7 +68,6 @@ export class MemberSingleComponent implements OnChanges {
   constructor(
     private cd: ChangeDetectorRef,
     private userService: UserService,
-    private analytics: Angulartics2Mixpanel,
     private intercom: Intercom
   ) {}
 
@@ -130,14 +128,6 @@ export class MemberSingleComponent implements OnChanges {
           throw new Error();
         }
 
-        return;
-      })
-      .then(() => {
-        this.analytics.eventTrack('Team', {
-          action: 'invite',
-          team: this.team.name,
-          teamId: this.team.team_id,
-        });
         return;
       })
       .then(() => {
