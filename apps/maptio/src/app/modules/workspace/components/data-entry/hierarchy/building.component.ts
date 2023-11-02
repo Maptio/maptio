@@ -8,6 +8,7 @@ import {
   signal,
   ViewChild,
   ChangeDetectorRef,
+  effect,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NgIf } from '@angular/common';
@@ -158,6 +159,10 @@ export class BuildingComponent implements OnDestroy {
         this.onLibraryRoleDelete(deletedRole);
       }
     );
+
+    effect(() => {
+      this.scrollInitiativeIntoView(this.selectedInitiativeId());
+    });
   }
 
   ngOnDestroy() {
@@ -540,5 +545,20 @@ export class BuildingComponent implements OnDestroy {
     // TreeControl class for directly controlling expansion
     this.expandInitiativeId.set(null);
     this.expandInitiativeId.set(id);
+  }
+
+  scrollInitiativeIntoView(initiativeId: number) {
+    // Not the Angular way, but worked well in another project, so I'm using
+    // this tested method again
+    const nativeElement = window.document.getElementById(
+      'outline-item-' + initiativeId.toString()
+    );
+
+    if (!nativeElement) return;
+
+    (nativeElement as any).scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
   }
 }
