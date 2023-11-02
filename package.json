@@ -81,7 +81,7 @@
     "@ngrx/router-store": "~16.0.0",
     "@ngrx/store": "16.0.1",
     "@ngrx/store-devtools": "16.0.1",
-    "@notebits/outline": "^0.0.38",
+    "@notebits/outline": "^0.0.39",
     "@nx/angular": "17.0.2",
     "@openreplay/tracker": "^3.5.12",
     "@popperjs/core": "^2.11.6",
