@@ -160,9 +160,14 @@ export class BuildingComponent implements OnDestroy {
       }
     );
 
-    effect(() => {
-      this.scrollInitiativeIntoView(this.selectedInitiativeId());
-    });
+    effect(
+      () => {
+        this.expandParentsAndScrollInitiativeIntoView(
+          this.selectedInitiativeId()
+        );
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   ngOnDestroy() {
@@ -525,6 +530,8 @@ export class BuildingComponent implements OnDestroy {
   private findNodeById(id: number): Initiative {
     let nodeFound;
 
+    if (!this.nodes || this.nodes.length === 0) return;
+
     if (this.nodes[0].id === id) {
       nodeFound = this.nodes[0];
     } else {
@@ -545,9 +552,45 @@ export class BuildingComponent implements OnDestroy {
     // TreeControl class for directly controlling expansion
     this.expandInitiativeId.set(null);
     this.expandInitiativeId.set(id);
+    this.cd.markForCheck();
   }
 
-  scrollInitiativeIntoView(initiativeId: number) {
+  private expandParents(id: number, currentDepth = 0): number {
+    const node = this.findNodeById(id);
+
+    if (!node) return;
+
+    const parentNode = node.getParent(this.nodes[0]);
+
+    if (!parentNode) return currentDepth;
+
+    setTimeout(() => {
+      this.expandInitiative(parentNode.id);
+    });
+
+    currentDepth = this.expandParents(parentNode.id, currentDepth) + 1;
+
+    return currentDepth;
+  }
+
+  private expandParentsAndScrollInitiativeIntoView(id: number) {
+    const depth = this.expandParents(id);
+
+    // As nodes get expanded, the item will move, so we try our best to
+    // compensate for that
+    // TODO: Rather than relying on depth alone, we should look at the number
+    // expansions actually needed to get to the item, but that's harder because
+    // that information is, for now, hidden in the outliner
+    for (let i = 0; i < depth; i++) {
+      setTimeout(() => {
+        this.scrollInitiativeIntoView(id);
+      }, i * 100);
+    }
+  }
+
+  private scrollInitiativeIntoView(initiativeId: number) {
+    if (!initiativeId) return;
+
     // Not the Angular way, but worked well in another project, so I'm using
     // this tested method again
     const nativeElement = window.document.getElementById(
