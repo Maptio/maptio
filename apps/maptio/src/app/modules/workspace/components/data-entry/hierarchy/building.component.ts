@@ -584,7 +584,7 @@ export class BuildingComponent implements OnDestroy {
     for (let i = 0; i < depth; i++) {
       setTimeout(() => {
         this.scrollInitiativeIntoView(id);
-      }, i * 100);
+      }, i * 20);
     }
   }
 
