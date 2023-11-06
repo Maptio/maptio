@@ -141,6 +141,11 @@ export class CircleMapService {
   }
 
   onSelectedIdChange(selectedId: number) {
+    // If the selected circle, there is no need to react to the input change
+    if (selectedId === this.selectedCircle.value?.data.id) {
+      return;
+    }
+
     const circle = this.getCircleByInitiativeId(selectedId);
 
     if (circle) {
