@@ -431,8 +431,6 @@ export class BuildingComponent implements OnDestroy {
 
   private transformNodesIntoOutlineData(nodes): NotebitsOutlineData {
     return nodes.map((node) => {
-      console.log('children', node.children);
-
       const children =
         node.children && node.children.length > 0
           ? this.transformNodesIntoOutlineData(node.children)
@@ -488,8 +486,12 @@ export class BuildingComponent implements OnDestroy {
 
     this.sendInitiativesToOutliner();
     this.expandInitiative(parentId);
-    this.workspaceFacade.setSelectedInitiativeID(newInitiative.id);
+
+    // This will also update the data for the map and the details panel...
     this.saveChanges();
+
+    // ...so that we can then select the new initiative there!
+    this.workspaceFacade.setSelectedInitiativeID(newInitiative.id);
   }
 
   onInitiativeMove(event: OutlineItemMoveEvent) {

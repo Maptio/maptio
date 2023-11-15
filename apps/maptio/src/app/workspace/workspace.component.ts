@@ -181,10 +181,41 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   // }
 
   async saveChanges(change: { initiative: Initiative; tags: Array<Tag> }) {
-    const isLocalDatasetOutdated = await this.mapService.isDatasetOutdated(
-      this.dataset,
-      this.user
-    );
+    this.isSaving = true;
+    this.isEmptyMap =
+      !change.initiative.children || change.initiative.children.length === 0;
+
+    this.dataset.initiative = change.initiative;
+    this.dataset.tags = change.tags;
+    this.tags = change.tags;
+
+    // Performing an optimistic update of the UI before saving. If the save
+    // fails, we just show an error message and don't revert the UI.
+    // TODO: Revert the UI if the save fails
+    // TODO: Make the error message nicer
+    this.dataService.set({
+      initiative: change.initiative,
+      dataset: this.dataset,
+      team: this.team,
+      members: this.members,
+    });
+
+    this.cd.markForCheck();
+
+    let depth = 0;
+    change.initiative.traverse(() => {
+      depth++;
+    });
+
+    let isLocalDatasetOutdated: boolean;
+    try {
+      isLocalDatasetOutdated = await this.mapService.isDatasetOutdated(
+        this.dataset,
+        this.user
+      );
+    } catch (error) {
+      this.handleSavingErrorAlert(error);
+    }
 
     if (isLocalDatasetOutdated) {
       if (!this.mapService.hasOutdatedAlertBeenShownRecently(this.dataset)) {
@@ -194,20 +225,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
       }
       return;
     }
-
-    this.isEmptyMap =
-      !change.initiative.children || change.initiative.children.length === 0;
-    this.isSaving = true;
-    this.cd.markForCheck();
-
-    this.dataset.initiative = change.initiative;
-    this.dataset.tags = change.tags;
-    this.tags = change.tags;
-
-    let depth = 0;
-    change.initiative.traverse(() => {
-      depth++;
-    });
 
     // Ensure that that the dataset and team versions of the role library are identical before saving
     const roleLibrary = this.roleLibrary.getRoles();
@@ -220,18 +237,17 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     ])
       .then(
         ([hasSavedDataset, hasSavedTeam]: [boolean, boolean]) => {
-          this.dataService.set({
-            initiative: change.initiative,
-            dataset: this.dataset,
-            team: this.team,
-            members: this.members,
-          });
           return hasSavedDataset && hasSavedTeam;
         },
         (reason) => {
-          console.error(reason);
+          this.handleSavingErrorAlert(reason);
         }
       )
+      .then((hasSaved) => {
+        if (!hasSaved) {
+          this.handleSavingErrorAlert();
+        }
+      })
       .then(() => {
         this.intercom.trackEvent('Editing map', {
           team: this.team.name,
@@ -245,7 +261,19 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
       .then(() => {
         this.isSaving = false;
         this.cd.markForCheck();
+      })
+      .catch((reason) => {
+        this.handleSavingErrorAlert(reason);
       });
+  }
+
+  private handleSavingErrorAlert(errorMessage = 'An unknown error occurred.') {
+    if (!this.mapService.hasOutdatedAlertBeenShownRecently(this.dataset)) {
+      alert(
+        $localize`An error occurred while saving your changes. Please try making a change again or contact us at support@maptio.com if the error persists.`
+      );
+    }
+    console.error(errorMessage);
   }
 
   toggleEditMode() {
