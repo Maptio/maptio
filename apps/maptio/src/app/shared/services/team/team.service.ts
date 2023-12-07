@@ -54,7 +54,8 @@ export class TeamService {
                   throw $localize`Unable to add you to organisation ${name}!`;
                 }
               },
-              () => {
+              (error) => {
+                console.error('Error adding team to user: ', error);
                 throw $localize`Unable to create organisation ${name}!`;
               }
             )
@@ -62,7 +63,8 @@ export class TeamService {
               return team;
             });
         },
-        () => {
+        (error) => {
+          console.error('Error creating team: ', error);
           throw $localize`Unable to create organisation ${name}!`;
         }
       )

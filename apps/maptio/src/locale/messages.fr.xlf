@@ -1919,7 +1919,7 @@
       </trans-unit>
       <trans-unit id="3534533467020315480" datatype="html">
         <source>Unable to create organisation <x id="PH" equiv-text="name"/>!</source>
-        <target state="translated">Impossible de créer l'entreprise<x id="PH" equiv-text="name"/>!</target>
+        <target state="translated">Impossible de créer l'entreprise <x id="PH" equiv-text="name"/>!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/services/team/team.service.ts</context>
           <context context-type="linenumber">62</context>

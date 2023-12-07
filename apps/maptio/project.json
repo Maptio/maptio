@@ -116,6 +116,9 @@
         },
         "de": {
           "localize": ["de"]
+        },
+        "fr": {
+          "localize": ["fr"]
         }
       },
       "defaultConfiguration": ""
@@ -135,6 +138,9 @@
         },
         "de": {
           "browserTarget": "maptio:build:de"
+        },
+        "fr": {
+          "browserTarget": "maptio:build:fr"
         }
       }
     },
