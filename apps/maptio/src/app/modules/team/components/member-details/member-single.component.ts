@@ -108,6 +108,7 @@ export class MemberSingleComponent implements OnChanges {
     if (!this.member.email) {
       this.errorMessage =
         'Please enter an email address to send the invitation to.';
+      this.scrollFullComponentIntoView(false);
       this.cd.markForCheck();
       return;
     }
@@ -155,6 +156,8 @@ export class MemberSingleComponent implements OnChanges {
           `;
         }
 
+        this.scrollFullComponentIntoView();
+
         this.isDisplaySendingLoader = false;
         this.cd.markForCheck();
       });
@@ -165,6 +168,16 @@ export class MemberSingleComponent implements OnChanges {
     this.duplicateUsers = duplicateUsers;
   }
 
+  onToggle() {
+    this.isEditToggled = !this.isEditToggled;
+    this.cd.markForCheck();
+
+    // Scroll to the bottom of the component but avoid using fallback in
+    // firefox as it's not as important here and causes too much unnecessary
+    // scrolling
+    this.scrollFullComponentIntoView(false);
+  }
+
   onEditMember() {
     this.onCancelEditing();
   }
@@ -172,6 +185,28 @@ export class MemberSingleComponent implements OnChanges {
   onCancelEditing() {
     this.isEditToggled = false;
     this.cd.markForCheck();
+  }
+
+  private scrollFullComponentIntoView(fallback = true) {
+    setTimeout(() => {
+      // Not the Angular way, but worked well in another project, so I'm using
+      // this tested method again
+      const elementId = `endOfComponent-${this.member.shortid}`;
+      const nativeElement = window.document.getElementById(elementId);
+
+      if (!nativeElement) return;
+
+      this.scrollToElement(nativeElement, fallback);
+    }, 100);
+  }
+
+  private scrollToElement(element: any, fallback: boolean) {
+    // Ideally use the better method, not always available
+    if (element.scrollIntoViewIfNeeded) {
+      element.scrollIntoViewIfNeeded(false);
+    } else if (fallback) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
   }
 
   // TODO: Copy over to MemberForm component (and fix "Never ago"!!!)
