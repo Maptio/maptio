@@ -288,8 +288,8 @@ export class SvgZoomPanComponent implements OnInit, OnDestroy {
   }
 
   zoomToCircle(x: number, y: number, r: number) {
-    // Zoom so that the height of the circle is about 75% of available height
-    this.scale = (1000 - 250) / (2 * r);
+    // Zoom so that the height of the circle is about 85% of available height
+    this.scale = (1000 - 150) / (2 * r);
 
     // Don't zoom out beyond the height of the main circle
     this.scale = Math.max(this.scale, 1);
