@@ -9,7 +9,6 @@ import { MapSettingsService } from '../modules/workspace/services/map-settings.s
 import { UserRoleService } from './model/permission.data';
 import { MapService } from './services/map/map.service';
 import { IntercomService } from './services/team/intercom.service';
-import { JwtEncoder } from './services/encoding/jwt.service';
 import { ErrorService } from './services/error/error.service';
 import { ExportService } from './services/export/export.service';
 import { FileService } from './services/file/file.service';
@@ -46,7 +45,6 @@ export class SharedModule {
       ngModule: SharedModule,
       providers: [
         UserRoleService,
-        JwtEncoder,
         ErrorService,
         ExportService,
         FileService,
