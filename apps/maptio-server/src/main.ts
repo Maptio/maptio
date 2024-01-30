@@ -175,12 +175,8 @@ const embeddableDatasets = require('./routes/embeddable-datasets');
 const users = require('./routes/users');
 const teams = require('./routes/teams');
 const inviting = require('./routes/invite');
-const encoding = require('./routes/encoding');
 const notifications = require('./routes/notifications');
-const oauth = require('./routes/oauth');
 const intercom = require('./routes/intercom');
-
-app.use('/api/v1/jwt/', encoding);
 
 app.use(
   '/api/v1/notifications/',
@@ -188,7 +184,6 @@ app.use(
   checkscopes(['api']),
   notifications
 );
-app.use('/api/v1/oauth', jwtCheck, checkscopes(['api']), oauth);
 app.use('/api/v1/dataset/', jwtCheck, checkscopes(['api']), datasets);
 app.use('/api/v1/user', jwtCheck, checkscopes(['api']), users);
 app.use('/api/v1/team', jwtCheck, checkscopes(['api']), teams);
