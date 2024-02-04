@@ -1,0 +1,312 @@
+rules: []
+rulesConfigs: []
+hooks: []
+pages:
+  - name: password_reset
+    enabled: false
+    html: ./pages/password_reset.html
+resourceServers:
+  - name: Maptio API Development
+    identifier: http://localhost:4200/api/v1
+    allow_offline_access: false
+    scopes:
+      - value: api
+        description: Access the API
+    signing_alg: RS256
+    skip_consent_for_verifiable_first_party_clients: true
+    token_lifetime: 86400
+    token_lifetime_for_web: 7200
+clients:
+  - name: Maptio API Development
+    allowed_clients: []
+    app_type: non_interactive
+    callbacks: []
+    client_aliases: []
+    cross_origin_auth: false
+    custom_login_page_on: true
+    grant_types:
+      - client_credentials
+    is_first_party: true
+    is_token_endpoint_ip_header_trusted: false
+    jwt_configuration:
+      alg: RS256
+      lifetime_in_seconds: 600
+      secret_encoded: false
+    native_social_login:
+      apple:
+        enabled: false
+      facebook:
+        enabled: false
+    oidc_conformant: true
+    refresh_token:
+      expiration_type: non-expiring
+      leeway: 0
+      infinite_token_lifetime: true
+      infinite_idle_token_lifetime: true
+      token_lifetime: 31557600
+      idle_token_lifetime: 2592000
+      rotation_type: non-rotating
+    sso_disabled: false
+    token_endpoint_auth_method: client_secret_post
+  - name: Maptio Development
+    allowed_clients: []
+    allowed_logout_urls:
+      - http://localhost:4200/logout
+      - http://localhost:3000/logout
+    app_type: spa
+    callbacks:
+      - http://localhost:4200/login
+      - http://localhost:3000/login
+    client_aliases: []
+    cross_origin_auth: false
+    custom_login_page_on: true
+    grant_types:
+      - authorization_code
+      - implicit
+      - refresh_token
+    is_first_party: true
+    is_token_endpoint_ip_header_trusted: false
+    jwt_configuration:
+      alg: RS256
+      lifetime_in_seconds: 600
+      secret_encoded: false
+    native_social_login:
+      apple:
+        enabled: false
+      facebook:
+        enabled: false
+    oidc_conformant: true
+    refresh_token:
+      expiration_type: expiring
+      leeway: 0
+      token_lifetime: 2592000
+      idle_token_lifetime: 1296000
+      infinite_token_lifetime: false
+      infinite_idle_token_lifetime: false
+      rotation_type: rotating
+    sso_disabled: false
+    token_endpoint_auth_method: none
+    web_origins:
+      - http://localhost:4200
+      - http://localhost:3000
+databases:
+  - name: Username-Password-Authentication
+    strategy: auth0
+    enabled_clients:
+      - Maptio API Development
+      - Maptio Development
+    is_domain_connection: false
+    options:
+      mfa:
+        active: true
+        return_enroll_settings: true
+      passwordPolicy: good
+      strategy_version: 2
+      brute_force_protection: true
+    realms:
+      - Username-Password-Authentication
+connections:
+  - name: google-oauth2
+    strategy: google-oauth2
+    enabled_clients:
+      - Maptio API Development
+      - Maptio Development
+    is_domain_connection: false
+    options:
+      email: true
+      scope:
+        - email
+        - profile
+      profile: true
+tenant:
+  allowed_logout_urls: []
+  enabled_locales:
+    - en
+    - fr-CA
+    - fr
+    - pl
+  flags:
+    revoke_refresh_token_grant: false
+    disable_clickjack_protection_headers: false
+  friendly_name: Maptio
+  idle_session_lifetime: 72
+  picture_url: https://app.maptio.com/assets/images/logo.png
+  sandbox_version: '18'
+  session_lifetime: 720
+  support_email: support@maptio.com
+  support_url: ''
+  universal_login:
+    colors:
+      page_background: '#ffffff'
+      primary: '#287eb7'
+    passwordless:
+      allow_magiclink_verify_without_session: true
+emailProvider:
+  name: sendgrid
+  credentials:
+    api_key: '##SENDGRID_API_KEY##'
+  default_from_address: Maptio Sendgrid Development <support@maptio.com>
+  enabled: true
+emailTemplates:
+  - template: reset_email
+    body: ./emailTemplates/reset_email.html
+    enabled: true
+    from: Maptio (Development) <support@maptio.com>
+    subject: "     {% if request_language == 'en' %}         Password Change Request           {% elsif request_language == 'pl' %}         Prośba o zmianę hasła           {% else %}         Password Change Request     {% endif %}     "
+    syntax: liquid
+    urlLifetimeInSeconds: 432000
+  - template: verify_email
+    body: ./emailTemplates/verify_email.html
+    enabled: true
+    from: Maptio (Development) <support@maptio.com>
+    subject: "     {% if request_language == 'en' %}         Maptio Account Confirmation           {% elsif request_language == 'pl' %}         Potwierdzenie konta Maptio           {% else %}         Maptio Account Confirmation     {% endif %}     "
+    syntax: liquid
+    urlLifetimeInSeconds: 432000
+clientGrants:
+  - client_id: Maptio API Development
+    audience: https://AUTH0_DOMAIN/api/v2/
+    scope:
+      - read:users
+      - create:users
+      - create:user_tickets
+  - client_id: Maptio API Development
+    audience: http://localhost:4200/api/v1
+    scope: []
+guardianFactors:
+  - name: duo
+    enabled: false
+  - name: email
+    enabled: false
+  - name: otp
+    enabled: false
+  - name: push-notification
+    enabled: false
+  - name: recovery-code
+    enabled: false
+  - name: sms
+    enabled: false
+  - name: webauthn-platform
+    enabled: false
+  - name: webauthn-roaming
+    enabled: false
+guardianFactorProviders: []
+guardianFactorTemplates: []
+guardianPolicies:
+  policies: []
+guardianPhoneFactorSelectedProvider:
+  provider: auth0
+guardianPhoneFactorMessageTypes:
+  message_types: []
+roles: []
+branding:
+  colors:
+    page_background: '#ffffff'
+    primary: '#287eb7'
+  favicon_url: https://app.maptio.com/assets/images/favicon/favicon-32x32.png
+  logo_url: https://app.maptio.com/assets/images/logo.png
+  templates: []
+prompts:
+  customText:
+    en:
+      login:
+        login:
+          description: Log in to Maptio
+  identifier_first: false
+  universal_login_experience: new
+actions: []
+triggers: {}
+organizations: []
+attackProtection:
+  breachedPasswordDetection:
+    enabled: false
+    shields: []
+    admin_notification_frequency: []
+    method: standard
+    stage:
+      pre-user-registration:
+        shields: []
+  bruteForceProtection:
+    enabled: true
+    shields:
+      - block
+      - user_notification
+    mode: count_per_identifier_and_ip
+    allowlist: []
+    max_attempts: 10
+  suspiciousIpThrottling:
+    enabled: true
+    shields:
+      - admin_notification
+      - block
+    allowlist: []
+    stage:
+      pre-login:
+        max_attempts: 100
+        rate: 864000
+      pre-user-registration:
+        max_attempts: 50
+        rate: 1200
+logStreams: []
+themes:
+  - borders:
+      button_border_weight: 1
+      buttons_style: rounded
+      button_border_radius: 3
+      input_border_weight: 1
+      inputs_style: rounded
+      input_border_radius: 3
+      widget_corner_radius: 5
+      widget_border_weight: 0
+      show_widget_shadow: true
+    colors:
+      primary_button: '#287eb7'
+      primary_button_label: '#ffffff'
+      secondary_button_border: '#c9cace'
+      secondary_button_label: '#1e212a'
+      base_focus_color: '#635dff'
+      base_hover_color: '#000000'
+      links_focused_components: '#635dff'
+      header: '#1e212a'
+      body_text: '#1e212a'
+      widget_background: '#ffffff'
+      widget_border: '#c9cace'
+      input_labels_placeholders: '#65676e'
+      input_filled_text: '#000000'
+      input_border: '#c9cace'
+      input_background: '#ffffff'
+      icons: '#65676e'
+      error: '#d03c38'
+      success: '#13a688'
+    displayName: Unnamed Theme
+    fonts:
+      font_url: ''
+      reference_text_size: 16
+      title:
+        bold: false
+        size: 150
+      subtitle:
+        bold: false
+        size: 87.5
+      body_text:
+        bold: false
+        size: 87.5
+      buttons_text:
+        bold: false
+        size: 100
+      input_labels:
+        bold: false
+        size: 100
+      links:
+        bold: true
+        size: 87.5
+      links_style: normal
+    page_background:
+      page_layout: center
+      background_color: '#ffffff'
+      background_image_url: ''
+    widget:
+      logo_position: center
+      logo_url: https://app.maptio.com/assets/images/logo.png
+      logo_height: 52
+      header_text_alignment: center
+      social_buttons_layout: top
