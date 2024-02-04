@@ -18,8 +18,8 @@ throughout the organisation can:
 
 ## Introduction
 
-| Maptio has recently become an open source project 🎉 <br><br> The below documentation has served us internally for a while, but we need to improve it. In the meantime, if you want to get started, [get in touch with us](mailto:support@maptio.com) or [with me directly](mailto:roman.goj@gmail.com) and we'll be happy to help you via a video call. <br><br> In addition to this README, you can also check out [this issue where we discuss some issues with setting up locally](https://github.com/Maptio/maptio/issues/811). Please don't forget to add your thumbs up to it, so that we know to prioritise making this easier! |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Maptio has recently become an open source project 🎉 <br><br> The below documentation is incomplete and we are slowly improving it. In the meantime, if you want to get started, [get in touch with us](mailto:support@maptio.com) or [with me directly](mailto:roman.goj@gmail.com) and we'll be happy to help you e.g. via a video call. <br><br> In addition to this README, you can also check out [this issue where we discuss some issues with setting up locally](https://github.com/Maptio/maptio/issues/811). Please don't forget to add your thumbs up to it, so that we know to prioritise making this easier! |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 ## Installing / Getting started
 
@@ -78,23 +78,91 @@ share your thoughts.
 
 #### 3. Set up Auth0
 
-To set up Auth0, you'll need to create an account and set up a new application.
-You can follow the instructions in the
-[Auth0 setup guide](https://auth0.com/docs/quickstart/spa/angular/01-login).
-Once you've set up the application, you'll need to add the following environment
-variables to your `.env` file:
+First, we need an Auth0 tenant for Maptio local development. If you don't have
+an Auth0 account, go to [Auth0](https://auth0.com/) and create one - a tenant
+should be created for you in the process. If all this sounds completely
+unfamiliar, quickly going through one of the official Auth0 quickstarts for
+Angular (e.g.
+[Angular Authentication By Example](https://developer.auth0.com/resources/guides/spa/angular/basic-authentication))
+to first familiarise yourself with some of the concepts might be helpful.
+
+Once you've got a new tenant for Maptio, rather than setting up Auth0 manually,
+we're going to use the Auth0 Deploy CLI to set up what Maptio needs. Please
+check out this helpful
+[guide](https://auth0.com/docs/deploy-monitor/deploy-cli-tool/use-as-a-cli) if
+you're not familiar with this tool.
+
+To make it possible to import Maptio settings via the CLI, we need to create a
+new Machine to Machine (M2M) application via the Auth0 dashboard and allow it
+the access the CLI will need to make the changes. To do this, go to
+"Applications" and click "+ Create Application". Choose "Machine to Machine
+Applications" and name it e.g. "Deploy CLI". In the next step, select the Auth0
+Management API and under Permissions click "All" (it might be best to delete
+this application after you're finished importing the settings) and then
+"Authorize".
+
+Next, we need to install the tool with:
+
+```shell
+npm install -g auth0-deploy-cli
+```
+
+Then, please log in to your Auth0 account:
+
+```shell
+a0deploy login
+```
+
+Finally, to connect the CLI tool to the M2M application, we need to copy a few
+environment variables from the Auth0 dashboard and use them whenever we call
+the tool, e.g.:
+
+```shell
+AUTH0_DOMAIN=<YOUR_AUTH0_DOMAIN>; AUTH0_CLIENT_ID=<YOUR_AUTH0_CLIENT_ID>; AUTH0_CLIENT_SECRET=<YOUR_AUTH0_CLIENT_SECRET>; a0deploy
+```
+
+You can also add these to your `.env` file and use the `dotenv` package to load
+them into your environment, or use the Auth0 Deploy CLI tool's json config
+files.
+
+Before we import the settings, we need to make an edit in the tenant.yaml file,
+replacing the `AUTH0_DOMAIN` string with your Auth0 domain (e.g.
+`my-maptio.eu.auth0.com`).
+
+Now, we can import the settings for Maptio. From the repository's root folder
+run:
+
+```shell
+a0deploy import --input_file scripts/auth0-config/tenant.yaml
+```
+
+Finally, we can now add the following environment variables to our `.env` file:
 
 ```shell
 AUTH0_DOMAIN=<YOUR_AUTH0_DOMAIN>
-AUTH0_CLIENT_ID=<YOUR_AUTH0_CLIENT_ID>
-AUTH0_AUDIENCE=<YOUR_AUTH0_AUDIENCE>
+AUTH0_AUDIENCE=http://localhost:4200/api/v1
+AUTH0_ISSUER=https://<YOUR_AUTH0_DOMAIN>/
+AUTH0_MAPTIO_API_CLIENT_ID=<Client ID for Maptio API Development application>
+AUTH0_MAPTIO_API_CLIENT_SECRET=<Client Secret for Maptio API Development application>
 ```
 
-You'll also need to set up the callback URLs and logout URLs in the Auth0
-dashboard. For local development, you can use the following URLs:
+The last two of those can be found in the settings of the "Maptio API
+Development" application in the Auth0 dashboard. These will be used by the
+server.
 
-- Callback URL: `http://localhost:4200/callback`
-- Logout URL: `http://localhost:4200`
+For the front-end application to work correctly, we also need to copy a couple
+of settings from the "Maptio Development" application in the Auth0 dashboard
+into the `environment.ts` file in the `apps/maptio/src/environments` folder:
+
+```typescript
+// ...
+auth: {
+  domain: '<YOUR_AUTH0_DOMAIN>',
+  clientId: '<Client ID for Maptio Development application>',
+  // ...
+}
+// ...
+```
 
 #### 4. Set up a local database
 
@@ -128,6 +196,17 @@ Go to `http://localhost:4200` to see it in the browser.
 
 Here are some early tips for troubleshooting:
 
+- During importing of the Auth0 settings via the Auth0 Deploy CLI, you might
+  encounter various errors as this is a complex import, Auth0 may change their
+  API, and we may not have updated or tested the settings for a while. If you
+  encounter errors, they're usually easy to correct by editing the
+  `tenant.yaml` file. If you're stuck, please raise an issue or add a comment
+  [on #811](https://github.com/Maptio/maptio/issues/811) and we'll do our best
+  to help you.
+- There might also be some discussions of your issue already on
+  [on #811](https://github.com/Maptio/maptio/issues/811), so that might be
+  worth skimming through too, especially if you're interested in where we're at
+  in our journey to becoming fully open source.
 - If you're trying to set Auth0 up and have gotten to the stage where clicking
   on "log in" locally redirects you to your own Auth0 tenant (check the URL),
   but when you're redirected back to Maptio, you're still not logged in, it

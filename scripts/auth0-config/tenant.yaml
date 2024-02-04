@@ -152,19 +152,19 @@ emailTemplates:
     body: ./emailTemplates/reset_email.html
     enabled: true
     from: Maptio (Development) <support@maptio.com>
-    subject: '     {% if request_language == ''en'' %}         Password Change Request           {% elsif request_language == ''pl'' %}         Prośba o zmianę hasła           {% else %}         Password Change Request     {% endif %}     '
+    subject: "     {% if request_language == 'en' %}         Password Change Request           {% elsif request_language == 'pl' %}         Prośba o zmianę hasła           {% else %}         Password Change Request     {% endif %}     "
     syntax: liquid
     urlLifetimeInSeconds: 432000
   - template: verify_email
     body: ./emailTemplates/verify_email.html
     enabled: true
     from: Maptio (Development) <support@maptio.com>
-    subject: '     {% if request_language == ''en'' %}         Maptio Account Confirmation           {% elsif request_language == ''pl'' %}         Potwierdzenie konta Maptio           {% else %}         Maptio Account Confirmation     {% endif %}     '
+    subject: "     {% if request_language == 'en' %}         Maptio Account Confirmation           {% elsif request_language == 'pl' %}         Potwierdzenie konta Maptio           {% else %}         Maptio Account Confirmation     {% endif %}     "
     syntax: liquid
     urlLifetimeInSeconds: 432000
 clientGrants:
   - client_id: Maptio API Development
-    audience: https://test-open-source-maptio-3.eu.auth0.com/api/v2/
+    audience: https://AUTH0_DOMAIN/api/v2/
     scope:
       - read:users
       - create:users
