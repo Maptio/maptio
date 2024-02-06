@@ -11,7 +11,7 @@
       type="text"
       id="inputFirstname"
       formControlName="firstname"
-      class="form-control form-control-warning"
+      class="form-control"
       [class.is-invalid]="isFieldInvalid('firstname')"
       placeholder="First name"
       i18n-placeholder="@@firstName"
@@ -34,7 +34,7 @@
       type="text"
       id="inputLastname"
       formControlName="lastname"
-      class="form-control form-control-warning"
+      class="form-control"
       [class.is-invalid]="isFieldInvalid('lastname')"
       placeholder="Last name"
       i18n-placeholder="@@lastName"
@@ -64,7 +64,41 @@
     <small class="invalid-feedback">{{ imageUploadErrorMessage }}</small>
   </div>
 
-  <div class="form-group">
+  <div class="form-group mb-0">
+    <label
+      class="form-label mb-0 text-uppercase text-bold text-gray-light small"
+      for="inputAbout"
+    >
+      <ng-container i18n="@@about">About</ng-container>
+    </label>
+
+    <textarea
+      formControlName="about"
+      class="form-control"
+      id="inputAbout"
+      data-provide="markdown"
+      data-iconlibrary="fa"
+      data-autofocus="true"
+      [class.is-invalid]="isFieldInvalid('about')"
+      placeholder="About"
+      i18n-placeholder="@@about"
+    ></textarea>
+
+    <small class="invalid-feedback" i18n>
+      Please enter at least 2 characters.
+    </small>
+  </div>
+
+  <small class="text-default text-muted">
+    <ng-container i18n="@@markdownTip">
+      How to
+      <a href="{{ KB_URL_MARKDOWN }}" target="_blank">
+        add links and formatting
+      </a>
+    </ng-container>
+  </small>
+
+  <div class="form-group mt-4">
     <label
       class="form-label mb-0 text-uppercase text-bold text-gray-light small"
       for="inputEmail"
@@ -76,7 +110,7 @@
       type="text"
       id="inputEmail"
       formControlName="email"
-      class="form-control form-control-warning"
+      class="form-control"
       [class.is-invalid]="isFieldInvalid('email')"
       placeholder="Email"
       i18n-placeholder="@@email"
@@ -137,7 +171,7 @@
       <ng-container i18n="@@cancel">Cancel</ng-container>
     </button>
 
-    <!-- TODO WTF Cancel here? Check this out... -->
+    <!-- TODO Cancel here? Check this out... -->
     <button
       *ngIf="showCancelButton && (memberForm.dirty || isNewImageUploaded)"
       type="button"

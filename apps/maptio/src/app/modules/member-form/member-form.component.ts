@@ -104,6 +104,7 @@ export class MemberFormComponent implements OnInit {
       lastname: new UntypedFormControl('', {
         validators: [Validators.minLength(2)],
       }),
+      about: new UntypedFormControl(''),
       email: new UntypedFormControl('', { validators: [Validators.email] }),
     });
 
