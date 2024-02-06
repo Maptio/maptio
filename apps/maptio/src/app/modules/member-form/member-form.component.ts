@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 import { Intercom } from '@supy-io/ngx-intercom';
 
 import { environment } from '@maptio-environment';
+import { environment as config } from '@maptio-config/environment';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { DataSet } from '@maptio-shared/model/dataset.data';
 import { User, MemberFormFields } from '@maptio-shared/model/user.data';
@@ -48,6 +49,7 @@ import { NgIf, NgFor } from '@angular/common';
 export class MemberFormComponent implements OnInit {
   TERMS_AND_CONDITIONS_URL = environment.TERMS_AND_CONDITIONS_URL;
   PRIVACY_POLICY_URL = environment.PRIVACY_POLICY_URL;
+  KB_URL_MARKDOWN = config.KB_URL_MARKDOWN;
 
   public newMember: User;
   public errorMessage: string;
