@@ -13,13 +13,13 @@ import { Router } from '@angular/router';
 
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { sortBy } from 'lodash-es';
-
 import { MarkdownModule } from 'ngx-markdown';
-import { Initiative } from '../../../../../shared/model/initiative.data';
-import { User } from '../../../../../shared/model/user.data';
-// import { Tag, SelectableTag } from "../../../../../shared/model/tag.data";
-import { Team } from '../../../../../shared/model/team.data';
-import { DataSet } from '../../../../../shared/model/dataset.data';
+
+import { Initiative } from '@maptio-shared/model/initiative.data';
+import { User } from '@maptio-shared/model/user.data';
+import { Team } from '@maptio-shared/model/team.data';
+import { DataSet } from '@maptio-shared/model/dataset.data';
+
 import { MapSettingsService } from '../../../services/map-settings.service';
 import { PersonalCardComponent } from '../tab/card.component';
 
