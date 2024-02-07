@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { sortBy } from 'lodash-es';
 
+import { MarkdownModule } from 'ngx-markdown';
 import { Initiative } from '../../../../../shared/model/initiative.data';
 import { User } from '../../../../../shared/model/user.data';
 // import { Tag, SelectableTag } from "../../../../../shared/model/tag.data";
@@ -32,6 +33,7 @@ import { PersonalCardComponent } from '../tab/card.component';
     NgIf,
     NgFor,
     NgbNavModule,
+    MarkdownModule,
     LowerCasePipe,
     TitleCasePipe,
     PersonalCardComponent,

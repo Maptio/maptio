@@ -74,3 +74,7 @@
   -moz-column-count: 3;
   column-count: 3;
 }
+
+.about {
+  max-width: 50rem;
+}
