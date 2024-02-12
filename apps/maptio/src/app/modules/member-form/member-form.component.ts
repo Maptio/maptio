@@ -15,6 +15,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TextFieldModule } from '@angular/cdk/text-field';
 
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
@@ -33,10 +34,11 @@ import { MemberComponent } from '../member/member.component';
   styleUrls: ['./member-form.component.scss'],
   standalone: true,
   imports: [
-    FormsModule,
-    ReactiveFormsModule,
     NgIf,
     NgFor,
+    FormsModule,
+    ReactiveFormsModule,
+    TextFieldModule,
     ConfirmationPopoverModule,
     ImageUploadComponent,
     MemberComponent,
