@@ -160,13 +160,6 @@
           <context context-type="linenumber">207</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="a3a1d87649a0bcfe77259b11af7621e6f2c25912" datatype="html">
-        <source>More ...</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">167</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="6326f9ce2365bfe97668c4aa146fbbb762497c1a" datatype="html">
         <source>Log out</source>
         <context-group purpose="location">
@@ -341,13 +334,6 @@
           <context context-type="linenumber">192,194</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="c63886016080466fd3ca6e8aa3f42125d3576890" datatype="html">
-        <source>Find a map</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
-          <context context-type="linenumber">210</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="d98628af6e98858be31af5d8884b26e93952218c" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="{{ getCount(filteredMaps) }}"/>/<x id="INTERPOLATION_1" equiv-text="{{ datasets?.length }}"/> maps</source>
         <context-group purpose="location">
@@ -434,13 +420,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/login/pages/logout/logout.page.html</context>
           <context context-type="linenumber">63,78</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="e5729085d4fb2b5e21bc51533626a0b2bb94717a" datatype="html">
-        <source>Complete your profile</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/login/pages/sign-up/signup.page.html</context>
-          <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
       <trans-unit id="firstName" datatype="html">
@@ -842,13 +821,6 @@
           <context context-type="linenumber">96,97</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="0a82cfc8df3e0267a269a9c3a7c897d3ab0d74c4" datatype="html">
-        <source>{VAR_SELECT, select, Standard {Standard} Admin {Admin} Superuser {Superuser}}</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
-          <context context-type="linenumber">113,114</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="d47151ac3fc8597f49c58f50b3c94e3d02bcd59b" datatype="html">
         <source>{VAR_SELECT, select, Standard {Standard} Admin {Admin} Superuser {Superuser}}</source>
         <context-group purpose="location">
@@ -944,13 +916,6 @@
           <context context-type="linenumber">41,42</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="559328a9cf7811d04fb77fb033940dd26d000753" datatype="html">
-        <source>Subscribe to a plan below to continue using Maptio or <x id="START_LINK" ctype="x-a" equiv-text="&lt;a           href=&quot;mailto:support@maptio.com?subject=I need more time to try Maptio&quot;         &gt;"/> ask us for a free trial extension. <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-billing/billing.component.html</context>
-          <context context-type="linenumber">59,64</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="ddcef56b981da3cd79e02d7e9d31c693d5dd4b39" datatype="html">
         <source>Plans</source>
         <context-group purpose="location">
@@ -963,13 +928,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-billing/billing.component.html</context>
           <context context-type="linenumber">74,75</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="67f7e08d5c7afb61f41f5404c1e1c12508370c8d" datatype="html">
-        <source>Choose file</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
-          <context context-type="linenumber">25,26</context>
         </context-group>
       </trans-unit>
       <trans-unit id="reset" datatype="html">
@@ -1029,8 +987,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="b8b3b3f7b34a41213ddc2b1e58fdd39435fa7b02" datatype="html" xml:space="preserve">
-        <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-green&quot;&gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-hand-o-right me-1&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Well done! <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> Once imported, new users must be <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;../../members&quot;&gt;"/>invited<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> to view and edit maps.</source>
-        <target state="translated"><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-green&quot;&gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-hand-o-right me-1&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Bien hecho! <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> Una vez usuarios importados , nuevos tienen que ser <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;../../members&quot;&gt;"/>invitados<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> para ver y editar mapas.</target>
+        <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;i class=&quot;fa fa-hand-"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-hand-o-right me-1&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/> Well done! <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> Once imported, new users must be <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;../../members&quot;&gt;"/>invited<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> to view and edit maps.</source>
+        <target state="needs-translation"><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-green&quot;&gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-hand-o-right me-1&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Bien hecho! <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> Una vez usuarios importados , nuevos tienen que ser <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;../../members&quot;&gt;"/>invitados<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> para ver y editar mapas.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
           <context context-type="linenumber">146,153</context>
@@ -1651,45 +1609,6 @@
           <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="26a80b49cfc3bc6ede26e383248f267996471831" datatype="html">
-        <source>Edit your circle structure here. Try clicking Expand All.</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
-          <context context-type="linenumber">3,4</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="1f8e926cdad26808d3176cb86eeeb229a777a026" datatype="html">
-        <source>Expand all</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
-          <context context-type="linenumber">28</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="869de38138d7f0575f2e8b8de63a09edb3b00d3e" datatype="html">
-        <source>Collapse all</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
-          <context context-type="linenumber">44</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="d3d1ca51b0e4ae86727b1c0848e377dfeeb823c2" datatype="html">
-        <source>Add a new circle</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
-          <context context-type="linenumber">67</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="newOuterCircle" datatype="html">
-        <source>New outer circle</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
-          <context context-type="linenumber">72,73</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
-          <context context-type="linenumber">94,95</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="areYouSure" datatype="html">
         <source>Are you sure?</source>
         <context-group purpose="location">
@@ -1734,13 +1653,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
           <context context-type="linenumber">187,188</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="36e2ff22d988436abcc7d71df301784919a52cb2" datatype="html">
-        <source>Add sub-circle</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/node/initiative.node.component.html</context>
-          <context context-type="linenumber">62</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4b8722ff333a044331acf5b2c9f0261041fce8cb" datatype="html">
