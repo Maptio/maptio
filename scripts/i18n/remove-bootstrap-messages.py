@@ -9,6 +9,11 @@ from lxml import etree
 
 messages_file = './apps/maptio/src/locale/messages.xlf'
 
+irrelevant_contexts = [
+    'node_modules/@ng-bootstrap',
+    'node_modules/src/ngb-config.ts',
+];
+
 def filter_trans_units(xliff):
     """
     Filter trans units
@@ -43,7 +48,11 @@ def is_context_irrelevant(context):
     """
     if context.attrib.get('context-type') != 'sourcefile':
         return True
-    return context.text.startswith('node_modules/@ng-bootstrap')
+
+    return any(
+        context.text.startswith(irrelevant_context)
+        for irrelevant_context in irrelevant_contexts
+    )
 
 
 if __name__ == '__main__':

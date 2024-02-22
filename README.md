@@ -211,3 +211,8 @@ Here are some early tips for troubleshooting:
   on "log in" locally redirects you to your own Auth0 tenant (check the URL),
   but when you're redirected back to Maptio, you're still not logged in, it
   might be worth checking Auth0 logs for any errors in the configuration.
+
+### i18n and l10n workflows
+
+To read more about internationalisation and localisation in Maptio, see
+[our wiki page on this](https://github.com/Maptio/maptio/wiki/3.-%F0%9F%8C%90-i18n-&-l10n-development-workflows)

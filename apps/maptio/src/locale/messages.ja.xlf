@@ -178,14 +178,6 @@
           <context context-type="linenumber">207</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="a3a1d87649a0bcfe77259b11af7621e6f2c25912" datatype="html">
-        <source>More ...</source>
-        <target state="translated">もっと見る</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
-          <context context-type="linenumber">167</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="6326f9ce2365bfe97668c4aa146fbbb762497c1a" datatype="html">
         <source>Log out</source>
         <target state="translated">ログアウト</target>
@@ -380,14 +372,6 @@
           <context context-type="linenumber">192,194</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="c63886016080466fd3ca6e8aa3f42125d3576890" datatype="html">
-        <source>Find a map</source>
-        <target state="translated">マップを探す</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/home/components/dashboard/dashboard.component.html</context>
-          <context context-type="linenumber">210</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="d98628af6e98858be31af5d8884b26e93952218c" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="{{ getCount(filteredMaps) }}"/>/<x id="INTERPOLATION_1" equiv-text="{{ datasets?.length }}"/> maps</source>
         <target state="translated"><x id="INTERPOLATION" equiv-text="{{ getCount(filteredMaps) }}"/>/<x id="INTERPOLATION_1" equiv-text="{{ datasets?.length }}"/> マップ</target>
@@ -485,14 +469,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/login/pages/logout/logout.page.html</context>
           <context context-type="linenumber">63,78</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="e5729085d4fb2b5e21bc51533626a0b2bb94717a" datatype="html">
-        <source>Complete your profile</source>
-        <target state="translated">プロフィールの完成</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/login/pages/sign-up/signup.page.html</context>
-          <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
       <trans-unit id="firstName" datatype="html">
@@ -806,9 +782,9 @@
           <context context-type="linenumber">258,259</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="1374576901432673248" datatype="html">
-        <source>Can't create <x id="PH" equiv-text="this.email"/> : <x id="PH_1" equiv-text="reason"/></source>
-        <target state="translated"><x id="PH" equiv-text="this.email"/>:<x id="PH_1" equiv-text="reason"/>が作成できません</target>
+      <trans-unit id="1374576901432673248" datatype="html" xml:space="preserve">
+        <source>Can't create <x id="PH" equiv-text="user.email"/> : <x id="PH_1" equiv-text="reason"/></source>
+        <target state="needs-translation"><x id="PH" equiv-text="this.email"/>:<x id="PH_1" equiv-text="reason"/>が作成できません</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.ts</context>
           <context context-type="linenumber">232</context>
@@ -930,13 +906,6 @@
           <context context-type="linenumber">96,97</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="0a82cfc8df3e0267a269a9c3a7c897d3ab0d74c4" datatype="html">
-        <source>{VAR_SELECT, select, Standard {Standard} Admin {Admin} Superuser {Superuser}}</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/team/components/member-details/member-single.component.html</context>
-          <context context-type="linenumber">113,114</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="d47151ac3fc8597f49c58f50b3c94e3d02bcd59b" datatype="html">
         <source>{VAR_SELECT, select, Standard {Standard} Admin {Admin} Superuser {Superuser}}</source>
         <context-group purpose="location">
@@ -1044,14 +1013,6 @@
           <context context-type="linenumber">41,42</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="559328a9cf7811d04fb77fb033940dd26d000753" datatype="html">
-        <source>Subscribe to a plan below to continue using Maptio or <x id="START_LINK" ctype="x-a" equiv-text="&lt;a           href=&quot;mailto:support@maptio.com?subject=I need more time to try Maptio&quot;         &gt;"/> ask us for a free trial extension. <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
-        <target state="translated">Maptioの使用を継続するために以下のプランに加入するか、<x id="START_LINK" ctype="x-a" equiv-text="&lt;a           href=&quot;mailto:support@maptio.com?subject=I need more time to try Maptio&quot;         &gt;"/> 無料トライアル延長をお問い合わせください。<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-billing/billing.component.html</context>
-          <context context-type="linenumber">59,64</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="ddcef56b981da3cd79e02d7e9d31c693d5dd4b39" datatype="html">
         <source>Plans</source>
         <target state="translated">プラン</target>
@@ -1066,14 +1027,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-billing/billing.component.html</context>
           <context context-type="linenumber">74,75</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="67f7e08d5c7afb61f41f5404c1e1c12508370c8d" datatype="html">
-        <source>Choose file</source>
-        <target state="translated">ファイルを選択</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
-          <context context-type="linenumber">25,26</context>
         </context-group>
       </trans-unit>
       <trans-unit id="reset" datatype="html">
@@ -1100,25 +1053,25 @@
           <context context-type="linenumber">45,46</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="04dabbf9d0dcca2a5aa84199245516b363f19738" datatype="html">
-        <source>Not sure about the format? <x id="START_LINK" ctype="x-a" equiv-text="&lt;a           class=&quot;text-green strong&quot;           href=&quot;{{ IMPORT_USERS_TEMPLATE_URL }}&quot;           target=&quot;blank&quot;         &gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-arrow-circle-o-down&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Download a template<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/><x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
-        <target state="translated">フォーマットがわからない方はこちら<x id="START_LINK" ctype="x-a" equiv-text="&lt;a           class=&quot;text-green strong&quot;           href=&quot;{{ IMPORT_USERS_TEMPLATE_URL }}&quot;           target=&quot;blank&quot;         &gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-arrow-circle-o-down&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>テンプレートのダウンロード<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/><x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
+      <trans-unit id="04dabbf9d0dcca2a5aa84199245516b363f19738" datatype="html" xml:space="preserve">
+        <source>Not sure about the format? <x id="START_LINK" ctype="x-a" equiv-text="&lt;a           class=&quot;text-green strong&quot;           href=&quot;{{ IMPORT_USERS_TEMPLATE_URL }}&quot;           target=&quot;blank&quot;         &gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-arrow-circle-o-down&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;strong"/><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Download a template<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/><x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
+        <target state="needs-translation">フォーマットがわからない方はこちら<x id="START_LINK" ctype="x-a" equiv-text="&lt;a           class=&quot;text-green strong&quot;           href=&quot;{{ IMPORT_USERS_TEMPLATE_URL }}&quot;           target=&quot;blank&quot;         &gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-arrow-circle-o-down&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>テンプレートのダウンロード<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/><x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
           <context context-type="linenumber">49,57</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="010103713cc0efa514348d56aa6aa6516e77e908" datatype="html">
-        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Invalid file<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> The header must be : "First name", "Last name", "Email" in that order</source>
-        <target state="translated"><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Invalid file<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> ヘッダーは、"名", "姓", "メールアドレス "の順で記述する必要があります。</target>
+      <trans-unit id="010103713cc0efa514348d56aa6aa6516e77e908" datatype="html" xml:space="preserve">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="Invalid file&lt;/strong&gt;         The header must be : &quot;First"/>Invalid file<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> The header must be : "First name", "Last name", "Email" in that order</source>
+        <target state="needs-translation"><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Invalid file<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> ヘッダーは、"名", "姓", "メールアドレス "の順で記述する必要があります。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
           <context context-type="linenumber">61,63</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="6329c640011cf5a20fcb3aca2d21823e11ee239e" datatype="html">
-        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Invalid file<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> The file must be a .csv</source>
-        <target state="translated"><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>無効なファイル<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> ファイルは .csv でなければなりません。</target>
+      <trans-unit id="6329c640011cf5a20fcb3aca2d21823e11ee239e" datatype="html" xml:space="preserve">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="Invalid file&lt;/strong&gt;         The file must be a .csv"/>Invalid file<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> The file must be a .csv</source>
+        <target state="needs-translation"><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>無効なファイル<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> ファイルは .csv でなければなりません。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
           <context context-type="linenumber">65,67</context>
@@ -1140,7 +1093,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="b8b3b3f7b34a41213ddc2b1e58fdd39435fa7b02" datatype="html">
-        <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-green&quot;&gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-hand-o-right me-1&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Well done! <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> Once imported, new users must be <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;../../members&quot;&gt;"/>invited<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> to view and edit maps.</source>
+        <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;text-green&quot;&gt;"/><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa fa-hand-o-right mr-1&quot; aria-hidden=&quot;true&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Well done! <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> Once imported, new users must be <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;../../members&quot;&gt;"/>invited<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> to view and edit maps.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/team/pages/team-import/import.component.html</context>
           <context context-type="linenumber">146,153</context>
@@ -1738,9 +1691,9 @@
           <context context-type="linenumber">44,46</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="741679013528382328" datatype="html">
-        <source>Start typing the name of a <x id="PH" equiv-text="changes.team         .currentValue as Team).settings.helper.toLowerCase()"/></source>
-        <target state="translated"><x id="PH" equiv-text="changes.team         .currentValue as Team).settings.helper.toLowerCase()"/> の名前の入力を始める。</target>
+      <trans-unit id="741679013528382328" datatype="html" xml:space="preserve">
+        <source>Start typing the name of a <x id="PH" equiv-text="changes.team.currentValue as Team       ).settings.helper.toLowerCase()"/></source>
+        <target state="needs-translation"><x id="PH" equiv-text="changes.team         .currentValue as Team).settings.helper.toLowerCase()"/> の名前の入力を始める。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/details/parts/helpers/helpers-select.component.ts</context>
           <context context-type="linenumber">48,49</context>
@@ -1829,50 +1782,6 @@
           <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="26a80b49cfc3bc6ede26e383248f267996471831" datatype="html">
-        <source>Edit your circle structure here. Try clicking Expand All.</source>
-        <target state="translated">サークル構造の編集。「すべて展開」をクリックしてみてください。</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
-          <context context-type="linenumber">3,4</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="1f8e926cdad26808d3176cb86eeeb229a777a026" datatype="html">
-        <source>Expand all</source>
-        <target state="translated">すべて展開</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
-          <context context-type="linenumber">28</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="869de38138d7f0575f2e8b8de63a09edb3b00d3e" datatype="html">
-        <source>Collapse all</source>
-        <target state="translated">すべて閉じる</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
-          <context context-type="linenumber">44</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="d3d1ca51b0e4ae86727b1c0848e377dfeeb823c2" datatype="html">
-        <source>Add a new circle</source>
-        <target state="translated">新しいサークルの追加</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
-          <context context-type="linenumber">67</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="newOuterCircle" datatype="html">
-        <source>New outer circle</source>
-        <target state="translated">新しい外側の円</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
-          <context context-type="linenumber">72,73</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
-          <context context-type="linenumber">94,95</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="areYouSure" datatype="html">
         <source>Are you sure?</source>
         <target state="translated">本当に削除しますか？</target>
@@ -1923,14 +1832,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/hierarchy/building.component.html</context>
           <context context-type="linenumber">187,188</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="36e2ff22d988436abcc7d71df301784919a52cb2" datatype="html">
-        <source>Add sub-circle</source>
-        <target state="translated">サブサークルの追加</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/node/initiative.node.component.html</context>
-          <context context-type="linenumber">62</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4b8722ff333a044331acf5b2c9f0261041fce8cb" datatype="html">
@@ -2237,9 +2138,9 @@
         </context-group>
         <note priority="1" from="description">Heading for consent screen during onboarding</note>
       </trans-unit>
-      <trans-unit id="onboarding-consent-2" datatype="html">
-        <source>Hey, it's Tom here — the founder of Maptio.</source>
-        <target state="translated">こんにちは、Maptio創業者のトムです</target>
+      <trans-unit id="onboarding-consent-2" datatype="html" xml:space="preserve">
+        <source>One last thing from me…</source>
+        <target state="needs-translation">こんにちは、Maptio創業者のトムです</target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/onboarding/onboarding.component.html</context>
           <context context-type="linenumber">168,169</context>
@@ -2414,26 +2315,6 @@
           <context context-type="linenumber">81,82</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="contactUs" datatype="html">
-        <source>Contact us</source>
-        <target state="translated">お問い合わせ</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/payment-plan.component.html</context>
-          <context context-type="linenumber">28</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/payment-plan.component.html</context>
-          <context context-type="linenumber">57</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="signUp" datatype="html">
-        <source>Sign up</source>
-        <target state="translated">サインアップ</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/payment-plan.component.html</context>
-          <context context-type="linenumber">41</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="subscribe" datatype="html">
         <source>Subscribe</source>
         <target state="translated">申し込む</target>
@@ -2488,14 +2369,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/roles.component.html</context>
           <context context-type="linenumber">74,75</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="0ad65682a88a7119d4db799c70d50fbbc5ca8104" datatype="html">
-        <source>No helping participation yet</source>
-        <target state="translated">ヘルパーはまだ参加していません</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/personal.component.html</context>
-          <context context-type="linenumber">124,125</context>
         </context-group>
       </trans-unit>
       <trans-unit id="af1f2f382157bab1789dbe59f3d1b11bd2dce263" datatype="html">
@@ -2906,14 +2779,6 @@
           <context context-type="linenumber">72,74</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="62ad8dbe2ef4b33254bc85995cfefe0922be9838" datatype="html">
-        <source>per month, <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> per organization</source>
-        <target state="translated">月額、<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> 1組織</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/payment/pages/pricing/payment-plan.component.html</context>
-          <context context-type="linenumber">15,18</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="73bc36d061b10fadbae2a55498fa79d5561dbaf9" datatype="html">
         <source>There was an error when updating showing circle descriptions. Chat with us or email us at <x id="START_LINK" ctype="x-a" equiv-text="&lt;a       href=&quot;mailto:support@maptio.com?subject=Error when updating showing circle descriptions&quot;     &gt;"/> support@maptio.com <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> if the issue persists.</source>
         <target state="translated">サークルの説明を表示する更新の際にエラーが発生しました。問題が解決しない場合は、チャットまたはメール（<x id="START_LINK" ctype="x-a" equiv-text="&lt;a       href=&quot;mailto:support@maptio.com?subject=Error when updating showing circle descriptions&quot;     &gt;"/> support@maptio.com、<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> ）でお問い合わせください。</target>
@@ -2944,14 +2809,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/canvas/mapping.component.html</context>
           <context context-type="linenumber">304,316</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="7dd10b47baa5be3f79a18d4f8ceea2a8c775fc7f" datatype="html">
-        <source>Not a <x id="INTERPOLATION" equiv-text="{{ authorityName | lowercase }}"/> yet</source>
-        <target state="translated">まだ<x id="INTERPOLATION" equiv-text="{{ authorityName | lowercase }}"/> ではありません</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/summary/overview/personal.component.html</context>
-          <context context-type="linenumber">98,100</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1668635020691942344" datatype="html">
