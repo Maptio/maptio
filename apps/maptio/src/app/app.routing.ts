@@ -64,6 +64,11 @@ const routes: Routes = [
     data: { hideUI: true },
   },
   {
+    path: 'preview/:mapid/:mapslug',
+    loadChildren: () => import('./preview/routes'),
+    data: { hideUI: true },
+  },
+  {
     path: 'login-error',
     component: LoginErrorPageComponent,
   },
