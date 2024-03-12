@@ -52,6 +52,11 @@ const routes: Routes = [
     data: { isWorkspace: true },
   },
   {
+    path: 'preview/:mapid/:mapslug',
+    loadChildren: () => import('./preview/routes').then((m) => m.default),
+    data: { hideUI: true },
+  },
+  {
     path: 'share/:id',
     loadChildren: () =>
       import('./modules/embed/embed.module').then((m) => m.EmbedModule),
@@ -61,11 +66,6 @@ const routes: Routes = [
     path: 'embed/:id',
     loadChildren: () =>
       import('./modules/embed/embed.module').then((m) => m.EmbedModule),
-    data: { hideUI: true },
-  },
-  {
-    path: 'preview/:mapid/:mapslug',
-    loadChildren: () => import('./preview/routes'),
     data: { hideUI: true },
   },
   {
