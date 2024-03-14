@@ -8,4 +8,6 @@ import { CommonModule } from '@angular/common';
   templateUrl: './map-container.component.html',
   styleUrls: ['./map-container.component.scss'],
 })
-export class MapContainerComponent {}
+export class MapContainerComponent {
+  public isLoading: boolean;
+}

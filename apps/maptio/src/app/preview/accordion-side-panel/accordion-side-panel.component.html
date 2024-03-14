@@ -1,1 +1,90 @@
-<p>accordion-side-panel works!</p>
+<div
+  id="toggle"
+  class="d-none h-100 rounded-end py-3 flex-shrink-0 flex-column justify-content-start align-items-center cursor-pointer collapsible"
+  [class.hide]="!isBuildingPanelCollapsed"
+  [class.show]="isBuildingPanelCollapsed"
+  [class.bg-accent]="isBuildingVisible"
+  [class.d-md-flex]="isBuildingVisible"
+  (click)="openBuildingPanel()"
+>
+  <div class="flex flex-column text-white" *ngIf="isBuildingPanelCollapsed">
+    <i
+      class="h2 fa fa-angle-right fw-bolder w-100 text-center"
+      aria-hidden="true"
+    ></i>
+    <div class="w-100 text-center small" i18n="@@editMap">Edit map</div>
+  </div>
+</div>
+
+<div
+  id="hierarchy"
+  [class.hide]="isBuildingPanelCollapsed || !isBuildingVisible"
+  [class.show]="!isBuildingPanelCollapsed && isBuildingVisible"
+  class="d-none d-md-block collapsible sidenav h-100 justify-content-start"
+>
+  <div
+    id="sidenav-hierarchy"
+    class="hierarchy w-100 h-100 card border-light border-end bg-white"
+  >
+    <button
+      class="clean-close-button position-absolute top-right btn bg-transparent"
+      [class.invisible]="isBuildingPanelCollapsed"
+      (click)="closeBuildingPanel()"
+    >
+      <span aria-hidden="true" class="clean-close-button__icon">
+        <i class="fas fa-times"></i>
+      </span>
+    </button>
+
+    <div class="clean-scrollbar card border-0 bg-transparent h-100">
+      <div class="card-body h-100 pt-0 px-3 pb-3">
+        Building component
+        <!-- <building
+	#building
+	[user]="user"
+	[isEmptyMap]="isEmptyMap"
+	(save)="saveChanges($event)"
+	(openDetails)="onOpenDetails($event)"
+      ></building> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  id="details"
+  [class.hide]="isDetailsPanelCollapsed || !isBuildingVisible"
+  [ngClass]="{
+    'show border-end': !isDetailsPanelCollapsed && isBuildingVisible
+  }"
+  class="position-relative d-none d-md-block collapsible bg-white details h-100 justify-content-start"
+>
+  <button
+    class="clean-close-button position-absolute btn bg-transparent"
+    [class.invisible]="isDetailsPanelCollapsed"
+    (click)="closeDetailsPanel()"
+  >
+    <span aria-hidden="true" class="clean-close-button__icon">
+      <i class="fas fa-times"></i>
+    </span>
+  </button>
+
+  <div id="sidenav-details" class="h-100 w-100 clean-scrollbar">
+    <div class="card border-0 bg-transparent">
+      <div class="card-body pt-1 px-3 pb-3">
+        Initiative details
+        <!-- <initiative
+	*ngIf="!isDetailsPanelCollapsed"
+	#initiative
+	[dataset]="dataset"
+	[node]="openedNode"
+	[user]="user"
+	[team]="team"
+	(edited)="saveDetailChanges()"
+	[isEditMode]="isEditMode"
+	(editTags)="onEditTags()"
+      ></initiative> -->
+      </div>
+    </div>
+  </div>
+</div>

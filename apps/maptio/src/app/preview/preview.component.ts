@@ -72,15 +72,11 @@ export class PreviewComponent implements OnInit, OnDestroy {
   @ViewChild('building', { static: true })
   buildingComponent: BuildingComponent;
 
-  public isBuildingPanelCollapsed = true;
-  public isDetailsPanelCollapsed = true;
-  public isBuildingVisible = true;
   public isEmptyMap: boolean;
   public isSaving: boolean;
   public isEditMode: boolean;
   public datasetId: string;
   private routeSubscription: Subscription;
-  public isLoading: boolean;
 
   public dataset: DataSet;
   public members: Array<User>;
@@ -118,15 +114,17 @@ export class PreviewComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.isLoading = true;
+    // TODO: Move to store
+    // this.isLoading = true;
     this.cd.markForCheck();
     this.routeSubscription = this.route.data
       .pipe(
         tap((data) => {
           const newDatasetId = data.data.dataset.datasetId;
           if (newDatasetId !== this.datasetId) {
-            this.isBuildingPanelCollapsed = false;
-            this.isDetailsPanelCollapsed = true;
+            // TODO: Move to store / service
+            // this.isBuildingPanelCollapsed = false;
+            // this.isDetailsPanelCollapsed = true;
             this.cd.markForCheck();
           }
         }),
@@ -134,7 +132,8 @@ export class PreviewComponent implements OnInit, OnDestroy {
           (data: {
             data: { dataset: DataSet; team: Team; members: User[]; user: User };
           }) => {
-            this.isLoading = true;
+            // TODO: Move to store
+            // this.isLoading = true;
             this.cd.markForCheck();
             return this.buildingComponent
               .loadData(data.data.dataset, data.data.team, data.data.members)
@@ -143,9 +142,11 @@ export class PreviewComponent implements OnInit, OnDestroy {
                 // TODO: Remove this when we've got good enough state
                 // management here
                 setTimeout(() => {
-                  this.closeDetailsPanel();
+                  // TODO: Move to service
+                  // this.closeDetailsPanel();
                 }, 100);
-                this.isLoading = false;
+                // TODO: Move to store
+                // this.isLoading = false;
                 this.cd.markForCheck();
               });
           }
@@ -300,50 +301,32 @@ export class PreviewComponent implements OnInit, OnDestroy {
     this.cd.markForCheck();
   }
 
-  onOpenDetails(node: Initiative) {
-    this.openedNode = node;
-    if (this.isDetailsPanelCollapsed) this.openDetailsPanel();
-    this.cd.markForCheck();
-  }
+  // onOpenDetails(node: Initiative) {
+  //   this.openedNode = node;
+  //   if (this.isDetailsPanelCollapsed) this.openDetailsPanel();
+  //   this.cd.markForCheck();
+  // }
 
   addInitiative(data: { node: Initiative; subNode: Initiative }) {
     this.buildingComponent.addNodeTo(data.node, data.subNode);
   }
 
-  openDetailsPanel() {
-    this.isDetailsPanelCollapsed = false;
-    // this.resizeMap();
-    this.cd.markForCheck();
-  }
+  // openDetailsPanel() {
+  //   this.isDetailsPanelCollapsed = false;
+  //   // this.resizeMap();
+  //   this.cd.markForCheck();
+  // }
 
-  closeDetailsPanel() {
-    this.isDetailsPanelCollapsed = true;
-    // this.resizeMap();
-    this.cd.markForCheck();
-  }
+  // toggleEditingPanelsVisibility(isVisible: boolean) {
+  //   this.isBuildingVisible = isVisible;
+  //   this.cd.markForCheck();
+  // }
 
-  closeBuildingPanel() {
-    this.isBuildingPanelCollapsed = true;
-    // this.resizeMap();
-    this.cd.markForCheck();
-  }
-
-  openBuildingPanel() {
-    this.isBuildingPanelCollapsed = false;
-    // this.resizeMap();
-    this.cd.markForCheck();
-  }
-
-  toggleEditingPanelsVisibility(isVisible: boolean) {
-    this.isBuildingVisible = isVisible;
-    this.cd.markForCheck();
-  }
-
-  onEditTags() {
-    this.isBuildingPanelCollapsed = false;
-    this.buildingComponent.tabs.select('tags-tab');
-    this.cd.markForCheck();
-  }
+  // onEditTags() {
+  //   this.isBuildingPanelCollapsed = false;
+  //   this.buildingComponent.tabs.select('tags-tab');
+  //   this.cd.markForCheck();
+  // }
 
   // private resizeMap() {
   //     let outerSvg = document.querySelector("svg#map");
@@ -353,15 +336,15 @@ export class PreviewComponent implements OnInit, OnDestroy {
   //     innerSvg.setAttribute("x", margin);
   // }
 
-  private isZeroPanelOpened() {
-    return this.isBuildingPanelCollapsed && this.isDetailsPanelCollapsed;
-  }
+  // private isZeroPanelOpened() {
+  //   return this.isBuildingPanelCollapsed && this.isDetailsPanelCollapsed;
+  // }
 
-  private isOnePanelOpened() {
-    return this.isBuildingPanelCollapsed !== this.isDetailsPanelCollapsed;
-  }
+  // private isOnePanelOpened() {
+  //   return this.isBuildingPanelCollapsed !== this.isDetailsPanelCollapsed;
+  // }
 
-  private isTwoPanelsOpened() {
-    return !this.isDetailsPanelCollapsed && !this.isBuildingPanelCollapsed;
-  }
+  // private isTwoPanelsOpened() {
+  //   return !this.isDetailsPanelCollapsed && !this.isBuildingPanelCollapsed;
+  // }
 }

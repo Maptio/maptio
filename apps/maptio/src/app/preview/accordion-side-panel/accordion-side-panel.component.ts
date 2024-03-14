@@ -8,4 +8,26 @@ import { CommonModule } from '@angular/common';
   templateUrl: './accordion-side-panel.component.html',
   styleUrls: ['./accordion-side-panel.component.scss'],
 })
-export class AccordionSidePanelComponent {}
+export class AccordionSidePanelComponent {
+  public isBuildingPanelCollapsed = true;
+  public isDetailsPanelCollapsed = true;
+  public isBuildingVisible = true;
+
+  openBuildingPanel() {
+    this.isBuildingPanelCollapsed = false;
+    // this.resizeMap();
+    // this.cd.markForCheck();
+  }
+
+  closeBuildingPanel() {
+    this.isBuildingPanelCollapsed = true;
+    // this.resizeMap();
+    // this.cd.markForCheck();
+  }
+
+  closeDetailsPanel() {
+    this.isDetailsPanelCollapsed = true;
+    // this.resizeMap();
+    // this.cd.markForCheck();
+  }
+}
