@@ -39,6 +39,9 @@ import { InitiativeComponent } from '@maptio-old-workspace/components/data-entry
 import { UIService } from '@maptio-old-workspace/services/ui.service';
 import { MapSettingsService } from '@maptio-old-workspace/services/map-settings.service';
 
+import { MapContainerComponent } from './map-container/map-container.component';
+import { AccordionSidePanelComponent } from './accordion-side-panel/accordion-side-panel.component';
+
 @Component({
   selector: 'maptio-preview',
   templateUrl: './preview.component.html',
@@ -51,6 +54,8 @@ import { MapSettingsService } from '@maptio-old-workspace/services/map-settings.
     NgClass,
     InitiativeComponent,
     MappingComponent,
+    MapContainerComponent,
+    AccordionSidePanelComponent,
   ],
   providers: [
     // BillingGuard,

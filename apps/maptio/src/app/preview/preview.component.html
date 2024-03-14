@@ -11,6 +11,7 @@
     class="position-relative d-flex justify-content-start h-100"
     [class.overflow-hidden]="team?.isExample && isBuildingVisible"
   >
+    <maptio-accordion-side-panel></maptio-accordion-side-panel>
     <div
       id="toggle"
       class="d-none h-100 rounded-end py-3 flex-shrink-0 flex-column justify-content-start align-items-center cursor-pointer collapsible"
@@ -51,13 +52,14 @@
 
         <div class="clean-scrollbar card border-0 bg-transparent h-100">
           <div class="card-body h-100 pt-0 px-3 pb-3">
-            <building
+            Building component
+            <!-- <building
               #building
               [user]="user"
               [isEmptyMap]="isEmptyMap"
               (save)="saveChanges($event)"
               (openDetails)="onOpenDetails($event)"
-            ></building>
+            ></building> -->
           </div>
         </div>
       </div>
@@ -84,7 +86,8 @@
       <div id="sidenav-details" class="h-100 w-100 clean-scrollbar">
         <div class="card border-0 bg-transparent">
           <div class="card-body pt-1 px-3 pb-3">
-            <initiative
+            Initiative details
+            <!-- <initiative
               *ngIf="!isDetailsPanelCollapsed"
               #initiative
               [dataset]="dataset"
@@ -94,12 +97,13 @@
               (edited)="saveDetailChanges()"
               [isEditMode]="isEditMode"
               (editTags)="onEditTags()"
-            ></initiative>
+            ></initiative> -->
           </div>
         </div>
       </div>
     </div>
 
+    <maptio-map-container></maptio-map-container>
     <div class="h-100 flex-shrink-1 w-100" id="main">
       <div class="h-100">
         <ng-container *ngIf="isLoading">
@@ -112,7 +116,8 @@
         </ng-container>
 
         <ng-container *ngIf="!isLoading">
-          <mapping
+          Mapping component
+          <!-- <mapping
             [tags]="selectableTags"
             [isEmptyMap]="isEmptyMap"
             (openDetails)="onOpenDetails($event)"
@@ -122,7 +127,7 @@
             (toggleEditingPanelsVisibility)="
               toggleEditingPanelsVisibility($event)
             "
-          ></mapping>
+          ></mapping> -->
         </ng-container>
       </div>
     </div>
