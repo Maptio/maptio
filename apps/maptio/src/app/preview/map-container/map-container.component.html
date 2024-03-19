@@ -1,6 +1,6 @@
 <div class="h-100 flex-shrink-1 w-100" id="main">
   <div class="h-100">
-    <ng-container *ngIf="isLoading">
+    <ng-container *ngIf="previewService.isLoading()">
       <div
         style="font-size: 4rem"
         class="d-flex justify-content-center align-items-center h-100 text-accent"
@@ -9,16 +9,18 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="!isLoading">
-      Mapping component ... ARRRGGHGHH!
+    <ng-container *ngIf="!previewService.isLoading()">
+      Mapping component
       <mapping
         [tags]="selectableTags"
         [isEmptyMap]="isEmptyMap"
-        (openDetails)="onOpenDetails($event)"
+        (openDetails)="previewService.onOpenDetails($event)"
         (addInitiative)="addInitiative($event)"
         (openTreePanel)="openBuildingPanel()"
         (expandTree)="buildingComponent.toggleAll(true)"
-        (toggleEditingPanelsVisibility)="toggleEditingPanelsVisibility($event)"
+        (toggleEditingPanelsVisibility)="
+          previewService.toggleEditingPanelsVisibility($event)
+        "
       ></mapping>
     </ng-container>
   </div>

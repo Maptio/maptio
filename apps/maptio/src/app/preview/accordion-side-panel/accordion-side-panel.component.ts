@@ -23,7 +23,6 @@ export class AccordionSidePanelComponent {
 
   public isBuildingPanelCollapsed = true;
   public isDetailsPanelCollapsed = true;
-  public isBuildingVisible = true;
 
   ngOnInit() {
     console.log('buildingComponent from side panel', this.buildingComponent);
@@ -44,12 +43,6 @@ export class AccordionSidePanelComponent {
   closeDetailsPanel() {
     this.isDetailsPanelCollapsed = true;
     // this.resizeMap();
-    // this.cd.markForCheck();
-  }
-
-  onOpenDetails(node: Initiative) {
-    // this.openedNode = node;
-    // if (this.isDetailsPanelCollapsed) this.openDetailsPanel();
     // this.cd.markForCheck();
   }
 }

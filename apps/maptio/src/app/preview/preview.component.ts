@@ -113,8 +113,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // TODO: Move to store
-    // this.isLoading = true;
+    this.previewService.isLoading.set(true);
     this.cd.markForCheck();
 
     console.log(
@@ -154,8 +153,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
                 user: User;
               };
             }) => {
-              // TODO: Move to store
-              // this.isLoading = true;
+              this.previewService.isLoading.set(true);
               this.cd.markForCheck();
               return this.previewService
                 .buildingComponent()
@@ -168,8 +166,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
                     // TODO: Move to service
                     // this.closeDetailsPanel();
                   }, 100);
-                  // TODO: Move to store
-                  // this.isLoading = false;
+                  this.previewService.isLoading.set(false);
                   this.cd.markForCheck();
                 });
             }
@@ -237,11 +234,6 @@ export class PreviewComponent implements OnInit, OnDestroy {
   // openDetailsPanel() {
   //   this.isDetailsPanelCollapsed = false;
   //   // this.resizeMap();
-  //   this.cd.markForCheck();
-  // }
-
-  // toggleEditingPanelsVisibility(isVisible: boolean) {
-  //   this.isBuildingVisible = isVisible;
   //   this.cd.markForCheck();
   // }
 

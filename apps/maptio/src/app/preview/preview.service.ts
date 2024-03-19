@@ -37,8 +37,10 @@ export class PreviewService {
   team = signal<Team>(null);
   members = signal<Array<User>>([]);
 
+  isLoading = signal<boolean>(true);
   isSaving = signal<boolean>(false);
   isEmptyMap = signal<boolean>(true);
+  isBuildingVisible = signal<boolean>(true);
 
   constructor() {}
 
@@ -143,5 +145,16 @@ export class PreviewService {
       );
     }
     console.error(errorMessage);
+  }
+
+  onOpenDetails(node: Initiative) {
+    console.log('onOpenDetails', node);
+    // this.openedNode = node;
+    // if (this.isDetailsPanelCollapsed) this.openDetailsPanel();
+    // this.cd.markForCheck();
+  }
+
+  toggleEditingPanelsVisibility(isVisible: boolean) {
+    this.isBuildingVisible.set(isVisible);
   }
 }

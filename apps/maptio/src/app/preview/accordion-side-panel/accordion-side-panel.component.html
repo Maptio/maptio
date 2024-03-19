@@ -3,8 +3,8 @@
   class="d-none h-100 rounded-end py-3 flex-shrink-0 flex-column justify-content-start align-items-center cursor-pointer collapsible"
   [class.hide]="!isBuildingPanelCollapsed"
   [class.show]="isBuildingPanelCollapsed"
-  [class.bg-accent]="isBuildingVisible"
-  [class.d-md-flex]="isBuildingVisible"
+  [class.bg-accent]="previewService.isBuildingVisible()"
+  [class.d-md-flex]="previewService.isBuildingVisible()"
   (click)="openBuildingPanel()"
 >
   <div class="flex flex-column text-white" *ngIf="isBuildingPanelCollapsed">
@@ -18,8 +18,8 @@
 
 <div
   id="hierarchy"
-  [class.hide]="isBuildingPanelCollapsed || !isBuildingVisible"
-  [class.show]="!isBuildingPanelCollapsed && isBuildingVisible"
+  [class.hide]="isBuildingPanelCollapsed || !previewService.isBuildingVisible()"
+  [class.show]="!isBuildingPanelCollapsed && previewService.isBuildingVisible()"
   class="d-none d-md-block collapsible sidenav h-100 justify-content-start"
 >
   <div
@@ -44,7 +44,7 @@
           [user]="previewService.user()"
           [isEmptyMap]="previewService.isEmptyMap()"
           (save)="previewService.saveChanges($event)"
-          (openDetails)="onOpenDetails($event)"
+          (openDetails)="previewService.onOpenDetails($event)"
         ></building>
       </div>
     </div>
@@ -53,9 +53,10 @@
 
 <div
   id="details"
-  [class.hide]="isDetailsPanelCollapsed || !isBuildingVisible"
+  [class.hide]="isDetailsPanelCollapsed || !previewService.isBuildingVisible()"
   [ngClass]="{
-    'show border-end': !isDetailsPanelCollapsed && isBuildingVisible
+    'show border-end':
+      !isDetailsPanelCollapsed && previewService.isBuildingVisible()
   }"
   class="position-relative d-none d-md-block collapsible bg-white details h-100 justify-content-start"
 >

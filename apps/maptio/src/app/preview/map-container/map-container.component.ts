@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MappingComponent } from '@maptio-old-workspace/components/canvas/mapping.component';
+
+import { PreviewService } from '@maptio-preview/preview.service';
 
 @Component({
   selector: 'maptio-map-container',
@@ -11,5 +13,5 @@ import { MappingComponent } from '@maptio-old-workspace/components/canvas/mappin
   styleUrls: ['./map-container.component.scss'],
 })
 export class MapContainerComponent {
-  public isLoading: boolean;
+  previewService = inject(PreviewService);
 }
