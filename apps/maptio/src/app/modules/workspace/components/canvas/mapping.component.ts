@@ -175,6 +175,7 @@ export class MappingComponent {
     private router: Router,
     private mapSettingsService: MapSettingsService
   ) {
+    console.log('mapping const');
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
     this.selectableTags$ = new ReplaySubject<Array<SelectableTag>>();
@@ -314,6 +315,7 @@ export class MappingComponent {
   }
 
   ngOnInit() {
+    console.log('mapping on inint');
     this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
     this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
 
@@ -344,6 +346,7 @@ export class MappingComponent {
         )
       ) // PEFORMACE : with latest changes
       .subscribe(([data, fragment, queryParams]) => {
+        console.log('data from mapping component', data, fragment, queryParams);
         if (
           !data.initiative.children ||
           !data.initiative.children[0] ||

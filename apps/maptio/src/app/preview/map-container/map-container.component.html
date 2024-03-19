@@ -10,18 +10,16 @@
     </ng-container>
 
     <ng-container *ngIf="!isLoading">
-      Mapping component
-      <!-- <mapping
-	      [tags]="selectableTags"
-	      [isEmptyMap]="isEmptyMap"
-	      (openDetails)="onOpenDetails($event)"
-	      (addInitiative)="addInitiative($event)"
-	      (openTreePanel)="openBuildingPanel()"
-	      (expandTree)="buildingComponent.toggleAll(true)"
-	      (toggleEditingPanelsVisibility)="
-		toggleEditingPanelsVisibility($event)
-	      "
-	    ></mapping> -->
+      Mapping component ... ARRRGGHGHH!
+      <mapping
+        [tags]="selectableTags"
+        [isEmptyMap]="isEmptyMap"
+        (openDetails)="onOpenDetails($event)"
+        (addInitiative)="addInitiative($event)"
+        (openTreePanel)="openBuildingPanel()"
+        (expandTree)="buildingComponent.toggleAll(true)"
+        (toggleEditingPanelsVisibility)="toggleEditingPanelsVisibility($event)"
+      ></mapping>
     </ng-container>
   </div>
 </div>

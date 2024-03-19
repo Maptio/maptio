@@ -4,7 +4,9 @@ import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { ErrorService } from '../../../shared/services/error/error.service';
 import { Tag, SelectableTag } from '../../../shared/model/tag.data';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DataService {
   private _data$: ReplaySubject<any>;
 

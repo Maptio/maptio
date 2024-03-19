@@ -39,13 +39,13 @@
     <div class="clean-scrollbar card border-0 bg-transparent h-100">
       <div class="card-body h-100 pt-0 px-3 pb-3">
         Building component
-        <!-- <building
-	#building
-	[user]="user"
-	[isEmptyMap]="isEmptyMap"
-	(save)="saveChanges($event)"
-	(openDetails)="onOpenDetails($event)"
-      ></building> -->
+        <building
+          #building
+          [user]="previewService.user()"
+          [isEmptyMap]="previewService.isEmptyMap()"
+          (save)="previewService.saveChanges($event)"
+          (openDetails)="onOpenDetails($event)"
+        ></building>
       </div>
     </div>
   </div>
@@ -73,17 +73,17 @@
     <div class="card border-0 bg-transparent">
       <div class="card-body pt-1 px-3 pb-3">
         Initiative details
-        <!-- <initiative
-	*ngIf="!isDetailsPanelCollapsed"
-	#initiative
-	[dataset]="dataset"
-	[node]="openedNode"
-	[user]="user"
-	[team]="team"
-	(edited)="saveDetailChanges()"
-	[isEditMode]="isEditMode"
-	(editTags)="onEditTags()"
-      ></initiative> -->
+        <initiative
+          *ngIf="!isDetailsPanelCollapsed"
+          #initiative
+          [dataset]="dataset"
+          [node]="openedNode"
+          [user]="user"
+          [team]="team"
+          (edited)="saveDetailChanges()"
+          [isEditMode]="isEditMode"
+          (editTags)="onEditTags()"
+        ></initiative>
       </div>
     </div>
   </div>

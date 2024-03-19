@@ -29,6 +29,7 @@
       "@maptio-login/*": ["app/modules/login/*"],
       "@maptio-workspace/*": ["app/workspace/*"],
       "@maptio-old-workspace/*": ["app/modules/workspace/*"],
+      "@maptio-preview/*": ["app/preview/*"],
       "@maptio-circle-map/*": ["app/modules/circle-map/*"],
       "@maptio-circle-map-expanded/*": ["app/modules/circle-map-expanded/*"],
       "@maptio-member": ["app/modules/member"],
