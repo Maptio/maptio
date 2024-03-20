@@ -1,6 +1,6 @@
 <!-- id="toggle" -->
-<button
-  class="accordion-toggle collapsible"
+<div
+  class="accordion-toggle collapsible d-none h-100 rounded-end py-3 flex-shrink-0 flex-column justify-content-start align-items-center cursor-pointer"
   type="button"
   [class.hide]="!isBuildingPanelCollapsed"
   [class.show]="isBuildingPanelCollapsed"
@@ -15,7 +15,7 @@
     ></i>
     <div class="w-100 text-center small" i18n="@@editMap">Edit map</div>
   </div>
-</button>
+</div>
 
 <div
   id="hierarchy"

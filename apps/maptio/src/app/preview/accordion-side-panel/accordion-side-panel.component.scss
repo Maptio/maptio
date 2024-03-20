@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: row;
   height: 100%;
+  max-width: 66%;
 }
 
 .collapsible {
@@ -14,6 +15,16 @@
   opacity: 0;
   transition: all 1s;
 }
+
+// #hierarchy.collapsible.show {
+//   width: 66%;
+//   transition: all 1s;
+// }
+
+// #details.collapsible.show {
+//   width: 66%;
+//   transition: all 1s;
+// }
 
 .accordion-toggle {
   // TODO: Redo these classes:
