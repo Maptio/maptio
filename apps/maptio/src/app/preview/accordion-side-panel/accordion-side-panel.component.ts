@@ -7,15 +7,24 @@ import { BuildingComponent } from '@maptio-old-workspace/components/data-entry/h
 import { InitiativeComponent } from '@maptio-old-workspace/components/data-entry/details/initiative.component';
 
 import { PreviewService } from '@maptio-preview/preview.service';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'maptio-accordion-side-panel',
   standalone: true,
-  imports: [CommonModule, BuildingComponent, InitiativeComponent],
+  imports: [
+    CommonModule,
+    NgbCollapseModule,
+    BuildingComponent,
+    InitiativeComponent,
+  ],
   templateUrl: './accordion-side-panel.component.html',
   styleUrls: ['./accordion-side-panel.component.scss'],
 })
 export class AccordionSidePanelComponent {
+  // TODO : Remove me once I'm done with bootstrap example...
+  isCollapsed = false;
+
   previewService = inject(PreviewService);
 
   @ViewChild('building', { static: true })
@@ -28,6 +37,7 @@ export class AccordionSidePanelComponent {
     console.log('buildingComponent from side panel', this.buildingComponent);
     this.previewService.buildingComponent.set(this.buildingComponent);
   }
+
   openBuildingPanel() {
     this.isBuildingPanelCollapsed = false;
     // this.resizeMap();
