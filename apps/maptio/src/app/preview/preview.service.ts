@@ -31,11 +31,18 @@ export class PreviewService {
   buildingComponent = signal<BuildingComponent>(null);
 
   user = signal<User>(null);
-  datasetId = signal<string>(null);
+
   dataset = signal<DataSet>(null);
-  tags = signal<Array<Tag>>([]);
+  datasetId = signal<string>(null);
+
   team = signal<Team>(null);
+  teamId = signal<string>(null);
+  teamName = signal<string>(null);
+
   members = signal<Array<User>>([]);
+  tags = signal<Array<Tag>>([]);
+
+  openedNode = signal<Initiative>(null);
 
   isLoading = signal<boolean>(true);
   isSaving = signal<boolean>(false);
@@ -149,9 +156,10 @@ export class PreviewService {
 
   onOpenDetails(node: Initiative) {
     console.log('onOpenDetails', node);
-    // this.openedNode = node;
+    this.openedNode.set(node);
+
+    // TODO!!!
     // if (this.isDetailsPanelCollapsed) this.openDetailsPanel();
-    // this.cd.markForCheck();
   }
 
   toggleEditingPanelsVisibility(isVisible: boolean) {

@@ -77,10 +77,10 @@
         <initiative
           *ngIf="!isDetailsPanelCollapsed"
           #initiative
-          [dataset]="dataset"
-          [node]="openedNode"
-          [user]="user"
-          [team]="team"
+          [dataset]="previewService.dataset()"
+          [node]="previewService.openedNode()"
+          [user]="previewService.user()"
+          [team]="previewService.team()"
           (edited)="saveDetailChanges()"
           [isEditMode]="isEditMode"
           (editTags)="onEditTags()"

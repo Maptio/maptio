@@ -54,8 +54,6 @@ import { AccordionSidePanelComponent } from './accordion-side-panel/accordion-si
     NgIf,
     BuildingComponent,
     NgClass,
-    InitiativeComponent,
-    MappingComponent,
     MapContainerComponent,
     AccordionSidePanelComponent,
   ],
@@ -73,32 +71,34 @@ import { AccordionSidePanelComponent } from './accordion-side-panel/accordion-si
 export class PreviewComponent implements OnInit, OnDestroy {
   previewService = inject(PreviewService);
 
-  public isSaving: boolean;
-  public isEditMode: boolean;
-  public datasetId: string;
   private routeSubscription: Subscription;
 
-  public dataset: DataSet;
-  public members: Array<User>;
-  public team: Team;
-  public teams: Team[];
-  public tags: Tag[];
-  public roles: Role[];
-  public canvasYMargin: number;
-  public canvasHeight: number;
+  // public isSaving: boolean;
+  // public isEditMode: boolean;
+  // public datasetId: string;
 
-  public openedNode: Initiative;
-  public openedNodeParent: Initiative;
-  public openedNodeTeamId: string;
-  public openEditTag$: Subject<void> = new Subject<void>();
+  // public dataset: DataSet;
+  // public members: Array<User>;
+  // public team: Team;
+  // public teams: Team[];
+  // public tags: Tag[];
+  // public roles: Role[];
+  // public canvasYMargin: number;
+  // public canvasHeight: number;
 
-  public mapped: Initiative;
-  teamName: string;
-  teamId: string;
-  selectableTags: Array<Tag>;
+  // public openedNode: Initiative;
+  // public openedNodeParent: Initiative;
+  // public openedNodeTeamId: string;
+  // public openEditTag$: Subject<void> = new Subject<void>();
 
-  @ViewChild('dragConfirmation')
-  dragConfirmationModal: NgbModal;
+  // public mapped: Initiative;
+  // teamName: string;
+  // teamId: string;
+  // selectableTags: Array<Tag>;
+
+  // TODO: Delete, this isn't used anymore!
+  // @ViewChild('dragConfirmation')
+  // dragConfirmationModal: NgbModal;
 
   constructor(
     private route: ActivatedRoute,
@@ -137,7 +137,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
         .pipe(
           tap((data) => {
             const newDatasetId = data.data.dataset.datasetId;
-            if (newDatasetId !== this.datasetId) {
+            if (newDatasetId !== this.previewService.datasetId()) {
               // TODO: Move to store / service
               // this.isBuildingPanelCollapsed = false;
               // this.isDetailsPanelCollapsed = true;
@@ -176,24 +176,27 @@ export class PreviewComponent implements OnInit, OnDestroy {
           (data: {
             data: { dataset: DataSet; team: Team; members: User[]; user: User };
           }) => {
-            this.dataset = data.data.dataset;
-            this.tags = data.data.dataset.tags;
-            this.team = data.data.team;
-            this.members = data.data.members;
+            this.previewService.dataset.set(data.data.dataset);
+            this.previewService.tags.set(data.data.dataset.tags);
+            this.previewService.team.set(data.data.team);
+            this.previewService.members.set(data.data.members);
             this.previewService.user.set(data.data.user);
-            this.datasetId = this.dataset.datasetId;
-            this.teamName = this.team.name;
-            this.teamId = this.team.team_id;
-            EmitterService.get('currentTeam').emit(this.team);
+            this.previewService.datasetId.set(
+              this.previewService.dataset().datasetId
+            );
+            this.previewService.teamName.set(this.previewService.team().name);
+            this.previewService.teamId.set(this.previewService.team().team_id);
+            EmitterService.get('currentTeam').emit(this.previewService.team());
 
-            const currentOrganisationId = this.team?.team_id;
+            console.log('shoudlb e decbipachti');
+            const currentOrganisationId = this.previewService.team()?.team_id;
             this.store.dispatch(
               setCurrentOrganisationId({ currentOrganisationId })
             );
 
             this.previewService.isEmptyMap.set(
-              !this.dataset.initiative.children ||
-                this.dataset.initiative.children.length === 0
+              !this.previewService.dataset().initiative.children ||
+                this.previewService.dataset().initiative.children.length === 0
             );
             this.cd.markForCheck();
           }
@@ -222,10 +225,11 @@ export class PreviewComponent implements OnInit, OnDestroy {
   //     this.cd.markForCheck();
   // }
 
-  toggleEditMode() {
-    this.isEditMode = !this.isEditMode;
-    this.cd.markForCheck();
-  }
+  // TODO Unused, I think, delete?
+  // toggleEditMode() {
+  //   this.isEditMode = !this.isEditMode;
+  //   this.cd.markForCheck();
+  // }
 
   addInitiative(data: { node: Initiative; subNode: Initiative }) {
     this.previewService.buildingComponent().addNodeTo(data.node, data.subNode);
