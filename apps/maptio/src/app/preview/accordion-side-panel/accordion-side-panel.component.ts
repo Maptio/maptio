@@ -22,37 +22,14 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./accordion-side-panel.component.scss'],
 })
 export class AccordionSidePanelComponent {
-  // TODO : Remove me once I'm done with bootstrap example...
-  isCollapsed = false;
-
   previewService = inject(PreviewService);
 
+  // TODO: Loginc from the building component needs to be moved to the service
+  // to finally avoid this ridiculousness!
   @ViewChild('building', { static: true })
   buildingComponent: BuildingComponent;
 
-  public isBuildingPanelCollapsed = true;
-  public isDetailsPanelCollapsed = true;
-
   ngOnInit() {
-    console.log('buildingComponent from side panel', this.buildingComponent);
     this.previewService.buildingComponent.set(this.buildingComponent);
-  }
-
-  openBuildingPanel() {
-    this.isBuildingPanelCollapsed = false;
-    // this.resizeMap();
-    // this.cd.markForCheck();
-  }
-
-  closeBuildingPanel() {
-    this.isBuildingPanelCollapsed = true;
-    // this.resizeMap();
-    // this.cd.markForCheck();
-  }
-
-  closeDetailsPanel() {
-    this.isDetailsPanelCollapsed = true;
-    // this.resizeMap();
-    // this.cd.markForCheck();
   }
 }

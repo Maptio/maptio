@@ -47,7 +47,10 @@ export class PreviewService {
   isLoading = signal<boolean>(true);
   isSaving = signal<boolean>(false);
   isEmptyMap = signal<boolean>(true);
+
   isBuildingVisible = signal<boolean>(true);
+  isBuildingPanelCollapsed = signal<boolean>(true);
+  isDetailsPanelCollapsed = signal<boolean>(false);
 
   constructor() {}
 
@@ -158,11 +161,34 @@ export class PreviewService {
     console.log('onOpenDetails', node);
     this.openedNode.set(node);
 
-    // TODO!!!
-    // if (this.isDetailsPanelCollapsed) this.openDetailsPanel();
+    if (this.isDetailsPanelCollapsed()) this.openDetailsPanel();
   }
 
   toggleEditingPanelsVisibility(isVisible: boolean) {
     this.isBuildingVisible.set(isVisible);
+  }
+
+  openBuildingPanel() {
+    this.isBuildingPanelCollapsed.set(false);
+    // this.resizeMap();
+    // this.cd.markForCheck();
+  }
+
+  closeBuildingPanel() {
+    this.isBuildingPanelCollapsed.set(true);
+    // this.resizeMap();
+    // this.cd.markForCheck();
+  }
+
+  openDetailsPanel() {
+    this.isDetailsPanelCollapsed.set(false);
+    // this.resizeMap();
+    // this.cd.markForCheck();
+  }
+
+  closeDetailsPanel() {
+    this.isDetailsPanelCollapsed.set(true);
+    // this.resizeMap();
+    // this.cd.markForCheck();
   }
 }

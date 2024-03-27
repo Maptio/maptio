@@ -2,13 +2,16 @@
 <div
   class="accordion-toggle collapsible d-none h-100 rounded-end py-3 flex-shrink-0 flex-column justify-content-start align-items-center cursor-pointer"
   type="button"
-  [class.hide]="!isBuildingPanelCollapsed"
-  [class.show]="isBuildingPanelCollapsed"
+  [class.hide]="!previewService.isBuildingPanelCollapsed()"
+  [class.show]="previewService.isBuildingPanelCollapsed()"
   [class.bg-accent]="previewService.isBuildingVisible()"
   [class.d-md-flex]="previewService.isBuildingVisible()"
-  (click)="openBuildingPanel()"
+  (click)="previewService.openBuildingPanel()"
 >
-  <div class="flex flex-column text-white" *ngIf="isBuildingPanelCollapsed">
+  <div
+    class="flex flex-column text-white"
+    *ngIf="previewService.isBuildingPanelCollapsed()"
+  >
     <i
       class="h2 fa fa-angle-right fw-bolder w-100 text-center"
       aria-hidden="true"
@@ -19,8 +22,14 @@
 
 <div
   id="hierarchy"
-  [class.hide]="isBuildingPanelCollapsed || !previewService.isBuildingVisible()"
-  [class.show]="!isBuildingPanelCollapsed && previewService.isBuildingVisible()"
+  [class.hide]="
+    previewService.isBuildingPanelCollapsed() ||
+    !previewService.isBuildingVisible()
+  "
+  [class.show]="
+    !previewService.isBuildingPanelCollapsed() &&
+    previewService.isBuildingVisible()
+  "
   class="d-none d-md-block collapsible sidenav h-100 justify-content-start"
 >
   <div
@@ -29,8 +38,8 @@
   >
     <button
       class="clean-close-button position-absolute top-right btn bg-transparent"
-      [class.invisible]="isBuildingPanelCollapsed"
-      (click)="closeBuildingPanel()"
+      [class.invisible]="previewService.isBuildingPanelCollapsed()"
+      (click)="previewService.closeBuildingPanel()"
     >
       <span aria-hidden="true" class="clean-close-button__icon">
         <i class="fas fa-times"></i>
@@ -53,17 +62,21 @@
 
 <div
   id="details"
-  [class.hide]="isDetailsPanelCollapsed || !previewService.isBuildingVisible()"
+  [class.hide]="
+    previewService.isDetailsPanelCollapsed() ||
+    !previewService.isBuildingVisible()
+  "
   [ngClass]="{
     'show border-end':
-      !isDetailsPanelCollapsed && previewService.isBuildingVisible()
+      !previewService.isDetailsPanelCollapsed() &&
+      previewService.isBuildingVisible()
   }"
   class="position-relative d-none d-md-block collapsible bg-white details h-100 justify-content-start"
 >
   <button
     class="clean-close-button position-absolute btn bg-transparent"
-    [class.invisible]="isDetailsPanelCollapsed"
-    (click)="closeDetailsPanel()"
+    [class.invisible]="previewService.isDetailsPanelCollapsed()"
+    (click)="previewService.closeDetailsPanel()"
   >
     <span aria-hidden="true" class="clean-close-button__icon">
       <i class="fas fa-times"></i>
@@ -75,7 +88,7 @@
       <div class="card-body pt-1 px-3 pb-3">
         Initiative details
         <initiative
-          *ngIf="!isDetailsPanelCollapsed"
+          *ngIf="!previewService.isDetailsPanelCollapsed()"
           #initiative
           [dataset]="previewService.dataset()"
           [node]="previewService.openedNode()"
