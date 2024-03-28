@@ -212,10 +212,6 @@ export class PreviewComponent implements OnInit, OnDestroy {
     if (this.routeSubscription) this.routeSubscription.unsubscribe();
   }
 
-  saveDetailChanges() {
-    this.previewService.buildingComponent().saveChangesAndUpdateOutliner();
-  }
-
   // applySettings(data: { initiative: Initiative, tags: Tag[] }) {
   //     data.initiative.traverse((node: Initiative) => {
   //         node.tags = intersectionBy(data.tags, node.tags, (t: Tag) => t.shortid);

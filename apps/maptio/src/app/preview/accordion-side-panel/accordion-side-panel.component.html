@@ -93,7 +93,7 @@
           [node]="previewService.openedNode()"
           [user]="previewService.user()"
           [team]="previewService.team()"
-          (edited)="saveDetailChanges()"
+          (edited)="previewService.saveDetailChanges()"
           [isEditMode]="isEditMode"
           (editTags)="onEditTags()"
         ></initiative>

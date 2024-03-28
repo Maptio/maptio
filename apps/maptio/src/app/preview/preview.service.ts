@@ -148,6 +148,10 @@ export class PreviewService {
       });
   }
 
+  saveDetailChanges() {
+    this.buildingComponent().saveChangesAndUpdateOutliner();
+  }
+
   private handleSavingErrorAlert(errorMessage = 'An unknown error occurred.') {
     if (!this.mapService.hasOutdatedAlertBeenShownRecently(this.dataset())) {
       alert(
