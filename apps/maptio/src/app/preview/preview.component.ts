@@ -61,7 +61,6 @@ import { AccordionSidePanelComponent } from './accordion-side-panel/accordion-si
     // BillingGuard,
     // WorkspaceGuard,
     UIService,
-    DataService,
     RoleLibraryService,
     MapSettingsService,
     // WorkspaceComponentResolver,

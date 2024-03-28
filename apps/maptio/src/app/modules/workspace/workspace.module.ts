@@ -142,7 +142,6 @@ import { WorkspaceFacade } from './+state/workspace.facade';
     BillingGuard,
     WorkspaceGuard,
     UIService,
-    DataService,
     RoleLibraryService,
     MapSettingsService,
     WorkspaceComponentResolver,
