@@ -211,22 +211,4 @@ export class PreviewComponent implements OnInit, OnDestroy {
 
     if (this.routeSubscription) this.routeSubscription.unsubscribe();
   }
-
-  // applySettings(data: { initiative: Initiative, tags: Tag[] }) {
-  //     data.initiative.traverse((node: Initiative) => {
-  //         node.tags = intersectionBy(data.tags, node.tags, (t: Tag) => t.shortid);
-  //     })
-  //     this.saveChanges(data.initiative, data.tags);
-  //     this.cd.markForCheck();
-  // }
-
-  // TODO Unused, I think, delete?
-  // toggleEditMode() {
-  //   this.isEditMode = !this.isEditMode;
-  //   this.cd.markForCheck();
-  // }
-
-  addInitiative(data: { node: Initiative; subNode: Initiative }) {
-    this.previewService.buildingComponent().addNodeTo(data.node, data.subNode);
-  }
 }
