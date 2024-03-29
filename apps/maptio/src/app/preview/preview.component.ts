@@ -229,21 +229,4 @@ export class PreviewComponent implements OnInit, OnDestroy {
   addInitiative(data: { node: Initiative; subNode: Initiative }) {
     this.previewService.buildingComponent().addNodeTo(data.node, data.subNode);
   }
-
-  // openDetailsPanel() {
-  //   this.isDetailsPanelCollapsed = false;
-  //   this.cd.markForCheck();
-  // }
-
-  // private isZeroPanelOpened() {
-  //   return this.isBuildingPanelCollapsed && this.isDetailsPanelCollapsed;
-  // }
-
-  // private isOnePanelOpened() {
-  //   return this.isBuildingPanelCollapsed !== this.isDetailsPanelCollapsed;
-  // }
-
-  // private isTwoPanelsOpened() {
-  //   return !this.isDetailsPanelCollapsed && !this.isBuildingPanelCollapsed;
-  // }
 }
