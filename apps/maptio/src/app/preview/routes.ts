@@ -59,7 +59,7 @@ export default [
       {
         path: 'directory',
         component: MappingSummaryComponent,
-        canActivate: [WorkspaceGuard],
+        // canActivate: [WorkspaceGuard],
         children: [
           { path: '', redirectTo: 'people', pathMatch: 'full' },
           {
