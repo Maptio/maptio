@@ -232,16 +232,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
 
   // openDetailsPanel() {
   //   this.isDetailsPanelCollapsed = false;
-  //   // this.resizeMap();
   //   this.cd.markForCheck();
-  // }
-
-  // private resizeMap() {
-  //     let outerSvg = document.querySelector("svg#map");
-  //     let innerSvg = document.querySelector("svg#map > svg");
-  //     if (!outerSvg || !innerSvg) return;
-  //     let margin = this.uiService.getCenteredMargin();
-  //     innerSvg.setAttribute("x", margin);
   // }
 
   // private isZeroPanelOpened() {

@@ -293,25 +293,21 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
   openDetailsPanel() {
     this.isDetailsPanelCollapsed = false;
-    // this.resizeMap();
     this.cd.markForCheck();
   }
 
   closeDetailsPanel() {
     this.isDetailsPanelCollapsed = true;
-    // this.resizeMap();
     this.cd.markForCheck();
   }
 
   closeBuildingPanel() {
     this.isBuildingPanelCollapsed = true;
-    // this.resizeMap();
     this.cd.markForCheck();
   }
 
   openBuildingPanel() {
     this.isBuildingPanelCollapsed = false;
-    // this.resizeMap();
     this.cd.markForCheck();
   }
 
@@ -325,14 +321,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     this.buildingComponent.tabs.select('tags-tab');
     this.cd.markForCheck();
   }
-
-  // private resizeMap() {
-  //     let outerSvg = document.querySelector("svg#map");
-  //     let innerSvg = document.querySelector("svg#map > svg");
-  //     if (!outerSvg || !innerSvg) return;
-  //     let margin = this.uiService.getCenteredMargin();
-  //     innerSvg.setAttribute("x", margin);
-  // }
 
   private isZeroPanelOpened() {
     return this.isBuildingPanelCollapsed && this.isDetailsPanelCollapsed;

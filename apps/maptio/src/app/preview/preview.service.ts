@@ -174,25 +174,21 @@ export class PreviewService {
 
   openBuildingPanel() {
     this.isBuildingPanelCollapsed.set(false);
-    // this.resizeMap();
     // this.cd.markForCheck();
   }
 
   closeBuildingPanel() {
     this.isBuildingPanelCollapsed.set(true);
-    // this.resizeMap();
     // this.cd.markForCheck();
   }
 
   openDetailsPanel() {
     this.isDetailsPanelCollapsed.set(false);
-    // this.resizeMap();
     // this.cd.markForCheck();
   }
 
   closeDetailsPanel() {
     this.isDetailsPanelCollapsed.set(true);
-    // this.resizeMap();
     // this.cd.markForCheck();
   }
 
