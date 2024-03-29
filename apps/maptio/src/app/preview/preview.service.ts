@@ -162,7 +162,6 @@ export class PreviewService {
   }
 
   onOpenDetails(node: Initiative) {
-    console.log('onOpenDetails', node);
     this.openedNode.set(node);
 
     if (this.isDetailsPanelCollapsed()) this.openDetailsPanel();
