@@ -77,8 +77,6 @@ export class PreviewService {
       members: this.members(),
     });
 
-    // this.cd.markForCheck();
-
     let depth = 0;
     change.initiative.traverse(() => {
       depth++;
@@ -141,7 +139,6 @@ export class PreviewService {
       })
       .then(() => {
         this.isSaving.set(false);
-        // this.cd.markForCheck();
       })
       .catch((reason) => {
         this.handleSavingErrorAlert(reason);
@@ -173,27 +170,22 @@ export class PreviewService {
 
   openBuildingPanel() {
     this.isBuildingPanelCollapsed.set(false);
-    // this.cd.markForCheck();
   }
 
   closeBuildingPanel() {
     this.isBuildingPanelCollapsed.set(true);
-    // this.cd.markForCheck();
   }
 
   openDetailsPanel() {
     this.isDetailsPanelCollapsed.set(false);
-    // this.cd.markForCheck();
   }
 
   closeDetailsPanel() {
     this.isDetailsPanelCollapsed.set(true);
-    // this.cd.markForCheck();
   }
 
   onEditTags() {
     this.isBuildingPanelCollapsed.set(false);
     this.buildingComponent().tabs.select('tags-tab');
-    //   this.cd.markForCheck();
   }
 }
