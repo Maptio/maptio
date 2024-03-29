@@ -95,7 +95,7 @@
           [team]="previewService.team()"
           (edited)="previewService.saveDetailChanges()"
           [isEditMode]="isEditMode"
-          (editTags)="onEditTags()"
+          (editTags)="previewService.onEditTags()"
         ></initiative>
       </div>
     </div>

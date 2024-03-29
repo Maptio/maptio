@@ -195,4 +195,10 @@ export class PreviewService {
     // this.resizeMap();
     // this.cd.markForCheck();
   }
+
+  onEditTags() {
+    this.isBuildingPanelCollapsed.set(false);
+    this.buildingComponent().tabs.select('tags-tab');
+    //   this.cd.markForCheck();
+  }
 }
