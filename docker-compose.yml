@@ -12,6 +12,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    ports:
+      - 8080:4200
     environment:
       MONGODB_URI: mongodb://maptio:example@db:27017/maptio
 
