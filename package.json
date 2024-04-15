@@ -14,6 +14,7 @@
     "start:server": "nx serve maptio-server",
     "start:db": "mongod --dbpath=./data/local/",
     "start:mobile": "nx run-many --target=serve --projects=maptio,maptio-server --parallel --host 0.0.0.0",
+    "start:docker": "nx run-many --target=serve --projects=maptio,maptio-server --parallel --host 0.0.0.0",
     "start:admin": "nx serve maptio-admin",
     "build": "nx run-many --target=build --projects=maptio,maptio-server",
     "test": "ng test",
