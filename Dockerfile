@@ -6,4 +6,4 @@ COPY . /app/
 
 RUN npm install
 
-CMD npm start:docker
+CMD npm run start:docker
