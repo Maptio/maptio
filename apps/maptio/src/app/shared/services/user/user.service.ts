@@ -18,7 +18,7 @@ import {
 
 import { SubSink } from 'subsink';
 import { AuthService } from '@auth0/auth0-angular';
-import { Intercom } from 'ng-intercom';
+import { Intercom } from '@supy-io/ngx-intercom';
 import { UUID } from 'angular2-uuid/index';
 import { isEmpty, remove, sortBy, uniq } from 'lodash-es';
 import { nanoid } from 'nanoid';
@@ -87,7 +87,7 @@ export class UserService implements OnDestroy {
       }
     }),
 
-    catchError(this.handleLoginError),
+    catchError((error) => this.handleLoginError(error)),
 
     // Cache the user
     shareReplay(1)
@@ -266,7 +266,8 @@ export class UserService implements OnDestroy {
     email: string,
     firstname: string,
     lastname: string,
-    picture: string
+    picture: string,
+    about: string
   ): Promise<User> {
     const userRoleMap = new Map([[team.team_id, UserRole.Standard]]);
     const userRole = Array.from(userRoleMap.entries());
@@ -278,6 +279,7 @@ export class UserService implements OnDestroy {
       firstname,
       lastname,
       picture,
+      about,
       userRole
     );
 
@@ -297,6 +299,8 @@ export class UserService implements OnDestroy {
     // Base user ID on what's in Auth0
     const userId = profile.sub;
 
+    const about = '';
+
     const isInAuth0 = true;
 
     return this.createUser(
@@ -305,6 +309,7 @@ export class UserService implements OnDestroy {
       profile.given_name,
       profile.family_name,
       profile.picture,
+      about,
       userRole,
       isInAuth0
     );
@@ -320,6 +325,7 @@ export class UserService implements OnDestroy {
     firstname: string,
     lastname: string,
     picture: string,
+    about: string,
     userRole: UserRoleArray,
     isInAuth0 = false
   ): User {
@@ -335,6 +341,7 @@ export class UserService implements OnDestroy {
       lastname,
       email: email,
       picture: imageUrl,
+      about,
       isActivationPending: true,
       isInvitationSent: false,
       isDeleted: false,
@@ -491,6 +498,7 @@ export class UserService implements OnDestroy {
     lastname: string,
     email: string,
     picture: string,
+    about: string,
     isActivationPending?: boolean
   ): Promise<boolean> {
     if (user.email !== email && user.isInAuth0) {
@@ -502,6 +510,7 @@ export class UserService implements OnDestroy {
     user.name = `${firstname} ${lastname}`;
     user.email = email;
     user.picture = picture;
+    user.about = about;
 
     if (isActivationPending !== undefined) {
       user.isActivationPending = isActivationPending;

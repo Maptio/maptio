@@ -29,8 +29,6 @@ export const environment = {
   IMPORT_USERS_TEMPLATE_URL:
     'assets/other/Maptio - Import template - Users.csv',
 
-  SLACK_CLIENT_ID: '97212882021.321753214899',
-
   DEFAULT_AUTHORITY_TERMINOLOGY: $localize`:@@onboarding-terminology-6:Lead`,
   DEFAULT_HELPER_TERMINOLOGY: $localize`:@@onboarding-terminology-7:Contributor`,
 

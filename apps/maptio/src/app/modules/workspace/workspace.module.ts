@@ -11,12 +11,9 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { MarkdownModule } from 'ngx-markdown';
 import { FilterTagsComponent } from './components/filtering/tags.component';
 import { SearchComponent } from './components/searching/search.component';
-import { TreeModule } from '@circlon/angular-tree-component';
 import { WorkspaceGuard } from '../../core/guards/workspace.guard';
-import { WorkspaceComponent } from './pages/workspace/workspace.component';
 import { WorkspaceComponentResolver } from './pages/workspace/workspace.resolver';
 import { InitiativeComponent } from './components/data-entry/details/initiative.component';
-import { InitiativeNodeComponent } from './components/data-entry/node/initiative.node.component';
 import { BuildingComponent } from './components/data-entry/hierarchy/building.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -66,11 +63,13 @@ import { InitiativeInputSizeComponent } from './components/data-entry/details/pa
 import { CircleMapModule } from '@maptio-circle-map/circle-map.module';
 import { CircleMapExpandedModule } from '@maptio-circle-map-expanded/circle-map-expanded.module';
 import { MemberFormModule } from '@maptio-member-form';
-import { OnboardingMessageModule } from '../onboarding-message/onboarding-message.module';
+
 import { SharingComponent } from './components/sharing/sharing.component';
-import { PermissionsMessagesModule } from '../permissions-messages/permissions-messages.module';
-// TODO: Why is this not working instead of the above line, what am I missing?
-// import { OnboardingMessageModule } from "@maptio-onboarding-message";
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import * as fromWorkspace from './+state/workspace.reducer';
+import { WorkspaceEffects } from './+state/workspace.effects';
+import { WorkspaceFacade } from './+state/workspace.facade';
 
 @NgModule({
   imports: [
@@ -78,7 +77,6 @@ import { PermissionsMessagesModule } from '../permissions-messages/permissions-m
     FormsModule,
     ReactiveFormsModule,
     WorkspaceRoutingModule,
-    TreeModule,
     AnalyticsModule,
     MarkdownModule.forChild(),
     ConfirmationPopoverModule.forRoot({
@@ -95,13 +93,7 @@ import { PermissionsMessagesModule } from '../permissions-messages/permissions-m
     CircleMapModule,
     CircleMapExpandedModule,
     MemberFormModule,
-    OnboardingMessageModule,
-    PermissionsMessagesModule,
-  ],
-  declarations: [
-    WorkspaceComponent,
     BuildingComponent,
-    InitiativeNodeComponent,
     InitiativeComponent,
     InitiativeInputNameComponent,
     InitiativeListTagsComponent,
@@ -128,7 +120,6 @@ import { PermissionsMessagesModule } from '../permissions-messages/permissions-m
     VacanciesSummaryComponent,
     RoleHoldersInInitiativeComponent,
     InitiativeInputSizeComponent,
-
     SearchComponent,
     FilterTagsComponent,
     TooltipComponent,
@@ -137,10 +128,15 @@ import { PermissionsMessagesModule } from '../permissions-messages/permissions-m
     EditTagsComponent,
     CommonAutocompleteComponent,
     CommonTextareaComponent,
-
     StripMarkdownPipe,
     EllipsisPipe,
     SharingComponent,
+    StoreModule.forFeature(
+      fromWorkspace.WORKSPACE_FEATURE_KEY,
+      fromWorkspace.workspaceReducer
+    ),
+    EffectsModule.forRoot([]),
+    EffectsModule.forFeature([WorkspaceEffects]),
   ],
   providers: [
     BillingGuard,
@@ -150,6 +146,7 @@ import { PermissionsMessagesModule } from '../permissions-messages/permissions-m
     RoleLibraryService,
     MapSettingsService,
     WorkspaceComponentResolver,
+    WorkspaceFacade,
   ],
 })
 export class WorkspaceModule {}

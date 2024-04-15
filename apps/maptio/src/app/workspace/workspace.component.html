@@ -1,0 +1,130 @@
+<div class="position-relative h-100">
+  <div
+    class="d-md-none small w-100 text-center text-muted position-absolute z-index-1"
+    style="top: 3.5rem"
+    i18n
+  >
+    Map editing is disabled on mobile.
+  </div>
+
+  <div
+    class="position-relative d-flex justify-content-start h-100"
+    [class.overflow-hidden]="team?.isExample && isBuildingVisible"
+  >
+    <div
+      id="toggle"
+      class="d-none h-100 rounded-end py-3 flex-shrink-0 flex-column justify-content-start align-items-center cursor-pointer collapsible"
+      [class.hide]="!isBuildingPanelCollapsed"
+      [class.show]="isBuildingPanelCollapsed"
+      [class.bg-accent]="isBuildingVisible"
+      [class.d-md-flex]="isBuildingVisible"
+      (click)="openBuildingPanel()"
+    >
+      <div class="flex flex-column text-white" *ngIf="isBuildingPanelCollapsed">
+        <i
+          class="h2 fa fa-angle-right fw-bolder w-100 text-center"
+          aria-hidden="true"
+        ></i>
+        <div class="w-100 text-center small" i18n="@@editMap">Edit map</div>
+      </div>
+    </div>
+
+    <div
+      id="hierarchy"
+      [class.hide]="isBuildingPanelCollapsed || !isBuildingVisible"
+      [class.show]="!isBuildingPanelCollapsed && isBuildingVisible"
+      class="d-none d-md-block collapsible sidenav h-100 justify-content-start"
+    >
+      <div
+        id="sidenav-hierarchy"
+        class="hierarchy w-100 h-100 card border-light border-end bg-white"
+      >
+        <button
+          class="clean-close-button position-absolute top-right btn bg-transparent"
+          [class.invisible]="isBuildingPanelCollapsed"
+          (click)="closeBuildingPanel()"
+        >
+          <span aria-hidden="true" class="clean-close-button__icon">
+            <i class="fas fa-times"></i>
+          </span>
+        </button>
+
+        <div class="clean-scrollbar card border-0 bg-transparent h-100">
+          <div class="card-body h-100 pt-0 px-3 pb-3">
+            <building
+              #building
+              [user]="user"
+              [isEmptyMap]="isEmptyMap"
+              (save)="saveChanges($event)"
+              (openDetails)="onOpenDetails($event)"
+            ></building>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="details"
+      [class.hide]="isDetailsPanelCollapsed || !isBuildingVisible"
+      [ngClass]="{
+        'show border-end': !isDetailsPanelCollapsed && isBuildingVisible
+      }"
+      class="position-relative d-none d-md-block collapsible bg-white details h-100 justify-content-start"
+    >
+      <button
+        class="clean-close-button position-absolute btn bg-transparent"
+        [class.invisible]="isDetailsPanelCollapsed"
+        (click)="closeDetailsPanel()"
+      >
+        <span aria-hidden="true" class="clean-close-button__icon">
+          <i class="fas fa-times"></i>
+        </span>
+      </button>
+
+      <div id="sidenav-details" class="h-100 w-100 clean-scrollbar">
+        <div class="card border-0 bg-transparent">
+          <div class="card-body pt-1 px-3 pb-3">
+            <initiative
+              *ngIf="!isDetailsPanelCollapsed"
+              #initiative
+              [dataset]="dataset"
+              [node]="openedNode"
+              [user]="user"
+              [team]="team"
+              (edited)="saveDetailChanges()"
+              [isEditMode]="isEditMode"
+              (editTags)="onEditTags()"
+            ></initiative>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="h-100 flex-shrink-1 w-100" id="main">
+      <div class="h-100">
+        <ng-container *ngIf="isLoading">
+          <div
+            style="font-size: 4rem"
+            class="d-flex justify-content-center align-items-center h-100 text-accent"
+          >
+            <i class="fas fa-circle-notch fa-spin fa-pulse"></i>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="!isLoading">
+          <mapping
+            [tags]="selectableTags"
+            [isEmptyMap]="isEmptyMap"
+            (openDetails)="onOpenDetails($event)"
+            (addInitiative)="addInitiative($event)"
+            (openTreePanel)="openBuildingPanel()"
+            (expandTree)="buildingComponent.toggleAll(true)"
+            (toggleEditingPanelsVisibility)="
+              toggleEditingPanelsVisibility($event)
+            "
+          ></mapping>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

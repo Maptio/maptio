@@ -89,8 +89,10 @@ router.post('/', function (req, res, next) {
   var team = req.body;
   db.teams.save(team, function (err, result) {
     if (err) {
+      console.error('Error creating team:', err);
       res.send(err);
     } else {
+      console.log('Team created:', result);
       res.json(result);
     }
   });

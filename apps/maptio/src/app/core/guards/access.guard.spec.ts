@@ -7,7 +7,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { User } from '../../shared/model/user.data';
 import { Auth } from '../authentication/auth.service';
-import { Intercom, IntercomConfig } from 'ng-intercom';
+import { Intercom, IntercomConfig } from '@supy-io/ngx-intercom';
 
 export class AuthStub {
   getUser() {}

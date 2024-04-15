@@ -1,0 +1,14 @@
+.about {
+  // Hack to make the cdkTextareaAutosize work without showing the scrollbar
+  // See: https://github.com/angular/components/issues/12902
+  box-sizing: content-box;
+
+  // Hack to fix issue caused by first hack. Things are starting to get
+  // interesting... The textarea sticks out of its container without this.
+  width: calc(100% - 26px);
+
+  // Another hack: specifying min rows makes the appearance super weird, I
+  // couldn't find a way to set the heigt to 2 rows, it would either set the
+  // height to 1.5 or ~3 rows. This is a hack to set the height to 2 rows.
+  min-height: 50px;
+}

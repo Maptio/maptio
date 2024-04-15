@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  MatAutocompleteSelectedEvent,
+  MatAutocompleteModule,
+} from '@angular/material/autocomplete';
 
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -9,11 +12,26 @@ import { remove, flatten, filter } from 'lodash-es';
 
 import { Helper, InitiativeNode } from '@maptio-circle-map/initiative.model';
 import { CircleMapService } from '@maptio-circle-map/circle-map.service';
+import { MatOptionModule } from '@angular/material/core';
+import { NgFor, AsyncPipe } from '@angular/common';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'maptio-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
+  standalone: true,
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    NgFor,
+    MatOptionModule,
+    AsyncPipe,
+  ],
 })
 export class SearchComponent implements OnInit {
   @Input() rootCircle: InitiativeNode;
@@ -78,31 +96,39 @@ export class SearchComponent implements OnInit {
   }
 
   private findInitiatives(term: string): InitiativeNode[] {
-    return this.initiatives.filter(
-      (initiativeNode) =>
-        initiativeNode.data.name?.toLowerCase().indexOf(term.toLowerCase()) >
-          -1 ||
-        (initiativeNode.data.description &&
-          initiativeNode.data.description
-            .toLowerCase()
-            .indexOf(term.toLowerCase()) > -1) ||
-        (initiativeNode.data.accountable &&
-          initiativeNode.data.accountable.name
-            .toLowerCase()
-            .indexOf(term.toLowerCase()) > -1) ||
-        (this.getAllParticipants(initiativeNode) &&
-          this.getAllParticipants(initiativeNode)
-            .map((h) => h.name)
-            .join('')
-            .toLowerCase()
-            .indexOf(term.toLowerCase()) > -1) ||
-        (this.getAllParticipants(initiativeNode) &&
-          this.getAllParticipants(initiativeNode)
-            .map((h) => (h.roles && h.roles[0] ? h.roles[0].description : ''))
-            .join('')
-            .toLowerCase()
-            .indexOf(term.toLowerCase()) > -1)
-    );
+    const searchTerm = term.toLowerCase();
+
+    return this.initiatives.filter((initiativeNode) => {
+      const name = initiativeNode.data.name?.toLowerCase();
+      const nameMatches = name?.includes(searchTerm);
+
+      const description = initiativeNode.data.description?.toLowerCase();
+      const descriptionMatches = description?.includes(searchTerm);
+
+      const accountable = initiativeNode.data.accountable?.name?.toLowerCase();
+      const accountableMatches = accountable?.includes(searchTerm);
+
+      const participants = this.getAllParticipants(initiativeNode)
+        .map((participant) => participant.name.toLowerCase())
+        .join('');
+      const participantsMatch = participants?.includes(searchTerm);
+
+      const roles = this.getAllParticipants(initiativeNode)
+        .flatMap((participant) => participant.roles ?? [])
+        .map((role) =>
+          `${role?.title ?? ''} ${role?.description ?? ''}`.toLowerCase()
+        )
+        .join('');
+      const rolesMatch = roles?.includes(searchTerm);
+
+      return (
+        nameMatches ||
+        descriptionMatches ||
+        accountableMatches ||
+        participantsMatch ||
+        rolesMatch
+      );
+    });
   }
 
   private getAllParticipants(initiativeNode: InitiativeNode): Helper[] {

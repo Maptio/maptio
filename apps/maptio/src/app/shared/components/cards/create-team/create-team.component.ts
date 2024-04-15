@@ -1,15 +1,24 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  UntypedFormControl,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Team } from '../../../model/team.data';
 import { User } from '../../../model/user.data';
 import { Permissions } from '../../../model/permission.data';
 import { TeamService } from '../../../services/team/team.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'maptio-create-team',
   templateUrl: './create-team.component.html',
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule, NgIf],
 })
 export class CreateTeamComponent implements OnInit {
   createForm: UntypedFormGroup;

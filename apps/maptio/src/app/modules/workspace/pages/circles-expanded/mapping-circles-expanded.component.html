@@ -9,4 +9,6 @@
 <maptio-circle-map-expanded
   [circleMapData$]="circleMapData$"
   [showDetailsPanel]="false"
+  [selectedCircleId]="selectedCircleId()"
+  (selectedCircleIdChange)="onSelectedCircleIdChange($event)"
 ></maptio-circle-map-expanded>

@@ -2,12 +2,11 @@ import { PrivacyComponent } from './pages/privacy/privacy.page';
 import { TermsComponent } from './pages/tos/terms.page';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SanitizerModule } from '../../shared/sanitizer.module';
+
 import { LegalRoutingModule } from './legal.routing';
 
 @NgModule({
-  declarations: [PrivacyComponent, TermsComponent],
-  imports: [CommonModule, SanitizerModule, LegalRoutingModule],
+  imports: [CommonModule, LegalRoutingModule, PrivacyComponent, TermsComponent],
   providers: [],
 })
 export class LegalModule {}

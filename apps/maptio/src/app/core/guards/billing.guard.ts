@@ -1,12 +1,7 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
-import {
-  CanActivate,
-  CanActivateChild,
-  RouterStateSnapshot,
-  Router,
-} from '@angular/router';
+import { RouterStateSnapshot, Router } from '@angular/router';
 import { BillingService } from '../../shared/services/billing/billing.service';
 import { EmitterService } from '../services/emitter.service';
 import { Team } from '../../shared/model/team.data';
@@ -15,7 +10,7 @@ import { DataSet } from '../../shared/model/dataset.data';
 import { TeamFactory } from '../http/team/team.factory';
 
 @Injectable()
-export class BillingGuard implements CanActivate, CanActivateChild {
+export class BillingGuard  {
   constructor(
     private billingService: BillingService,
     private datasetFactory: DatasetFactory,

@@ -2,11 +2,14 @@ import { Component, Input, ChangeDetectorRef } from '@angular/core';
 
 import { UserFactory } from '@maptio-core/http/user/user.factory';
 import { User } from '@maptio-shared/model/user.data';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'maptio-consent',
   templateUrl: './consent.component.html',
   styleUrls: ['./consent.component.scss'],
+  standalone: true,
+  imports: [NgIf],
 })
 export class ConsentComponent {
   @Input() user: User;
@@ -42,8 +45,8 @@ export class ConsentComponent {
 
     if (!result) {
       this.hasTogglingConsentFailed = true;
-      this.user.consentForSessionRecordings = !this.user
-        .consentForSessionRecordings;
+      this.user.consentForSessionRecordings =
+        !this.user.consentForSessionRecordings;
       target.checked = this.user.consentForSessionRecordings;
     }
 

@@ -4,7 +4,7 @@ import { Role } from '../../../../shared/model/role.data';
 import { User } from '../../../../shared/model/user.data';
 import { ColorService } from '@maptio-shared/services/color/color.service';
 import { UIService } from '../../services/ui.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { URIService } from '../../../../shared/services/uri/uri.service';
 import { PermissionsService } from '../../../../shared/services/permissions/permissions.service';
@@ -26,7 +26,6 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { IDataVisualizer } from '../../components/canvas/mapping.interface';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import {
   flatten,
   uniqBy,
@@ -56,6 +55,8 @@ import {
   MapSettingsService,
 } from '../../services/map-settings.service';
 import { MapService } from '@maptio-shared/services/map/map.service';
+import { FormsModule } from '@angular/forms';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 const d3 = Object.assign(
   {},
@@ -88,6 +89,8 @@ const d3 = Object.assign(
   styleUrls: ['./mapping.network.component.css'],
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgIf, RouterLink, FormsModule, AsyncPipe],
 })
 export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public datasetId: string;
@@ -113,9 +116,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public team: Team;
 
   public _isDisplayOptions = false;
-  private isAuthorityCentricMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    true
-  );
+  private isAuthorityCentricMode$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(true);
   public _isAuthorityCentricMode = true;
 
   public showContextMenuOf$: Subject<{
@@ -138,7 +140,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     initiatives: Initiative[];
     isNameOnly: boolean;
   }> = new Subject<{ initiatives: Initiative[]; isNameOnly: boolean }>();
-  public analytics: Angulartics2Mixpanel;
 
   private zoomSubscription: Subscription;
   private dataSubscription: Subscription;
@@ -207,12 +208,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         this.slug = data.getSlug();
         this._isAuthorityCentricMode = authorityCentricMode;
         this.update(data, color, this._isAuthorityCentricMode);
-        this.analytics.eventTrack('Map', {
-          action: 'viewing',
-          view: 'connections',
-          team: (<Team>dataset.team).name,
-          teamId: (<Team>dataset.team).team_id,
-        });
         this.isLoading = false;
         this.cd.markForCheck();
       });
@@ -664,7 +659,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     const uiService = this.uiService;
     const showDetailsOf$ = this.showDetailsOf$;
     const showToolipOf$ = this.showToolipOf$;
-    const canOpenInitiativeContextMenu = this.permissionsService.canOpenInitiativeContextMenu();
+    const canOpenInitiativeContextMenu =
+      this.permissionsService.canOpenInitiativeContextMenu();
     const showContextMenuOf$ = this.showContextMenuOf$;
     const datasetSlug = this.slug;
     const datasetId = this.datasetId;

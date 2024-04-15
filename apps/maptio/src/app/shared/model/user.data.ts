@@ -41,6 +41,9 @@ export class User implements Serializable<User> {
   /** User picture URL */
   public picture: string;
 
+  /** "About me" description field */
+  public about: string;
+
   /** True if activation is pending, false otherwise */
   public isActivationPending = false;
 
@@ -126,6 +129,8 @@ export class User implements Serializable<User> {
 
     deserialized.picture = input.picture;
 
+    deserialized.about = input.about;
+
     deserialized.user_id = input.user_id; // specific to Auth0
 
     deserialized.teams = [];
@@ -151,9 +156,10 @@ export class User implements Serializable<User> {
 
     deserialized.consentForSessionRecordings =
       input.consentForSessionRecordings || false;
-    deserialized.consentForSessionRecordingsUpdatedAt = input.consentForSessionRecordingsUpdatedAt
-      ? parseISO(input.consentForSessionRecordingsUpdatedAt)
-      : null;
+    deserialized.consentForSessionRecordingsUpdatedAt =
+      input.consentForSessionRecordingsUpdatedAt
+        ? parseISO(input.consentForSessionRecordingsUpdatedAt)
+        : null;
 
     deserialized.onboardingProgress = OnboardingProgress.create().deserialize(
       input.onboardingProgress
@@ -238,7 +244,7 @@ export class User implements Serializable<User> {
       teamIds.forEach((teamId) => {
         // Convert input string to UserRole, if it fails, use Standard
         const convertedUserRole = UserRole[userRoleInput]
-          ? ((userRoleInput as unknown) as UserRole)
+          ? (userRoleInput as unknown as UserRole)
           : UserRole.Standard;
 
         userRoleMap.set(teamId, convertedUserRole);
@@ -285,4 +291,5 @@ export interface MemberFormFields {
   lastname: string;
   email: string;
   picture: string;
+  about: string;
 }

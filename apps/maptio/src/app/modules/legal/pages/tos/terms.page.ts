@@ -12,5 +12,6 @@ import { environment } from '@maptio-environment';
       frameborder="0"
     ></iframe>
   `,
+  standalone: true,
 })
 export class TermsComponent {}

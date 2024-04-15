@@ -1,0 +1,113 @@
+// Bootrap overrides after upgrade from 4 to 5
+a,
+.btn-link {
+  text-decoration: none;
+}
+
+a:hover,
+.btn-link:hover {
+  text-decoration: underline;
+}
+
+a.btn:hover,
+a.nav-link:hover,
+a.badge:hover,
+a.dropdown-toggle:hover,
+a.dropdown-item:hover {
+  text-decoration: none;
+}
+
+.small {
+  font-size: 12.8px;
+}
+
+.container-fluid {
+  padding: 0 15px;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.badge {
+  color: var(--bs-btn-color);
+}
+
+$card-columns-count: 3 !default;
+$card-columns-gap: 1.25rem !default;
+$card-columns-margin: $card-spacer-y !default;
+
+.card-columns {
+  .card {
+    margin-bottom: $card-columns-margin;
+  }
+
+  @include media-breakpoint-up(sm) {
+    column-count: $card-columns-count;
+    column-gap: $card-columns-gap;
+    orphans: 1;
+    widows: 1;
+
+    .card {
+      display: inline-block; // Don't let them vertically span multiple columns
+      width: 100%; // Don't let their width change
+    }
+  }
+}
+
+.dropdown-divider {
+  margin: 0.5rem 0;
+  border-top: 1px solid #e9ecef;
+}
+
+.dropdown-header {
+  padding: 0.5rem 1.5rem;
+  color: #6c757d;
+}
+
+.accordion-button {
+  font-size: 1.25rem;
+}
+
+.bg-gradient {
+  background-image: linear-gradient(
+    to left,
+    var(--maptio-blue),
+    var(--maptio-accent)
+  ) !important;
+}
+
+.btn-info {
+  color: #fff;
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+.btn-info:hover {
+  color: #fff;
+  background-color: #138496;
+  border-color: #117a8b;
+}
+
+.btn-info:focus,
+.btn-info.focus {
+  box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.5);
+}
+
+.btn-info.disabled,
+.btn-info:disabled {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+.btn-info:active,
+.btn-info.active,
+.show > .btn-info.dropdown-toggle {
+  background-color: #138496;
+  background-image: none;
+  border-color: #117a8b;
+}

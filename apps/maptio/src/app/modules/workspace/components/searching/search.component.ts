@@ -1,18 +1,25 @@
-import { map, tap, distinctUntilChanged, debounceTime } from 'rxjs/operators';
-import { Initiative } from '../../../../shared/model/initiative.data';
 import {
-  Component,
-  OnInit,
   ChangeDetectorRef,
-  Input,
-  Output,
+  Component,
   EventEmitter,
+  Input,
+  OnInit,
+  Output,
 } from '@angular/core';
 
-import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
-import { User } from '../../../../shared/model/user.data';
+import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
+
+import {
+  NgbTypeaheadSelectItemEvent,
+  NgbTypeaheadModule,
+} from '@ng-bootstrap/ng-bootstrap';
+
 import { flatten, uniqBy } from 'lodash-es';
+import { NgIf } from '@angular/common';
+
+import { Initiative } from '@maptio-shared/model/initiative.data';
+import { User } from '@maptio-shared/model/user.data';
 
 export enum SearchResultType {
   Initiative,
@@ -29,6 +36,8 @@ class SearchResult {
   selector: 'search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css'],
+  standalone: true,
+  imports: [NgIf, NgbTypeaheadModule],
 })
 export class SearchComponent implements OnInit {
   @Input() list: Initiative[];
@@ -45,42 +54,75 @@ export class SearchComponent implements OnInit {
   SearchResultType = SearchResultType;
 
   findInitiatives(term: string): SearchResult[] {
-    return this.list
-      .filter(
-        (v) =>
-          v.name?.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
-          (v.description &&
-            v.description.toLowerCase().indexOf(term.toLowerCase()) > -1) ||
-          (v.accountable &&
-            v.accountable.name.toLowerCase().indexOf(term.toLowerCase()) >
-              -1) ||
-          (v.getAllParticipants() &&
-            v
-              .getAllParticipants()
-              .map((h) => h.name)
-              .join('')
-              .toLowerCase()
-              .indexOf(term.toLowerCase()) > -1) ||
-          (v.getAllParticipants() &&
-            v
-              .getAllParticipants()
-              .map((h) => (h.roles && h.roles[0] ? h.roles[0].description : ''))
-              .join('')
-              .toLowerCase()
-              .indexOf(term.toLowerCase()) > -1)
-      )
-      .map(
-        (i) => <SearchResult>{ type: SearchResultType.Initiative, result: i }
+    const searchTerm = term.toLowerCase();
+
+    const matchingInitiatives = this.list.filter((initiative) => {
+      const name = initiative.name?.toLowerCase();
+      const nameMatches = name?.includes(searchTerm);
+
+      const description = initiative.description?.toLowerCase();
+      const descriptionMatches = description?.includes(searchTerm);
+
+      const accountable = initiative.accountable?.name?.toLowerCase();
+      const accountableMatches = accountable?.includes(searchTerm);
+
+      const participants = initiative
+        .getAllParticipants()
+        .map((participant) => participant.name.toLowerCase())
+        .join('');
+      const participantsMatch = participants?.includes(searchTerm);
+
+      const roles = initiative
+        .getAllParticipants()
+        .flatMap((participant) => participant.roles ?? [])
+        .map((role) =>
+          `${role?.title ?? ''} ${role?.description ?? ''}`.toLowerCase()
+        )
+        .join('');
+      const rolesMatch = roles?.includes(searchTerm);
+
+      return (
+        nameMatches ||
+        descriptionMatches ||
+        accountableMatches ||
+        participantsMatch ||
+        rolesMatch
       );
+    });
+
+    // Convert to search results
+    return matchingInitiatives.map(
+      (i) => <SearchResult>{ type: SearchResultType.Initiative, result: i }
+    );
   }
 
   findUsers(term: string): SearchResult[] {
-    return uniqBy(
-      flatten(this.list.map((i) => i.getAllParticipants())),
-      (u) => u.user_id
-    )
-      .filter((u) => u.name.toLowerCase().indexOf(term.toLowerCase()) > -1)
-      .map((i) => <SearchResult>{ type: SearchResultType.User, result: i });
+    const searchTerm = term.toLowerCase();
+
+    // Get all users from all initiatives
+    const users = flatten(
+      this.list.map((initiative) => initiative.getAllParticipants())
+    );
+
+    const matchingUsers = users.filter((user) => {
+      const nameMatches = user.name.toLowerCase().includes(searchTerm);
+
+      const roles = user.roles
+        .map((role) =>
+          `${role?.title ?? ''} ${role?.description ?? ''}`.toLowerCase()
+        )
+        .join('');
+      const rolesMatch = roles?.includes(searchTerm);
+
+      return nameMatches || rolesMatch;
+    });
+
+    const uniqueMatchingUsers = uniqBy(matchingUsers, (user) => user.user_id);
+
+    return uniqueMatchingUsers.map((user) => ({
+      type: SearchResultType.User,
+      result: user,
+    }));
   }
 
   addHeader(results: SearchResult[], header: SearchResult) {

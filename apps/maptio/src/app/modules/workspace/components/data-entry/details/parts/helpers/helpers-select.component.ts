@@ -14,11 +14,22 @@ import { cloneDeep } from 'lodash-es';
 import { Team } from '@maptio-shared/model/team.data';
 import { Helper } from '@maptio-shared/model/helper.data';
 import { User, MemberFormFields } from '@maptio-shared/model/user.data';
+import { MemberFormComponent } from '../../../../../../member-form/member-form.component';
+import { CommonAutocompleteComponent } from '../../../../../../../shared/components/autocomplete/autocomplete.component';
+import { StickyPopoverDirective } from '../../../../../../../shared/directives/sticky.directive';
+import { NgIf, LowerCasePipe } from '@angular/common';
 
 @Component({
   selector: 'maptio-initiative-helpers-select',
   templateUrl: './helpers-select.component.html',
-  // styleUrls: ['./helpers-select.component.css']
+  standalone: true,
+  imports: [
+    NgIf,
+    StickyPopoverDirective,
+    CommonAutocompleteComponent,
+    MemberFormComponent,
+    LowerCasePipe,
+  ],
 })
 export class InitiativeHelpersSelectComponent implements OnChanges {
   @Input() team: Team;
@@ -45,8 +56,9 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.team && changes.team.currentValue) {
-      this.placeholder = $localize`Start typing the name of a ${(changes.team
-        .currentValue as Team).settings.helper.toLowerCase()}`;
+      this.placeholder = $localize`Start typing the name of a ${(
+        changes.team.currentValue as Team
+      ).settings.helper.toLowerCase()}`;
     }
     this.cd.markForCheck();
   }
@@ -135,6 +147,7 @@ export class InitiativeHelpersSelectComponent implements OnChanges {
       lastname: '',
       email: '',
       picture: '',
+      about: '',
     };
 
     return [this.newMemberData, ...filteredTeamMembers];

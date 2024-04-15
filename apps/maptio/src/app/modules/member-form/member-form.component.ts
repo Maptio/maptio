@@ -6,29 +6,48 @@ import {
   OnInit,
   ChangeDetectorRef,
 } from '@angular/core';
-import { UntypedFormControl, Validators, UntypedFormGroup } from '@angular/forms';
+import { NgIf, NgFor } from '@angular/common';
+import {
+  UntypedFormControl,
+  Validators,
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router } from '@angular/router';
+import { TextFieldModule } from '@angular/cdk/text-field';
 
-import { Intercom } from 'ng-intercom';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
 import { environment } from '@maptio-environment';
-import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
-import { DataSet } from '@maptio-shared/model/dataset.data';
+import { environment as config } from '@maptio-config/environment';
 import { User, MemberFormFields } from '@maptio-shared/model/user.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
-import { UserFactory } from '@maptio-core/http/user/user.factory';
-import { TeamFactory } from '@maptio-core/http/team/team.factory';
+import { ImageUploadComponent } from '@maptio-shared/components/image-upload/image-upload.component';
+
+import { MemberComponent } from '../member/member.component';
 
 @Component({
   selector: 'maptio-member-form',
   templateUrl: './member-form.component.html',
   styleUrls: ['./member-form.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf,
+    NgFor,
+    FormsModule,
+    ReactiveFormsModule,
+    TextFieldModule,
+    ConfirmationPopoverModule,
+    ImageUploadComponent,
+    MemberComponent,
+  ],
 })
 export class MemberFormComponent implements OnInit {
   TERMS_AND_CONDITIONS_URL = environment.TERMS_AND_CONDITIONS_URL;
   PRIVACY_POLICY_URL = environment.PRIVACY_POLICY_URL;
+  KB_URL_MARKDOWN = config.KB_URL_MARKDOWN;
 
   public newMember: User;
   public errorMessage: string;
@@ -39,6 +58,7 @@ export class MemberFormComponent implements OnInit {
   private firstname: string;
   private lastname: string;
   private email: string;
+  private about: string;
 
   public picture: string;
   public memberId: string;
@@ -70,12 +90,7 @@ export class MemberFormComponent implements OnInit {
   constructor(
     private cd: ChangeDetectorRef,
     private router: Router,
-    private datasetFactory: DatasetFactory,
-    private userFactory: UserFactory,
-    private teamFactory: TeamFactory,
-    private userService: UserService,
-    private analytics: Angulartics2Mixpanel,
-    private intercom: Intercom
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -83,7 +98,10 @@ export class MemberFormComponent implements OnInit {
       firstname: new UntypedFormControl('', {
         validators: [Validators.required, Validators.minLength(2)],
       }),
-      lastname: new UntypedFormControl('', { validators: [Validators.minLength(2)] }),
+      lastname: new UntypedFormControl('', {
+        validators: [Validators.minLength(2)],
+      }),
+      about: new UntypedFormControl(''),
       email: new UntypedFormControl('', { validators: [Validators.email] }),
     });
 
@@ -102,6 +120,7 @@ export class MemberFormComponent implements OnInit {
         this.memberForm.controls['lastname'].setValue(this.member.lastname);
       }
 
+      this.memberForm.controls['about'].setValue(this.member.about);
       this.memberForm.controls['email'].setValue(this.member.email);
 
       this.picture = this.member.picture;
@@ -163,6 +182,7 @@ export class MemberFormComponent implements OnInit {
     this.firstname = this.memberForm.controls['firstname'].value;
     this.lastname = this.memberForm.controls['lastname'].value;
     this.email = this.memberForm.controls['email'].value;
+    this.about = this.memberForm.controls['about'].value;
 
     if (
       performDeduplication &&
@@ -210,7 +230,8 @@ export class MemberFormComponent implements OnInit {
         this.email,
         this.firstname,
         this.lastname,
-        this.picture
+        this.picture,
+        this.about
       );
 
       this.newMember = undefined;
@@ -239,6 +260,7 @@ export class MemberFormComponent implements OnInit {
           this.lastname,
           this.email,
           this.picture,
+          this.about,
           false
         );
       } else {
@@ -247,7 +269,8 @@ export class MemberFormComponent implements OnInit {
           this.firstname,
           this.lastname,
           this.email,
-          this.picture
+          this.picture,
+          this.about
         );
       }
     } catch (error) {

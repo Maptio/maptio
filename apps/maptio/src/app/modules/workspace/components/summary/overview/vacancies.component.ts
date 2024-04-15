@@ -19,6 +19,9 @@ import { User } from '../../../../../shared/model/user.data';
 import { Initiative } from '../../../../../shared/model/initiative.data';
 import { LoaderService } from '../../../../../shared/components/loading/loader.service';
 import { MarkdownUtilsService } from '../../../../../shared/services/markdown/markdown-utils.service';
+import { RoleHoldersInInitiativeComponent } from '../tab/role-holders-in-initiative.component';
+import { InitiativeHelperRoleComponent } from '../../data-entry/details/parts/helpers/helper-role.component';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'summary-vacancies',
@@ -26,6 +29,13 @@ import { MarkdownUtilsService } from '../../../../../shared/services/markdown/ma
   styleUrls: ['./vacancies.component.css'],
   host: { class: 'd-flex flex-column w-100' },
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgFor,
+    InitiativeHelperRoleComponent,
+    NgIf,
+    RoleHoldersInInitiativeComponent,
+  ],
 })
 export class VacanciesSummaryComponent implements OnInit {
   initiative: Initiative;

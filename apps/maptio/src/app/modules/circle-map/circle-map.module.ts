@@ -16,14 +16,6 @@ import { HelperAvatarComponent } from './helper-avatar/helper-avatar.component';
 import { SearchComponent } from './search/search.component';
 
 @NgModule({
-  declarations: [
-    SvgZoomPanComponent,
-    CircleMapComponent,
-    CircleComponent,
-    CircleInfoComponent,
-    HelperAvatarComponent,
-    SearchComponent,
-  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -31,6 +23,12 @@ import { SearchComponent } from './search/search.component';
     MatAutocompleteModule,
     MarkdownModule.forChild(),
     SatPopoverModule,
+    SvgZoomPanComponent,
+    CircleMapComponent,
+    CircleComponent,
+    CircleInfoComponent,
+    HelperAvatarComponent,
+    SearchComponent,
   ],
   exports: [CircleMapComponent],
 })

@@ -5,9 +5,8 @@ import { User } from '../../../../shared/model/user.data';
 import { PermissionsDirective } from '../../../../shared/directives/permission.directive';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { NgProgressModule, NgProgress } from '@ngx-progressbar/core';
-import { IntercomModule } from 'ng-intercom';
+import { IntercomModule } from '@supy-io/ngx-intercom';
 import { LoaderService } from '../../../../shared/components/loading/loader.service';
 import { Auth } from '../../../../core/authentication/auth.service';
 import { UserFactory } from '../../../../core/http/user/user.factory';
@@ -30,89 +29,86 @@ describe('team-list.component.ts', () => {
   let target: ComponentFixture<TeamListComponent>;
   const user$: Subject<User> = new Subject<User>();
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [TeamListComponent, PermissionsDirective],
-        schemas: [NO_ERRORS_SCHEMA],
-        imports: [
-          RouterTestingModule,
-          AnalyticsModule,
-          NgProgressModule,
-          IntercomModule.forRoot({
-            appId: '',
-            updateOnRouterChange: true,
-          }),
-        ],
-      })
-        .overrideComponent(TeamListComponent, {
-          set: {
-            providers: [
-              LoaderService,
-              NgProgress,
-              {
-                provide: Auth,
-                useClass: class {
-                  getUser() {
-                    return user$.asObservable();
-                  }
-                  getPermissions(): any[] {
-                    return [];
-                  }
-                  getUserInfo(id: string) {
-                    return Promise.resolve(new User({}));
-                  }
-                },
-              },
-              UserFactory,
-              TeamFactory,
-              AuthConfiguration,
-              UserService,
-              MailingService,
-              JwtEncoder,
-              {
-                provide: AuthHttp,
-                useFactory: authHttpServiceFactoryTesting,
-                deps: [Http, BaseRequestOptions],
-              },
-              {
-                provide: Router,
-                useClass: class {
-                  events = observableOf(new NavigationStart(0, '/next'));
-                },
-              },
-              {
-                provide: Http,
-                useFactory: (
-                  mockBackend: MockBackend,
-                  options: BaseRequestOptions
-                ) => {
-                  return new Http(mockBackend, options);
-                },
-                deps: [MockBackend, BaseRequestOptions],
-              },
-              {
-                provide: ActivatedRoute,
-                useClass: class {
-                  data = observableOf({
-                    teams: [],
-                  });
-
-                  snapshot = {
-                    queryParamMap: new Map(),
-                  };
-                },
-              },
-              MockBackend,
-              BaseRequestOptions,
-              ErrorService,
-              Angulartics2Mixpanel,
-            ],
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [TeamListComponent, PermissionsDirective],
+      schemas: [NO_ERRORS_SCHEMA],
+      imports: [
+        RouterTestingModule,
+        AnalyticsModule,
+        NgProgressModule,
+        IntercomModule.forRoot({
+          appId: '',
+          updateOnRouterChange: true,
+        }),
+      ],
     })
-  );
+      .overrideComponent(TeamListComponent, {
+        set: {
+          providers: [
+            LoaderService,
+            NgProgress,
+            {
+              provide: Auth,
+              useClass: class {
+                getUser() {
+                  return user$.asObservable();
+                }
+                getPermissions(): any[] {
+                  return [];
+                }
+                getUserInfo(id: string) {
+                  return Promise.resolve(new User({}));
+                }
+              },
+            },
+            UserFactory,
+            TeamFactory,
+            AuthConfiguration,
+            UserService,
+            MailingService,
+            JwtEncoder,
+            {
+              provide: AuthHttp,
+              useFactory: authHttpServiceFactoryTesting,
+              deps: [Http, BaseRequestOptions],
+            },
+            {
+              provide: Router,
+              useClass: class {
+                events = observableOf(new NavigationStart(0, '/next'));
+              },
+            },
+            {
+              provide: Http,
+              useFactory: (
+                mockBackend: MockBackend,
+                options: BaseRequestOptions
+              ) => {
+                return new Http(mockBackend, options);
+              },
+              deps: [MockBackend, BaseRequestOptions],
+            },
+            {
+              provide: ActivatedRoute,
+              useClass: class {
+                data = observableOf({
+                  teams: [],
+                });
+
+                snapshot = {
+                  queryParamMap: new Map(),
+                };
+              },
+            },
+            MockBackend,
+            BaseRequestOptions,
+            ErrorService,
+          ],
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     target = TestBed.createComponent(TeamListComponent);

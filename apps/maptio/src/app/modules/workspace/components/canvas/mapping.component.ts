@@ -11,8 +11,14 @@ import {
   ViewChild,
   ElementRef,
 } from '@angular/core';
-import { ActivatedRoute, Router, Params } from '@angular/router';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
+import {
+  ActivatedRoute,
+  Router,
+  Params,
+  RouterLinkActive,
+  RouterLink,
+  RouterOutlet,
+} from '@angular/router';
 import { compact } from 'lodash-es';
 import { BehaviorSubject, ReplaySubject, Subject, Subscription } from 'rxjs';
 
@@ -24,7 +30,7 @@ import { UIService } from '../../services/ui.service';
 import { URIService } from '../../../../shared/services/uri/uri.service';
 import { IDataVisualizer } from './mapping.interface';
 import { ExportService } from '../../../../shared/services/export/export.service';
-import { Intercom } from 'ng-intercom';
+import { Intercom } from '@supy-io/ngx-intercom';
 import { User } from '../../../../shared/model/user.data';
 import { Permissions } from '../../../../shared/model/permission.data';
 import { MappingSummaryComponent } from '../../pages/directory/summary.component';
@@ -36,12 +42,45 @@ import {
   MapSettingsService,
   MapSettings,
 } from '../../services/map-settings.service';
+import { InsufficientPermissionsMessageComponent } from '../../../permissions-messages/insufficient-permissions-message.component';
+import { StickyPopoverDirective } from '../../../../shared/directives/sticky.directive';
+import { PermissionsDirective } from '../../../../shared/directives/permission.directive';
+import { ColorPickerComponent } from '../../../../shared/components/color-picker/color-picker.component';
+import { SharingComponent } from '../sharing/sharing.component';
+import { FilterTagsComponent } from '../filtering/tags.component';
+import { SearchComponent } from '../searching/search.component';
+import { ClosableDirective } from '../../../../shared/directives/closable.directive';
+import { ContextMenuComponent } from '../context-menu/context-menu.component';
+import { NgTemplateOutlet, NgIf } from '@angular/common';
+import {
+  NgbCollapseModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'mapping',
   templateUrl: './mapping.component.html',
   styleUrls: ['./mapping.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    RouterLinkActive,
+    RouterLink,
+    RouterOutlet,
+    NgTemplateOutlet,
+    NgIf,
+    NgbTooltipModule,
+    NgbCollapseModule,
+    ContextMenuComponent,
+    ClosableDirective,
+    SearchComponent,
+    FilterTagsComponent,
+    SharingComponent,
+    ColorPickerComponent,
+    PermissionsDirective,
+    StickyPopoverDirective,
+    InsufficientPermissionsMessageComponent,
+  ],
 })
 export class MappingComponent {
   isFirstEdit: boolean;
@@ -62,7 +101,6 @@ export class MappingComponent {
   isPrinting: boolean;
   hasNotified: boolean;
   hasConfigurationError: boolean;
-  isSharingToggled: boolean;
 
   public x: number;
   public y: number;
@@ -92,9 +130,11 @@ export class MappingComponent {
   public instance: IDataVisualizer;
   public settings: MapSettings;
 
-  public isSettingToggled: boolean;
-  public isSearchToggled: boolean;
+  public isSearchToggled = false;
   public isFiltersToggled = false;
+  public isSharingToggled = false;
+  public isSettingToggled = false;
+
   public isMapSettingsDisabled: boolean;
   public isSearchDisabled = false;
   public isFilterDisabled = false;
@@ -128,7 +168,6 @@ export class MappingComponent {
     private dataService: DataService,
     private cd: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private analytics: Angulartics2Mixpanel,
     private uriService: URIService,
     public uiService: UIService,
     private exportService: ExportService,
@@ -162,9 +201,9 @@ export class MappingComponent {
           .setAttribute('height', `${this.uiService.getCanvasHeight()}`);
       } else {
         if (document.querySelector('#summary-canvas'))
-          (document.querySelector(
-            '#summary-canvas'
-          ) as HTMLElement).style.maxHeight = this.isFullScreen
+          (
+            document.querySelector('#summary-canvas') as HTMLElement
+          ).style.maxHeight = this.isFullScreen
             ? null
             : `${this.uiService.getCanvasHeight() * 0.95}px`;
         this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
@@ -230,7 +269,6 @@ export class MappingComponent {
     component.tagsState = tagsState;
     this.selectableTags$.next(tagsState);
 
-    component.analytics = this.analytics;
     component.isReset$ = this.isReset$.asObservable();
 
     if (component.constructor === MappingSummaryComponent) {
@@ -411,34 +449,48 @@ export class MappingComponent {
     // this.cd.markForCheck();
   }
 
+  onSearchToggle(event: Event) {
+    this.isSearchToggled = !this.isSearchToggled;
+    this.isFiltersToggled = false;
+    this.isSharingToggled = false;
+    this.isSettingToggled = false;
+    event.stopPropagation();
+  }
+
+  onFiltersToggle(event: Event) {
+    this.isSearchToggled = false;
+    this.isFiltersToggled = !this.isFiltersToggled;
+    this.isSharingToggled = false;
+    this.isSettingToggled = false;
+    event.stopPropagation();
+  }
+
+  onSharingToggle(event: Event) {
+    this.isSearchToggled = false;
+    this.isFiltersToggled = false;
+    this.isSharingToggled = !this.isSharingToggled;
+    this.isSettingToggled = false;
+    event.stopPropagation();
+  }
+
+  onSettingToggle(event: Event) {
+    this.isSearchToggled = false;
+    this.isFiltersToggled = false;
+    this.isSharingToggled = false;
+    this.isSettingToggled = !this.isSettingToggled;
+    event.stopPropagation();
+  }
+
   zoomOut() {
     this.zoom$.next(1 / 3);
-    this.analytics.eventTrack('Map', {
-      action: 'zoom out',
-      mode: 'button',
-      team: this.team.name,
-      teamId: this.team.team_id,
-    });
   }
 
   zoomIn() {
     this.zoom$.next(3);
-    this.analytics.eventTrack('Map', {
-      action: 'zoom in',
-      mode: 'button',
-      team: this.team.name,
-      teamId: this.team.team_id,
-    });
   }
 
   resetZoom() {
     this.isReset$.next(true);
-    this.analytics.eventTrack('Map', {
-      action: 'reset zoom',
-      mode: 'button',
-      team: this.team.name,
-      teamId: this.team.team_id,
-    });
   }
 
   fullScreen() {
@@ -449,13 +501,6 @@ export class MappingComponent {
     this.mapColor$.next(color);
     this.settings.mapColor = color;
     this.mapSettingsService.set(this.datasetId, this.settings);
-
-    this.analytics.eventTrack('Map', {
-      action: 'change map color',
-      color: color,
-      team: this.team.name,
-      teamId: this.team.team_id,
-    });
   }
 
   addFirstNode() {
@@ -465,12 +510,6 @@ export class MappingComponent {
     });
     this.openTreePanel.emit(true);
     this.expandTree.emit(true);
-    this.analytics.eventTrack('Map', {
-      mode: 'instruction',
-      action: 'add',
-      team: this.team.name,
-      teamId: this.team.team_id,
-    });
   }
 
   emitAddInitiative(context: { node: Initiative; subNode: Initiative }) {

@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { Team } from '../../../shared/model/team.data';
 import { User } from '../../../shared/model/user.data';
 import { Observable } from 'rxjs';
-import { Intercom } from 'ng-intercom';
+import { Intercom } from '@supy-io/ngx-intercom';
 
 @Injectable()
 export class IntercomService {
@@ -21,7 +21,7 @@ export class IntercomService {
         created_at: Math.floor(Date.now() / 1000),
         custom_attributes: {
           is_paying: false,
-          free_trial_length: 14,
+          free_trial_length: 30,
         },
       },
     };

@@ -6,13 +6,13 @@ import {
   ViewEncapsulation,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
+  Output,
 } from '@angular/core';
 
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 
 import { SubSink } from 'subsink';
 import { HierarchyNode, pack } from 'd3-hierarchy';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 
 import { CircleMapData } from '@maptio-shared/model/circle-map-data.interface';
 import { DataSet } from '@maptio-shared/model/dataset.data';
@@ -22,6 +22,10 @@ import { ColorService } from '@maptio-shared/services/color/color.service';
 import { InitiativeViewModel, InitiativeNode } from './initiative.model';
 import { CircleMapService } from './circle-map.service';
 import { map } from 'rxjs/operators';
+import { CircleComponent } from './circle/circle.component';
+import { SvgZoomPanComponent } from './svg-zoom-pan/svg-zoom-pan.component';
+import { MarkdownModule } from 'ngx-markdown';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'maptio-circle-map-expanded',
@@ -29,11 +33,28 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./circle-map-expanded.component.css'],
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    MarkdownModule,
+    SvgZoomPanComponent,
+    NgFor,
+    CircleComponent,
+    AsyncPipe,
+  ],
 })
 export class CircleMapExpandedComponent implements OnInit, OnDestroy {
   // All the data comes in as a single package
   @Input() circleMapData$: BehaviorSubject<CircleMapData>;
   @Input() showDetailsPanel: boolean;
+
+  @Input()
+  set selectedCircleId(selectedCircleId: number) {
+    this.circleMapService.onSelectedIdChange(selectedCircleId);
+  }
+
+  @Output() selectedCircleIdChange =
+    this.circleMapService.selectedCircleIdChange;
 
   // We then extract the individual pieces of the data package
   private rootInitiative: Initiative;
@@ -61,7 +82,6 @@ export class CircleMapExpandedComponent implements OnInit, OnDestroy {
   isLoading: boolean;
   isFirstLoad = true;
 
-  public analytics: Angulartics2Mixpanel;
   private subs = new SubSink();
 
   constructor(
@@ -174,12 +194,12 @@ export class CircleMapExpandedComponent implements OnInit, OnDestroy {
         return PADDING_CIRCLE;
       });
 
-    const rootHierarchyNode = this.circleMapService.calculateD3RootHierarchyNode(
-      this.rootInitiative
-    );
+    const rootHierarchyNode =
+      this.circleMapService.calculateD3RootHierarchyNode(this.rootInitiative);
 
     // We perform this type conversion to later populate each node's data with some view-specific properties
-    const rootHierarchyNodeViewModel = (rootHierarchyNode as unknown) as HierarchyNode<InitiativeViewModel>;
+    const rootHierarchyNodeViewModel =
+      rootHierarchyNode as unknown as HierarchyNode<InitiativeViewModel>;
 
     this.circles = packInitiatives(rootHierarchyNodeViewModel).descendants();
 

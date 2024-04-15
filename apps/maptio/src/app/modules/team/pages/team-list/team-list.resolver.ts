@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve } from '@angular/router';
+
 
 import { Observable } from 'rxjs';
 import { map, first } from 'rxjs/operators';
@@ -8,7 +8,7 @@ import { Team } from '@maptio-shared/model/team.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 
 @Injectable()
-export class TeamListComponentResolver implements Resolve<Team[]> {
+export class TeamListComponentResolver  {
   constructor(private userService: UserService) {}
 
   resolve(): Observable<Team[]> {

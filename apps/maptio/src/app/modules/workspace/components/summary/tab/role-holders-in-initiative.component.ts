@@ -6,20 +6,30 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { Initiative } from '../../../../../shared/model/initiative.data';
+import { NgIf, NgFor, TitleCasePipe } from '@angular/common';
 import { Router } from '@angular/router';
-import { DataSet } from '../../../../../shared/model/dataset.data';
-import { Team } from '../../../../../shared/model/team.data';
-import { User } from '../../../../../shared/model/user.data';
-import { Helper } from '../../../../../shared/model/helper.data';
-import { Role } from '../../../../../shared/model/role.data';
+
+import {
+  NgbCollapseModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
+
 import { sortBy } from 'lodash';
+
+import { Initiative } from '@maptio-shared/model/initiative.data';
+import { Team } from '@maptio-shared/model/team.data';
+import { User } from '@maptio-shared/model/user.data';
+import { Helper } from '@maptio-shared/model/helper.data';
+import { Role } from '@maptio-shared/model/role.data';
+
 import { RoleLibraryService } from '../../../services/role-library.service';
 
 @Component({
   selector: 'role-holders-in-initiative',
   templateUrl: './role-holders-in-initiative.component.html',
   styleUrls: ['./role-holders-in-initiative.component.css'],
+  standalone: true,
+  imports: [NgIf, NgFor, NgbTooltipModule, NgbCollapseModule, TitleCasePipe],
 })
 export class RoleHoldersInInitiativeComponent implements OnInit {
   @Input('initiative') initiative: Initiative;

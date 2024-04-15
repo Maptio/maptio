@@ -1,133 +1,102 @@
-import { User } from '../../../../../shared/model/user.data';
-import { Team } from '../../../../../shared/model/team.data';
-import { Permissions } from '../../../../../shared/model/permission.data';
-import { UserFactory } from '../../../../../core/http/user/user.factory';
-import { DatasetFactory } from '../../../../../core/http/map/dataset.factory';
-import { DataService } from '../../../services/data.service';
-import { Initiative } from '../../../../../shared/model/initiative.data';
-
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
-import { EventEmitter, OnDestroy } from '@angular/core';
 import {
   Component,
-  ViewChild,
-  Output,
   Input,
+  Output,
+  EventEmitter,
+  OnDestroy,
+  inject,
+  signal,
+  ViewChild,
   ChangeDetectorRef,
-  ChangeDetectionStrategy,
+  effect,
 } from '@angular/core';
-import {
-  TreeNode,
-  TREE_ACTIONS,
-  TreeComponent,
-} from '@circlon/angular-tree-component';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NgIf } from '@angular/common';
 
-import { InitiativeNodeComponent } from '../node/initiative.node.component';
+import { Subscription, map } from 'rxjs';
+
 import {
   NgbModal,
   NgbNav,
-  NgbNavChangeEvent,
+  NgbNavModule,
+  NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { LoaderService } from '../../../../../shared/components/loading/loader.service';
-import { Tag } from '../../../../../shared/model/tag.data';
-import { Role } from '../../../../../shared/model/role.data';
-import { DataSet } from '../../../../../shared/model/dataset.data';
-import { UserService } from '../../../../../shared/services/user/user.service';
-import { RoleLibraryService } from '../../../services/role-library.service';
+
 import { intersectionBy } from 'lodash';
-import { Subject, Subscription } from 'rxjs';
+
+import {
+  OutlineModule,
+  NotebitsOutlineData,
+  OutlineItemEditEvent,
+  OutlineItemMoveEvent,
+} from '@notebits/outline';
+
+import { UserFactory } from '@maptio-core/http/user/user.factory';
+import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
+
+import { User } from '@maptio-shared/model/user.data';
+import { Team } from '@maptio-shared/model/team.data';
+import { Permissions } from '@maptio-shared/model/permission.data';
+import { Initiative } from '@maptio-shared/model/initiative.data';
+import { PermissionsService } from '@maptio-shared/services/permissions/permissions.service';
+import { LoaderService } from '@maptio-shared/components/loading/loader.service';
+import { Tag } from '@maptio-shared/model/tag.data';
+import { Role } from '@maptio-shared/model/role.data';
+import { DataSet } from '@maptio-shared/model/dataset.data';
+import { StickyPopoverDirective } from '@maptio-shared/directives/sticky.directive';
+import { PermissionsDirective } from '@maptio-shared/directives/permission.directive';
 
 import { CircleMapService } from '@maptio-circle-map/circle-map.service';
 import { CircleMapService as CircleMapServiceExpanded } from '@maptio-circle-map-expanded/circle-map.service';
+
+import { InsufficientPermissionsMessageComponent } from '../../../../permissions-messages/insufficient-permissions-message.component';
+import { OnboardingMessageComponent } from '../../../../onboarding-message/onboarding-message/onboarding-message.component';
+import { WorkspaceFacade } from '../../../+state/workspace.facade';
+import { DataService } from '../../../services/data.service';
+import { RoleLibraryService } from '../../../services/role-library.service';
+import { EditTagsComponent } from '../tags/edit-tags.component';
 
 @Component({
   selector: 'building',
   templateUrl: './building.component.html',
   styleUrls: ['./building.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    OnboardingMessageComponent,
+    NgbNavModule,
+    PermissionsDirective,
+    NgIf,
+    NgbTooltipModule,
+    InsufficientPermissionsMessageComponent,
+    StickyPopoverDirective,
+    EditTagsComponent,
+    OutlineModule,
+  ],
 })
 export class BuildingComponent implements OnDestroy {
+  private readonly workspaceFacade = inject(WorkspaceFacade);
+  private readonly permissionsService = inject(PermissionsService);
+
+  outlineData = signal<NotebitsOutlineData>([]);
+
+  selectedInitiativeId = this.workspaceFacade.selectedInitiativeId;
+  expandInitiativeId = signal<number | null>(null);
+
+  // TODO: Using `canSeeOnboardingMessages` as a proxy for all editing
+  // permissions, this will need to be reviewed when we bring back more
+  // granular permissions
+  disableEditing = toSignal(
+    this.permissionsService.canSeeOnboardingMessages$.pipe(
+      map((value) => !value)
+    )
+  );
+
   searched: string;
   nodes: Array<Initiative>;
 
-  options = {
-    allowDrag: (node: TreeNode) => node.data.isDraggable,
-    allowDrop: (element: any, to: { parent: any; index: number }) => {
-      return to.parent.parent !== null;
-    },
-    nodeClass: (node: TreeNode) => {
-      return node.parent && node.isRoot ? 'node-root' : '';
-    },
-    nodeHeight: 55,
-    actionMapping: {
-      mouse: {
-        dragStart: () => {
-          this.cd.detach();
-        },
-        dragEnd: () => {
-          this.cd.reattach();
-        },
-        drop: (
-          tree: any,
-          node: TreeNode,
-          $event: any,
-          { from, to }: { from: TreeNode; to: TreeNode }
-        ) => {
-          this.fromInitiative = from.data;
-          this.toInitiative = to.parent.data;
+  eermissions = Permissions;
 
-          if (from.parent.id === to.parent.id) {
-            // if simple reordering, we dont ask for confirmation
-            this.analytics.eventTrack('Map', {
-              action: 'move',
-              mode: 'list',
-              confirmed: true,
-              team: this.team.name,
-              teamId: this.team.team_id,
-            });
-            TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to });
-          } else {
-            this.modalService
-              .open(this.dragConfirmationModal, { centered: true })
-              .result.then((result) => {
-                if (result) {
-                  this.analytics.eventTrack('Map', {
-                    action: 'move',
-                    mode: 'list',
-                    confirmed: true,
-                    team: this.team.name,
-                    teamId: this.team.team_id,
-                  });
-                  TREE_ACTIONS.MOVE_NODE(tree, node, $event, {
-                    from: from,
-                    to: to,
-                  });
-                } else {
-                  this.analytics.eventTrack('Initiative', {
-                    action: 'move',
-                    mode: 'list',
-                    confirm: false,
-                    team: this.team.name,
-                    teamId: this.team.team_id,
-                  });
-                }
-              })
-              .catch((reason) => {});
-          }
-        },
-      },
-    },
-  };
-
-  SAVING_FREQUENCY = 10;
-
-  Permissions = Permissions;
-
-  @ViewChild('tree') public tree: TreeComponent;
   @ViewChild('nav', { static: true }) public tabs: NgbNav;
-
-  @ViewChild(InitiativeNodeComponent)
-  node: InitiativeNodeComponent;
 
   @ViewChild('deleteConfirmation', { static: true })
   deleteConfirmationModal: NgbModal;
@@ -164,9 +133,7 @@ export class BuildingComponent implements OnDestroy {
     private dataService: DataService,
     private datasetFactory: DatasetFactory,
     private modalService: NgbModal,
-    private analytics: Angulartics2Mixpanel,
     private userFactory: UserFactory,
-    private userService: UserService,
     private roleLibrary: RoleLibraryService,
     private cd: ChangeDetectorRef,
     private loaderService: LoaderService,
@@ -193,10 +160,14 @@ export class BuildingComponent implements OnDestroy {
       }
     );
 
-    // Open all nodes unless we have saved state
-    if (!this.state) {
-      this.toggleAll(true);
-    }
+    effect(
+      () => {
+        this.expandParentsAndScrollInitiativeIntoView(
+          this.selectedInitiativeId()
+        );
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   ngOnDestroy() {
@@ -206,14 +177,12 @@ export class BuildingComponent implements OnDestroy {
       this.roleDeletedSubscription.unsubscribe();
   }
 
-  ngAfterViewChecked() {
-    try {
-      const someNode = this.tree.treeModel.getFirstRoot();
-      someNode.expand();
-    } catch (e) {}
+  saveChangesAndUpdateOutliner() {
+    this.sendInitiativesToOutliner();
+    this.saveChanges();
   }
 
-  saveChanges() {
+  private saveChanges() {
     this.save.emit({ initiative: this.nodes[0], tags: this.tags });
   }
 
@@ -236,13 +205,13 @@ export class BuildingComponent implements OnDestroy {
     treeModel.update();
   }
 
-  updateTree() {
-    // this will saveChanges() on the callback
-    this.tree.treeModel.update();
-  }
-
+  // TODO: Remove this completely when we remove the old outliner
   openNodeDetails(node: Initiative) {
+    this.workspaceFacade.setSelectedInitiativeID(node.id);
+
+    // TODO: Connect the sidebar itself to the store and remove this
     this.openDetails.emit(node);
+    // TODO: Remove this once we're ready to remove the outine
     this.circleMapService.onInitiativeClickInOutline(node);
     this.circleMapServiceExpanded.onInitiativeClickInOutline(node);
   }
@@ -314,18 +283,7 @@ export class BuildingComponent implements OnDestroy {
       .catch();
   }
 
-  moveNode(node: Initiative, from: Initiative, to: Initiative) {
-    const foundTreeNode = this.tree.treeModel.getNodeById(node.id);
-    const foundToNode = this.tree.treeModel.getNodeById(to.id);
-    TREE_ACTIONS.MOVE_NODE(
-      this.tree.treeModel,
-      foundToNode,
-      {},
-      { from: foundTreeNode, to: { parent: foundToNode } }
-    );
-  }
-
-  removeNode(node: Initiative) {
+  private removeNode(node: Initiative) {
     let hasFoundNode = false;
 
     const index = this.nodes[0].children.findIndex((c) => c.id === node.id);
@@ -342,7 +300,8 @@ export class BuildingComponent implements OnDestroy {
       });
     }
 
-    this.updateTree();
+    this.sendInitiativesToOutliner();
+    this.saveChanges();
   }
 
   addNodeTo(node: Initiative, subNode: Initiative) {
@@ -373,34 +332,10 @@ export class BuildingComponent implements OnDestroy {
         }
       });
     }
-
-    this.updateTree();
   }
 
   addRootNode() {
     this.addNodeTo(this.nodes[0], new Initiative());
-  }
-
-  toggleAll(isExpand: boolean) {
-    if (this.isToggling) return;
-    this.isToggling = true;
-    this.isExpanding = isExpand === true;
-    this.isCollapsing = isExpand === false;
-    this.cd.markForCheck();
-
-    setTimeout(() => {
-      isExpand
-        ? this.tree.treeModel.expandAll()
-        : this.tree.treeModel.collapseAll();
-
-      // This is handled in setState already... but that doesn't fire
-      // the tree is already expanded, effectively breaking the
-      // expand/collapse all buttons - so we repeat this here
-      this.isCollapsing = false;
-      this.isExpanding = false;
-      this.isToggling = false;
-      this.cd.markForCheck();
-    }, 100);
   }
 
   /**
@@ -467,6 +402,8 @@ export class BuildingComponent implements OnDestroy {
           .catch(() => {});
       })
       .then(() => {
+        this.prepareOutliner();
+
         this.dataService.set({
           initiative: this.nodes[0],
           dataset: dataset,
@@ -479,5 +416,194 @@ export class BuildingComponent implements OnDestroy {
       .then(() => {
         this.loaderService.hide();
       });
+  }
+
+  private prepareOutliner() {
+    this.sendInitiativesToOutliner();
+    this.expandFirstLevelNodes();
+  }
+
+  private sendInitiativesToOutliner() {
+    this.outlineData.set(
+      this.transformNodesIntoOutlineData(this.nodes[0].children)
+    );
+  }
+
+  private transformNodesIntoOutlineData(nodes): NotebitsOutlineData {
+    return nodes.map((node) => {
+      const children =
+        node.children && node.children.length > 0
+          ? this.transformNodesIntoOutlineData(node.children)
+          : [];
+
+      return {
+        id: node.id,
+        value: node.name || '',
+        children,
+      };
+    });
+  }
+
+  private expandFirstLevelNodes() {
+    this.nodes[0].children.forEach((node) => {
+      // TODO: This needs to be done properly, not in this hacky way, see also
+      // TODO below in the `expandInitiative` method itelf
+      setTimeout(() => {
+        this.expandInitiative(node.id);
+      });
+    });
+  }
+
+  onSelectedInitiativeIdChange(selectedInitiativeId: string | null) {
+    // TODO: Handle nulls correctly when the time comes, i.e. when the outliner
+    // starts sending those
+    this.workspaceFacade.setSelectedInitiativeID(Number(selectedInitiativeId));
+  }
+
+  onInitiativeEdit({ id: idString, value }: OutlineItemEditEvent) {
+    let id = Number(idString);
+
+    const initiative = this.findNodeById(id);
+    initiative.name = value;
+
+    // TODO: This only works so simply because of the deal with the devil that
+    // was the debounce that I now moved to the notebits outliner. Ideally, we
+    // want to propagate the state changes immediately and only run the
+    // debounce on the actual call to the API!
+    this.saveChanges();
+  }
+
+  onInitiativeCreate(parentId: number) {
+    const parent = this.findNodeById(parentId);
+
+    const newInitiative = new Initiative();
+    newInitiative.id = Math.floor(Math.random() * 10000000000000);
+    newInitiative.team_id = parent.team_id;
+    newInitiative.hasFocus = true;
+
+    parent.children = parent.children || [];
+    parent.children.unshift(newInitiative);
+
+    this.sendInitiativesToOutliner();
+    this.expandInitiative(parentId);
+
+    // This will also update the data for the map and the details panel...
+    this.saveChanges();
+
+    // ...so that we can then select the new initiative there!
+    this.workspaceFacade.setSelectedInitiativeID(newInitiative.id);
+  }
+
+  onInitiativeMove(event: OutlineItemMoveEvent) {
+    const initiative = this.findNodeById(Number(event.id));
+
+    const oldParent =
+      event.oldParentId === null
+        ? this.nodes[0]
+        : this.findNodeById(Number(event.oldParentId));
+
+    const newParent =
+      event.newParentId === null
+        ? this.nodes[0]
+        : this.findNodeById(Number(event.newParentId));
+
+    const oldIndex = oldParent.children.indexOf(initiative);
+    const newIndex = event.newIndex;
+
+    // Move initiative to new parent at given index
+    oldParent.children.splice(oldIndex, 1);
+
+    if (newParent.children === undefined) {
+      newParent.children = [];
+    }
+
+    newParent.children.splice(newIndex, 0, initiative);
+
+    this.sendInitiativesToOutliner();
+    this.expandInitiative(newParent.id);
+    this.saveChanges();
+  }
+
+  onInitiativeDelete(id: number) {
+    const initiative = this.findNodeById(id);
+    this.onDeleteNode(initiative);
+  }
+
+  private findNodeById(id: number): Initiative {
+    let nodeFound;
+
+    if (!this.nodes || this.nodes.length === 0) return;
+
+    if (this.nodes[0].id === id) {
+      nodeFound = this.nodes[0];
+    } else {
+      this.nodes[0].traverse((node: Initiative) => {
+        if (node.id === id) {
+          nodeFound = node;
+          return;
+        }
+      });
+    }
+
+    return nodeFound;
+  }
+
+  expandInitiative(id: number) {
+    // TODO: This should be done differently, by taking the same approach as in
+    // the original Angular Material tree probably, namely by using a
+    // TreeControl class for directly controlling expansion
+    this.expandInitiativeId.set(null);
+    this.expandInitiativeId.set(id);
+    this.cd.markForCheck();
+  }
+
+  private expandParents(id: number, currentDepth = 0): number {
+    const node = this.findNodeById(id);
+
+    if (!node) return;
+
+    const parentNode = node.getParent(this.nodes[0]);
+
+    if (!parentNode) return currentDepth;
+
+    setTimeout(() => {
+      this.expandInitiative(parentNode.id);
+    });
+
+    currentDepth = this.expandParents(parentNode.id, currentDepth) + 1;
+
+    return currentDepth;
+  }
+
+  private expandParentsAndScrollInitiativeIntoView(id: number) {
+    const depth = this.expandParents(id);
+
+    // As nodes get expanded, the item will move, so we try our best to
+    // compensate for that
+    // TODO: Rather than relying on depth alone, we should look at the number
+    // expansions actually needed to get to the item, but that's harder because
+    // that information is, for now, hidden in the outliner
+    for (let i = 0; i < depth; i++) {
+      setTimeout(() => {
+        this.scrollInitiativeIntoView(id);
+      }, i * 20);
+    }
+  }
+
+  private scrollInitiativeIntoView(initiativeId: number) {
+    if (!initiativeId) return;
+
+    // Not the Angular way, but worked well in another project, so I'm using
+    // this tested method again
+    const nativeElement = window.document.getElementById(
+      'outline-item-' + initiativeId.toString()
+    );
+
+    if (!nativeElement) return;
+
+    (nativeElement as any).scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
   }
 }

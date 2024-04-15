@@ -4,6 +4,7 @@ import { UserService } from '@maptio-shared/services/user/user.service';
 
 @Directive({
   selector: '[maptioLoginRedirect]',
+  standalone: true,
 })
 export class LoginRedirectDirective {
   @Input() isSignup = false;

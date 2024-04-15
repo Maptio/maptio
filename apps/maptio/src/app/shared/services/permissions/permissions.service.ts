@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { SubSink } from 'subsink';
 
 import { AppState } from '@maptio-state/app.state';
-import { selectCurrentOrganisationId } from '@maptio-state/current-organisation.selectors';
+import { selectGlobalCurrentOrganisationId } from '@maptio-state/global.selectors';
 
 import { UserService } from '../user/user.service';
 import { Permissions, UserRoleService } from '../../model/permission.data';
@@ -19,7 +19,7 @@ export class PermissionsService implements OnDestroy {
   Permission: Permissions;
 
   private currentOrganisationId$ = this.store
-    .select(selectCurrentOrganisationId)
+    .select(selectGlobalCurrentOrganisationId)
     .pipe(distinctUntilChanged());
 
   public userPermissions$ = combineLatest([

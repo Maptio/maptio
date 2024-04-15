@@ -25,7 +25,7 @@ import { authHttpServiceFactoryTesting } from '../../../../core/mocks/authhttp.h
 import { Http, BaseRequestOptions, Response } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { User } from '../../../../shared/model/user.data';
-import { IntercomModule } from 'ng-intercom';
+import { IntercomModule } from '@supy-io/ngx-intercom';
 import { AnalyticsModule } from '../../../../core/analytics.module';
 import { PermissionsModule } from '../../../../shared/permissions.module';
 import { CoreModule } from '../../../../core/core.module';
@@ -79,55 +79,52 @@ describe('integrations.component.ts', () => {
   let component: TeamIntegrationsComponent;
   let target: ComponentFixture<TeamIntegrationsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [TeamIntegrationsComponent],
-        schemas: [NO_ERRORS_SCHEMA],
-        imports: [
-          RouterTestingModule,
-          CoreModule,
-          SharedModule.forRoot(),
-          AnalyticsModule,
-          PermissionsModule,
-        ],
-      })
-        .overrideComponent(TeamIntegrationsComponent, {
-          set: {
-            providers: [
-              TeamFactory,
-              {
-                provide: AuthHttp,
-                useFactory: authHttpServiceFactoryTesting,
-                deps: [Http, BaseRequestOptions],
-              },
-              {
-                provide: Http,
-                useFactory: (
-                  mockBackend: MockBackend,
-                  options: BaseRequestOptions
-                ) => {
-                  return new Http(mockBackend, options);
-                },
-                deps: [MockBackend, BaseRequestOptions],
-              },
-              MockBackend,
-              BaseRequestOptions,
-              {
-                provide: ActivatedRoute,
-                useClass: class {
-                  params = observableOf({ teamid: 123, slug: 'slug' });
-                  queryParams = observableOf({ code: 'code' });
-                  parent = new MockActivatedRoute();
-                },
-              },
-              // Angulartics2Mixpanel, Angulartics2
-            ],
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [TeamIntegrationsComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+      imports: [
+        RouterTestingModule,
+        CoreModule,
+        SharedModule.forRoot(),
+        AnalyticsModule,
+        PermissionsModule,
+      ],
     })
-  );
+      .overrideComponent(TeamIntegrationsComponent, {
+        set: {
+          providers: [
+            TeamFactory,
+            {
+              provide: AuthHttp,
+              useFactory: authHttpServiceFactoryTesting,
+              deps: [Http, BaseRequestOptions],
+            },
+            {
+              provide: Http,
+              useFactory: (
+                mockBackend: MockBackend,
+                options: BaseRequestOptions
+              ) => {
+                return new Http(mockBackend, options);
+              },
+              deps: [MockBackend, BaseRequestOptions],
+            },
+            MockBackend,
+            BaseRequestOptions,
+            {
+              provide: ActivatedRoute,
+              useClass: class {
+                params = observableOf({ teamid: 123, slug: 'slug' });
+                queryParams = observableOf({ code: 'code' });
+                parent = new MockActivatedRoute();
+              },
+            },
+          ],
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     target = TestBed.createComponent(TeamIntegrationsComponent);
@@ -137,63 +134,60 @@ describe('integrations.component.ts', () => {
   });
 
   describe('revoke token', () => {
-    it(
-      'calls the right dependencies',
-      waitForAsync(() => {
-        component.team = new Team({
+    it('calls the right dependencies', waitForAsync(() => {
+      component.team = new Team({
+        team_id: 'id',
+        name: 'Team',
+        slack: new SlackIntegration({ access_token: 'TOKEN' }),
+        members: [],
+        settings: { authority: 'A', helper: 'H' },
+      });
+      const spyHttpGet = spyOn(
+        target.debugElement.injector.get(Http),
+        'get'
+      ).and.returnValue(
+        observableOf(
+          new Response({
+            body: {},
+            status: 200,
+            headers: null,
+            url: '',
+            merge: null,
+          })
+        )
+      );
+
+      const spyTeamFactory = spyOn(
+        target.debugElement.injector.get(TeamFactory),
+        'upsert'
+      ).and.returnValue(
+        Promise.resolve(
+          new Team({ team_id: 'id', slack: new SlackIntegration({}) })
+        )
+      );
+
+      component.revokeToken('TOKEN');
+      expect(target.debugElement.injector.get(Http).get).toHaveBeenCalledWith(
+        'https://slack.com/api/auth.revoke?token=TOKEN'
+      );
+      expect(spyTeamFactory).toHaveBeenCalledWith(
+        jasmine.objectContaining({
           team_id: 'id',
           name: 'Team',
-          slack: new SlackIntegration({ access_token: 'TOKEN' }),
-          members: [],
+          slack: new SlackIntegration({}),
           settings: { authority: 'A', helper: 'H' },
-        });
-        const spyHttpGet = spyOn(
-          target.debugElement.injector.get(Http),
-          'get'
-        ).and.returnValue(
-          observableOf(
-            new Response({
-              body: {},
-              status: 200,
-              headers: null,
-              url: '',
-              merge: null,
-            })
-          )
-        );
+          members: [],
+        })
+      );
+      spyTeamFactory.calls.mostRecent().returnValue.then(() => {
+        expect(component.team.team_id).toBe('id');
+        expect(component.team.name).toBe('Team');
+        expect(component.team.slack.access_token).toBeUndefined();
 
-        const spyTeamFactory = spyOn(
-          target.debugElement.injector.get(TeamFactory),
-          'upsert'
-        ).and.returnValue(
-          Promise.resolve(
-            new Team({ team_id: 'id', slack: new SlackIntegration({}) })
-          )
-        );
-
-        component.revokeToken('TOKEN');
-        expect(target.debugElement.injector.get(Http).get).toHaveBeenCalledWith(
-          'https://slack.com/api/auth.revoke?token=TOKEN'
-        );
-        expect(spyTeamFactory).toHaveBeenCalledWith(
-          jasmine.objectContaining({
-            team_id: 'id',
-            name: 'Team',
-            slack: new SlackIntegration({}),
-            settings: { authority: 'A', helper: 'H' },
-            members: [],
-          })
-        );
-        spyTeamFactory.calls.mostRecent().returnValue.then(() => {
-          expect(component.team.team_id).toBe('id');
-          expect(component.team.name).toBe('Team');
-          expect(component.team.slack.access_token).toBeUndefined();
-
-          expect(component.isDisplayRevokedToken).toBe(true);
-          expect(component.isDisplayWaitingForSlackSync).toBe(false);
-        });
-      })
-    );
+        expect(component.isDisplayRevokedToken).toBe(true);
+        expect(component.isDisplayWaitingForSlackSync).toBe(false);
+      });
+    }));
   });
 
   describe('update Team', () => {

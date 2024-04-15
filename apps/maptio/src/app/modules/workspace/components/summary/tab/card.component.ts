@@ -1,15 +1,34 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { Initiative } from '../../../../../shared/model/initiative.data';
+import { NgIf, NgFor, LowerCasePipe } from '@angular/common';
 import { Router } from '@angular/router';
-import { DataSet } from '../../../../../shared/model/dataset.data';
-import { Team } from '../../../../../shared/model/team.data';
-import { User } from '../../../../../shared/model/user.data';
+
+import {
+  NgbCollapseModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { sortBy } from 'lodash';
+
+import { Initiative } from '@maptio-shared/model/initiative.data';
+import { Team } from '@maptio-shared/model/team.data';
+import { User } from '@maptio-shared/model/user.data';
+
+import { InitiativeHelperRoleComponent } from '../../data-entry/details/parts/helpers/helper-role.component';
 
 @Component({
   selector: 'personal-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css'],
+  standalone: true,
+  imports: [
+    NgIf,
+    NgFor,
+    LowerCasePipe,
+
+    NgbTooltipModule,
+    NgbCollapseModule,
+
+    InitiativeHelperRoleComponent,
+  ],
 })
 export class PersonalCardComponent implements OnInit {
   @Input('initiative') initiative: Initiative;

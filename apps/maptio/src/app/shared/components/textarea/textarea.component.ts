@@ -9,11 +9,15 @@ import {
 } from '@angular/core';
 
 import { environment } from '@maptio-config/environment';
+import { MarkdownModule } from 'ngx-markdown';
+import { StickyPopoverDirective } from '../../directives/sticky.directive';
+import { NgIf, NgClass } from '@angular/common';
 
 @Component({
   selector: 'common-textarea',
   templateUrl: './textarea.component.html',
-  // styleUrls: ['./textarea.component.scss']
+  standalone: true,
+  imports: [NgIf, StickyPopoverDirective, MarkdownModule, NgClass],
 })
 export class CommonTextareaComponent implements OnInit {
   @Input('placeholder') placeholder: string;

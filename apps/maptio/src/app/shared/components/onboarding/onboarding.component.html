@@ -23,6 +23,10 @@
     <ng-container *ngTemplateOutlet="terminology"></ng-container>
   </ng-container>
 
+  <ng-container *ngIf="currentStep === 'Pricing'">
+    <ng-container *ngTemplateOutlet="pricing"></ng-container>
+  </ng-container>
+
   <ng-container *ngIf="currentStep === 'Consent'">
     <ng-container *ngTemplateOutlet="consent"></ng-container>
   </ng-container>
@@ -71,14 +75,12 @@
     <div
       class="form-row w-100 d-flex justify-content-center align-items-center flex-column"
     >
-      <input
-        [(ngModel)]="team.name"
-        type="text"
-        class="form-control col-12 col-md-10 col-lg-6"
-      />
-      <small *ngIf="teamCreationErrorMessage" class="form-text text-danger">
-        {{ teamCreationErrorMessage }}
-      </small>
+      <div class="col-12 col-md-10 col-lg-6">
+        <input [(ngModel)]="team.name" type="text" class="form-control" />
+        <small *ngIf="teamCreationErrorMessage" class="form-text text-danger">
+          {{ teamCreationErrorMessage }}
+        </small>
+      </div>
     </div>
   </div>
 </ng-template>
@@ -146,6 +148,70 @@
   </div>
 </ng-template>
 
+<ng-template #pricing>
+  <ng-template
+    #pricingtitle
+    i18n="Heading for pricing screen during onboarding@@onboarding-pricing-1"
+  >
+    A quick note about pricing
+  </ng-template>
+
+  <ng-template #pricingcontent>
+    <img
+      src="assets/images/tom.png"
+      alt="Portrait photo of Tom Nixon"
+      class="float-start rounded-circle w-25 m-3"
+    />
+
+    <p
+      class="text-muted pt-4"
+      i18n="Text for pricing screen during onboarding@@onboarding-pricing-2"
+    >
+      Hey, it's Tom here &mdash; the founder of Maptio&hellip;
+    </p>
+
+    <p
+      class="text-muted fw-bold"
+      i18n="Text for pricing screen during onboarding@@onboarding-pricing-3"
+    >
+      We are funded by subscriptions from our customers, but unlike most
+      software, Maptio has no fixed pricing. Each customer chooses their own
+      price to fit the value they get and their financial means.
+    </p>
+
+    <p
+      class="text-muted"
+      i18n="Text for pricing screen during onboarding@@onboarding-pricing-4"
+    >
+      After your free trial, if you love Maptio we'll help you decide what the
+      right contribution is for you. Read more on our
+      <a href="https://www.maptio.com/pricing" target="_blank">Pricing</a>
+      page.
+    </p>
+  </ng-template>
+
+  <h1 class="text-center d-none d-md-block">
+    <ng-container *ngTemplateOutlet="pricingtitle"></ng-container>
+  </h1>
+  <h3 class="text-center d-md-none">
+    <ng-container *ngTemplateOutlet="pricingtitle"></ng-container>
+  </h3>
+
+  <h4 class="text-center d-none d-md-block">
+    <ng-container *ngTemplateOutlet="pricingsubtitle"></ng-container>
+  </h4>
+  <h6 class="text-center d-md-none">
+    <ng-container *ngTemplateOutlet="pricingsubtitle"></ng-container>
+  </h6>
+
+  <div class="h5 d-none d-md-block">
+    <ng-container *ngTemplateOutlet="pricingcontent"></ng-container>
+  </div>
+  <div class="h6 d-md-none">
+    <ng-container *ngTemplateOutlet="pricingcontent"></ng-container>
+  </div>
+</ng-template>
+
 <ng-template #consent>
   <ng-template
     #consenttitle
@@ -158,14 +224,14 @@
     <img
       src="assets/images/tom.png"
       alt="Portrait photo of Tom Nixon"
-      class="float-left rounded-circle w-25 m-3"
+      class="float-start rounded-circle w-25 m-3"
     />
 
     <p
       class="text-muted pt-4"
       i18n="Text for consent screen during onboarding@@onboarding-consent-2"
     >
-      Hey, it's Tom here &mdash; the founder of Maptio.
+      One last thing from me&hellip;
     </p>
 
     <p

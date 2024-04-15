@@ -8,7 +8,6 @@ import { AccessGuard } from '@maptio-core/guards/access.guard';
 import { BillingGuard } from '@maptio-core/guards/billing.guard';
 import { WorkspaceGuard } from '@maptio-core/guards/workspace.guard';
 
-import { WorkspaceComponent } from './pages/workspace/workspace.component';
 import { WorkspaceComponentResolver } from './pages/workspace/workspace.resolver';
 import { MappingZoomableComponent } from './pages/circles/mapping.zoomable.component';
 import { MappingCirclesGradualRevealComponent } from './pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component';
@@ -19,6 +18,8 @@ import { MappingSummaryComponent } from './pages/directory/summary.component';
 import { PeopleSummaryComponent } from './components/summary/overview/people.component';
 import { RolesSummaryComponent } from './components/summary/overview/roles.component';
 import { VacanciesSummaryComponent } from './components/summary/overview/vacancies.component';
+
+import { WorkspaceComponent } from '@maptio-workspace/workspace.component';
 
 const routes: Routes = [
   {

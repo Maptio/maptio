@@ -5,16 +5,13 @@
 <div class="py-2" [class.bg-light]="isEditToggled">
   <div
     class="d-flex flex-column flex-md-row align-items-md-center"
-    [class.font-weight-bold]="isEditToggled"
+    [class.fw-bold]="isEditToggled"
   >
     <div
       *permissionsOnly="Permissions.canEditUser"
       class="d-none d-md-flex align-items-center col-1 px-0 justify-content-between"
     >
-      <button
-        class="btn bg-transparent"
-        (click)="isEditToggled = !isEditToggled"
-      >
+      <button class="btn bg-transparent" (click)="onToggle()">
         <i
           [class.fa-caret-right]="!isEditToggled"
           [class.fa-caret-down]="isEditToggled"
@@ -49,14 +46,14 @@
 
     <!-- TODO: Replace these next two divs with <maptio-member ...> it's not just a matter of
          cutting and pasting because of the bootstrap classes, but would be good to do this -->
-    <div class="align-middle col-md-3 col-12">
+    <div class="align-middle col-md-3 col-12 px-3">
       <div class="d-flex align-items-center">
-        <img class="avatar mr-1" src="{{ member.picture }}" />
+        <img class="avatar me-1" src="{{ member.picture }}" />
         {{ member.name }}
       </div>
     </div>
 
-    <div class="align-middle pb-0 col-12 col-md-4">
+    <div class="align-middle pb-0 px-3 col-12 col-md-4">
       <div class="d-flex align-items-start flex-column">
         <span>{{ member.email }}</span>
 
@@ -98,7 +95,7 @@
       </div>
     </div>
 
-    <div class="align-middle d-none d-md-block col-md-2">
+    <div class="align-middle d-none d-md-block px-3 col-md-2">
       <ng-container
         *permissionsOnly="
           Permissions.canEditUser;
@@ -116,11 +113,11 @@
 
       <ng-template #thenRoleBlock>
         <select
-          class="form-control"
+          class="form-select"
           (change)="changeUserRole($event.target.value)"
         >
           <option
-            *ngFor="let userRole of UserRole | keys | slice: 0:2"
+            *ngFor="let userRole of UserRole | keys | slice : 0 : 2"
             [value]="userRole.key"
             [selected]="memberRoleInOrganization"
           >
@@ -131,7 +128,7 @@
       </ng-template>
     </div>
 
-    <div class="align-middle text-right ml-auto">
+    <div class="align-middle text-end ms-auto px-3">
       <ng-container>
         <ng-container
           *ngIf="!isDisplaySendingLoader && !isDisplayUpdatingLoader"
@@ -168,7 +165,7 @@
               >
                 <ng-container i18n="@@invite">Invite</ng-container>
                 <span>&nbsp;</span>
-                <i class="fas fa-lock ml-1"></i>
+                <i class="fas fa-lock ms-1"></i>
               </button>
             </ng-template>
           </ng-container>
@@ -228,87 +225,4 @@
   {{ errorMessage }}
 </div>
 
-<!-- TODO: Extract the two additional non-form fields from here too -->
-<!-- <div class="bg-light py-2" *ngIf="isEditToggled">
-  <form
-    [formGroup]="editUserForm"
-    (submit)="updateUser()"
-    class="offset-1 col-5"
-  >
-    <div class="form-group form-inline row" *ngIf="member.isActivationPending">
-      <label
-        class="col-4 d-flex justify-content-start text-gray-light text-uppercase small"
-        for="inputFirstname"
-        >First name</label
-      >
-      <input
-        type="text"
-        class="col-8 form-control form-control-warning"
-        formControlName="firstname"
-      />
-    </div>
-    <div class="form-group form-inline row" *ngIf="member.isActivationPending">
-      <label
-        class="col-4 d-flex justify-content-start text-gray-light text-uppercase small"
-        for="inputLastname"
-        >Last name</label
-      >
-      <input
-        type="text"
-        class="col-8 form-control form-control-warning"
-        formControlName="lastname"
-      />
-    </div>
-    <div
-      class="form-group form-inline row"
-      *ngIf="this.member.isActivationPending && !this.member.isInvitationSent"
-    >
-      <label
-        class="col-4 d-flex justify-content-start text-gray-light text-uppercase small"
-        for="inputEmail"
-        >Email</label
-      >
-      <input
-        type="text"
-        class="col-8 form-control form-control-warning"
-        formControlName="email"
-      />
-    </div>
-    <div class="form-group form-inline row text-muted">
-      <label
-        class="col-4 d-flex justify-content-start text-gray-light text-uppercase small"
-        for="inputLastSeen"
-        >Created</label
-      >
-      <span class="col-8">{{ getAgo(member.createdAt) }} ago</span>
-    </div>
-    <div class="form-group form-inline row text-muted">
-      <label
-        class="col-4 d-flex justify-content-start text-gray-light text-uppercase small"
-        for="inputLastSeen"
-        >Last log in</label
-      >
-      <span class="col-8">{{ getAgo(member.lastSeenAt) }} ago</span>
-    </div>
-    <div
-      class="form-group form-inline row d-flex justify-content-end"
-      *ngIf="member.isActivationPending"
-    >
-      <span class="text-green mx-1" *ngIf="isSaving">
-        <i class="fas fa-circle-notch fa-spin"></i>
-      </span>
-      <span
-        class="text-green mx-1 flash small"
-        *ngIf="isSavingSuccess"
-        [class.show]="isSavingSuccess"
-      >
-        <i class="fas fa-save"></i>Successfully saved!
-      </span>
-      <span class="text-danger mx-1 small" *ngIf="savingFailedMessage">{{
-        savingFailedMessage
-      }}</span>
-
-      <button type="submit" class="btn btn-success">Save</button>
-    </div>
-  </form>
-</div> -->
+<span [id]="'endOfComponent-' + member.shortid"></span>

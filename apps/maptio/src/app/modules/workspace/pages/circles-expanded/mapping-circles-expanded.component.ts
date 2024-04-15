@@ -6,10 +6,11 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   isDevMode,
+  effect,
+  inject,
 } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { tap } from 'rxjs/operators';
 import {
   Observable,
   Subject,
@@ -23,7 +24,6 @@ import { SubSink } from 'subsink';
 import { DataService } from '../../services/data.service';
 import { UIService } from '../../services/ui.service';
 import { ColorService } from '@maptio-shared/services/color/color.service';
-import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Initiative } from '../../../../shared/model/initiative.data';
 import { SelectableTag } from '../../../../shared/model/tag.data';
 import { IDataVisualizer } from '../../components/canvas/mapping.interface';
@@ -34,6 +34,10 @@ import { CircleMapDataExpanded } from '@maptio-shared/model/circle-map-data.inte
 import { DataSet } from '@maptio-shared/model/dataset.data';
 import { InitiativeNode } from '@maptio-circle-map-expanded/initiative.model';
 import { CircleMapService } from '@maptio-circle-map-expanded/circle-map.service';
+import { CircleMapExpandedComponent } from '../../../circle-map-expanded/circle-map-expanded.component';
+import { OnboardingMessageComponent } from '../../../onboarding-message/onboarding-message/onboarding-message.component';
+
+import { WorkspaceFacade } from '../../+state/workspace.facade';
 
 @Component({
   selector: 'maptio-circles-expanded',
@@ -42,9 +46,14 @@ import { CircleMapService } from '@maptio-circle-map-expanded/circle-map.service
   host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [OnboardingMessageComponent, CircleMapExpandedComponent],
 })
 export class MappingCirclesExpandedComponent
-  implements IDataVisualizer, OnInit, OnDestroy {
+  implements IDataVisualizer, OnInit, OnDestroy
+{
+  workspaceFacade = inject(WorkspaceFacade);
+
   public datasetId: string;
   public width: number;
   public height: number;
@@ -77,8 +86,6 @@ export class MappingCirclesExpandedComponent
     isReadOnlyContextMenu: boolean;
   }>();
 
-  public analytics: Angulartics2Mixpanel;
-
   private subs = new SubSink();
 
   dataset: DataSet;
@@ -87,6 +94,8 @@ export class MappingCirclesExpandedComponent
   circleMapData$ = new BehaviorSubject<CircleMapDataExpanded>(undefined);
 
   isFirstLoad = true;
+
+  selectedCircleId = this.workspaceFacade.selectedInitiativeId;
 
   constructor(
     public colorService: ColorService,
@@ -151,13 +160,6 @@ export class MappingCirclesExpandedComponent
           });
         }
 
-        this.analytics.eventTrack('Map', {
-          action: 'viewing',
-          view: 'initiatives',
-          team: (<Team>complexData[0].team).name,
-          teamId: (<Team>complexData[0].team).team_id,
-        });
-
         const circleMapData: CircleMapDataExpanded = {
           dataset: complexData[0].dataset,
           rootInitiative: complexData[0].initiative,
@@ -198,12 +200,16 @@ export class MappingCirclesExpandedComponent
 
   showInfoPanelFor(circle: InitiativeNode) {
     this.showToolipOf$.next({
-      initiatives: [(circle.data as unknown) as Initiative],
+      initiatives: [circle.data as unknown as Initiative],
       isNameOnly: false,
     });
   }
 
   hideInfoPanel() {
     this.showToolipOf$.next({ initiatives: null, isNameOnly: false });
+  }
+
+  onSelectedCircleIdChange(circleId: number) {
+    this.workspaceFacade.setSelectedInitiativeID(circleId);
   }
 }

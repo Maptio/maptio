@@ -13,11 +13,22 @@ import { Initiative } from '../../../../shared/model/initiative.data';
 import { Permissions } from '../../../../shared/model/permission.data';
 import { environment } from '../../../../config/environment';
 import { User } from '../../../../shared/model/user.data';
+import { InsufficientPermissionsMessageComponent } from '../../../permissions-messages/insufficient-permissions-message.component';
+import { PermissionsDirective } from '../../../../shared/directives/permission.directive';
+import { NgFor, NgIf, SlicePipe } from '@angular/common';
 
 @Component({
   selector: 'context-menu',
   templateUrl: './context-menu.component.html',
   styleUrls: ['./context-menu.component.css'],
+  standalone: true,
+  imports: [
+    NgFor,
+    NgIf,
+    PermissionsDirective,
+    InsufficientPermissionsMessageComponent,
+    SlicePipe,
+  ],
 })
 export class ContextMenuComponent implements OnInit {
   @Input('initiatives') initiatives: Initiative[];
