@@ -41,6 +41,12 @@
   right: 0;
 }
 
+.toolbar {
+  @media all and (min-width: 768px) {
+    margin-top: 3.5rem;
+  }
+}
+
 .btn.toolbar-button {
   min-height: 5.75vh;
   width: 3vw;
