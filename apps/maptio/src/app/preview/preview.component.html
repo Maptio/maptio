@@ -1,5 +1,13 @@
 <div class="mobile-notice" i18n>Map editing is disabled on mobile.</div>
 
-<maptio-accordion-side-panel />
+<nb-side-panel-layout>
+  <div side-panel-start>Hello</div>
 
-<maptio-map-container />
+  <maptio-accordion-side-panel style="display: none" />
+
+  <div>
+    <maptio-map-container />
+  </div>
+
+  <div side-panel-end>Hello</div>
+</nb-side-panel-layout>

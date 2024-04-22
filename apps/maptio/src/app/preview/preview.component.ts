@@ -17,6 +17,8 @@ import { Store } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Intercom } from '@supy-io/ngx-intercom';
 
+import { SidePanelLayoutComponent } from '@notebits/side-panel-layout';
+
 import { EmitterService } from '@maptio-core/services/emitter.service';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
@@ -54,6 +56,7 @@ import { AccordionSidePanelComponent } from './accordion-side-panel/accordion-si
     NgIf,
     BuildingComponent,
     NgClass,
+    SidePanelLayoutComponent,
     MapContainerComponent,
     AccordionSidePanelComponent,
   ],
