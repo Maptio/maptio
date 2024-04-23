@@ -44,7 +44,8 @@ import { MapSettingsService } from '@maptio-old-workspace/services/map-settings.
 
 import { PreviewService } from './preview.service';
 import { MapContainerComponent } from './map-container/map-container.component';
-import { AccordionSidePanelComponent } from './accordion-side-panel/accordion-side-panel.component';
+import { InitiativeDetailsContainerComponent } from './initiative-details-container/initiative-details-container.component';
+import { StructureEditorContainerComponent } from './structure-editor-container/structure-editor-container.component';
 
 @Component({
   selector: 'maptio-preview',
@@ -58,7 +59,8 @@ import { AccordionSidePanelComponent } from './accordion-side-panel/accordion-si
     NgClass,
     SidePanelLayoutComponent,
     MapContainerComponent,
-    AccordionSidePanelComponent,
+    StructureEditorContainerComponent,
+    InitiativeDetailsContainerComponent,
   ],
   providers: [
     // BillingGuard,
