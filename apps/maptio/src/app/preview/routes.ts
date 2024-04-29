@@ -2,6 +2,11 @@ import { Route } from '@angular/router';
 
 import { provideState } from '@ngrx/store';
 
+import { AuthGuard } from '@auth0/auth0-angular';
+
+import { ActivationGuard } from '@maptio-core/guards/activation.guard';
+import { AccessGuard } from '@maptio-core/guards/access.guard';
+import { BillingGuard } from '@maptio-core/guards/billing.guard';
 import { WorkspaceGuard } from '@maptio-core/guards/workspace.guard';
 
 import * as fromWorkspace from '@maptio-old-workspace/+state/workspace.reducer';
@@ -21,6 +26,7 @@ export default [
   {
     path: '',
     component: PreviewComponent,
+    canActivate: [AuthGuard, ActivationGuard, AccessGuard, BillingGuard],
 
     resolve: {
       data: WorkspaceComponentResolver,
@@ -39,7 +45,7 @@ export default [
       {
         path: 'circles',
         component: MappingCirclesGradualRevealComponent,
-        //   canActivate: [WorkspaceGuard],
+        // canActivate: [WorkspaceGuard],
       },
       {
         path: 'expanded',
