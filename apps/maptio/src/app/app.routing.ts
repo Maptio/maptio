@@ -54,7 +54,7 @@ const routes: Routes = [
   {
     path: 'preview/:mapid/:mapslug',
     loadChildren: () => import('./preview/routes').then((m) => m.default),
-    data: { hideUI: false },
+    data: { isWorkspace: true, hideUI: false },
   },
   {
     path: 'share/:id',
