@@ -154,7 +154,7 @@
     "@angular-eslint/eslint-plugin-template": "17.3.0",
     "@angular-eslint/schematics": "^15.2.1",
     "@angular-eslint/template-parser": "17.3.0",
-    "@angular/cli": "~16.2.0",
+    "@angular/cli": "~17.3.0",
     "@angular/compiler-cli": "17.3.6",
     "@angular/language-service": "17.3.6",
     "@compodoc/compodoc": "^1.1.11",
@@ -217,4 +217,3 @@
     "typescript": "5.4.5"
   }
 }
-

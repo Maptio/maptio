@@ -55,6 +55,7 @@ export const appConfig: ApplicationConfig = {
       name: 'Maptio',
       maxAge: 25,
       logOnly: environment.production,
+      connectInZone: true,
     }),
     provideEffects(GlobalEffects),
 

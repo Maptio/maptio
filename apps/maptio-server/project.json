@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/maptio-server/src",
   "projectType": "application",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nrwl/webpack:webpack",
@@ -48,19 +49,14 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": ["apps/maptio-server/**/*.ts"]
-      },
       "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/maptio-server"],
       "options": {
-        "jestConfig": "apps/maptio-server/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/maptio-server/jest.config.ts"
       }
     }
-  },
-  "tags": []
+  }
 }

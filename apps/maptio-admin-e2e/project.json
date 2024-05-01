@@ -3,6 +3,8 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/maptio-admin-e2e/src",
   "projectType": "application",
+  "tags": [],
+  "implicitDependencies": ["maptio-admin"],
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
@@ -19,12 +21,7 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": ["apps/maptio-admin-e2e/**/*.{js,ts}"]
-      },
       "outputs": ["{options.outputFile}"]
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["maptio-admin"]
+  }
 }
