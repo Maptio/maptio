@@ -60,7 +60,7 @@ import {
 @Component({
   selector: 'mapping',
   templateUrl: './mapping.component.html',
-  styleUrls: ['./mapping.component.css'],
+  styleUrls: ['./mapping.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [

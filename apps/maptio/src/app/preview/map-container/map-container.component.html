@@ -12,6 +12,7 @@
     <ng-container *ngIf="!previewService.isLoading()">
       <!-- Mapping component -->
       <mapping
+        class="mapping--inside-map-container"
         [tags]="selectableTags"
         [isEmptyMap]="isEmptyMap"
         (openDetails)="previewService.onOpenDetails($event)"

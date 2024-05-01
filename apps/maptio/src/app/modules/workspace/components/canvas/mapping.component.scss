@@ -42,8 +42,12 @@
 }
 
 .toolbar {
+  margin-top: 0.5rem;
+}
+
+:host-context(.mapping--inside-map-container) .toolbar {
   @media all and (min-width: 768px) {
-    margin-top: 3.5rem;
+    margin-top: 4.5rem;
   }
 }
 
