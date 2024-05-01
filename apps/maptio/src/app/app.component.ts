@@ -12,6 +12,7 @@ import {
   NavigationEnd,
   RouterOutlet,
 } from '@angular/router';
+import { MatIconRegistry } from '@angular/material/icon';
 
 import { Subscription } from 'rxjs';
 
@@ -57,11 +58,14 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private renderer: Renderer2,
+    private iconRegistry: MatIconRegistry,
     public intercom: Intercom,
     private deviceService: DeviceDetectorService,
     private cd: ChangeDetectorRef,
     public loader: LoaderService
-  ) {}
+  ) {
+    iconRegistry.setDefaultFontSetClass('material-symbols-outlined');
+  }
 
   ngOnInit() {
     this.loader.init();
