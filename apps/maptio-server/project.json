@@ -6,12 +6,13 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nrwl/webpack:webpack",
+      "executor": "@nx/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/maptio-server",
         "main": "apps/maptio-server/src/main.ts",
         "tsConfig": "apps/maptio-server/tsconfig.app.json",
+        "webpackConfig": "apps/maptio-server/webpack.config.ts",
         "assets": ["apps/maptio-server/src/assets"],
         "target": "node",
         "compiler": "tsc"
