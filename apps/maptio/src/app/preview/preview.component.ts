@@ -17,7 +17,7 @@ import { Store } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Intercom } from '@supy-io/ngx-intercom';
 
-import { SidePanelLayoutComponent } from '@notebits/side-panel-layout';
+import { SidePanelLayoutComponent } from '@notebits/toolkit';
 
 import { EmitterService } from '@maptio-core/services/emitter.service';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
