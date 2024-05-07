@@ -120,18 +120,6 @@ export class PreviewComponent implements OnInit, OnDestroy {
     this.previewService.isLoading.set(true);
     this.cd.markForCheck();
 
-    console.log(
-      'buildingComponent from preview',
-      this.previewService.buildingComponent()
-    );
-
-    setTimeout(() => {
-      console.log(
-        'buildingComponent from preview ... after a while',
-        this.previewService.buildingComponent()
-      );
-    });
-
     // TODO: Set timeout is needed to make sure the building component is set
     // before the data is loaded (see the above too console logs). This is
     // obviously a hack from hell - let's move the building component code out
@@ -192,7 +180,6 @@ export class PreviewComponent implements OnInit, OnDestroy {
             this.previewService.teamId.set(this.previewService.team().team_id);
             EmitterService.get('currentTeam').emit(this.previewService.team());
 
-            console.log('shoudlb e decbipachti');
             const currentOrganisationId = this.previewService.team()?.team_id;
             this.store.dispatch(
               setCurrentOrganisationId({ currentOrganisationId })
