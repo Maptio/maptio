@@ -66,7 +66,6 @@ import { StructureEditorContainerComponent } from './structure-editor-container/
     // BillingGuard,
     // WorkspaceGuard,
     UIService,
-    RoleLibraryService,
     MapSettingsService,
     // WorkspaceComponentResolver,
     WorkspaceFacade,
