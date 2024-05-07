@@ -60,10 +60,14 @@ export class PreviewService {
       !change.initiative.children || change.initiative.children.length === 0
     );
 
-    this.dataset.mutate((dataset) => {
-      dataset.initiative = change.initiative;
-      dataset.tags = change.tags;
-    });
+    this.dataset.update(
+      (dataset) =>
+        new DataSet({
+          ...dataset,
+          initiative: change.initiative,
+          tags: change.tags,
+        })
+    );
     this.tags.set(change.tags);
 
     // Performing an optimistic update of the UI before saving. If the save
@@ -103,12 +107,20 @@ export class PreviewService {
 
     // Ensure that that the dataset and team versions of the role library are identical before saving
     const roleLibrary = this.roleLibrary.getRoles();
-    this.dataset.mutate((dataset) => {
-      dataset.roles = roleLibrary;
-    });
-    this.team.mutate((team) => {
-      team.roles = roleLibrary;
-    });
+    this.dataset.update(
+      (dataset) =>
+        new DataSet({
+          ...dataset,
+          roles: roleLibrary,
+        })
+    );
+    this.team.update(
+      (team) =>
+        new Team({
+          ...team,
+          roles: roleLibrary,
+        })
+    );
 
     Promise.all([
       this.datasetFactory.upsert(this.dataset(), this.datasetId()),
