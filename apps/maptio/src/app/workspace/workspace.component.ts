@@ -29,6 +29,9 @@ import { MapService } from '@maptio-shared/services/map/map.service';
 import { AppState } from '@maptio-state/app.state';
 import { setCurrentOrganisationId } from '@maptio-state/global.actions';
 
+import { UIService } from '@maptio-old-workspace/services/ui.service';
+import { MapSettingsService } from '@maptio-old-workspace/services/map-settings.service';
+import { WorkspaceFacade } from '@maptio-old-workspace/+state/workspace.facade';
 import { BuildingComponent } from '@maptio-old-workspace/components/data-entry/hierarchy/building.component';
 import { DataService } from '@maptio-old-workspace/services/data.service';
 import { RoleLibraryService } from '@maptio-old-workspace/services/role-library.service';
@@ -47,6 +50,15 @@ import { InitiativeComponent } from '@maptio-old-workspace/components/data-entry
     NgClass,
     InitiativeComponent,
     MappingComponent,
+  ],
+  providers: [
+    // BillingGuard,
+    // WorkspaceGuard,
+    UIService,
+    MapSettingsService,
+    // WorkspaceComponentResolver,
+
+    WorkspaceFacade,
   ],
 })
 export class WorkspaceComponent implements OnInit, OnDestroy {
