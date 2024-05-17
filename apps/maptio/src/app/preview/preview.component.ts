@@ -4,41 +4,27 @@ import {
   OnDestroy,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
-  ViewChild,
   inject,
 } from '@angular/core';
 import { NgIf, NgClass } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
-import { Subscription, Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Intercom } from '@supy-io/ngx-intercom';
 
 import { SidePanelLayoutComponent } from '@notebits/toolkit';
 
 import { EmitterService } from '@maptio-core/services/emitter.service';
-import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
-import { TeamFactory } from '@maptio-core/http/team/team.factory';
-import { Initiative } from '@maptio-shared/model/initiative.data';
 import { DataSet } from '@maptio-shared/model/dataset.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { User } from '@maptio-shared/model/user.data';
-import { Tag } from '@maptio-shared/model/tag.data';
-import { Role } from '@maptio-shared/model/role.data';
-import { MapService } from '@maptio-shared/services/map/map.service';
 import { AppState } from '@maptio-state/app.state';
 import { setCurrentOrganisationId } from '@maptio-state/global.actions';
 
-import { WorkspaceComponentResolver } from '@maptio-old-workspace/pages/workspace/workspace.resolver';
 import { WorkspaceFacade } from '@maptio-old-workspace/+state/workspace.facade';
-import { DataService } from '@maptio-old-workspace/services/data.service';
-import { RoleLibraryService } from '@maptio-old-workspace/services/role-library.service';
 import { BuildingComponent } from '@maptio-old-workspace/components/data-entry/hierarchy/building.component';
-import { MappingComponent } from '@maptio-old-workspace/components/canvas/mapping.component';
-import { InitiativeComponent } from '@maptio-old-workspace/components/data-entry/details/initiative.component';
 import { UIService } from '@maptio-old-workspace/services/ui.service';
 import { MapSettingsService } from '@maptio-old-workspace/services/map-settings.service';
 
@@ -62,57 +48,17 @@ import { StructureEditorContainerComponent } from '@maptio-workspace/structure-e
     StructureEditorContainerComponent,
     InitiativeDetailsContainerComponent,
   ],
-  providers: [
-    // BillingGuard,
-    // WorkspaceGuard,
-    UIService,
-    MapSettingsService,
-    // WorkspaceComponentResolver,
-    WorkspaceFacade,
-  ],
+  providers: [UIService, MapSettingsService, WorkspaceFacade],
 })
 export class PreviewComponent implements OnInit, OnDestroy {
   workspaceService = inject(WorkspaceService);
 
   private routeSubscription: Subscription;
 
-  // public isSaving: boolean;
-  // public isEditMode: boolean;
-  // public datasetId: string;
-
-  // public dataset: DataSet;
-  // public members: Array<User>;
-  // public team: Team;
-  // public teams: Team[];
-  // public tags: Tag[];
-  // public roles: Role[];
-  // public canvasYMargin: number;
-  // public canvasHeight: number;
-
-  // public openedNode: Initiative;
-  // public openedNodeParent: Initiative;
-  // public openedNodeTeamId: string;
-  // public openEditTag$: Subject<void> = new Subject<void>();
-
-  // public mapped: Initiative;
-  // teamName: string;
-  // teamId: string;
-  // selectableTags: Array<Tag>;
-
-  // TODO: Delete, this isn't used anymore!
-  // @ViewChild('dragConfirmation')
-  // dragConfirmationModal: NgbModal;
-
   constructor(
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
-    private store: Store<AppState>,
-    private datasetFactory: DatasetFactory,
-    private teamFactory: TeamFactory,
-    private dataService: DataService,
-    private mapService: MapService,
-    private roleLibrary: RoleLibraryService,
-    private intercom: Intercom
+    private store: Store<AppState>
   ) {}
 
   ngOnInit() {
