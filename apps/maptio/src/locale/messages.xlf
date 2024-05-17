@@ -2970,32 +2970,25 @@
           <context context-type="linenumber">782</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="f80b971433db7e797a68ee4586860938a790bebc" datatype="html">
+      <trans-unit id="mobile-notice" datatype="html">
         <source>Map editing is disabled on mobile.</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/workspace/workspace.component.html</context>
-          <context context-type="linenumber">6,8</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="editMap" datatype="html">
-        <source>Edit map</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/workspace/workspace.component.html</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="sourcefile">apps/maptio/src/app/workspace/map-container/map-container.component.html</context>
+          <context context-type="linenumber">1,3</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5259615221832269687" datatype="html">
         <source>A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version, then you can make your edits. You can copy any text you just entered, ready to paste it in again after the refresh. Sorry for the hassle.</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/workspace/workspace.component.ts</context>
-          <context context-type="linenumber">223</context>
+          <context context-type="sourcefile">apps/maptio/src/app/workspace/workspace.service.ts</context>
+          <context context-type="linenumber">102</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8325534332063379027" datatype="html">
         <source>An error occurred while saving your changes. Please try making a change again or contact us at support@maptio.com if the error persists.</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/workspace/workspace.component.ts</context>
-          <context context-type="linenumber">273</context>
+          <context context-type="sourcefile">apps/maptio/src/app/workspace/workspace.service.ts</context>
+          <context context-type="linenumber">167</context>
         </context-group>
       </trans-unit>
     </body>
