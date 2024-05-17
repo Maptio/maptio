@@ -42,10 +42,11 @@ import { InitiativeComponent } from '@maptio-old-workspace/components/data-entry
 import { UIService } from '@maptio-old-workspace/services/ui.service';
 import { MapSettingsService } from '@maptio-old-workspace/services/map-settings.service';
 
+import { MapContainerComponent } from '@maptio-workspace/map-container/map-container.component';
+import { InitiativeDetailsContainerComponent } from '@maptio-workspace/initiative-details-container/initiative-details-container.component';
+import { StructureEditorContainerComponent } from '@maptio-workspace/structure-editor-container/structure-editor-container.component';
+
 import { PreviewService } from './preview.service';
-import { MapContainerComponent } from './map-container/map-container.component';
-import { InitiativeDetailsContainerComponent } from './initiative-details-container/initiative-details-container.component';
-import { StructureEditorContainerComponent } from './structure-editor-container/structure-editor-container.component';
 
 @Component({
   selector: 'maptio-preview',
