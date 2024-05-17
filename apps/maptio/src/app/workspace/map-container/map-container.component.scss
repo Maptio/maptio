@@ -1,3 +1,10 @@
 :host {
   width: 100%;
 }
+
+.mobile-notice {
+  // Redo these classes:
+  // class="d-md-none small w-100 text-center text-muted position-absolute z-index-1"
+  // style="top: 3.5rem"
+  display: none;
+}
