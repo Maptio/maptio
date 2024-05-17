@@ -16,6 +16,8 @@ import { Store } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Intercom } from '@supy-io/ngx-intercom';
 
+import { SidePanelLayoutComponent } from '@notebits/toolkit';
+
 import { EmitterService } from '@maptio-core/services/emitter.service';
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
@@ -38,6 +40,10 @@ import { RoleLibraryService } from '@maptio-old-workspace/services/role-library.
 import { MappingComponent } from '@maptio-old-workspace/components/canvas/mapping.component';
 import { InitiativeComponent } from '@maptio-old-workspace/components/data-entry/details/initiative.component';
 
+import { MapContainerComponent } from './map-container/map-container.component';
+import { InitiativeDetailsContainerComponent } from './initiative-details-container/initiative-details-container.component';
+import { StructureEditorContainerComponent } from './structure-editor-container/structure-editor-container.component';
+
 @Component({
   selector: 'maptio-workspace',
   templateUrl: 'workspace.component.html',
@@ -48,8 +54,10 @@ import { InitiativeComponent } from '@maptio-old-workspace/components/data-entry
     NgIf,
     BuildingComponent,
     NgClass,
-    InitiativeComponent,
-    MappingComponent,
+    SidePanelLayoutComponent,
+    MapContainerComponent,
+    StructureEditorContainerComponent,
+    InitiativeDetailsContainerComponent,
   ],
   providers: [
     // BillingGuard,
