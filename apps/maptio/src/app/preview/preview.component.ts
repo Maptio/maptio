@@ -42,11 +42,10 @@ import { InitiativeComponent } from '@maptio-old-workspace/components/data-entry
 import { UIService } from '@maptio-old-workspace/services/ui.service';
 import { MapSettingsService } from '@maptio-old-workspace/services/map-settings.service';
 
+import { WorkspaceService } from '@maptio-workspace/workspace.service';
 import { MapContainerComponent } from '@maptio-workspace/map-container/map-container.component';
 import { InitiativeDetailsContainerComponent } from '@maptio-workspace/initiative-details-container/initiative-details-container.component';
 import { StructureEditorContainerComponent } from '@maptio-workspace/structure-editor-container/structure-editor-container.component';
-
-import { PreviewService } from './preview.service';
 
 @Component({
   selector: 'maptio-preview',
@@ -73,7 +72,7 @@ import { PreviewService } from './preview.service';
   ],
 })
 export class PreviewComponent implements OnInit, OnDestroy {
-  previewService = inject(PreviewService);
+  workspaceService = inject(WorkspaceService);
 
   private routeSubscription: Subscription;
 
@@ -117,7 +116,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.previewService.isLoading.set(true);
+    this.workspaceService.isLoading.set(true);
     this.cd.markForCheck();
 
     // TODO: Set timeout is needed to make sure the building component is set
@@ -129,7 +128,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
         .pipe(
           tap((data) => {
             const newDatasetId = data.data.dataset.datasetId;
-            if (newDatasetId !== this.previewService.datasetId()) {
+            if (newDatasetId !== this.workspaceService.datasetId()) {
               // TODO: Move to store / service
               // this.isBuildingPanelCollapsed = false;
               // this.isDetailsPanelCollapsed = true;
@@ -145,9 +144,9 @@ export class PreviewComponent implements OnInit, OnDestroy {
                 user: User;
               };
             }) => {
-              this.previewService.isLoading.set(true);
+              this.workspaceService.isLoading.set(true);
               this.cd.markForCheck();
-              return this.previewService
+              return this.workspaceService
                 .buildingComponent()
                 .loadData(data.data.dataset, data.data.team, data.data.members)
                 .then(() => {
@@ -158,7 +157,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
                     // TODO: Move to service
                     // this.closeDetailsPanel();
                   }, 100);
-                  this.previewService.isLoading.set(false);
+                  this.workspaceService.isLoading.set(false);
                   this.cd.markForCheck();
                 });
             }
@@ -168,26 +167,32 @@ export class PreviewComponent implements OnInit, OnDestroy {
           (data: {
             data: { dataset: DataSet; team: Team; members: User[]; user: User };
           }) => {
-            this.previewService.dataset.set(data.data.dataset);
-            this.previewService.tags.set(data.data.dataset.tags);
-            this.previewService.team.set(data.data.team);
-            this.previewService.members.set(data.data.members);
-            this.previewService.user.set(data.data.user);
-            this.previewService.datasetId.set(
-              this.previewService.dataset().datasetId
+            this.workspaceService.dataset.set(data.data.dataset);
+            this.workspaceService.tags.set(data.data.dataset.tags);
+            this.workspaceService.team.set(data.data.team);
+            this.workspaceService.members.set(data.data.members);
+            this.workspaceService.user.set(data.data.user);
+            this.workspaceService.datasetId.set(
+              this.workspaceService.dataset().datasetId
             );
-            this.previewService.teamName.set(this.previewService.team().name);
-            this.previewService.teamId.set(this.previewService.team().team_id);
-            EmitterService.get('currentTeam').emit(this.previewService.team());
+            this.workspaceService.teamName.set(
+              this.workspaceService.team().name
+            );
+            this.workspaceService.teamId.set(
+              this.workspaceService.team().team_id
+            );
+            EmitterService.get('currentTeam').emit(
+              this.workspaceService.team()
+            );
 
-            const currentOrganisationId = this.previewService.team()?.team_id;
+            const currentOrganisationId = this.workspaceService.team()?.team_id;
             this.store.dispatch(
               setCurrentOrganisationId({ currentOrganisationId })
             );
 
-            this.previewService.isEmptyMap.set(
-              !this.previewService.dataset().initiative.children ||
-                this.previewService.dataset().initiative.children.length === 0
+            this.workspaceService.isEmptyMap.set(
+              !this.workspaceService.dataset().initiative.children ||
+                this.workspaceService.dataset().initiative.children.length === 0
             );
             this.cd.markForCheck();
           }

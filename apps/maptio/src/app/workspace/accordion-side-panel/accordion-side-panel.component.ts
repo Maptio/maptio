@@ -6,7 +6,7 @@ import { Initiative } from '@maptio-shared/model/initiative.data';
 import { BuildingComponent } from '@maptio-old-workspace/components/data-entry/hierarchy/building.component';
 import { InitiativeComponent } from '@maptio-old-workspace/components/data-entry/details/initiative.component';
 
-import { PreviewService } from '@maptio-preview/preview.service';
+import { WorkspaceService } from '../workspace.service';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -22,7 +22,7 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./accordion-side-panel.component.scss'],
 })
 export class AccordionSidePanelComponent {
-  previewService = inject(PreviewService);
+  workspaceService = inject(WorkspaceService);
 
   // TODO: Loginc from the building component needs to be moved to the service
   // to finally avoid this ridiculousness!
@@ -30,6 +30,6 @@ export class AccordionSidePanelComponent {
   buildingComponent: BuildingComponent;
 
   ngOnInit() {
-    this.previewService.buildingComponent.set(this.buildingComponent);
+    this.workspaceService.buildingComponent.set(this.buildingComponent);
   }
 }

@@ -19,7 +19,7 @@ import { Team } from '@maptio-shared/model/team.data';
 @Injectable({
   providedIn: 'root',
 })
-export class PreviewService {
+export class WorkspaceService {
   dataService = inject(DataService);
   mapService = inject(MapService);
   roleLibrary = inject(RoleLibraryService);

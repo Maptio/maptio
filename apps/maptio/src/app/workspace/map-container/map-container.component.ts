@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MappingComponent } from '@maptio-old-workspace/components/canvas/mapping.component';
 
-import { PreviewService } from '@maptio-preview/preview.service';
+import { WorkspaceService } from '../workspace.service';
 
 @Component({
   selector: 'maptio-map-container',
@@ -13,5 +13,5 @@ import { PreviewService } from '@maptio-preview/preview.service';
   styleUrls: ['./map-container.component.scss'],
 })
 export class MapContainerComponent {
-  previewService = inject(PreviewService);
+  workspaceService = inject(WorkspaceService);
 }

@@ -2,7 +2,7 @@ import { Component, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BuildingComponent } from '@maptio-old-workspace/components/data-entry/hierarchy/building.component';
-import { PreviewService } from '@maptio-preview/preview.service';
+import { WorkspaceService } from '../workspace.service';
 
 @Component({
   selector: 'maptio-structure-editor-container',
@@ -12,7 +12,7 @@ import { PreviewService } from '@maptio-preview/preview.service';
   styleUrls: ['./structure-editor-container.component.scss'],
 })
 export class StructureEditorContainerComponent {
-  previewService = inject(PreviewService);
+  workspaceService = inject(WorkspaceService);
 
   // TODO: Loginc from the building component needs to be moved to the service
   // to finally avoid this ridiculousness!
@@ -20,6 +20,6 @@ export class StructureEditorContainerComponent {
   buildingComponent: BuildingComponent;
 
   ngOnInit() {
-    this.previewService.buildingComponent.set(this.buildingComponent);
+    this.workspaceService.buildingComponent.set(this.buildingComponent);
   }
 }

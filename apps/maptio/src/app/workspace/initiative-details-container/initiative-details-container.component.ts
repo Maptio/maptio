@@ -1,7 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { PreviewService } from '@maptio-preview/preview.service';
+import { WorkspaceService } from '../workspace.service';
 import { InitiativeComponent } from '@maptio-old-workspace/components/data-entry/details/initiative.component';
 
 @Component({
@@ -12,11 +12,11 @@ import { InitiativeComponent } from '@maptio-old-workspace/components/data-entry
   styleUrls: ['./initiative-details-container.component.scss'],
 })
 export class InitiativeDetailsContainerComponent {
-  previewService = inject(PreviewService);
+  workspaceService = inject(WorkspaceService);
 
   showPanel = computed(
     () =>
-      this.previewService.datasetId() &&
-      !this.previewService.isDetailsPanelCollapsed()
+      this.workspaceService.datasetId() &&
+      !this.workspaceService.isDetailsPanelCollapsed()
   );
 }

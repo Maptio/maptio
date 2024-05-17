@@ -1,8 +1,8 @@
 <!-- <p>structure-editor-container works!</p> -->
 <building
   #building
-  [user]="previewService.user()"
-  [isEmptyMap]="previewService.isEmptyMap()"
-  (save)="previewService.saveChanges($event)"
-  (openDetails)="previewService.onOpenDetails($event)"
+  [user]="workspaceService.user()"
+  [isEmptyMap]="workspaceService.isEmptyMap()"
+  (save)="workspaceService.saveChanges($event)"
+  (openDetails)="workspaceService.onOpenDetails($event)"
 ></building>

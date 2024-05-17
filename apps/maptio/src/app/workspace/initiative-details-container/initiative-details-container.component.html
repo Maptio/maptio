@@ -1,11 +1,11 @@
 <initiative
   *ngIf="showPanel()"
   #initiative
-  [dataset]="previewService.dataset()"
-  [node]="previewService.openedNode()"
-  [user]="previewService.user()"
-  [team]="previewService.team()"
-  (edited)="previewService.saveDetailChanges()"
+  [dataset]="workspaceService.dataset()"
+  [node]="workspaceService.openedNode()"
+  [user]="workspaceService.user()"
+  [team]="workspaceService.team()"
+  (edited)="workspaceService.saveDetailChanges()"
   [isEditMode]="isEditMode"
-  (editTags)="previewService.onEditTags()"
+  (editTags)="workspaceService.onEditTags()"
 ></initiative>
