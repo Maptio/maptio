@@ -47,7 +47,7 @@ import { StructureEditorContainerComponent } from './structure-editor-container/
 @Component({
   selector: 'maptio-workspace',
   templateUrl: 'workspace.component.html',
-  styleUrls: ['./workspace.component.css'],
+  styleUrls: ['./workspace.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
