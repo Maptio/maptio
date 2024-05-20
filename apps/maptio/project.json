@@ -62,7 +62,7 @@
               "with": "apps/maptio/src/environments/environment.staging.ts"
             }
           ],
-          "localize": false,
+          "localize": ["en-US", "de", "es", "fr", "ja", "nl", "pl", "pt", "es"],
           "optimization": true,
           "outputHashing": "all",
           "sourceMap": false,
