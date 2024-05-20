@@ -7,6 +7,14 @@
         {{ nameOfInvitationSender }} zaprasza Cię do organizacji "{{ team }}" w Maptio
     
 
+    {% elsif request_language == 'nl' %}
+        {{ nameOfInvitationSender }} heeft je uitgenodigd om lid te worden van organisatie "{{ team }}" op Maptio
+    
+
+    {% elsif request_language == 'es' %}
+        {{ nameOfInvitationSender }} te invitó a unirte a la organización "{{ team }}" en Maptio
+    
+
     {% else %}
         {{ nameOfInvitationSender }} invited you to join organization "{{ team }}" on Maptio
     {% endif %}
