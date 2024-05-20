@@ -2953,6 +2953,14 @@
           <context context-type="linenumber">290,291</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="mobile-notice" datatype="html" xml:space="preserve">
+        <source>Map editing is disabled on mobile.</source>
+        <target state="translated">Die Kartenbearbeitung ist auf dem Mobiltelefon deaktiviert.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/workspace/map-container/map-container.component.html</context>
+          <context context-type="linenumber">1,3</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
