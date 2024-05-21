@@ -535,7 +535,7 @@
       </trans-unit>
       <trans-unit id="46989e1cc2be68c6ecac72686f2533b2f6ca0e51" datatype="html" xml:space="preserve">
         <source>I agree to Maptio's <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;{{ TERMS_AND_CONDITIONS_URL }}&quot; target=&quot;_blank&quot;&gt;"/> Terms of Service <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> and <x id="START_LINK_1" equiv-text="&lt;a href=&quot;{{ PRIVACY_POLICY_URL }}&quot; target=&quot;_blank&quot;&gt;"/>Privacy Policy<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
-        <target state="translated">Estoy de acuerdo con los Términos de Servicio <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> y <x id="START_LINK_1" equiv-text="&lt;a href=&quot;{{ PRIVACY_POLICY_URL }}&quot; target=&quot;_blank&quot;&gt;"/>Política de privacidad<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
+        <target state="translated">Estoy de acuerdo con los <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;{{ TERMS_AND_CONDITIONS_URL }}&quot; target=&quot;_blank&quot;&gt;"/>Términos de Servicio <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> y <x id="START_LINK_1" equiv-text="&lt;a href=&quot;{{ PRIVACY_POLICY_URL }}&quot; target=&quot;_blank&quot;&gt;"/>Política de privacidad<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/member-form/member-form.component.html</context>
           <context context-type="linenumber">96,101</context>
