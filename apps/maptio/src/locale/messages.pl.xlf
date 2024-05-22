@@ -1299,14 +1299,6 @@
           <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="4b8722ff333a044331acf5b2c9f0261041fce8cb" datatype="html">
-        <source>Use tags to map strategic themes, progress and other information which might be relevant to multiple circles across the map.</source>
-        <target state="translated">Tagów możesz użyć, żeby dodać do mapy strategiczne tematy, postęp, albo inne informacje, które mogą być istotne w więcej niż jednym kole na mapie.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/tags/edit-tags.component.html</context>
-          <context context-type="linenumber">7,9</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="8d2b3afabe95d8ae871a5b2834c7bc22deba99c3" datatype="html">
         <source>Circle name</source>
         <target state="translated">Nazwa koła</target>

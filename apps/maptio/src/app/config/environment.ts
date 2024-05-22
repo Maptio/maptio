@@ -19,6 +19,7 @@ export const environment = {
   KB_URL_PERMISSIONS: 'https://learning.maptio.com/user-permission-types',
   KB_URL_ROLE_TYPES: 'https://learning.maptio.com/working-with-roles',
   KB_URL_MARKDOWN: 'https://learning.maptio.com/adding-text-formatting',
+  KB_URL_TAGS: 'https://learning.maptio.com/using-tags',
 
   // To be removed soon
   KB_URL_INTEGRATIONS:
