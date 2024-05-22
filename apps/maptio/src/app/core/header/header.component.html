@@ -14,13 +14,21 @@
 >
   <a routerLink="home" class="no-underline navbar-brand">
     <img
+      height="53"
+      class="d-inline-block align-center"
+      style="margin-left: -11px"
+      src="assets/images/logo-with-name.png"
+      alt="Home"
+      i18n-alt
+    />
+    <!-- <img
       width="32"
       height="32"
       class="d-inline-block align-center"
       src="assets/images/logo.png"
       alt="Home"
       i18n-alt
-    />
+    /> -->
   </a>
 
   <button
@@ -41,7 +49,8 @@
   </button>
 
   <div
-    [ngbCollapse]="!isMenuOpened" (ngbCollapseChange)="isMenuOpened = $event"
+    [ngbCollapse]="!isMenuOpened"
+    (ngbCollapseChange)="isMenuOpened = $event"
     class="navbar-collapse"
     [ngClass]="{ ' p-2 vh-100 vw-100': isMenuOpened }"
     id="navbarSupportedContent"
