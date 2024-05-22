@@ -2,6 +2,8 @@ import { Injectable, inject, signal } from '@angular/core';
 
 import { Intercom } from '@supy-io/ngx-intercom';
 
+import { SidePanelLayoutService } from '@notebits/toolkit';
+
 import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
 import { TeamFactory } from '@maptio-core/http/team/team.factory';
 
@@ -20,6 +22,8 @@ import { Team } from '@maptio-shared/model/team.data';
   providedIn: 'root',
 })
 export class WorkspaceService {
+  sidePanelLayoutService = inject(SidePanelLayoutService);
+
   dataService = inject(DataService);
   mapService = inject(MapService);
   roleLibrary = inject(RoleLibraryService);
@@ -176,6 +180,14 @@ export class WorkspaceService {
     if (this.isDetailsPanelCollapsed()) this.openDetailsPanel();
   }
 
+  openNavigationPanel() {
+    this.sidePanelLayoutService.openNavigationPanel();
+  }
+
+  closeNavigationPanel() {
+    this.sidePanelLayoutService.closeNavigationPanel();
+  }
+
   toggleEditingPanelsVisibility(isVisible: boolean) {
     this.isBuildingVisible.set(isVisible);
   }
@@ -197,7 +209,7 @@ export class WorkspaceService {
   }
 
   onEditTags() {
-    this.isBuildingPanelCollapsed.set(false);
+    this.openNavigationPanel();
     this.buildingComponent().tabs.select('tags-tab');
   }
 }
