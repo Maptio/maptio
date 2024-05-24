@@ -1,0 +1,9 @@
+@include media-breakpoint-down(md) {
+  .side-panel {
+    display: none !important;
+  }
+
+  .side-panel__toggle {
+    display: none !important;
+  }
+}
