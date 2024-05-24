@@ -177,7 +177,9 @@ export class WorkspaceService {
   onOpenDetails(node: Initiative) {
     this.openedNode.set(node);
 
-    if (this.isDetailsPanelCollapsed()) this.openDetailsPanel();
+    if(!this.sidePanelLayoutService.detailsPanelOpened()) {
+      this.sidePanelLayoutService.highlightDetailsPanelToggle();
+    }
   }
 
   openNavigationPanel() {
