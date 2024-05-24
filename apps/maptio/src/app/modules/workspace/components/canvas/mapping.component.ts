@@ -56,6 +56,8 @@ import {
   NgbCollapseModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { MappingCirclesExpandedComponent } from '@maptio-old-workspace/pages/circles-expanded/mapping-circles-expanded.component';
+import { MappingNetworkComponent } from '@maptio-old-workspace/pages/network/mapping.network.component';
 
 @Component({
   selector: 'mapping',
@@ -275,6 +277,9 @@ export class MappingComponent {
     if (component.constructor === MappingSummaryComponent) {
       this.isMapSettingsDisabled = true;
       this.toggleEditingPanelsVisibility.emit(false);
+    } else if (component.constructor === MappingNetworkComponent) {
+      this.isMapSettingsDisabled = true;
+      this.toggleEditingPanelsVisibility.emit(false);
     } else if (component.constructor === MappingCirclesGradualRevealComponent) {
       this.isMapSettingsDisabled = false;
       this.isSearchDisabled = false;
@@ -282,7 +287,7 @@ export class MappingComponent {
       this.isZoomDisabled = false;
       this.isShareDisabled = false;
       this.toggleEditingPanelsVisibility.emit(true);
-    } else {
+    } else if (component.constructor === MappingCirclesExpandedComponent) {
       this.isMapSettingsDisabled = false;
       this.isSearchDisabled = false;
       this.isFilterDisabled = false;

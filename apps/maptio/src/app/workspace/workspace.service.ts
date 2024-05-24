@@ -189,13 +189,19 @@ export class WorkspaceService {
   }
 
   toggleEditingPanelsVisibility(isVisible: boolean) {
-    this.isBuildingVisible.set(isVisible);
+    if (isVisible) {
+      this.enableBothPanels();
+    } else {
+      this.disableBothPanels();
+    }
   }
 
+  // TODO: Remove
   openBuildingPanel() {
     this.isBuildingPanelCollapsed.set(false);
   }
 
+  // TODO: Remove
   closeBuildingPanel() {
     this.isBuildingPanelCollapsed.set(true);
   }
@@ -206,6 +212,14 @@ export class WorkspaceService {
 
   closeDetailsPanel() {
     this.isDetailsPanelCollapsed.set(true);
+  }
+
+  disableBothPanels() {
+    this.sidePanelLayoutService.disableBothPanels();
+  }
+
+  enableBothPanels() {
+    this.sidePanelLayoutService.enableBothPanels();
   }
 
   onEditTags() {
