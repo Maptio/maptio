@@ -42,12 +42,18 @@
 }
 
 .toolbar {
-  margin-top: 0.5rem;
+  padding: 0.5rem 0;
+
+  @media all and (min-width: 768px) {
+    position: absolute !important;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
 
 :host-context(.mapping--inside-map-container) .toolbar {
   @media all and (min-width: 768px) {
-    margin-top: 4.5rem;
+    padding: 4.5rem 0;
   }
 }
 
@@ -103,7 +109,7 @@
   }
 }
 
-@media all and (max-height: 800px) {
+@media all and (max-height: 850px) {
   .icon-text-label {
     display: none !important;
   }
