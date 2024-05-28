@@ -276,6 +276,11 @@ export class CircleMapService {
       lastSelectedCircle = undefined;
     }
 
+    if (!lastSelectedCircle || lastSelectedCircle === circles[0]) {
+      // Open the first circle if the last selected circle is not found
+      lastSelectedCircle = circles[0].children[0];
+    }
+
     this.selectedCircle.next(lastSelectedCircle);
 
     return lastSelectedCircle;
