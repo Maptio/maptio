@@ -175,9 +175,22 @@ export class WorkspaceService {
   }
 
   onOpenDetails(node: Initiative) {
+    this.highlightToggleWhenDetailsPanelIsClosed(this.openedNode(), node);
     this.openedNode.set(node);
+  }
 
-    if(!this.sidePanelLayoutService.detailsPanelOpened()) {
+  private highlightToggleWhenDetailsPanelIsClosed(
+    currentNode: Initiative,
+    newNode: Initiative
+  ) {
+    const isDetailsPanelClosed =
+      !this.sidePanelLayoutService.detailsPanelOpened();
+
+    // This prevents the highlight from showing e.g. when the user is switching
+    // between circle views (a bit of an indirect way, but also very simple)
+    const isTheNodeChanging = currentNode?.id !== newNode?.id;
+
+    if (isDetailsPanelClosed && isTheNodeChanging) {
       this.sidePanelLayoutService.highlightDetailsPanelToggle();
     }
   }
