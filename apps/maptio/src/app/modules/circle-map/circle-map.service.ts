@@ -9,7 +9,6 @@ import { Initiative } from '@maptio-shared/model/initiative.data';
 import { InitiativeNode } from './initiative.model';
 import { SvgZoomPanService } from './svg-zoom-pan/svg-zoom-pan.service';
 import { HierarchyNode } from 'd3-hierarchy';
-import { last } from 'lodash';
 
 @Injectable({
   providedIn: 'root',
