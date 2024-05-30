@@ -41,7 +41,8 @@
   </button>
 
   <div
-    [(ngbCollapse)]="!isMenuOpened"
+    [ngbCollapse]="!isMenuOpened"
+    (ngbCollapseChange)="isMenuOpened = $event"
     class="navbar-collapse"
     [ngClass]="{ ' p-2 vh-100 vw-100': isMenuOpened }"
     id="navbarSupportedContent"

@@ -41,6 +41,22 @@
   right: 0;
 }
 
+.toolbar {
+  padding: 0.5rem 0;
+
+  @media all and (min-width: 768px) {
+    position: absolute !important;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+:host-context(.mapping--inside-map-container) .toolbar {
+  @media all and (min-width: 768px) {
+    padding: 4.5rem 0;
+  }
+}
+
 .btn.toolbar-button {
   min-height: 5.75vh;
   width: 3vw;
@@ -93,7 +109,7 @@
   }
 }
 
-@media all and (max-height: 800px) {
+@media all and (max-height: 950px) {
   .icon-text-label {
     display: none !important;
   }

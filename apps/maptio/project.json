@@ -16,6 +16,7 @@
   "projectType": "application",
   "sourceRoot": "apps/maptio/src",
   "prefix": "maptio",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -61,7 +62,7 @@
               "with": "apps/maptio/src/environments/environment.staging.ts"
             }
           ],
-          "localize": ["en-US", "de", "es", "fr", "ja", "nl", "pl", "pt"],
+          "localize": ["en-US", "de", "fr", "ja", "nl", "pl", "pt", "es"],
           "optimization": true,
           "outputHashing": "all",
           "sourceMap": false,
@@ -89,7 +90,7 @@
               "with": "apps/maptio/src/environments/environment.prod.ts"
             }
           ],
-          "localize": ["en-US", "de", "fr", "ja", "pl"],
+          "localize": ["en-US", "de", "fr", "ja", "pl", "es"],
           "optimization": true,
           "outputHashing": "all",
           "sourceMap": false,
@@ -128,49 +129,42 @@
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
-        "browserTarget": "maptio:build",
-        "proxyConfig": "apps/maptio/src/proxy.conf.json"
+        "proxyConfig": "apps/maptio/src/proxy.conf.json",
+        "buildTarget": "maptio:build"
       },
       "configurations": {
         "production": {
-          "browserTarget": "maptio:build:production"
+          "buildTarget": "maptio:build:production"
         },
         "en-US": {
-          "browserTarget": "maptio:build:en-US"
+          "buildTarget": "maptio:build:en-US"
         },
         "de": {
-          "browserTarget": "maptio:build:de"
+          "buildTarget": "maptio:build:de"
         },
         "fr": {
-          "browserTarget": "maptio:build:fr"
+          "buildTarget": "maptio:build:fr"
         },
         "pl": {
-          "browserTarget": "maptio:build:pl"
+          "buildTarget": "maptio:build:pl"
         }
       }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "maptio:build"
+        "buildTarget": "maptio:build"
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "apps/maptio/src/**/*.ts",
-          "apps/maptio/src/**/*.html"
-        ]
-      },
       "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/maptio"],
       "options": {
-        "jestConfig": "apps/maptio/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/maptio/jest.config.ts"
       }
     },
     "deploy": {
@@ -186,6 +180,5 @@
         }
       }
     }
-  },
-  "tags": []
+  }
 }

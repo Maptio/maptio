@@ -71,7 +71,7 @@
             ></router-outlet>
           </div>
           <div
-            class="d-flex flex-column bg-transparent position-absolute top-right align-items-center align-items-md-end col-12 col-md-auto ms-md-0 me-md-2 ps-md-0 my-md-2 z-index-1"
+            class="toolbar d-flex flex-column bg-transparent position-absolute top-right align-items-center align-items-md-end col-12 col-md-auto ms-md-0 me-md-2 ps-md-0 z-index-1"
           >
             <div class="btn-group-vertical mb-3 d-none d-md-block">
               <button
@@ -249,7 +249,7 @@
       id="collapseSearch"
       class="collapse rounded bg-light p-3 mb-3 col-12"
       [class.d-none]="isSearchDisabled"
-      [(ngbCollapse)]="!isSearchToggled"
+      [ngbCollapse]="!isSearchToggled" (ngbCollapseChange)="isSearchToggled = $event"
       [animation]="false"
       closable
       (close)="isSearchToggled = false"
@@ -265,7 +265,7 @@
     <div
       id="collapseFilter"
       class="collapse rounded mb-3 col-12 bg-light p-3"
-      [(ngbCollapse)]="!isFiltersToggled"
+      [ngbCollapse]="!isFiltersToggled" (ngbCollapseChange)="isFiltersToggled = $event"
       [animation]="false"
       closable
       (close)="isFiltersToggled = false"
@@ -282,7 +282,7 @@
     <div
       id="collapseShare"
       class="collapse rounded mb-3 col-12 bg-light p-3"
-      [(ngbCollapse)]="!isSharingToggled"
+      [ngbCollapse]="!isSharingToggled" (ngbCollapseChange)="isSharingToggled = $event"
       [animation]="false"
       closable
       (close)="isSharingToggled = false"
@@ -293,7 +293,7 @@
     <div
       class="collapse rounded col-auto bg-light p-4"
       id="collapseSettings"
-      [(ngbCollapse)]="!isSettingToggled"
+      [ngbCollapse]="!isSettingToggled" (ngbCollapseChange)="isSettingToggled = $event"
       [animation]="false"
       closable
       (close)="isSettingToggled = false"

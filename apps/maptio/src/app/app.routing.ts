@@ -46,11 +46,14 @@ const routes: Routes = [
   {
     path: 'map/:mapid/:mapslug',
     loadChildren: () =>
-      import('./modules/workspace/workspace.module').then(
-        (m) => m.WorkspaceModule
-      ),
-    data: { isWorkspace: true },
+      import('./workspace/workspace.routes').then((m) => m.default),
+    data: { isWorkspace: true, hideUI: false },
   },
+  // {
+  //   path: 'preview/:mapid/:mapslug',
+  //   loadChildren: () => import('./preview/routes').then((m) => m.default),
+  //   data: { isWorkspace: true, hideUI: false },
+  // },
   {
     path: 'share/:id',
     loadChildren: () =>

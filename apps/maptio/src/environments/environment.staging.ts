@@ -10,7 +10,6 @@ export const environment = {
   // Add incomplete locales for testing on staging
   LOCALES: [
     ...commonEnvironment.LOCALES,
-    { code: 'es', name: 'Español', shortLabel: 'ES' },
     { code: 'nl', name: 'Nederlands', shortLabel: 'NL' },
     { code: 'pt', name: 'Português', shortLabel: 'PT' },
   ],

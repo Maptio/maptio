@@ -7,7 +7,6 @@ const routes: Routes = [
   {
     path: '',
     component: EmbedComponent,
-    outlet: 'empty',
     data: { hideUI: true },
   },
 ];

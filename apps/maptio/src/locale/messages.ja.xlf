@@ -1834,14 +1834,6 @@
           <context context-type="linenumber">187,188</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="4b8722ff333a044331acf5b2c9f0261041fce8cb" datatype="html">
-        <source>Use tags to map strategic themes, progress and other information which might be relevant to multiple circles across the map.</source>
-        <target state="translated">タグを使用して、マップ上の複数のサークルに関連する戦略的テーマ、進捗状況、その他の情報をマップ化します。</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/tags/edit-tags.component.html</context>
-          <context context-type="linenumber">7,9</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="9560c13542ade1c84f46a8f8d156a1f6e1444403" datatype="html">
         <source>Create a new tag</source>
         <target state="translated">新しいタグの作成</target>
@@ -1856,14 +1848,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/circles-gradual-reveal/mapping.circles-gradual-reveal.component.html</context>
           <context context-type="linenumber">6,7</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="editMap" datatype="html">
-        <source>Edit map</source>
-        <target state="translated">マップの編集</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
-          <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="edit" datatype="html">
@@ -2887,14 +2871,6 @@
           <context context-type="linenumber">97,99</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="f80b971433db7e797a68ee4586860938a790bebc" datatype="html">
-        <source>Map editing is disabled on mobile.</source>
-        <target state="translated">モバイルではマップの編集はできません</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
-          <context context-type="linenumber">7,8</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="help" datatype="html">
         <source>Help</source>
         <target state="translated">ヘルプ</target>
@@ -2917,6 +2893,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/core/header/header.component.html</context>
           <context context-type="linenumber">295,296</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="mobile-notice" datatype="html" xml:space="preserve">
+        <source>Map editing is disabled on mobile.</source>
+        <target state="translated">モバイルではマップの編集はできません</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/workspace/map-container/map-container.component.html</context>
+          <context context-type="linenumber">1,3</context>
         </context-group>
       </trans-unit>
     </body>

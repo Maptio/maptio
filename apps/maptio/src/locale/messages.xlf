@@ -6,14 +6,14 @@
         <source>Lead</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/config/environment.ts</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
       <trans-unit id="onboarding-terminology-7" datatype="html">
         <source>Contributor</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/config/environment.ts</context>
-          <context context-type="linenumber">33</context>
+          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8b06788d3accc7f7ac5ded29399b43a0ef3f8209" datatype="html">
@@ -674,7 +674,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/tags/edit-tags.component.html</context>
-          <context context-type="linenumber">104</context>
+          <context context-type="linenumber">111</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/autocomplete/autocomplete.component.html</context>
@@ -760,7 +760,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/tags/edit-tags.component.html</context>
-          <context context-type="linenumber">103</context>
+          <context context-type="linenumber">110</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/autocomplete/autocomplete.component.html</context>
@@ -922,6 +922,10 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/permissions-messages/insufficient-permissions-message.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/tags/edit-tags.component.html</context>
           <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
@@ -1309,7 +1313,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/tags/edit-tags.component.html</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">62</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/map/map-card.component.html</context>
@@ -2001,25 +2005,25 @@
           <context context-type="linenumber">97,99</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="4b8722ff333a044331acf5b2c9f0261041fce8cb" datatype="html">
-        <source>Use tags to map strategic themes, progress and other information which might be relevant to multiple circles across the map.</source>
+      <trans-unit id="tagsInfo" datatype="html">
+        <source>Customise a set of tags here then add them to your circles to map themes, status and more.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/tags/edit-tags.component.html</context>
-          <context context-type="linenumber">6,9</context>
+          <context context-type="linenumber">7,10</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9560c13542ade1c84f46a8f8d156a1f6e1444403" datatype="html">
         <source>Create a new tag</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/tags/edit-tags.component.html</context>
-          <context context-type="linenumber">16</context>
+          <context context-type="linenumber">23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a5100bb1a0fb096041ae10c0cbe550da25b05fb4" datatype="html">
         <source>This cannot be undone! This tag will be removed from all circles.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/tags/edit-tags.component.html</context>
-          <context context-type="linenumber">96</context>
+          <context context-type="linenumber">103</context>
         </context-group>
       </trans-unit>
       <trans-unit id="selectAll" datatype="html">
@@ -2970,32 +2974,25 @@
           <context context-type="linenumber">782</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="f80b971433db7e797a68ee4586860938a790bebc" datatype="html">
+      <trans-unit id="mobile-notice" datatype="html">
         <source>Map editing is disabled on mobile.</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/workspace/workspace.component.html</context>
-          <context context-type="linenumber">6,8</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="editMap" datatype="html">
-        <source>Edit map</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/workspace/workspace.component.html</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="sourcefile">apps/maptio/src/app/workspace/map-container/map-container.component.html</context>
+          <context context-type="linenumber">1,3</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5259615221832269687" datatype="html">
         <source>A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version, then you can make your edits. You can copy any text you just entered, ready to paste it in again after the refresh. Sorry for the hassle.</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/workspace/workspace.component.ts</context>
-          <context context-type="linenumber">223</context>
+          <context context-type="sourcefile">apps/maptio/src/app/workspace/workspace.service.ts</context>
+          <context context-type="linenumber">106</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8325534332063379027" datatype="html">
         <source>An error occurred while saving your changes. Please try making a change again or contact us at support@maptio.com if the error persists.</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/workspace/workspace.component.ts</context>
-          <context context-type="linenumber">273</context>
+          <context context-type="sourcefile">apps/maptio/src/app/workspace/workspace.service.ts</context>
+          <context context-type="linenumber">171</context>
         </context-group>
       </trans-unit>
     </body>

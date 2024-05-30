@@ -3,7 +3,9 @@ import { Subject } from 'rxjs';
 import { Role } from '../../../shared/model/role.data';
 import { Initiative } from '../../../shared/model/initiative.data';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class RoleLibraryService {
   private roles: Role[] = [];
 

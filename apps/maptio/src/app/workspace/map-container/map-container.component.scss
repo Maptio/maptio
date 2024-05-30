@@ -1,0 +1,18 @@
+:host {
+  width: 100%;
+}
+
+.mobile-notice {
+  position: absolute;
+  top: 4rem;
+  width: 100%;
+  font-size: 12.8px;
+  --bs-text-opacity: 1;
+  color: var(--bs-secondary-color) !important;
+  text-align: center;
+  z-index: 1;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}

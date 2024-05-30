@@ -24,6 +24,7 @@ import { AppState } from '@maptio-state/app.state';
 import { setCurrentOrganisationId } from '@maptio-state/global.actions';
 import { PermissionsDirective } from '../../../../shared/directives/permission.directive';
 import { NgIf } from '@angular/common';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'team',
@@ -39,7 +40,7 @@ import { NgIf } from '@angular/common';
   ],
 })
 export class TeamComponent implements OnInit {
-  routeSubscription: Subscription;
+  private subs = new SubSink();
 
   team: Team;
   Permissions = Permissions;
@@ -51,7 +52,7 @@ export class TeamComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.routeSubscription = this.route.data.subscribe(
+    this.subs.sink = this.route.data.subscribe(
       (data: { assets: { team: Team; datasets: DataSet[] } }) => {
         this.team = data.assets.team;
         EmitterService.get('currentTeam').emit(this.team);
@@ -74,7 +75,7 @@ export class TeamComponent implements OnInit {
       setCurrentOrganisationId({ currentOrganisationId: undefined })
     );
 
-    this.routeSubscription.unsubscribe();
+    this.subs.unsubscribe();
   }
 
   onActivate(component: any) {

@@ -1,5 +1,5 @@
 <div
-  *ngIf="showUi"
+  *ngIf="showUi; else hideUi"
   class="h-100 overflow-auto bg-texture"
   [class.unavailable]="(loader.progressRef?.state | async).active"
   [class.container-fluid]="!isWorkspace"
@@ -23,7 +23,9 @@
   </div>
 </div>
 
-<router-outlet name="empty"></router-outlet>
+<ng-template #hideUi>
+  <router-outlet></router-outlet>
+</ng-template>
 
 <!-- <div *ngIf="isMobile()" class="container-fluid h-100 overflow-auto bg-gradient-inverse" [class.unavailable]="(progress.state$ | async).active">
 

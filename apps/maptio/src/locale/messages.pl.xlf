@@ -1299,22 +1299,6 @@
           <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="4b8722ff333a044331acf5b2c9f0261041fce8cb" datatype="html">
-        <source>Use tags to map strategic themes, progress and other information which might be relevant to multiple circles across the map.</source>
-        <target state="translated">Tagów możesz użyć, żeby dodać do mapy strategiczne tematy, postęp, albo inne informacje, które mogą być istotne w więcej niż jednym kole na mapie.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/tags/edit-tags.component.html</context>
-          <context context-type="linenumber">7,9</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="editMap" datatype="html">
-        <source>Edit map</source>
-        <target state="translated">Edytuj mapę</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
-          <context context-type="linenumber">37</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="8d2b3afabe95d8ae871a5b2834c7bc22deba99c3" datatype="html">
         <source>Circle name</source>
         <target state="translated">Nazwa koła</target>
@@ -2851,14 +2835,6 @@
           <context context-type="linenumber">295,296</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="f80b971433db7e797a68ee4586860938a790bebc" datatype="html">
-        <source>Map editing is disabled on mobile.</source>
-        <target state="translated">Edycja mapy jest wyłączona na urządzeniach mobilnych.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
-          <context context-type="linenumber">7,8</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="00e0cd04738f7d2fe0208a6405c6c672e8442624" datatype="html">
         <source>Loading Maptio map</source>
         <target state="translated">Ładowanie mapy Maptio</target>
@@ -2973,6 +2949,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">apps/maptio/src/app/shared/components/cards/create-team/create-team.component.html</context>
           <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="mobile-notice" datatype="html" xml:space="preserve">
+        <source>Map editing is disabled on mobile.</source>
+        <target state="translated">Edycja mapy jest wyłączona na urządzeniach mobilnych.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/maptio/src/app/workspace/map-container/map-container.component.html</context>
+          <context context-type="linenumber">1,3</context>
         </context-group>
       </trans-unit>
     </body>

@@ -5,6 +5,7 @@ export const commonEnvironment = {
   LOCALES: [
     { code: 'de', name: 'Deutsch', shortLabel: 'DE' },
     { code: 'en-US', name: 'English (United States)', shortLabel: 'EN' },
+    { code: 'es', name: 'Español', shortLabel: 'ES' },
     { code: 'fr', name: 'Français', shortLabel: 'FR' },
     { code: 'ja', name: '日本', shortLabel: '日本' },
     { code: 'pl', name: 'Polski', shortLabel: 'PL' },

@@ -1,0 +1,21 @@
+{
+    "verificationEmailSubject": "Confirmación de Cuenta Maptio",
+    "verificationEmailMainHeading": "¡Bienvenid@ a Maptio!",
+    "verificationEmailExplanation": "Estamos listos para activar tu cuenta. Lo único que tenemos que verificar es tu correo electrónico.",
+    "verificationEmailCTA": "Confirmar dirección",
+    "verificationEmailContactUs": "Si tienes cualquier problema con tu cuenta, solo contesta a este correo electrónico y te ayudaremos.",
+    "changePasswordSubject": "Solicitud de Cambio de Clave",
+    "changePasswordExplanation": "Recibimos una solicitud de cambio de clave para tu cuenta de Maptio.",
+    "changePasswordIntro": "Si realizaste esta solicitud por favor haz click en el botón de abajo para resetear tu clave.",
+    "changePasswordCTA": "Cambia la clave",
+    "changePasswordOutro": "Si <b>no</b> realizaste esta solicitud, por favor revisa si aún puedes ingresar a tu cuenta, y contáctanos contestando a este correo electrónico y te ayudaremos.",
+    "inviteEmailSubject": "{{ nameOfInvitationSender }} te invitó a unirte a la organización \"{{ team }}\" en Maptio",
+    "inviteEmailExplanation": "Has recibido una invitación para unirte a <strong>{{ team }}</strong> en Maptio - la herramienta virtual para visualizar organizaciones.",
+    "inviteEmailCTAIntro": "Tu cuenta de Maptio está lista para ti. Lo único que te falta hacer es definir una clave haciendo click en el enlace de abajo.",
+    "inviteEmailCTA": "Log in a Maptio",
+    "inviteEmailContactUs": "Si estás teniendo problemas para acceder a Maptio, solo responde a este mail y te ayudaremos.",
+    "thanks": "¡Gracias!",
+    "signatureTeam": "El equipo de Maptio",
+    "contactIfNotRequested": "Si no has hecho esta solicitud, por favor contáctanos respondiendo a este correo electrónico.",
+    "contactIfNotRequestedInvite": "Si no esperabas este mensaje y no reconoces a la organización de la cual has recibido una invitación para unirte, por favor contáctanos contestando a este correo electrónico."
+}

@@ -44,6 +44,7 @@ export class EditTagsComponent implements OnInit {
   Permissions = Permissions;
 
   KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
+  KB_URL_TAGS = environment.KB_URL_TAGS;
 
   public newTagForm: UntypedFormGroup;
   public newTagColor = '#aaa';

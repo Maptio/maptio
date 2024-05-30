@@ -251,10 +251,9 @@ export class CircleMapService {
       (circle) => circle.data.id === lastSelectedCircleId
     );
 
-    // If the root circle was selected (e.g. in the old expanded map view by
-    // clicking "reset" in the search box), we should ignore this
-    if (lastSelectedCircle === circles[0]) {
-      lastSelectedCircle = undefined;
+    if (!lastSelectedCircle || lastSelectedCircle === circles[0]) {
+      // Open the first circle if the last selected circle is not found
+      lastSelectedCircle = circles[0].children[0];
     }
 
     this.selectedCircle.next(lastSelectedCircle);

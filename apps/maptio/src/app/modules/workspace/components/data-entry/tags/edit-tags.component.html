@@ -3,9 +3,16 @@
 </ng-template>
 
 <div class="h-100 overflow-y">
-  <div class="text-muted my-4" i18n>
-    Use tags to map strategic themes, progress and other information which might
-    be relevant to multiple circles across the map.
+  <div class="text-muted my-4">
+    <ng-container i18n="@@tagsInfo">
+      Customise a set of tags here then add them to your circles to map themes,
+      status and more.
+    </ng-container>
+
+    <a href="{{ KB_URL_TAGS }}" target="blank">
+      <ng-container i18n="@@learnMore">Learn more</ng-container>
+      <ng-container>.</ng-container>
+    </a>
   </div>
 
   <div class="w-100">

@@ -616,7 +616,7 @@ a.nav-link.active {
 }
 
 /* Hide toolbar button tooltip until it's necessary */
-@media all and (min-width: 1401px) and (min-height: 801px) {
+@media all and (min-width: 1401px) and (min-height: 951px) {
   .toolbar-button__tooltip {
     display: none !important;
   }

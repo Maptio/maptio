@@ -877,14 +877,6 @@
           <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="editMap" datatype="html">
-        <source>Edit map</source>
-        <target state="translated">Éditer la carte</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
-          <context context-type="linenumber">37</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="4fbb0530c02000ad4f5197a7090ee3254a6a1e09" datatype="html">
         <source>Move circle</source>
         <target state="translated">Déplacer le cercle</target>
@@ -2740,14 +2732,6 @@
           <context context-type="linenumber">135,137</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="4b8722ff333a044331acf5b2c9f0261041fce8cb" datatype="html">
-        <source>Use tags to map strategic themes, progress and other information which might be relevant to multiple circles across the map.</source>
-        <target state="translated">Utilisez des Tags pour cartographier les thèmes stratégiques, les progrès et autres informations qui pourraient être pertinentes pour plusieurs cercles sur la carte.</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/components/data-entry/tags/edit-tags.component.html</context>
-          <context context-type="linenumber">7,9</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="477346e4dd51d75a37a505cc94da0e459a8a5eb5" datatype="html">
         <source>Payment is up to date</source>
         <target state="translated">Le paiement est à jour</target>
@@ -3101,12 +3085,12 @@
           <context context-type="linenumber">295,296</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="f80b971433db7e797a68ee4586860938a790bebc" datatype="html">
+      <trans-unit id="mobile-notice" datatype="html" xml:space="preserve">
         <source>Map editing is disabled on mobile.</source>
         <target state="translated">L'édition de la carte est désactivée sur les appareils mobiles.</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">apps/maptio/src/app/modules/workspace/pages/workspace/workspace.component.html</context>
-          <context context-type="linenumber">7,8</context>
+          <context context-type="sourcefile">apps/maptio/src/app/workspace/map-container/map-container.component.html</context>
+          <context context-type="linenumber">1,3</context>
         </context-group>
       </trans-unit>
     </body>

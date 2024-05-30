@@ -1,0 +1,7 @@
+<building
+  #building
+  [user]="workspaceService.user()"
+  [isEmptyMap]="workspaceService.isEmptyMap()"
+  (save)="workspaceService.saveChanges($event)"
+  (openDetails)="workspaceService.onOpenDetails($event)"
+></building>

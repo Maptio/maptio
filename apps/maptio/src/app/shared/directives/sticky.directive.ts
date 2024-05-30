@@ -90,17 +90,7 @@ export class StickyPopoverDirective extends NgbPopover {
     changeRef: ChangeDetectorRef,
     applicationRef: ApplicationRef
   ) {
-    super(
-      _elRef,
-      _render,
-      injector,
-      viewContainerRef,
-      config,
-      ngZone,
-      _document,
-      changeRef,
-      applicationRef
-    );
+    super();
     this.triggers = 'manual';
     this.container = 'body';
     this.popoverClass = 'permissions';

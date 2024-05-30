@@ -1,0 +1,10 @@
+:host {
+  display: block;
+  padding: 1rem;
+
+  // Counteracting space reserved for onboarding message and closing button,
+  // once we decide we no longer need to keep the old workspace layout, this
+  // can be reworked - i.e. this margin removed along with the onboarding
+  // message padding this is intended to counteract.
+  margin-top: -28px;
+}
