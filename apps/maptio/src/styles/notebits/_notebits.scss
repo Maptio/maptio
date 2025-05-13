@@ -1,3 +1,13 @@
+// Duplicate the hover behaviour of the buttons in the side panel, this should
+// eventually be fixed in the notebits side panel component itself
+.side-panel__toggle {
+  opacity: 0.5;
+}
+
+.side-panel__toggle:hover {
+  opacity: 1;
+}
+
 @include media-breakpoint-down(md) {
   .side-panel {
     display: none !important;
