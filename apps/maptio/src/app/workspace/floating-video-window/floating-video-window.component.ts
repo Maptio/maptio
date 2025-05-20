@@ -10,8 +10,15 @@ import { NgIf } from '@angular/common';
 })
 export class FloatingVideoWindowComponent implements OnInit {
   isVisible = true;
-  position = { x: 100, y: 100 };
-  size = { width: 400, height: 300 };
+  width = 500;
+  height = 316;
+  size = { width: this.width, height: this.height };
+  marginX = 60;
+  marginY = 60;
+  position = {
+    x: this.marginX,
+    y: window.innerHeight - this.height - this.marginY,
+  };
   isDragging = false;
   dragOffset = { x: 0, y: 0 };
   isResizing = false;
