@@ -47,35 +47,17 @@
     </foreignObject>
   </g>
 
-  <g
-    class="circle__button"
+  <svg:g
+    maptioCircleMenu
+    [defaultRadius]="defaultRadius"
+    [menu]="circleActionsMenu"
     [style.display]="circle.data.isSelected ? 'block' : 'none'"
-    [style.transform]="
-      'translate(' +
-      1.08 * defaultRadius * 0.707 +
-      'px, ' +
-      -1.08 * defaultRadius * 0.707 +
-      'px)'
-    "
   >
-    <foreignObject
-      [attr.x]="-24"
-      [attr.y]="-24"
-      [attr.width]="48"
-      [attr.height]="48"
-    >
-      <button
-        class="circle__button-element"
-        [matMenuTriggerFor]="menu"
-        (click)="$event.stopPropagation()"
-      >
-        +
-      </button>
-    </foreignObject>
-  </g>
+    <!-- Content of maptio-circle-menu will be projected here by its template -->
+  </svg:g>
 </svg:g>
 
-<mat-menu #menu="matMenu">
+<mat-menu #circleActionsMenu="matMenu">
   <button mat-menu-item>
     <mat-icon>add</mat-icon>
     <span>Add Child</span>

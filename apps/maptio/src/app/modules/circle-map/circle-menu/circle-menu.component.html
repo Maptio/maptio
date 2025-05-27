@@ -1,0 +1,25 @@
+<svg:g
+  class="circle__button"
+  [style.transform]="
+    'translate(' +
+    1.08 * defaultRadius * 0.707 +
+    'px, ' +
+    -1.08 * defaultRadius * 0.707 +
+    'px)'
+  "
+>
+  <svg:foreignObject
+    [attr.x]="-24"
+    [attr.y]="-24"
+    [attr.width]="48"
+    [attr.height]="48"
+  >
+    <button
+      class="circle__button-element"
+      [matMenuTriggerFor]="menu"
+      (click)="$event.stopPropagation()"
+    >
+      +
+    </button>
+  </svg:foreignObject>
+</svg:g>
