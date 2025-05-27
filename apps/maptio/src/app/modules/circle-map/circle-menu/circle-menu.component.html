@@ -14,27 +14,24 @@
     [attr.width]="48"
     [attr.height]="48"
   >
-    <button
+    <nb-item-menu-button
       class="circle__button-element"
-      [matMenuTriggerFor]="menu"
+      [nbMenuTriggerFor]="menu.matMenu"
       (click)="$event.stopPropagation()"
     >
       +
-    </button>
+    </nb-item-menu-button>
   </svg:foreignObject>
 </svg:g>
 
-<mat-menu #menu="matMenu">
-  <button mat-menu-item>
-    <mat-icon>add</mat-icon>
+<nb-item-menu #menu>
+  <nb-menu-item [icon]="'add'">
     <span>Add Child</span>
-  </button>
-  <button mat-menu-item>
-    <mat-icon>edit</mat-icon>
+  </nb-menu-item>
+  <nb-menu-item [icon]="'edit'">
     <span>Edit</span>
-  </button>
-  <button mat-menu-item>
-    <mat-icon>delete</mat-icon>
+  </nb-menu-item>
+  <nb-menu-item [icon]="'delete'">
     <span>Delete</span>
-  </button>
-</mat-menu>
+  </nb-menu-item>
+</nb-item-menu>
