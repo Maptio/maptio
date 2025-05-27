@@ -50,27 +50,11 @@
   <svg:g
     maptioCircleMenu
     [defaultRadius]="defaultRadius"
-    [menu]="circleActionsMenu"
     [style.display]="circle.data.isSelected ? 'block' : 'none'"
   >
-    <!-- Content of maptio-circle-menu will be projected here by its template -->
+    <!-- Content of maptio-circle-menu (button and its own menu) will be projected here -->
   </svg:g>
 </svg:g>
-
-<mat-menu #circleActionsMenu="matMenu">
-  <button mat-menu-item>
-    <mat-icon>add</mat-icon>
-    <span>Add Child</span>
-  </button>
-  <button mat-menu-item>
-    <mat-icon>edit</mat-icon>
-    <span>Edit</span>
-  </button>
-  <button mat-menu-item>
-    <mat-icon>delete</mat-icon>
-    <span>Delete</span>
-  </button>
-</mat-menu>
 
 <sat-popover
   #popover
