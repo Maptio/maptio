@@ -9,14 +9,14 @@
   [satPopoverAnchor]="popover"
   [satPopoverHover]="300"
   (click)="onClick($event)"
-  >
+>
   <circle
     class="circle__shadow"
     [attr.cx]="0"
     [attr.cy]="0"
     [attr.r]="defaultRadius"
     [attr.fill]="circle.data.color"
-    />
+  />
 
   <circle
     class="circle__circle"
@@ -24,11 +24,11 @@
     [attr.cy]="0"
     [attr.r]="defaultRadius"
     [attr.fill]="circle.data.color"
-    />
+  />
 
   <g class="circle__children">
     @for (child of circle.children; track child) {
-      <g maptioCircle [circle]="child"></g>
+    <g maptioCircle [circle]="child"></g>
     }
   </g>
 
@@ -38,24 +38,70 @@
       [attr.y]="infoY"
       [attr.width]="infoSize"
       [attr.height]="infoSize"
-      >
-      <g maptioCircleInfo [circle]="circle"></g>
+    >
+      <!-- <g maptioCircleInfo [circle]="circle"></g> -->
+      <p>
+        {{ circle.data.name }},
+        {{ circle.data.isSelected }}
+      </p>
     </foreignObject>
   </g>
-  </svg:g>
 
-  <sat-popover
-    #popover
-    verticalAlign="below"
-    (opened)="onPopoverOpen()"
-    (closed)="onPopoverClose()"
+  <g
+    class="circle__button"
+    [style.display]="circle.data.isSelected ? 'block' : 'none'"
+    [style.transform]="
+      'translate(' +
+      1.08 * defaultRadius * 0.707 +
+      'px, ' +
+      -1.08 * defaultRadius * 0.707 +
+      'px)'
+    "
+  >
+    <foreignObject
+      [attr.x]="-24"
+      [attr.y]="-24"
+      [attr.width]="48"
+      [attr.height]="48"
     >
-    <div
-      class="circle__popover"
-      [class.circle__popover--hidden]="isPopoverHidden"
+      <button
+        class="circle__button-element"
+        [matMenuTriggerFor]="menu"
+        (click)="$event.stopPropagation()"
       >
-      <div class="circle__popover-name">
-        {{ circle.data.name }}
-      </div>
+        +
+      </button>
+    </foreignObject>
+  </g>
+</svg:g>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item>
+    <mat-icon>add</mat-icon>
+    <span>Add Child</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>edit</mat-icon>
+    <span>Edit</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
+</mat-menu>
+
+<sat-popover
+  #popover
+  verticalAlign="below"
+  (opened)="onPopoverOpen()"
+  (closed)="onPopoverClose()"
+>
+  <div
+    class="circle__popover"
+    [class.circle__popover--hidden]="isPopoverHidden"
+  >
+    <div class="circle__popover-name">
+      {{ circle.data.name }}
     </div>
-  </sat-popover>
+  </div>
+</sat-popover>

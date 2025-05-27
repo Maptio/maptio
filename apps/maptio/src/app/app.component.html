@@ -1,31 +1,32 @@
 @if (showUi) {
-  <div
-    class="h-100 overflow-auto bg-texture"
-    [class.unavailable]="(loader.progressRef?.state | async).active"
-    [class.container-fluid]="!isWorkspace"
+<div
+  class="h-100 overflow-auto bg-texture"
+  [class.unavailable]="(loader.progressRef?.state | async).active"
+  [class.container-fluid]="!isWorkspace"
+>
+  <nb-sdk></nb-sdk>
+  Testing...
+  <div class="d-flex flex-column h-100">
+    <maptio-header [class.header-container]="isWorkspace"></maptio-header>
+    <div
+      class="h-100 overflow-x-hidden bg-transparent"
+      [class.container-fluid]="!isWorkspace"
     >
-    <div class="d-flex flex-column h-100">
-      <maptio-header [class.header-container]="isWorkspace"></maptio-header>
-      <div
-        class="h-100 overflow-x-hidden bg-transparent"
-        [class.container-fluid]="!isWorkspace"
-        >
-        <div class="row h-100">
-          <div class="col-12 h-100">
-            <loader></loader>
-            <router-outlet></router-outlet>
-          </div>
+      <div class="row h-100">
+        <div class="col-12 h-100">
+          <loader></loader>
+          <router-outlet></router-outlet>
         </div>
       </div>
-      @if (!isWorkspace) {
-        <footer [isMobile]="isMobile()"></footer>
-      }
     </div>
+    @if (!isWorkspace) {
+    <footer [isMobile]="isMobile()"></footer>
+    }
   </div>
+</div>
 } @else {
-  <router-outlet></router-outlet>
+<router-outlet></router-outlet>
 }
-
 
 <!-- <div *ngIf="isMobile()" class="container-fluid h-100 overflow-auto bg-gradient-inverse" [class.unavailable]="(progress.state$ | async).active">
 

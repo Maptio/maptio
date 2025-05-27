@@ -27,6 +27,9 @@ import { LoaderComponent } from './shared/components/loading/loader.component';
 import { HeaderComponent } from './core/header/header.component';
 import { AsyncPipe } from '@angular/common';
 
+// import { SdkComponent } from '../../../../libs/notebits-sdk/src/index';
+import { SdkComponent } from '@notebits/sdk';
+
 @Component({
   selector: 'maptio-app',
   templateUrl: './app.component.html',
@@ -38,6 +41,8 @@ import { AsyncPipe } from '@angular/common';
     RouterOutlet,
     FooterComponent,
     AsyncPipe,
+
+    SdkComponent,
   ],
 })
 export class AppComponent implements OnInit, OnDestroy {
