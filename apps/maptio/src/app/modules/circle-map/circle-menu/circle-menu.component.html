@@ -25,13 +25,13 @@
 </svg:g>
 
 <nb-item-menu #menu>
-  <nb-menu-item [icon]="'add'">
-    <span>Add Child</span>
+  <nb-menu-item [icon]="'info'" (click)="toggleDetailsPanel()">
+    <span>Toggle details</span>
   </nb-menu-item>
-  <nb-menu-item [icon]="'edit'">
+  <!-- <nb-menu-item [icon]="'edit'">
     <span>Edit</span>
   </nb-menu-item>
   <nb-menu-item [icon]="'delete'">
     <span>Delete</span>
-  </nb-menu-item>
+  </nb-menu-item> -->
 </nb-item-menu>

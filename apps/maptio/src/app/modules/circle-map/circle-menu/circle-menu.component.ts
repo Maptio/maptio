@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ItemMenuComponent,
   ItemMenuButtonComponent,
-  NbMenuItemComponent,
+  MenuItemComponent,
 } from '@notebits/sdk';
+import { WorkspaceService } from '../../../workspace/workspace.service';
 
 @Component({
   selector: 'g[maptioCircleMenu]',
@@ -15,9 +16,15 @@ import {
     CommonModule,
     ItemMenuComponent,
     ItemMenuButtonComponent,
-    NbMenuItemComponent,
+    MenuItemComponent,
   ],
 })
 export class CircleMenuComponent {
   @Input() defaultRadius: number;
+
+  private workspaceService = inject(WorkspaceService);
+
+  toggleDetailsPanel() {
+    this.workspaceService.toggleDetailsPanel();
+  }
 }
