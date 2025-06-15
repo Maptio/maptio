@@ -161,6 +161,10 @@ export class WorkspaceService {
       });
   }
 
+  sendInitiativesToOutliner(rootNode: Initiative) {
+    this.buildingComponent().sendInitiativesToOutliner(rootNode);
+  }
+
   saveDetailChanges() {
     this.buildingComponent().saveChangesAndUpdateOutliner();
   }

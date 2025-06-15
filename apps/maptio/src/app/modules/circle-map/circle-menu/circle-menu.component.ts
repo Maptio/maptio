@@ -6,6 +6,8 @@ import {
   MenuItemComponent,
 } from '@notebits/sdk';
 import { WorkspaceService } from '../../../workspace/workspace.service';
+import { InitiativeNode } from '../initiative.model';
+import { MapEditingService } from '../../../modules/workspace/services/map-editing.service';
 
 @Component({
   selector: 'g[maptioCircleMenu]',
@@ -21,10 +23,20 @@ import { WorkspaceService } from '../../../workspace/workspace.service';
 })
 export class CircleMenuComponent {
   @Input() defaultRadius: number;
+  @Input() circleNode!: InitiativeNode;
 
   private workspaceService = inject(WorkspaceService);
+  private mapEditingService = inject(MapEditingService);
 
   toggleDetailsPanel() {
     this.workspaceService.toggleDetailsPanel();
+  }
+
+  async deleteCircle() {
+    if (this.circleNode) {
+      await this.mapEditingService.deleteNodeByIdFromWorkspaceAndSave(
+        this.circleNode.data.id
+      );
+    }
   }
 }
