@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -8,7 +8,7 @@ import { NgIf } from '@angular/common';
   standalone: true,
   imports: [NgIf],
 })
-export class FloatingVideoWindowComponent implements OnInit {
+export class FloatingVideoWindowComponent implements OnInit, OnDestroy {
   isVisible = true;
   width = 500;
   height = 316;
@@ -31,30 +31,16 @@ export class FloatingVideoWindowComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onMouseDown(event: MouseEvent): void {
-    if (
-      event.target instanceof HTMLElement &&
-      event.target.classList.contains('resize-handle')
-    ) {
-      this.isResizing = true;
-      this.resizeStart = { x: event.clientX, y: event.clientY };
-      this.initialSize = { ...this.size };
-    } else {
-      this.isDragging = true;
-      this.dragOffset = {
-        x: event.clientX - this.position.x,
-        y: event.clientY - this.position.y,
-      };
-    }
-  }
-
-  onMouseMove(event: MouseEvent): void {
+  @HostListener('document:mousemove', ['$event'])
+  onDocumentMouseMove(event: MouseEvent): void {
     if (this.isDragging) {
+      event.preventDefault();
       this.position = {
         x: event.clientX - this.dragOffset.x,
         y: event.clientY - this.dragOffset.y,
       };
     } else if (this.isResizing) {
+      event.preventDefault();
       const deltaX = event.clientX - this.resizeStart.x;
       const deltaY = event.clientY - this.resizeStart.y;
       this.size = {
@@ -64,9 +50,42 @@ export class FloatingVideoWindowComponent implements OnInit {
     }
   }
 
-  onMouseUp(): void {
-    this.isDragging = false;
-    this.isResizing = false;
+  @HostListener('document:mouseup')
+  onDocumentMouseUp(): void {
+    if (this.isDragging || this.isResizing) {
+      this.isDragging = false;
+      this.isResizing = false;
+      document.body.style.userSelect = '';
+      document.body.style.cursor = '';
+    }
+  }
+
+  onMouseDown(event: MouseEvent): void {
+    if (
+      event.target instanceof HTMLElement &&
+      event.target.classList.contains('resize-handle')
+    ) {
+      event.preventDefault();
+      this.isResizing = true;
+      this.resizeStart = { x: event.clientX, y: event.clientY };
+      this.initialSize = { ...this.size };
+      document.body.style.userSelect = 'none';
+      document.body.style.cursor = 'nwse-resize';
+    } else {
+      this.isDragging = true;
+      this.dragOffset = {
+        x: event.clientX - this.position.x,
+        y: event.clientY - this.position.y,
+      };
+      document.body.style.userSelect = 'none';
+      document.body.style.cursor = 'move';
+    }
+  }
+
+  ngOnDestroy(): void {
+    // Clean up any styles we might have set
+    document.body.style.userSelect = '';
+    document.body.style.cursor = '';
   }
 
   close(): void {
