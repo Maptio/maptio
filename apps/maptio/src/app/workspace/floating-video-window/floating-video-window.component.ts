@@ -12,8 +12,6 @@ export class FloatingVideoWindowComponent implements OnInit, OnDestroy {
   isVisible = true;
   width = 500;
   height = 316;
-  videoWidth = 480;
-  videoHeight = 270;
   size = { width: this.width, height: this.height };
   marginX = 60;
   marginY = 60;
@@ -83,7 +81,6 @@ export class FloatingVideoWindowComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Clean up any styles we might have set
     document.body.style.userSelect = '';
     document.body.style.cursor = '';
   }
