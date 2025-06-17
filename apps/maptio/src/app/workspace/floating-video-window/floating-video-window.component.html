@@ -16,17 +16,20 @@
   </div>
 
   <div class="window-content">
-    <iframe
-      width="100%"
-      height="100%"
-      src="https://www.youtube-nocookie.com/embed/mOlj8s48kgc?rel=0"
-      title="Onboarding Video"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
-      loading="lazy"
-      referrerpolicy="origin"
-    ></iframe>
+    <div #videoContainer class="video-container">
+      <video
+        controls
+        [width]="videoWidth"
+        [height]="videoHeight"
+        preload="metadata"
+      >
+        <source
+          src="https://res.cloudinary.com/hgkbm0qes/video/upload/v1750180118/maptio-onboarding-video.mp4"
+          type="video/mp4"
+        />
+        Your browser does not support the video tag.
+      </video>
+    </div>
   </div>
 
   <div class="resize-handle"></div>

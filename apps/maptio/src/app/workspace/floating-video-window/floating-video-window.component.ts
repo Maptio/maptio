@@ -12,6 +12,8 @@ export class FloatingVideoWindowComponent implements OnInit {
   isVisible = true;
   width = 500;
   height = 316;
+  videoWidth = 480;
+  videoHeight = 270;
   size = { width: this.width, height: this.height };
   marginX = 60;
   marginY = 60;
