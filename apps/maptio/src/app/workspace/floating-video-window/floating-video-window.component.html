@@ -7,13 +7,9 @@
   [style.height.px]="size.height"
   (mousedown)="onMouseDown($event)"
 >
-  <div class="window-header">
-    <span>Onboarding Video</span>
-    <button class="close-button" (click)="close()">×</button>
-  </div>
-
   <div class="window-content">
     <div class="video-container">
+      <button class="close-button" (click)="close()">×</button>
       <video controls preload="metadata">
         <source
           src="https://res.cloudinary.com/hgkbm0qes/video/upload/v1750180118/maptio-onboarding-video.mp4"
