@@ -9,18 +9,23 @@ import { NgIf } from '@angular/common';
   imports: [NgIf],
 })
 export class OnboardingVideoComponent implements OnInit, OnDestroy {
-  isVisible = true;
-  width = 500;
-  height = 316;
-  size = { width: this.width, height: this.height };
-  marginX = 60;
-  marginY = 60;
+  // Size hardcoded to match the video size
+  size = { width: 500, height: 316 }; //px
+
+  // Positionin in relation to the bottom left corner of the screen
+  margin = 60; // px
   position = {
-    x: this.marginX,
-    y: window.innerHeight - this.height - this.marginY,
+    x: this.margin,
+    y: window.innerHeight - this.size.height - this.margin,
   };
+
+  isVisible = true;
+
+  // Dragging
   isDragging = false;
   dragOffset = { x: 0, y: 0 };
+
+  // Resizing
   isResizing = false;
   resizeStart = { x: 0, y: 0 };
   initialSize = { width: 0, height: 0 };
@@ -33,12 +38,14 @@ export class OnboardingVideoComponent implements OnInit, OnDestroy {
   onDocumentMouseMove(event: MouseEvent): void {
     if (this.isDragging) {
       event.preventDefault();
+
       this.position = {
         x: event.clientX - this.dragOffset.x,
         y: event.clientY - this.dragOffset.y,
       };
     } else if (this.isResizing) {
       event.preventDefault();
+
       const deltaX = event.clientX - this.resizeStart.x;
       const deltaY = event.clientY - this.resizeStart.y;
       this.size = {
