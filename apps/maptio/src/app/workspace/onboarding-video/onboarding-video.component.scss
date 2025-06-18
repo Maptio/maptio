@@ -2,16 +2,14 @@
   display: block;
 }
 
-:host.dragging {
-  cursor: move;
-}
-
 :host.resizing {
   cursor: nwse-resize;
 }
 
 .onboarding-video {
   position: fixed;
+  bottom: 1rem;
+  left: 1rem;
   background: black;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -19,8 +17,10 @@
   flex-direction: column;
   overflow: hidden;
   z-index: 1000;
-  user-select: none;
-  cursor: move;
+}
+
+.onboarding-video:active {
+  cursor: grabbing;
 }
 
 .onboarding-video__window-content {
