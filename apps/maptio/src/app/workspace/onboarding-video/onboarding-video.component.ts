@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener, HostBinding } from '@angular/core';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -8,7 +8,7 @@ import { NgIf } from '@angular/common';
   standalone: true,
   imports: [NgIf],
 })
-export class OnboardingVideoComponent implements OnInit, OnDestroy {
+export class OnboardingVideoComponent implements OnInit {
   // Size hardcoded to match the video size
   size = { width: 500, height: 316 }; //px
 
@@ -29,6 +29,21 @@ export class OnboardingVideoComponent implements OnInit, OnDestroy {
   isResizing = false;
   resizeStart = { x: 0, y: 0 };
   initialSize = { width: 0, height: 0 };
+
+  @HostBinding('style.userSelect')
+  get userSelect(): string {
+    return this.isDragging || this.isResizing ? 'none' : '';
+  }
+
+  @HostBinding('class.dragging')
+  get isDraggingClass(): boolean {
+    return this.isDragging;
+  }
+
+  @HostBinding('class.resizing')
+  get isResizingClass(): boolean {
+    return this.isResizing;
+  }
 
   constructor() {}
 
@@ -60,8 +75,6 @@ export class OnboardingVideoComponent implements OnInit, OnDestroy {
     if (this.isDragging || this.isResizing) {
       this.isDragging = false;
       this.isResizing = false;
-      document.body.style.userSelect = '';
-      document.body.style.cursor = '';
     }
   }
 
@@ -74,22 +87,13 @@ export class OnboardingVideoComponent implements OnInit, OnDestroy {
       this.isResizing = true;
       this.resizeStart = { x: event.clientX, y: event.clientY };
       this.initialSize = { ...this.size };
-      document.body.style.userSelect = 'none';
-      document.body.style.cursor = 'nwse-resize';
     } else {
       this.isDragging = true;
       this.dragOffset = {
         x: event.clientX - this.position.x,
         y: event.clientY - this.position.y,
       };
-      document.body.style.userSelect = 'none';
-      document.body.style.cursor = 'move';
     }
-  }
-
-  ngOnDestroy(): void {
-    document.body.style.userSelect = '';
-    document.body.style.cursor = '';
   }
 
   close(): void {

@@ -1,3 +1,15 @@
+:host {
+  display: block;
+}
+
+:host.dragging {
+  cursor: move;
+}
+
+:host.resizing {
+  cursor: nwse-resize;
+}
+
 .onboarding-video {
   position: fixed;
   background: black;
