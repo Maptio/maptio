@@ -6,6 +6,7 @@ export class OnboardingProgress implements Serializable<OnboardingProgress> {
   showEditingPanelMessage = false;
   showCircleDetailsPanelMessage = false;
   showCircleCanvasMessage = false;
+  showOnboardingVideo = false;
 
   public constructor(init?: Partial<OnboardingProgress>) {
     Object.assign(this, init);
@@ -18,6 +19,8 @@ export class OnboardingProgress implements Serializable<OnboardingProgress> {
   deserialize(input: OnboardingProgress): OnboardingProgress {
     const deserialized = new OnboardingProgress();
 
+    // This will ensure that old users who don't have the message key in their
+    // onboarding progress will not see the messages/video
     if (!isEmpty(input)) {
       deserialized.showEditingPanelMessage =
         input.showEditingPanelMessage ?? false;
@@ -25,6 +28,7 @@ export class OnboardingProgress implements Serializable<OnboardingProgress> {
         input.showCircleDetailsPanelMessage ?? false;
       deserialized.showCircleCanvasMessage =
         input.showCircleCanvasMessage ?? false;
+      deserialized.showOnboardingVideo = input.showOnboardingVideo ?? false;
     }
 
     return deserialized;

@@ -38,5 +38,6 @@ export const commonEnvironment = {
       'https://learning.maptio.com/creating-and-editing-circles',
     showCircleCanvasMessage:
       'https://learning.maptio.com/circles-and-expanded-views',
+    showOnboardingVideo: '',
   },
 };

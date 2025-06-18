@@ -1,5 +1,5 @@
 <div
-  *ngIf="isVisible"
+  *ngIf="showMessage$ | async"
   class="onboarding-video"
   [style.width.px]="size.width"
   [style.height.px]="size.height"
@@ -11,7 +11,7 @@
   <div class="draggable-area" cdkDragHandle>
     <div class="onboarding-video__window-content">
       <div class="onboarding-video__video-container">
-        <button class="onboarding-video__close-button" (click)="close()">
+        <button class="onboarding-video__close-button" (click)="dismissVideo()">
           ×
         </button>
 
