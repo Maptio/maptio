@@ -45,8 +45,8 @@
   background: rgba(0, 0, 0, 0.5);
   border: none;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   font-size: 16px;
   cursor: pointer;
   color: white;
@@ -79,7 +79,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-  cursor: grab;
 
   &:active {
     cursor: grabbing;
