@@ -92,10 +92,10 @@
   background: transparent;
   transition: background-color 0.2s;
   z-index: 1;
+}
 
-  &:hover {
-    background: #2196f3; // Maptio blue
-  }
+.onboarding-video__resize-handle:hover {
+  background: var(--maptio-blue);
 }
 
 // Side handles
