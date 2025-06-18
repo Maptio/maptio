@@ -27,7 +27,7 @@ import { WorkspaceService } from '@maptio-workspace/workspace.service';
 import { MapContainerComponent } from '@maptio-workspace/map-container/map-container.component';
 import { InitiativeDetailsContainerComponent } from '@maptio-workspace/initiative-details-container/initiative-details-container.component';
 import { StructureEditorContainerComponent } from '@maptio-workspace/structure-editor-container/structure-editor-container.component';
-import { FloatingVideoWindowComponent } from './floating-video-window/floating-video-window.component';
+import { OnboardingVideoComponent } from './onboarding-video/onboarding-video.component';
 
 // TODO: Move these components slowly into the new standalone component workspace
 import { WorkspaceFacade } from '@maptio-old-workspace/+state/workspace.facade';
@@ -49,7 +49,7 @@ import { MapSettingsService } from '@maptio-old-workspace/services/map-settings.
     MapContainerComponent,
     StructureEditorContainerComponent,
     InitiativeDetailsContainerComponent,
-    FloatingVideoWindowComponent,
+    OnboardingVideoComponent,
   ],
   providers: [UIService, MapSettingsService, WorkspaceFacade],
 })
