@@ -1,6 +1,6 @@
 import { Component, HostListener, HostBinding } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DragDropModule, CdkDragStart } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'maptio-onboarding-video',
@@ -11,6 +11,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 })
 export class OnboardingVideoComponent {
   isVisible = true;
+  isDragging = false;
 
   // Resizing
   isResizing = false;
@@ -26,6 +27,23 @@ export class OnboardingVideoComponent {
   @HostBinding('class.resizing')
   get isResizingClass(): boolean {
     return this.isResizing;
+  }
+
+  // This is used below to prevent the video from being clicked when dragging
+  onDragStarted() {
+    this.isDragging = true;
+  }
+
+  // Prevent the video from being clicked when dragging
+  onVideoClick(event: MouseEvent): void {
+    if (this.isDragging) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      // Reset the dragging state now that we've captured the click generated
+      // by dragging
+      this.isDragging = false;
+    }
   }
 
   onResizeStart(event: MouseEvent): void {
