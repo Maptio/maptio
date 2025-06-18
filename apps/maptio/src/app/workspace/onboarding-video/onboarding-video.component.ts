@@ -10,15 +10,13 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
   imports: [NgIf, DragDropModule],
 })
 export class OnboardingVideoComponent {
-  // Size hardcoded to match the video size
-  size = { width: 500, height: 316 }; //px
-
   isVisible = true;
 
-  // For resize functionality
+  // Resizing
   isResizing = false;
   resizeStart = { x: 0, y: 0 };
-  initialSize = { width: 0, height: 0 };
+  initialSize = { width: 500, height: 316 }; // Hardcoded to match the video
+  size = { ...this.initialSize };
 
   @HostBinding('style.userSelect')
   get userSelect(): string {
