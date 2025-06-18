@@ -6,7 +6,6 @@
   cdkDrag
   (cdkDragStarted)="onDragStarted()"
 >
-  <!-- Draggable area -->
   <div class="draggable-area" cdkDragHandle>
     <div class="onboarding-video__window-content">
       <div class="onboarding-video__video-container">
@@ -30,39 +29,13 @@
     </div>
   </div>
 
-  <!-- Resize handles -->
   <div
-    class="resize-handle resize-handle--n"
-    (mousedown)="onResizeStart($event, 'n')"
-  ></div>
-  <div
-    class="resize-handle resize-handle--s"
-    (mousedown)="onResizeStart($event, 's')"
-  ></div>
-  <div
-    class="resize-handle resize-handle--e"
-    (mousedown)="onResizeStart($event, 'e')"
-  ></div>
-  <div
-    class="resize-handle resize-handle--w"
-    (mousedown)="onResizeStart($event, 'w')"
-  ></div>
-
-  <!-- Corner handles -->
-  <div
-    class="resize-handle resize-handle--nw"
-    (mousedown)="onResizeStart($event, 'nw')"
-  ></div>
-  <div
-    class="resize-handle resize-handle--ne"
-    (mousedown)="onResizeStart($event, 'ne')"
-  ></div>
-  <div
-    class="resize-handle resize-handle--sw"
-    (mousedown)="onResizeStart($event, 'sw')"
-  ></div>
-  <div
-    class="resize-handle resize-handle--se"
-    (mousedown)="onResizeStart($event, 'se')"
+    *ngFor="let handle of ['n', 's', 'e', 'w', 'nw', 'ne', 'sw', 'se']"
+    class="
+      onboarding-video__resize-handle
+      onboarding-video__resize-handle--{{ handle }}
+    "
+    [class.onboarding-video__resize-handle--disabled]="isResizing"
+    (mousedown)="onResizeStart($event, handle)"
   ></div>
 </div>
