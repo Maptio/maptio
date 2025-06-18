@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { DragDropModule, CdkDragMove } from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'maptio-onboarding-video',
@@ -12,6 +12,9 @@ import { DragDropModule, CdkDragMove } from '@angular/cdk/drag-drop';
 export class OnboardingVideoComponent {
   isVisible = true;
   isDragging = false;
+  isResizing = false;
+  activeHandle: string | null = null;
+  resizeStart = { x: 0, y: 0 };
 
   // Initial size with 16:9 aspect ratio
   initialSize = { width: 500, height: 281 };
@@ -32,49 +35,56 @@ export class OnboardingVideoComponent {
     }
   }
 
-  onResizeHandleDragged(event: CdkDragMove, handle: string) {
-    const delta = {
-      x: event.distance.x,
-      y: event.distance.y,
-    };
+  onResizeStart(event: MouseEvent, handle: string) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isResizing = true;
+    this.activeHandle = handle;
+    this.resizeStart = { x: event.clientX, y: event.clientY };
+  }
 
-    // Reset the drag position to prevent accumulation
-    event.source.reset();
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(event: MouseEvent) {
+    if (!this.isResizing || !this.activeHandle) return;
+
+    event.preventDefault();
+    const deltaX = event.clientX - this.resizeStart.x;
+    const deltaY = event.clientY - this.resizeStart.y;
 
     let newWidth = this.size.width;
     let newHeight = this.size.height;
 
-    switch (handle) {
+    switch (this.activeHandle) {
       case 'e':
-        newWidth = this.size.width + delta.x;
+        newWidth = this.size.width + deltaX;
         newHeight = newWidth / this.aspectRatio;
         break;
       case 'w':
-        newWidth = this.size.width - delta.x;
+        newWidth = this.size.width - deltaX;
         newHeight = newWidth / this.aspectRatio;
         break;
       case 'n':
-        newHeight = this.size.height - delta.y;
+        newHeight = this.size.height - deltaY;
         newWidth = newHeight * this.aspectRatio;
         break;
       case 's':
-        newHeight = this.size.height + delta.y;
+        newHeight = this.size.height + deltaY;
         newWidth = newHeight * this.aspectRatio;
         break;
       case 'nw':
-        newWidth = this.size.width - delta.x;
+        newWidth = this.size.width - deltaX;
         newHeight = newWidth / this.aspectRatio;
         break;
       case 'ne':
-        newWidth = this.size.width + delta.x;
+        newWidth = this.size.width + deltaX;
         newHeight = newWidth / this.aspectRatio;
         break;
       case 'sw':
-        newWidth = this.size.width - delta.x;
+        newWidth = this.size.width - deltaX;
         newHeight = newWidth / this.aspectRatio;
         break;
       case 'se':
-        newWidth = this.size.width + delta.x;
+        newWidth = this.size.width + deltaX;
         newHeight = newWidth / this.aspectRatio;
         break;
     }
@@ -88,6 +98,15 @@ export class OnboardingVideoComponent {
         width: Math.round(newWidth),
         height: Math.round(newHeight),
       };
+      this.resizeStart = { x: event.clientX, y: event.clientY };
+    }
+  }
+
+  @HostListener('document:mouseup')
+  onMouseUp() {
+    if (this.isResizing) {
+      this.isResizing = false;
+      this.activeHandle = null;
     }
   }
 

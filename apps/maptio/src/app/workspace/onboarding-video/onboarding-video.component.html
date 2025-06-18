@@ -3,9 +3,11 @@
   class="onboarding-video"
   [style.width.px]="size.width"
   [style.height.px]="size.height"
+  cdkDrag
+  (cdkDragStarted)="onDragStarted()"
 >
   <!-- Draggable area -->
-  <div class="draggable-area" cdkDrag (cdkDragStarted)="onDragStarted()">
+  <div class="draggable-area" cdkDragHandle>
     <div class="onboarding-video__window-content">
       <div class="onboarding-video__video-container">
         <button class="onboarding-video__close-button" (click)="close()">
@@ -31,48 +33,36 @@
   <!-- Resize handles -->
   <div
     class="resize-handle resize-handle--n"
-    cdkDrag
-    cdkDragLockX
-    (cdkDragMoved)="onResizeHandleDragged($event, 'n')"
+    (mousedown)="onResizeStart($event, 'n')"
   ></div>
   <div
     class="resize-handle resize-handle--s"
-    cdkDrag
-    cdkDragLockX
-    (cdkDragMoved)="onResizeHandleDragged($event, 's')"
+    (mousedown)="onResizeStart($event, 's')"
   ></div>
   <div
     class="resize-handle resize-handle--e"
-    cdkDrag
-    cdkDragLockY
-    (cdkDragMoved)="onResizeHandleDragged($event, 'e')"
+    (mousedown)="onResizeStart($event, 'e')"
   ></div>
   <div
     class="resize-handle resize-handle--w"
-    cdkDrag
-    cdkDragLockY
-    (cdkDragMoved)="onResizeHandleDragged($event, 'w')"
+    (mousedown)="onResizeStart($event, 'w')"
   ></div>
 
   <!-- Corner handles -->
   <div
     class="resize-handle resize-handle--nw"
-    cdkDrag
-    (cdkDragMoved)="onResizeHandleDragged($event, 'nw')"
+    (mousedown)="onResizeStart($event, 'nw')"
   ></div>
   <div
     class="resize-handle resize-handle--ne"
-    cdkDrag
-    (cdkDragMoved)="onResizeHandleDragged($event, 'ne')"
+    (mousedown)="onResizeStart($event, 'ne')"
   ></div>
   <div
     class="resize-handle resize-handle--sw"
-    cdkDrag
-    (cdkDragMoved)="onResizeHandleDragged($event, 'sw')"
+    (mousedown)="onResizeStart($event, 'sw')"
   ></div>
   <div
     class="resize-handle resize-handle--se"
-    cdkDrag
-    (cdkDragMoved)="onResizeHandleDragged($event, 'se')"
+    (mousedown)="onResizeStart($event, 'se')"
   ></div>
 </div>
