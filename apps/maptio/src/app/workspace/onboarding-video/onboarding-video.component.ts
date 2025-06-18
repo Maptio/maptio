@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
@@ -7,7 +7,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
   templateUrl: './onboarding-video.component.html',
   styleUrls: ['./onboarding-video.component.scss'],
   standalone: true,
-  imports: [NgIf, DragDropModule],
+  imports: [NgIf, NgFor, DragDropModule],
 })
 export class OnboardingVideoComponent {
   isVisible = true;
