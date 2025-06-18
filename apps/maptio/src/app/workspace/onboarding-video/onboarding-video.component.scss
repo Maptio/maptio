@@ -1,4 +1,4 @@
-.floating-window {
+.onboarding-video {
   position: fixed;
   background: black;
   border-radius: 8px;
@@ -9,66 +9,66 @@
   z-index: 1000;
   user-select: none;
   cursor: move;
+}
 
-  .window-content {
-    flex: 1;
-    min-height: 0;
-    background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
+.onboarding-video__window-content {
+  flex: 1;
+  min-height: 0;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
 
-    .video-container {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
+.onboarding-video__video-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
 
-      .close-button {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: rgba(0, 0, 0, 0.5);
-        border: none;
-        border-radius: 50%;
-        width: 24px;
-        height: 24px;
-        font-size: 16px;
-        cursor: pointer;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.2s ease;
-        z-index: 2;
+.onboarding-video__close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  cursor: pointer;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 2;
+}
 
-        &:hover {
-          background: rgba(0, 0, 0, 0.7);
-        }
-      }
+.onboarding-video__close-button:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
 
-      &:hover .close-button {
-        opacity: 1;
-      }
+.onboarding-video__video-container:hover .onboarding-video__close-button {
+  opacity: 1;
+}
 
-      video {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-      }
-    }
-  }
+.onboarding-video__video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 
-  .resize-handle {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 20px;
-    height: 20px;
-    cursor: nwse-resize;
-  }
+.onboarding-video__resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  cursor: nwse-resize;
 }

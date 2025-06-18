@@ -61,7 +61,7 @@ export class OnboardingVideoComponent implements OnInit, OnDestroy {
   onMouseDown(event: MouseEvent): void {
     if (
       event.target instanceof HTMLElement &&
-      event.target.classList.contains('resize-handle')
+      event.target.classList.contains('onboarding-video__resize-handle')
     ) {
       event.preventDefault();
       this.isResizing = true;
