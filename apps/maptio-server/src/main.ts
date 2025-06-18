@@ -154,6 +154,7 @@ if (!environment.isDevelopment) {
         ],
         workerSrc: ["'self'", 'blob:', 'blob: https://*.openreplay.com'],
         imgSrc: ['data:', "'self'", '*'],
+        mediaSrc: ["'self'", 'https://res.cloudinary.com'],
       },
     })
   );
