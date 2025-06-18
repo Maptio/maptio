@@ -17,10 +17,10 @@
   flex-direction: column;
   overflow: hidden;
   z-index: 1000;
-}
 
-.onboarding-video:active {
-  cursor: grabbing;
+  &:active {
+    cursor: grabbing;
+  }
 }
 
 .onboarding-video__window-content {
@@ -60,10 +60,10 @@
   opacity: 0;
   transition: opacity 0.2s ease;
   z-index: 2;
-}
 
-.onboarding-video__close-button:hover {
-  background: rgba(0, 0, 0, 0.7);
+  &:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
 }
 
 .onboarding-video__video-container:hover .onboarding-video__close-button {
@@ -83,4 +83,96 @@
   width: 20px;
   height: 20px;
   cursor: nwse-resize;
+}
+
+// Resize handles
+.resize-handle {
+  position: absolute;
+  background: transparent;
+  transition: background-color 0.2s;
+  z-index: 1;
+
+  &:hover {
+    background: #2196f3; // Maptio blue
+  }
+
+  // Side handles
+  &--n {
+    top: 0;
+    left: 12px;
+    right: 12px;
+    height: 6px;
+    cursor: ns-resize;
+  }
+
+  &--s {
+    bottom: 0;
+    left: 12px;
+    right: 12px;
+    height: 6px;
+    cursor: ns-resize;
+  }
+
+  &--e {
+    top: 12px;
+    right: 0;
+    bottom: 12px;
+    width: 6px;
+    cursor: ew-resize;
+  }
+
+  &--w {
+    top: 12px;
+    left: 0;
+    bottom: 12px;
+    width: 6px;
+    cursor: ew-resize;
+  }
+
+  // Corner handles
+  &--nw {
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    cursor: nw-resize;
+  }
+
+  &--ne {
+    top: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    cursor: ne-resize;
+  }
+
+  &--sw {
+    bottom: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    cursor: sw-resize;
+  }
+
+  &--se {
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    cursor: se-resize;
+  }
+}
+
+// Draggable area (excluding handles)
+.draggable-area {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
 }

@@ -1,6 +1,6 @@
-import { Component, HostListener, HostBinding } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { DragDropModule, CdkDragStart } from '@angular/cdk/drag-drop';
+import { DragDropModule, CdkDragMove } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'maptio-onboarding-video',
@@ -13,23 +13,12 @@ export class OnboardingVideoComponent {
   isVisible = true;
   isDragging = false;
 
-  // Resizing
-  isResizing = false;
-  resizeStart = { x: 0, y: 0 };
-  initialSize = { width: 500, height: 316 }; // Hardcoded to match the video
+  // Initial size with 16:9 aspect ratio
+  initialSize = { width: 500, height: 281 };
   size = { ...this.initialSize };
+  aspectRatio = this.initialSize.width / this.initialSize.height;
 
-  @HostBinding('style.userSelect')
-  get userSelect(): string {
-    return this.isResizing ? 'none' : '';
-  }
-
-  @HostBinding('class.resizing')
-  get isResizingClass(): boolean {
-    return this.isResizing;
-  }
-
-  // This is used below to prevent the video from being clicked when dragging
+  // This is used to prevent the video from being clicked when dragging
   onDragStarted() {
     this.isDragging = true;
   }
@@ -39,42 +28,66 @@ export class OnboardingVideoComponent {
     if (this.isDragging) {
       event.preventDefault();
       event.stopPropagation();
-
-      // Reset the dragging state now that we've captured the click generated
-      // by dragging
       this.isDragging = false;
     }
   }
 
-  onResizeStart(event: MouseEvent): void {
-    if (
-      event.target instanceof HTMLElement &&
-      event.target.classList.contains('onboarding-video__resize-handle')
-    ) {
-      event.preventDefault();
-      this.isResizing = true;
-      this.resizeStart = { x: event.clientX, y: event.clientY };
-      this.initialSize = { ...this.size };
-    }
-  }
+  onResizeHandleDragged(event: CdkDragMove, handle: string) {
+    const delta = {
+      x: event.distance.x,
+      y: event.distance.y,
+    };
 
-  @HostListener('document:mousemove', ['$event'])
-  onDocumentMouseMove(event: MouseEvent): void {
-    if (this.isResizing) {
-      event.preventDefault();
-      const deltaX = event.clientX - this.resizeStart.x;
-      const deltaY = event.clientY - this.resizeStart.y;
+    // Reset the drag position to prevent accumulation
+    event.source.reset();
+
+    let newWidth = this.size.width;
+    let newHeight = this.size.height;
+
+    switch (handle) {
+      case 'e':
+        newWidth = this.size.width + delta.x;
+        newHeight = newWidth / this.aspectRatio;
+        break;
+      case 'w':
+        newWidth = this.size.width - delta.x;
+        newHeight = newWidth / this.aspectRatio;
+        break;
+      case 'n':
+        newHeight = this.size.height - delta.y;
+        newWidth = newHeight * this.aspectRatio;
+        break;
+      case 's':
+        newHeight = this.size.height + delta.y;
+        newWidth = newHeight * this.aspectRatio;
+        break;
+      case 'nw':
+        newWidth = this.size.width - delta.x;
+        newHeight = newWidth / this.aspectRatio;
+        break;
+      case 'ne':
+        newWidth = this.size.width + delta.x;
+        newHeight = newWidth / this.aspectRatio;
+        break;
+      case 'sw':
+        newWidth = this.size.width - delta.x;
+        newHeight = newWidth / this.aspectRatio;
+        break;
+      case 'se':
+        newWidth = this.size.width + delta.x;
+        newHeight = newWidth / this.aspectRatio;
+        break;
+    }
+
+    // Enforce minimum size
+    const minWidth = 300;
+    const minHeight = minWidth / this.aspectRatio;
+
+    if (newWidth >= minWidth && newHeight >= minHeight) {
       this.size = {
-        width: Math.max(300, this.initialSize.width + deltaX),
-        height: Math.max(200, this.initialSize.height + deltaY),
+        width: Math.round(newWidth),
+        height: Math.round(newHeight),
       };
-    }
-  }
-
-  @HostListener('document:mouseup')
-  onDocumentMouseUp(): void {
-    if (this.isResizing) {
-      this.isResizing = false;
     }
   }
 

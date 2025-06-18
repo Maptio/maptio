@@ -1,32 +1,78 @@
 <div
   *ngIf="isVisible"
   class="onboarding-video"
-  cdkDrag
-  (cdkDragStarted)="onDragStarted()"
   [style.width.px]="size.width"
   [style.height.px]="size.height"
-  (mousedown)="onResizeStart($event)"
 >
-  <div class="onboarding-video__window-content">
-    <div class="onboarding-video__video-container">
-      <button class="onboarding-video__close-button" (click)="close()">
-        ×
-      </button>
+  <!-- Draggable area -->
+  <div class="draggable-area" cdkDrag (cdkDragStarted)="onDragStarted()">
+    <div class="onboarding-video__window-content">
+      <div class="onboarding-video__video-container">
+        <button class="onboarding-video__close-button" (click)="close()">
+          ×
+        </button>
 
-      <video
-        class="onboarding-video__video"
-        controls
-        preload="metadata"
-        (click)="onVideoClick($event)"
-      >
-        <source
-          src="https://res.cloudinary.com/hgkbm0qes/video/upload/v1750180118/maptio-onboarding-video.mp4"
-          type="video/mp4"
-        />
-        Your browser does not support the video tag.
-      </video>
+        <video
+          class="onboarding-video__video"
+          controls
+          preload="metadata"
+          (click)="onVideoClick($event)"
+        >
+          <source
+            src="https://res.cloudinary.com/hgkbm0qes/video/upload/v1750180118/maptio-onboarding-video.mp4"
+            type="video/mp4"
+          />
+          Your browser does not support the video tag.
+        </video>
+      </div>
     </div>
   </div>
 
-  <div class="onboarding-video__resize-handle"></div>
+  <!-- Resize handles -->
+  <div
+    class="resize-handle resize-handle--n"
+    cdkDrag
+    cdkDragLockX
+    (cdkDragMoved)="onResizeHandleDragged($event, 'n')"
+  ></div>
+  <div
+    class="resize-handle resize-handle--s"
+    cdkDrag
+    cdkDragLockX
+    (cdkDragMoved)="onResizeHandleDragged($event, 's')"
+  ></div>
+  <div
+    class="resize-handle resize-handle--e"
+    cdkDrag
+    cdkDragLockY
+    (cdkDragMoved)="onResizeHandleDragged($event, 'e')"
+  ></div>
+  <div
+    class="resize-handle resize-handle--w"
+    cdkDrag
+    cdkDragLockY
+    (cdkDragMoved)="onResizeHandleDragged($event, 'w')"
+  ></div>
+
+  <!-- Corner handles -->
+  <div
+    class="resize-handle resize-handle--nw"
+    cdkDrag
+    (cdkDragMoved)="onResizeHandleDragged($event, 'nw')"
+  ></div>
+  <div
+    class="resize-handle resize-handle--ne"
+    cdkDrag
+    (cdkDragMoved)="onResizeHandleDragged($event, 'ne')"
+  ></div>
+  <div
+    class="resize-handle resize-handle--sw"
+    cdkDrag
+    (cdkDragMoved)="onResizeHandleDragged($event, 'sw')"
+  ></div>
+  <div
+    class="resize-handle resize-handle--se"
+    cdkDrag
+    (cdkDragMoved)="onResizeHandleDragged($event, 'se')"
+  ></div>
 </div>
