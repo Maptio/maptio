@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, HostBinding } from '@angular/core';
+import { Component, HostListener, HostBinding } from '@angular/core';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -8,7 +8,7 @@ import { NgIf } from '@angular/common';
   standalone: true,
   imports: [NgIf],
 })
-export class OnboardingVideoComponent implements OnInit {
+export class OnboardingVideoComponent {
   // Size hardcoded to match the video size
   size = { width: 500, height: 316 }; //px
 
@@ -44,10 +44,6 @@ export class OnboardingVideoComponent implements OnInit {
   get isResizingClass(): boolean {
     return this.isResizing;
   }
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   @HostListener('document:mousemove', ['$event'])
   onDocumentMouseMove(event: MouseEvent): void {
