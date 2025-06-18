@@ -1,0 +1,164 @@
+:host {
+  display: block;
+}
+
+:host.resizing {
+  cursor: nwse-resize;
+}
+
+.onboarding-video {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  background: black;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.onboarding-video__window-content {
+  flex: 1;
+  min-height: 0;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.onboarding-video__video-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.onboarding-video__close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  cursor: pointer;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 2;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
+
+.onboarding-video__video-container:hover .onboarding-video__close-button {
+  opacity: 1;
+}
+
+.onboarding-video__video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+// Draggable area
+.draggable-area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+// Resize handles
+.onboarding-video__resize-handle {
+  position: absolute;
+  background: transparent;
+  transition: background-color 0.2s;
+  z-index: 1;
+}
+
+.onboarding-video__resize-handle:hover {
+  background: var(--maptio-blue);
+}
+
+// Side handles
+.onboarding-video__resize-handle--n {
+  top: 0;
+  left: 6px;
+  right: 6px;
+  height: 6px;
+  cursor: ns-resize;
+}
+
+.onboarding-video__resize-handle--s {
+  bottom: 0;
+  left: 6px;
+  right: 6px;
+  height: 6px;
+  cursor: ns-resize;
+}
+
+.onboarding-video__resize-handle--e {
+  top: 6px;
+  right: 0;
+  bottom: 6px;
+  width: 6px;
+  cursor: ew-resize;
+}
+
+.onboarding-video__resize-handle--w {
+  top: 6px;
+  left: 0;
+  bottom: 6px;
+  width: 6px;
+  cursor: ew-resize;
+}
+
+// Corner handles
+.onboarding-video__resize-handle--nw {
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  cursor: nw-resize;
+}
+
+.onboarding-video__resize-handle--ne {
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  cursor: ne-resize;
+}
+
+.onboarding-video__resize-handle--sw {
+  bottom: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  cursor: sw-resize;
+}
+
+.onboarding-video__resize-handle--se {
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  cursor: se-resize;
+}

@@ -98,6 +98,7 @@ if (!environment.isDevelopment) {
           'https://fullstory.com',
           'https://static.hotjar.com',
           'code.jquery.com',
+          'https://*.youtube-nocookie.com',
         ],
         fontSrc: [
           "'self'",
@@ -134,6 +135,7 @@ if (!environment.isDevelopment) {
           'https://login.maptio.com',
           'https://maptio-staging.us.auth0.com',
           'https://maptio.chargebee.com',
+          'https://*.youtube-nocookie.com',
         ],
         childSrc: [
           "'self'",
@@ -152,6 +154,7 @@ if (!environment.isDevelopment) {
         ],
         workerSrc: ["'self'", 'blob:', 'blob: https://*.openreplay.com'],
         imgSrc: ['data:', "'self'", '*'],
+        mediaSrc: ["'self'", 'https://res.cloudinary.com'],
       },
     })
   );

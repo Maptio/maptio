@@ -353,6 +353,7 @@ export class UserService implements OnDestroy {
         showEditingPanelMessage: true,
         showCircleDetailsPanelMessage: true,
         showCircleCanvasMessage: true,
+        showOnboardingVideo: true,
       },
     };
 
