@@ -19,6 +19,7 @@ export class OnboardingVideoComponent {
   // Initial size with 16:9 aspect ratio
   initialSize = { width: 500, height: 281 };
   size = { ...this.initialSize };
+  position = { left: '16px', bottom: '16px' };
   aspectRatio = this.initialSize.width / this.initialSize.height;
 
   // This is used to prevent the video from being clicked when dragging
@@ -53,6 +54,8 @@ export class OnboardingVideoComponent {
 
     let newWidth = this.size.width;
     let newHeight = this.size.height;
+    let newLeft = this.getNumericValue(this.position.left);
+    let newBottom = this.getNumericValue(this.position.bottom);
 
     switch (this.activeHandle) {
       case 'e':
@@ -62,6 +65,9 @@ export class OnboardingVideoComponent {
       case 'w':
         newWidth = this.size.width - deltaX;
         newHeight = newWidth / this.aspectRatio;
+        if (newWidth >= 300) {
+          newLeft += deltaX;
+        }
         break;
       case 'n':
         newHeight = this.size.height - deltaY;
@@ -70,22 +76,39 @@ export class OnboardingVideoComponent {
       case 's':
         newHeight = this.size.height + deltaY;
         newWidth = newHeight * this.aspectRatio;
+        if (newHeight >= 169) {
+          newBottom -= deltaY;
+        }
         break;
       case 'nw':
         newWidth = this.size.width - deltaX;
         newHeight = newWidth / this.aspectRatio;
+        if (newWidth >= 300) {
+          newLeft += deltaX;
+        }
         break;
       case 'ne':
-        newWidth = this.size.width + deltaX;
-        newHeight = newWidth / this.aspectRatio;
+        if (Math.abs(deltaX) > Math.abs(deltaY) * this.aspectRatio) {
+          newWidth = this.size.width + deltaX;
+          newHeight = newWidth / this.aspectRatio;
+        } else {
+          newHeight = this.size.height - deltaY;
+          newWidth = newHeight * this.aspectRatio;
+        }
         break;
       case 'sw':
         newWidth = this.size.width - deltaX;
         newHeight = newWidth / this.aspectRatio;
+        if (newWidth >= 300) {
+          newLeft += deltaX;
+        }
         break;
       case 'se':
         newWidth = this.size.width + deltaX;
         newHeight = newWidth / this.aspectRatio;
+        if (newHeight >= 169) {
+          newBottom -= deltaY;
+        }
         break;
     }
 
@@ -97,6 +120,10 @@ export class OnboardingVideoComponent {
       this.size = {
         width: Math.round(newWidth),
         height: Math.round(newHeight),
+      };
+      this.position = {
+        left: `${Math.round(newLeft)}px`,
+        bottom: `${Math.round(newBottom)}px`,
       };
       this.resizeStart = { x: event.clientX, y: event.clientY };
     }
@@ -112,5 +139,9 @@ export class OnboardingVideoComponent {
 
   close(): void {
     this.isVisible = false;
+  }
+
+  private getNumericValue(value: string): number {
+    return parseFloat(value.replace('px', ''));
   }
 }
