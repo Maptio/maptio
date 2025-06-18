@@ -16,13 +16,15 @@ export class OnboardingVideoComponent {
   activeHandle: string | null = null;
   resizeStart = { x: 0, y: 0 };
 
-  // Initial size and minimum size
-  initialSize = { width: 500, height: 281 };
+  // Initial size based on the video dimensions
+  initialSize = { width: 533, height: 270 };
   aspectRatio = this.initialSize.width / this.initialSize.height;
   minWidth = 300;
   minHeight = this.minWidth / this.aspectRatio;
   size = { ...this.initialSize };
-  position = { left: '16px', bottom: '16px' };
+  // Chosen to match default position of the intercom chat on the other side
+  // of the screen
+  position = { left: '20px', bottom: '20px' };
 
   // This is used to prevent the video from being clicked when dragging
   onDragStarted() {
