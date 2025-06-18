@@ -16,11 +16,13 @@ export class OnboardingVideoComponent {
   activeHandle: string | null = null;
   resizeStart = { x: 0, y: 0 };
 
-  // Initial size with 16:9 aspect ratio
+  // Initial size and minimum size
   initialSize = { width: 500, height: 281 };
+  aspectRatio = this.initialSize.width / this.initialSize.height;
+  minWidth = 300;
+  minHeight = this.minWidth / this.aspectRatio;
   size = { ...this.initialSize };
   position = { left: '16px', bottom: '16px' };
-  aspectRatio = this.initialSize.width / this.initialSize.height;
 
   // This is used to prevent the video from being clicked when dragging
   onDragStarted() {
@@ -65,7 +67,7 @@ export class OnboardingVideoComponent {
       case 'w':
         newWidth = this.size.width - deltaX;
         newHeight = newWidth / this.aspectRatio;
-        if (newWidth >= 300) {
+        if (newWidth >= this.minWidth) {
           newLeft += deltaX;
         }
         break;
@@ -76,14 +78,14 @@ export class OnboardingVideoComponent {
       case 's':
         newHeight = this.size.height + deltaY;
         newWidth = newHeight * this.aspectRatio;
-        if (newHeight >= 169) {
+        if (newHeight >= this.minHeight) {
           newBottom -= deltaY;
         }
         break;
       case 'nw':
         newWidth = this.size.width - deltaX;
         newHeight = newWidth / this.aspectRatio;
-        if (newWidth >= 300) {
+        if (newWidth >= this.minWidth) {
           newLeft += deltaX;
         }
         break;
@@ -99,24 +101,21 @@ export class OnboardingVideoComponent {
       case 'sw':
         newWidth = this.size.width - deltaX;
         newHeight = newWidth / this.aspectRatio;
-        if (newWidth >= 300) {
+        if (newWidth >= this.minWidth) {
           newLeft += deltaX;
         }
         break;
       case 'se':
         newWidth = this.size.width + deltaX;
         newHeight = newWidth / this.aspectRatio;
-        if (newHeight >= 169) {
+        if (newHeight >= this.minHeight) {
           newBottom -= deltaY;
         }
         break;
     }
 
     // Enforce minimum size
-    const minWidth = 300;
-    const minHeight = minWidth / this.aspectRatio;
-
-    if (newWidth >= minWidth && newHeight >= minHeight) {
+    if (newWidth >= this.minWidth && newHeight >= this.minHeight) {
       this.size = {
         width: Math.round(newWidth),
         height: Math.round(newHeight),
