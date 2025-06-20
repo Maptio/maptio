@@ -9,11 +9,10 @@ import { UserService } from '@maptio-shared/services/user/user.service';
 import { PermissionsService } from '@maptio-shared/services/permissions/permissions.service';
 
 @Component({
-  selector: 'maptio-onboarding-video',
-  templateUrl: './onboarding-video.component.html',
-  styleUrls: ['./onboarding-video.component.scss'],
-  standalone: true,
-  imports: [NgIf, NgFor, DragDropModule, AsyncPipe],
+    selector: 'maptio-onboarding-video',
+    templateUrl: './onboarding-video.component.html',
+    styleUrls: ['./onboarding-video.component.scss'],
+    imports: [NgIf, NgFor, DragDropModule, AsyncPipe]
 })
 export class OnboardingVideoComponent {
   userService = inject(UserService);

@@ -21,16 +21,15 @@ import { StickyPopoverDirective } from '../../../../../../../shared/directives/s
 import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'maptio-initiative-authority-select',
-  templateUrl: './authority-select.component.html',
-  standalone: true,
-  imports: [
-    NgIf,
-    StickyPopoverDirective,
-    CommonAutocompleteComponent_1,
-    RouterLink,
-    MemberFormComponent,
-  ],
+    selector: 'maptio-initiative-authority-select',
+    templateUrl: './authority-select.component.html',
+    imports: [
+        NgIf,
+        StickyPopoverDirective,
+        CommonAutocompleteComponent_1,
+        RouterLink,
+        MemberFormComponent,
+    ]
 })
 export class InitiativeAuthoritySelectComponent implements OnChanges {
   @Input() team: Team;

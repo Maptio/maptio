@@ -18,20 +18,19 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'maptio-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatAutocompleteModule,
-    ReactiveFormsModule,
-    NgFor,
-    MatOptionModule,
-    AsyncPipe,
-  ],
+    selector: 'maptio-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.scss'],
+    imports: [
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        NgFor,
+        MatOptionModule,
+        AsyncPipe,
+    ]
 })
 export class SearchComponent implements OnInit {
   @Input() rootCircle: InitiativeNode;

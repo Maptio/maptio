@@ -26,22 +26,21 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { PermissionsDirective } from '../../../../shared/directives/permission.directive';
 
 @Component({
-  selector: 'maptio-member-single',
-  templateUrl: './member-single.component.html',
-  styleUrls: ['./member-single.component.css'],
-  standalone: true,
-  imports: [
-    PermissionsDirective,
-    ConfirmationPopoverModule,
-    NgIf,
-    NgbTooltipModule,
-    NgFor,
-    FormsModule,
-    StickyPopoverDirective,
-    MemberFormComponent,
-    SlicePipe,
-    KeysPipe,
-  ],
+    selector: 'maptio-member-single',
+    templateUrl: './member-single.component.html',
+    styleUrls: ['./member-single.component.css'],
+    imports: [
+        PermissionsDirective,
+        ConfirmationPopoverModule,
+        NgIf,
+        NgbTooltipModule,
+        NgFor,
+        FormsModule,
+        StickyPopoverDirective,
+        MemberFormComponent,
+        SlicePipe,
+        KeysPipe,
+    ]
 })
 export class MemberSingleComponent implements OnChanges {
   UserRole = UserRole;

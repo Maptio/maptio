@@ -16,11 +16,10 @@ import { User } from '@maptio-shared/model/user.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 
 @Component({
-  selector: 'pricing-checkout',
-  templateUrl: './checkout.page.html',
-  styleUrls: ['./checkout.page.css'],
-  standalone: true,
-  imports: [NgIf, RouterLink],
+    selector: 'pricing-checkout',
+    templateUrl: './checkout.page.html',
+    styleUrls: ['./checkout.page.css'],
+    imports: [NgIf, RouterLink]
 })
 export class CheckoutComponent implements OnInit {
   subscription: Subscription;

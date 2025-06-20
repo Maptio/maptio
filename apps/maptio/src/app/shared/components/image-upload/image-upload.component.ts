@@ -13,11 +13,10 @@ import { environment } from '@maptio-config/environment';
 import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'maptio-image-upload',
-  templateUrl: './image-upload.component.html',
-  styleUrls: ['./image-upload.component.scss'],
-  standalone: true,
-  imports: [NgIf, FileUploadModule, CloudinaryModule],
+    selector: 'maptio-image-upload',
+    templateUrl: './image-upload.component.html',
+    styleUrls: ['./image-upload.component.scss'],
+    imports: [NgIf, FileUploadModule, CloudinaryModule]
 })
 export class ImageUploadComponent implements OnInit {
   public uploader: FileUploader;

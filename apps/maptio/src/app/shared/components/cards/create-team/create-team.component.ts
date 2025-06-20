@@ -15,10 +15,9 @@ import { TeamService } from '../../../services/team/team.service';
 import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'maptio-create-team',
-  templateUrl: './create-team.component.html',
-  standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, NgIf],
+    selector: 'maptio-create-team',
+    templateUrl: './create-team.component.html',
+    imports: [FormsModule, ReactiveFormsModule, NgIf]
 })
 export class CreateTeamComponent implements OnInit {
   createForm: UntypedFormGroup;

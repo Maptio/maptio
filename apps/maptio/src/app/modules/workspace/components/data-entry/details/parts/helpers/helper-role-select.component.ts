@@ -8,10 +8,9 @@ import { CommonAutocompleteComponent } from '../../../../../../../shared/compone
 import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'initiative-helper-role-select',
-  templateUrl: './helper-role-select.component.html',
-  standalone: true,
-  imports: [NgIf, CommonAutocompleteComponent],
+    selector: 'initiative-helper-role-select',
+    templateUrl: './helper-role-select.component.html',
+    imports: [NgIf, CommonAutocompleteComponent]
 })
 export class InitiativeHelperRoleSelectComponent implements OnInit {
   @Input('roles') roles: Role[];

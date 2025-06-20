@@ -6,11 +6,10 @@ import { MappingComponent } from '@maptio-old-workspace/components/canvas/mappin
 import { WorkspaceService } from '../workspace.service';
 
 @Component({
-  selector: 'maptio-map-container',
-  standalone: true,
-  imports: [CommonModule, MappingComponent],
-  templateUrl: './map-container.component.html',
-  styleUrls: ['./map-container.component.scss'],
+    selector: 'maptio-map-container',
+    imports: [CommonModule, MappingComponent],
+    templateUrl: './map-container.component.html',
+    styleUrls: ['./map-container.component.scss']
 })
 export class MapContainerComponent {
   workspaceService = inject(WorkspaceService);

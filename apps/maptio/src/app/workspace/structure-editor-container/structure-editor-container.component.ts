@@ -5,11 +5,10 @@ import { BuildingComponent } from '@maptio-old-workspace/components/data-entry/h
 import { WorkspaceService } from '../workspace.service';
 
 @Component({
-  selector: 'maptio-structure-editor-container',
-  standalone: true,
-  imports: [CommonModule, BuildingComponent],
-  templateUrl: './structure-editor-container.component.html',
-  styleUrls: ['./structure-editor-container.component.scss'],
+    selector: 'maptio-structure-editor-container',
+    imports: [CommonModule, BuildingComponent],
+    templateUrl: './structure-editor-container.component.html',
+    styleUrls: ['./structure-editor-container.component.scss']
 })
 export class StructureEditorContainerComponent {
   workspaceService = inject(WorkspaceService);

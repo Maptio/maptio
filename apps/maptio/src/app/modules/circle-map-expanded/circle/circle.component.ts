@@ -9,18 +9,17 @@ import { CircleInfoComponent } from '../circle-info/circle-info.component';
 import { NgFor, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'g[maptioCircle]',
-  templateUrl: './circle.component.html',
-  styleUrls: ['./circle.component.scss'],
-  standalone: true,
-  imports: [
-    SatPopoverModule,
-    NgFor,
-    forwardRef(() => CircleComponent),
-    NgIf,
-    CircleInfoComponent,
-    CircleInfoSvgComponent,
-  ],
+    selector: 'g[maptioCircle]',
+    templateUrl: './circle.component.html',
+    styleUrls: ['./circle.component.scss'],
+    imports: [
+        SatPopoverModule,
+        NgFor,
+        forwardRef(() => CircleComponent),
+        NgIf,
+        CircleInfoComponent,
+        CircleInfoSvgComponent,
+    ]
 })
 export class CircleComponent implements OnInit {
   @Input() circle!: InitiativeNode;

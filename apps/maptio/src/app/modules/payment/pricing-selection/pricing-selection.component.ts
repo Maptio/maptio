@@ -7,11 +7,10 @@ import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '@maptio-environment';
 
 @Component({
-  selector: 'maptio-pricing-selection',
-  templateUrl: './pricing-selection.component.html',
-  styleUrls: ['./pricing-selection.component.scss'],
-  standalone: true,
-  imports: [NgForOf, FormsModule, NgbAccordionModule],
+    selector: 'maptio-pricing-selection',
+    templateUrl: './pricing-selection.component.html',
+    styleUrls: ['./pricing-selection.component.scss'],
+    imports: [NgForOf, FormsModule, NgbAccordionModule]
 })
 export class PricingSelectionComponent {
   BILLING_PLANS = environment.BILLING_PLANS;

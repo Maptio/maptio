@@ -57,21 +57,20 @@ import { RoleLibraryService } from '../../../services/role-library.service';
 import { EditTagsComponent } from '../tags/edit-tags.component';
 
 @Component({
-  selector: 'building',
-  templateUrl: './building.component.html',
-  styleUrls: ['./building.component.css'],
-  standalone: true,
-  imports: [
-    OnboardingMessageComponent,
-    NgbNavModule,
-    PermissionsDirective,
-    NgIf,
-    NgbTooltipModule,
-    InsufficientPermissionsMessageComponent,
-    StickyPopoverDirective,
-    EditTagsComponent,
-    OutlineModule,
-  ],
+    selector: 'building',
+    templateUrl: './building.component.html',
+    styleUrls: ['./building.component.css'],
+    imports: [
+        OnboardingMessageComponent,
+        NgbNavModule,
+        PermissionsDirective,
+        NgIf,
+        NgbTooltipModule,
+        InsufficientPermissionsMessageComponent,
+        StickyPopoverDirective,
+        EditTagsComponent,
+        OutlineModule,
+    ]
 })
 export class BuildingComponent implements OnDestroy {
   private readonly workspaceFacade = inject(WorkspaceFacade);

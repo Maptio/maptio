@@ -29,20 +29,19 @@ import { ImageUploadComponent } from '@maptio-shared/components/image-upload/ima
 import { MemberComponent } from '../member/member.component';
 
 @Component({
-  selector: 'maptio-member-form',
-  templateUrl: './member-form.component.html',
-  styleUrls: ['./member-form.component.scss'],
-  standalone: true,
-  imports: [
-    NgIf,
-    NgFor,
-    FormsModule,
-    ReactiveFormsModule,
-    TextFieldModule,
-    ConfirmationPopoverModule,
-    ImageUploadComponent,
-    MemberComponent,
-  ],
+    selector: 'maptio-member-form',
+    templateUrl: './member-form.component.html',
+    styleUrls: ['./member-form.component.scss'],
+    imports: [
+        NgIf,
+        NgFor,
+        FormsModule,
+        ReactiveFormsModule,
+        TextFieldModule,
+        ConfirmationPopoverModule,
+        ImageUploadComponent,
+        MemberComponent,
+    ]
 })
 export class MemberFormComponent implements OnInit {
   TERMS_AND_CONDITIONS_URL = environment.TERMS_AND_CONDITIONS_URL;

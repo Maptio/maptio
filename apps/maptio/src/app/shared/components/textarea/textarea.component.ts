@@ -14,10 +14,9 @@ import { StickyPopoverDirective } from '../../directives/sticky.directive';
 import { NgIf, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'common-textarea',
-  templateUrl: './textarea.component.html',
-  standalone: true,
-  imports: [NgIf, StickyPopoverDirective, MarkdownModule, NgClass],
+    selector: 'common-textarea',
+    templateUrl: './textarea.component.html',
+    imports: [NgIf, StickyPopoverDirective, MarkdownModule, NgClass]
 })
 export class CommonTextareaComponent implements OnInit {
   @Input('placeholder') placeholder: string;

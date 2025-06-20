@@ -15,20 +15,17 @@ import { User } from '@maptio-shared/model/user.data';
 import { InitiativeHelperRoleComponent } from '../../data-entry/details/parts/helpers/helper-role.component';
 
 @Component({
-  selector: 'personal-card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.css'],
-  standalone: true,
-  imports: [
-    NgIf,
-    NgFor,
-    LowerCasePipe,
-
-    NgbTooltipModule,
-    NgbCollapseModule,
-
-    InitiativeHelperRoleComponent,
-  ],
+    selector: 'personal-card',
+    templateUrl: './card.component.html',
+    styleUrls: ['./card.component.css'],
+    imports: [
+        NgIf,
+        NgFor,
+        LowerCasePipe,
+        NgbTooltipModule,
+        NgbCollapseModule,
+        InitiativeHelperRoleComponent,
+    ]
 })
 export class PersonalCardComponent implements OnInit {
   @Input('initiative') initiative: Initiative;

@@ -9,16 +9,15 @@ import { PricingInfoComponent } from '../pricing-info/pricing-info.component';
 import { PricingSelectionComponent } from '../pricing-selection/pricing-selection.component';
 
 @Component({
-  selector: 'maptio-pricing',
-  templateUrl: './pricing.page.html',
-  standalone: true,
-  imports: [
-    NgIf,
-    AsyncPipe,
-    LoginRedirectDirective,
-    PricingInfoComponent,
-    PricingSelectionComponent,
-  ],
+    selector: 'maptio-pricing',
+    templateUrl: './pricing.page.html',
+    imports: [
+        NgIf,
+        AsyncPipe,
+        LoginRedirectDirective,
+        PricingInfoComponent,
+        PricingSelectionComponent,
+    ]
 })
 export class PricingComponent {
   BILLING_PLANS = environment.BILLING_PLANS;

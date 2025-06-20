@@ -12,17 +12,16 @@ import { JsonPipe, NgIf } from '@angular/common';
 import { PricingSelectionComponent } from 'app/modules/payment/pricing-selection/pricing-selection.component';
 
 @Component({
-  selector: 'team-billing',
-  templateUrl: './billing.component.html',
-  styleUrls: ['./billing.component.css'],
-  standalone: true,
-  imports: [
-    NgIf,
-    JsonPipe,
-    PermissionsDirective,
-    RouterLink,
-    PricingSelectionComponent,
-  ],
+    selector: 'team-billing',
+    templateUrl: './billing.component.html',
+    styleUrls: ['./billing.component.css'],
+    imports: [
+        NgIf,
+        JsonPipe,
+        PermissionsDirective,
+        RouterLink,
+        PricingSelectionComponent,
+    ]
 })
 export class TeamBillingComponent implements OnInit {
   public team: Team;

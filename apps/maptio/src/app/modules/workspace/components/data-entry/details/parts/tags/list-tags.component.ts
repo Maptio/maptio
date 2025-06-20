@@ -6,16 +6,15 @@ import { InsufficientPermissionsMessageComponent } from '../../../../../../permi
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'initiative-list-tags',
-  templateUrl: './list-tags.component.html',
-  standalone: true,
-  imports: [
-    NgIf,
-    NgFor,
-    NgbDropdownModule,
-    StickyPopoverDirective,
-    InsufficientPermissionsMessageComponent,
-  ],
+    selector: 'initiative-list-tags',
+    templateUrl: './list-tags.component.html',
+    imports: [
+        NgIf,
+        NgFor,
+        NgbDropdownModule,
+        StickyPopoverDirective,
+        InsufficientPermissionsMessageComponent,
+    ]
 })
 export class InitiativeListTagsComponent implements OnInit {
   @Input('available') availableTags: Array<Tag>;

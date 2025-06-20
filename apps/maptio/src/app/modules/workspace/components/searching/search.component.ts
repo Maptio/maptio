@@ -33,11 +33,10 @@ class SearchResult {
 }
 
 @Component({
-  selector: 'search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css'],
-  standalone: true,
-  imports: [NgIf, NgbTypeaheadModule],
+    selector: 'search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.css'],
+    imports: [NgIf, NgbTypeaheadModule]
 })
 export class SearchComponent implements OnInit {
   @Input() list: Initiative[];

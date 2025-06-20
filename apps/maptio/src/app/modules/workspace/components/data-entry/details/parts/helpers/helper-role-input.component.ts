@@ -54,17 +54,16 @@ const noWhitespaceValidator: ValidatorFn = (
 };
 
 @Component({
-  selector: 'initiative-helper-role-input',
-  templateUrl: './helper-role-input.component.html',
-  styleUrls: ['./helper-role-input.component.css'],
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    NgIf,
-    NgbTooltipModule,
-    ConfirmationPopoverModule,
-  ],
+    selector: 'initiative-helper-role-input',
+    templateUrl: './helper-role-input.component.html',
+    styleUrls: ['./helper-role-input.component.css'],
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        NgIf,
+        NgbTooltipModule,
+        ConfirmationPopoverModule,
+    ]
 })
 export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
   @Input('role') role: Role;

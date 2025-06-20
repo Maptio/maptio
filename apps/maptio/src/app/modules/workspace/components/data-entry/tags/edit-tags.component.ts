@@ -18,21 +18,20 @@ import { PermissionsDirective } from '../../../../../shared/directives/permissio
 import { InsufficientPermissionsMessageComponent } from '../../../../permissions-messages/insufficient-permissions-message.component';
 
 @Component({
-  selector: 'edit-tags',
-  templateUrl: './edit-tags.component.html',
-  styleUrls: ['./edit-tags.component.css'],
-  standalone: true,
-  imports: [
-    InsufficientPermissionsMessageComponent,
-    PermissionsDirective,
-    FormsModule,
-    ReactiveFormsModule,
-    ColorPickerComponent,
-    NgIf,
-    NgFor,
-    ConfirmationPopoverModule,
-    StickyPopoverDirective,
-  ],
+    selector: 'edit-tags',
+    templateUrl: './edit-tags.component.html',
+    styleUrls: ['./edit-tags.component.css'],
+    imports: [
+        InsufficientPermissionsMessageComponent,
+        PermissionsDirective,
+        FormsModule,
+        ReactiveFormsModule,
+        ColorPickerComponent,
+        NgIf,
+        NgFor,
+        ConfirmationPopoverModule,
+        StickyPopoverDirective,
+    ]
 })
 export class EditTagsComponent implements OnInit {
   @Input() tags: SelectableTag[];

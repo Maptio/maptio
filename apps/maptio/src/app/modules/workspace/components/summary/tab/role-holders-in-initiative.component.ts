@@ -25,11 +25,10 @@ import { Role } from '@maptio-shared/model/role.data';
 import { RoleLibraryService } from '../../../services/role-library.service';
 
 @Component({
-  selector: 'role-holders-in-initiative',
-  templateUrl: './role-holders-in-initiative.component.html',
-  styleUrls: ['./role-holders-in-initiative.component.css'],
-  standalone: true,
-  imports: [NgIf, NgFor, NgbTooltipModule, NgbCollapseModule, TitleCasePipe],
+    selector: 'role-holders-in-initiative',
+    templateUrl: './role-holders-in-initiative.component.html',
+    styleUrls: ['./role-holders-in-initiative.component.css'],
+    imports: [NgIf, NgFor, NgbTooltipModule, NgbCollapseModule, TitleCasePipe]
 })
 export class RoleHoldersInInitiativeComponent implements OnInit {
   @Input('initiative') initiative: Initiative;

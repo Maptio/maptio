@@ -36,22 +36,21 @@ import { UIService } from '@maptio-old-workspace/services/ui.service';
 import { MapSettingsService } from '@maptio-old-workspace/services/map-settings.service';
 
 @Component({
-  selector: 'maptio-workspace',
-  templateUrl: 'workspace.component.html',
-  styleUrls: ['./workspace.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    NgIf,
-    BuildingComponent,
-    NgClass,
-    SidePanelLayoutComponent,
-    MapContainerComponent,
-    StructureEditorContainerComponent,
-    InitiativeDetailsContainerComponent,
-    OnboardingVideoComponent,
-  ],
-  providers: [UIService, MapSettingsService, WorkspaceFacade],
+    selector: 'maptio-workspace',
+    templateUrl: 'workspace.component.html',
+    styleUrls: ['./workspace.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        BuildingComponent,
+        NgClass,
+        SidePanelLayoutComponent,
+        MapContainerComponent,
+        StructureEditorContainerComponent,
+        InitiativeDetailsContainerComponent,
+        OnboardingVideoComponent,
+    ],
+    providers: [UIService, MapSettingsService, WorkspaceFacade]
 })
 export class WorkspaceComponent implements OnInit, OnDestroy {
   workspaceService = inject(WorkspaceService);

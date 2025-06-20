@@ -20,13 +20,12 @@ import { LoaderService } from '../../../../shared/components/loading/loader.serv
 import { IDataVisualizer } from '../../components/canvas/mapping.interface';
 
 @Component({
-  selector: 'summary',
-  templateUrl: './summary.component.html',
-  styleUrls: ['./summary.component.css'],
-  host: { class: 'w-100' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [RouterLink, RouterLinkActive, RouterOutlet],
+    selector: 'summary',
+    templateUrl: './summary.component.html',
+    styleUrls: ['./summary.component.css'],
+    host: { class: 'w-100' },
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [RouterLink, RouterLinkActive, RouterOutlet]
 })
 export class MappingSummaryComponent implements OnInit, IDataVisualizer {
   public datasetId: string;

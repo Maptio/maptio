@@ -24,10 +24,9 @@ import { Intercom } from '@supy-io/ngx-intercom';
 import { TeamService } from '../../services/team/team.service';
 
 @Component({
-  selector: 'onboarding-add-terminology',
-  templateUrl: './add-terminology.component.html',
-  standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+    selector: 'onboarding-add-terminology',
+    templateUrl: './add-terminology.component.html',
+    imports: [FormsModule, ReactiveFormsModule]
 })
 export class AddTerminologyComponent implements OnInit {
   form: UntypedFormGroup;

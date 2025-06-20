@@ -24,20 +24,19 @@ import { MapSettingsService } from '../../../services/map-settings.service';
 import { PersonalCardComponent } from '../tab/card.component';
 
 @Component({
-  selector: 'summary-personal',
-  templateUrl: './personal.component.html',
-  styleUrls: ['./personal.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    NgIf,
-    NgFor,
-    NgbNavModule,
-    MarkdownModule,
-    LowerCasePipe,
-    TitleCasePipe,
-    PersonalCardComponent,
-  ],
+    selector: 'summary-personal',
+    templateUrl: './personal.component.html',
+    styleUrls: ['./personal.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        NgFor,
+        NgbNavModule,
+        MarkdownModule,
+        LowerCasePipe,
+        TitleCasePipe,
+        PersonalCardComponent,
+    ]
 })
 export class PersonalSummaryComponent implements OnInit {
   authorities: Array<Initiative> = [];

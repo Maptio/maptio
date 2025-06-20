@@ -84,13 +84,12 @@ const d3 = Object.assign(
 );
 
 @Component({
-  selector: 'network',
-  templateUrl: './mapping.network.component.html',
-  styleUrls: ['./mapping.network.component.css'],
-  encapsulation: ViewEncapsulation.Emulated,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgIf, RouterLink, FormsModule, AsyncPipe],
+    selector: 'network',
+    templateUrl: './mapping.network.component.html',
+    styleUrls: ['./mapping.network.component.css'],
+    encapsulation: ViewEncapsulation.Emulated,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgIf, RouterLink, FormsModule, AsyncPipe]
 })
 export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public datasetId: string;

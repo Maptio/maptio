@@ -27,20 +27,19 @@ import { PermissionsDirective } from '../../../../../shared/directives/permissio
 import { PersonalSummaryComponent } from './personal.component';
 
 @Component({
-  selector: 'summary-people',
-  templateUrl: './people.component.html',
-  styleUrls: ['./people.component.css'],
-  host: { class: 'd-flex flex-row w-100' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    NgFor,
-    NgIf,
-    NgTemplateOutlet,
-    NgbCollapseModule,
-    PersonalSummaryComponent,
-    PermissionsDirective,
-  ],
+    selector: 'summary-people',
+    templateUrl: './people.component.html',
+    styleUrls: ['./people.component.css'],
+    host: { class: 'd-flex flex-row w-100' },
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgFor,
+        NgIf,
+        NgTemplateOutlet,
+        NgbCollapseModule,
+        PersonalSummaryComponent,
+        PermissionsDirective,
+    ]
 })
 export class PeopleSummaryComponent implements OnInit {
   members: User[];

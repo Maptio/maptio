@@ -14,17 +14,16 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'initiative-helper-role',
-  templateUrl: './helper-role.component.html',
-  styleUrls: ['./helper-role.component.css'],
-  standalone: true,
-  imports: [
-    NgIf,
-    ConfirmationPopoverModule,
-    MarkdownModule,
-    StripMarkdownPipe,
-    EllipsisPipe,
-  ],
+    selector: 'initiative-helper-role',
+    templateUrl: './helper-role.component.html',
+    styleUrls: ['./helper-role.component.css'],
+    imports: [
+        NgIf,
+        ConfirmationPopoverModule,
+        MarkdownModule,
+        StripMarkdownPipe,
+        EllipsisPipe,
+    ]
 })
 export class InitiativeHelperRoleComponent {
   @Input('role') role: Role;

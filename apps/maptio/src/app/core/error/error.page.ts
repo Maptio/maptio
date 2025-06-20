@@ -12,10 +12,9 @@ import { SubSink } from 'subsink';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
 
 @Component({
-  selector: 'maptio-error-page',
-  templateUrl: './error.page.html',
-  standalone: true,
-  imports: [NgIf, NgTemplateOutlet, RouterLink],
+    selector: 'maptio-error-page',
+    templateUrl: './error.page.html',
+    imports: [NgIf, NgTemplateOutlet, RouterLink]
 })
 export class ErrorPageComponent implements OnInit, OnDestroy {
   @Input() iconName: string;

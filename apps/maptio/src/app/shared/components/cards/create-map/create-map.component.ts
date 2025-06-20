@@ -29,20 +29,19 @@ import { NgIf, NgFor } from '@angular/common';
 import { PermissionsDirective } from '../../../directives/permission.directive';
 
 @Component({
-  selector: 'common-create-map',
-  templateUrl: './create-map.component.html',
-  styleUrls: ['./create-map.component.css'],
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    PermissionsDirective,
-    NgIf,
-    NgFor,
-    RouterLink,
-    InsufficientPermissionsMessageComponent,
-    StickyPopoverDirective,
-  ],
+    selector: 'common-create-map',
+    templateUrl: './create-map.component.html',
+    styleUrls: ['./create-map.component.css'],
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        PermissionsDirective,
+        NgIf,
+        NgFor,
+        RouterLink,
+        InsufficientPermissionsMessageComponent,
+        StickyPopoverDirective,
+    ]
 })
 export class CreateMapComponent implements OnInit {
   form: UntypedFormGroup;

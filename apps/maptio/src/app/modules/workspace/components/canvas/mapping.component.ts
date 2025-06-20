@@ -60,29 +60,28 @@ import { MappingCirclesExpandedComponent } from '@maptio-old-workspace/pages/cir
 import { MappingNetworkComponent } from '@maptio-old-workspace/pages/network/mapping.network.component';
 
 @Component({
-  selector: 'mapping',
-  templateUrl: './mapping.component.html',
-  styleUrls: ['./mapping.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    RouterLinkActive,
-    RouterLink,
-    RouterOutlet,
-    NgTemplateOutlet,
-    NgIf,
-    NgbTooltipModule,
-    NgbCollapseModule,
-    ContextMenuComponent,
-    ClosableDirective,
-    SearchComponent,
-    FilterTagsComponent,
-    SharingComponent,
-    ColorPickerComponent,
-    PermissionsDirective,
-    StickyPopoverDirective,
-    InsufficientPermissionsMessageComponent,
-  ],
+    selector: 'mapping',
+    templateUrl: './mapping.component.html',
+    styleUrls: ['./mapping.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        RouterLinkActive,
+        RouterLink,
+        RouterOutlet,
+        NgTemplateOutlet,
+        NgIf,
+        NgbTooltipModule,
+        NgbCollapseModule,
+        ContextMenuComponent,
+        ClosableDirective,
+        SearchComponent,
+        FilterTagsComponent,
+        SharingComponent,
+        ColorPickerComponent,
+        PermissionsDirective,
+        StickyPopoverDirective,
+        InsufficientPermissionsMessageComponent,
+    ]
 })
 export class MappingComponent {
   isFirstEdit: boolean;

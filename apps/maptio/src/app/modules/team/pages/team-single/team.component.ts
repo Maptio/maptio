@@ -27,17 +27,16 @@ import { NgIf } from '@angular/common';
 import { SubSink } from 'subsink';
 
 @Component({
-  selector: 'team',
-  templateUrl: './team.component.html',
-  styleUrls: ['./team.component.css'],
-  standalone: true,
-  imports: [
-    RouterLink,
-    RouterLinkActive,
-    NgIf,
-    PermissionsDirective,
-    RouterOutlet,
-  ],
+    selector: 'team',
+    templateUrl: './team.component.html',
+    styleUrls: ['./team.component.css'],
+    imports: [
+        RouterLink,
+        RouterLinkActive,
+        NgIf,
+        PermissionsDirective,
+        RouterOutlet,
+    ]
 })
 export class TeamComponent implements OnInit {
   private subs = new SubSink();

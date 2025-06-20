@@ -10,11 +10,10 @@ import { environment } from '@maptio-environment';
 import { Locale } from './locale.interface';
 
 @Component({
-  selector: 'maptio-language-picker',
-  templateUrl: './language-picker.component.html',
-  styleUrls: ['./language-picker.component.scss'],
-  standalone: true,
-  imports: [NgFor, NgbDropdownModule],
+    selector: 'maptio-language-picker',
+    templateUrl: './language-picker.component.html',
+    styleUrls: ['./language-picker.component.scss'],
+    imports: [NgFor, NgbDropdownModule]
 })
 export class LanguagePickerComponent {
   LOCALES = environment.LOCALES;
