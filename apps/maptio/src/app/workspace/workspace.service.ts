@@ -161,6 +161,10 @@ export class WorkspaceService {
       });
   }
 
+  sendInitiativesToOutliner(rootNode: Initiative) {
+    this.buildingComponent().sendInitiativesToOutliner(rootNode);
+  }
+
   saveDetailChanges() {
     this.buildingComponent().saveChangesAndUpdateOutliner();
   }
@@ -203,6 +207,18 @@ export class WorkspaceService {
     this.sidePanelLayoutService.closeNavigationPanel();
   }
 
+  openDetailsPanel() {
+    this.sidePanelLayoutService.openDetailsPanel();
+  }
+
+  closeDetailsPanel() {
+    this.sidePanelLayoutService.closeDetailsPanel();
+  }
+
+  toggleDetailsPanel() {
+    this.sidePanelLayoutService.toggleDetailsPanel();
+  }
+
   toggleEditingPanelsVisibility(isVisible: boolean) {
     if (isVisible) {
       this.enableBothPanels();
@@ -219,14 +235,6 @@ export class WorkspaceService {
   // TODO: Remove
   closeBuildingPanel() {
     this.isBuildingPanelCollapsed.set(true);
-  }
-
-  openDetailsPanel() {
-    this.isDetailsPanelCollapsed.set(false);
-  }
-
-  closeDetailsPanel() {
-    this.isDetailsPanelCollapsed.set(true);
   }
 
   disableBothPanels() {

@@ -43,5 +43,6 @@
     "titleBar.inactiveBackground": "#48a3a399",
     "titleBar.inactiveForeground": "#15202b99"
   },
-  "peacock.color": "48a3a3"
+  "peacock.color": "48a3a3",
+  "nxConsole.generateAiAgentRules": true
 }
