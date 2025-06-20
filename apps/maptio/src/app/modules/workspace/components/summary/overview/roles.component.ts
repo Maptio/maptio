@@ -21,22 +21,19 @@ import { LoaderService } from '../../../../../shared/components/loading/loader.s
 import { RoleHoldersInInitiativeComponent } from '../tab/role-holders-in-initiative.component';
 import { InitiativeHelperRoleComponent } from '../../data-entry/details/parts/helpers/helper-role.component';
 import { InitiativeHelperRoleInputComponent } from '../../data-entry/details/parts/helpers/helper-role-input.component';
-import { NgIf, NgFor } from '@angular/common';
+
 
 @Component({
-  selector: 'summary-roles',
-  templateUrl: './roles.component.html',
-  styleUrls: ['./roles.component.css'],
-  host: { class: 'd-flex flex-column w-100' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    NgIf,
+    selector: 'summary-roles',
+    templateUrl: './roles.component.html',
+    styleUrls: ['./roles.component.css'],
+    host: { class: 'd-flex flex-column w-100' },
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
     InitiativeHelperRoleInputComponent,
-    NgFor,
     InitiativeHelperRoleComponent,
-    RoleHoldersInInitiativeComponent,
-  ],
+    RoleHoldersInInitiativeComponent
+]
 })
 export class RolesSummaryComponent implements OnInit {
   initiative: Initiative;

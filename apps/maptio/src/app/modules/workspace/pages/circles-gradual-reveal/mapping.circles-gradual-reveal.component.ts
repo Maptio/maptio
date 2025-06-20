@@ -40,14 +40,13 @@ import { WorkspaceFacade } from '../../+state/workspace.facade';
 import { OnboardingMessageComponent } from '../../../onboarding-message/onboarding-message/onboarding-message.component';
 
 @Component({
-  selector: 'maptio-circles-gradual-reveal',
-  templateUrl: './mapping.circles-gradual-reveal.component.html',
-  styleUrls: ['./mapping.circles-gradual-reveal.component.css'],
-  host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
-  encapsulation: ViewEncapsulation.Emulated,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [OnboardingMessageComponent, CircleMapComponent],
+    selector: 'maptio-circles-gradual-reveal',
+    templateUrl: './mapping.circles-gradual-reveal.component.html',
+    styleUrls: ['./mapping.circles-gradual-reveal.component.css'],
+    host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
+    encapsulation: ViewEncapsulation.Emulated,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [OnboardingMessageComponent, CircleMapComponent]
 })
 export class MappingCirclesGradualRevealComponent
   implements IDataVisualizer, OnInit, OnDestroy

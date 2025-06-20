@@ -10,28 +10,31 @@
       {{ helper.name }}
     </a>
 
-    <span class="text-muted mx-1" *ngIf="isAuthority">
-      ({{ team?.settings.authority | titlecase }})
-    </span>
+    @if (isAuthority) {
+      <span class="text-muted mx-1">
+        ({{ team?.settings.authority | titlecase }})
+      </span>
+    }
   </div>
 
-  <button
-    *ngIf="!isUnauthorized"
-    class="btn btn-outline-secondary remove"
-    mwlConfirmationPopover
-    popoverMessage="Remove this helper and associated roles?"
-    i18n-popoverMessage
-    confirmText="Confirm"
-    cancelText="Cancel"
-    i18n-confirmText="@@confirm"
-    i18n-cancelText="@@cancel"
-    placement="left"
-    container="body"
-    focusbutton="cancel"
-    appendToBody="false"
-    (confirm)="onRemove()"
-    (cancel)="cancelClicked = true"
-  ></button>
+  @if (!isUnauthorized) {
+    <button
+      class="btn btn-outline-secondary remove"
+      mwlConfirmationPopover
+      popoverMessage="Remove this helper and associated roles?"
+      i18n-popoverMessage
+      confirmText="Confirm"
+      cancelText="Cancel"
+      i18n-confirmText="@@confirm"
+      i18n-cancelText="@@cancel"
+      placement="left"
+      container="body"
+      focusbutton="cancel"
+      appendToBody="false"
+      (confirm)="onRemove()"
+      (cancel)="cancelClicked = true"
+    ></button>
+  }
 </div>
 
 <div class="d-flex flex-column mt-2">
@@ -41,77 +44,78 @@
       <span class="text-uppercase text-bold small" i18n="@@role">Role</span>
     </span>
 
-    <span
-      *ngIf="isUnauthorized"
-      class="text-gray-light small"
-      [stickyPopover]="editTipContent"
-    >
-      <i class="fas fa-lock"></i>
-    </span>
+    @if (isUnauthorized) {
+      <span
+        class="text-gray-light small"
+        [stickyPopover]="editTipContent"
+        >
+        <i class="fas fa-lock"></i>
+      </span>
+    }
 
-    <button
-      *ngIf="isPickRoleMode"
-      class="btn btn-link btn-sm"
-      (click)="isPickRoleMode = false"
-    >
-      <ng-container i18n="@@cancel">Cancel</ng-container>
-    </button>
+    @if (isPickRoleMode) {
+      <button
+        class="btn btn-link btn-sm"
+        (click)="isPickRoleMode = false"
+        >
+        <ng-container i18n="@@cancel">Cancel</ng-container>
+      </button>
+    }
     <button
       [class.invisible]="
         isPickRoleMode || isCreateRoleMode || isEditRoleMode || isUnauthorized
       "
       class="btn btn-link btn-sm"
       (click)="!isUnauthorized && (isPickRoleMode = true)"
-    >
+      >
       <ng-container i18n="@@addRole">Add role</ng-container>
     </button>
   </div>
 
-  <initiative-helper-role-select
-    *ngIf="isPickRoleMode"
-    [roles]="helper.roles"
-    (pick)="onPickRole($event)"
-    (create)="onCreateRole($event)"
-  ></initiative-helper-role-select>
+  @if (isPickRoleMode) {
+    <initiative-helper-role-select
+      [roles]="helper.roles"
+      (pick)="onPickRole($event)"
+      (create)="onCreateRole($event)"
+    ></initiative-helper-role-select>
+  }
 
-  <ng-container *ngIf="isCreateRoleMode">
+  @if (isCreateRoleMode) {
     <initiative-helper-role-input
       [role]="newRole"
       [helper]="helper"
       (cancel)="onCancelCreatingNewRole()"
       (save)="onSaveNewRole()"
     ></initiative-helper-role-input>
-
     <hr class="role-divider my-1" />
-  </ng-container>
+  }
 
-  <ng-container
-    *ngFor="let role of helper.roles; let roleIndex = index; let last = last"
-  >
-    <initiative-helper-role-input
-      *ngIf="isEditRoleMode && role === roleBeingEdited"
-      [role]="role"
-      [helper]="helper"
-      (cancel)="onCancelEditingRole()"
-      (save)="onChangeRole()"
-    ></initiative-helper-role-input>
-
-    <initiative-helper-role
-      *ngIf="role !== roleBeingEdited"
-      [role]="role"
+  @for (role of helper.roles; track role; let roleIndex = $index; let last = $last) {
+    @if (isEditRoleMode && role === roleBeingEdited) {
+      <initiative-helper-role-input
+        [role]="role"
+        [helper]="helper"
+        (cancel)="onCancelEditingRole()"
+        (save)="onChangeRole()"
+      ></initiative-helper-role-input>
+    }
+    @if (role !== roleBeingEdited) {
+      <initiative-helper-role
+        [role]="role"
       [showControls]="
         !isUnauthorized &&
         !isPickRoleMode &&
         !isCreateRoleMode &&
         !isEditRoleMode
       "
-      (edit)="onEditRole($event)"
-      (remove)="onRemoveRole($event)"
-    ></initiative-helper-role>
-
-    <hr
-      *ngIf="!last && helper.roles[roleIndex + 1]"
-      class="role-divider my-1"
-    />
-  </ng-container>
+        (edit)="onEditRole($event)"
+        (remove)="onRemoveRole($event)"
+      ></initiative-helper-role>
+    }
+    @if (!last && helper.roles[roleIndex + 1]) {
+      <hr
+        class="role-divider my-1"
+        />
+    }
+  }
 </div>

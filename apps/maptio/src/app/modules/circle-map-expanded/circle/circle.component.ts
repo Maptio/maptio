@@ -6,21 +6,18 @@ import { CircleMapService } from '../circle-map.service';
 import { InitiativeNode } from '../initiative.model';
 import { CircleInfoSvgComponent } from '../circle-info-svg/circle-info-svg.component';
 import { CircleInfoComponent } from '../circle-info/circle-info.component';
-import { NgFor, NgIf } from '@angular/common';
+
 
 @Component({
-  selector: 'g[maptioCircle]',
-  templateUrl: './circle.component.html',
-  styleUrls: ['./circle.component.scss'],
-  standalone: true,
-  imports: [
+    selector: 'g[maptioCircle]',
+    templateUrl: './circle.component.html',
+    styleUrls: ['./circle.component.scss'],
+    imports: [
     SatPopoverModule,
-    NgFor,
     forwardRef(() => CircleComponent),
-    NgIf,
     CircleInfoComponent,
-    CircleInfoSvgComponent,
-  ],
+    CircleInfoSvgComponent
+]
 })
 export class CircleComponent implements OnInit {
   @Input() circle!: InitiativeNode;

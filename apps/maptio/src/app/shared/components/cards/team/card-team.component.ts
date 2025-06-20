@@ -4,13 +4,12 @@ import { User } from '../../../model/user.data';
 import { sortBy } from 'lodash';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterLink } from '@angular/router';
-import { NgIf, NgFor } from '@angular/common';
+
 
 @Component({
-  selector: 'common-card-team',
-  templateUrl: './card-team.component.html',
-  standalone: true,
-  imports: [NgIf, RouterLink, NgFor, NgbTooltipModule],
+    selector: 'common-card-team',
+    templateUrl: './card-team.component.html',
+    imports: [RouterLink, NgbTooltipModule]
 })
 export class CardTeamComponent implements OnInit {
   @Input('team') team: Team;

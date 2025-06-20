@@ -9,10 +9,9 @@ import {
 import { CommonTextareaComponent } from '../../../../../../../shared/components/textarea/textarea.component';
 
 @Component({
-  selector: 'initiative-description-textarea',
-  templateUrl: './description-textarea.component.html',
-  standalone: true,
-  imports: [CommonTextareaComponent],
+    selector: 'initiative-description-textarea',
+    templateUrl: './description-textarea.component.html',
+    imports: [CommonTextareaComponent]
 })
 export class InitiativeDescriptionTextareaComponent implements OnInit {
   @Input('description') description: string;

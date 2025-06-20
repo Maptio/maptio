@@ -1,14 +1,13 @@
 import { Component, Input } from '@angular/core';
 
 import { User } from '@maptio-shared/model/user.data';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'maptio-member',
-  templateUrl: './member.component.html',
-  styleUrls: ['./member.component.scss'],
-  standalone: true,
-  imports: [NgClass, NgIf],
+    selector: 'maptio-member',
+    templateUrl: './member.component.html',
+    styleUrls: ['./member.component.scss'],
+    imports: [NgClass]
 })
 export class MemberComponent {
   @Input() member: User;

@@ -5,67 +5,71 @@
 <div class="d-flex align-items-baseline text-gray-light mb-2">
   <i class="fas fa-tags me-1"></i>
   <span class="text-uppercase text-bold small me-1" i18n="@@tags">Tags</span>
-  <span
-    *ngIf="isUnauthorized"
-    class="text-gray-light small"
-    [stickyPopover]="editTipContent"
-  >
-    <i class="fas fa-lock"></i>
-  </span>
+  @if (isUnauthorized) {
+    <span
+      class="text-gray-light small"
+      [stickyPopover]="editTipContent"
+      >
+      <i class="fas fa-lock"></i>
+    </span>
+  }
 </div>
 
 <div class="d-flex justify-content-start align-items-center flex-wrap">
-  <div *ngFor="let tag of selectedTags; let i = index">
-    <a
-      class="badge rounded-pill p-2 border-thick text-white me-1"
-      [style.border-color]="tag.color"
-      [style.background]="tag.color"
-    >
-      <i class="fa fa-tag me-1" aria-hidden="true"></i>
-      {{ tag.name }}
-      <span
-        class="remove transparent ms-2"
-        *ngIf="!isUnauthorized"
-        (click)="removeTag(tag)"
-      ></span>
-    </a>
-  </div>
-
-  <div ngbDropdown class="dropdown" *ngIf="!isUnauthorized">
-    <button
-      ngbDropdownToggle
-      class="btn btn-sm btn-outline-secondary badge rounded-pill dropdown-toggle p-2"
-      type="button"
-      id="dropdownMenuButton"
-      data-toggle="dropdown"
-      aria-haspopup="true"
-      aria-expanded="false"
-    >
-      <ng-container i18n="@@selectTag">Select tag</ng-container>
-    </button>
-
-    <div
-      ngbDropdownMenu
-      class="dropdown-menu"
-      aria-labelledby="dropdownMenuButton"
-    >
-      <button class="dropdown-item" type="button" (click)="editTags()">
-        <ng-container i18n="@@editTags">Edit tags</ng-container>
-      </button>
-
-      <div class="dropdown-divider"></div>
-
-      <button
-        (click)="addTag(tag)"
-        *ngFor="let tag of availableTags; let i = index"
-        ngbDropdownItem
-        class="dropdown-item"
-        type="button"
-        [style.color]="tag.color"
-      >
+  @for (tag of selectedTags; track tag; let i = $index) {
+    <div>
+      <a
+        class="badge rounded-pill p-2 border-thick text-white me-1"
+        [style.border-color]="tag.color"
+        [style.background]="tag.color"
+        >
         <i class="fa fa-tag me-1" aria-hidden="true"></i>
         {{ tag.name }}
-      </button>
+        @if (!isUnauthorized) {
+          <span
+            class="remove transparent ms-2"
+            (click)="removeTag(tag)"
+          ></span>
+        }
+      </a>
     </div>
-  </div>
+  }
+
+  @if (!isUnauthorized) {
+    <div ngbDropdown class="dropdown">
+      <button
+        ngbDropdownToggle
+        class="btn btn-sm btn-outline-secondary badge rounded-pill dropdown-toggle p-2"
+        type="button"
+        id="dropdownMenuButton"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+        >
+        <ng-container i18n="@@selectTag">Select tag</ng-container>
+      </button>
+      <div
+        ngbDropdownMenu
+        class="dropdown-menu"
+        aria-labelledby="dropdownMenuButton"
+        >
+        <button class="dropdown-item" type="button" (click)="editTags()">
+          <ng-container i18n="@@editTags">Edit tags</ng-container>
+        </button>
+        <div class="dropdown-divider"></div>
+        @for (tag of availableTags; track tag; let i = $index) {
+          <button
+            (click)="addTag(tag)"
+            ngbDropdownItem
+            class="dropdown-item"
+            type="button"
+            [style.color]="tag.color"
+            >
+            <i class="fa fa-tag me-1" aria-hidden="true"></i>
+            {{ tag.name }}
+          </button>
+        }
+      </div>
+    </div>
+  }
 </div>

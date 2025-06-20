@@ -21,16 +21,16 @@
             #rlaMembers="routerLinkActive"
             routerLinkActive="active"
             role="tab"
-          >
+            >
             <ng-container i18n="@@people">People</ng-container>
           </a>
         </li>
       </ng-container>
-      <ng-container *ngIf="!team.isExample">
+      @if (!team.isExample) {
         <li
           class="nav-item d-none d-md-block col-md-12"
           *permissionsOnly="Permissions.canAddUser"
-        >
+          >
           <a
             class="nav-link py-4 rounded"
             data-toggle="tab"
@@ -39,11 +39,11 @@
             #rlaImport="routerLinkActive"
             routerLinkActive="active"
             role="tab"
-          >
+            >
             <ng-container i18n="@@import">Import</ng-container>
           </a>
         </li>
-      </ng-container>
+      }
       <ng-container>
         <li class="nav-item d-none d-md-block col-md-12">
           <a
@@ -54,7 +54,7 @@
             routerLinkActive="active"
             #rlaMaps="routerLinkActive"
             role="tab"
-          >
+            >
             <ng-container i18n="@@maps">Maps</ng-container>
           </a>
         </li>
@@ -68,7 +68,7 @@
           #rlaTerminology="routerLinkActive"
           routerLinkActive="active"
           role="tab"
-        >
+          >
           <ng-container i18n="@@terminology">Name & Terminology</ng-container>
         </a>
       </li>
@@ -81,24 +81,26 @@
           routerLinkActive="active"
           #rlaIntegrations="routerLinkActive"
           role="tab"
-        >
+          >
           <ng-container i18n="@@integrations">Integrations</ng-container>
         </a>
       </li>
 
-      <li class="nav-item col-6 col-md-12" *ngIf="!team.isExample">
-        <a
-          class="nav-link py-4 rounded"
-          data-toggle="tab"
-          routerLink="./billing"
-          routerLinkActive="active"
-          #rlaBilling="routerLinkActive"
-          queryParamsHandling="merge"
-          role="tab"
-        >
-          <ng-container i18n="@@billing">Billing</ng-container>
-        </a>
-      </li>
+      @if (!team.isExample) {
+        <li class="nav-item col-6 col-md-12">
+          <a
+            class="nav-link py-4 rounded"
+            data-toggle="tab"
+            routerLink="./billing"
+            routerLinkActive="active"
+            #rlaBilling="routerLinkActive"
+            queryParamsHandling="merge"
+            role="tab"
+            >
+            <ng-container i18n="@@billing">Billing</ng-container>
+          </a>
+        </li>
+      }
     </ul>
   </div>
   <div class="col-12 col-md-9 mt-4 mt-md-0">

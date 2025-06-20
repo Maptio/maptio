@@ -2,15 +2,14 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { InitiativeNode } from '../initiative.model';
 import { HelperAvatarComponent } from '../helper-avatar/helper-avatar.component';
-import { NgFor, NgIf } from '@angular/common';
+
 
 @Component({
-  selector: 'g[maptioCircleInfo]',
-  templateUrl: './circle-info.component.html',
-  styleUrls: ['./circle-info.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  standalone: true,
-  imports: [NgFor, NgIf, HelperAvatarComponent],
+    selector: 'g[maptioCircleInfo]',
+    templateUrl: './circle-info.component.html',
+    styleUrls: ['./circle-info.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    imports: [HelperAvatarComponent]
 })
 export class CircleInfoComponent implements OnInit {
   @Input() circle!: InitiativeNode;

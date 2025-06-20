@@ -6,7 +6,7 @@ import {
   computed,
   signal,
 } from '@angular/core';
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { of as observableOf, Subscription, Subject } from 'rxjs';
@@ -27,20 +27,17 @@ import { PermissionsDirective } from '../../../../../shared/directives/permissio
 import { PersonalSummaryComponent } from './personal.component';
 
 @Component({
-  selector: 'summary-people',
-  templateUrl: './people.component.html',
-  styleUrls: ['./people.component.css'],
-  host: { class: 'd-flex flex-row w-100' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    NgFor,
-    NgIf,
+    selector: 'summary-people',
+    templateUrl: './people.component.html',
+    styleUrls: ['./people.component.css'],
+    host: { class: 'd-flex flex-row w-100' },
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
     NgTemplateOutlet,
     NgbCollapseModule,
     PersonalSummaryComponent,
-    PermissionsDirective,
-  ],
+    PermissionsDirective
+]
 })
 export class PeopleSummaryComponent implements OnInit {
   members: User[];

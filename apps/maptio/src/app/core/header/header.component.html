@@ -1,17 +1,18 @@
-<maptio-onboarding-banner
-  *ngIf="
-    (userService.isAuthenticated$ | async) &&
-    (isMap() || isHome() || isTeam()) &&
-    team?.isPaying === false
-  "
-  [user]="user"
-  [team]="team"
-></maptio-onboarding-banner>
+@if (
+  (userService.isAuthenticated$ | async) &&
+  (isMap() || isHome() || isTeam()) &&
+  team?.isPaying === false
+  ) {
+  <maptio-onboarding-banner
+    [user]="user"
+    [team]="team"
+  ></maptio-onboarding-banner>
+}
 
 <nav
   class="d-flex header navbar navbar-expand-md navbar-light bg-transparent justify-content-between align-items-baseline px-3"
   [class.grayscale]="loaderService.isLoading"
->
+  >
   <a routerLink="home" class="no-underline navbar-brand">
     <img
       width="32"
@@ -20,7 +21,7 @@
       src="assets/images/logo.png"
       alt="Home"
       i18n-alt
-    />
+      />
   </a>
 
   <button
@@ -32,7 +33,7 @@
     aria-label="Toggle navigation"
     i18n-aria-label
     (click)="isMenuOpened = !isMenuOpened"
-  >
+    >
     <i
       class="fas"
       [class.fa-bars]="!isMenuOpened"
@@ -46,166 +47,170 @@
     class="navbar-collapse"
     [ngClass]="{ ' p-2 vh-100 vw-100': isMenuOpened }"
     id="navbarSupportedContent"
-  >
+    >
     <ul
       class="navbar-nav d-flex justify-content-end w-100"
       (click)="onMenuClick()"
-    >
+      >
       <li class="nav-item d-none d-md-flex align-items-center">
         <a
           class="nav-link"
           target="blank"
           href="{{ KB_URL_HOME }}"
           i18n="@@help"
-        >
+          >
           Help
         </a>
       </li>
 
-      <li
-        class="nav-item d-none d-md-flex align-items-center"
-        *ngIf="team?.isPaying === false"
-      >
-        <a class="nav-link" target="blank" routerLink="/pricing">
-          <ng-container i18n="@@pricing">Pricing</ng-container>
-        </a>
-      </li>
+      @if (team?.isPaying === false) {
+        <li
+          class="nav-item d-none d-md-flex align-items-center"
+          >
+          <a class="nav-link" target="blank" routerLink="/pricing">
+            <ng-container i18n="@@pricing">Pricing</ng-container>
+          </a>
+        </li>
+      }
 
-      <li class="nav-item d-none d-md-flex align-items-center" *ngIf="team">
-        <a
-          class="nav-link"
-          routerLink="/teams/{{ team?.team_id }}/{{ team?.getSlug() }}"
-          i18n
-        >
+      @if (team) {
+        <li class="nav-item d-none d-md-flex align-items-center">
+          <a
+            class="nav-link"
+            routerLink="/teams/{{ team?.team_id }}/{{ team?.getSlug() }}"
+            i18n
+            >
           Settings
         </a>
-      </li>
+        </li>
+      }
 
-      <li
-        ngbDropdown
-        class="nav-item dropdown d-none d-md-flex align-items-center"
-        *ngIf="
-          (userService.isAuthenticated$ | async) &&
-          datasets &&
-          datasets?.length !== 0
-        "
-      >
-        <a
-          class="nav-link dropdown-toggle"
-          id="mapsListDropdownLink"
-          ngbDropdownToggle
-        >
-          <ng-conatiner i18n>Maps</ng-conatiner>
-        </a>
-
-        <div
-          class="dropdown-menu dropdown-menu-end overflow"
-          ngbDropdownMenu
-          aria-labelledby="mapsListDropdownLink"
-        >
-          <ng-container *ngFor="let dataset of datasets">
-            <ng-container *ngIf="dataset.initiative">
-              <a
-                ngbDropdownItem
+      @if (
+        (userService.isAuthenticated$ | async) &&
+        datasets &&
+        datasets?.length !== 0
+        ) {
+        <li
+          ngbDropdown
+          class="nav-item dropdown d-none d-md-flex align-items-center"
+          >
+          <a
+            class="nav-link dropdown-toggle"
+            id="mapsListDropdownLink"
+            ngbDropdownToggle
+            >
+            <ng-conatiner i18n>Maps</ng-conatiner>
+          </a>
+          <div
+            class="dropdown-menu dropdown-menu-end overflow"
+            ngbDropdownMenu
+            aria-labelledby="mapsListDropdownLink"
+            >
+            @for (dataset of datasets; track dataset) {
+              @if (dataset.initiative) {
+                <a
+                  ngbDropdownItem
                 routerLink="/map/{{ dataset.datasetId }}/{{
                   dataset.initiative.getSlug()
                 }}"
-              >
-                {{ dataset?.initiative.name }}
-              </a>
-            </ng-container>
-          </ng-container>
-        </div>
-      </li>
+                  >
+                  {{ dataset?.initiative.name }}
+                </a>
+              }
+            }
+          </div>
+        </li>
+      }
 
       <maptio-language-picker class="d-none d-md-flex"></maptio-language-picker>
 
-      <li
-        ngbDropdown
-        class="nav-item dropdown ms-3"
-        id="profileInformation"
-        *ngIf="userService.isAuthenticated$ | async"
-      >
-        <a
-          class="nav-link dropdown-toggle without-caret px-0 d-none d-md-block"
-          id="profileDropdownLink"
-          ngbDropdownToggle
-        >
-          <div>
-            <img
-              src="{{ user?.picture }}"
-              class="avatar my-1"
-              alt="{{ user?.name }}"
-            />
-          </div>
-        </a>
-        <div
-          ngbDropdownMenu
-          class="dropdown-menu dropdown-menu-end"
-          aria-labelledby="profileDropdownLink"
-        >
+      @if (userService.isAuthenticated$ | async) {
+        <li
+          ngbDropdown
+          class="nav-item dropdown ms-3"
+          id="profileInformation"
+          >
           <a
-            ngbDropdownItem
-            class="dropdown-item py-2"
+            class="nav-link dropdown-toggle without-caret px-0 d-none d-md-block"
+            id="profileDropdownLink"
+            ngbDropdownToggle
+            >
+            <div>
+              <img
+                src="{{ user?.picture }}"
+                class="avatar my-1"
+                alt="{{ user?.name }}"
+                />
+            </div>
+          </a>
+          <div
+            ngbDropdownMenu
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="profileDropdownLink"
+            >
+            <a
+              ngbDropdownItem
+              class="dropdown-item py-2"
             routerLink="profile/{{ user?.shortid }}/{{
               user?.getSlug() || 'profile'
             }}"
-          >
-            <ng-container i18n>Profile</ng-container>
-          </a>
-
-          <div class="dropdown-divider" *ngIf="teams?.length > 0"></div>
-
-          <h6 class="dropdown-header ps-3" *ngIf="teams?.length > 0">
-            <ng-container i18n="@@organisations">Organisations</ng-container>
-          </h6>
-
-          <ng-container *ngIf="teams?.length > 1">
-            <a
-              ngbDropdownItem
-              class="dropdown-item"
-              *ngFor="let team of teams | slice : 1 : 5"
-              routerLink="/teams/{{ team.team_id }}/{{ team?.getSlug() }}"
-            >
-              {{ team?.name }}
+              >
+              <ng-container i18n>Profile</ng-container>
             </a>
-
-            <a ngbDropdownItem class="dropdown-item" routerLink="/teams" i18n>
+            @if (teams?.length > 0) {
+              <div class="dropdown-divider"></div>
+            }
+            @if (teams?.length > 0) {
+              <h6 class="dropdown-header ps-3">
+                <ng-container i18n="@@organisations">Organisations</ng-container>
+              </h6>
+            }
+            @if (teams?.length > 1) {
+              @for (team of teams | slice : 1 : 5; track team) {
+                <a
+                  ngbDropdownItem
+                  class="dropdown-item"
+                  routerLink="/teams/{{ team.team_id }}/{{ team?.getSlug() }}"
+                  >
+                  {{ team?.name }}
+                </a>
+              }
+              <a ngbDropdownItem class="dropdown-item" routerLink="/teams" i18n>
               More ...
             </a>
-          </ng-container>
-
-          <a
-            ngbDropdownItem
-            class="dropdown-item"
-            *ngIf="teams?.length === 1"
+            }
+            @if (teams?.length === 1) {
+              <a
+                ngbDropdownItem
+                class="dropdown-item"
             routerLink="/teams/{{ teams[0]?.team_id }}/{{
               teams[0]?.getSlug()
             }}"
-          >
-            {{ teams[0]?.name }}
-          </a>
-
-          <div class="dropdown-divider"></div>
-
-          <a
-            ngbDropdownItem
-            class="dropdown-item py-2"
-            id="logoutButton"
-            routerLink="/logout"
-            i18n
-          >
+                >
+                {{ teams[0]?.name }}
+              </a>
+            }
+            <div class="dropdown-divider"></div>
+            <a
+              ngbDropdownItem
+              class="dropdown-item py-2"
+              id="logoutButton"
+              routerLink="/logout"
+              i18n
+              >
             Log out
           </a>
-        </div>
-      </li>
+          </div>
+        </li>
+      }
 
-      <li
-        *ngIf="(userService.isAuthenticated$ | async) === false && !isSignUp()"
-        class="nav-item d-flex align-items-center ps-2"
-      >
-        <a maptioLoginRedirect class="btn btn-link px-0" i18n>Log in</a>
-      </li>
+      @if ((userService.isAuthenticated$ | async) === false && !isSignUp()) {
+        <li
+          class="nav-item d-flex align-items-center ps-2"
+          >
+          <a maptioLoginRedirect class="btn btn-link px-0" i18n>Log in</a>
+        </li>
+      }
 
       <!-- Mobile menu starts here -->
 
@@ -215,65 +220,66 @@
           routerLink="profile/{{ user?.shortid }}/{{
             user?.getSlug() || 'profile'
           }}"
-        >
+          >
           <ng-container i18n>Profile</ng-container>
         </a>
       </li>
 
-      <ng-container *ngIf="datasets?.length > 0">
+      @if (datasets?.length > 0) {
         <li class="d-md-none dropdown-divider"></li>
-
         <li class="d-md-none dropdown-header px-0 text-uppercase" i18n>Maps</li>
-
-        <li
-          class="nav-item d-md-none"
-          *ngFor="let dataset of datasets | slice : 0 : 2"
-        >
-          <a
-            class="btn btn-link px-0"
+        @for (dataset of datasets | slice : 0 : 2; track dataset) {
+          <li
+            class="nav-item d-md-none"
+            >
+            <a
+              class="btn btn-link px-0"
             routerLink="/map/{{ dataset.datasetId }}/{{
               dataset.initiative.getSlug()
             }}"
-          >
-            {{ dataset?.initiative.name }}
-          </a>
-        </li>
+              >
+              {{ dataset?.initiative.name }}
+            </a>
+          </li>
+        }
+        @if (datasets?.length > 3) {
+          <li class="nav-item d-md-none">
+            <a class="btn btn-link px-0" routerLink="/home" i18n>All maps ...</a>
+          </li>
+        }
+      }
 
-        <li class="nav-item d-md-none" *ngIf="datasets?.length > 3">
-          <a class="btn btn-link px-0" routerLink="/home" i18n>All maps ...</a>
-        </li>
-      </ng-container>
-
-      <ng-container *ngIf="teams?.length > 0">
+      @if (teams?.length > 0) {
         <li class="d-md-none dropdown-divider"></li>
-
         <li class="d-md-none dropdown-header px-0 text-uppercase" i18n>
           Organizations
         </li>
-
-        <li
-          class="nav-item d-md-none"
-          *ngFor="let team of teams | slice : 0 : 2"
-        >
-          <a
-            class="btn btn-link px-0"
-            routerLink="/teams/{{ team.team_id }}/{{ team.getSlug() }}"
-          >
-            {{ team.name }}
-          </a>
-        </li>
-
-        <li class="nav-item d-md-none" *ngIf="teams?.length > 3">
-          <a
-            *ngIf="teams?.length > 1"
-            class="btn btn-link px-0"
-            routerLink="/teams"
-            i18n
-          >
+        @for (team of teams | slice : 0 : 2; track team) {
+          <li
+            class="nav-item d-md-none"
+            >
+            <a
+              class="btn btn-link px-0"
+              routerLink="/teams/{{ team.team_id }}/{{ team.getSlug() }}"
+              >
+              {{ team.name }}
+            </a>
+          </li>
+        }
+        @if (teams?.length > 3) {
+          <li class="nav-item d-md-none">
+            @if (teams?.length > 1) {
+              <a
+                class="btn btn-link px-0"
+                routerLink="/teams"
+                i18n
+                >
             All organizations...
           </a>
-        </li>
-      </ng-container>
+            }
+          </li>
+        }
+      }
 
       <li class="d-md-none dropdown-divider"></li>
 
@@ -297,7 +303,7 @@
           href="{{ KB_URL_HOME }}"
           target="blank"
           i18n="@@help"
-        >
+          >
           Help
         </a>
       </li>
@@ -311,20 +317,19 @@
 
       <maptio-language-picker class="d-md-none"></maptio-language-picker>
 
-      <ng-container *ngIf="userService.isAuthenticated$ | async">
+      @if (userService.isAuthenticated$ | async) {
         <li class="d-md-none dropdown-divider"></li>
-
         <li class="nav-item d-md-none">
           <a
             class="btn btn-link px-0"
             id="logoutButton"
             routerLink="/logout"
             i18n
-          >
+            >
             Log out
           </a>
         </li>
-      </ng-container>
+      }
     </ul>
   </div>
 </nav>

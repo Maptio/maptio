@@ -23,21 +23,19 @@ import { Store } from '@ngrx/store';
 import { AppState } from '@maptio-state/app.state';
 import { setCurrentOrganisationId } from '@maptio-state/global.actions';
 import { PermissionsDirective } from '../../../../shared/directives/permission.directive';
-import { NgIf } from '@angular/common';
+
 import { SubSink } from 'subsink';
 
 @Component({
-  selector: 'team',
-  templateUrl: './team.component.html',
-  styleUrls: ['./team.component.css'],
-  standalone: true,
-  imports: [
+    selector: 'team',
+    templateUrl: './team.component.html',
+    styleUrls: ['./team.component.css'],
+    imports: [
     RouterLink,
     RouterLinkActive,
-    NgIf,
     PermissionsDirective,
-    RouterOutlet,
-  ],
+    RouterOutlet
+]
 })
 export class TeamComponent implements OnInit {
   private subs = new SubSink();

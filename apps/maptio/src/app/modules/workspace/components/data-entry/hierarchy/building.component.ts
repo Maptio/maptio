@@ -11,7 +11,7 @@ import {
   effect,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { NgIf } from '@angular/common';
+
 
 import { Subscription, map } from 'rxjs';
 
@@ -57,21 +57,19 @@ import { RoleLibraryService } from '../../../services/role-library.service';
 import { EditTagsComponent } from '../tags/edit-tags.component';
 
 @Component({
-  selector: 'building',
-  templateUrl: './building.component.html',
-  styleUrls: ['./building.component.css'],
-  standalone: true,
-  imports: [
+    selector: 'building',
+    templateUrl: './building.component.html',
+    styleUrls: ['./building.component.css'],
+    imports: [
     OnboardingMessageComponent,
     NgbNavModule,
     PermissionsDirective,
-    NgIf,
     NgbTooltipModule,
     InsufficientPermissionsMessageComponent,
     StickyPopoverDirective,
     EditTagsComponent,
-    OutlineModule,
-  ],
+    OutlineModule
+]
 })
 export class BuildingComponent implements OnDestroy {
   private readonly workspaceFacade = inject(WorkspaceFacade);

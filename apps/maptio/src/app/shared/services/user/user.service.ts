@@ -1,5 +1,5 @@
-import { Injectable, OnDestroy, Inject, LOCALE_ID } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Injectable, OnDestroy, Inject, LOCALE_ID, DOCUMENT } from '@angular/core';
+
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 

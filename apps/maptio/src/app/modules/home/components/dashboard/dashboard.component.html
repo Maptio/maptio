@@ -44,10 +44,8 @@
         class="d-flex flex-column justify-content-start align-items-start h-100"
       >
         <div class="w-100 h-100">
-          <div
-            *ngIf="isZeroMaps() && isOutOfSampleMode"
-            class="d-flex justify-content-start h-100"
-          >
+          @if (isZeroMaps() && isOutOfSampleMode) {
+          <div class="d-flex justify-content-start h-100">
             <div class="card border-0 bg-light">
               <div class="card-body d-flex flex-column align-items-center">
                 <div class="card-title text-center">
@@ -77,11 +75,9 @@
               </div>
             </div>
           </div>
-
-          <div
-            class="mb-5"
-            *ngFor="let kv of filteredMaps.entries(); trackBy: trackByTeamId"
-          >
+          } @for (kv of filteredMaps.entries(); track trackByTeamId($index,
+          kv[0])) {
+          <div class="mb-5">
             <div
               class="d-flex flex-column flex-md-row justify-content-between align-items-baseline"
             >
@@ -93,29 +89,24 @@
                 {{ kv[1].length }} {kv[1].length, plural, =1 {map} other {maps}}
               </small>
             </div>
-
             <hr />
-
             <ul class="list-inline row d-flex align-items-stretch">
-              <ng-container
-                *ngFor="let dataset of kv[1]; trackBy: trackByDatasetId"
-              >
-                <li
-                  class="col-12 col-md-6 my-2"
-                  *ngIf="dataset.initiative.name"
-                >
-                  <maptio-map-card
-                    [dataset]="dataset"
-                    [isExportAvailable]="true"
-                    [isEdit]="true"
-                    [isTeamDisplayed]="false"
-                    (copied)="onCopy($event)"
-                    (archived)="onArchive($event)"
-                  ></maptio-map-card>
-                </li>
-              </ng-container>
+              @for (dataset of kv[1]; track trackByDatasetId($index, dataset)) {
+              @if (dataset.initiative.name) {
+              <li class="col-12 col-md-6 my-2">
+                <maptio-map-card
+                  [dataset]="dataset"
+                  [isExportAvailable]="true"
+                  [isEdit]="true"
+                  [isTeamDisplayed]="false"
+                  (copied)="onCopy($event)"
+                  (archived)="onArchive($event)"
+                ></maptio-map-card>
+              </li>
+              } }
             </ul>
           </div>
+          }
         </div>
       </div>
     </div>
@@ -137,81 +128,77 @@
               <div class="d-none d-md-block">
                 <ng-container *ngTemplateOutlet="welcomeList"></ng-container>
               </div>
-              <ng-container *ngIf="false">
-                <hr />
-                <div class="d-flex justify-content-start text-muted">
-                  <div class="d-flex flex-column align-items-start">
-                    <div class="d-flex align-items-start my-3">
-                      <span class="mx-2">
-                        <i
-                          class="far fa-check-circle text-success"
-                          aria-hidden="true"
-                        ></i>
+              @if (false) {
+              <hr />
+              <div class="d-flex justify-content-start text-muted">
+                <div class="d-flex flex-column align-items-start">
+                  <div class="d-flex align-items-start my-3">
+                    <span class="mx-2">
+                      <i
+                        class="far fa-check-circle text-success"
+                        aria-hidden="true"
+                      ></i>
+                    </span>
+                    <span class="text-muted">
+                      @if (!isMultipleTeams()) {
+                      <ng-container i18n>
+                        Organisation
+                        <a
+                          routerLink="/teams/{{
+                            _nonExampleTeams[0].team_id
+                          }}/team"
+                        >
+                          {{ _nonExampleTeams[0].name }}
+                        </a>
+                        set up
+                      </ng-container>
+                      } @if (isMultipleTeams()) {
+                      <a routerLink="/teams">{{ teamsCount }} organisations</a>
+                      set up }
+                    </span>
+                  </div>
+                  <div class="d-flex align-items-start my-2">
+                    <span class="mx-2">
+                      <i
+                        class="far fa-check-circle text-green"
+                        aria-hidden="true"
+                      ></i>
+                    </span>
+                    <div>
+                      @if (!isMultipleMaps()) {
+                      <span i18n>
+                        Map
+                        <a
+                          routerLink="/map/{{ datasets[0]?.datasetId }}/{{
+                            datasets[0]?.initiative.getSlug()
+                          }}"
+                        >
+                          {{ datasets[0]?.initiative.name }}
+                        </a>
+                        is now active
                       </span>
-                      <span class="text-muted">
-                        <ng-container *ngIf="!isMultipleTeams()" i18n>
-                          Organisation
-                          <a
-                            routerLink="/teams/{{
-                              _nonExampleTeams[0].team_id
-                            }}/team"
-                          >
-                            {{ _nonExampleTeams[0].name }}
-                          </a>
-                          set up
-                        </ng-container>
-                        <ng-container *ngIf="isMultipleTeams()">
-                          <a routerLink="/teams">
-                            {{ teamsCount }} organisations
-                          </a>
-                          set up
-                        </ng-container>
-                      </span>
-                    </div>
-                    <div class="d-flex align-items-start my-2">
-                      <span class="mx-2">
-                        <i
-                          class="far fa-check-circle text-green"
-                          aria-hidden="true"
-                        ></i>
-                      </span>
-                      <div>
-                        <ng-container *ngIf="!isMultipleMaps()">
-                          <span i18n>
-                            Map
-                            <a
-                              routerLink="/map/{{ datasets[0]?.datasetId }}/{{
-                                datasets[0]?.initiative.getSlug()
-                              }}"
-                            >
-                              {{ datasets[0]?.initiative.name }}
-                            </a>
-                            is now active
-                          </span>
-                        </ng-container>
-                        <ng-container *ngIf="isMultipleMaps()" i18n>
-                          {{ mapsCount }} active maps
-                        </ng-container>
-                      </div>
+                      } @if (isMultipleMaps()) {
+                      <ng-container i18n>
+                        {{ mapsCount }} active maps
+                      </ng-container>
+                      }
                     </div>
                   </div>
                 </div>
-              </ng-container>
+              </div>
+              }
             </div>
           </div>
         </div>
       </div>
 
-      <div
-        class="card bg-light border-0 mb-3 rounded d-none d-md-block"
-        *ngIf="datasets?.length > 5"
-      >
+      @if (datasets?.length > 5) {
+      <div class="card bg-light border-0 mb-3 rounded d-none d-md-block">
         <div class="card-body">
           <div class="form-group d-flex flex-column align-items-start m-0">
             <label class="form-label lead" for="inputQuickFilter" i18n>
               Find a map
             </label>
-
             <input
               id="inputQuickFilter"
               #inputQuickFilter
@@ -219,7 +206,6 @@
               class="form-control w-100"
               (keyup)="onKeyDown(inputQuickFilter.value)"
             />
-
             <div
               [class.invisible]="!inputQuickFilter.value"
               class="d-flex justify-content-between align-items-center w-100"
@@ -227,7 +213,6 @@
               <span class="text-muted small" i18n>
                 {{ getCount(filteredMaps) }}/{{ datasets?.length }} maps
               </span>
-
               <button
                 class="btn btn-link btn-sm px-0"
                 (click)="onKeyDown(''); inputQuickFilter.value = ''"
@@ -238,11 +223,8 @@
           </div>
         </div>
       </div>
-
-      <div
-        class="card bg-light border-0 mb-3 d-none d-md-block"
-        *ngIf="isOutOfSampleMode && !isZeroMaps()"
-      >
+      } @if (isOutOfSampleMode && !isZeroMaps()) {
+      <div class="card bg-light border-0 mb-3 d-none d-md-block">
         <div class="card-body">
           <common-create-map
             [user]="user"
@@ -252,6 +234,7 @@
           ></common-create-map>
         </div>
       </div>
+      }
 
       <div class="card bg-light border-0 mb-3 d-none d-md-block">
         <div class="card-body">

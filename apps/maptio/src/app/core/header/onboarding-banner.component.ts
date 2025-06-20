@@ -5,14 +5,13 @@ import { Team } from '@maptio-shared/model/team.data';
 import { User } from '@maptio-shared/model/user.data';
 import { RouterLink } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgIf } from '@angular/common';
+
 
 @Component({
-  selector: 'maptio-onboarding-banner',
-  templateUrl: './onboarding-banner.component.html',
-  styleUrls: ['./onboarding-banner.component.scss'],
-  standalone: true,
-  imports: [NgIf, NgbTooltipModule, RouterLink],
+    selector: 'maptio-onboarding-banner',
+    templateUrl: './onboarding-banner.component.html',
+    styleUrls: ['./onboarding-banner.component.scss'],
+    imports: [NgbTooltipModule, RouterLink]
 })
 export class OnboardingBannerComponent {
   @Input() set user(user: User) {

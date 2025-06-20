@@ -12,22 +12,20 @@ import { OpenReplayService } from '@maptio-shared/services/open-replay.service';
 import { ConsentComponent } from './consent.component';
 import { AddTerminologyComponent } from './add-terminology.component';
 import { FormsModule } from '@angular/forms';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { CommonModalComponent } from '../modal/modal.component';
 
 @Component({
-  selector: 'maptio-common-onboarding',
-  templateUrl: './onboarding.component.html',
-  styleUrls: ['./onboarding.component.css'],
-  standalone: true,
-  imports: [
+    selector: 'maptio-common-onboarding',
+    templateUrl: './onboarding.component.html',
+    styleUrls: ['./onboarding.component.css'],
+    imports: [
     CommonModalComponent,
-    NgIf,
     NgTemplateOutlet,
     FormsModule,
     AddTerminologyComponent,
-    ConsentComponent,
-  ],
+    ConsentComponent
+]
 })
 export class OnboardingComponent implements OnInit {
   @Input() user: User;

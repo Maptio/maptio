@@ -1,19 +1,25 @@
 <ng-template #rt let-r="result" let-t="term">
-  <span *ngIf="r.user_id">
-    <img src="{{ r.picture }}" class="avatar" alt="{{ r.name }}" />
-    {{ r.name }}
-  </span>
+  @if (r.user_id) {
+    <span>
+      <img src="{{ r.picture }}" class="avatar" alt="{{ r.name }}" />
+      {{ r.name }}
+    </span>
+  }
 
-  <span *ngIf="!r.user_id && t">
-    {{ t }}
-    <span>(</span>
-    Add a new team member
-    <span>)</span>
-  </span>
+  @if (!r.user_id && t) {
+    <span>
+      {{ t }}
+      <span>(</span>
+      Add a new team member
+      <span>)</span>
+    </span>
+  }
 
-  <span *ngIf="!r.user_id && !t">
-    <ng-container i18n="@@addNewTeamMember">Add a new team member</ng-container>
-  </span>
+  @if (!r.user_id && !t) {
+    <span>
+      <ng-container i18n="@@addNewTeamMember">Add a new team member</ng-container>
+    </span>
+  }
 </ng-template>
 
 <ng-template #editTipContent>
@@ -22,47 +28,50 @@
 
 <div
   class="d-flex justify-content-between align-items-center text-gray-light mb-2"
->
+  >
   <span>
     <i class="fas fa-users me-1"></i>
     <span class="text-uppercase text-bold small me-1" i18n>Who's helping?</span>
-    <span
-      *ngIf="isUnauthorized"
-      class="text-gray-light small"
-      [stickyPopover]="editTipContent"
-    >
-      <i class="fas fa-lock"></i>
-    </span>
+    @if (isUnauthorized) {
+      <span
+        class="text-gray-light small"
+        [stickyPopover]="editTipContent"
+        >
+        <i class="fas fa-lock"></i>
+      </span>
+    }
   </span>
 
-  <button
-    *ngIf="!isCurrentUserAlreadyAdded() && !isUnauthorized"
-    class="align-self-end btn btn-sm btn-link"
-    (click)="onAddingCurrentUser()"
-    i18n
-  >
+  @if (!isCurrentUserAlreadyAdded() && !isUnauthorized) {
+    <button
+      class="align-self-end btn btn-sm btn-link"
+      (click)="onAddingCurrentUser()"
+      i18n
+      >
     Add yourself as a {{ team?.settings.helper | lowercase }}
   </button>
+  }
 </div>
 
-<div
-  *ngIf="!isCreateNewMemberMode; else newMemberForm"
-  class="d-flex flex-column align-items-end"
->
-  <div class="w-100" *ngIf="!isUnauthorized">
-    <common-autocomplete
-      [isUnauthorized]="isUnauthorized"
-      [placeholder]="placeholder"
-      [resultTemplate]="rt"
-      [showSelectedResult]="false"
-      [resultFormatter]="formatter"
-      [filter]="filterMembers"
-      (pick)="onAddingHelper($event)"
-    ></common-autocomplete>
+@if (!isCreateNewMemberMode) {
+  <div
+    class="d-flex flex-column align-items-end"
+    >
+    @if (!isUnauthorized) {
+      <div class="w-100">
+        <common-autocomplete
+          [isUnauthorized]="isUnauthorized"
+          [placeholder]="placeholder"
+          [resultTemplate]="rt"
+          [showSelectedResult]="false"
+          [resultFormatter]="formatter"
+          [filter]="filterMembers"
+          (pick)="onAddingHelper($event)"
+        ></common-autocomplete>
+      </div>
+    }
   </div>
-</div>
-
-<ng-template #newMemberForm>
+} @else {
   <maptio-member-form
     [team]="team"
     [member]="newMemberData"
@@ -71,4 +80,5 @@
     (addMember)="onCreateNewMember($event)"
     (cancel)="onCancelAddingMember($event)"
   ></maptio-member-form>
-</ng-template>
+}
+

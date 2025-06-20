@@ -3,9 +3,11 @@
     <ng-content></ng-content>
   </span>
 
-  <ng-container *ngIf="!defaultContent.hasChildNodes()" i18n="@@noPermission">
+  @if (!defaultContent.hasChildNodes()) {
+    <ng-container i18n="@@noPermission">
     You don't have permission to make changes.
   </ng-container>
+  }
 
   <span>&nbsp;</span>
 

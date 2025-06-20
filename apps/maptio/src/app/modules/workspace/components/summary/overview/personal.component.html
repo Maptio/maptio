@@ -6,17 +6,18 @@
         width="128"
         height="128"
         src="{{ member?.picture }}"
-      />
+        />
 
       <h1 class="ms-3">{{ member?.name }}</h1>
     </div>
   </div>
 
-  <markdown
-    *ngIf="member?.about"
-    class="about col-12 my-4"
-    [data]="member?.about"
-  ></markdown>
+  @if (member?.about) {
+    <markdown
+      class="about col-12 my-4"
+      [data]="member?.about"
+    ></markdown>
+  }
 
   <div class="col-12">
     <div class="d-flex align-items-center">
@@ -26,7 +27,7 @@
           #authorityAndHelperTabs="ngbNav"
           class="nav nav-tabs justify-content-end my-3"
           role="tablist"
-        >
+          >
           <li class="align-self-end me-auto">
             <h2 class="text-muted d-none d-sm-block">
               {{ authorities.length + helps.length }} {authorities.length +
@@ -39,7 +40,7 @@
               ngbNavLink
               class="nav-link d-flex flex-column align-items-center"
               role="tab"
-            >
+              >
               <span>{{ authorityName | titlecase }}</span>
               <span class="small text-muted">
                 {{ authorities.length }} {authorities.length, plural, =0
@@ -54,26 +55,29 @@
                 [class.one-column]="isColumnToggleActive(1)"
                 [class.two-column]="isColumnToggleActive(2)"
                 [class.three-column]="isColumnToggleActive(3)"
-              >
+                >
                 <div class="w-100 d-flex justify-content-center">
-                  <span
-                    *ngIf="authorities.length === 0"
-                    class="h3 text-orange"
-                    i18n
-                  >
+                  @if (authorities.length === 0) {
+                    <span
+                      class="h3 text-orange"
+                      i18n
+                      >
                     Not a {{ authorityName | lowercase }} yet
                   </span>
+                  }
                 </div>
-                <div *ngFor="let i of authorities; let ix = index" class="">
-                  <personal-card
-                    [initiative]="i"
-                    [datasetId]="datasetId"
-                    [team]="team"
-                    [isWithLeader]="false"
-                    (selectMember)="onSelectMember($event)"
-                    (selectInitiative)="onSelectInitiative($event)"
-                  ></personal-card>
-                </div>
+                @for (i of authorities; track i; let ix = $index) {
+                  <div class="">
+                    <personal-card
+                      [initiative]="i"
+                      [datasetId]="datasetId"
+                      [team]="team"
+                      [isWithLeader]="false"
+                      (selectMember)="onSelectMember($event)"
+                      (selectInitiative)="onSelectInitiative($event)"
+                    ></personal-card>
+                  </div>
+                }
               </div>
             </ng-template>
           </li>
@@ -83,7 +87,7 @@
               ngbNavLink
               class="nav-link d-flex flex-column align-items-center"
               role="tab"
-            >
+              >
               <span>{{ helperName | titlecase }}</span>
               <span class="small text-muted">
                 {{ helps.length }} {helps.length, plural, =0 {circles} =1
@@ -98,24 +102,28 @@
                 [class.one-column]="isColumnToggleActive(1)"
                 [class.two-column]="isColumnToggleActive(2)"
                 [class.three-column]="isColumnToggleActive(3)"
-              >
+                >
                 <div class="w-100 d-flex justify-content-center">
-                  <span *ngIf="helps.length === 0" class="h3 text-orange" i18n>
+                  @if (helps.length === 0) {
+                    <span class="h3 text-orange" i18n>
                     No helping participation yet
                   </span>
+                  }
                 </div>
 
-                <div *ngFor="let i of helps; let ix = index" class="">
-                  <personal-card
-                    [initiative]="i"
-                    [datasetId]="datasetId"
-                    [team]="team"
-                    [isWithLeader]="true"
-                    [selectedMemberId]="member?.user_id"
-                    (selectMember)="onSelectMember($event)"
-                    (selectInitiative)="onSelectInitiative($event)"
-                  ></personal-card>
-                </div>
+                @for (i of helps; track i; let ix = $index) {
+                  <div class="">
+                    <personal-card
+                      [initiative]="i"
+                      [datasetId]="datasetId"
+                      [team]="team"
+                      [isWithLeader]="true"
+                      [selectedMemberId]="member?.user_id"
+                      (selectMember)="onSelectMember($event)"
+                      (selectInitiative)="onSelectInitiative($event)"
+                    ></personal-card>
+                  </div>
+                }
               </div>
             </ng-template>
           </li>
@@ -131,7 +139,7 @@
         (click)="setColumnNumber(3)"
         [class.active]="isColumnToggleActive(3)"
         class="btn btn-light"
-      >
+        >
         <i class="fas fa-th"></i>
       </button>
 
@@ -140,7 +148,7 @@
         (click)="setColumnNumber(2)"
         [class.active]="isColumnToggleActive(2)"
         class="btn btn-light"
-      >
+        >
         <i class="fas fa-th-large"></i>
       </button>
 
@@ -149,7 +157,7 @@
         (click)="setColumnNumber(1)"
         [class.active]="isColumnToggleActive(1)"
         class="btn btn-light"
-      >
+        >
         <i class="fas fa-list"></i>
       </button>
     </div>

@@ -1,12 +1,14 @@
 <nav class="onboarding-banner">
-  <b *ngIf="showTeamName">{{ this.teamName }}</b>
+  @if (showTeamName) {
+    <b>{{ this.teamName }}</b>
+  }
 
   <div
     class="onboarding-banner__free-trial-text"
     [ngbTooltip]="freeTrialCutoffDateMessage"
     container="body"
     placement="bottom"
-  >
+    >
     {{ remainingTrialTimeMessage }}
   </div>
 
@@ -14,7 +16,7 @@
     class="btn btn-info text-white"
     [href]="REQUEST_TRIAL_EXTENSION_EMAIL"
     target="_blank"
-  >
+    >
     <span class="onboarding-banner__emoji">⏳</span>
     <ng-container>&nbsp;</ng-container>
     <ng-container i18n>Request more time</ng-container>
@@ -30,7 +32,7 @@
     class="btn btn-success text-white"
     [href]="BOOK_ONBOARDING_URL"
     target="_blank"
-  >
+    >
     <span class="onboarding-banner__emoji">💬</span>
     <ng-container>&nbsp;</ng-container>
     <ng-container i18n>Book free Zoom help call</ng-container>

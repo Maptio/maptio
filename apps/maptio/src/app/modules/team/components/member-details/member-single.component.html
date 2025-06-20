@@ -6,11 +6,11 @@
   <div
     class="d-flex flex-column flex-md-row align-items-md-center"
     [class.fw-bold]="isEditToggled"
-  >
+    >
     <div
       *permissionsOnly="Permissions.canEditUser"
       class="d-none d-md-flex align-items-center col-1 px-0 justify-content-between"
-    >
+      >
       <button class="btn bg-transparent" (click)="onToggle()">
         <i
           [class.fa-caret-right]="!isEditToggled"
@@ -45,7 +45,7 @@
     </div>
 
     <!-- TODO: Replace these next two divs with <maptio-member ...> it's not just a matter of
-         cutting and pasting because of the bootstrap classes, but would be good to do this -->
+    cutting and pasting because of the bootstrap classes, but would be good to do this -->
     <div class="align-middle col-md-3 col-12 px-3">
       <div class="d-flex align-items-center">
         <img class="avatar me-1" src="{{ member.picture }}" />
@@ -57,41 +57,44 @@
       <div class="d-flex align-items-start flex-column">
         <span>{{ member.email }}</span>
 
-        <small
-          *ngIf="member.isActivationPending && member.isInvitationSent"
-          class="text-accent pull-left"
-          placement="top"
-          container="body"
-          ngbTooltip="{{ member.name }} was sent an invitation."
-          i18n
-          i18n-ngbTooltip
-        >
+        @if (member.isActivationPending && member.isInvitationSent) {
+          <small
+            class="text-accent pull-left"
+            placement="top"
+            container="body"
+            ngbTooltip="{{ member.name }} was sent an invitation."
+            i18n
+            i18n-ngbTooltip
+            >
           Pending invitation
         </small>
+        }
 
-        <small
-          *ngIf="member.isActivationPending && !member.isInvitationSent"
-          class="text-orange pull-left"
-          placement="top"
-          container="body"
-          ngbTooltip="{{ member.name }} cannot view or edit maps."
-          i18n
-          i18n-ngbTooltip
-        >
+        @if (member.isActivationPending && !member.isInvitationSent) {
+          <small
+            class="text-orange pull-left"
+            placement="top"
+            container="body"
+            ngbTooltip="{{ member.name }} cannot view or edit maps."
+            i18n
+            i18n-ngbTooltip
+            >
           Not yet invited
         </small>
+        }
 
-        <small
-          *ngIf="!member.isActivationPending"
-          class="text-green pull-left"
-          placement="top"
-          container="body"
-          ngbTooltip="{{ member.name }} can view and edit maps"
-          i18n
-          i18n-ngbTooltip
-        >
+        @if (!member.isActivationPending) {
+          <small
+            class="text-green pull-left"
+            placement="top"
+            container="body"
+            ngbTooltip="{{ member.name }} can view and edit maps"
+            i18n
+            i18n-ngbTooltip
+            >
           Active
         </small>
+        }
       </div>
     </div>
 
@@ -102,7 +105,7 @@
           else elseRoleBlock;
           then: thenRoleBlock
         "
-      >
+        >
         main
       </ng-container>
 
@@ -115,27 +118,24 @@
         <select
           class="form-select"
           (change)="changeUserRole($event.target.value)"
-        >
-          <option
-            *ngFor="let userRole of UserRole | keys | slice : 0 : 2"
-            [value]="userRole.key"
-            [selected]="memberRoleInOrganization"
           >
-            {userRole.value, select, Standard {Standard} Admin {Admin} Superuser
-            {Superuser}}
-          </option>
+          @for (userRole of UserRole | keys | slice : 0 : 2; track userRole) {
+            <option
+              [value]="userRole.key"
+              [selected]="memberRoleInOrganization"
+              >
+              {userRole.value, select, Standard {Standard} Admin {Admin} Superuser
+              {Superuser}}
+            </option>
+          }
         </select>
       </ng-template>
     </div>
 
     <div class="align-middle text-end ms-auto px-3">
       <ng-container>
-        <ng-container
-          *ngIf="!isDisplaySendingLoader && !isDisplayUpdatingLoader"
-        >
-          <ng-container
-            *ngIf="member.isActivationPending && !member.isInvitationSent"
-          >
+        @if (!isDisplaySendingLoader && !isDisplayUpdatingLoader) {
+          @if (member.isActivationPending && !member.isInvitationSent) {
             <ng-container
               *permissionsOnly="
                 Permissions.canInviteUser;
@@ -143,7 +143,6 @@
                 else elseInviteBlock
               "
             ></ng-container>
-
             <ng-template #thenInviteBlock>
               <button
                 class="pull-right btn btn-outline-secondary"
@@ -152,77 +151,80 @@
                 container="body"
                 ngbTooltip="Invite {{ member.name }} to view and edit maps"
                 [disabled]="!member.email && wasInvitationAttempted"
-              >
+                >
                 <ng-container i18n="@@invite">Invite</ng-container>
               </button>
             </ng-template>
-
             <ng-template #elseInviteBlock>
               <button
                 class="btn btn-outline-secondary disabled pull-right"
                 [stickyPopover]="adminTipContent"
                 placement="left"
-              >
+                >
                 <ng-container i18n="@@invite">Invite</ng-container>
                 <span>&nbsp;</span>
                 <i class="fas fa-lock ms-1"></i>
               </button>
             </ng-template>
-          </ng-container>
-
+          }
           <ng-container *permissionsOnly="Permissions.canInviteUser">
-            <button
-              *ngIf="member.isActivationPending && member.isInvitationSent"
-              class="btn btn-outline-secondary pull-right"
-              (click)="inviteUser()"
-              placement="left"
-              container="body"
-              ngbTooltip="Resend an invitation to {{ member.name }}"
-              i18n-ngbTooltip
-              i18n
-            >
+            @if (member.isActivationPending && member.isInvitationSent) {
+              <button
+                class="btn btn-outline-secondary pull-right"
+                (click)="inviteUser()"
+                placement="left"
+                container="body"
+                ngbTooltip="Resend an invitation to {{ member.name }}"
+                i18n-ngbTooltip
+                i18n
+                >
               Resend
             </button>
+            }
           </ng-container>
-        </ng-container>
+        }
 
-        <ng-container *ngIf="isDisplaySendingLoader">
+        @if (isDisplaySendingLoader) {
           <div
             class="indicator text-green d-flex justify-content-end align-items-center"
-          >
+            >
             <i class="fas fa-circle-notch fa-spin text-green mx-1"></i>
             <span>&nbsp;</span>
             <ng-container i18n="@@sending">Sending</ng-container>
           </div>
-        </ng-container>
+        }
 
-        <ng-container *ngIf="isDisplayUpdatingLoader">
+        @if (isDisplayUpdatingLoader) {
           <div
             class="indicator text-green d-flex justify-content-end align-items-center"
-          >
+            >
             <i class="fas fa-circle-notch fa-spin text-green mx-1"></i>
             <span>&nbsp;</span>
             <ng-container i18n="@@updating">Updating</ng-container>
           </div>
-        </ng-container>
+        }
       </ng-container>
     </div>
   </div>
 </div>
 
-<div class="bg-light py-2 px-3" *ngIf="isEditToggled">
-  <maptio-member-form
-    [member]="member"
-    [team]="team"
-    [showCancelButton]="true"
-    [duplicateUsers]="duplicateUsers"
-    (editMember)="onEditMember()"
-    (cancel)="onCancelEditing()"
-  ></maptio-member-form>
-</div>
+@if (isEditToggled) {
+  <div class="bg-light py-2 px-3">
+    <maptio-member-form
+      [member]="member"
+      [team]="team"
+      [showCancelButton]="true"
+      [duplicateUsers]="duplicateUsers"
+      (editMember)="onEditMember()"
+      (cancel)="onCancelEditing()"
+    ></maptio-member-form>
+  </div>
+}
 
-<div *ngIf="errorMessage" class="alert alert-danger fade show" role="alert">
-  {{ errorMessage }}
-</div>
+@if (errorMessage) {
+  <div class="alert alert-danger fade show" role="alert">
+    {{ errorMessage }}
+  </div>
+}
 
 <span [id]="'endOfComponent-' + member.shortid"></span>

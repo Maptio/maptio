@@ -5,7 +5,7 @@
 <div class="input-size d-flex flex-column">
   <div
     class="input-size__label d-flex align-items-baseline justify-content-start"
-  >
+    >
     <span class="d-flex align-items-baseline text-gray-light me-1">
       <i class="fas fa-ruler-combined me-1"></i>
       <span class="text-uppercase text-bold small" i18n>
@@ -13,23 +13,25 @@
       </span>
     </span>
 
-    <span
-      *ngIf="isUnauthorized"
-      class="text-gray-light small"
-      [stickyPopover]="editTipContent"
-    >
-      <i class="fas fa-lock"></i>
-    </span>
+    @if (isUnauthorized) {
+      <span
+        class="text-gray-light small"
+        [stickyPopover]="editTipContent"
+        >
+        <i class="fas fa-lock"></i>
+      </span>
+    }
   </div>
 
   <div class="w-100 bg-light p-2 rounded d-flex flex-row">
-    <button
-      *ngIf="!isUnauthorized"
-      class="input-size__button btn btn-outline-secondary"
-      (click)="onDecrease()"
-    >
-      <i class="fas fa-minus"></i>
-    </button>
+    @if (!isUnauthorized) {
+      <button
+        class="input-size__button btn btn-outline-secondary"
+        (click)="onDecrease()"
+        >
+        <i class="fas fa-minus"></i>
+      </button>
+    }
 
     <div class="input-size__input-wrapper w-100">
       <input
@@ -38,39 +40,43 @@
         [value]="size || 'Default'"
         (change)="onEdit($event.target.value)"
         class="input-size__input form-control bg-light"
-      />
+        />
 
-      <span class="input-size__default-value-placeholder" *ngIf="!size" i18n>
+      @if (!size) {
+        <span class="input-size__default-value-placeholder" i18n>
         Default size
       </span>
+      }
     </div>
 
-    <button
-      *ngIf="!isUnauthorized"
-      class="input-size__button btn btn-outline-secondary"
-      (click)="onIncrease()"
-    >
-      <i class="fas fa-plus"></i>
-    </button>
+    @if (!isUnauthorized) {
+      <button
+        class="input-size__button btn btn-outline-secondary"
+        (click)="onIncrease()"
+        >
+        <i class="fas fa-plus"></i>
+      </button>
+    }
 
-    <button
-      *ngIf="!isUnauthorized"
-      class="input-size__button btn btn-outline-secondary"
-      mwlConfirmationPopover
-      popoverMessage="Reset to default size?"
-      i18n-popoverMessage
-      confirmText="Confirm"
-      cancelText="Cancel"
-      i18n-confirmText="@@confirm"
-      i18n-cancelText="@@cancel"
-      placement="left"
-      container="body"
-      focusbutton="cancel"
-      appendToBody="false"
-      (confirm)="onReset()"
-      (cancel)="cancelClicked = true"
-    >
-      <i class="fas fa-undo"></i>
-    </button>
+    @if (!isUnauthorized) {
+      <button
+        class="input-size__button btn btn-outline-secondary"
+        mwlConfirmationPopover
+        popoverMessage="Reset to default size?"
+        i18n-popoverMessage
+        confirmText="Confirm"
+        cancelText="Cancel"
+        i18n-confirmText="@@confirm"
+        i18n-cancelText="@@cancel"
+        placement="left"
+        container="body"
+        focusbutton="cancel"
+        appendToBody="false"
+        (confirm)="onReset()"
+        (cancel)="cancelClicked = true"
+        >
+        <i class="fas fa-undo"></i>
+      </button>
+    }
   </div>
 </div>

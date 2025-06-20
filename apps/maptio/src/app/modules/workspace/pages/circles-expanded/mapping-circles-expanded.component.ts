@@ -40,14 +40,13 @@ import { OnboardingMessageComponent } from '../../../onboarding-message/onboardi
 import { WorkspaceFacade } from '../../+state/workspace.facade';
 
 @Component({
-  selector: 'maptio-circles-expanded',
-  templateUrl: './mapping-circles-expanded.component.html',
-  styleUrls: ['./mapping-circles-expanded.component.css'],
-  host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
-  encapsulation: ViewEncapsulation.Emulated,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [OnboardingMessageComponent, CircleMapExpandedComponent],
+    selector: 'maptio-circles-expanded',
+    templateUrl: './mapping-circles-expanded.component.html',
+    styleUrls: ['./mapping-circles-expanded.component.css'],
+    host: { class: 'padding-100 w-100 h-auto d-block position-relative' },
+    encapsulation: ViewEncapsulation.Emulated,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [OnboardingMessageComponent, CircleMapExpandedComponent]
 })
 export class MappingCirclesExpandedComponent
   implements IDataVisualizer, OnInit, OnDestroy

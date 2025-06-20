@@ -8,7 +8,7 @@ import {
   EventEmitter,
   SimpleChanges,
 } from '@angular/core';
-import { NgIf, NgFor, LowerCasePipe, TitleCasePipe } from '@angular/common';
+import { LowerCasePipe, TitleCasePipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
@@ -24,20 +24,17 @@ import { MapSettingsService } from '../../../services/map-settings.service';
 import { PersonalCardComponent } from '../tab/card.component';
 
 @Component({
-  selector: 'summary-personal',
-  templateUrl: './personal.component.html',
-  styleUrls: ['./personal.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    NgIf,
-    NgFor,
+    selector: 'summary-personal',
+    templateUrl: './personal.component.html',
+    styleUrls: ['./personal.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
     NgbNavModule,
     MarkdownModule,
     LowerCasePipe,
     TitleCasePipe,
-    PersonalCardComponent,
-  ],
+    PersonalCardComponent
+]
 })
 export class PersonalSummaryComponent implements OnInit {
   authorities: Array<Initiative> = [];

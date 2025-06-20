@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { NgIf } from '@angular/common';
+
 import { ActivatedRoute, Params, RouterLink } from '@angular/router';
 
 import { tap, combineLatest, flatMap } from 'rxjs/operators';
@@ -16,11 +16,10 @@ import { User } from '@maptio-shared/model/user.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 
 @Component({
-  selector: 'pricing-checkout',
-  templateUrl: './checkout.page.html',
-  styleUrls: ['./checkout.page.css'],
-  standalone: true,
-  imports: [NgIf, RouterLink],
+    selector: 'pricing-checkout',
+    templateUrl: './checkout.page.html',
+    styleUrls: ['./checkout.page.css'],
+    imports: [RouterLink]
 })
 export class CheckoutComponent implements OnInit {
   subscription: Subscription;

@@ -3,7 +3,7 @@
   #namePath
   d="M 0,500 A 500,500 0 0 1 0,-500 A 500,500 0 0 1 0,500"
   fill="none"
-/>
+  />
 
 <svg:text fill="white" stroke-width="0" font-size="3.5rem" font-weight="600">
   <textPath
@@ -11,23 +11,25 @@
     xlink:href="#circleEdge"
     startOffset="50%"
     text-anchor="middle"
-  >
+    >
     <tspan dy="59">{{ circle.data.name }}</tspan>
 
     <!-- This is here to move the following tspans -->
     <tspan dy="-15">&nbsp;</tspan>
 
-    <tspan
-      maptioTagSvg
-      *ngFor="let tag of circle.data.tags"
-      [tag]="tag"
-    ></tspan>
+    @for (tag of circle.data.tags; track tag) {
+      <tspan
+        maptioTagSvg
+        [tag]="tag"
+      ></tspan>
+    }
   </textPath>
-</svg:text>
+  </svg:text>
 
-<svg:g
-  *ngFor="let person of people; let i = index"
-  maptioHelperAvatarSvg
-  [helper]="person"
-  [attr.transform]="person.position"
-></svg:g>
+  @for (person of people; track person; let i = $index) {
+    <svg:g
+      maptioHelperAvatarSvg
+      [helper]="person"
+      [attr.transform]="person.position"
+      ></svg:g>
+    }

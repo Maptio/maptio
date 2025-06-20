@@ -26,14 +26,13 @@ import {
 } from 'rxjs/operators';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { FormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
+
 
 @Component({
-  selector: 'common-autocomplete',
-  templateUrl: './autocomplete.component.html',
-  host: { class: 'w-100' },
-  standalone: true,
-  imports: [NgIf, FormsModule, NgbTypeaheadModule, ConfirmationPopoverModule],
+    selector: 'common-autocomplete',
+    templateUrl: './autocomplete.component.html',
+    host: { class: 'w-100' },
+    imports: [FormsModule, NgbTypeaheadModule, ConfirmationPopoverModule]
 })
 export class CommonAutocompleteComponent implements OnInit {
   @Input('placeholder') placeholder: string;

@@ -12,10 +12,9 @@ import { Permissions } from '../../../../../../../shared/model/permission.data';
 import { CommonTextareaComponent } from '../../../../../../../shared/components/textarea/textarea.component';
 
 @Component({
-  selector: 'maptio-initiative-input-name',
-  templateUrl: './initiative-input-name.component.html',
-  standalone: true,
-  imports: [CommonTextareaComponent],
+    selector: 'maptio-initiative-input-name',
+    templateUrl: './initiative-input-name.component.html',
+    imports: [CommonTextareaComponent]
 })
 export class InitiativeInputNameComponent implements OnInit {
   @Input('name') name: string;

@@ -5,13 +5,12 @@ import { isEqual, cloneDeep } from 'lodash-es';
 import { Role } from '../../../../../../../shared/model/role.data';
 import { RoleLibraryService } from '../../../../../services/role-library.service';
 import { CommonAutocompleteComponent } from '../../../../../../../shared/components/autocomplete/autocomplete.component';
-import { NgIf } from '@angular/common';
+
 
 @Component({
-  selector: 'initiative-helper-role-select',
-  templateUrl: './helper-role-select.component.html',
-  standalone: true,
-  imports: [NgIf, CommonAutocompleteComponent],
+    selector: 'initiative-helper-role-select',
+    templateUrl: './helper-role-select.component.html',
+    imports: [CommonAutocompleteComponent]
 })
 export class InitiativeHelperRoleSelectComponent implements OnInit {
   @Input('roles') roles: Role[];

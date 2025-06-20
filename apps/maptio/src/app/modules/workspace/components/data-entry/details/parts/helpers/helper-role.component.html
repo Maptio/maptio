@@ -1,36 +1,33 @@
-<ng-container *ngIf="role">
+@if (role) {
   <!-- Fail gracefully on incorrect database data leading to undefined roles -->
   <div class="d-flex flex-row align-items-center">
     <div
       class="helper-role__title text-bold"
       [class.text-gray-light]="!role.title && isDescriptionVisible"
-    >
-      <ng-container *ngIf="role.title; else titleBasedOnDescription">
+      >
+      @if (role.title) {
         {{ role.title }}
-      </ng-container>
-
-      <ng-template #titleBasedOnDescription>
-        <ng-container *ngIf="!isDescriptionVisible; else showUntitledRoleLabel">
+      } @else {
+        @if (!isDescriptionVisible) {
           {{ role.description | stripMarkdown | ellipsis : 50 }}
-        </ng-container>
-      </ng-template>
-
-      <ng-template #showUntitledRoleLabel>Untitled role</ng-template>
+        } @else {
+          Untitled role
+        }
+      }
     </div>
-
-    <button
-      *ngIf="alwaysShowDetailsToggle || role.description"
-      class="btn bg-transparent py-0 border-0"
-      (click)="onToggleDetails()"
-    >
-      <i
-        [class.fa-caret-right]="!isDescriptionVisible"
-        [class.fa-caret-down]="isDescriptionVisible"
-        class="fas"
-      ></i>
-    </button>
-
-    <ng-container *ngIf="showControls">
+    @if (alwaysShowDetailsToggle || role.description) {
+      <button
+        class="btn bg-transparent py-0 border-0"
+        (click)="onToggleDetails()"
+        >
+        <i
+          [class.fa-caret-right]="!isDescriptionVisible"
+          [class.fa-caret-down]="isDescriptionVisible"
+          class="fas"
+        ></i>
+      </button>
+    }
+    @if (showControls) {
       <button
         class="btn edit btn-outline-secondary ms-auto"
         placement="top"
@@ -38,7 +35,6 @@
         (click)="onEdit()"
       ></button>
       <!-- [ngbTooltip]="addButtonTooltip" -->
-
       <button
         class="btn remove btn-outline-secondary"
         placement="left"
@@ -54,12 +50,12 @@
         i18n-confirmText="@@confirm"
         i18n-cancelText="@@cancel"
       ></button>
-    </ng-container>
+    }
   </div>
-
-  <markdown
-    *ngIf="role.description && isDescriptionVisible"
-    class="cursor-text d-block border-0 w-100 h-100 mb-2"
-    [data]="role.description"
-  ></markdown>
-</ng-container>
+  @if (role.description && isDescriptionVisible) {
+    <markdown
+      class="cursor-text d-block border-0 w-100 h-100 mb-2"
+      [data]="role.description"
+    ></markdown>
+  }
+}

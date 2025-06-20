@@ -1,15 +1,15 @@
 <div class="image-upload input-group">
-  <img
-    *ngIf="imageUrl; else placeholderImage"
-    src="{{ imageUrl }}"
-    class="avatar avatar--medium"
-  />
-
-  <ng-template #placeholderImage>
+  @if (imageUrl) {
+    <img
+      src="{{ imageUrl }}"
+      class="avatar avatar--medium"
+      />
+  } @else {
     <div class="avatar avatar--medium avatar--placeholder text-gray-light">
       <i class="fas fa-user avatar__placeholder-icon" aria-hidden="true"></i>
     </div>
-  </ng-template>
+  }
+
 
   <label class="image-upload__button form-label btn btn-outline-secondary">
     <input
@@ -22,11 +22,14 @@
       [uploader]="uploader"
       (change)="fileInput.value = ''"
       accept="image/*"
-    />
-    <i
-      *ngIf="isRefreshingPicture"
-      class="ms-1 text-muted fas fa-circle-notch fa-spin"
-    ></i>
-    <span *ngIf="!isRefreshingPicture" i18n>Choose image</span>
+      />
+    @if (isRefreshingPicture) {
+      <i
+        class="ms-1 text-muted fas fa-circle-notch fa-spin"
+      ></i>
+    }
+    @if (!isRefreshingPicture) {
+      <span i18n>Choose image</span>
+    }
   </label>
 </div>

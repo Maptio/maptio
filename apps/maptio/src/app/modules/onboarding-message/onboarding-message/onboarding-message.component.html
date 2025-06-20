@@ -1,28 +1,28 @@
-<div
-  *ngIf="showMessage$ | async"
-  class="onboarding-message"
-  [class.onboarding-message--floating]="floating"
->
-  <p class="onboarding-message__message">
-    <ng-content></ng-content>
-  </p>
-
-  <div class="onboarding-message__buttons">
-    <a
-      class="btn btn-info text-white"
-      *ngIf="helpPageUrl"
-      [href]="helpPageUrl"
-      target="_blank"
+@if (showMessage$ | async) {
+  <div
+    class="onboarding-message"
+    [class.onboarding-message--floating]="floating"
     >
-      <span class="onboarding-message__emoji">📚</span>
-      <ng-conatiner>&nbsp;</ng-conatiner>
-      <ng-container i18n="@@learnMore">Learn more</ng-container>
-    </a>
-
-    <button class="btn btn-success text-white" (click)="dismissMessage()">
-      <span class="onboarding-message__emoji">✅</span>
-      <ng-conatiner>&nbsp;</ng-conatiner>
-      <ng-container i18n="@@ok">OK</ng-container>
-    </button>
+    <p class="onboarding-message__message">
+      <ng-content></ng-content>
+    </p>
+    <div class="onboarding-message__buttons">
+      @if (helpPageUrl) {
+        <a
+          class="btn btn-info text-white"
+          [href]="helpPageUrl"
+          target="_blank"
+          >
+          <span class="onboarding-message__emoji">📚</span>
+          <ng-conatiner>&nbsp;</ng-conatiner>
+          <ng-container i18n="@@learnMore">Learn more</ng-container>
+        </a>
+      }
+      <button class="btn btn-success text-white" (click)="dismissMessage()">
+        <span class="onboarding-message__emoji">✅</span>
+        <ng-conatiner>&nbsp;</ng-conatiner>
+        <ng-container i18n="@@ok">OK</ng-container>
+      </button>
+    </div>
   </div>
-</div>
+}

@@ -20,23 +20,20 @@ import { LoaderService } from '@maptio-shared/components/loading/loader.service'
 import { MemberSingleComponent } from '../../components/member-details/member-single.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { MemberFormComponent } from '../../../member-form/member-form.component';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { PermissionsDirective } from '../../../../shared/directives/permission.directive';
 
 @Component({
-  selector: 'maptio-members',
-  templateUrl: './members.component.html',
-  styleUrls: ['./members.component.css'],
-  standalone: true,
-  imports: [
+    selector: 'maptio-members',
+    templateUrl: './members.component.html',
+    styleUrls: ['./members.component.css'],
+    imports: [
     PermissionsDirective,
-    NgIf,
     MemberFormComponent,
     NgbTooltipModule,
-    NgFor,
     MemberSingleComponent,
-    AsyncPipe,
-  ],
+    AsyncPipe
+]
 })
 export class TeamMembersComponent implements OnInit, OnDestroy {
   team: Team;

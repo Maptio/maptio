@@ -10,20 +10,17 @@ import { UserService } from '@maptio-shared/services/user/user.service';
 import { MapCardComponent } from '../../../../shared/components/cards/map/map-card.component';
 import { PermissionsDirective } from '../../../../shared/directives/permission.directive';
 import { CreateMapComponent } from '../../../../shared/components/cards/create-map/create-map.component';
-import { NgIf, NgFor } from '@angular/common';
+
 
 @Component({
-  selector: 'team-single-maps',
-  templateUrl: './maps.component.html',
-  styleUrls: ['./maps.component.css'],
-  standalone: true,
-  imports: [
-    NgIf,
+    selector: 'team-single-maps',
+    templateUrl: './maps.component.html',
+    styleUrls: ['./maps.component.css'],
+    imports: [
     CreateMapComponent,
     PermissionsDirective,
-    NgFor,
-    MapCardComponent,
-  ],
+    MapCardComponent
+]
 })
 export class TeamMapsComponent implements OnInit {
   public datasets: DataSet[];

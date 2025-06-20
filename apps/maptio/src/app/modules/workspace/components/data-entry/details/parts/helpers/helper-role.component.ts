@@ -11,20 +11,18 @@ import { EllipsisPipe } from '../../../../../../../shared/pipes/ellipsis.pipe';
 import { StripMarkdownPipe } from '../../../../../../../shared/pipes/strip-markdown.pipe';
 import { MarkdownModule } from 'ngx-markdown';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
-import { NgIf } from '@angular/common';
+
 
 @Component({
-  selector: 'initiative-helper-role',
-  templateUrl: './helper-role.component.html',
-  styleUrls: ['./helper-role.component.css'],
-  standalone: true,
-  imports: [
-    NgIf,
+    selector: 'initiative-helper-role',
+    templateUrl: './helper-role.component.html',
+    styleUrls: ['./helper-role.component.css'],
+    imports: [
     ConfirmationPopoverModule,
     MarkdownModule,
     StripMarkdownPipe,
-    EllipsisPipe,
-  ],
+    EllipsisPipe
+]
 })
 export class InitiativeHelperRoleComponent {
   @Input('role') role: Role;

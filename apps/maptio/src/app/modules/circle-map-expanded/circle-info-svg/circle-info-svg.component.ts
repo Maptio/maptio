@@ -3,14 +3,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { InitiativeNode, Helper, TagViewModel } from '../initiative.model';
 import { HelperAvatarSvgComponent } from '../helper-avatar-svg/helper-avatar-svg.component';
 import { TagSvgComponent } from '../tag-svg/tag-svg.component';
-import { NgFor } from '@angular/common';
+
 
 @Component({
-  selector: 'g[maptioCircleInfoSvg]',
-  templateUrl: './circle-info-svg.component.html',
-  styleUrls: ['./circle-info-svg.component.scss'],
-  standalone: true,
-  imports: [NgFor, TagSvgComponent, HelperAvatarSvgComponent],
+    selector: 'g[maptioCircleInfoSvg]',
+    templateUrl: './circle-info-svg.component.html',
+    styleUrls: ['./circle-info-svg.component.scss'],
+    imports: [TagSvgComponent, HelperAvatarSvgComponent]
 })
 export class CircleInfoSvgComponent implements OnInit {
   @Input() circle!: InitiativeNode;
