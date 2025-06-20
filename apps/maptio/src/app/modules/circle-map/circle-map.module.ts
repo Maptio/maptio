@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
-import { MatMenuModule } from '@angular/material/menu'; // Import MatMenuModule
+import { MatMenuModule } from '@angular/material/menu';
 
 import { SatPopoverModule } from '@wjaspers/sat-popover';
 import { MarkdownModule } from 'ngx-markdown';
@@ -15,7 +15,7 @@ import { CircleComponent } from './circle/circle.component';
 import { CircleInfoComponent } from './circle-info/circle-info.component';
 import { HelperAvatarComponent } from './helper-avatar/helper-avatar.component';
 import { SearchComponent } from './search/search.component';
-import { CircleMenuComponent } from './circle-menu/circle-menu.component'; // CircleMenuComponent is now standalone
+import { CircleMenuComponent } from './circle-menu/circle-menu.component';
 
 @NgModule({
   imports: [
@@ -23,23 +23,17 @@ import { CircleMenuComponent } from './circle-menu/circle-menu.component'; // Ci
     ReactiveFormsModule,
     MatInputModule,
     MatAutocompleteModule,
-    MatMenuModule, // Add MatMenuModule to imports
+    MatMenuModule,
     MarkdownModule.forChild(),
     SatPopoverModule,
-    SvgZoomPanComponent, // Moved to imports
-    CircleMapComponent, // Moved to imports
-    CircleComponent, // Moved to imports
-    CircleInfoComponent, // Moved to imports
-    HelperAvatarComponent, // Moved to imports
-    SearchComponent, // Moved to imports
-    CircleMenuComponent, // Add CircleMenuComponent to imports as it's standalone
-  ],
-  declarations: [
-    // Ensure all these components are in declarations
-  ],
-  exports: [
+    SvgZoomPanComponent,
     CircleMapComponent,
-    // If CircleMenuComponent is used outside this module and is not standalone, it should be exported.
+    CircleComponent,
+    CircleInfoComponent,
+    HelperAvatarComponent,
+    SearchComponent,
+    CircleMenuComponent,
   ],
+  exports: [CircleMapComponent],
 })
 export class CircleMapModule {}
