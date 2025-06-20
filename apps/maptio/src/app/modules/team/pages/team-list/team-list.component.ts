@@ -12,13 +12,13 @@ import { LoaderService } from '../../../../shared/components/loading/loader.serv
 import { UserService } from '@maptio-shared/services/user/user.service';
 import { CardTeamComponent } from '../../../../shared/components/cards/team/card-team.component';
 import { CreateTeamComponent } from '../../../../shared/components/cards/create-team/create-team.component';
-import { NgIf, NgFor } from '@angular/common';
+
 
 @Component({
     selector: 'team-list',
     templateUrl: './team-list.component.html',
     styleUrls: ['./team-list-component.css'],
-    imports: [NgIf, CreateTeamComponent, NgFor, CardTeamComponent]
+    imports: [CreateTeamComponent, CardTeamComponent]
 })
 export class TeamListComponent implements OnInit {
   public user: User;

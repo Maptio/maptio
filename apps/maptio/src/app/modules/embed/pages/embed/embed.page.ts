@@ -9,13 +9,13 @@ import { SubSink } from 'subsink';
 import { CircleMapData } from '@maptio-shared/model/circle-map-data.interface';
 import { EmbeddableDatasetService } from '../../embeddable-dataset.service';
 import { CircleMapComponent } from '../../../circle-map/circle-map.component';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'maptio-embed',
     templateUrl: './embed.page.html',
     styleUrls: ['./embed.page.scss'],
-    imports: [NgIf, CircleMapComponent]
+    imports: [CircleMapComponent]
 })
 export class EmbedComponent implements OnInit, OnDestroy {
   private subs = new SubSink();

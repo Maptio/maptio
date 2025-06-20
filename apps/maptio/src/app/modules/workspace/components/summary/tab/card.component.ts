@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { NgIf, NgFor, LowerCasePipe } from '@angular/common';
+import { LowerCasePipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 import {
@@ -19,13 +19,11 @@ import { InitiativeHelperRoleComponent } from '../../data-entry/details/parts/he
     templateUrl: './card.component.html',
     styleUrls: ['./card.component.css'],
     imports: [
-        NgIf,
-        NgFor,
-        LowerCasePipe,
-        NgbTooltipModule,
-        NgbCollapseModule,
-        InitiativeHelperRoleComponent,
-    ]
+    LowerCasePipe,
+    NgbTooltipModule,
+    NgbCollapseModule,
+    InitiativeHelperRoleComponent
+]
 })
 export class PersonalCardComponent implements OnInit {
   @Input('initiative') initiative: Initiative;

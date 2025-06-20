@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgIf, AsyncPipe, NgForOf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 
 import { environment } from '@maptio-environment';
 import { UserService } from '@maptio-shared/services/user/user.service';
@@ -12,12 +12,11 @@ import { PricingSelectionComponent } from '../pricing-selection/pricing-selectio
     selector: 'maptio-pricing',
     templateUrl: './pricing.page.html',
     imports: [
-        NgIf,
-        AsyncPipe,
-        LoginRedirectDirective,
-        PricingInfoComponent,
-        PricingSelectionComponent,
-    ]
+    AsyncPipe,
+    LoginRedirectDirective,
+    PricingInfoComponent,
+    PricingSelectionComponent
+]
 })
 export class PricingComponent {
   BILLING_PLANS = environment.BILLING_PLANS;

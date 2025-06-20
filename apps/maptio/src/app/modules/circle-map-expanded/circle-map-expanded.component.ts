@@ -25,7 +25,7 @@ import { map } from 'rxjs/operators';
 import { CircleComponent } from './circle/circle.component';
 import { SvgZoomPanComponent } from './svg-zoom-pan/svg-zoom-pan.component';
 import { MarkdownModule } from 'ngx-markdown';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'maptio-circle-map-expanded',
@@ -34,13 +34,11 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
     encapsulation: ViewEncapsulation.Emulated,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-        NgIf,
-        MarkdownModule,
-        SvgZoomPanComponent,
-        NgFor,
-        CircleComponent,
-        AsyncPipe,
-    ]
+    MarkdownModule,
+    SvgZoomPanComponent,
+    CircleComponent,
+    AsyncPipe
+]
 })
 export class CircleMapExpandedComponent implements OnInit, OnDestroy {
   // All the data comes in as a single package

@@ -1,78 +1,78 @@
 <div
   class="d-flex flex-column flex-xl-row justify-content-between align-items-stretch row"
->
-  <div
-    *ngIf="userService.isAuthenticated$ | async; else homePageUnauthenticatedContent"
-    class="d-flex flex-column justify-content-center align-items-center w-100"
   >
-    <div class="h-100 w-100">
-      <ng-container *ngIf="!isOnboarding">
-        <dashboard
-          *ngIf="!isLoading"
-          [datasets]="datasets"
-          [teams]="teams"
-          [user]="user"
-        ></dashboard>
-      </ng-container>
-    </div>
-  </div>
-
-  <ng-template #homePageUnauthenticatedContent>
+  @if (userService.isAuthenticated$ | async) {
     <div
-      class="d-flex flex-column justify-content-center align-items-center col-12 col-xl-6"
-    >
-      <!-- Static content when unauthenticated -->
-      <div
-        *ngIf="(userService.isAuthenticated$ | async) === false"
-        class="text-blue text-center d-flex flex-column align-items-center mt-5 mt-md-0"
+      class="d-flex flex-column justify-content-center align-items-center w-100"
       >
-        <h1 i18n="@@tagline">
-          Maptio helps you organise without traditional management hierarchy
-        </h1>
-        <h4 i18n>Visualise your organisation in nested circles</h4>
-        <h4 i18n>Keep track of everyone’s roles</h4>
-
-        <button
-          class="btn btn-success d-md-none btn-lg my-3 btn-block"
-          maptioLoginRedirect
-          i18n
-          [isSignup]="true"
-        >
-          Get started - try Maptio for free
-        </button>
-        <button
-          maptioLoginRedirect
-          i18n
-          [isSignup]="true"
-          class="btn btn-success d-none d-md-block btn-lg my-3"
-        >
-          Get started - try Maptio for free
-        </button>
-
-        <div class="text-muted">
-          <ng-container i18n>Already use Maptio?</ng-container>
-          <span>&nbsp;</span>
-          <a maptioLoginRedirect role="button" class="link-primary">
-            <ng-container i18n>Log in</ng-container>
-          </a>
-        </div>
+      <div class="h-100 w-100">
+        @if (!isOnboarding) {
+          @if (!isLoading) {
+            <dashboard
+              [datasets]="datasets"
+              [teams]="teams"
+              [user]="user"
+            ></dashboard>
+          }
+        }
       </div>
     </div>
-
+  } @else {
     <div
-      *ngIf="(userService.isAuthenticated$ | async) === false"
-      class="col-12 d-none d-md-block col-xl-6"
-    >
-      <picture>
-        <source [srcset]="SCREENSHOT_URL | safe" type="image/webp" />
-        <source [srcset]="SCREENSHOT_URL_FALLBACK | safe" type="image/jpeg" />
-        <img
-          class="w-99"
-          [src]="SCREENSHOT_URL_FALLBACK | safe"
-          alt="Screenshot of Maptio visualization of nested circles"
-          i18n-alt
-        />
-      </picture>
+      class="d-flex flex-column justify-content-center align-items-center col-12 col-xl-6"
+      >
+      <!-- Static content when unauthenticated -->
+      @if ((userService.isAuthenticated$ | async) === false) {
+        <div
+          class="text-blue text-center d-flex flex-column align-items-center mt-5 mt-md-0"
+          >
+          <h1 i18n="@@tagline">
+          Maptio helps you organise without traditional management hierarchy
+        </h1>
+          <h4 i18n>Visualise your organisation in nested circles</h4>
+          <h4 i18n>Keep track of everyone’s roles</h4>
+          <button
+            class="btn btn-success d-md-none btn-lg my-3 btn-block"
+            maptioLoginRedirect
+            i18n
+            [isSignup]="true"
+            >
+          Get started - try Maptio for free
+        </button>
+          <button
+            maptioLoginRedirect
+            i18n
+            [isSignup]="true"
+            class="btn btn-success d-none d-md-block btn-lg my-3"
+            >
+          Get started - try Maptio for free
+        </button>
+          <div class="text-muted">
+            <ng-container i18n>Already use Maptio?</ng-container>
+            <span>&nbsp;</span>
+            <a maptioLoginRedirect role="button" class="link-primary">
+              <ng-container i18n>Log in</ng-container>
+            </a>
+          </div>
+        </div>
+      }
     </div>
-  </ng-template>
+    @if ((userService.isAuthenticated$ | async) === false) {
+      <div
+        class="col-12 d-none d-md-block col-xl-6"
+        >
+        <picture>
+          <source [srcset]="SCREENSHOT_URL | safe" type="image/webp" />
+          <source [srcset]="SCREENSHOT_URL_FALLBACK | safe" type="image/jpeg" />
+          <img
+            class="w-99"
+            [src]="SCREENSHOT_URL_FALLBACK | safe"
+            alt="Screenshot of Maptio visualization of nested circles"
+            i18n-alt
+            />
+        </picture>
+      </div>
+    }
+  }
+
 </div>

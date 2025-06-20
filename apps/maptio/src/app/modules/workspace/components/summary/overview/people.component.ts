@@ -6,7 +6,7 @@ import {
   computed,
   signal,
 } from '@angular/core';
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { of as observableOf, Subscription, Subject } from 'rxjs';
@@ -33,13 +33,11 @@ import { PersonalSummaryComponent } from './personal.component';
     host: { class: 'd-flex flex-row w-100' },
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-        NgFor,
-        NgIf,
-        NgTemplateOutlet,
-        NgbCollapseModule,
-        PersonalSummaryComponent,
-        PermissionsDirective,
-    ]
+    NgTemplateOutlet,
+    NgbCollapseModule,
+    PersonalSummaryComponent,
+    PermissionsDirective
+]
 })
 export class PeopleSummaryComponent implements OnInit {
   members: User[];

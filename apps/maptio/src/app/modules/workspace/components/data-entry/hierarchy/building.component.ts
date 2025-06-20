@@ -11,7 +11,7 @@ import {
   effect,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { NgIf } from '@angular/common';
+
 
 import { Subscription, map } from 'rxjs';
 
@@ -61,16 +61,15 @@ import { EditTagsComponent } from '../tags/edit-tags.component';
     templateUrl: './building.component.html',
     styleUrls: ['./building.component.css'],
     imports: [
-        OnboardingMessageComponent,
-        NgbNavModule,
-        PermissionsDirective,
-        NgIf,
-        NgbTooltipModule,
-        InsufficientPermissionsMessageComponent,
-        StickyPopoverDirective,
-        EditTagsComponent,
-        OutlineModule,
-    ]
+    OnboardingMessageComponent,
+    NgbNavModule,
+    PermissionsDirective,
+    NgbTooltipModule,
+    InsufficientPermissionsMessageComponent,
+    StickyPopoverDirective,
+    EditTagsComponent,
+    OutlineModule
+]
 })
 export class BuildingComponent implements OnDestroy {
   private readonly workspaceFacade = inject(WorkspaceFacade);

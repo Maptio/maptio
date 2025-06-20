@@ -27,20 +27,19 @@ import { Permissions } from '@maptio-shared/model/permission.data';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { PermissionsDirective } from '../../../directives/permission.directive';
 import { RouterLink } from '@angular/router';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'maptio-map-card',
     templateUrl: './map-card.component.html',
     styleUrls: ['./map-card.component.css'],
     imports: [
-        NgIf,
-        RouterLink,
-        FormsModule,
-        ReactiveFormsModule,
-        PermissionsDirective,
-        ConfirmationPopoverModule,
-    ]
+    RouterLink,
+    FormsModule,
+    ReactiveFormsModule,
+    PermissionsDirective,
+    ConfirmationPopoverModule
+]
 })
 export class MapCardComponent implements OnInit, OnChanges {
   @Input() dataset: DataSet;

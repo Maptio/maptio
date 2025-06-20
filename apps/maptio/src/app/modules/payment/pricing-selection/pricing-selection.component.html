@@ -114,11 +114,11 @@
     (ngSubmit)="onSubmit()"
     #contributionForm="ngForm"
     class="d-flex flex-row row mb-2"
-  >
+    >
     <div
       class="form-group col-md-8 col-lg-6 col-xl-5 mt-3"
       style="max-width: 329px !important"
-    >
+      >
       <select
         class="form-select form-control-lg"
         id="contribution"
@@ -126,21 +126,22 @@
         [(ngModel)]="contribution"
         name="contribution"
         #contributionSelect="ngModel"
-      >
+        >
         <option [value]="null">Your contribution (in US$)</option>
 
-        <option
-          *ngFor="let contributionOption of contributionOptions"
-          [value]="contributionOption"
-        >
-          ${{ contributionOption }}
-        </option>
+        @for (contributionOption of contributionOptions; track contributionOption) {
+          <option
+            [value]="contributionOption"
+            >
+            ${{ contributionOption }}
+          </option>
+        }
       </select>
 
       <div
         [hidden]="contributionSelect.valid || contributionSelect.pristine"
         class="alert alert-danger"
-      >
+        >
         Please select a contribution value
       </div>
     </div>
@@ -150,7 +151,7 @@
       class="btn btn-success btn-lg my-3 col-md-2"
       i18n="@@subscribe"
       [disabled]="!contributionForm.form.valid || submitted"
-    >
+      >
       Subscribe
     </button>
   </form>

@@ -37,85 +37,84 @@
 
 <div
   class="row my-5 justify-content-start justify-content-md-between flex-column-reverse flex-md-row"
->
+  >
   <div class="col d-flex flex-column flex-md-row align-items-md-stretch">
     <div class="col-12 col-md-8 pe-md-3 order-2 order-md-1 h-100">
       <div
         class="d-flex flex-column justify-content-start align-items-start h-100"
-      >
+        >
         <div class="w-100 h-100">
-          <div
-            *ngIf="isZeroMaps() && isOutOfSampleMode"
-            class="d-flex justify-content-start h-100"
-          >
-            <div class="card border-0 bg-light">
-              <div class="card-body d-flex flex-column align-items-center">
-                <div class="card-title text-center">
-                  <span class="h1 d-none d-md-block" i18n>
+          @if (isZeroMaps() && isOutOfSampleMode) {
+            <div
+              class="d-flex justify-content-start h-100"
+              >
+              <div class="card border-0 bg-light">
+                <div class="card-body d-flex flex-column align-items-center">
+                  <div class="card-title text-center">
+                    <span class="h1 d-none d-md-block" i18n>
                     You don't have any maps!
                   </span>
-                  <span class="h3 d-md-none" i18n>
+                    <span class="h3 d-md-none" i18n>
                     You don't have any maps!
                   </span>
-                </div>
-                <div
-                  class="card-text h2 text-center text-muted d-none d-md-block"
-                  i18n
-                >
+                  </div>
+                  <div
+                    class="card-text h2 text-center text-muted d-none d-md-block"
+                    i18n
+                    >
                   We'll guide you through creating your first map, it should
                   only take a few minutes.
                 </div>
-                <div class="card-text my-5">
-                  <button
-                    class="btn btn-success btn-lg"
-                    (click)="openOnboarding()"
-                    i18n
-                  >
+                  <div class="card-text my-5">
+                    <button
+                      class="btn btn-success btn-lg"
+                      (click)="openOnboarding()"
+                      i18n
+                      >
                     Resume setup
                   </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          }
 
-          <div
-            class="mb-5"
-            *ngFor="let kv of filteredMaps.entries(); trackBy: trackByTeamId"
-          >
+          @for (kv of filteredMaps.entries(); track trackByTeamId($index, kv)) {
             <div
-              class="d-flex flex-column flex-md-row justify-content-between align-items-baseline"
-            >
-              <a routerLink="/teams/{{ kv[0].team_id }}/{{ kv[0].name }}">
-                <h4>{{ kv[0].name }}</h4>
-              </a>
-              <small class="text-muted">
-                <!-- TODO!!! -->
-                {{ kv[1].length }} {kv[1].length, plural, =1 {map} other {maps}}
-              </small>
-            </div>
-
-            <hr />
-
-            <ul class="list-inline row d-flex align-items-stretch">
-              <ng-container
-                *ngFor="let dataset of kv[1]; trackBy: trackByDatasetId"
+              class="mb-5"
               >
-                <li
-                  class="col-12 col-md-6 my-2"
-                  *ngIf="dataset.initiative.name"
+              <div
+                class="d-flex flex-column flex-md-row justify-content-between align-items-baseline"
                 >
-                  <maptio-map-card
-                    [dataset]="dataset"
-                    [isExportAvailable]="true"
-                    [isEdit]="true"
-                    [isTeamDisplayed]="false"
-                    (copied)="onCopy($event)"
-                    (archived)="onArchive($event)"
-                  ></maptio-map-card>
-                </li>
-              </ng-container>
-            </ul>
-          </div>
+                <a routerLink="/teams/{{ kv[0].team_id }}/{{ kv[0].name }}">
+                  <h4>{{ kv[0].name }}</h4>
+                </a>
+                <small class="text-muted">
+                  <!-- TODO!!! -->
+                  {{ kv[1].length }} {kv[1].length, plural, =1 {map} other {maps}}
+                </small>
+              </div>
+              <hr />
+              <ul class="list-inline row d-flex align-items-stretch">
+                @for (dataset of kv[1]; track trackByDatasetId($index, dataset)) {
+                  @if (dataset.initiative.name) {
+                    <li
+                      class="col-12 col-md-6 my-2"
+                      >
+                      <maptio-map-card
+                        [dataset]="dataset"
+                        [isExportAvailable]="true"
+                        [isEdit]="true"
+                        [isTeamDisplayed]="false"
+                        (copied)="onCopy($event)"
+                        (archived)="onArchive($event)"
+                      ></maptio-map-card>
+                    </li>
+                  }
+                }
+              </ul>
+            </div>
+          }
         </div>
       </div>
     </div>
@@ -123,7 +122,7 @@
       <div class="mb-3 card border-0">
         <div
           class="h-100 rounded-bottom d-flex flex-column align-items-center bg-white box-shadow card-body accent-blue"
-        >
+          >
           <div>
             <h2 class="text-center" i18n>Welcome to Maptio!</h2>
             <h6 class="text-muted text-center mb-4" i18n="@@tagline">
@@ -137,7 +136,7 @@
               <div class="d-none d-md-block">
                 <ng-container *ngTemplateOutlet="welcomeList"></ng-container>
               </div>
-              <ng-container *ngIf="false">
+              @if (false) {
                 <hr />
                 <div class="d-flex justify-content-start text-muted">
                   <div class="d-flex flex-column align-items-start">
@@ -149,7 +148,8 @@
                         ></i>
                       </span>
                       <span class="text-muted">
-                        <ng-container *ngIf="!isMultipleTeams()" i18n>
+                        @if (!isMultipleTeams()) {
+                          <ng-container i18n>
                           Organisation
                           <a
                             routerLink="/teams/{{
@@ -160,12 +160,13 @@
                           </a>
                           set up
                         </ng-container>
-                        <ng-container *ngIf="isMultipleTeams()">
+                        }
+                        @if (isMultipleTeams()) {
                           <a routerLink="/teams">
                             {{ teamsCount }} organisations
                           </a>
                           set up
-                        </ng-container>
+                        }
                       </span>
                     </div>
                     <div class="d-flex align-items-start my-2">
@@ -176,7 +177,7 @@
                         ></i>
                       </span>
                       <div>
-                        <ng-container *ngIf="!isMultipleMaps()">
+                        @if (!isMultipleMaps()) {
                           <span i18n>
                             Map
                             <a
@@ -188,70 +189,71 @@
                             </a>
                             is now active
                           </span>
-                        </ng-container>
-                        <ng-container *ngIf="isMultipleMaps()" i18n>
+                        }
+                        @if (isMultipleMaps()) {
+                          <ng-container i18n>
                           {{ mapsCount }} active maps
                         </ng-container>
+                        }
                       </div>
                     </div>
                   </div>
                 </div>
-              </ng-container>
+              }
             </div>
           </div>
         </div>
       </div>
 
-      <div
-        class="card bg-light border-0 mb-3 rounded d-none d-md-block"
-        *ngIf="datasets?.length > 5"
-      >
-        <div class="card-body">
-          <div class="form-group d-flex flex-column align-items-start m-0">
-            <label class="form-label lead" for="inputQuickFilter" i18n>
+      @if (datasets?.length > 5) {
+        <div
+          class="card bg-light border-0 mb-3 rounded d-none d-md-block"
+          >
+          <div class="card-body">
+            <div class="form-group d-flex flex-column align-items-start m-0">
+              <label class="form-label lead" for="inputQuickFilter" i18n>
               Find a map
             </label>
-
-            <input
-              id="inputQuickFilter"
-              #inputQuickFilter
-              type="text"
-              class="form-control w-100"
-              (keyup)="onKeyDown(inputQuickFilter.value)"
-            />
-
-            <div
-              [class.invisible]="!inputQuickFilter.value"
-              class="d-flex justify-content-between align-items-center w-100"
-            >
-              <span class="text-muted small" i18n>
+              <input
+                id="inputQuickFilter"
+                #inputQuickFilter
+                type="text"
+                class="form-control w-100"
+                (keyup)="onKeyDown(inputQuickFilter.value)"
+                />
+              <div
+                [class.invisible]="!inputQuickFilter.value"
+                class="d-flex justify-content-between align-items-center w-100"
+                >
+                <span class="text-muted small" i18n>
                 {{ getCount(filteredMaps) }}/{{ datasets?.length }} maps
               </span>
-
-              <button
-                class="btn btn-link btn-sm px-0"
-                (click)="onKeyDown(''); inputQuickFilter.value = ''"
-              >
-                Show all
-              </button>
+                <button
+                  class="btn btn-link btn-sm px-0"
+                  (click)="onKeyDown(''); inputQuickFilter.value = ''"
+                  >
+                  Show all
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      }
 
-      <div
-        class="card bg-light border-0 mb-3 d-none d-md-block"
-        *ngIf="isOutOfSampleMode && !isZeroMaps()"
-      >
-        <div class="card-body">
-          <common-create-map
-            [user]="user"
-            [teams]="teams"
-            [isRedirect]="true"
-            (created)="onNewMap($event)"
-          ></common-create-map>
+      @if (isOutOfSampleMode && !isZeroMaps()) {
+        <div
+          class="card bg-light border-0 mb-3 d-none d-md-block"
+          >
+          <div class="card-body">
+            <common-create-map
+              [user]="user"
+              [teams]="teams"
+              [isRedirect]="true"
+              (created)="onNewMap($event)"
+            ></common-create-map>
+          </div>
         </div>
-      </div>
+      }
 
       <div class="card bg-light border-0 mb-3 d-none d-md-block">
         <div class="card-body">

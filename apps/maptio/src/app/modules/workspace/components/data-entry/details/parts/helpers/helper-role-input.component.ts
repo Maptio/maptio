@@ -28,7 +28,7 @@ import { RoleLibraryService } from '../../../../../services/role-library.service
 import { MapService } from '@maptio-shared/services/map/map.service';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgIf } from '@angular/common';
+
 
 const eitherTitleOrDescriptionProvided: ValidatorFn = (
   control: UntypedFormGroup
@@ -58,12 +58,11 @@ const noWhitespaceValidator: ValidatorFn = (
     templateUrl: './helper-role-input.component.html',
     styleUrls: ['./helper-role-input.component.css'],
     imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        NgIf,
-        NgbTooltipModule,
-        ConfirmationPopoverModule,
-    ]
+    FormsModule,
+    ReactiveFormsModule,
+    NgbTooltipModule,
+    ConfirmationPopoverModule
+]
 })
 export class InitiativeHelperRoleInputComponent implements OnInit, OnDestroy {
   @Input('role') role: Role;

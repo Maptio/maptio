@@ -5,18 +5,17 @@ import { SatPopover, SatPopoverModule } from '@wjaspers/sat-popover';
 import { CircleMapService } from '../circle-map.service';
 import { InitiativeNode } from '../initiative.model';
 import { CircleInfoComponent } from '../circle-info/circle-info.component';
-import { NgFor } from '@angular/common';
+
 
 @Component({
     selector: 'g[maptioCircle]',
     templateUrl: './circle.component.html',
     styleUrls: ['./circle.component.scss'],
     imports: [
-        SatPopoverModule,
-        NgFor,
-        forwardRef(() => CircleComponent),
-        CircleInfoComponent,
-    ]
+    SatPopoverModule,
+    forwardRef(() => CircleComponent),
+    CircleInfoComponent
+]
 })
 export class CircleComponent implements OnInit {
   @Input() circle!: InitiativeNode;

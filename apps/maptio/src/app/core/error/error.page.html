@@ -1,11 +1,11 @@
 <div class="d-flex justify-content-center align-items-center flex-column row">
   <div
     class="d-flex flex-column justify-content-center align-items-center col-12 col-md-6"
-  >
+    >
     <div class="card bg-white border-0">
       <div
         class="d-flex justify-content-center align-items-center flex-column text-gradient-error"
-      >
+        >
         <i class="fas fa-{{ iconName }} d-none d-md-block icon-ending"></i>
         <i class="fas fa-{{ iconName }} d-md-none icon-ending-xs"></i>
 
@@ -13,28 +13,25 @@
         <h3 class="d-md-none mt-4">{{ errorHeadline }}</h3>
       </div>
 
-      <ng-container *ngIf="!shouldRedirect; else redirect">
+      @if (!shouldRedirect) {
         <h4 class="text-muted mt-5" i18n>
           Despite our best efforts, things will sometimes break, but we are
           always happy to help get you back on track.
         </h4>
-
         <div class="mt-4">
           <ng-template *ngTemplateOutlet="contactUs"></ng-template>
         </div>
-      </ng-container>
-
-      <ng-template #redirect>
+      } @else {
         <h4 class="text-muted mt-5">
           <ng-template *ngTemplateOutlet="contactUs"></ng-template>
         </h4>
-
         <div class="mt-4" i18n>
           You will be redirected to the
           <a class="mx-1" routerLink="/home">homepage</a>
           in {{timeToRedirect}} seconds.
         </div>
-      </ng-template>
+      }
+
     </div>
   </div>
 </div>

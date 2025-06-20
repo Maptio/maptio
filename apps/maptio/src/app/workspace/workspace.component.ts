@@ -6,7 +6,7 @@ import {
   ChangeDetectionStrategy,
   inject,
 } from '@angular/core';
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
@@ -41,15 +41,14 @@ import { MapSettingsService } from '@maptio-old-workspace/services/map-settings.
     styleUrls: ['./workspace.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-        NgIf,
-        BuildingComponent,
-        NgClass,
-        SidePanelLayoutComponent,
-        MapContainerComponent,
-        StructureEditorContainerComponent,
-        InitiativeDetailsContainerComponent,
-        OnboardingVideoComponent,
-    ],
+    BuildingComponent,
+    NgClass,
+    SidePanelLayoutComponent,
+    MapContainerComponent,
+    StructureEditorContainerComponent,
+    InitiativeDetailsContainerComponent,
+    OnboardingVideoComponent
+],
     providers: [UIService, MapSettingsService, WorkspaceFacade]
 })
 export class WorkspaceComponent implements OnInit, OnDestroy {

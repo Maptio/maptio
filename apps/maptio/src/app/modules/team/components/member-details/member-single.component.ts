@@ -21,7 +21,7 @@ import { MemberFormComponent } from '../../../member-form/member-form.component'
 import { StickyPopoverDirective } from '../../../../shared/directives/sticky.directive';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgIf, NgFor, SlicePipe } from '@angular/common';
+import { SlicePipe } from '@angular/common';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { PermissionsDirective } from '../../../../shared/directives/permission.directive';
 
@@ -30,17 +30,15 @@ import { PermissionsDirective } from '../../../../shared/directives/permission.d
     templateUrl: './member-single.component.html',
     styleUrls: ['./member-single.component.css'],
     imports: [
-        PermissionsDirective,
-        ConfirmationPopoverModule,
-        NgIf,
-        NgbTooltipModule,
-        NgFor,
-        FormsModule,
-        StickyPopoverDirective,
-        MemberFormComponent,
-        SlicePipe,
-        KeysPipe,
-    ]
+    PermissionsDirective,
+    ConfirmationPopoverModule,
+    NgbTooltipModule,
+    FormsModule,
+    StickyPopoverDirective,
+    MemberFormComponent,
+    SlicePipe,
+    KeysPipe
+]
 })
 export class MemberSingleComponent implements OnChanges {
   UserRole = UserRole;

@@ -6,7 +6,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { NgIf, NgFor, TitleCasePipe } from '@angular/common';
+import { TitleCasePipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 import {
@@ -28,7 +28,7 @@ import { RoleLibraryService } from '../../../services/role-library.service';
     selector: 'role-holders-in-initiative',
     templateUrl: './role-holders-in-initiative.component.html',
     styleUrls: ['./role-holders-in-initiative.component.css'],
-    imports: [NgIf, NgFor, NgbTooltipModule, NgbCollapseModule, TitleCasePipe]
+    imports: [NgbTooltipModule, NgbCollapseModule, TitleCasePipe]
 })
 export class RoleHoldersInInitiativeComponent implements OnInit {
   @Input('initiative') initiative: Initiative;

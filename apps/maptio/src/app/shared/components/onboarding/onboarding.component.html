@@ -10,26 +10,26 @@
   [isUpdating]="isCreatingTeam || isCreatingMap"
   (next)="nextStep()"
   (previous)="previousStep()"
->
-  <ng-container *ngIf="currentStep === 'Welcome'">
+  >
+  @if (currentStep === 'Welcome') {
     <ng-container *ngTemplateOutlet="welcome"></ng-container>
-  </ng-container>
+  }
 
-  <ng-container *ngIf="currentStep === 'CreateTeam'">
+  @if (currentStep === 'CreateTeam') {
     <ng-container *ngTemplateOutlet="createteam"></ng-container>
-  </ng-container>
+  }
 
-  <ng-container *ngIf="currentStep === 'Terminology'">
+  @if (currentStep === 'Terminology') {
     <ng-container *ngTemplateOutlet="terminology"></ng-container>
-  </ng-container>
+  }
 
-  <ng-container *ngIf="currentStep === 'Pricing'">
+  @if (currentStep === 'Pricing') {
     <ng-container *ngTemplateOutlet="pricing"></ng-container>
-  </ng-container>
+  }
 
-  <ng-container *ngIf="currentStep === 'Consent'">
+  @if (currentStep === 'Consent') {
     <ng-container *ngTemplateOutlet="consent"></ng-container>
-  </ng-container>
+  }
 </common-modal>
 
 <ng-template #welcome>
@@ -61,7 +61,7 @@
   <ng-template
     #createteamtitle
     i18n="Onboarding - Heading of one of the onboarding screens"
-  >
+    >
     What should we call your organisation?
   </ng-template>
 
@@ -74,12 +74,14 @@
   <div class="my-3 my-md-5">
     <div
       class="form-row w-100 d-flex justify-content-center align-items-center flex-column"
-    >
+      >
       <div class="col-12 col-md-10 col-lg-6">
         <input [(ngModel)]="team.name" type="text" class="form-control" />
-        <small *ngIf="teamCreationErrorMessage" class="form-text text-danger">
-          {{ teamCreationErrorMessage }}
-        </small>
+        @if (teamCreationErrorMessage) {
+          <small class="form-text text-danger">
+            {{ teamCreationErrorMessage }}
+          </small>
+        }
       </div>
     </div>
   </div>
@@ -91,7 +93,7 @@
     i18n="
       Heading of onboarding screen on lead and helper terminology
       @@onboarding-terminology-1"
-  >
+    >
     What should we call them?
   </ng-template>
 
@@ -101,7 +103,7 @@
       i18n="
         Subheading of onboarding screen on lead and helper terminology
         @@onboarding-terminology-2"
-    >
+      >
       What language do you use to refer to people at
       <b>{{ team.name }}</b>
       ?
@@ -114,7 +116,7 @@
       i18n="
         Helper text for onboarding screen on lead and helper terminology
         @@onboarding-terminology-3"
-    >
+      >
       You can always change this later in the organisation settings.
     </span>
   </ng-template>
@@ -152,7 +154,7 @@
   <ng-template
     #pricingtitle
     i18n="Heading for pricing screen during onboarding@@onboarding-pricing-1"
-  >
+    >
     A quick note about pricing
   </ng-template>
 
@@ -161,19 +163,19 @@
       src="assets/images/tom.png"
       alt="Portrait photo of Tom Nixon"
       class="float-start rounded-circle w-25 m-3"
-    />
+      />
 
     <p
       class="text-muted pt-4"
       i18n="Text for pricing screen during onboarding@@onboarding-pricing-2"
-    >
+      >
       Hey, it's Tom here &mdash; the founder of Maptio&hellip;
     </p>
 
     <p
       class="text-muted fw-bold"
       i18n="Text for pricing screen during onboarding@@onboarding-pricing-3"
-    >
+      >
       We are funded by subscriptions from our customers, but unlike most
       software, Maptio has no fixed pricing. Each customer chooses their own
       price to fit the value they get and their financial means.
@@ -182,7 +184,7 @@
     <p
       class="text-muted"
       i18n="Text for pricing screen during onboarding@@onboarding-pricing-4"
-    >
+      >
       After your free trial, if you love Maptio we'll help you decide what the
       right contribution is for you. Read more on our
       <a href="https://www.maptio.com/pricing" target="_blank">Pricing</a>
@@ -216,7 +218,7 @@
   <ng-template
     #consenttitle
     i18n="Heading for consent screen during onboarding@@onboarding-consent-1"
-  >
+    >
     Could you help us improve Maptio?
   </ng-template>
 
@@ -225,26 +227,26 @@
       src="assets/images/tom.png"
       alt="Portrait photo of Tom Nixon"
       class="float-start rounded-circle w-25 m-3"
-    />
+      />
 
     <p
       class="text-muted pt-4"
       i18n="Text for consent screen during onboarding@@onboarding-consent-2"
-    >
+      >
       One last thing from me&hellip;
     </p>
 
     <p
       class="text-muted"
       i18n="Text for consent screen during onboarding@@onboarding-consent-3"
-    >
+      >
       We're doing all we can to make Maptio ever more delightful to use.
     </p>
 
     <p
       class="text-muted"
       i18n="Text for consent screen during onboarding@@onboarding-consent-4"
-    >
+      >
       With your permission, we'd like to make session recordings of your
       activity using Maptio. This helps us spot where we can make improvements.
     </p>
@@ -252,7 +254,7 @@
     <p
       class="text-muted"
       i18n="Text for consent screen during onboarding@@onboarding-consent-5"
-    >
+      >
       We use a very privacy-conscious service called
       <a href="https://openreplay.com/" target="_blank">OpenReplay</a>
       . It's open source, just like us. We trust their service to keep
@@ -264,7 +266,7 @@
     <p
       class="text-muted"
       i18n="Text for consent screen during onboarding@@onboarding-consent-6"
-    >
+      >
       If you choose to continue without ticking that checkbox, we respect that.
       We'd still love to hear how you get on with using Maptio, so please do let
       us know if you have questions or suggestions. Thank you!

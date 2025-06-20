@@ -1,12 +1,12 @@
 import { Component, ViewChild, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 import { BuildingComponent } from '@maptio-old-workspace/components/data-entry/hierarchy/building.component';
 import { WorkspaceService } from '../workspace.service';
 
 @Component({
     selector: 'maptio-structure-editor-container',
-    imports: [CommonModule, BuildingComponent],
+    imports: [BuildingComponent],
     templateUrl: './structure-editor-container.component.html',
     styleUrls: ['./structure-editor-container.component.scss']
 })

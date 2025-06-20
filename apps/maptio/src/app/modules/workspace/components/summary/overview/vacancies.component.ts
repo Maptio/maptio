@@ -21,7 +21,7 @@ import { LoaderService } from '../../../../../shared/components/loading/loader.s
 import { MarkdownUtilsService } from '../../../../../shared/services/markdown/markdown-utils.service';
 import { RoleHoldersInInitiativeComponent } from '../tab/role-holders-in-initiative.component';
 import { InitiativeHelperRoleComponent } from '../../data-entry/details/parts/helpers/helper-role.component';
-import { NgFor, NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'summary-vacancies',
@@ -30,11 +30,9 @@ import { NgFor, NgIf } from '@angular/common';
     host: { class: 'd-flex flex-column w-100' },
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-        NgFor,
-        InitiativeHelperRoleComponent,
-        NgIf,
-        RoleHoldersInInitiativeComponent,
-    ]
+    InitiativeHelperRoleComponent,
+    RoleHoldersInInitiativeComponent
+]
 })
 export class VacanciesSummaryComponent implements OnInit {
   initiative: Initiative;

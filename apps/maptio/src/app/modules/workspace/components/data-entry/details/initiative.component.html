@@ -1,80 +1,78 @@
 <div class="d-flex flex-column h-100 mb-4">
   <!-- <maptio-onboarding-message
-    [messageKey]="'showCircleDetailsPanelMessage'"
-    [paddingTop]="'28px'"
-    i18n
-  > 
-    See and edit a circle's details here.
-  </maptio-onboarding-message>-->
+  [messageKey]="'showCircleDetailsPanelMessage'"
+  [paddingTop]="'28px'"
+  i18n
+  >
+  See and edit a circle's details here.
+</maptio-onboarding-message>-->
 
-  <div class="mb-4">
-    <maptio-initiative-input-name
-      [isUnauthorized]="!canEditName()"
-      [name]="node?.name"
-      (save)="saveName($event)"
+<div class="mb-4">
+  <maptio-initiative-input-name
+    [isUnauthorized]="!canEditName()"
+    [name]="node?.name"
+    (save)="saveName($event)"
     >
-      <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
-    </maptio-initiative-input-name>
-  </div>
+    <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
+  </maptio-initiative-input-name>
+</div>
 
-  <div class="mb-4">
-    <initiative-list-tags
-      [isUnauthorized]="!canEditTags()"
-      [available]="dataset?.tags"
-      [selected]="node?.tags"
-      [isEditMode]="isEditMode"
-      (save)="saveTags($event)"
-      (open)="openTagsPanel()"
-    ></initiative-list-tags>
-  </div>
+<div class="mb-4">
+  <initiative-list-tags
+    [isUnauthorized]="!canEditTags()"
+    [available]="dataset?.tags"
+    [selected]="node?.tags"
+    [isEditMode]="isEditMode"
+    (save)="saveTags($event)"
+    (open)="openTagsPanel()"
+  ></initiative-list-tags>
+</div>
 
-  <div class="mb-4">
-    <maptio-initiative-authority-select
-      [isUnauthorized]="!canEditAuthority()"
-      [isEditMode]="isEditMode"
-      [team]="team"
-      [authority]="node?.accountable"
-      [summaryUrlRoot]="getSummaryUrlRoot()"
-      (save)="saveAccountable($event)"
+<div class="mb-4">
+  <maptio-initiative-authority-select
+    [isUnauthorized]="!canEditAuthority()"
+    [isEditMode]="isEditMode"
+    [team]="team"
+    [authority]="node?.accountable"
+    [summaryUrlRoot]="getSummaryUrlRoot()"
+    (save)="saveAccountable($event)"
     >
-      <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
-    </maptio-initiative-authority-select>
-  </div>
+    <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
+  </maptio-initiative-authority-select>
+</div>
 
-  <div class="mb-4">
-    <initiative-description-textarea
-      [isUnauthorized]="!canEditDescription()"
-      [description]="node?.description"
-      [isEditMode]="isEditMode"
-      (save)="saveDescription($event)"
+<div class="mb-4">
+  <initiative-description-textarea
+    [isUnauthorized]="!canEditDescription()"
+    [description]="node?.description"
+    [isEditMode]="isEditMode"
+    (save)="saveDescription($event)"
     >
-      <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
-    </initiative-description-textarea>
-  </div>
+    <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
+  </initiative-description-textarea>
+</div>
 
-  <div class="d-flex w-100 justify-content-end">
-    <maptio-initiative-helpers-select
-      class="w-100"
-      [isUnauthorized]="!canAddHelper()"
-      [team]="team"
-      [helpers]="node?.helpers"
-      [user]="user"
-      [authority]="node?.accountable"
-      (save)="addHelpers($event)"
+<div class="d-flex w-100 justify-content-end">
+  <maptio-initiative-helpers-select
+    class="w-100"
+    [isUnauthorized]="!canAddHelper()"
+    [team]="team"
+    [helpers]="node?.helpers"
+    [user]="user"
+    [authority]="node?.accountable"
+    (save)="addHelpers($event)"
     >
-      <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
-    </maptio-initiative-helpers-select>
-  </div>
+    <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
+  </maptio-initiative-helpers-select>
+</div>
 
-  <div class="mb-4">
+<div class="mb-4">
+  @for (
+    helper of node?.getAllParticipants(); track trackByUserId(i,
+    helper); let i = $index) {
     <div
       class="my-2 bg-light p-2 rounded"
-      *ngFor="
-        let helper of node?.getAllParticipants();
-        let i = index;
-        trackBy: trackByUserId
-      "
-    >
+      >
       <initiative-helper-input
         [helper]="helper"
         [isUnauthorized]="!canEditHelper(helper)"
@@ -83,41 +81,41 @@
         [summaryUrlRoot]="getSummaryUrlRoot()"
         (remove)="removeHelper($event)"
         (save)="saveHelpers()"
-      >
+        >
         <ng-container
           *ngTemplateOutlet="insufficientPermissions"
         ></ng-container>
       </initiative-helper-input>
-
       <!-- Commented out as part of making all standard users completely read-only -->
       <!-- <initiative-helper-privilege class="my-1" [isUnauthorized]="!canEditPrivilege()" [isAuthority]="isAuthority(helper)" [helper]="helper" (save)="saveHelpers()"></initiative-helper-privilege> -->
     </div>
-  </div>
+  }
+</div>
 
-  <initiative-vacancies-input
-    class="mb-4"
-    [initiative]="node"
-    [isUnauthorized]="!canEditVacancies()"
-    [summaryUrlRoot]="getSummaryUrlRoot()"
-    (save)="saveVacancies()"
+<initiative-vacancies-input
+  class="mb-4"
+  [initiative]="node"
+  [isUnauthorized]="!canEditVacancies()"
+  [summaryUrlRoot]="getSummaryUrlRoot()"
+  (save)="saveVacancies()"
   >
-    <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
-  </initiative-vacancies-input>
+  <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
+</initiative-vacancies-input>
 
-  <initiative-input-size
-    class="mb-4"
-    [isUnauthorized]="!canEditSize()"
-    [sizeAdjustment]="node?.sizeAdjustment"
-    (save)="saveSize($event)"
+<initiative-input-size
+  class="mb-4"
+  [isUnauthorized]="!canEditSize()"
+  [sizeAdjustment]="node?.sizeAdjustment"
+  (save)="saveSize($event)"
   >
-    <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
-  </initiative-input-size>
+  <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
+</initiative-input-size>
 </div>
 
 <!-- <ul class="list-inline d-flex flex-row-reverse picture-list my-1 flex-wrap justify-content-end">
-		<li class="list-inline-item rounded-circle border-thick border-white my-1"
-			*ngFor="let helper of node?.getAllParticipants();trackBy:trackByUserId" >
-			<img class="avatar" width="40" height="40" src="{{helper.picture}}"
-				title="{{helper.name}}" placement="top" container="body" ngbTooltip="{{helper.name}}">
-		</li>
-	</ul> -->
+<li class="list-inline-item rounded-circle border-thick border-white my-1"
+  *ngFor="let helper of node?.getAllParticipants();trackBy:trackByUserId" >
+  <img class="avatar" width="40" height="40" src="{{helper.picture}}"
+    title="{{helper.name}}" placement="top" container="body" ngbTooltip="{{helper.name}}">
+</li>
+</ul> -->

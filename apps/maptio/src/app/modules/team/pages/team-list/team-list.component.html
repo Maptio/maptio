@@ -1,20 +1,20 @@
-<ng-container *ngIf="!isZeroTeam">
+@if (!isZeroTeam) {
   <div class="row d-flex justify-content-between align-items-center my-5">
     <div class="d-flex justify-content-between col flex-column">
       <h2 class="text-start">Organisations</h2>
     </div>
   </div>
-
   <div class="d-flex flex-column justify-content-start align-items-start row">
     <maptio-create-team
       [user]="user"
       class="col-12 col-md-9 col-lg-6 col-xl-4 mb-3"
     ></maptio-create-team>
-
     <div class="col-12 col-md-9">
-      <div *ngFor="let team of teams; trackBy: trackByTeamId" class="my-3">
-        <common-card-team [team]="team"></common-card-team>
-      </div>
+      @for (team of teams; track trackByTeamId($index, team)) {
+        <div class="my-3">
+          <common-card-team [team]="team"></common-card-team>
+        </div>
+      }
     </div>
   </div>
-</ng-container>
+}

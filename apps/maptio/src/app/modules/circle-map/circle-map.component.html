@@ -1,23 +1,28 @@
-<div class="search-panel" *ngIf="showDetailsPanel">
-  <maptio-search [rootCircle]="rootCircle"></maptio-search>
-</div>
+@if (showDetailsPanel) {
+  <div class="search-panel">
+    <maptio-search [rootCircle]="rootCircle"></maptio-search>
+  </div>
+}
 
-<div class="circle-details" *ngIf="showDescriptions$ | async">
-  <h1 class="circle-details__name">
-    {{ selectedCircleName$ | async }}
-  </h1>
-
-  <markdown
-    *ngIf="selectedCircleDescription$ | async as description"
-    class="circle-details__description cursor-text d-block border-0 w-100 h-100"
-    [data]="description"
-  ></markdown>
-</div>
+@if (showDescriptions$ | async) {
+  <div class="circle-details">
+    <h1 class="circle-details__name">
+      {{ selectedCircleName$ | async }}
+    </h1>
+    @if (selectedCircleDescription$ | async; as description) {
+      <markdown
+        class="circle-details__description cursor-text d-block border-0 w-100 h-100"
+        [data]="description"
+      ></markdown>
+    }
+  </div>
+}
 
 <maptio-svg-zoom-pan (click)="onBackdropClick()">
-  <svg:g
-    maptioCircle
-    *ngFor="let primaryCircle of rootCircle?.children"
-    [circle]="primaryCircle"
-  ></svg:g>
-</maptio-svg-zoom-pan>
+  @for (primaryCircle of rootCircle?.children; track primaryCircle) {
+    <svg:g
+      maptioCircle
+      [circle]="primaryCircle"
+      ></svg:g>
+    }
+  </maptio-svg-zoom-pan>

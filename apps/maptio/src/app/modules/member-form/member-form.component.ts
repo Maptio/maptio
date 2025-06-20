@@ -6,7 +6,7 @@ import {
   OnInit,
   ChangeDetectorRef,
 } from '@angular/core';
-import { NgIf, NgFor } from '@angular/common';
+
 import {
   UntypedFormControl,
   Validators,
@@ -33,15 +33,13 @@ import { MemberComponent } from '../member/member.component';
     templateUrl: './member-form.component.html',
     styleUrls: ['./member-form.component.scss'],
     imports: [
-        NgIf,
-        NgFor,
-        FormsModule,
-        ReactiveFormsModule,
-        TextFieldModule,
-        ConfirmationPopoverModule,
-        ImageUploadComponent,
-        MemberComponent,
-    ]
+    FormsModule,
+    ReactiveFormsModule,
+    TextFieldModule,
+    ConfirmationPopoverModule,
+    ImageUploadComponent,
+    MemberComponent
+]
 })
 export class MemberFormComponent implements OnInit {
   TERMS_AND_CONDITIONS_URL = environment.TERMS_AND_CONDITIONS_URL;

@@ -4,7 +4,7 @@
       for="inputTitle"
       class="form-label mb-0 text-uppercase text-bold text-gray-light small"
       i18n
-    >
+      >
       Role title
     </label>
     <input
@@ -14,20 +14,20 @@
       placeholder="This is the role title."
       i18n-placeholder
       [class.is-invalid]="showTitleFieldError()"
-    />
+      />
     <small class="invalid-feedback">
-      <ng-container
-        *ngIf="
-          saveAsLibraryRole.value || isDirectoryView;
-          else titleErrorForCustomRoles
-        "
-        i18n
-      >
+      @if (
+        saveAsLibraryRole.value || isDirectoryView) {
+        <ng-container
+          i18n
+          >
         Role titles are required for library roles
       </ng-container>
-      <ng-template #titleErrorForCustomRoles i18n="@@eitherTitleOrDescription">
+      } @else {
+        <ng-container i18n="@@eitherTitleOrDescription">
         Please fill out either the title or the description
-      </ng-template>
+      </ng-container>
+      }
     </small>
   </div>
 
@@ -35,7 +35,7 @@
     <label
       class="form-label mb-0 text-uppercase text-bold text-gray-light small"
       i18n
-    >
+      >
       Role description
     </label>
     <textarea
@@ -64,139 +64,141 @@
     </ng-container>
   </small>
 
-  <div *ngIf="!isDirectoryView" class="my-2">
-    <a
-      class="mb-0 text-uppercase text-bold text-gray-light small text-decoration-none"
-      ngbTooltip="Learn about custom and library roles"
-      href="{{ KB_URL_ROLE_TYPES }}"
-      target="blank"
-      container="body"
-    >
-      <ng-container i18n>Role type</ng-container>
-      <span>&nbsp;</span>
-      <i class="fa fa-info-circle text-gray-light" aria-hidden="true"></i>
-    </a>
-
-    <div class="form-check custom-radio">
-      <input
-        type="radio"
-        formControlName="saveAsLibraryRole"
-        [value]="false"
-        [id]="getCustomRoleInputId()"
-        class="form-check-input"
-      />
-
-      <label class="form-label form-check-label" [for]="getCustomRoleInputId()">
-        <ng-container
-          *ngIf="
-            isAlreadySavedInLibrary;
-            else radioCustomRoleChoiceTextForCustomRoles
-          "
-          i18n
+  @if (!isDirectoryView) {
+    <div class="my-2">
+      <a
+        class="mb-0 text-uppercase text-bold text-gray-light small text-decoration-none"
+        ngbTooltip="Learn about custom and library roles"
+        href="{{ KB_URL_ROLE_TYPES }}"
+        target="blank"
+        container="body"
         >
+        <ng-container i18n>Role type</ng-container>
+        <span>&nbsp;</span>
+        <i class="fa fa-info-circle text-gray-light" aria-hidden="true"></i>
+      </a>
+      <div class="form-check custom-radio">
+        <input
+          type="radio"
+          formControlName="saveAsLibraryRole"
+          [value]="false"
+          [id]="getCustomRoleInputId()"
+          class="form-check-input"
+          />
+        <label class="form-label form-check-label" [for]="getCustomRoleInputId()">
+          @if (
+            isAlreadySavedInLibrary) {
+            <ng-container
+              i18n
+              >
           Convert to custom role
         </ng-container>
-        <ng-template #radioCustomRoleChoiceTextForCustomRoles i18n>
+          } @else {
+            <ng-container i18n>
           Custom role for this {isVacancy, select, true {vacancy} false
           {person}}
-        </ng-template>
-      </label>
-    </div>
-
-    <div class="form-check custom-radio">
-      <input
-        type="radio"
-        formControlName="saveAsLibraryRole"
-        [value]="true"
-        [id]="getLibraryRoleInputId()"
-        class="form-check-input"
-      />
-
-      <label
-        class="form-label form-check-label"
-        [for]="getLibraryRoleInputId()"
-      >
-        <ng-container
-          *ngIf="
-            isAlreadySavedInLibrary;
-            else radioLibraryRoleChoiceTextForCustomRoles
-          "
-          i18n
-        >
+        </ng-container>
+          }
+        </label>
+      </div>
+      <div class="form-check custom-radio">
+        <input
+          type="radio"
+          formControlName="saveAsLibraryRole"
+          [value]="true"
+          [id]="getLibraryRoleInputId()"
+          class="form-check-input"
+          />
+        <label
+          class="form-label form-check-label"
+          [for]="getLibraryRoleInputId()"
+          >
+          @if (
+            isAlreadySavedInLibrary) {
+            <ng-container
+              i18n
+              >
           Edit role for ALL holders
         </ng-container>
-        <ng-template #radioLibraryRoleChoiceTextForCustomRoles i18n>
+          } @else {
+            <ng-container i18n>
           Add to role library
-        </ng-template>
-      </label>
+        </ng-container>
+          }
+        </label>
+      </div>
     </div>
-  </div>
+  }
 
   <div class="d-flex justify-content-end mt-2">
-    <button
-      *ngIf="!roleForm.dirty"
-      type="button"
-      class="btn btn-outline-secondary me-2"
-      (click)="onCancel()"
-    >
-      <ng-container i18n="@@cancel">Cancel</ng-container>
-    </button>
-    <button
-      *ngIf="roleForm.dirty"
-      type="button"
-      class="btn btn-outline-secondary me-2"
-      placement="left"
-      container="body"
-      mwlConfirmationPopover
-      popoverTitle="Warning"
+    @if (!roleForm.dirty) {
+      <button
+        type="button"
+        class="btn btn-outline-secondary me-2"
+        (click)="onCancel()"
+        >
+        <ng-container i18n="@@cancel">Cancel</ng-container>
+      </button>
+    }
+    @if (roleForm.dirty) {
+      <button
+        type="button"
+        class="btn btn-outline-secondary me-2"
+        placement="left"
+        container="body"
+        mwlConfirmationPopover
+        popoverTitle="Warning"
       popoverMessage="
         Cancelling will reject any unsaved changes. This cannot be undone. Are you sure?
       "
-      i18n-popoverTitle="@@warning"
-      i18n-popoverMessage
-      confirmText="Confirm"
-      cancelText="Cancel"
-      i18n-confirmText="@@confirm"
-      i18n-cancelText="@@cancel"
-      (confirm)="onCancel()"
-      focusbutton="cancel"
-      appendToBody="false"
-    >
-      <ng-container i18n="@@cancel">Cancel</ng-container>
-    </button>
+        i18n-popoverTitle="@@warning"
+        i18n-popoverMessage
+        confirmText="Confirm"
+        cancelText="Cancel"
+        i18n-confirmText="@@confirm"
+        i18n-cancelText="@@cancel"
+        (confirm)="onCancel()"
+        focusbutton="cancel"
+        appendToBody="false"
+        >
+        <ng-container i18n="@@cancel">Cancel</ng-container>
+      </button>
+    }
     <button
       type="submit"
       class="btn btn-success"
       [disabled]="isSubmissionAttempted && !roleForm.valid"
-    >
+      >
       <ng-container i18n="@@save">Save</ng-container>
     </button>
   </div>
 
-  <div class="d-flex justify-content-end mt-2" *ngIf="showDeleteButton()">
-    <button
-      type="button"
-      class="btn btn-danger ms-auto"
-      placement="left"
-      container="body"
-      mwlConfirmationPopover
-      popoverTitle="Warning"
+  @if (showDeleteButton()) {
+    <div class="d-flex justify-content-end mt-2">
+      <button
+        type="button"
+        class="btn btn-danger ms-auto"
+        placement="left"
+        container="body"
+        mwlConfirmationPopover
+        popoverTitle="Warning"
       popoverMessage="
         This will remove the role from ALL holders in the organisation and delete it from the list of roles. This cannot be undone. Are you sure?
       "
-      (confirm)="onDelete()"
-      focusbutton="cancel"
-      appendToBody="false"
-      i18n-popoverTitle="@@warning"
-      i18n-popoverMessage="@@libraryRoleDeletionWarning"
-      confirmText="Confirm"
-      cancelText="Cancel"
-      i18n-confirmText="@@confirm"
-      i18n-cancelText="@@cancel"
-      (confirm)="onCancel()"
-      i18n
-    >
+        (confirm)="onDelete()"
+        focusbutton="cancel"
+        appendToBody="false"
+        i18n-popoverTitle="@@warning"
+        i18n-popoverMessage="@@libraryRoleDeletionWarning"
+        confirmText="Confirm"
+        cancelText="Cancel"
+        i18n-confirmText="@@confirm"
+        i18n-cancelText="@@cancel"
+        (confirm)="onCancel()"
+        i18n
+        >
       Delete this role
     </button>
-  </div>
+    </div>
+  }
 </form>

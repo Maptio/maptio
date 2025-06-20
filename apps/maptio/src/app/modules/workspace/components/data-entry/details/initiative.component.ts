@@ -29,7 +29,7 @@ import { PermissionsService } from '../../../../../shared/services/permissions/p
 import { InitiativeInputSizeComponent } from './parts/size/input-size.component';
 import { InitiativeVacanciesInputComponent } from './parts/helpers/vacancies-input.component';
 import { InitiativeHelperInputComponent } from './parts/helpers/helper-input.component';
-import { NgFor, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { InitiativeHelpersSelectComponent } from './parts/helpers/helpers-select.component';
 import { InitiativeDescriptionTextareaComponent } from './parts/description/description-textarea.component';
 import { InitiativeAuthoritySelectComponent } from './parts/authority/authority-select.component';
@@ -44,19 +44,18 @@ import { OnboardingMessageComponent } from '../../../../onboarding-message/onboa
     styleUrls: ['./initiative.component.css'],
     changeDetection: ChangeDetectionStrategy.Default,
     imports: [
-        OnboardingMessageComponent,
-        InitiativeInputNameComponent,
-        InsufficientPermissionsMessageComponent,
-        InitiativeListTagsComponent,
-        InitiativeAuthoritySelectComponent,
-        InitiativeDescriptionTextareaComponent,
-        InitiativeHelpersSelectComponent,
-        NgFor,
-        InitiativeHelperInputComponent,
-        NgTemplateOutlet,
-        InitiativeVacanciesInputComponent,
-        InitiativeInputSizeComponent,
-    ]
+    OnboardingMessageComponent,
+    InitiativeInputNameComponent,
+    InsufficientPermissionsMessageComponent,
+    InitiativeListTagsComponent,
+    InitiativeAuthoritySelectComponent,
+    InitiativeDescriptionTextareaComponent,
+    InitiativeHelpersSelectComponent,
+    InitiativeHelperInputComponent,
+    NgTemplateOutlet,
+    InitiativeVacanciesInputComponent,
+    InitiativeInputSizeComponent
+]
 })
 export class InitiativeComponent implements OnChanges {
   @Input() node: Initiative;

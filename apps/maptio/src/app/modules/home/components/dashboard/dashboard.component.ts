@@ -18,21 +18,19 @@ import { CreateTeamComponent } from '../../../../shared/components/cards/create-
 import { CreateMapComponent } from '../../../../shared/components/cards/create-map/create-map.component';
 import { MapCardComponent } from '../../../../shared/components/cards/map/map-card.component';
 import { RouterLink } from '@angular/router';
-import { NgIf, NgFor, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
     selector: 'dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
     imports: [
-        NgIf,
-        NgFor,
-        RouterLink,
-        MapCardComponent,
-        NgTemplateOutlet,
-        CreateMapComponent,
-        CreateTeamComponent,
-    ]
+    RouterLink,
+    MapCardComponent,
+    NgTemplateOutlet,
+    CreateMapComponent,
+    CreateTeamComponent
+]
 })
 export class DashboardComponent {
   @Input('datasets') datasets: DataSet[];

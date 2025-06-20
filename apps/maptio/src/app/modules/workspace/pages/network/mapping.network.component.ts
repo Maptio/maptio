@@ -56,7 +56,7 @@ import {
 } from '../../services/map-settings.service';
 import { MapService } from '@maptio-shared/services/map/map.service';
 import { FormsModule } from '@angular/forms';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 
 const d3 = Object.assign(
   {},
@@ -89,7 +89,7 @@ const d3 = Object.assign(
     styleUrls: ['./mapping.network.component.css'],
     encapsulation: ViewEncapsulation.Emulated,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [NgIf, RouterLink, FormsModule, AsyncPipe]
+    imports: [RouterLink, FormsModule, AsyncPipe]
 })
 export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public datasetId: string;

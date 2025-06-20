@@ -14,21 +14,19 @@ import { InitiativeHelperRoleComponent } from './helper-role.component';
 import { InitiativeHelperRoleInputComponent } from './helper-role-input.component';
 import { InitiativeHelperRoleSelectComponent } from './helper-role-select.component';
 import { StickyPopoverDirective } from '../../../../../../../shared/directives/sticky.directive';
-import { NgIf, NgFor } from '@angular/common';
+
 
 @Component({
     selector: 'initiative-vacancies-input',
     templateUrl: './vacancies-input.component.html',
     styleUrls: ['./vacancies-input.component.css'],
     imports: [
-        NgIf,
-        StickyPopoverDirective,
-        InitiativeHelperRoleSelectComponent,
-        InitiativeHelperRoleInputComponent,
-        NgFor,
-        InitiativeHelperRoleComponent,
-        RouterLink,
-    ]
+    StickyPopoverDirective,
+    InitiativeHelperRoleSelectComponent,
+    InitiativeHelperRoleInputComponent,
+    InitiativeHelperRoleComponent,
+    RouterLink
+]
 })
 export class InitiativeVacanciesInputComponent implements OnInit {
   @Input('initiative') initiative: Initiative;

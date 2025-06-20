@@ -34,7 +34,7 @@ import { EmitterService } from '../services/emitter.service';
 import { LoginRedirectDirective } from '../../modules/login/login-redirect/login-redirect.directive';
 import { LanguagePickerComponent } from './language-picker.component';
 import { OnboardingBannerComponent } from './onboarding-banner.component';
-import { NgIf, NgClass, NgFor, AsyncPipe, SlicePipe } from '@angular/common';
+import { NgClass, AsyncPipe, SlicePipe } from '@angular/common';
 
 @Component({
     selector: 'maptio-header',
@@ -42,18 +42,16 @@ import { NgIf, NgClass, NgFor, AsyncPipe, SlicePipe } from '@angular/common';
     styleUrls: ['./header.component.css'],
     changeDetection: ChangeDetectionStrategy.Default,
     imports: [
-        NgIf,
-        RouterLink,
-        NgClass,
-        NgFor,
-        AsyncPipe,
-        SlicePipe,
-        NgbDropdownModule,
-        NgbCollapseModule,
-        LanguagePickerComponent,
-        LoginRedirectDirective,
-        OnboardingBannerComponent,
-    ]
+    RouterLink,
+    NgClass,
+    AsyncPipe,
+    SlicePipe,
+    NgbDropdownModule,
+    NgbCollapseModule,
+    LanguagePickerComponent,
+    LoginRedirectDirective,
+    OnboardingBannerComponent
+]
 })
 export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new SubSink();

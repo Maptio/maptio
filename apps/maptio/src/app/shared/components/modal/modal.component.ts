@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'common-modal',
     templateUrl: './modal.component.html',
     styleUrls: ['./modal.component.css'],
-    imports: [NgIf]
+    imports: []
 })
 export class CommonModalComponent implements OnInit {
   constructor() {}

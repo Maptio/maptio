@@ -11,13 +11,13 @@ import {
   Constants,
   FileService,
 } from '@maptio-shared/services/file/file.service';
-import { NgIf, NgFor } from '@angular/common';
+
 
 @Component({
     selector: 'maptio-team-import',
     templateUrl: './import.component.html',
     styleUrls: ['./import.component.css'],
-    imports: [NgIf, NgFor, RouterLink]
+    imports: [RouterLink]
 })
 export class TeamImportComponent implements OnInit {
   team: Team;

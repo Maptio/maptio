@@ -26,7 +26,7 @@ import { CircleComponent } from './circle/circle.component';
 import { SvgZoomPanComponent } from './svg-zoom-pan/svg-zoom-pan.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { SearchComponent } from './search/search.component';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'maptio-circle-map',
@@ -35,14 +35,12 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
     encapsulation: ViewEncapsulation.Emulated,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-        NgIf,
-        SearchComponent,
-        MarkdownModule,
-        SvgZoomPanComponent,
-        NgFor,
-        CircleComponent,
-        AsyncPipe,
-    ]
+    SearchComponent,
+    MarkdownModule,
+    SvgZoomPanComponent,
+    CircleComponent,
+    AsyncPipe
+]
 })
 export class CircleMapComponent implements OnInit, OnDestroy {
   // All the data comes in as a single package

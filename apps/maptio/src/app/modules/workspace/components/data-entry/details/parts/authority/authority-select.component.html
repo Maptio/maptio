@@ -3,21 +3,27 @@
 </ng-template>
 
 <ng-template #rt let-r="result" let-t="term">
-  <span *ngIf="r.user_id">
-    <img src="{{ r.picture }}" class="avatar" />
-    {{ r.name }}
-  </span>
+  @if (r.user_id) {
+    <span>
+      <img src="{{ r.picture }}" class="avatar" />
+      {{ r.name }}
+    </span>
+  }
 
-  <span *ngIf="!r.user_id && t">
-    {{ t }}
-    <span>(</span>
-    <ng-container i18n="@@addNewTeamMember">Add a new team member</ng-container>
-    <span>)</span>
-  </span>
+  @if (!r.user_id && t) {
+    <span>
+      {{ t }}
+      <span>(</span>
+      <ng-container i18n="@@addNewTeamMember">Add a new team member</ng-container>
+      <span>)</span>
+    </span>
+  }
 
-  <span *ngIf="!r.user_id && !t">
-    <ng-container i18n="@@addNewTeamMember">Add a new team member</ng-container>
-  </span>
+  @if (!r.user_id && !t) {
+    <span>
+      <ng-container i18n="@@addNewTeamMember">Add a new team member</ng-container>
+    </span>
+  }
 </ng-template>
 
 <span class="d-flex align-items-baseline text-gray-light mb-1">
@@ -26,51 +32,54 @@
     {{ team?.settings.authority }}
   </span>
 
-  <span
-    *ngIf="isUnauthorized"
-    class="text-gray-light small"
-    [stickyPopover]="editTipContent"
-  >
-    <i class="fas fa-lock"></i>
-  </span>
+  @if (isUnauthorized) {
+    <span
+      class="text-gray-light small"
+      [stickyPopover]="editTipContent"
+      >
+      <i class="fas fa-lock"></i>
+    </span>
+  }
 </span>
 
-<div
-  *ngIf="!isCreateNewMemberMode; else newMemberForm"
-  class="d-flex justify-content-start align-items-center bg-light rounded p-2"
->
-  <div class="d-flex justify-content-start align-items-center flex-grow-1">
-    <div class="w-100">
-      <common-autocomplete
-        #autocomplete
-        [placeholder]="placeholder"
+@if (!isCreateNewMemberMode) {
+  <div
+    class="d-flex justify-content-start align-items-center bg-light rounded p-2"
+    >
+    <div class="d-flex justify-content-start align-items-center flex-grow-1">
+      <div class="w-100">
+        <common-autocomplete
+          #autocomplete
+          [placeholder]="placeholder"
         removeConfirmationMessage="
           Remove this authority and associated role?
         "
-        i18n-removeConfirmationMessage
-        [resultTemplate]="rt"
-        [showSelectedResult]="true"
-        [resultFormatter]="formatter"
-        [isUnauthorized]="isUnauthorized"
-        [item]="authority"
-        [filter]="filterMembers"
-        (pick)="onSelect($event)"
-      >
-        <a
-          *ngIf="authority"
-          [routerLink]="summaryUrlRoot"
-          [queryParams]="{ member: authority?.shortid }"
-        >
-          <img src="{{ authority?.picture }}" class="avatar" />
-          {{ authority?.name }}
-        </a>
-        <span *ngIf="!authority" i18n>No {{ team?.settings.authority }}</span>
-      </common-autocomplete>
+          i18n-removeConfirmationMessage
+          [resultTemplate]="rt"
+          [showSelectedResult]="true"
+          [resultFormatter]="formatter"
+          [isUnauthorized]="isUnauthorized"
+          [item]="authority"
+          [filter]="filterMembers"
+          (pick)="onSelect($event)"
+          >
+          @if (authority) {
+            <a
+              [routerLink]="summaryUrlRoot"
+              [queryParams]="{ member: authority?.shortid }"
+              >
+              <img src="{{ authority?.picture }}" class="avatar" />
+              {{ authority?.name }}
+            </a>
+          }
+          @if (!authority) {
+            <span i18n>No {{ team?.settings.authority }}</span>
+          }
+        </common-autocomplete>
+      </div>
     </div>
   </div>
-</div>
-
-<ng-template #newMemberForm>
+} @else {
   <maptio-member-form
     [team]="team"
     [member]="newMemberData"
@@ -79,4 +88,5 @@
     (addMember)="onCreateNewMember($event)"
     (cancel)="onCancelAddingMember($event)"
   ></maptio-member-form>
-</ng-template>
+}
+

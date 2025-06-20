@@ -14,8 +14,9 @@ import {
   Inject,
   ChangeDetectorRef,
   ApplicationRef,
+  DOCUMENT
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+
 
 import { NgbPopover, NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 

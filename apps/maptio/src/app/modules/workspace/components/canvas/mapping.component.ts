@@ -51,7 +51,7 @@ import { FilterTagsComponent } from '../filtering/tags.component';
 import { SearchComponent } from '../searching/search.component';
 import { ClosableDirective } from '../../../../shared/directives/closable.directive';
 import { ContextMenuComponent } from '../context-menu/context-menu.component';
-import { NgTemplateOutlet, NgIf } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   NgbCollapseModule,
   NgbTooltipModule,
@@ -65,23 +65,22 @@ import { MappingNetworkComponent } from '@maptio-old-workspace/pages/network/map
     styleUrls: ['./mapping.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-        RouterLinkActive,
-        RouterLink,
-        RouterOutlet,
-        NgTemplateOutlet,
-        NgIf,
-        NgbTooltipModule,
-        NgbCollapseModule,
-        ContextMenuComponent,
-        ClosableDirective,
-        SearchComponent,
-        FilterTagsComponent,
-        SharingComponent,
-        ColorPickerComponent,
-        PermissionsDirective,
-        StickyPopoverDirective,
-        InsufficientPermissionsMessageComponent,
-    ]
+    RouterLinkActive,
+    RouterLink,
+    RouterOutlet,
+    NgTemplateOutlet,
+    NgbTooltipModule,
+    NgbCollapseModule,
+    ContextMenuComponent,
+    ClosableDirective,
+    SearchComponent,
+    FilterTagsComponent,
+    SharingComponent,
+    ColorPickerComponent,
+    PermissionsDirective,
+    StickyPopoverDirective,
+    InsufficientPermissionsMessageComponent
+]
 })
 export class MappingComponent {
   isFirstEdit: boolean;

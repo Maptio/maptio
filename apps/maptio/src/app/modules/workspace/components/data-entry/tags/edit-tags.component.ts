@@ -12,7 +12,7 @@ import { Team } from '../../../../../shared/model/team.data';
 import { Permissions } from '../../../../../shared/model/permission.data';
 import { StickyPopoverDirective } from '../../../../../shared/directives/sticky.directive';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
-import { NgIf, NgFor } from '@angular/common';
+
 import { ColorPickerComponent } from '../../../../../shared/components/color-picker/color-picker.component';
 import { PermissionsDirective } from '../../../../../shared/directives/permission.directive';
 import { InsufficientPermissionsMessageComponent } from '../../../../permissions-messages/insufficient-permissions-message.component';
@@ -22,16 +22,14 @@ import { InsufficientPermissionsMessageComponent } from '../../../../permissions
     templateUrl: './edit-tags.component.html',
     styleUrls: ['./edit-tags.component.css'],
     imports: [
-        InsufficientPermissionsMessageComponent,
-        PermissionsDirective,
-        FormsModule,
-        ReactiveFormsModule,
-        ColorPickerComponent,
-        NgIf,
-        NgFor,
-        ConfirmationPopoverModule,
-        StickyPopoverDirective,
-    ]
+    InsufficientPermissionsMessageComponent,
+    PermissionsDirective,
+    FormsModule,
+    ReactiveFormsModule,
+    ColorPickerComponent,
+    ConfirmationPopoverModule,
+    StickyPopoverDirective
+]
 })
 export class EditTagsComponent implements OnInit {
   @Input() tags: SelectableTag[];

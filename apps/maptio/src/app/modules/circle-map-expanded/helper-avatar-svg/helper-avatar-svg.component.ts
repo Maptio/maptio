@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { Helper } from '../initiative.model';
 import { CircleMapService } from '../circle-map.service';
-import { NgIf, NgFor } from '@angular/common';
+
 import { SatPopoverModule } from '@wjaspers/sat-popover';
 
 @Component({
@@ -11,7 +11,7 @@ import { SatPopoverModule } from '@wjaspers/sat-popover';
     templateUrl: './helper-avatar-svg.component.html',
     styleUrls: ['./helper-avatar-svg.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    imports: [SatPopoverModule, NgIf, NgFor]
+    imports: [SatPopoverModule]
 })
 export class HelperAvatarSvgComponent implements OnInit {
   @Input() helper!: Helper;

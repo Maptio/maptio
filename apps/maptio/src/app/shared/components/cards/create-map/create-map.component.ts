@@ -25,7 +25,7 @@ import { User } from '@maptio-shared/model/user.data';
 import { Permissions, UserRole } from '@maptio-shared/model/permission.data';
 import { StickyPopoverDirective } from '../../../directives/sticky.directive';
 import { InsufficientPermissionsMessageComponent } from '../../../../modules/permissions-messages/insufficient-permissions-message.component';
-import { NgIf, NgFor } from '@angular/common';
+
 import { PermissionsDirective } from '../../../directives/permission.directive';
 
 @Component({
@@ -33,15 +33,13 @@ import { PermissionsDirective } from '../../../directives/permission.directive';
     templateUrl: './create-map.component.html',
     styleUrls: ['./create-map.component.css'],
     imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        PermissionsDirective,
-        NgIf,
-        NgFor,
-        RouterLink,
-        InsufficientPermissionsMessageComponent,
-        StickyPopoverDirective,
-    ]
+    FormsModule,
+    ReactiveFormsModule,
+    PermissionsDirective,
+    RouterLink,
+    InsufficientPermissionsMessageComponent,
+    StickyPopoverDirective
+]
 })
 export class CreateMapComponent implements OnInit {
   form: UntypedFormGroup;

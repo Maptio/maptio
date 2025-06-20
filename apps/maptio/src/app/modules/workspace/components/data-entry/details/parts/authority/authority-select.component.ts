@@ -18,18 +18,17 @@ import { MemberFormComponent } from '../../../../../../member-form/member-form.c
 import { RouterLink } from '@angular/router';
 import { CommonAutocompleteComponent as CommonAutocompleteComponent_1 } from '../../../../../../../shared/components/autocomplete/autocomplete.component';
 import { StickyPopoverDirective } from '../../../../../../../shared/directives/sticky.directive';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'maptio-initiative-authority-select',
     templateUrl: './authority-select.component.html',
     imports: [
-        NgIf,
-        StickyPopoverDirective,
-        CommonAutocompleteComponent_1,
-        RouterLink,
-        MemberFormComponent,
-    ]
+    StickyPopoverDirective,
+    CommonAutocompleteComponent_1,
+    RouterLink,
+    MemberFormComponent
+]
 })
 export class InitiativeAuthoritySelectComponent implements OnChanges {
   @Input() team: Team;

@@ -11,7 +11,7 @@ import {
 import { environment } from '@maptio-config/environment';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { StickyPopoverDirective } from '../../../../../../../shared/directives/sticky.directive';
-import { NgIf } from '@angular/common';
+
 import { InsufficientPermissionsMessageComponent } from '../../../../../../permissions-messages/insufficient-permissions-message.component';
 
 @Component({
@@ -19,11 +19,10 @@ import { InsufficientPermissionsMessageComponent } from '../../../../../../permi
     templateUrl: './input-size.component.html',
     styleUrls: ['./input-size.component.scss'],
     imports: [
-        InsufficientPermissionsMessageComponent,
-        NgIf,
-        StickyPopoverDirective,
-        ConfirmationPopoverModule,
-    ]
+    InsufficientPermissionsMessageComponent,
+    StickyPopoverDirective,
+    ConfirmationPopoverModule
+]
 })
 export class InitiativeInputSizeComponent implements OnChanges {
   @Input() sizeAdjustment: string;

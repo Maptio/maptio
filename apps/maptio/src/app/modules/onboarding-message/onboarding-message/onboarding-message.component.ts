@@ -8,13 +8,13 @@ import { User } from '@maptio-shared/model/user.data';
 import { UserRole } from '@maptio-shared/model/permission.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
 import { PermissionsService } from '@maptio-shared/services/permissions/permissions.service';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'maptio-onboarding-message',
     templateUrl: './onboarding-message.component.html',
     styleUrls: ['./onboarding-message.component.scss'],
-    imports: [NgIf, AsyncPipe]
+    imports: [AsyncPipe]
 })
 export class OnboardingMessageComponent {
   @Input() floating = false;
