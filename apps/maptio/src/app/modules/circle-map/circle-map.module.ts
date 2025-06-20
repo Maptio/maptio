@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
-import { MatMenuModule } from '@angular/material/menu';
 
 import { SatPopoverModule } from '@wjaspers/sat-popover';
 import { MarkdownModule } from 'ngx-markdown';
@@ -23,7 +22,6 @@ import { CircleMenuComponent } from './circle-menu/circle-menu.component';
     ReactiveFormsModule,
     MatInputModule,
     MatAutocompleteModule,
-    MatMenuModule,
     MarkdownModule.forChild(),
     SatPopoverModule,
     SvgZoomPanComponent,
