@@ -46,6 +46,7 @@ yarn.lock
 
 # misc
 .nx/cache
+.nx/workspace-data
 /.angular/cache
 /.sass-cache
 /connect.lock

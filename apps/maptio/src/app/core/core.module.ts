@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
@@ -37,49 +37,43 @@ export function tokenGetter(): string {
   return localStorage.getItem('maptio_api_token');
 }
 
-@NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    HttpClientModule,
-    NgbTooltipModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
-        allowedDomains: [],
-      },
-    }),
-    OnboardingModule,
-    NgProgressModule,
-    NgProgressRouterModule,
-    LoginModule,
-    HeaderComponent,
-    OnboardingBannerComponent,
-    FooterComponent,
-    LoaderComponent,
-    UnauthorizedComponent,
-    NotFoundComponent,
-    LoginErrorPageComponent,
-    ErrorPageComponent,
-    LanguagePickerComponent,
-  ],
-  exports: [
-    HeaderComponent,
-    FooterComponent,
-    LoaderComponent,
-    OnboardingComponent,
-  ],
-  providers: [
-    CookieService,
-    AccessGuard,
-    ActivationGuard,
-    BillingGuard,
-    PermissionGuard,
-    WorkspaceGuard,
-    DatasetFactory,
-    TeamFactory,
-    UserFactory,
-    DeviceDetectorService,
-  ],
-})
+@NgModule({ exports: [
+        HeaderComponent,
+        FooterComponent,
+        LoaderComponent,
+        OnboardingComponent,
+    ], imports: [CommonModule,
+        RouterModule,
+        NgbTooltipModule,
+        JwtModule.forRoot({
+            config: {
+                tokenGetter: tokenGetter,
+                allowedDomains: [],
+            },
+        }),
+        OnboardingModule,
+        NgProgressModule,
+        NgProgressRouterModule,
+        LoginModule,
+        HeaderComponent,
+        OnboardingBannerComponent,
+        FooterComponent,
+        LoaderComponent,
+        UnauthorizedComponent,
+        NotFoundComponent,
+        LoginErrorPageComponent,
+        ErrorPageComponent,
+        LanguagePickerComponent], providers: [
+        CookieService,
+        AccessGuard,
+        ActivationGuard,
+        BillingGuard,
+        PermissionGuard,
+        WorkspaceGuard,
+        DatasetFactory,
+        TeamFactory,
+        UserFactory,
+        DeviceDetectorService,
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class CoreModule {}
