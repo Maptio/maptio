@@ -1,21 +1,28 @@
 import { Component, Input, OnInit, ViewChild, forwardRef } from '@angular/core';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 import { SatPopover, SatPopoverModule } from '@wjaspers/sat-popover';
 
 import { CircleMapService } from '../circle-map.service';
 import { InitiativeNode } from '../initiative.model';
 import { CircleInfoComponent } from '../circle-info/circle-info.component';
-
+import { CircleMenuComponent } from '../circle-menu/circle-menu.component';
 
 @Component({
-    selector: 'g[maptioCircle]',
-    templateUrl: './circle.component.html',
-    styleUrls: ['./circle.component.scss'],
-    imports: [
+  selector: 'g[maptioCircle]',
+  templateUrl: './circle.component.html',
+  styleUrls: ['./circle.component.scss'],
+  imports: [
     SatPopoverModule,
     forwardRef(() => CircleComponent),
-    CircleInfoComponent
-]
+    CircleInfoComponent,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+    CircleMenuComponent,
+  ],
 })
 export class CircleComponent implements OnInit {
   @Input() circle!: InitiativeNode;

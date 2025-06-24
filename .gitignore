@@ -25,6 +25,9 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# IDE - Cursor
+.cursor/*
+
 # hosting configuration
 .firebase
 

@@ -21,6 +21,7 @@
     "baseUrl": "src",
     "paths": {
       "@angular/*": ["./node_modules/@angular/*"],
+      // "@notebits/sdk": ["libs/notebits-sdk/src/index.ts"],
       "@maptio-environment": ["environments/environment"],
       "@maptio-config/*": ["app/config/*"],
       "@maptio-core/*": ["app/core/*"],

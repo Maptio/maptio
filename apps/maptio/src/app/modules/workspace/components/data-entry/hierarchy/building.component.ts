@@ -421,10 +421,9 @@ export class BuildingComponent implements OnDestroy {
     this.expandFirstLevelNodes();
   }
 
-  private sendInitiativesToOutliner() {
-    this.outlineData.set(
-      this.transformNodesIntoOutlineData(this.nodes[0].children)
-    );
+  sendInitiativesToOutliner(rootNode?: Initiative) {
+    const nodes = rootNode ? rootNode.children : this.nodes[0].children;
+    this.outlineData.set(this.transformNodesIntoOutlineData(nodes));
   }
 
   private transformNodesIntoOutlineData(nodes): NotebitsOutlineData {

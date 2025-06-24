@@ -1,0 +1,3 @@
+[submodule "libs/notebits-sdk"]
+	path = libs/notebits-sdk
+	url = https://github.com/notebits/sdk.git
