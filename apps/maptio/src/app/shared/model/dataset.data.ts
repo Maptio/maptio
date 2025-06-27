@@ -6,7 +6,7 @@ import { Role } from './role.data';
 import { Team } from './team.data';
 
 /**
- * Represents a initiative with its team and tags
+ * Represents a initiative with its team and tags and roles
  */
 export class DataSet implements Serializable<DataSet> {
   public shortid: string;
@@ -46,7 +46,7 @@ export class DataSet implements Serializable<DataSet> {
     deserialized.depth = input.depth;
     deserialized.datasetId = input._id;
     deserialized.initiative = Initiative.create().deserialize(
-      input.initiative || input
+      input.initiative || input,
     );
     deserialized.isArchived = input.isArchived;
     deserialized.isEmbeddable = input.isEmbeddable;
