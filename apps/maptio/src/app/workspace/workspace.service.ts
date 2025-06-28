@@ -51,6 +51,10 @@ export class WorkspaceService {
     this.datasetService.clearGlobalStateOnDestroy();
   }
 
+  addSubcircle(parentId: number) {
+    this.buildingComponent().onInitiativeCreate(parentId);
+  }
+
   sendInitiativesToOutliner(rootNode: Initiative) {
     this.buildingComponent().sendInitiativesToOutliner(rootNode);
   }

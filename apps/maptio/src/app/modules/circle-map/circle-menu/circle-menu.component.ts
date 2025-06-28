@@ -38,34 +38,13 @@ export class CircleMenuComponent {
   }
 
   async addSubcircle() {
-    if (!this.circleNode) return;
-    // Find the parent Initiative in the tree
-    const rootInitiative = this.workspaceService.dataset().initiative;
-    const parent = findInitiativeById(rootInitiative, this.circleNode.data.id);
-    if (!parent) return;
-
-    const newInitiative = new Initiative();
-    newInitiative.id = Math.floor(Math.random() * 10000000000000);
-    newInitiative.team_id = parent.team_id;
-    newInitiative.hasFocus = true;
-
-    parent.children = parent.children || [];
-    parent.children.unshift(newInitiative);
-
-    // Save changes
-    await this.workspaceService.saveChanges({
-      initiative: rootInitiative,
-      tags: this.workspaceService.tags(),
-    });
-    this.workspaceService.sendInitiativesToOutliner(rootInitiative);
-
-    this.workspaceFacade.setSelectedInitiativeID(newInitiative.id);
+    this.workspaceService.addSubcircle(this.circleNode.data.id);
   }
 
   async deleteCircle() {
     if (this.circleNode) {
       await this.mapEditingService.deleteNodeByIdFromWorkspaceAndSave(
-        this.circleNode.data.id
+        this.circleNode.data.id,
       );
     }
   }
@@ -74,7 +53,7 @@ export class CircleMenuComponent {
 // Helper function to find Initiative by id
 function findInitiativeById(
   root: Initiative,
-  id: number
+  id: number,
 ): Initiative | undefined {
   if (root.id === id) return root;
   if (root.children) {
