@@ -30,7 +30,7 @@ export class WorkspaceService {
   isDetailsPanelCollapsed = signal<boolean>(false);
 
   // Signal to track when a new initiative is created and should have its name focused
-  shouldFocusNewInitiativeName = signal<number>(0);
+  shouldFocusNewInitiativeName = signal<boolean>(false);
 
   // Passing these on as they're needed in component templates
   dataset = this.datasetService.dataset; // Needed? Check!
@@ -58,9 +58,7 @@ export class WorkspaceService {
     this.buildingComponent().onInitiativeCreate(parentId);
     this.openDetailsPanel();
     // Set flag to indicate that the new initiative should have its name focused
-    this.shouldFocusNewInitiativeName.set(
-      this.shouldFocusNewInitiativeName() + 1,
-    );
+    this.shouldFocusNewInitiativeName.set(true);
   }
 
   deleteCircle(initiativeId: number) {

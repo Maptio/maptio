@@ -104,8 +104,10 @@ export class InitiativeComponent implements OnChanges {
   ) {
     // Effect to handle focusing new initiative name
     effect(() => {
-      const focusCounter = this.workspaceService.shouldFocusNewInitiativeName();
-      if (focusCounter > 0 && this.node?.hasFocus && this.canEditName()) {
+      const shouldFocus = this.workspaceService.shouldFocusNewInitiativeName();
+      if (shouldFocus && this.node?.hasFocus && this.canEditName()) {
+        // Reset the flag
+        this.workspaceService.shouldFocusNewInitiativeName.set(false);
         // Activate editing mode and focus the name input
         this.activateNameEditing();
       }
