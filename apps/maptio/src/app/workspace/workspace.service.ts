@@ -53,6 +53,7 @@ export class WorkspaceService {
 
   addSubcircle(parentId: number) {
     this.buildingComponent().onInitiativeCreate(parentId);
+    this.openDetailsPanel();
   }
 
   deleteCircle(initiativeId: number) {
