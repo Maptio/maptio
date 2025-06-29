@@ -8,6 +8,7 @@ import {
 
 import { InitiativeNode } from '../initiative.model';
 
+import { PermissionsService } from '@maptio-shared/services/permissions/permissions.service';
 import { WorkspaceService } from '@maptio-workspace/workspace.service';
 
 @Component({
@@ -27,6 +28,11 @@ export class CircleMenuComponent {
   @Input() circleNode!: InitiativeNode;
 
   private workspaceService = inject(WorkspaceService);
+  private permissionsService = inject(PermissionsService);
+
+  canPerformAdminActions(): boolean {
+    return this.permissionsService.canOpenInitiativeContextMenu();
+  }
 
   toggleDetailsPanel() {
     this.workspaceService.toggleDetailsPanel();
