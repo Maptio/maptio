@@ -8,7 +8,6 @@ import {
   ChangeDetectorRef,
   ViewChild,
   ElementRef,
-  AfterViewInit,
 } from '@angular/core';
 
 import { environment } from '@maptio-config/environment';
@@ -21,7 +20,7 @@ import { NgClass } from '@angular/common';
   templateUrl: './textarea.component.html',
   imports: [StickyPopoverDirective, MarkdownModule, NgClass],
 })
-export class CommonTextareaComponent implements OnInit, AfterViewInit {
+export class CommonTextareaComponent implements OnInit {
   @Input('placeholder') placeholder: string;
   @Input('text') text: string;
   @Input('rows') rows: number;
@@ -42,8 +41,6 @@ export class CommonTextareaComponent implements OnInit, AfterViewInit {
   constructor(private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {}
-
-  ngAfterViewInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.text) {
