@@ -9,6 +9,8 @@ import {
   ElementRef,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
+  inject,
+  effect,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -37,13 +39,14 @@ import { InitiativeListTagsComponent } from './parts/tags/list-tags.component';
 import { InsufficientPermissionsMessageComponent } from '../../../../permissions-messages/insufficient-permissions-message.component';
 import { InitiativeInputNameComponent } from './parts/name/initiative-input-name.component';
 import { OnboardingMessageComponent } from '../../../../onboarding-message/onboarding-message/onboarding-message.component';
+import { WorkspaceService } from '../../../../../workspace/workspace.service';
 
 @Component({
-    selector: 'initiative',
-    templateUrl: './initiative.component.html',
-    styleUrls: ['./initiative.component.css'],
-    changeDetection: ChangeDetectionStrategy.Default,
-    imports: [
+  selector: 'initiative',
+  templateUrl: './initiative.component.html',
+  styleUrls: ['./initiative.component.css'],
+  changeDetection: ChangeDetectionStrategy.Default,
+  imports: [
     OnboardingMessageComponent,
     InitiativeInputNameComponent,
     InsufficientPermissionsMessageComponent,
@@ -54,8 +57,8 @@ import { OnboardingMessageComponent } from '../../../../onboarding-message/onboa
     InitiativeHelperInputComponent,
     NgTemplateOutlet,
     InitiativeVacanciesInputComponent,
-    InitiativeInputSizeComponent
-]
+    InitiativeInputSizeComponent,
+  ],
 })
 export class InitiativeComponent implements OnChanges {
   @Input() node: Initiative;
@@ -84,17 +87,30 @@ export class InitiativeComponent implements OnChanges {
   @ViewChild('inputRole') public inputRoleElement: ElementRef;
   @ViewChild('inputAuthorityRole') public inputAuthorityRole: ElementRef;
   @ViewChild('inputTag') public inputTag: NgbTypeahead;
+  @ViewChild(InitiativeInputNameComponent)
+  initiativeInputName: InitiativeInputNameComponent;
 
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
   KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
   MESSAGE_PERMISSIONS_DENIED_EDIT = environment.MESSAGE_PERMISSIONS_DENIED_EDIT;
 
+  private workspaceService = inject(WorkspaceService);
+
   constructor(
     private teamFactory: TeamFactory,
     private permissionsService: PermissionsService,
-    private cd: ChangeDetectorRef
-  ) {}
+    private cd: ChangeDetectorRef,
+  ) {
+    // Effect to handle focusing new initiative name
+    effect(() => {
+      const focusCounter = this.workspaceService.shouldFocusNewInitiativeName();
+      if (focusCounter > 0 && this.node?.hasFocus && this.canEditName()) {
+        // Activate editing mode and focus the name input
+        this.activateNameEditing();
+      }
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.node && changes.node.currentValue) {
@@ -114,7 +130,7 @@ export class InitiativeComponent implements OnChanges {
             },
             () => {
               return Promise.reject('No organisation available');
-            }
+            },
           );
       }
     }
@@ -211,7 +227,7 @@ export class InitiativeComponent implements OnChanges {
 
       if (oldAccountableRoles) {
         this.node.accountable.roles = oldAccountableRoles.concat(
-          this.node.accountable.roles
+          this.node.accountable.roles,
         );
       }
     }
@@ -238,7 +254,7 @@ export class InitiativeComponent implements OnChanges {
     }
 
     const index = this.node.helpers.findIndex(
-      (user) => user.user_id === helper.user_id
+      (user) => user.user_id === helper.user_id,
     );
     this.node.helpers.splice(index, 1);
 
@@ -289,7 +305,7 @@ export class InitiativeComponent implements OnChanges {
 
   getHelper(potentialHelper: Helper) {
     return this.node.helpers.find(
-      (helperInList) => helperInList.user_id === potentialHelper.user_id
+      (helperInList) => helperInList.user_id === potentialHelper.user_id,
     );
   }
 
@@ -301,5 +317,17 @@ export class InitiativeComponent implements OnChanges {
     return (
       this.node.accountable && this.node.accountable.user_id === helper.user_id
     );
+  }
+
+  activateNameEditing() {
+    this.isEditMode = true;
+    this.cd.markForCheck();
+
+    // Use setTimeout to ensure the DOM is updated before activating editing
+    setTimeout(() => {
+      if (this.initiativeInputName) {
+        this.initiativeInputName.activateEditing();
+      }
+    });
   }
 }

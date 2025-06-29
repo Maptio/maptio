@@ -11,6 +11,7 @@
     <maptio-initiative-input-name
       [isUnauthorized]="!canEditName()"
       [name]="node?.name"
+      [isEditMode]="isEditMode"
       (save)="saveName($event)"
     >
       <maptio-insufficient-permissions-message></maptio-insufficient-permissions-message>
