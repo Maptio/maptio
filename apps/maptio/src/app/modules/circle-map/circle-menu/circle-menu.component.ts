@@ -5,12 +5,10 @@ import {
   ItemMenuButtonComponent,
   MenuItemComponent,
 } from '@notebits/sdk';
-import { WorkspaceService } from '../../../workspace/workspace.service';
+
 import { InitiativeNode } from '../initiative.model';
-import { MapEditingService } from '../../../modules/workspace/services/map-editing.service';
-import { Initiative } from '@maptio-shared/model/initiative.data';
-import { CircleMapService } from '../circle-map.service';
-import { WorkspaceFacade } from '../../workspace/+state/workspace.facade';
+
+import { WorkspaceService } from '@maptio-workspace/workspace.service';
 
 @Component({
   selector: 'g[maptioCircleMenu]',
@@ -29,38 +27,16 @@ export class CircleMenuComponent {
   @Input() circleNode!: InitiativeNode;
 
   private workspaceService = inject(WorkspaceService);
-  private mapEditingService = inject(MapEditingService);
-  private circleMapService = inject(CircleMapService);
-  private workspaceFacade = inject(WorkspaceFacade);
 
   toggleDetailsPanel() {
     this.workspaceService.toggleDetailsPanel();
   }
 
-  async addSubcircle() {
+  addSubcircle() {
     this.workspaceService.addSubcircle(this.circleNode.data.id);
   }
 
-  async deleteCircle() {
-    if (this.circleNode) {
-      await this.mapEditingService.deleteNodeByIdFromWorkspaceAndSave(
-        this.circleNode.data.id,
-      );
-    }
+  deleteCircle() {
+    this.workspaceService.deleteCircle(this.circleNode.data.id);
   }
-}
-
-// Helper function to find Initiative by id
-function findInitiativeById(
-  root: Initiative,
-  id: number,
-): Initiative | undefined {
-  if (root.id === id) return root;
-  if (root.children) {
-    for (const child of root.children) {
-      const found = findInitiativeById(child, id);
-      if (found) return found;
-    }
-  }
-  return undefined;
 }

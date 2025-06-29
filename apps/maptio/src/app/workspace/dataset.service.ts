@@ -49,6 +49,7 @@ export class DatasetService {
 
   dataset = signal<DataSet>(null);
   datasetId = signal<string>(null);
+  initiativeTree = signal<Initiative>(null);
 
   tags = signal<Array<Tag>>([]);
 

@@ -55,6 +55,10 @@ export class WorkspaceService {
     this.buildingComponent().onInitiativeCreate(parentId);
   }
 
+  deleteCircle(initiativeId: number) {
+    this.buildingComponent().onInitiativeDelete(initiativeId);
+  }
+
   sendInitiativesToOutliner(rootNode: Initiative) {
     this.buildingComponent().sendInitiativesToOutliner(rootNode);
   }
