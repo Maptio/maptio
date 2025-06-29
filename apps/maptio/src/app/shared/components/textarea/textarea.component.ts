@@ -28,6 +28,7 @@ export class CommonTextareaComponent implements OnInit {
   @Input('isUnauthorized') isUnauthorized: boolean;
   @Input('isHeader') isHeader: boolean;
   @Input('isEditMode') isEditMode: boolean;
+  @Input('saveOnEnter') saveOnEnter: boolean = false;
 
   @Output('save') save: EventEmitter<string> = new EventEmitter<string>();
 
@@ -58,6 +59,17 @@ export class CommonTextareaComponent implements OnInit {
     this.text = text;
     this.save.emit(text);
     this.cd.markForCheck();
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    if (this.saveOnEnter && event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      const currentValue = (event.target as HTMLTextAreaElement).value;
+      this.text = currentValue;
+      this.save.emit(currentValue);
+      this.isEditMode = false;
+      this.cd.markForCheck();
+    }
   }
 
   onClick(event: Event) {
