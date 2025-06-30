@@ -56,12 +56,14 @@ export class CircleMenuComponent {
    */
   getBlobPath(): string {
     const bubbleRadius = 37;
-    // The rightmost point of the bubble
-    const bubbleRightX = bubbleRadius;
-    const bubbleRightY = 0;
-    // The top of the bubble
-    const bubbleTopX = 0;
-    const bubbleTopY = -bubbleRadius;
+    // Angles in radians
+    const angleD = (-105 * Math.PI) / 180; // -10° (topmost)
+    const angleA = (15 * Math.PI) / 180; // 100° (rightmost)
+    // The new start/end points on the small circle
+    const bubbleTopX = bubbleRadius * Math.cos(angleD);
+    const bubbleTopY = bubbleRadius * Math.sin(angleD);
+    const bubbleRightX = bubbleRadius * Math.cos(angleA);
+    const bubbleRightY = bubbleRadius * Math.sin(angleA);
 
     // The main circle center in menu's local coordinates
     const defaultRadius = this.defaultRadius;
@@ -70,7 +72,7 @@ export class CircleMenuComponent {
     const mainCircleY = offset;
     const rSquared = defaultRadius * defaultRadius;
 
-    // --- Vertical line intersection ---
+    // --- Vertical line intersection (from bubbleRightX, bubbleRightY straight down) ---
     const dx = bubbleRightX - mainCircleX;
     const underSqrt = rSquared - dx * dx;
     let edgeY: number;
@@ -85,7 +87,7 @@ export class CircleMenuComponent {
     }
     // Point B: (bubbleRightX, edgeY)
 
-    // --- Horizontal line intersection ---
+    // --- Horizontal line intersection (from bubbleTopX, bubbleTopY straight left) ---
     const dy2 = bubbleTopY - mainCircleY;
     const underSqrt2 = rSquared - dy2 * dy2;
     let edgeX: number;
@@ -100,25 +102,37 @@ export class CircleMenuComponent {
     }
     // Point C: (edgeX, bubbleTopY)
 
+    // --- Bezier control points ---
+    // For A->B
+    const midABx = (bubbleRightX + bubbleRightX) / 2;
+    const midABy = (bubbleRightY + edgeY) / 2;
+    const toMainABx = mainCircleX - bubbleRightX;
+    const toMainABy = mainCircleY - (bubbleRightY + edgeY) / 2;
+    const lenAB = Math.sqrt(toMainABx * toMainABx + toMainABy * toMainABy);
+    const ctrlABx = midABx + (toMainABx / lenAB) * 30;
+    const ctrlABy = midABy + (toMainABy / lenAB) * 30;
+
+    // For D->C
+    const midDCx = (bubbleTopX + edgeX) / 2;
+    const midDCy = (bubbleTopY + bubbleTopY) / 2;
+    const toMainDCx = mainCircleX - (bubbleTopX + edgeX) / 2;
+    const toMainDCy = mainCircleY - bubbleTopY;
+    const lenDC = Math.sqrt(toMainDCx * toMainDCx + toMainDCy * toMainDCy);
+    const ctrlDCx = midDCx + (toMainDCx / lenDC) * 30;
+    const ctrlDCy = midDCy + (toMainDCy / lenDC) * 30;
+
     // Main circle arc from B to C
-    // Always use large-arc-flag 0 (short arc)
-    // Calculate sweep-flag using cross product to determine direction
-    // Vectors from main circle center to B and C
     const vB = [bubbleRightX - mainCircleX, edgeY - mainCircleY];
     const vC = [edgeX - mainCircleX, bubbleTopY - mainCircleY];
-    // Cross product z-component
     const cross = vB[0] * vC[1] - vB[1] * vC[0];
-    // If cross > 0, sweep-flag = 1 (clockwise), else 0 (counterclockwise)
     const arcSweep = cross > 0 ? 1 : 0;
 
-    // Small circle arc from D to A (clockwise, so sweep-flag 1)
-
-    // Path: A -> B (line), B -> C (main circle arc), C -> D (line), D -> A (small circle arc)
+    // Path: A -> B (bezier), B -> C (main circle arc), C -> D (bezier), D -> A (small circle arc)
     return [
       `M ${bubbleRightX} ${bubbleRightY}`,
-      `L ${bubbleRightX} ${edgeY}`,
+      `Q ${ctrlABx} ${ctrlABy} ${bubbleRightX} ${edgeY}`,
       `A ${defaultRadius} ${defaultRadius} 0 0 ${arcSweep} ${edgeX} ${bubbleTopY}`,
-      `L ${bubbleTopX} ${bubbleTopY}`,
+      `Q ${ctrlDCx} ${ctrlDCy} ${bubbleTopX} ${bubbleTopY}`,
       `A ${bubbleRadius} ${bubbleRadius} 0 0 1 ${bubbleRightX} ${bubbleRightY}`,
       'Z',
     ].join(' ');
