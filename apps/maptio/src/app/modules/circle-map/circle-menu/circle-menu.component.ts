@@ -32,6 +32,9 @@ export class CircleMenuComponent {
 
   isDetailsPanelOpen = this.workspaceService.isDetailsPanelOpen;
 
+  public blobX = 0;
+  public blobY = 0;
+
   canPerformAdminActions(): boolean {
     return this.permissionsService.canOpenInitiativeContextMenu();
   }
@@ -46,5 +49,16 @@ export class CircleMenuComponent {
 
   deleteCircle() {
     this.workspaceService.deleteCircle(this.circleNode.data.id);
+  }
+
+  /**
+   * Returns a path string for a single circle centered at (0,0) with the given radius.
+   */
+  getBlobPath(): string {
+    const bubbleRadius = 37;
+    // SVG path for a circle centered at (0,0)
+    return `M ${bubbleRadius},0
+      A ${bubbleRadius},${bubbleRadius} 0 1,0 ${-bubbleRadius},0
+      A ${bubbleRadius},${bubbleRadius} 0 1,0 ${bubbleRadius},0`;
   }
 }
