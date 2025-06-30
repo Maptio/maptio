@@ -30,6 +30,8 @@ export class CircleMenuComponent {
   private workspaceService = inject(WorkspaceService);
   private permissionsService = inject(PermissionsService);
 
+  isDetailsPanelOpen = this.workspaceService.isDetailsPanelOpen;
+
   canPerformAdminActions(): boolean {
     return this.permissionsService.canOpenInitiativeContextMenu();
   }

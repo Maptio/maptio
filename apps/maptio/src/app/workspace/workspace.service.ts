@@ -28,6 +28,7 @@ export class WorkspaceService {
   isBuildingVisible = signal<boolean>(true);
   isBuildingPanelCollapsed = signal<boolean>(true);
   isDetailsPanelCollapsed = signal<boolean>(false);
+  isDetailsPanelOpen = this.sidePanelLayoutService.detailsPanelOpened;
 
   // Signal to track when a new initiative is created and should have its name focused
   shouldFocusNewInitiativeName = signal<boolean>(false);
