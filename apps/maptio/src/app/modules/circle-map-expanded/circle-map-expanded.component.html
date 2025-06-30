@@ -14,9 +14,27 @@
 
 <maptio-svg-zoom-pan class="expanded-map" (click)="onBackdropClick()">
   @for (primaryCircle of rootCircle?.children; track primaryCircle) {
+    <svg:g maptioCircle [circle]="primaryCircle"></svg:g>
+  }
+
+  @let selectedCircle = selectedCircle$ | async;
+  @if (selectedCircle) {
     <svg:g
-      maptioCircle
-      [circle]="primaryCircle"
-      ></svg:g>
-    }
-  </maptio-svg-zoom-pan>
+      [attr.transform]="
+        'translate(' +
+        selectedCircle.x +
+        ',' +
+        selectedCircle.y +
+        ') scale(' +
+        selectedCircle.r / 500 +
+        ')'
+      "
+    >
+      <g
+        maptioCircleMenu
+        [defaultRadius]="500"
+        [circleNode]="selectedCircle"
+      ></g>
+    </svg:g>
+  }
+</maptio-svg-zoom-pan>

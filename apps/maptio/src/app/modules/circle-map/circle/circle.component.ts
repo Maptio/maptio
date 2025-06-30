@@ -8,7 +8,6 @@ import { SatPopover, SatPopoverModule } from '@wjaspers/sat-popover';
 import { CircleMapService } from '../circle-map.service';
 import { InitiativeNode } from '../initiative.model';
 import { CircleInfoComponent } from '../circle-info/circle-info.component';
-import { CircleMenuComponent } from '../circle-menu/circle-menu.component';
 
 @Component({
   selector: 'g[maptioCircle]',
@@ -21,7 +20,6 @@ import { CircleMenuComponent } from '../circle-menu/circle-menu.component';
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
-    CircleMenuComponent,
   ],
 })
 export class CircleComponent implements OnInit {
@@ -58,7 +56,7 @@ export class CircleComponent implements OnInit {
       this.scale = this.circle.r / this.circle.parent.r;
     } else {
       console.error(
-        'It should be impossible for a circle that is not a primary circle to not have a parent!'
+        'It should be impossible for a circle that is not a primary circle to not have a parent!',
       );
     }
 

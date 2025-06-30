@@ -26,6 +26,7 @@ import { CircleComponent } from './circle/circle.component';
 import { SvgZoomPanComponent } from './svg-zoom-pan/svg-zoom-pan.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { AsyncPipe } from '@angular/common';
+import { CircleMenuComponent } from './circle-menu/circle-menu.component';
 
 @Component({
   selector: 'maptio-circle-map-expanded',
@@ -33,7 +34,13 @@ import { AsyncPipe } from '@angular/common';
   styleUrls: ['./circle-map-expanded.component.css'],
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MarkdownModule, SvgZoomPanComponent, CircleComponent, AsyncPipe],
+  imports: [
+    MarkdownModule,
+    SvgZoomPanComponent,
+    CircleComponent,
+    AsyncPipe,
+    CircleMenuComponent,
+  ],
 })
 export class CircleMapExpandedComponent implements OnInit, OnDestroy {
   // All the data comes in as a single package
@@ -76,6 +83,8 @@ export class CircleMapExpandedComponent implements OnInit, OnDestroy {
 
   private subs = new SubSink();
 
+  selectedCircle$: Observable<InitiativeNode | undefined>;
+
   constructor(
     public colorService: ColorService,
     private cd: ChangeDetectorRef,
@@ -98,6 +107,8 @@ export class CircleMapExpandedComponent implements OnInit, OnDestroy {
         return selectedCircle?.data?.name;
       }),
     );
+
+    this.selectedCircle$ = this.circleMapService.selectedCircle.asObservable();
 
     this.showDescriptions$ = combineLatest([
       this.selectedCircleDescription$,

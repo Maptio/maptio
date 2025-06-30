@@ -6,7 +6,6 @@ import { CircleMapService } from '../circle-map.service';
 import { InitiativeNode } from '../initiative.model';
 import { CircleInfoSvgComponent } from '../circle-info-svg/circle-info-svg.component';
 import { CircleInfoComponent } from '../circle-info/circle-info.component';
-import { CircleMenuComponent } from '../circle-menu/circle-menu.component';
 
 @Component({
   selector: 'g[maptioCircle]',
@@ -17,7 +16,6 @@ import { CircleMenuComponent } from '../circle-menu/circle-menu.component';
     forwardRef(() => CircleComponent),
     CircleInfoComponent,
     CircleInfoSvgComponent,
-    CircleMenuComponent,
   ],
 })
 export class CircleComponent implements OnInit {
