@@ -28,17 +28,12 @@ import { MarkdownModule } from 'ngx-markdown';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'maptio-circle-map-expanded',
-    templateUrl: './circle-map-expanded.component.html',
-    styleUrls: ['./circle-map-expanded.component.css'],
-    encapsulation: ViewEncapsulation.Emulated,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-    MarkdownModule,
-    SvgZoomPanComponent,
-    CircleComponent,
-    AsyncPipe
-]
+  selector: 'maptio-circle-map-expanded',
+  templateUrl: './circle-map-expanded.component.html',
+  styleUrls: ['./circle-map-expanded.component.css'],
+  encapsulation: ViewEncapsulation.Emulated,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MarkdownModule, SvgZoomPanComponent, CircleComponent, AsyncPipe],
 })
 export class CircleMapExpandedComponent implements OnInit, OnDestroy {
   // All the data comes in as a single package
@@ -84,24 +79,24 @@ export class CircleMapExpandedComponent implements OnInit, OnDestroy {
   constructor(
     public colorService: ColorService,
     private cd: ChangeDetectorRef,
-    private circleMapService: CircleMapService
+    private circleMapService: CircleMapService,
   ) {}
 
   ngOnInit() {
     this.dataset$ = this.circleMapData$.pipe(
-      map((circleMapData) => circleMapData.dataset)
+      map((circleMapData) => circleMapData.dataset),
     );
 
     this.selectedCircleDescription$ = this.circleMapService.selectedCircle.pipe(
       map((selectedCircle) => {
         return selectedCircle?.data?.description;
-      })
+      }),
     );
 
     this.selectedCircleName$ = this.circleMapService.selectedCircle.pipe(
       map((selectedCircle) => {
         return selectedCircle?.data?.name;
-      })
+      }),
     );
 
     this.showDescriptions$ = combineLatest([
@@ -115,7 +110,7 @@ export class CircleMapExpandedComponent implements OnInit, OnDestroy {
           dataset.showDescriptions && // map-specific user setting
           (!!description || !!name)
         ); // is there something to show?
-      })
+      }),
     );
 
     this.onInputChanges();
@@ -127,7 +122,7 @@ export class CircleMapExpandedComponent implements OnInit, OnDestroy {
     this.subs.sink = this.circleMapService.changeDetectionTrigger$.subscribe(
       () => {
         this.cd.markForCheck();
-      }
+      },
     );
   }
 
@@ -154,7 +149,7 @@ export class CircleMapExpandedComponent implements OnInit, OnDestroy {
     this.assignColorsToCircles();
 
     const lastSelectedCircle = this.circleMapService.getLastSelectedCircle(
-      this.circles
+      this.circles,
     );
 
     if (this.isFirstLoad) {
@@ -225,7 +220,7 @@ export class CircleMapExpandedComponent implements OnInit, OnDestroy {
     circle.y = centerY + this.scalingFactor * (circle.y - centerY);
 
     circle.children?.forEach((circle) =>
-      this.scaleChildCircle(circle, centerX, centerY)
+      this.scaleChildCircle(circle, centerX, centerY),
     );
   }
 
@@ -264,7 +259,7 @@ export class CircleMapExpandedComponent implements OnInit, OnDestroy {
     const maxDepth = this.calculateMaxDepth();
     const colorRange = this.colorService.getColorRangeNew(
       maxDepth,
-      this.seedColor
+      this.seedColor,
     );
 
     this.circles.forEach((circle) => {
