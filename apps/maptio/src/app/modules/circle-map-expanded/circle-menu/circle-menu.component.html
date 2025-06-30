@@ -1,0 +1,54 @@
+@if (canPerformAdminActions()) {
+  <svg:g
+    class="circle__button"
+    [style.transform]="
+      'translate(' +
+      1.08 * defaultRadius * 0.707 +
+      'px, ' +
+      -1.08 * defaultRadius * 0.707 +
+      'px)'
+    "
+  >
+    <path
+      [attr.d]="getBlobPath()"
+      fill="white"
+      fill-opacity="1"
+      stroke="white"
+      stroke-width="2"
+    />
+
+    <svg:foreignObject
+      [attr.x]="-24"
+      [attr.y]="-24"
+      [attr.width]="48"
+      [attr.height]="48"
+      style="transform: scale(1.5627)"
+    >
+      <nb-item-menu-button
+        class="circle__button-element"
+        [nbMenuTriggerFor]="menu.matMenu"
+        (click)="$event.stopPropagation()"
+      >
+        +
+      </nb-item-menu-button>
+    </svg:foreignObject>
+  </svg:g>
+
+  <nb-item-menu #menu>
+    @if (isDetailsPanelOpen()) {
+      <nb-menu-item [icon]="'right_panel_close'" (click)="toggleDetailsPanel()">
+        <span>Hide circle details</span>
+      </nb-menu-item>
+    } @else {
+      <nb-menu-item [icon]="'right_panel_open'" (click)="toggleDetailsPanel()">
+        <span>Show circle details</span>
+      </nb-menu-item>
+    }
+    <nb-menu-item [icon]="'add'" (click)="addSubcircle()">
+      <span>Add sub-circle</span>
+    </nb-menu-item>
+    <nb-menu-item [icon]="'delete'" (click)="deleteCircle()">
+      <span>Delete</span>
+    </nb-menu-item>
+  </nb-item-menu>
+}

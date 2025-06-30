@@ -48,6 +48,13 @@
     <ng-template [ngTemplateOutlet]="svgInfo"></ng-template>
   }
 
+  <g
+    maptioCircleMenu
+    [defaultRadius]="defaultRadius"
+    [circleNode]="circle"
+    [style.display]="circle.data.isSelected ? 'block' : 'none'"
+  />
+
   <ng-template #svgInfo>
     <g
       class="circle__info"
