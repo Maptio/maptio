@@ -45,7 +45,12 @@
       </foreignObject>
     </g>
   } @else {
-    <ng-template [ngTemplateOutlet]="svgInfo"></ng-template>
+    <g
+      class="circle__info"
+      maptioCircleInfoSvg
+      [circle]="circle"
+      [radius]="defaultRadius"
+    ></g>
   }
 
   <g
@@ -54,15 +59,6 @@
     [circleNode]="circle"
     [style.display]="circle.data.isSelected ? 'block' : 'none'"
   />
-
-  <ng-template #svgInfo>
-    <g
-      class="circle__info"
-      maptioCircleInfoSvg
-      [circle]="circle"
-      [radius]="defaultRadius"
-    ></g>
-  </ng-template>
 </svg:g>
 
 <sat-popover
