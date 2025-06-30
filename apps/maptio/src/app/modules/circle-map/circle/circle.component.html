@@ -18,13 +18,6 @@
     [attr.fill]="circle.data.color"
   />
 
-  <g
-    maptioCircleMenu
-    [defaultRadius]="defaultRadius"
-    [circleNode]="circle"
-    [style.display]="circle.data.isSelected ? 'block' : 'none'"
-  />
-
   <circle
     class="circle__circle"
     [attr.cx]="0"
@@ -49,6 +42,13 @@
       <g maptioCircleInfo [circle]="circle"></g>
     </foreignObject>
   </g>
+
+  <g
+    maptioCircleMenu
+    [defaultRadius]="defaultRadius"
+    [circleNode]="circle"
+    [style.display]="circle.data.isSelected ? 'block' : 'none'"
+  />
 </svg:g>
 
 <sat-popover
