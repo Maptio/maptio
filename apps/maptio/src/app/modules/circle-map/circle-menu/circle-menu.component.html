@@ -1,4 +1,22 @@
 @if (canPerformAdminActions()) {
+  <svg:defs>
+    <filter
+      id="circle-menu-dropshadow"
+      x="-40%"
+      y="-40%"
+      width="180%"
+      height="180%"
+    >
+      <feDropShadow
+        dx="0"
+        dy="2"
+        stdDeviation="3"
+        flood-color="#000"
+        flood-opacity="0.25"
+      />
+    </filter>
+  </svg:defs>
+
   <svg:g
     class="circle__button"
     [style.transform]="
@@ -9,6 +27,13 @@
       'px)'
     "
   >
+    <!-- Shadow blob, visible fill, rendered first -->
+    <path
+      [attr.d]="getShadowBlobPath()"
+      fill="white"
+      filter="url(#circle-menu-dropshadow)"
+    />
+    <!-- Main blob, rendered on top to cover shadow blob -->
     <path
       [attr.d]="getBlobPath()"
       fill="white"
