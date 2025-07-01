@@ -33,13 +33,14 @@
       fill="white"
       filter="url(#circle-menu-dropshadow)"
     />
+
     <!-- Main blob, rendered on top to cover shadow blob -->
     <path
       [attr.d]="getBlobPath()"
       fill="white"
       fill-opacity="1"
       stroke="white"
-      stroke-width="2"
+      stroke-width="1"
     />
 
     <svg:foreignObject
@@ -53,9 +54,7 @@
         class="circle__button-element"
         [nbMenuTriggerFor]="menu.matMenu"
         (click)="$event.stopPropagation()"
-      >
-        +
-      </nb-item-menu-button>
+      ></nb-item-menu-button>
     </svg:foreignObject>
   </svg:g>
 
