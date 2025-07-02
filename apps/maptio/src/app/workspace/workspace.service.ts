@@ -1,177 +1,77 @@
 import { Injectable, inject, signal } from '@angular/core';
 
-import { Intercom } from '@supy-io/ngx-intercom';
-
 import { SidePanelLayoutService } from '@notebits/toolkit';
 
-import { DatasetFactory } from '@maptio-core/http/map/dataset.factory';
-import { TeamFactory } from '@maptio-core/http/team/team.factory';
-
-import { User } from '@maptio-shared/model/user.data';
-import { DataSet } from '@maptio-shared/model/dataset.data';
 import { Initiative } from '@maptio-shared/model/initiative.data';
-import { Tag } from '@maptio-shared/model/tag.data';
-import { MapService } from '@maptio-shared/services/map/map.service';
-import { RoleLibraryService } from '@maptio-old-workspace/services/role-library.service';
 
 import { BuildingComponent } from '@maptio-old-workspace/components/data-entry/hierarchy/building.component';
-import { DataService } from '@maptio-old-workspace/services/data.service';
-import { Team } from '@maptio-shared/model/team.data';
+
+import {
+  DatasetService,
+  DataLoadStructure,
+  DataChangeStructure,
+} from './dataset.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WorkspaceService {
+  datasetService = inject(DatasetService);
   sidePanelLayoutService = inject(SidePanelLayoutService);
 
-  dataService = inject(DataService);
-  mapService = inject(MapService);
-  roleLibrary = inject(RoleLibraryService);
-  datasetFactory = inject(DatasetFactory);
-  teamFactory = inject(TeamFactory);
-
-  intercom = inject(Intercom);
-
   buildingComponent = signal<BuildingComponent>(null);
-
-  user = signal<User>(null);
-
-  dataset = signal<DataSet>(null);
-  datasetId = signal<string>(null);
-
-  team = signal<Team>(null);
-  teamId = signal<string>(null);
-  teamName = signal<string>(null);
-
-  members = signal<Array<User>>([]);
-  tags = signal<Array<Tag>>([]);
 
   openedNode = signal<Initiative>(null);
 
   isLoading = signal<boolean>(true);
-  isSaving = signal<boolean>(false);
-  isEmptyMap = signal<boolean>(true);
 
   isBuildingVisible = signal<boolean>(true);
   isBuildingPanelCollapsed = signal<boolean>(true);
   isDetailsPanelCollapsed = signal<boolean>(false);
+  isDetailsPanelOpen = this.sidePanelLayoutService.detailsPanelOpened;
+
+  // Signal to track when a new initiative is created and should have its name focused
+  shouldFocusNewInitiativeName = signal<boolean>(false);
+
+  // Passing these on as they're needed in component templates
+  dataset = this.datasetService.dataset; // Needed? Check!
+  datasetId = this.datasetService.datasetId;
+  user = this.datasetService.user;
+  team = this.datasetService.team;
+  tags = this.datasetService.tags;
+  isEmptyMap = this.datasetService.isEmptyMap;
 
   constructor() {}
 
-  async saveChanges(change: { initiative: Initiative; tags: Array<Tag> }) {
-    this.isSaving.set(true);
-    this.isEmptyMap.set(
-      !change.initiative.children || change.initiative.children.length === 0
-    );
+  loadData(data: DataLoadStructure) {
+    this.datasetService.loadData(data);
+  }
 
-    this.dataset.update(
-      (dataset) =>
-        new DataSet({
-          ...dataset,
-          initiative: change.initiative,
-          tags: change.tags,
-        })
-    );
-    this.tags.set(change.tags);
+  async saveChanges(change: DataChangeStructure) {
+    this.datasetService.saveChanges(change);
+  }
 
-    // Performing an optimistic update of the UI before saving. If the save
-    // fails, we just show an error message and don't revert the UI.
-    // TODO: Revert the UI if the save fails
-    // TODO: Make the error message nicer
-    this.dataService.set({
-      initiative: change.initiative,
-      dataset: this.dataset(),
-      team: this.team(),
-      members: this.members(),
-    });
+  clearGlobalStateOnDestroy() {
+    this.datasetService.clearGlobalStateOnDestroy();
+  }
 
-    let depth = 0;
-    change.initiative.traverse(() => {
-      depth++;
-    });
+  addSubcircle(parentId: number) {
+    this.buildingComponent().onInitiativeCreate(parentId);
+    this.openDetailsPanel();
+    // Set flag to indicate that the new initiative should have its name focused
+    this.shouldFocusNewInitiativeName.set(true);
+  }
 
-    let isLocalDatasetOutdated: boolean;
-    try {
-      isLocalDatasetOutdated = await this.mapService.isDatasetOutdated(
-        this.dataset(),
-        this.user()
-      );
-    } catch (error) {
-      this.handleSavingErrorAlert(error);
-    }
+  deleteCircle(initiativeId: number) {
+    this.buildingComponent().onInitiativeDelete(initiativeId);
+  }
 
-    if (isLocalDatasetOutdated) {
-      if (!this.mapService.hasOutdatedAlertBeenShownRecently(this.dataset())) {
-        alert(
-          $localize`A friendly heads-up: Your map has been changed by another user (or by you in a different browser tab). Please hit refresh to load the latest version, then you can make your edits. You can copy any text you just entered, ready to paste it in again after the refresh. Sorry for the hassle.`
-        );
-      }
-      return;
-    }
-
-    // Ensure that that the dataset and team versions of the role library are identical before saving
-    const roleLibrary = this.roleLibrary.getRoles();
-    this.dataset.update(
-      (dataset) =>
-        new DataSet({
-          ...dataset,
-          roles: roleLibrary,
-        })
-    );
-    this.team.update(
-      (team) =>
-        new Team({
-          ...team,
-          roles: roleLibrary,
-        })
-    );
-
-    Promise.all([
-      this.datasetFactory.upsert(this.dataset(), this.datasetId()),
-      this.teamFactory.upsert(this.team()),
-    ])
-      .then(
-        ([hasSavedDataset, hasSavedTeam]: [boolean, boolean]) => {
-          return hasSavedDataset && hasSavedTeam;
-        },
-        (reason) => {
-          this.handleSavingErrorAlert(reason);
-        }
-      )
-      .then((hasSaved) => {
-        if (!hasSaved) {
-          this.handleSavingErrorAlert();
-        }
-      })
-      .then(() => {
-        this.intercom.trackEvent('Editing map', {
-          team: this.team().name,
-          teamId: this.team().team_id,
-          datasetId: this.datasetId(),
-          mapName: change.initiative.name,
-          circles: depth,
-        });
-        return;
-      })
-      .then(() => {
-        this.isSaving.set(false);
-      })
-      .catch((reason) => {
-        this.handleSavingErrorAlert(reason);
-      });
+  sendInitiativesToOutliner(rootNode: Initiative) {
+    this.buildingComponent().sendInitiativesToOutliner(rootNode);
   }
 
   saveDetailChanges() {
     this.buildingComponent().saveChangesAndUpdateOutliner();
-  }
-
-  private handleSavingErrorAlert(errorMessage = 'An unknown error occurred.') {
-    if (!this.mapService.hasOutdatedAlertBeenShownRecently(this.dataset())) {
-      alert(
-        $localize`An error occurred while saving your changes. Please try making a change again or contact us at support@maptio.com if the error persists.`
-      );
-    }
-    console.error(errorMessage);
   }
 
   onOpenDetails(node: Initiative) {
@@ -181,7 +81,7 @@ export class WorkspaceService {
 
   private highlightToggleWhenDetailsPanelIsClosed(
     currentNode: Initiative,
-    newNode: Initiative
+    newNode: Initiative,
   ) {
     const isDetailsPanelClosed =
       !this.sidePanelLayoutService.detailsPanelOpened();
@@ -203,6 +103,18 @@ export class WorkspaceService {
     this.sidePanelLayoutService.closeNavigationPanel();
   }
 
+  openDetailsPanel() {
+    this.sidePanelLayoutService.openDetailsPanel();
+  }
+
+  closeDetailsPanel() {
+    this.sidePanelLayoutService.closeDetailsPanel();
+  }
+
+  toggleDetailsPanel() {
+    this.sidePanelLayoutService.toggleDetailsPanel();
+  }
+
   toggleEditingPanelsVisibility(isVisible: boolean) {
     if (isVisible) {
       this.enableBothPanels();
@@ -219,14 +131,6 @@ export class WorkspaceService {
   // TODO: Remove
   closeBuildingPanel() {
     this.isBuildingPanelCollapsed.set(true);
-  }
-
-  openDetailsPanel() {
-    this.isDetailsPanelCollapsed.set(false);
-  }
-
-  closeDetailsPanel() {
-    this.isDetailsPanelCollapsed.set(true);
   }
 
   disableBothPanels() {

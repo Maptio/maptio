@@ -7,17 +7,16 @@ import { InitiativeNode } from '../initiative.model';
 import { CircleInfoSvgComponent } from '../circle-info-svg/circle-info-svg.component';
 import { CircleInfoComponent } from '../circle-info/circle-info.component';
 
-
 @Component({
-    selector: 'g[maptioCircle]',
-    templateUrl: './circle.component.html',
-    styleUrls: ['./circle.component.scss'],
-    imports: [
+  selector: 'g[maptioCircle]',
+  templateUrl: './circle.component.html',
+  styleUrls: ['./circle.component.scss'],
+  imports: [
     SatPopoverModule,
     forwardRef(() => CircleComponent),
     CircleInfoComponent,
-    CircleInfoSvgComponent
-]
+    CircleInfoSvgComponent,
+  ],
 })
 export class CircleComponent implements OnInit {
   @Input() circle!: InitiativeNode;
@@ -53,7 +52,7 @@ export class CircleComponent implements OnInit {
       this.scale = this.circle.r / this.circle.parent.r;
     } else {
       console.error(
-        'It should be impossible for a circle that is not a primary circle to not have a parent!'
+        'It should be impossible for a circle that is not a primary circle to not have a parent!',
       );
     }
 

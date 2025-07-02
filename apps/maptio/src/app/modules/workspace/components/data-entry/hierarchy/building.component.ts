@@ -12,7 +12,6 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-
 import { Subscription, map } from 'rxjs';
 
 import {
@@ -43,33 +42,20 @@ import { LoaderService } from '@maptio-shared/components/loading/loader.service'
 import { Tag } from '@maptio-shared/model/tag.data';
 import { Role } from '@maptio-shared/model/role.data';
 import { DataSet } from '@maptio-shared/model/dataset.data';
-import { StickyPopoverDirective } from '@maptio-shared/directives/sticky.directive';
-import { PermissionsDirective } from '@maptio-shared/directives/permission.directive';
 
 import { CircleMapService } from '@maptio-circle-map/circle-map.service';
 import { CircleMapService as CircleMapServiceExpanded } from '@maptio-circle-map-expanded/circle-map.service';
 
-import { InsufficientPermissionsMessageComponent } from '../../../../permissions-messages/insufficient-permissions-message.component';
-import { OnboardingMessageComponent } from '../../../../onboarding-message/onboarding-message/onboarding-message.component';
 import { WorkspaceFacade } from '../../../+state/workspace.facade';
 import { DataService } from '../../../services/data.service';
 import { RoleLibraryService } from '../../../services/role-library.service';
 import { EditTagsComponent } from '../tags/edit-tags.component';
 
 @Component({
-    selector: 'building',
-    templateUrl: './building.component.html',
-    styleUrls: ['./building.component.css'],
-    imports: [
-    OnboardingMessageComponent,
-    NgbNavModule,
-    PermissionsDirective,
-    NgbTooltipModule,
-    InsufficientPermissionsMessageComponent,
-    StickyPopoverDirective,
-    EditTagsComponent,
-    OutlineModule
-]
+  selector: 'building',
+  templateUrl: './building.component.html',
+  styleUrls: ['./building.component.css'],
+  imports: [NgbNavModule, NgbTooltipModule, EditTagsComponent, OutlineModule],
 })
 export class BuildingComponent implements OnDestroy {
   private readonly workspaceFacade = inject(WorkspaceFacade);
@@ -85,8 +71,8 @@ export class BuildingComponent implements OnDestroy {
   // granular permissions
   disableEditing = toSignal(
     this.permissionsService.canSeeOnboardingMessages$.pipe(
-      map((value) => !value)
-    )
+      map((value) => !value),
+    ),
   );
 
   searched: string;
@@ -136,35 +122,35 @@ export class BuildingComponent implements OnDestroy {
     private cd: ChangeDetectorRef,
     private loaderService: LoaderService,
     private circleMapService: CircleMapService,
-    private circleMapServiceExpanded: CircleMapServiceExpanded
+    private circleMapServiceExpanded: CircleMapServiceExpanded,
   ) {
     // this.nodes = [];
 
     this.roleAddedSubscription = this.roleLibrary.roleAdded.subscribe(
       (addedRole) => {
         this.onLibraryRoleAdd(addedRole);
-      }
+      },
     );
 
     this.roleEditedSubscription = this.roleLibrary.roleEdited.subscribe(
       (editedRole) => {
         this.onLibraryRoleEdit(editedRole);
-      }
+      },
     );
 
     this.roleDeletedSubscription = this.roleLibrary.roleDeleted.subscribe(
       (deletedRole) => {
         this.onLibraryRoleDelete(deletedRole);
-      }
+      },
     );
 
     effect(
       () => {
         this.expandParentsAndScrollInitiativeIntoView(
-          this.selectedInitiativeId()
+          this.selectedInitiativeId(),
         );
       },
-      { allowSignalWrites: true }
+      { allowSignalWrites: true },
     );
   }
 
@@ -236,7 +222,7 @@ export class BuildingComponent implements OnDestroy {
       // Update the role for each person that has it assigned
       people.forEach((helper) => {
         const matchingRole = helper.roles.find(
-          (role) => role && role.shortid === libraryRole.shortid
+          (role) => role && role.shortid === libraryRole.shortid,
         );
         if (matchingRole) {
           matchingRole.copyContentFrom(libraryRole);
@@ -257,7 +243,7 @@ export class BuildingComponent implements OnDestroy {
       // Remove the role for each person that has it assigned
       people.forEach((person) => {
         const matchingRoleIndex = person.roles.findIndex(
-          (role) => role && role.shortid === libraryRole.shortid
+          (role) => role && role.shortid === libraryRole.shortid,
         );
         if (matchingRoleIndex > -1) {
           person.roles.splice(matchingRoleIndex, 1);
@@ -371,7 +357,7 @@ export class BuildingComponent implements OnDestroy {
             if (node.accountable) {
               q += new Promise(() => {
                 const a = users.find(
-                  (u) => u.user_id === node.accountable.user_id
+                  (u) => u.user_id === node.accountable.user_id,
                 );
                 if (a) {
                   node.accountable.picture = a.picture;
@@ -392,7 +378,7 @@ export class BuildingComponent implements OnDestroy {
                 });
               });
             }
-          }.bind(this)
+          }.bind(this),
         );
 
         return Promise.all(queue)
@@ -421,10 +407,9 @@ export class BuildingComponent implements OnDestroy {
     this.expandFirstLevelNodes();
   }
 
-  private sendInitiativesToOutliner() {
-    this.outlineData.set(
-      this.transformNodesIntoOutlineData(this.nodes[0].children)
-    );
+  sendInitiativesToOutliner(rootNode?: Initiative) {
+    const nodes = rootNode ? rootNode.children : this.nodes[0].children;
+    this.outlineData.set(this.transformNodesIntoOutlineData(nodes));
   }
 
   private transformNodesIntoOutlineData(nodes): NotebitsOutlineData {
@@ -594,7 +579,7 @@ export class BuildingComponent implements OnDestroy {
     // Not the Angular way, but worked well in another project, so I'm using
     // this tested method again
     const nativeElement = window.document.getElementById(
-      'outline-item-' + initiativeId.toString()
+      'outline-item-' + initiativeId.toString(),
     );
 
     if (!nativeElement) return;

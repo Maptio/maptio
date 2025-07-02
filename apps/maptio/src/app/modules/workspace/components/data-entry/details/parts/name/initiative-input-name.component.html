@@ -4,6 +4,8 @@
   i18n-label
   placeholder=""
   [text]="name"
+  [isEditMode]="isEditMode"
+  [saveOnEnter]="true"
   (save)="saveName($event)"
   [isUnauthorized]="isUnauthorized"
   [isHeader]="true"

@@ -9,18 +9,12 @@
       <span class="text-uppercase text-bold small">{{ label }}</span>
     </span>
     @if (isUnauthorized) {
-      <span
-        class="text-gray-light small"
-        [stickyPopover]="editTipContent"
-        >
+      <span class="text-gray-light small" [stickyPopover]="editTipContent">
         <i class="fas fa-lock"></i>
       </span>
     }
     @if (isEditMode) {
-      <button
-        class="btn btn-link btn-sm"
-        (click)="isEditMode = false"
-        >
+      <button class="btn btn-link btn-sm" (click)="isEditMode = false">
         <ng-container i18n="@@save">Save</ng-container>
       </button>
     }
@@ -28,7 +22,7 @@
       [class.invisible]="isEditMode || isUnauthorized"
       class="btn btn-link btn-sm"
       (click)="!isUnauthorized && (isEditMode = true)"
-      >
+    >
       <ng-container i18n="@@edit">Edit</ng-container>
     </button>
   </div>
@@ -39,12 +33,12 @@
         <small
           class="my-1 position-absolute bottom-left text-default text-muted ms-auto"
           i18n="@@markdownTip"
-          >
-      How to
-      <a href="{{ KB_URL_MARKDOWN }}" target="_blank">
-        add links and formatting
-      </a>
-    </small>
+        >
+          How to
+          <a href="{{ KB_URL_MARKDOWN }}" target="_blank">
+            add links and formatting
+          </a>
+        </small>
       }
       <textarea
         #inputDescription
@@ -57,6 +51,7 @@
         [attr.rows]="rows"
         [attr.placeholder]="placeholder"
         (change)="onChange($event.target.value)"
+        (keydown)="onKeyDown($event)"
         (blur)="isEditMode = false"
       ></textarea>
     </div>
@@ -66,7 +61,7 @@
     <div
       (click)="onClick($event)"
       class="position-relative w-100 bg-light p-2 rounded"
-      >
+    >
       <markdown
         class="cursor-text border-0 w-100 h-100"
         [ngClass]="{ 'lead text-bold': isHeader }"

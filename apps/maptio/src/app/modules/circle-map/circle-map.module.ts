@@ -14,6 +14,7 @@ import { CircleComponent } from './circle/circle.component';
 import { CircleInfoComponent } from './circle-info/circle-info.component';
 import { HelperAvatarComponent } from './helper-avatar/helper-avatar.component';
 import { SearchComponent } from './search/search.component';
+import { CircleMenuComponent } from './circle-menu/circle-menu.component';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { SearchComponent } from './search/search.component';
     CircleInfoComponent,
     HelperAvatarComponent,
     SearchComponent,
+    CircleMenuComponent,
   ],
   exports: [CircleMapComponent],
 })
