@@ -269,10 +269,12 @@ export class BuildingComponent implements OnDestroy {
 
   private removeNode(node: Initiative) {
     let hasFoundNode = false;
+    let parentNode: Initiative;
 
     const index = this.nodes[0].children.findIndex((c) => c.id === node.id);
     if (index > -1) {
       this.nodes[0].children.splice(index, 1);
+      parentNode = this.nodes[0];
     } else {
       this.nodes[0].traverse((n) => {
         if (hasFoundNode) return;
@@ -280,12 +282,17 @@ export class BuildingComponent implements OnDestroy {
         if (index > -1) {
           hasFoundNode = true;
           n.children.splice(index, 1);
+          parentNode = n;
         }
       });
     }
 
     this.sendInitiativesToOutliner();
     this.saveChanges();
+
+    if (parentNode) {
+      this.workspaceFacade.setSelectedInitiativeID(parentNode.id);
+    }
   }
 
   addNodeTo(node: Initiative, subNode: Initiative) {
