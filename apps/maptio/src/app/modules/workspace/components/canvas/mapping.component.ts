@@ -51,7 +51,7 @@ import { FilterTagsComponent } from '../filtering/tags.component';
 import { SearchComponent } from '../searching/search.component';
 import { ClosableDirective } from '../../../../shared/directives/closable.directive';
 import { ContextMenuComponent } from '../context-menu/context-menu.component';
-import { NgTemplateOutlet, NgIf } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   NgbCollapseModule,
   NgbTooltipModule,
@@ -60,17 +60,15 @@ import { MappingCirclesExpandedComponent } from '@maptio-old-workspace/pages/cir
 import { MappingNetworkComponent } from '@maptio-old-workspace/pages/network/mapping.network.component';
 
 @Component({
-  selector: 'mapping',
-  templateUrl: './mapping.component.html',
-  styleUrls: ['./mapping.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
+    selector: 'mapping',
+    templateUrl: './mapping.component.html',
+    styleUrls: ['./mapping.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
     RouterLinkActive,
     RouterLink,
     RouterOutlet,
     NgTemplateOutlet,
-    NgIf,
     NgbTooltipModule,
     NgbCollapseModule,
     ContextMenuComponent,
@@ -81,8 +79,8 @@ import { MappingNetworkComponent } from '@maptio-old-workspace/pages/network/map
     ColorPickerComponent,
     PermissionsDirective,
     StickyPopoverDirective,
-    InsufficientPermissionsMessageComponent,
-  ],
+    InsufficientPermissionsMessageComponent
+]
 })
 export class MappingComponent {
   isFirstEdit: boolean;

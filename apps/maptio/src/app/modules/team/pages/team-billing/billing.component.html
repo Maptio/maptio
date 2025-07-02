@@ -1,68 +1,68 @@
-<div *ngIf="!isLoading" class="row">
-  <div *ngIf="team?.isPaying" class="col-12 my-2">
-    <div>
-      <h5 i18n>Subscription status</h5>
-      <hr />
-      <div>
-        <span class="text-green">
-          <ng-container i18n>Payment is up to date</ng-container>
-          <i class="ms-1 fa fa-check-circle text-green" aria-hidden="true"></i>
-        </span>
-      </div>
-    </div>
-
-    <div *permissionsOnly="Permissions.canSubscribe" class="my-5">
-      <h5 i18n>Subscription information</h5>
-      <hr />
-      <div class="d-flex flex-column">
-        <div class="d-flex justify-content-between align-items-center">
-          <a href="{{ BILLING_PORTAL }}" i18n>
+@if (!isLoading) {
+  <div class="row">
+    @if (team?.isPaying) {
+      <div class="col-12 my-2">
+        <div>
+          <h5 i18n>Subscription status</h5>
+          <hr />
+          <div>
+            <span class="text-green">
+              <ng-container i18n>Payment is up to date</ng-container>
+              <i class="ms-1 fa fa-check-circle text-green" aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
+        <div *permissionsOnly="Permissions.canSubscribe" class="my-5">
+          <h5 i18n>Subscription information</h5>
+          <hr />
+          <div class="d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center">
+              <a href="{{ BILLING_PORTAL }}" i18n>
             Access your invoices and billing information or cancel your
             subscription
           </a>
-          <a
-            class="btn btn-light"
-            target="_blank"
-            href="{{ BILLING_PORTAL }}"
-            i18n
-          >
+              <a
+                class="btn btn-light"
+                target="_blank"
+                href="{{ BILLING_PORTAL }}"
+                i18n
+                >
             Billing portal
           </a>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-
-    <div class="my-5">
-      <h5 i18n>Available plans</h5>
-      <hr />
-      <div class="d-flex flex-column">
-        <div class="d-flex justify-content-between align-items-center">
-          <a routerLink="/pricing" i18n>
+        <div class="my-5">
+          <h5 i18n>Available plans</h5>
+          <hr />
+          <div class="d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center">
+              <a routerLink="/pricing" i18n>
             See all available plans on the pricing page
           </a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div *ngIf="!team?.isPaying && remaningTrialDays >= 0" class="col-12 my-2">
-    <div>
-      <h5 i18n="@@freeTrial">Free trial</h5>
-
-      <hr />
-
-      <div class="mb-5" *ngIf="remaningTrialDays > 1">
-        <p>
-          {{ remaningTrialDaysMessage }}
-        </p>
-      </div>
-
-      <div class="mb-5" *ngIf="remaningTrialDays <= 1">
-        <p>
-          <b class="text-danger">{{ remaningTrialDaysMessage }}</b>
-        </p>
-
-        <p i18n>
+    }
+    @if (!team?.isPaying && remaningTrialDays >= 0) {
+      <div class="col-12 my-2">
+        <div>
+          <h5 i18n="@@freeTrial">Free trial</h5>
+          <hr />
+          @if (remaningTrialDays > 1) {
+            <div class="mb-5">
+              <p>
+                {{ remaningTrialDaysMessage }}
+              </p>
+            </div>
+          }
+          @if (remaningTrialDays <= 1) {
+            <div class="mb-5">
+              <p>
+                <b class="text-danger">{{ remaningTrialDaysMessage }}</b>
+              </p>
+              <p i18n>
           Subscribe to a plan below to continue using Maptio or
           <a
             href="mailto:support@maptio.com?subject=I need more time to try Maptio"
@@ -70,28 +70,30 @@
             ask us for a free trial extension.
           </a>
         </p>
-      </div>
-    </div>
-
-    <div>
-      <h5 i18n>Plans</h5>
-      <hr />
-      <div class="d-flex flex-column">
-        <div class="d-flex justify-content-between align-items-center">
-          <a routerLink="/pricing" i18n>
+            </div>
+          }
+        </div>
+        <div>
+          <h5 i18n>Plans</h5>
+          <hr />
+          <div class="d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center">
+              <a routerLink="/pricing" i18n>
             See all available plans and subscribe on the pricing page
           </a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    }
+    @if (!team?.isPaying && remaningTrialDays < 0) {
+      <div class="col-12 my-2 h5">
+        <p>
+          Your free trial has ended. Need a little longer? Email
+          <a href="mailto:support@maptio.com">support&#64;maptio.com</a>
+        </p>
+        <maptio-pricing-selection></maptio-pricing-selection>
+      </div>
+    }
   </div>
-
-  <div *ngIf="!team?.isPaying && remaningTrialDays < 0" class="col-12 my-2 h5">
-    <p>
-      Your free trial has ended. Need a little longer? Email
-      <a href="mailto:support@maptio.com">support&#64;maptio.com</a>
-    </p>
-
-    <maptio-pricing-selection></maptio-pricing-selection>
-  </div>
-</div>
+}

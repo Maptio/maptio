@@ -16,7 +16,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 
 import { flatten, uniqBy } from 'lodash-es';
-import { NgIf } from '@angular/common';
+
 
 import { Initiative } from '@maptio-shared/model/initiative.data';
 import { User } from '@maptio-shared/model/user.data';
@@ -33,11 +33,10 @@ class SearchResult {
 }
 
 @Component({
-  selector: 'search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css'],
-  standalone: true,
-  imports: [NgIf, NgbTypeaheadModule],
+    selector: 'search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.css'],
+    imports: [NgbTypeaheadModule]
 })
 export class SearchComponent implements OnInit {
   @Input() list: Initiative[];

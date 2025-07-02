@@ -29,7 +29,7 @@ import { PermissionsService } from '../../../../../shared/services/permissions/p
 import { InitiativeInputSizeComponent } from './parts/size/input-size.component';
 import { InitiativeVacanciesInputComponent } from './parts/helpers/vacancies-input.component';
 import { InitiativeHelperInputComponent } from './parts/helpers/helper-input.component';
-import { NgFor, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { InitiativeHelpersSelectComponent } from './parts/helpers/helpers-select.component';
 import { InitiativeDescriptionTextareaComponent } from './parts/description/description-textarea.component';
 import { InitiativeAuthoritySelectComponent } from './parts/authority/authority-select.component';
@@ -39,12 +39,11 @@ import { InitiativeInputNameComponent } from './parts/name/initiative-input-name
 import { OnboardingMessageComponent } from '../../../../onboarding-message/onboarding-message/onboarding-message.component';
 
 @Component({
-  selector: 'initiative',
-  templateUrl: './initiative.component.html',
-  styleUrls: ['./initiative.component.css'],
-  changeDetection: ChangeDetectionStrategy.Default,
-  standalone: true,
-  imports: [
+    selector: 'initiative',
+    templateUrl: './initiative.component.html',
+    styleUrls: ['./initiative.component.css'],
+    changeDetection: ChangeDetectionStrategy.Default,
+    imports: [
     OnboardingMessageComponent,
     InitiativeInputNameComponent,
     InsufficientPermissionsMessageComponent,
@@ -52,12 +51,11 @@ import { OnboardingMessageComponent } from '../../../../onboarding-message/onboa
     InitiativeAuthoritySelectComponent,
     InitiativeDescriptionTextareaComponent,
     InitiativeHelpersSelectComponent,
-    NgFor,
     InitiativeHelperInputComponent,
     NgTemplateOutlet,
     InitiativeVacanciesInputComponent,
-    InitiativeInputSizeComponent,
-  ],
+    InitiativeInputSizeComponent
+]
 })
 export class InitiativeComponent implements OnChanges {
   @Input() node: Initiative;

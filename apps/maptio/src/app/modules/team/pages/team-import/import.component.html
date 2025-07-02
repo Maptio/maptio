@@ -1,8 +1,8 @@
 <!-- <div class="w-100">
-    <h5 class="card-title">
-        Import people from a
-        <strong>.csv</strong> file.
-    </h5>
+<h5 class="card-title">
+  Import people from a
+  <strong>.csv</strong> file.
+</h5>
 </div> -->
 
 <div class="w-100 h-100 d-flex flex-column justify-content-start">
@@ -20,7 +20,7 @@
               id="importFile"
               (change)="onFileChange($event)"
               accept=".csv"
-            />
+              />
           </div>
 
           <button class="btn btn-outline-secondary ms-1" (click)="onReset()">
@@ -54,54 +54,65 @@
         </a>
       </p>
 
-      <div *ngIf="isFileInvalid" class="text-orange small" i18n>
+      @if (isFileInvalid) {
+        <div class="text-orange small" i18n>
         <strong>Invalid file</strong>
         The header must be : "First name", "Last name", "Email" in that order
       </div>
-      <div *ngIf="isFileFormatInvalid" class="text-orange small" i18n>
+      }
+      @if (isFileFormatInvalid) {
+        <div class="text-orange small" i18n>
         <strong>Invalid file</strong>
         The file must be a .csv
       </div>
+      }
     </div>
   </div>
 
-  <ng-container *ngIf="isParsingFinished">
+  @if (isParsingFinished) {
     <div class="card mb-3 bg-light border-light">
       <div class="card-body">
         <table class="table table-hover tableSection right">
           <tbody>
-            <ng-container *ngFor="let csvRec of csvRecords; let i = index">
+            @for (csvRec of csvRecords; track csvRec; let i = $index) {
               <tr class="row text-muted">
-                <ng-container *ngFor="let data of csvRec; let j = index">
-                  <td class="wrap col-3" *ngIf="j < 3">{{ data }}</td>
-                  <td class="col-3" *ngIf="j === 3">
-                    <span
-                      *ngIf="csvRec[5] === true && csvRec[4] !== 'Imported'"
-                      aria-hidden="true"
-                      class="text-orange"
-                    >
-                      {{ csvRec[4] }}
-                    </span>
-                    <i
-                      *ngIf="csvRec[5] === true && csvRec[4] === 'Imported'"
-                      class="fa fa-check text-green"
-                      aria-hidden="true"
-                    ></i>
-                    <i
-                      *ngIf="csvRec[5] === false"
-                      class="text-muted fas fa-circle-notch fa-spin"
-                    ></i>
-                  </td>
-                </ng-container>
+                @for (data of csvRec; track data; let j = $index) {
+                  @if (j < 3) {
+                    <td class="wrap col-3">{{ data }}</td>
+                  }
+                  @if (j === 3) {
+                    <td class="col-3">
+                      @if (csvRec[5] === true && csvRec[4] !== 'Imported') {
+                        <span
+                          aria-hidden="true"
+                          class="text-orange"
+                          >
+                          {{ csvRec[4] }}
+                        </span>
+                      }
+                      @if (csvRec[5] === true && csvRec[4] === 'Imported') {
+                        <i
+                          class="fa fa-check text-green"
+                          aria-hidden="true"
+                        ></i>
+                      }
+                      @if (csvRec[5] === false) {
+                        <i
+                          class="text-muted fas fa-circle-notch fa-spin"
+                        ></i>
+                      }
+                    </td>
+                  }
+                }
               </tr>
-            </ng-container>
+            }
           </tbody>
         </table>
       </div>
     </div>
-  </ng-container>
+  }
 
-  <ng-container *ngIf="isParsingFinished">
+  @if (isParsingFinished) {
     <div class="card mb-3 bg-light border-light">
       <div class="card-body">
         <div class="d-flex justify-content-between">
@@ -116,10 +127,12 @@
                 [attr.aria-valuenow]="importedSuccessfully"
                 aria-valuemin="0"
                 [attr.aria-valuemax]="totalRecordsToImport"
-              >
-                <span *ngIf="importedSuccessfully > 0" i18n>
+                >
+                @if (importedSuccessfully > 0) {
+                  <span i18n>
                   Imported: {{ importedSuccessfully }}
                 </span>
+                }
               </div>
               <div
                 class="progress-bar bg-orange"
@@ -128,18 +141,19 @@
                 [attr.aria-valuenow]="importedFailed"
                 aria-valuemin="0"
                 [attr.aria-valuemax]="totalRecordsToImport"
-              >
-                <span *ngIf="importedFailed > 0" i18n>
+                >
+                @if (importedFailed > 0) {
+                  <span i18n>
                   Require attention: {{ importedFailed }}
                 </span>
+                }
               </div>
             </div>
-            <ng-container
-              *ngIf="
-                importedFailed + importedSuccessfully === totalRecordsToImport
-              "
-            >
-              <span class="mb-2 text-muted" *ngIf="importedFailed === 0" i18n>
+            @if (
+              importedFailed + importedSuccessfully === totalRecordsToImport
+              ) {
+              @if (importedFailed === 0) {
+                <span class="mb-2 text-muted" i18n>
                 <span class="text-green">
                   <i class="fa fa-hand-o-right me-1" aria-hidden="true"></i>
                   Well done!
@@ -148,40 +162,40 @@
                 <a routerLink="../../members">invited</a>
                 to view and edit maps.
               </span>
-
-              <div class="mb-2 mt-3 text-muted" *ngIf="importedFailed > 0">
-                <p class="text-orange">
-                  <i
-                    class="fa fa-exclamation-circle me-1"
-                    aria-hidden="true"
-                  ></i>
-                  <ng-container>
-                    We couldn't import {{ importedFailed }} users!
-                  </ng-container>
-                </p>
-
-                <p i18n>
+              }
+              @if (importedFailed > 0) {
+                <div class="mb-2 mt-3 text-muted">
+                  <p class="text-orange">
+                    <i
+                      class="fa fa-exclamation-circle me-1"
+                      aria-hidden="true"
+                    ></i>
+                    <ng-container>
+                      We couldn't import {{ importedFailed }} users!
+                    </ng-container>
+                  </p>
+                  <p i18n>
                   Review the individual messages, try again or
                   <a routerLink="../../members">
                     skip and invite {{ importedSuccessfully }} new users to view
                     and edit maps.
                   </a>
                 </p>
-              </div>
-            </ng-container>
+                </div>
+              }
+            }
           </div>
-
           <div class="pull-right">
             <button
               class="btn btn-outline-success"
               (click)="onImportUsers()"
               i18n
-            >
+              >
               Import {{ totalRecordsToImport }} users
             </button>
           </div>
         </div>
       </div>
     </div>
-  </ng-container>
+  }
 </div>

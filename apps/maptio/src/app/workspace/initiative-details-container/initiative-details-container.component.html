@@ -1,11 +1,12 @@
-<initiative
-  *ngIf="showPanel()"
-  #initiative
-  [dataset]="workspaceService.dataset()"
-  [node]="workspaceService.openedNode()"
-  [user]="workspaceService.user()"
-  [team]="workspaceService.team()"
-  (edited)="workspaceService.saveDetailChanges()"
-  [isEditMode]="isEditMode"
-  (editTags)="workspaceService.onEditTags()"
-></initiative>
+@if (showPanel()) {
+  <initiative
+    #initiative
+    [dataset]="workspaceService.dataset()"
+    [node]="workspaceService.openedNode()"
+    [user]="workspaceService.user()"
+    [team]="workspaceService.team()"
+    (edited)="workspaceService.saveDetailChanges()"
+    [isEditMode]="isEditMode"
+    (editTags)="workspaceService.onEditTags()"
+  ></initiative>
+}

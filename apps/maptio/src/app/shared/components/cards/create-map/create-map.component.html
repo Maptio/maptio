@@ -5,7 +5,7 @@
       else elseCreateMapBlock;
       then: thenCreateMapBlock
     "
-  >
+    >
     main
   </ng-container>
 
@@ -24,58 +24,63 @@
         "
         class="form-control w-100"
         required
-      />
+        />
       <small class="invalid-feedback" i18n="@@atLeast2Chars">
         Please enter at least 2 characters
       </small>
     </div>
 
-    <div class="form-group" *ngIf="teamsWithAdminRole?.length > 1">
-      <label class="form-label" for="inputTeamName" i18n="@@organisation">
+    @if (teamsWithAdminRole?.length > 1) {
+      <div class="form-group">
+        <label class="form-label" for="inputTeamName" i18n="@@organisation">
         Organisation
       </label>
-      <select
-        id="inputTeamName"
-        formControlName="teamId"
-        required
-        class="form-select"
-      >
-        <option
-          value="null"
-          disabled="true"
-          [selected]="teamsWithAdminRole?.length > 1"
-          i18n="@@selectAnOrganization"
-        >
+        <select
+          id="inputTeamName"
+          formControlName="teamId"
+          required
+          class="form-select"
+          >
+          <option
+            value="null"
+            disabled="true"
+            [selected]="teamsWithAdminRole?.length > 1"
+            i18n="@@selectAnOrganization"
+            >
           Select an organization
         </option>
-        <option
-          *ngFor="let team of teamsWithAdminRole; let i = index"
-          [value]="team.team_id"
-          [selected]="teamsWithAdminRole?.length === 1 && i === 0"
-        >
-          {{ team?.name }}
-        </option>
-      </select>
-      <a
-        *ngIf="teamsWithAdminRole?.length === 0"
-        class="text-green"
-        routerLink="/teams"
-      >
-        <small class="offset-md-6" i18n="@@donthaveorganisation">
+          @for (team of teamsWithAdminRole; track team; let i = $index) {
+            <option
+              [value]="team.team_id"
+              [selected]="teamsWithAdminRole?.length === 1 && i === 0"
+              >
+              {{ team?.name }}
+            </option>
+          }
+        </select>
+        @if (teamsWithAdminRole?.length === 0) {
+          <a
+            class="text-green"
+            routerLink="/teams"
+            >
+            <small class="offset-md-6" i18n="@@donthaveorganisation">
           Don't have a organization?
         </small>
-      </a>
-    </div>
+          </a>
+        }
+      </div>
+    }
 
     <div class="d-flex justify-content-end">
       <button [disabled]="isCreatingMap" type="submit" class="btn btn-success">
-        <ng-container *ngIf="isCreatingMap; else createButtonEnabled">
+        @if (isCreatingMap) {
           <i class="fas fa-circle-notch fa-spin"></i>
           <span>&nbsp;</span>
           <span i18n="@@creating">Creating</span>
-        </ng-container>
+        } @else {
+          <ng-container i18n="@@create">Create</ng-container>
+        }
 
-        <ng-template #createButtonEnabled i18n="@@create">Create</ng-template>
       </button>
     </div>
   </ng-template>
@@ -95,28 +100,31 @@
           id="inputMapName"
           class="form-control w-100 cursor-not-allowed"
           disabled
-        />
+          />
       </div>
 
-      <div class="form-group" *ngIf="teamsWithAdminRole?.length > 1">
-        <label class="form-label" for="inputTeamName" i18n="@@organisation">
+      @if (teamsWithAdminRole?.length > 1) {
+        <div class="form-group">
+          <label class="form-label" for="inputTeamName" i18n="@@organisation">
           Organisation
         </label>
-        <select
-          id="inputTeamName"
-          disabled
-          class="form-select cursor-not-allowed"
-        ></select>
-        <a
-          *ngIf="teamsWithAdminRole?.length === 0"
-          class="text-green"
-          routerLink="/teams"
-        >
-          <small class="offset-md-6" i18n="@@donthaveorganisation">
+          <select
+            id="inputTeamName"
+            disabled
+            class="form-select cursor-not-allowed"
+          ></select>
+          @if (teamsWithAdminRole?.length === 0) {
+            <a
+              class="text-green"
+              routerLink="/teams"
+              >
+              <small class="offset-md-6" i18n="@@donthaveorganisation">
             Don't have a organisation?
           </small>
-        </a>
-      </div>
+            </a>
+          }
+        </div>
+      }
 
       <div class="d-flex justify-content-end">
         <button
@@ -124,7 +132,7 @@
           class="btn btn-success pull-right cursor-not-allowed"
           disabled
           i18n="@@create"
-        >
+          >
           Create
         </button>
       </div>

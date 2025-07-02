@@ -8,21 +8,19 @@ import { Permissions } from '../../../../shared/model/permission.data';
 import { environment } from '../../../../config/environment';
 import { LoaderService } from '../../../../shared/components/loading/loader.service';
 import { PermissionsDirective } from '../../../../shared/directives/permission.directive';
-import { JsonPipe, NgIf } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import { PricingSelectionComponent } from 'app/modules/payment/pricing-selection/pricing-selection.component';
 
 @Component({
-  selector: 'team-billing',
-  templateUrl: './billing.component.html',
-  styleUrls: ['./billing.component.css'],
-  standalone: true,
-  imports: [
-    NgIf,
+    selector: 'team-billing',
+    templateUrl: './billing.component.html',
+    styleUrls: ['./billing.component.css'],
+    imports: [
     JsonPipe,
     PermissionsDirective,
     RouterLink,
-    PricingSelectionComponent,
-  ],
+    PricingSelectionComponent
+]
 })
 export class TeamBillingComponent implements OnInit {
   public team: Team;

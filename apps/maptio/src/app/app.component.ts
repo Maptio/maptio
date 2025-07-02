@@ -25,16 +25,14 @@ import { LoaderService } from './shared/components/loading/loader.service';
 import { FooterComponent } from './core/footer/footer.component';
 import { LoaderComponent } from './shared/components/loading/loader.component';
 import { HeaderComponent } from './core/header/header.component';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'maptio-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
-    NgIf,
     HeaderComponent,
     LoaderComponent,
     RouterOutlet,

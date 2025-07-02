@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { NgIf, NgFor, LowerCasePipe } from '@angular/common';
+import { LowerCasePipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 import {
@@ -15,20 +15,15 @@ import { User } from '@maptio-shared/model/user.data';
 import { InitiativeHelperRoleComponent } from '../../data-entry/details/parts/helpers/helper-role.component';
 
 @Component({
-  selector: 'personal-card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.css'],
-  standalone: true,
-  imports: [
-    NgIf,
-    NgFor,
+    selector: 'personal-card',
+    templateUrl: './card.component.html',
+    styleUrls: ['./card.component.css'],
+    imports: [
     LowerCasePipe,
-
     NgbTooltipModule,
     NgbCollapseModule,
-
-    InitiativeHelperRoleComponent,
-  ],
+    InitiativeHelperRoleComponent
+]
 })
 export class PersonalCardComponent implements OnInit {
   @Input('initiative') initiative: Initiative;

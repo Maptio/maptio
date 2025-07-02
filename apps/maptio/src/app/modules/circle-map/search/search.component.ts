@@ -13,25 +13,23 @@ import { remove, flatten, filter } from 'lodash-es';
 import { Helper, InitiativeNode } from '@maptio-circle-map/initiative.model';
 import { CircleMapService } from '@maptio-circle-map/circle-map.service';
 import { MatOptionModule } from '@angular/material/core';
-import { NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'maptio-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
-  standalone: true,
-  imports: [
+    selector: 'maptio-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.scss'],
+    imports: [
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    NgFor,
     MatOptionModule,
-    AsyncPipe,
-  ],
+    AsyncPipe
+]
 })
 export class SearchComponent implements OnInit {
   @Input() rootCircle: InitiativeNode;

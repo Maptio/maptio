@@ -21,27 +21,24 @@ import { MemberFormComponent } from '../../../member-form/member-form.component'
 import { StickyPopoverDirective } from '../../../../shared/directives/sticky.directive';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgIf, NgFor, SlicePipe } from '@angular/common';
+import { SlicePipe } from '@angular/common';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { PermissionsDirective } from '../../../../shared/directives/permission.directive';
 
 @Component({
-  selector: 'maptio-member-single',
-  templateUrl: './member-single.component.html',
-  styleUrls: ['./member-single.component.css'],
-  standalone: true,
-  imports: [
+    selector: 'maptio-member-single',
+    templateUrl: './member-single.component.html',
+    styleUrls: ['./member-single.component.css'],
+    imports: [
     PermissionsDirective,
     ConfirmationPopoverModule,
-    NgIf,
     NgbTooltipModule,
-    NgFor,
     FormsModule,
     StickyPopoverDirective,
     MemberFormComponent,
     SlicePipe,
-    KeysPipe,
-  ],
+    KeysPipe
+]
 })
 export class MemberSingleComponent implements OnChanges {
   UserRole = UserRole;

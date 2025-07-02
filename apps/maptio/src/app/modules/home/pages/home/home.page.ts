@@ -20,20 +20,18 @@ import { OnboardingService } from '@maptio-shared/components/onboarding/onboardi
 import { SafePipe } from '../../../../shared/pipes/safe.pipe';
 import { LoginRedirectDirective } from '../../../login/login-redirect/login-redirect.directive';
 import { DashboardComponent } from '../../components/dashboard/dashboard.component';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'maptio-home',
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.css'],
-  standalone: true,
-  imports: [
-    NgIf,
+    selector: 'maptio-home',
+    templateUrl: './home.page.html',
+    styleUrls: ['./home.page.css'],
+    imports: [
     DashboardComponent,
     LoginRedirectDirective,
     AsyncPipe,
-    SafePipe,
-  ],
+    SafePipe
+]
 })
 export class HomeComponent implements OnInit, OnDestroy {
   private subs = new SubSink();

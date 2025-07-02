@@ -4,10 +4,11 @@
       Complete your profile
     </h1>
 
-    <maptio-member-form
-      *ngIf="(user$ | async) as user"
-      [member]="user"
-      [disableEmailInput]="true"
-    ></maptio-member-form>
+    @if ((user$ | async); as user) {
+      <maptio-member-form
+        [member]="user"
+        [disableEmailInput]="true"
+      ></maptio-member-form>
+    }
   </div>
 </div>

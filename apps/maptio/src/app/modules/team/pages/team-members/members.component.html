@@ -7,12 +7,13 @@
     <div class="card-body">
       <div class="card-title lead" i18n>Add people</div>
 
-      <maptio-member-form
-        *ngIf="team && !team?.isExample"
-        [team]="team"
-        [disableDeduplication]="true"
-        (addMember)="onAddMember($event)"
-      ></maptio-member-form>
+      @if (team && !team?.isExample) {
+        <maptio-member-form
+          [team]="team"
+          [disableDeduplication]="true"
+          (addMember)="onAddMember($event)"
+        ></maptio-member-form>
+      }
     </div>
   </div>
 
@@ -22,7 +23,7 @@
         <div
           *permissionsOnly="Permissions.canEditUser"
           class="col-1 px-0 justify-content-between d-flex align-items-center"
-        >
+          >
           <button class="btn text-white pointer-none invisible">
             <i class="fas fa-caret-down"></i>
           </button>
@@ -48,7 +49,7 @@
           href="{{ KB_URL_PERMISSIONS }}"
           target="blank"
           container="body"
-        >
+          >
           <ng-container i18n="@@permissionType">Permission type</ng-container>
           <span>&nbsp;</span>
           <i class="fa fa-info-circle text-gray-light" aria-hidden="true"></i>
@@ -56,25 +57,23 @@
       </div>
     </div>
 
-    <div
-      class="border-bottom border-light row"
-      *ngFor="
-        let member of members$ | async;
-        trackBy: trackByMemberId;
-        let i = index
-      "
-    >
-      <div class="col-12 my-1">
-        <maptio-member-single
-          [isOnlyMember]="team.members.length === 1"
-          [user]="user"
-          [member]="member"
-          [team]="team"
-          (delete)="deleteMember(member)"
-        ></maptio-member-single>
-
-        <hr class="d-md-none" />
+    @for (
+      member of members$ | async; track trackByMemberId(i,
+      member); let i = $index) {
+      <div
+        class="border-bottom border-light row"
+        >
+        <div class="col-12 my-1">
+          <maptio-member-single
+            [isOnlyMember]="team.members.length === 1"
+            [user]="user"
+            [member]="member"
+            [team]="team"
+            (delete)="deleteMember(member)"
+          ></maptio-member-single>
+          <hr class="d-md-none" />
+        </div>
       </div>
-    </div>
+    }
   </div>
 </div>

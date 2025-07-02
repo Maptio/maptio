@@ -1,5 +1,5 @@
 import { Component, HostListener, inject } from '@angular/core';
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -9,11 +9,10 @@ import { UserService } from '@maptio-shared/services/user/user.service';
 import { PermissionsService } from '@maptio-shared/services/permissions/permissions.service';
 
 @Component({
-  selector: 'maptio-onboarding-video',
-  templateUrl: './onboarding-video.component.html',
-  styleUrls: ['./onboarding-video.component.scss'],
-  standalone: true,
-  imports: [NgIf, NgFor, DragDropModule, AsyncPipe],
+    selector: 'maptio-onboarding-video',
+    templateUrl: './onboarding-video.component.html',
+    styleUrls: ['./onboarding-video.component.scss'],
+    imports: [DragDropModule, AsyncPipe]
 })
 export class OnboardingVideoComponent {
   userService = inject(UserService);

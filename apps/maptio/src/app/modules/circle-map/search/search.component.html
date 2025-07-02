@@ -7,18 +7,19 @@
     matInput
     [formControl]="inputField"
     [matAutocomplete]="auto"
-  />
+    />
 
   <mat-autocomplete
     #auto="matAutocomplete"
     autoActiveFirstOption
     (optionSelected)="onSelect($event)"
-  >
-    <mat-option
-      *ngFor="let initiativeNode of filteredOptions$ | async"
-      [value]="initiativeNode"
     >
-      {{ initiativeNode.data.name }}
-    </mat-option>
+    @for (initiativeNode of filteredOptions$ | async; track initiativeNode) {
+      <mat-option
+        [value]="initiativeNode"
+        >
+        {{ initiativeNode.data.name }}
+      </mat-option>
+    }
   </mat-autocomplete>
 </mat-form-field>

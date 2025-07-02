@@ -1,272 +1,282 @@
-<div
-  class="card"
-  *ngIf="dataset"
-  [class.pointer-none]="isReadOnly"
-  [class.overflow-hidden]="dataset?.team?.isExample"
-  [class.archived]="dataset.isArchived"
->
+@if (dataset) {
   <div
-    *ngIf="dataset?.team?.isExample"
-    class="corner-ribbon top-right bg-accent box-shadow text-bold"
-    i18n
-  >
+    class="card"
+    [class.pointer-none]="isReadOnly"
+    [class.overflow-hidden]="dataset?.team?.isExample"
+    [class.archived]="dataset.isArchived"
+    >
+    @if (dataset?.team?.isExample) {
+      <div
+        class="corner-ribbon top-right bg-accent box-shadow text-bold"
+        i18n
+        >
     Demo
   </div>
-
-  <div class="card-body d-flex flex-column">
-    <div class="card-title">
-      <div class="d-flex justify-content-between align-items-baseline">
-        <div class="w-100">
-          <div *ngIf="!isEditing" class="lead">
-            <a
+    }
+    <div class="card-body d-flex flex-column">
+      <div class="card-title">
+        <div class="d-flex justify-content-between align-items-baseline">
+          <div class="w-100">
+            @if (!isEditing) {
+              <div class="lead">
+                <a
               routerLink="/map/{{ dataset?.datasetId }}/{{
                 dataset?.initiative.getSlug()
               }}"
-            >
-              {{ dataset?.initiative.name }}
-            </a>
-          </div>
-
-          <form
-            *ngIf="isEditing"
-            class="form-group form-inline d-flex align-items-start"
-            [formGroup]="form"
-            (submit)="save()"
-          >
-            <input
-              class="form-control me-1 col"
-              formControlName="mapName"
-              required
+                  >
+                  {{ dataset?.initiative.name }}
+                </a>
+              </div>
+            }
+            @if (isEditing) {
+              <form
+                class="form-group form-inline d-flex align-items-start"
+                [formGroup]="form"
+                (submit)="save()"
+                >
+                @if (isEditing) {
+                  <input
+                    class="form-control me-1 col"
+                    formControlName="mapName"
+                    required
               [class.is-invalid]="
                 form.controls['mapName'].invalid &&
                 (form.controls['mapName'].dirty ||
                   form.controls['mapName'].touched)
               "
-              value="{{ dataset?.initiative.name }}"
-              *ngIf="isEditing"
-              type="text"
-            />
-
-            <small class="invalid-feedback" i18n="@@required">Required</small>
-
-            <small class="text-danger" *ngIf="isUpdateFailed" i18n>
+                    value="{{ dataset?.initiative.name }}"
+                    type="text"
+                    />
+                }
+                <small class="invalid-feedback" i18n="@@required">Required</small>
+                @if (isUpdateFailed) {
+                  <small class="text-danger" i18n>
               Update failed!
             </small>
-
-            <button class="btn btn-success" type="submit">
-              <ng-container i18n="@@save">Save</ng-container>
-            </button>
-
-            <button class="btn btn-link" (click)="isEditing = false">
-              <ng-container i18n="@@cancel">Cancel</ng-container>
-            </button>
-          </form>
-        </div>
-
-        <div class="small text-muted my-1 nowrap" [class.d-none]="isEditing">
-          {{ dataset?.depth }} {dataset?.depth, plural, =0 {circles} =1 {circle}
-          other {circles}}
+                }
+                <button class="btn btn-success" type="submit">
+                  <ng-container i18n="@@save">Save</ng-container>
+                </button>
+                <button class="btn btn-link" (click)="isEditing = false">
+                  <ng-container i18n="@@cancel">Cancel</ng-container>
+                </button>
+              </form>
+            }
+          </div>
+          <div class="small text-muted my-1 nowrap" [class.d-none]="isEditing">
+            {{ dataset?.depth }} {dataset?.depth, plural, =0 {circles} =1 {circle}
+            other {circles}}
+          </div>
         </div>
       </div>
-    </div>
-
-    <ng-container *ngIf="!isConfiguringEmbedding">
-      <div
-        class="card-subtitle my-1 d-flex align-items-baseline"
-        *ngIf="dataset?.getName()"
-      >
-        <span>{{ dataset?.getName() }}</span>
-      </div>
-
-      <div class="card-subtitle my-2 text-muted">
-        <div class="d-flex justify-content-between">
-          <span *ngIf="dataset?.initiative.children">
-            <div
-              *ngIf="dataset?.initiative.children[0]?.accountable"
-              class="text-muted d-flex align-items-center"
+      @if (!isConfiguringEmbedding) {
+        @if (dataset?.getName()) {
+          <div
+            class="card-subtitle my-1 d-flex align-items-baseline"
             >
-              <ng-container i18n="@@ledBy">Led by</ng-container>
-              <img
-                class="avatar mx-1"
+            <span>{{ dataset?.getName() }}</span>
+          </div>
+        }
+        <div class="card-subtitle my-2 text-muted">
+          <div class="d-flex justify-content-between">
+            @if (dataset?.initiative.children) {
+              <span>
+                @if (dataset?.initiative.children[0]?.accountable) {
+                  <div
+                    class="text-muted d-flex align-items-center"
+                    >
+                    <ng-container i18n="@@ledBy">Led by</ng-container>
+                    <img
+                      class="avatar mx-1"
                 src="{{
                   dataset?.initiative.children[0]?.accountable?.picture
                 }}"
-                alt="{{ dataset?.initiative.children[0]?.accountable?.name }}"
-              />
-              <a
-                class="text-muted"
+                      alt="{{ dataset?.initiative.children[0]?.accountable?.name }}"
+                      />
+                    <a
+                      class="text-muted"
                 routerLink="/map/{{ dataset?.datasetId }}/{{
                   dataset?.initiative.getSlug()
                 }}/directory"
                 [queryParams]="{
                   member: dataset?.initiative.children[0]?.accountable?.shortid
                 }"
-              >
-                {{ dataset?.initiative.children[0]?.accountable?.name }}
-              </a>
-            </div>
-
-            <div
-              *ngIf="!dataset?.initiative.children[0]?.accountable"
-              class="text-muted"
-              i18n
-            >
+                      >
+                      {{ dataset?.initiative.children[0]?.accountable?.name }}
+                    </a>
+                  </div>
+                }
+                @if (!dataset?.initiative.children[0]?.accountable) {
+                  <div
+                    class="text-muted"
+                    i18n
+                    >
               No {{ dataset.team.settings.authority }}
             </div>
-          </span>
+                }
+              </span>
+            }
+          </div>
         </div>
-      </div>
-
-      <div class="card-subtitle my-2" *ngIf="isTeamDisplayed">
-        <ng-container i18n="@@organisation">Organisation</ng-container>
-        <a
+        @if (isTeamDisplayed) {
+          <div class="card-subtitle my-2">
+            <ng-container i18n="@@organisation">Organisation</ng-container>
+            <a
           routerLink="/teams/{{ dataset?.team?.team_id }}/{{
             dataset?.team?.getSlug()
           }}"
+              >
+              {{ dataset?.team?.name }}
+            </a>
+          </div>
+        }
+      }
+    </div>
+    <!-- Footer with action buttons -->
+    @if (!isConfiguringEmbedding) {
+      <div
+        class="card-footer border-top-0 d-flex justify-content-between align-items-center"
         >
-          {{ dataset?.team?.name }}
-        </a>
-      </div>
-    </ng-container>
-  </div>
-
-  <!-- Footer with action buttons -->
-  <div
-    class="card-footer border-top-0 d-flex justify-content-between align-items-center"
-    *ngIf="!isConfiguringEmbedding"
-  >
-    <!-- Export button -->
-    <button
-      *ngIf="isExportAvailable"
-      [class.invisible]="dataset.isArchived"
-      [class.invisible]="isEditing"
-      class="btn btn-sm btn-link ps-0"
-      (click)="export(dataset)"
-    >
-      <i class="fas fa-table me-1" aria-hidden="true"></i>
-      <span class="d-none d-md-block" *ngIf="!isExporting" i18n="@@export">
+        <!-- Export button -->
+        @if (isExportAvailable) {
+          <button
+            [class.invisible]="dataset.isArchived"
+            [class.invisible]="isEditing"
+            class="btn btn-sm btn-link ps-0"
+            (click)="export(dataset)"
+            >
+            <i class="fas fa-table me-1" aria-hidden="true"></i>
+            @if (!isExporting) {
+              <span class="d-none d-md-block" i18n="@@export">
         Export
       </span>
-      <span class="text-muted d-none d-md-block" *ngIf="isExporting" i18n>
+            }
+            @if (isExporting) {
+              <span class="text-muted d-none d-md-block" i18n>
         Exporting
       </span>
-    </button>
-
-    <!-- All buttons other then the export button -->
-    <ng-container *permissionsOnly="Permissions.canEditMapName">
-      <button
-        *ngIf="isEditAvailable && !dataset?.team?.isExample"
-        class="btn btn-link btn-sm pe-0 underline-on-hover"
-        [class.invisible]="isEditing || dataset.isArchived"
-        (click)="toggleConfiguringEmbedding()"
-      >
-        <i class="fas fa-code me-1"></i>
-        <span class="d-none d-md-block" i18n="@@embed">Embed</span>
-      </button>
-
-      <button
-        *ngIf="isEditAvailable && !dataset?.team?.isExample"
-        [class.invisible]="dataset.isArchived"
-        class="btn btn-link btn-sm underline-on-hover"
-        [class.invisible]="isEditing"
-        (click)="isEditing = true"
-      >
-        <i class="fas fa-pen me-1"></i>
-        <span class="d-none d-md-block" i18n>Edit name</span>
-      </button>
-
-      <button
-        *ngIf="isEditAvailable && !dataset?.team?.isExample"
-        [class.invisible]="dataset.isArchived"
-        class="btn btn-link btn-sm underline-on-hover"
-        [class.d-none]="isEditing"
-        (click)="duplicate()"
-      >
-        <i class="fas fa-copy me-1"></i>
-        <span class="d-none d-md-block" *ngIf="!isCopying" i18n="@@copy">
+            }
+          </button>
+        }
+        <!-- All buttons other then the export button -->
+        <ng-container *permissionsOnly="Permissions.canEditMapName">
+          @if (isEditAvailable && !dataset?.team?.isExample) {
+            <button
+              class="btn btn-link btn-sm pe-0 underline-on-hover"
+              [class.invisible]="isEditing || dataset.isArchived"
+              (click)="toggleConfiguringEmbedding()"
+              >
+              <i class="fas fa-code me-1"></i>
+              <span class="d-none d-md-block" i18n="@@embed">Embed</span>
+            </button>
+          }
+          @if (isEditAvailable && !dataset?.team?.isExample) {
+            <button
+              [class.invisible]="dataset.isArchived"
+              class="btn btn-link btn-sm underline-on-hover"
+              [class.invisible]="isEditing"
+              (click)="isEditing = true"
+              >
+              <i class="fas fa-pen me-1"></i>
+              <span class="d-none d-md-block" i18n>Edit name</span>
+            </button>
+          }
+          @if (isEditAvailable && !dataset?.team?.isExample) {
+            <button
+              [class.invisible]="dataset.isArchived"
+              class="btn btn-link btn-sm underline-on-hover"
+              [class.d-none]="isEditing"
+              (click)="duplicate()"
+              >
+              <i class="fas fa-copy me-1"></i>
+              @if (!isCopying) {
+                <span class="d-none d-md-block" i18n="@@copy">
           Copy
         </span>
-        <span class="text-muted d-none d-md-block" *ngIf="isCopying" i18n>
+              }
+              @if (isCopying) {
+                <span class="text-muted d-none d-md-block" i18n>
           Copying
         </span>
-      </button>
-
-      <button
-        *ngIf="
-          !dataset.isArchived && isEditAvailable && !dataset?.team?.isExample
-        "
-        class="btn btn-link btn-sm pe-0 underline-on-hover"
-        [class.invisible]="isEditing"
-        mwlConfirmationPopover
-        [popoverTitle]="'Archive this map?'"
+              }
+            </button>
+          }
+          @if (
+            !dataset.isArchived && isEditAvailable && !dataset?.team?.isExample
+            ) {
+            <button
+              class="btn btn-link btn-sm pe-0 underline-on-hover"
+              [class.invisible]="isEditing"
+              mwlConfirmationPopover
+              [popoverTitle]="'Archive this map?'"
         [popoverMessage]="
           'You can retrive archived maps in the Maps section of the team page'
         "
-        placement="bottom"
-        focusButton="cancel"
-        appendToBody="true"
-        (confirm)="archive()"
-        (cancel)="cancelClicked = true"
-        i18n-popoverTitle
-        i18n-popoverMessage
-        confirmText="Confirm"
-        cancelText="Cancel"
-        i18n-confirmText="@@confirm"
-        i18n-cancelText="@@cancel"
-      >
-        <i class="fas fa-archive me-1"></i>
-        <span class="d-none d-md-block" i18n>Archive</span>
-      </button>
-
-      <button
-        *ngIf="dataset.isArchived && !dataset?.team?.isExample"
-        class="btn btn-link btn-sm pe-0 underline-on-hover"
-        [class.invisible]="isEditing"
-        (click)="restore()"
-      >
-        <i class="fas fa-undo me-1"></i>
-        <span class="d-none d-md-block" i18n>Restore</span>
-      </button>
-    </ng-container>
-  </div>
-
-  <!-- When editing, the footer contains editing options -->
-  <!-- For now, we're only using this pattern for configuring embedding, but
-      it'd be great to move all editing options here for consistency -->
-  <div
-    class="card-footer d-flex flex-column mt-n3 border-top-0 justify-content-between align-items-left"
-    *ngIf="isConfiguringEmbedding"
-  >
-    <div class="d-flex flex-row align-items-center">
-      <ng-container i18n>
+              placement="bottom"
+              focusButton="cancel"
+              appendToBody="true"
+              (confirm)="archive()"
+              (cancel)="cancelClicked = true"
+              i18n-popoverTitle
+              i18n-popoverMessage
+              confirmText="Confirm"
+              cancelText="Cancel"
+              i18n-confirmText="@@confirm"
+              i18n-cancelText="@@cancel"
+              >
+              <i class="fas fa-archive me-1"></i>
+              <span class="d-none d-md-block" i18n>Archive</span>
+            </button>
+          }
+          @if (dataset.isArchived && !dataset?.team?.isExample) {
+            <button
+              class="btn btn-link btn-sm pe-0 underline-on-hover"
+              [class.invisible]="isEditing"
+              (click)="restore()"
+              >
+              <i class="fas fa-undo me-1"></i>
+              <span class="d-none d-md-block" i18n>Restore</span>
+            </button>
+          }
+        </ng-container>
+      </div>
+    }
+    <!-- When editing, the footer contains editing options -->
+    <!-- For now, we're only using this pattern for configuring embedding, but
+    it'd be great to move all editing options here for consistency -->
+    @if (isConfiguringEmbedding) {
+      <div
+        class="card-footer d-flex flex-column mt-n3 border-top-0 justify-content-between align-items-left"
+        >
+        <div class="d-flex flex-row align-items-center">
+          <ng-container i18n>
         This functionality has now moved into the toolbar in the Circles map
         view.
       </ng-container>
-
-      <img
-        class="ms-2"
-        width="50px"
-        height="64px"
-        style="width: 50px; height: 64px"
-        src="assets/images/share-button.png"
-        alt="Screenshot of button used for sharing a publc verision of a map"
-      />
-    </div>
-
-    <div class="d-flex flex-row w-100 mt-3 justify-content-end">
-      <button class="btn btn-link" (click)="toggleConfiguringEmbedding()">
-        <ng-container i18n="@@cancel">Cancel</ng-container>
-      </button>
-
-      <a
+          <img
+            class="ms-2"
+            width="50px"
+            height="64px"
+            style="width: 50px; height: 64px"
+            src="assets/images/share-button.png"
+            alt="Screenshot of button used for sharing a publc verision of a map"
+            />
+        </div>
+        <div class="d-flex flex-row w-100 mt-3 justify-content-end">
+          <button class="btn btn-link" (click)="toggleConfiguringEmbedding()">
+            <ng-container i18n="@@cancel">Cancel</ng-container>
+          </button>
+          <a
         routerLink="/map/{{ dataset?.datasetId }}/{{
           dataset?.initiative.getSlug()
         }}"
-        class="btn btn-success text-white"
-        i18n
-      >
+            class="btn btn-success text-white"
+            i18n
+            >
         Take me there
       </a>
-    </div>
+        </div>
+      </div>
+    }
   </div>
-</div>
+}

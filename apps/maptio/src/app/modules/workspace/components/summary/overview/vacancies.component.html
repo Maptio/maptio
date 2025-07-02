@@ -2,9 +2,7 @@
   Showing vacancies for custom and library roles in all circles.
 </p>
 
-<ng-container
-  *ngFor="let role of vacancies; let roleIndex = index; let last = last"
->
+@for (role of vacancies; track role; let roleIndex = $index; let last = $last) {
   <initiative-helper-role
     [role]="role"
     [showControls]="false"
@@ -13,26 +11,31 @@
     [isDirectoryView]="true"
     (toggleDetails)="onToggleDetails($event)"
   ></initiative-helper-role>
-
-  <div *ngIf="areDetailsVisible(role)" [class.mt-2]="!role?.description">
-    <div
-      *ngFor="let initiative of getInitiativesFor(role); let index = index"
-      class=""
-    >
-      <role-holders-in-initiative
-        [initiative]="initiative"
-        [role]="role"
-        [datasetId]="datasetId"
-        [team]="team"
-        [hideMembers]="true"
-        (selectInitiative)="onSelectInitiative($event)"
-      ></role-holders-in-initiative>
+  @if (areDetailsVisible(role)) {
+    <div [class.mt-2]="!role?.description">
+      @for (initiative of getInitiativesFor(role); track initiative; let index = $index) {
+        <div
+          class=""
+          >
+          <role-holders-in-initiative
+            [initiative]="initiative"
+            [role]="role"
+            [datasetId]="datasetId"
+            [team]="team"
+            [hideMembers]="true"
+            (selectInitiative)="onSelectInitiative($event)"
+          ></role-holders-in-initiative>
+        </div>
+      }
     </div>
-  </div>
+  }
+  @if (!last && vacancies[roleIndex + 1]) {
+    <hr class="role-divider my-1" />
+  }
+}
 
-  <hr *ngIf="!last && vacancies[roleIndex + 1]" class="role-divider my-1" />
-</ng-container>
-
-<div *ngIf="vacancies?.length === 0" class="h4 text-orange my-2" i18n>
+@if (vacancies?.length === 0) {
+  <div class="h4 text-orange my-2" i18n>
   No vacancies found
 </div>
+}

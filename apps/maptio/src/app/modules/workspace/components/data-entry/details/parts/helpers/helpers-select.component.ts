@@ -17,19 +17,17 @@ import { User, MemberFormFields } from '@maptio-shared/model/user.data';
 import { MemberFormComponent } from '../../../../../../member-form/member-form.component';
 import { CommonAutocompleteComponent } from '../../../../../../../shared/components/autocomplete/autocomplete.component';
 import { StickyPopoverDirective } from '../../../../../../../shared/directives/sticky.directive';
-import { NgIf, LowerCasePipe } from '@angular/common';
+import { LowerCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'maptio-initiative-helpers-select',
-  templateUrl: './helpers-select.component.html',
-  standalone: true,
-  imports: [
-    NgIf,
+    selector: 'maptio-initiative-helpers-select',
+    templateUrl: './helpers-select.component.html',
+    imports: [
     StickyPopoverDirective,
     CommonAutocompleteComponent,
     MemberFormComponent,
-    LowerCasePipe,
-  ],
+    LowerCasePipe
+]
 })
 export class InitiativeHelpersSelectComponent implements OnChanges {
   @Input() team: Team;

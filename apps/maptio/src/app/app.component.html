@@ -1,50 +1,50 @@
-<div
-  *ngIf="showUi; else hideUi"
-  class="h-100 overflow-auto bg-texture"
-  [class.unavailable]="(loader.progressRef?.state | async).active"
-  [class.container-fluid]="!isWorkspace"
->
-  <div class="d-flex flex-column h-100">
-    <maptio-header [class.header-container]="isWorkspace"></maptio-header>
-
-    <div
-      class="h-100 overflow-x-hidden bg-transparent"
-      [class.container-fluid]="!isWorkspace"
+@if (showUi) {
+  <div
+    class="h-100 overflow-auto bg-texture"
+    [class.unavailable]="(loader.progressRef?.state | async).active"
+    [class.container-fluid]="!isWorkspace"
     >
-      <div class="row h-100">
-        <div class="col-12 h-100">
-          <loader></loader>
-          <router-outlet></router-outlet>
+    <div class="d-flex flex-column h-100">
+      <maptio-header [class.header-container]="isWorkspace"></maptio-header>
+      <div
+        class="h-100 overflow-x-hidden bg-transparent"
+        [class.container-fluid]="!isWorkspace"
+        >
+        <div class="row h-100">
+          <div class="col-12 h-100">
+            <loader></loader>
+            <router-outlet></router-outlet>
+          </div>
         </div>
       </div>
+      @if (!isWorkspace) {
+        <footer [isMobile]="isMobile()"></footer>
+      }
     </div>
-
-    <footer *ngIf="!isWorkspace" [isMobile]="isMobile()"></footer>
   </div>
-</div>
-
-<ng-template #hideUi>
+} @else {
   <router-outlet></router-outlet>
-</ng-template>
+}
+
 
 <!-- <div *ngIf="isMobile()" class="container-fluid h-100 overflow-auto bg-gradient-inverse" [class.unavailable]="(progress.state$ | async).active">
 
-	<div class="d-flex flex-column h-100">
-		<header>
-		</header>
-		<div  class="h-100 row">
-			<div class="card bg-transparent border-0">
-				<div class="card-body">
-					<div class="d-flex justify-content-center align-items-center flex-column text-white">
-						<i class="fas fa-flushed  icon-ending-xs my-4"></i>
-						<h1>Sorry...</h1>
-					</div>
-					<h4 class="text-white text-center"> Maptio is not yet optimized for small screens.</h4>
+<div class="d-flex flex-column h-100">
+  <header>
+  </header>
+  <div  class="h-100 row">
+    <div class="card bg-transparent border-0">
+      <div class="card-body">
+        <div class="d-flex justify-content-center align-items-center flex-column text-white">
+          <i class="fas fa-flushed  icon-ending-xs my-4"></i>
+          <h1>Sorry...</h1>
+        </div>
+        <h4 class="text-white text-center"> Maptio is not yet optimized for small screens.</h4>
 
-				</div>
-			</div>
+      </div>
+    </div>
 
-		</div>
-		<footer [isMobile]="isMobile()"></footer>
-	</div>
+  </div>
+  <footer [isMobile]="isMobile()"></footer>
+</div>
 </div> -->

@@ -1,12 +1,12 @@
 <li
   ngbDropdown
   class="nav-item dropdown d-none d-md-flex align-items-center cursor-pointer"
->
+  >
   <a
     class="nav-link dropdown-toggle d-none d-md-block"
     id="languageListDropdownLink"
     ngbDropdownToggle
-  >
+    >
     <span>{{ currentLocale?.shortLabel }}</span>
   </a>
 
@@ -14,20 +14,23 @@
     class="dropdown-menu dropdown-menu-end overflow"
     ngbDropdownMenu
     aria-labelledby="languageListDropdownLink"
-  >
-    <a
-      class="dropdown-item"
-      ngbDropdownItem
-      *ngFor="let locale of LOCALES"
-      (click)="onLanguageSelection(locale)"
     >
-      {{ locale.name }}
-    </a>
+    @for (locale of LOCALES; track locale) {
+      <a
+        class="dropdown-item"
+        ngbDropdownItem
+        (click)="onLanguageSelection(locale)"
+        >
+        {{ locale.name }}
+      </a>
+    }
   </div>
 </li>
 
-<li class="nav-item d-md-none" *ngFor="let locale of LOCALES">
-  <a class="btn btn-link px-0" (click)="onLanguageSelection(locale)">
-    {{ locale.name }}
-  </a>
-</li>
+@for (locale of LOCALES; track locale) {
+  <li class="nav-item d-md-none">
+    <a class="btn btn-link px-0" (click)="onLanguageSelection(locale)">
+      {{ locale.name }}
+    </a>
+  </li>
+}

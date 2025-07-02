@@ -19,14 +19,14 @@
     <div
       *permissionsOnly="Permissions.canEditTags"
       class="d-flex flex-column bg-light rounded p-3"
-    >
+      >
       <h6 i18n>Create a new tag</h6>
 
       <form
         class="form-group form-inline d-flex"
         [formGroup]="newTagForm"
         (submit)="addTag()"
-      >
+        >
         <input
           type="text"
           id="inputname"
@@ -38,7 +38,7 @@
           "
           class="form-control form-control-warning flex-grow-1"
           required
-        />
+          />
         <div class="mx-1">
           <common-color-picker
             [color]="newTagColor"
@@ -51,98 +51,98 @@
         </button>
       </form>
 
-      <small
-        class="invalid-feedback"
-        *ngIf="
-          newTagForm.controls['name'].invalid &&
-          (newTagForm.controls['name'].dirty ||
-            newTagForm.controls['name'].touched)
-        "
-      >
-        <ng-container i18n="@@required">Required</ng-container>
-      </small>
+      @if (
+        newTagForm.controls['name'].invalid &&
+        (newTagForm.controls['name'].dirty ||
+        newTagForm.controls['name'].touched)
+        ) {
+        <small
+          class="invalid-feedback"
+          >
+          <ng-container i18n="@@required">Required</ng-container>
+        </small>
+      }
     </div>
 
     <hr />
     <div class="p-3">
-      <div
-        class="form-group form-inline d-flex"
-        *ngFor="let tag of tags; let i = index"
-      >
-        <ng-container
+      @for (tag of tags; track tag; let i = $index) {
+        <div
+          class="form-group form-inline d-flex"
+          >
+          <ng-container
           *permissionsOnly="
             Permissions.canEditTags;
             else elseTagsBlock;
             then: thenTagsBlock
           "
-        >
-          main
-        </ng-container>
-
-        <ng-template #thenTagsBlock>
-          <input
-            type="text"
-            class="flex-grow-1 form-control"
-            name="inputTagName"
-            [ngModelOptions]="{ standalone: true }"
-            [ngModel]="tag.name"
-            (ngModelChange)="saveTagName(tag, $event)"
-            (blur)="saveTagChanges()"
-          />
-          <div class="mx-1">
-            <common-color-picker
-              [color]="tag.color"
-              [isMinimal]="true"
-              (change)="saveColor(tag, $event)"
-            ></common-color-picker>
-          </div>
-          <button
-            placement="top"
-            container="body"
-            mwlConfirmationPopover
-            popoverMessage="This cannot be undone! This tag will be removed from all circles."
-            focusbutton="cancel"
-            appendToBody="false"
-            (confirm)="removeTag(tag)"
-            (cancel)="cancelClicked = true"
-            class="btn btn-outline-secondary remove col-auto"
-            i18n-popoverMessage
-            confirmText="Confirm"
-            cancelText="Cancel"
-            i18n-confirmText="@@confirm"
-            i18n-cancelText="@@cancel"
-          ></button>
-        </ng-template>
-
-        <ng-template #elseTagsBlock>
-          <div
-            class="flex-grow-1 d-flex"
-            [stickyPopover]="insufficientPermissionsMessage"
-          >
+            >
+            main
+          </ng-container>
+          <ng-template #thenTagsBlock>
             <input
               type="text"
-              class="flex-grow-1 form-control cursor-not-allowed"
+              class="flex-grow-1 form-control"
               name="inputTagName"
+              [ngModelOptions]="{ standalone: true }"
               [ngModel]="tag.name"
-              disabled
-            />
-          </div>
-          <div class="mx-1">
-            <common-color-picker
-              [color]="tag.color"
-              [isDisabled]="true"
-              (change)="saveColor(tag, $event)"
-            ></common-color-picker>
-          </div>
-          <button
-            placement="top"
-            container="body"
-            appendToBody="false"
-            class="btn btn-outline-secondary remove col-auto disabled cursor-not-allowed"
-            [stickyPopover]="insufficientPermissionsMessage"
-          ></button>
-        </ng-template>
-      </div>
+              (ngModelChange)="saveTagName(tag, $event)"
+              (blur)="saveTagChanges()"
+              />
+            <div class="mx-1">
+              <common-color-picker
+                [color]="tag.color"
+                [isMinimal]="true"
+                (change)="saveColor(tag, $event)"
+              ></common-color-picker>
+            </div>
+            <button
+              placement="top"
+              container="body"
+              mwlConfirmationPopover
+              popoverMessage="This cannot be undone! This tag will be removed from all circles."
+              focusbutton="cancel"
+              appendToBody="false"
+              (confirm)="removeTag(tag)"
+              (cancel)="cancelClicked = true"
+              class="btn btn-outline-secondary remove col-auto"
+              i18n-popoverMessage
+              confirmText="Confirm"
+              cancelText="Cancel"
+              i18n-confirmText="@@confirm"
+              i18n-cancelText="@@cancel"
+            ></button>
+          </ng-template>
+          <ng-template #elseTagsBlock>
+            <div
+              class="flex-grow-1 d-flex"
+              [stickyPopover]="insufficientPermissionsMessage"
+              >
+              <input
+                type="text"
+                class="flex-grow-1 form-control cursor-not-allowed"
+                name="inputTagName"
+                [ngModel]="tag.name"
+                disabled
+                />
+            </div>
+            <div class="mx-1">
+              <common-color-picker
+                [color]="tag.color"
+                [isDisabled]="true"
+                (change)="saveColor(tag, $event)"
+              ></common-color-picker>
+            </div>
+            <button
+              placement="top"
+              container="body"
+              appendToBody="false"
+              class="btn btn-outline-secondary remove col-auto disabled cursor-not-allowed"
+              [stickyPopover]="insufficientPermissionsMessage"
+            ></button>
+          </ng-template>
+        </div>
+      }
     </div>
   </div>
 </div>
