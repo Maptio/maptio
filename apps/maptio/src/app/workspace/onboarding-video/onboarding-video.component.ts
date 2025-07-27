@@ -156,7 +156,7 @@ export class OnboardingVideoComponent {
   }
 
   dismissVideo() {
-    this.workspaceService.hideOnboardingVideo();
+    this.workspaceService.toggleOnboardingVideo();
   }
 
   hideCoverAndPlayVideo() {

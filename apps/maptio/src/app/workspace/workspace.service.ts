@@ -43,6 +43,8 @@ export class WorkspaceService {
   tags = this.datasetService.tags;
   isEmptyMap = this.datasetService.isEmptyMap;
 
+  onboardingVideoMessageKey = 'showOnboardingVideo';
+
   private canSeeOnboardingMessages = toSignal(
     this.permissionsService.canSeeOnboardingMessages$,
   );
@@ -56,17 +58,17 @@ export class WorkspaceService {
       return this.isOnboardingVideoHiddenManually();
     }
 
-    const messageKey = 'showOnboardingVideo';
-
     if (
       this.canSeeOnboardingMessages() &&
       this.user() &&
       Object.prototype.hasOwnProperty.call(
         this.user().onboardingProgress,
-        messageKey,
+        this.onboardingVideoMessageKey,
       )
     ) {
-      return this.user().onboardingProgress[messageKey] === true;
+      return (
+        this.user().onboardingProgress[this.onboardingVideoMessageKey] === true
+      );
     } else {
       return false;
     }
@@ -76,35 +78,21 @@ export class WorkspaceService {
   shouldFocusNewInitiativeName = signal<boolean>(false);
 
   async toggleOnboardingVideo() {
-    if (this.user()) {
-      const messageKey = 'showOnboardingVideo';
-      const onboardingProgress = this.user().onboardingProgress;
-      const newVisibility = !this.isOnboardingVideoVisible();
-
-      onboardingProgress[messageKey] = newVisibility;
-
-      this.isOnboardingVideoHiddenManually.set(newVisibility);
-
-      await this.userService.updateUserOnboardingProgress(
-        this.user(),
-        onboardingProgress,
-      );
+    if (!this.user()) {
+      return;
     }
-  }
 
-  async hideOnboardingVideo() {
-    this.isOnboardingVideoHiddenManually.set(false);
+    const onboardingProgress = this.user().onboardingProgress;
+    const newVisibility = !this.isOnboardingVideoVisible();
 
-    if (this.user()) {
-      const messageKey = 'showOnboardingVideo';
-      const onboardingProgress = this.user().onboardingProgress;
-      onboardingProgress[messageKey] = false;
+    onboardingProgress[this.onboardingVideoMessageKey] = newVisibility;
 
-      await this.userService.updateUserOnboardingProgress(
-        this.user(),
-        onboardingProgress,
-      );
-    }
+    this.isOnboardingVideoHiddenManually.set(newVisibility);
+
+    await this.userService.updateUserOnboardingProgress(
+      this.user(),
+      onboardingProgress,
+    );
   }
 
   loadData(data: DataLoadStructure) {
