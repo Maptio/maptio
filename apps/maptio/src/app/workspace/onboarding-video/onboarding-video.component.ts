@@ -15,10 +15,10 @@ import { UserService } from '@maptio-shared/services/user/user.service';
 import { PermissionsService } from '@maptio-shared/services/permissions/permissions.service';
 
 @Component({
-    selector: 'maptio-onboarding-video',
-    templateUrl: './onboarding-video.component.html',
-    styleUrls: ['./onboarding-video.component.scss'],
-    imports: [DragDropModule, AsyncPipe]
+  selector: 'maptio-onboarding-video',
+  templateUrl: './onboarding-video.component.html',
+  styleUrls: ['./onboarding-video.component.scss'],
+  imports: [DragDropModule, AsyncPipe],
 })
 export class OnboardingVideoComponent {
   userService = inject(UserService);
@@ -65,14 +65,14 @@ export class OnboardingVideoComponent {
         user &&
         Object.prototype.hasOwnProperty.call(
           user.onboardingProgress,
-          this.messageKey
+          this.messageKey,
         )
       ) {
         return user.onboardingProgress[this.messageKey] === true;
       } else {
         return false;
       }
-    })
+    }),
   );
 
   // This is used to prevent the video from being clicked when dragging
@@ -194,7 +194,7 @@ export class OnboardingVideoComponent {
 
       this.userService.updateUserOnboardingProgress(
         this.user,
-        onboardingProgress
+        onboardingProgress,
       );
       this.hideMessageManually$.next(true);
     }
