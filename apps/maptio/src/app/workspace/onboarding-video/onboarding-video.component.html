@@ -12,7 +12,16 @@
       <div class="onboarding-video__window-content">
         <div class="onboarding-video__video-container">
           @if (showCover) {
-            <div class="onboarding-video__cover"></div>
+            <div class="onboarding-video__cover">
+              <button
+                class="btn btn-info text-white"
+                (click)="hideCoverAndPlayVideo()"
+              >
+                <span class="onboarding-banner__emoji">▶️</span>
+                <ng-container>&nbsp;</ng-container>
+                <ng-container i18n>Play welcome video</ng-container>
+              </button>
+            </div>
           }
 
           <button
@@ -22,6 +31,7 @@
             ×
           </button>
           <video
+            #onboardingVideo
             class="onboarding-video__video"
             controls
             preload="metadata"

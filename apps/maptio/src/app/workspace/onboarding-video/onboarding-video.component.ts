@@ -1,4 +1,10 @@
-import { Component, HostListener, inject } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  inject,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { BehaviorSubject, combineLatest } from 'rxjs';
@@ -17,6 +23,9 @@ import { PermissionsService } from '@maptio-shared/services/permissions/permissi
 export class OnboardingVideoComponent {
   userService = inject(UserService);
   permissionsService = inject(PermissionsService);
+
+  @ViewChild('onboardingVideo', { static: false })
+  videoRef?: ElementRef<HTMLVideoElement>;
 
   isDragging = false;
   isResizing = false;
@@ -189,5 +198,10 @@ export class OnboardingVideoComponent {
       );
       this.hideMessageManually$.next(true);
     }
+  }
+
+  hideCoverAndPlayVideo() {
+    this.showCover = false;
+    this.videoRef?.nativeElement.play();
   }
 }
