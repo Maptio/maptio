@@ -7,11 +7,18 @@
     [style.bottom]="position.bottom"
     cdkDrag
     (cdkDragStarted)="onDragStarted()"
-    >
+  >
     <div class="draggable-area" cdkDragHandle>
       <div class="onboarding-video__window-content">
         <div class="onboarding-video__video-container">
-          <button class="onboarding-video__close-button" (click)="dismissVideo()">
+          @if (showCover) {
+            <div class="onboarding-video__cover"></div>
+          }
+
+          <button
+            class="onboarding-video__close-button"
+            (click)="dismissVideo()"
+          >
             ×
           </button>
           <video
@@ -19,19 +26,22 @@
             controls
             preload="metadata"
             (click)="onVideoClick($event)"
-            >
+          >
             <source
               src="https://res.cloudinary.com/hgkbm0qes/video/upload/v1750180118/maptio-onboarding-video.mp4"
               type="video/mp4"
-              />
+            />
             Your browser does not support the video tag.
           </video>
         </div>
       </div>
     </div>
-    @for (handle of ['n', 's', 'e', 'w', 'nw', 'ne', 'sw', 'se']; track handle) {
+    @for (
+      handle of ['n', 's', 'e', 'w', 'nw', 'ne', 'sw', 'se'];
+      track handle
+    ) {
       <div
-    class="
+        class="
       onboarding-video__resize-handle
       onboarding-video__resize-handle--{{ handle }}
     "
