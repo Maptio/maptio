@@ -1,4 +1,4 @@
-@if (showMessage$ | async) {
+@if (isOnboardingVideoVisible()) {
   <div
     class="onboarding-video"
     [style.width.px]="size.width"

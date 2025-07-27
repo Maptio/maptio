@@ -1,19 +1,22 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 
 import { environment } from '@maptio-environment';
 import { Team } from '@maptio-shared/model/team.data';
 import { User } from '@maptio-shared/model/user.data';
 import { RouterLink } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { WorkspaceService } from '../../workspace/workspace.service';
 
 @Component({
-    selector: 'maptio-onboarding-banner',
-    templateUrl: './onboarding-banner.component.html',
-    styleUrls: ['./onboarding-banner.component.scss'],
-    imports: [NgbTooltipModule, RouterLink]
+  selector: 'maptio-onboarding-banner',
+  templateUrl: './onboarding-banner.component.html',
+  styleUrls: ['./onboarding-banner.component.scss'],
+  imports: [NgbTooltipModule, RouterLink],
 })
 export class OnboardingBannerComponent {
+  workspaceService = inject(WorkspaceService);
+  isOnboardingVideoVisible = this.workspaceService.isOnboardingVideoVisible;
+
   @Input() set user(user: User) {
     if (user?.teams?.length > 1) {
       this.showTeamName = true;
@@ -40,4 +43,8 @@ export class OnboardingBannerComponent {
   teamName: string;
   freeTrialCutoffDateMessage: string;
   remainingTrialTimeMessage: string;
+
+  async toggleOnboardingVideo() {
+    await this.workspaceService.toggleOnboardingVideo();
+  }
 }

@@ -1,8 +1,12 @@
 import { Injectable, inject, signal } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 
 import { SidePanelLayoutService } from '@notebits/toolkit';
 
+import { User } from '@maptio-shared/model/user.data';
 import { Initiative } from '@maptio-shared/model/initiative.data';
+import { UserService } from '@maptio-shared/services/user/user.service';
+import { PermissionsService } from '@maptio-shared/services/permissions/permissions.service';
 
 import { BuildingComponent } from '@maptio-old-workspace/components/data-entry/hierarchy/building.component';
 
@@ -18,6 +22,8 @@ import {
 export class WorkspaceService {
   datasetService = inject(DatasetService);
   sidePanelLayoutService = inject(SidePanelLayoutService);
+  userService = inject(UserService);
+  permissionsService = inject(PermissionsService);
 
   buildingComponent = signal<BuildingComponent>(null);
 
@@ -30,6 +36,8 @@ export class WorkspaceService {
   isDetailsPanelCollapsed = signal<boolean>(false);
   isDetailsPanelOpen = this.sidePanelLayoutService.detailsPanelOpened;
 
+  isOnboardingVideoVisible = signal<boolean>(false);
+
   // Signal to track when a new initiative is created and should have its name focused
   shouldFocusNewInitiativeName = signal<boolean>(false);
 
@@ -41,7 +49,77 @@ export class WorkspaceService {
   tags = this.datasetService.tags;
   isEmptyMap = this.datasetService.isEmptyMap;
 
-  constructor() {}
+  constructor() {
+    // Initialize onboarding video visibility based on user preferences
+    this.initializeOnboardingVideoVisibility();
+  }
+
+  private async initializeOnboardingVideoVisibility() {
+    // Subscribe to user changes and update video visibility accordingly
+    this.userService.user$.subscribe((user) => {
+      if (user) {
+        this.updateOnboardingVideoVisibility(user);
+      }
+    });
+  }
+
+  private updateOnboardingVideoVisibility(user: User) {
+    const messageKey = 'showOnboardingVideo';
+
+    // Check if user has permissions to see onboarding messages
+    this.permissionsService.canSeeOnboardingMessages$.subscribe(
+      (canSeeOnboardingMessages) => {
+        if (
+          canSeeOnboardingMessages &&
+          user &&
+          Object.prototype.hasOwnProperty.call(
+            user.onboardingProgress,
+            messageKey,
+          )
+        ) {
+          // TODO: Change back once development is complete
+          // this.isOnboardingVideoVisible.set(true);
+          this.isOnboardingVideoVisible.set(
+            user.onboardingProgress[messageKey] === true,
+          );
+        } else {
+          this.isOnboardingVideoVisible.set(false);
+        }
+      },
+    );
+  }
+
+  async toggleOnboardingVideo() {
+    const user = await firstValueFrom(this.userService.user$);
+    if (user) {
+      const messageKey = 'showOnboardingVideo';
+      const onboardingProgress = user.onboardingProgress;
+      onboardingProgress[messageKey] = !this.isOnboardingVideoVisible();
+
+      await this.userService.updateUserOnboardingProgress(
+        user,
+        onboardingProgress,
+      );
+
+      this.isOnboardingVideoVisible.set(onboardingProgress[messageKey]);
+    }
+  }
+
+  async hideOnboardingVideo() {
+    const user = await firstValueFrom(this.userService.user$);
+    if (user) {
+      const messageKey = 'showOnboardingVideo';
+      const onboardingProgress = user.onboardingProgress;
+      onboardingProgress[messageKey] = false;
+
+      await this.userService.updateUserOnboardingProgress(
+        user,
+        onboardingProgress,
+      );
+
+      this.isOnboardingVideoVisible.set(false);
+    }
+  }
 
   loadData(data: DataLoadStructure) {
     this.datasetService.loadData(data);

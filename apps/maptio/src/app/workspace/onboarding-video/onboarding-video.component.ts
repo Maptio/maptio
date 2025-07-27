@@ -8,12 +8,8 @@ import {
 } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
 
-import { User } from '@maptio-shared/model/user.data';
-import { UserService } from '@maptio-shared/services/user/user.service';
-import { PermissionsService } from '@maptio-shared/services/permissions/permissions.service';
+import { WorkspaceService } from '../workspace.service';
 
 @Component({
   selector: 'maptio-onboarding-video',
@@ -22,8 +18,7 @@ import { PermissionsService } from '@maptio-shared/services/permissions/permissi
   imports: [DragDropModule, AsyncPipe],
 })
 export class OnboardingVideoComponent {
-  userService = inject(UserService);
-  permissionsService = inject(PermissionsService);
+  workspaceService = inject(WorkspaceService);
 
   @ViewChild('onboardingVideo', { static: false })
   videoRef?: ElementRef<HTMLVideoElement>;
@@ -45,38 +40,8 @@ export class OnboardingVideoComponent {
 
   showCover = signal(true);
 
-  private hideMessageManually$ = new BehaviorSubject<boolean>(false);
-
-  // Show message only if user has not already dismissed it and only if they
-  // are an admin
-  messageKey = 'showOnboardingVideo';
-  helpPageUrl = '';
-  user?: User;
-  showMessage$ = combineLatest([
-    this.hideMessageManually$,
-    this.permissionsService.canSeeOnboardingMessages$,
-    this.userService.user$,
-  ]).pipe(
-    map(([hideMessageManually, canSeeOnboardingMessages, user]) => {
-      this.user = user;
-
-      console.log(this.user.onboardingProgress);
-
-      if (
-        !hideMessageManually &&
-        canSeeOnboardingMessages &&
-        user &&
-        Object.prototype.hasOwnProperty.call(
-          user.onboardingProgress,
-          this.messageKey,
-        )
-      ) {
-        return user.onboardingProgress[this.messageKey] === true;
-      } else {
-        return false;
-      }
-    }),
-  );
+  // Use the signal from workspace service
+  isOnboardingVideoVisible = this.workspaceService.isOnboardingVideoVisible;
 
   // This is used to prevent the video from being clicked when dragging
   onDragStarted() {
@@ -191,16 +156,7 @@ export class OnboardingVideoComponent {
   }
 
   dismissVideo() {
-    if (this.user && this.messageKey) {
-      const onboardingProgress = this.user.onboardingProgress;
-      onboardingProgress[this.messageKey] = false;
-
-      this.userService.updateUserOnboardingProgress(
-        this.user,
-        onboardingProgress,
-      );
-      this.hideMessageManually$.next(true);
-    }
+    this.workspaceService.hideOnboardingVideo();
   }
 
   hideCoverAndPlayVideo() {
