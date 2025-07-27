@@ -84,7 +84,12 @@
   align-items: center;
   justify-content: space-between;
   padding: 1.5rem 2rem;
-  background: yellow;
+
+  background-image: linear-gradient(
+    to left,
+    var(--maptio-accent),
+    var(--maptio-blue)
+  );
 }
 
 .onboarding-video__cover-content {
@@ -93,10 +98,10 @@
 }
 
 .onboarding-video__cover-heading {
-  margin-bottom: 1rem;
-  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.9rem;
   font-weight: bold;
-  color: #b38f00;
+  color: white;
 }
 
 .onboarding-video__cover-tom {
