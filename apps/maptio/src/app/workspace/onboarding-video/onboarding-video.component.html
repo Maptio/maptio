@@ -58,15 +58,16 @@
         </div>
       </div>
     </div>
+
     @for (
       handle of ['n', 's', 'e', 'w', 'nw', 'ne', 'sw', 'se'];
       track handle
     ) {
       <div
         class="
-      onboarding-video__resize-handle
-      onboarding-video__resize-handle--{{ handle }}
-    "
+          onboarding-video__resize-handle
+          onboarding-video__resize-handle--{{ handle }}
+        "
         [class.onboarding-video__resize-handle--disabled]="isResizing"
         (mousedown)="onResizeStart($event, handle)"
       ></div>
