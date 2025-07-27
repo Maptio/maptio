@@ -84,12 +84,17 @@
   align-items: center;
   justify-content: space-between;
   padding: 1.5rem 2rem;
-
+  transition: opacity 0.3s ease;
   background-image: linear-gradient(
     to left,
     var(--maptio-accent),
     var(--maptio-blue)
   );
+}
+
+.onboarding-video__cover--hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .onboarding-video__cover-content {
