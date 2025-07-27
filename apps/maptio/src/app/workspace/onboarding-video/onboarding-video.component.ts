@@ -42,6 +42,8 @@ export class OnboardingVideoComponent {
   // of the screen
   position = { left: '20px', bottom: '20px' };
 
+  showCover = true;
+
   private hideMessageManually$ = new BehaviorSubject<boolean>(false);
 
   // Show message only if user has not already dismissed it and only if they
