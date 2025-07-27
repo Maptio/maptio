@@ -4,6 +4,7 @@ import {
   inject,
   ViewChild,
   ElementRef,
+  signal,
 } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -42,7 +43,7 @@ export class OnboardingVideoComponent {
   // of the screen
   position = { left: '20px', bottom: '20px' };
 
-  showCover = true;
+  showCover = signal(true);
 
   private hideMessageManually$ = new BehaviorSubject<boolean>(false);
 
@@ -203,7 +204,7 @@ export class OnboardingVideoComponent {
   }
 
   hideCoverAndPlayVideo() {
-    this.showCover = false;
+    this.showCover.set(false);
     this.videoRef?.nativeElement.play();
   }
 }
