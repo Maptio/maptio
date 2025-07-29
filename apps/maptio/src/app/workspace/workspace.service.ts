@@ -4,8 +4,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { SidePanelLayoutService } from '@notebits/toolkit';
 
 import { Initiative } from '@maptio-shared/model/initiative.data';
-import { UserService } from '@maptio-shared/services/user/user.service';
-import { PermissionsService } from '@maptio-shared/services/permissions/permissions.service';
 
 import { BuildingComponent } from '@maptio-old-workspace/components/data-entry/hierarchy/building.component';
 
@@ -21,8 +19,6 @@ import {
 export class WorkspaceService {
   datasetService = inject(DatasetService);
   sidePanelLayoutService = inject(SidePanelLayoutService);
-  userService = inject(UserService);
-  permissionsService = inject(PermissionsService);
 
   buildingComponent = signal<BuildingComponent>(null);
 
@@ -35,6 +31,9 @@ export class WorkspaceService {
   isDetailsPanelCollapsed = signal<boolean>(false);
   isDetailsPanelOpen = this.sidePanelLayoutService.detailsPanelOpened;
 
+  // Signal to track when a new initiative is created and should have its name focused
+  shouldFocusNewInitiativeName = signal<boolean>(false);
+
   // Passing these on as they're needed in component templates
   dataset = this.datasetService.dataset; // Needed? Check!
   datasetId = this.datasetService.datasetId;
@@ -42,9 +41,6 @@ export class WorkspaceService {
   team = this.datasetService.team;
   tags = this.datasetService.tags;
   isEmptyMap = this.datasetService.isEmptyMap;
-
-  // Signal to track when a new initiative is created and should have its name focused
-  shouldFocusNewInitiativeName = signal<boolean>(false);
 
   loadData(data: DataLoadStructure) {
     this.datasetService.loadData(data);
