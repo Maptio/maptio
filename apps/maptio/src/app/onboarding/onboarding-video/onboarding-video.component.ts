@@ -9,7 +9,7 @@ import {
 import { AsyncPipe } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
-import { WorkspaceService } from '../workspace.service';
+import { OnboardingService } from 'app/onboarding/onboarding.service';
 
 @Component({
   selector: 'maptio-onboarding-video',
@@ -18,7 +18,7 @@ import { WorkspaceService } from '../workspace.service';
   imports: [DragDropModule, AsyncPipe],
 })
 export class OnboardingVideoComponent {
-  workspaceService = inject(WorkspaceService);
+  onboardingService = inject(OnboardingService);
 
   @ViewChild('onboardingVideo', { static: false })
   videoRef?: ElementRef<HTMLVideoElement>;
@@ -41,7 +41,7 @@ export class OnboardingVideoComponent {
   showCover = signal(true);
 
   // Use the signal from workspace service
-  isOnboardingVideoVisible = this.workspaceService.isOnboardingVideoVisible;
+  isOnboardingVideoVisible = this.onboardingService.isOnboardingVideoVisible;
 
   // This is used to prevent the video from being clicked when dragging
   onDragStarted() {
@@ -156,7 +156,7 @@ export class OnboardingVideoComponent {
   }
 
   dismissVideo() {
-    this.workspaceService.toggleOnboardingVideo();
+    this.onboardingService.toggleOnboardingVideo();
   }
 
   hideCoverAndPlayVideo() {
