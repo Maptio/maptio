@@ -7,7 +7,6 @@ import { AuthGuard } from '@auth0/auth0-angular';
 import { ActivationGuard } from '@maptio-core/guards/activation.guard';
 import { AccessGuard } from '@maptio-core/guards/access.guard';
 import { BillingGuard } from '@maptio-core/guards/billing.guard';
-import { WorkspaceGuard } from '@maptio-core/guards/workspace.guard';
 
 import * as fromWorkspace from '@maptio-old-workspace/+state/workspace.reducer';
 import { WorkspaceComponentResolver } from '@maptio-old-workspace/pages/workspace/workspace.resolver';
@@ -41,31 +40,42 @@ export default [
     ],
 
     children: [
-      { path: '', redirectTo: 'circles', pathMatch: 'full' },
+      {
+        path: '',
+        redirectTo: 'expanded-circles',
+        pathMatch: 'full',
+      },
       {
         path: 'circles',
-        component: MappingCirclesGradualRevealComponent,
-        // canActivate: [WorkspaceGuard],
+        redirectTo: 'expanded-circles',
+      },
+      {
+        path: 'expanded-circles',
+        component: MappingCirclesExpandedComponent,
       },
       {
         path: 'expanded',
-        component: MappingCirclesExpandedComponent,
-        // canActivate: [WorkspaceGuard],
+        redirectTo: 'expanded-circles',
+      },
+      {
+        path: 'covered-circles',
+        component: MappingCirclesGradualRevealComponent,
+      },
+      {
+        path: 'covered',
+        redirectTo: 'covered-circles',
       },
       {
         path: 'tree',
         component: MappingTreeComponent,
-        // canActivate: [WorkspaceGuard],
       },
       {
         path: 'network',
         component: MappingNetworkComponent,
-        // canActivate: [WorkspaceGuard],
       },
       {
         path: 'directory',
         component: MappingSummaryComponent,
-        // canActivate: [WorkspaceGuard],
         children: [
           { path: '', redirectTo: 'people', pathMatch: 'full' },
           {
