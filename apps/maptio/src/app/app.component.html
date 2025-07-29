@@ -23,6 +23,10 @@
       }
     </div>
   </div>
+
+  @if (onboardingService.showOnboardingFeatures()) {
+    <maptio-onboarding-video />
+  }
 } @else {
   <router-outlet></router-outlet>
 }
