@@ -18,6 +18,10 @@ export class OnboardingBannerComponent {
   isOnboardingVideoVisible = this.workspaceService.isOnboardingVideoVisible;
 
   @Input() set user(user: User) {
+    if (!user) {
+      return;
+    }
+
     if (user?.teams?.length > 1) {
       this.showTeamName = true;
     } else {
@@ -26,6 +30,10 @@ export class OnboardingBannerComponent {
   }
 
   @Input() set team(team: Team) {
+    if (!team) {
+      return;
+    }
+
     this.teamName = team.name;
     this.remainingTrialTimeMessage = team.getFreeTrialTimeLeftMessage();
     const freeTrialCutoffDate = team.getFreeTrialCutoffDate();
