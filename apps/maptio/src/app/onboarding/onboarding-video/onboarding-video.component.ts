@@ -29,7 +29,8 @@ export class OnboardingVideoComponent {
   resizeStart = { x: 0, y: 0 };
 
   // Initial size based on the video dimensions
-  initialSize = { width: 533, height: 270 };
+  // initialSize = { width: 533, height: 270 }; // 2134 x 1080 / 4 = 533 x 270
+  initialSize = { width: 537, height: 270 }; // 2148 x 1080 / 4 = 537 x 270
   aspectRatio = this.initialSize.width / this.initialSize.height;
   minWidth = 300;
   minHeight = this.minWidth / this.aspectRatio;
