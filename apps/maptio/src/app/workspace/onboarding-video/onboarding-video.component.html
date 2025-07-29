@@ -17,16 +17,20 @@
           >
             <div class="onboarding-video__cover-content">
               <h2 class="onboarding-video__cover-heading" i18n>
-                Welcome video
+                Quick tutorial
               </h2>
 
+              <p class="onboarding-video__cover-description" i18n>
+                Learn the basics in under a minute.
+              </p>
+
               <button
-                class="btn btn-info text-white"
+                class="btn btn-info text-white onboarding-video__cover-button"
                 (click)="hideCoverAndPlayVideo()"
               >
-                <span class="onboarding-banner__emoji">▶️</span>
+                <span class="onboarding-video__cover-emoji">▶️</span>
                 <ng-container>&nbsp;</ng-container>
-                <ng-container i18n>Play welcome video</ng-container>
+                <ng-container i18n>Play quick tutorial</ng-container>
               </button>
             </div>
 
