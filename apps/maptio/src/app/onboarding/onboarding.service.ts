@@ -24,7 +24,9 @@ export class OnboardingService {
   constructor() {}
 
   isAuthenticated = toSignal(this.userService.isAuthenticated$);
-  isCurrentTeamSubscribed = this.teamService.isCurrentTeamSubscribed;
+  isCurrentTeamNotSubscribed = computed(
+    () => this.teamService.isPaying() === false,
+  );
 
   onboardingVideoMessageKey = 'showOnboardingVideo';
 
@@ -79,7 +81,7 @@ export class OnboardingService {
     return (
       this.isAuthenticated() &&
       (this.isMap() || this.isHome() || this.isTeam()) &&
-      !this.isCurrentTeamSubscribed()
+      this.isCurrentTeamNotSubscribed()
     );
   }
 

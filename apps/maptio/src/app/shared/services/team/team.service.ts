@@ -16,7 +16,7 @@ export class TeamService {
   private NEW_TEAM_ID_PLACEHOLDER = 'new-team-id-placeholder';
 
   currentTeam = signal<Team | null>(null);
-  isCurrentTeamSubscribed = computed(() => this.currentTeam()?.isPaying);
+  isPaying = computed(() => this.currentTeam()?.isPaying);
 
   constructor(
     private teamFactory: TeamFactory,
