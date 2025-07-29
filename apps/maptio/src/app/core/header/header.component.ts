@@ -5,6 +5,7 @@ import {
   OnInit,
   AfterViewInit,
   OnDestroy,
+  inject,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
@@ -24,6 +25,7 @@ import { User } from '@maptio-shared/model/user.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { DataSet } from '@maptio-shared/model/dataset.data';
 import { UserService } from '@maptio-shared/services/user/user.service';
+import { TeamService } from '@maptio-shared/services/team/team.service';
 import { ErrorService } from '@maptio-shared/services/error/error.service';
 import { BillingService } from '@maptio-shared/services/billing/billing.service';
 import { LoaderService } from '@maptio-shared/components/loading/loader.service';
@@ -35,13 +37,14 @@ import { LoginRedirectDirective } from '../../modules/login/login-redirect/login
 import { LanguagePickerComponent } from './language-picker.component';
 import { OnboardingBannerComponent } from './onboarding-banner.component';
 import { NgClass, AsyncPipe, SlicePipe } from '@angular/common';
+import { OnboardingService } from '../../onboarding/onboarding.service';
 
 @Component({
-    selector: 'maptio-header',
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.css'],
-    changeDetection: ChangeDetectionStrategy.Default,
-    imports: [
+  selector: 'maptio-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css'],
+  changeDetection: ChangeDetectionStrategy.Default,
+  imports: [
     RouterLink,
     NgClass,
     AsyncPipe,
@@ -50,10 +53,12 @@ import { NgClass, AsyncPipe, SlicePipe } from '@angular/common';
     NgbCollapseModule,
     LanguagePickerComponent,
     LoginRedirectDirective,
-    OnboardingBannerComponent
-]
+    OnboardingBannerComponent,
+  ],
 })
 export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
+  private readonly teamService = inject(TeamService);
+
   private subs = new SubSink();
 
   public user: User;
@@ -80,11 +85,12 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     public loaderService: LoaderService,
     private cd: ChangeDetectorRef,
-    private billingService: BillingService
+    private billingService: BillingService,
+    public onboardingService: OnboardingService,
   ) {
     const [teamDefined, teamUndefined] = partition(
       from(EmitterService.get('currentTeam')),
-      (team: Team) => !!team
+      (team: Team) => !!team,
     );
 
     this.subs.sink = teamDefined
@@ -101,13 +107,14 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
                 team.freeTrialLength = value.freeTrialLength;
                 team.isPaying = value.isPaying;
                 return team;
-              }
-            )
+              },
+            ),
           );
-        })
+        }),
       )
       .subscribe((value: Team) => {
         this.team = value;
+        this.teamService.currentTeam.set(value);
         this.cd.markForCheck();
       });
 
@@ -128,7 +135,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onMenuClick() {
     const toggler = document.querySelector(
-      '.navbar-toggler'
+      '.navbar-toggler',
     ) as HTMLButtonElement;
     if (window.getComputedStyle(toggler).display === 'none') return;
     toggler.click();
@@ -151,7 +158,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (error: any) => {
         console.error(error);
-      }
+      },
     );
   }
 
@@ -161,18 +168,6 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
       this.router.url.startsWith('/signup') ||
       this.router.url.startsWith('/forgot')
     );
-  }
-
-  isMap() {
-    return this.router.url.startsWith('/map');
-  }
-
-  isHome() {
-    return this.router.url.startsWith('/home');
-  }
-
-  isTeam() {
-    return this.router.url.startsWith('/teams');
   }
 
   isPricing() {

@@ -1,8 +1,4 @@
-@if (
-  (userService.isAuthenticated$ | async) &&
-  (isMap() || isHome() || isTeam()) &&
-  team?.isPaying === false
-  ) {
+@if (onboardingService.showOnboardingFeatures()) {
   <maptio-onboarding-banner
     [user]="user"
     [team]="team"

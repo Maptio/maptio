@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { TeamFactory } from '../../../core/http/team/team.factory';
 import { UserFactory } from '../../../core/http/user/user.factory';
 import { User } from '../../model/user.data';
@@ -15,11 +15,14 @@ import { UserRole } from '@maptio-shared/model/permission.data';
 export class TeamService {
   private NEW_TEAM_ID_PLACEHOLDER = 'new-team-id-placeholder';
 
+  currentTeam = signal<Team | null>(null);
+  isCurrentTeamSubscribed = computed(() => this.currentTeam()?.isPaying);
+
   constructor(
     private teamFactory: TeamFactory,
     private userFactory: UserFactory,
     private datasetFactory: DatasetFactory,
-    private intercomService: IntercomService
+    private intercomService: IntercomService,
   ) {}
 
   create(name: string, user: User, replaceNewTeamIdPlaceHolder?: boolean) {
@@ -34,7 +37,7 @@ export class TeamService {
           isExample: false,
           freeTrialLength: 30,
           isPaying: false,
-        })
+        }),
       )
       .then(
         (team: Team) => {
@@ -57,7 +60,7 @@ export class TeamService {
               (error) => {
                 console.error('Error adding team to user: ', error);
                 throw $localize`Unable to create organisation ${name}!`;
-              }
+              },
             )
             .then(() => {
               return team;
@@ -66,7 +69,7 @@ export class TeamService {
         (error) => {
           console.error('Error creating team: ', error);
           throw $localize`Unable to create organisation ${name}!`;
-        }
+        },
       )
       .then((team: Team) => {
         return this.intercomService
@@ -127,7 +130,7 @@ export class TeamService {
   replaceTemporaryUserRole(user: User, teamId: string): User {
     // Find and modify user role for team with id NEW_TEAM_ID
     const userRoleInOrganization = user.getUserRoleInOrganization(
-      this.NEW_TEAM_ID_PLACEHOLDER
+      this.NEW_TEAM_ID_PLACEHOLDER,
     );
     user.deleteUserRole(this.NEW_TEAM_ID_PLACEHOLDER);
     user.setUserRole(teamId, userRoleInOrganization);
@@ -186,7 +189,7 @@ export class TeamService {
   private async addMember(
     team: Team,
     user: User,
-    userRoleInOrganization: UserRole
+    userRoleInOrganization: UserRole,
   ): Promise<boolean> {
     let success: boolean;
     let teamDatasets: DataSet[];
@@ -232,16 +235,16 @@ export class TeamService {
   async replaceMember(
     team: Team,
     memberToBeReplaced: User,
-    memberToBeAdded: User
+    memberToBeAdded: User,
   ): Promise<boolean> {
     const userRoleInOrganization = memberToBeReplaced.getUserRoleInOrganization(
-      team.team_id
+      team.team_id,
     );
 
     this.removeMember(team, memberToBeReplaced);
 
     const isMemberToBeAddedAlreadyInTeam = team.members.some(
-      (member) => member.user_id === memberToBeAdded.user_id
+      (member) => member.user_id === memberToBeAdded.user_id,
     );
 
     if (!isMemberToBeAddedAlreadyInTeam) {
