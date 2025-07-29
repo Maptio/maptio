@@ -5,7 +5,7 @@ import { Team } from '@maptio-shared/model/team.data';
 import { User } from '@maptio-shared/model/user.data';
 import { RouterLink } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { WorkspaceService } from '../../workspace/workspace.service';
+import { OnboardingService } from 'app/onboarding/onboarding.service';
 
 @Component({
   selector: 'maptio-onboarding-banner',
@@ -14,8 +14,8 @@ import { WorkspaceService } from '../../workspace/workspace.service';
   imports: [NgbTooltipModule, RouterLink],
 })
 export class OnboardingBannerComponent {
-  workspaceService = inject(WorkspaceService);
-  isOnboardingVideoVisible = this.workspaceService.isOnboardingVideoVisible;
+  onboardingService = inject(OnboardingService);
+  isOnboardingVideoVisible = this.onboardingService.isOnboardingVideoVisible;
 
   @Input() set user(user: User) {
     if (!user) {
@@ -53,6 +53,6 @@ export class OnboardingBannerComponent {
   remainingTrialTimeMessage: string;
 
   async toggleOnboardingVideo() {
-    await this.workspaceService.toggleOnboardingVideo();
+    await this.onboardingService.toggleOnboardingVideo();
   }
 }

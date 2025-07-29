@@ -43,57 +43,8 @@ export class WorkspaceService {
   tags = this.datasetService.tags;
   isEmptyMap = this.datasetService.isEmptyMap;
 
-  onboardingVideoMessageKey = 'showOnboardingVideo';
-
-  private canSeeOnboardingMessages = toSignal(
-    this.permissionsService.canSeeOnboardingMessages$,
-  );
-
-  // Manual override for when user explicitly toggles the video
-  private isOnboardingVideoHiddenManually = signal<boolean | null>(null);
-
-  // Computed signal that determines onboarding video visibility
-  isOnboardingVideoVisible = computed(() => {
-    if (this.isOnboardingVideoHiddenManually() !== null) {
-      return this.isOnboardingVideoHiddenManually();
-    }
-
-    if (
-      this.canSeeOnboardingMessages() &&
-      this.user() &&
-      Object.prototype.hasOwnProperty.call(
-        this.user().onboardingProgress,
-        this.onboardingVideoMessageKey,
-      )
-    ) {
-      return (
-        this.user().onboardingProgress[this.onboardingVideoMessageKey] === true
-      );
-    } else {
-      return false;
-    }
-  });
-
   // Signal to track when a new initiative is created and should have its name focused
   shouldFocusNewInitiativeName = signal<boolean>(false);
-
-  async toggleOnboardingVideo() {
-    if (!this.user()) {
-      return;
-    }
-
-    const onboardingProgress = this.user().onboardingProgress;
-    const newVisibility = !this.isOnboardingVideoVisible();
-
-    onboardingProgress[this.onboardingVideoMessageKey] = newVisibility;
-
-    this.isOnboardingVideoHiddenManually.set(newVisibility);
-
-    await this.userService.updateUserOnboardingProgress(
-      this.user(),
-      onboardingProgress,
-    );
-  }
 
   loadData(data: DataLoadStructure) {
     this.datasetService.loadData(data);
