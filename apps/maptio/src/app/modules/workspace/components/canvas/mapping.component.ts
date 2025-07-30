@@ -60,11 +60,11 @@ import { MappingCirclesExpandedComponent } from '@maptio-old-workspace/pages/cir
 import { MappingNetworkComponent } from '@maptio-old-workspace/pages/network/mapping.network.component';
 
 @Component({
-    selector: 'mapping',
-    templateUrl: './mapping.component.html',
-    styleUrls: ['./mapping.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
+  selector: 'mapping',
+  templateUrl: './mapping.component.html',
+  styleUrls: ['./mapping.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
     RouterLinkActive,
     RouterLink,
     RouterOutlet,
@@ -79,8 +79,8 @@ import { MappingNetworkComponent } from '@maptio-old-workspace/pages/network/map
     ColorPickerComponent,
     PermissionsDirective,
     StickyPopoverDirective,
-    InsufficientPermissionsMessageComponent
-]
+    InsufficientPermissionsMessageComponent,
+  ],
 })
 export class MappingComponent {
   isFirstEdit: boolean;
@@ -173,7 +173,7 @@ export class MappingComponent {
     private exportService: ExportService,
     private intercom: Intercom,
     private router: Router,
-    private mapSettingsService: MapSettingsService
+    private mapSettingsService: MapSettingsService,
   ) {
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
@@ -225,7 +225,7 @@ export class MappingComponent {
         (tooltip: { initiatives: Initiative[]; isNameOnly: boolean }) => {
           if (tooltip.initiatives)
             this.openDetails.emit(tooltip.initiatives[0]);
-        }
+        },
       );
 
     component.showDetailsOf$.asObservable().subscribe((node) => {
@@ -240,7 +240,7 @@ export class MappingComponent {
     this.x = Number.parseFloat(this.uriService.parseFragment(f).get('x'));
     this.y = Number.parseFloat(this.uriService.parseFragment(f).get('y'));
     this.scale = Number.parseFloat(
-      this.uriService.parseFragment(f).get('scale')
+      this.uriService.parseFragment(f).get('scale'),
     );
 
     const tagsState =
@@ -251,7 +251,8 @@ export class MappingComponent {
             .get('tags')
             .split(',')
             .map(
-              (s: string) => new SelectableTag({ shortid: s, isSelected: true })
+              (s: string) =>
+                new SelectableTag({ shortid: s, isSelected: true }),
             )
         : [];
 
@@ -289,7 +290,7 @@ export class MappingComponent {
       this.isSearchDisabled = false;
       this.isFilterDisabled = false;
       this.isZoomDisabled = false;
-      this.isShareDisabled = true;
+      this.isShareDisabled = false;
       this.toggleEditingPanelsVisibility.emit(true);
     }
   }
@@ -343,8 +344,8 @@ export class MappingComponent {
         map((data) => data[1]),
         combineLatest(
           this.route.fragment,
-          this.route.queryParams.pipe(distinct())
-        )
+          this.route.queryParams.pipe(distinct()),
+        ),
       ) // PEFORMACE : with latest changes
       .subscribe(([data, fragment, queryParams]) => {
         if (
@@ -372,14 +373,14 @@ export class MappingComponent {
                 .split(',')
                 .map(
                   (s: string) =>
-                    new SelectableTag({ shortid: s, isSelected: true })
+                    new SelectableTag({ shortid: s, isSelected: true }),
                 )
             : <SelectableTag[]>[];
 
         this.tags = compact<SelectableTag>(
           data.dataset.tags.map((dataTag: SelectableTag) => {
             const searchTag = fragmentTags.find(
-              (t) => t.shortid === dataTag.shortid
+              (t) => t.shortid === dataTag.shortid,
             );
             return new SelectableTag({
               shortid: dataTag.shortid,
@@ -387,7 +388,7 @@ export class MappingComponent {
               color: dataTag.color,
               isSelected: searchTag !== undefined,
             });
-          })
+          }),
         );
 
         this.dataset = data.dataset;
@@ -551,7 +552,7 @@ export class MappingComponent {
     this.showTooltip(null, null);
     this.cd.markForCheck();
     this.router.navigateByUrl(
-      `/map/${this.datasetId}/${this.slug}/directory?member=${selected.shortid}`
+      `/map/${this.datasetId}/${this.slug}/directory?member=${selected.shortid}`,
     );
   }
 }

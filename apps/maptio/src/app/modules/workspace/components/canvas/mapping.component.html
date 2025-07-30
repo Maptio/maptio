@@ -3,35 +3,35 @@
     class="btn btn-light toolbar-button text-dark p-1 d-flex flex-column justify-content-between align-items-center"
     #rlaCircles="routerLinkActive"
     [routerLinkActive]="['active']"
-    routerLink="/map/{{ datasetId }}/{{ slug }}/circles"
-    ngbTooltip="Circles"
+    routerLink="/map/{{ datasetId }}/{{ slug }}/expanded"
+    ngbTooltip="Expanded Circles"
+    i18n-ngbTooltip="@@expanded-circles"
     openDelay="500"
     tooltipClass="toolbar-button__tooltip"
     placement="left"
-    i18n-ngbTooltip="@@circles"
-    >
-    <img class="toolbar-button__image" src="assets/images/circles.svg" />
-    <span class="icon-text-label">
-      <ng-container i18n="@@circles">Circles</ng-container>
-    </span>
+  >
+    <img
+      class="toolbar-button__image"
+      src="assets/images/circles-expanded.svg"
+    />
+    <span class="icon-text-label" i18n="@@expanded">Expanded</span>
   </button>
 
   <button
     class="btn btn-light toolbar-button text-dark p-1 d-flex flex-column justify-content-between align-items-center"
     #rlaCircles="routerLinkActive"
     [routerLinkActive]="['active']"
-    routerLink="/map/{{ datasetId }}/{{ slug }}/expanded"
-    ngbTooltip="Expanded Circles"
+    routerLink="/map/{{ datasetId }}/{{ slug }}/focused"
+    ngbTooltip="Focused Circles"
+    i18n-ngbTooltip="@@focused-circles"
     openDelay="500"
     tooltipClass="toolbar-button__tooltip"
     placement="left"
-    i18n-ngbTooltip
-    >
-    <img
-      class="toolbar-button__image"
-      src="assets/images/circles-expanded.svg"
-      />
-    <span class="icon-text-label" i18n>Expanded</span>
+  >
+    <img class="toolbar-button__image" src="assets/images/circles.svg" />
+    <span class="icon-text-label">
+      <ng-container i18n="@@focused">Focused</ng-container>
+    </span>
   </button>
 
   <button
@@ -44,7 +44,7 @@
     tooltipClass="toolbar-button__tooltip"
     placement="left"
     i18n-ngbTooltip="@@network"
-    >
+  >
     <img class="toolbar-button__image" src="assets/images/network.png" />
     <span class="d-none d-md-block icon-text-label">
       <ng-container i18n="@@network">Network</ng-container>
@@ -56,7 +56,7 @@
   class="d-flex rounded-end justify-content-center h-100 position-relative bg-white overflow-x-hidden"
   [class.overflow-y-hidden]="!isFullScreen"
   id="mapping-canvas"
-  >
+>
   <div class="w-100">
     <div class="w-100 h-100">
       <div class="row h-100">
@@ -64,7 +64,7 @@
           <div
             class="h-100 w-100 d-flex justify-content-end"
             [class.m-4]="isFullScreen && rlaSummary.isActive"
-            >
+          >
             <router-outlet
               (activate)="onActivate($event)"
               (deactivate)="onDeactivate($event)"
@@ -72,7 +72,7 @@
           </div>
           <div
             class="toolbar d-flex flex-column bg-transparent position-absolute top-right align-items-center align-items-md-end col-12 col-md-auto ms-md-0 me-md-2 ps-md-0 z-index-1"
-            >
+          >
             <div class="btn-group-vertical mb-3 d-none d-md-block">
               <button
                 class="btn btn-light toolbar-button p-1 text-dark d-flex flex-column justify-content-between align-items-center"
@@ -85,7 +85,7 @@
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
                 i18n-ngbTooltip="@@search"
-                >
+              >
                 <i class="mt-2 fa fa-search"></i>
                 <span class="icon-text-label" i18n="@@search">Search</span>
               </button>
@@ -101,7 +101,7 @@
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
                 i18n-ngbTooltip="@@filter"
-                >
+              >
                 <i class="mt-2 fa fa-filter"></i>
                 <span class="icon-text-label" i18n="@@filter">Filter</span>
               </button>
@@ -117,7 +117,7 @@
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
                 i18n-ngbTooltip="@@share"
-                >
+              >
                 <i class="mt-2 fas fa-share"></i>
                 <span class="icon-text-label" i18n="@@share">Share</span>
               </button>
@@ -136,7 +136,7 @@
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
                 i18n-ngbTooltip="@@directory"
-                >
+              >
                 <span class="d-none d-md-block icon-text-label">
                   <ng-container i18n="@@directory">Directory</ng-container>
                 </span>
@@ -157,7 +157,7 @@
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
                 i18n-ngbTooltip="@@zoomout"
-                >
+              >
                 <i class="fa fa-minus py-1"></i>
                 <span class="icon-text-label" i18n="@@zoomout">Zoom out</span>
               </button>
@@ -171,7 +171,7 @@
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
                 i18n-ngbTooltip="@@zoomin"
-                >
+              >
                 <i class="fa fa-plus py-1"></i>
                 <span class="icon-text-label" i18n="@@zoomin">Zoom in</span>
               </button>
@@ -185,7 +185,7 @@
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
                 i18n-ngbTooltip="@@zoomfit"
-                >
+              >
                 <i class="fa fa-expand-arrows-alt py-1"></i>
                 <span class="icon-text-label" i18n="@@zoomfit">Zoom fit</span>
               </button>
@@ -194,7 +194,7 @@
                 <button
                   class="btn btn-light toolbar-button text-dark p-1 d-flex flex-column justify-content-between align-items-center"
                   (click)="fullScreen()"
-                  >
+                >
                   <i
                     class="fas py-1"
                     [class.fa-expand]="!isFullScreen"
@@ -220,7 +220,7 @@
                 tooltipClass="toolbar-button__tooltip"
                 placement="left"
                 i18n-ngbTooltip="@@colors"
-                >
+              >
                 <i class="mt-2 fas fa-palette"></i>
                 <span class="icon-text-label" i18n="@@colors">Colors</span>
               </button>
@@ -245,16 +245,17 @@
   <div
     id="collapsible-options"
     class="d-flex flex-column justify-content-start align-items-end position-absolute pe-3 mx-5 my-2 windows z-index-1"
-    >
+  >
     <div
       id="collapseSearch"
       class="collapse rounded bg-light p-3 mb-3 col-12"
       [class.d-none]="isSearchDisabled"
-      [ngbCollapse]="!isSearchToggled" (ngbCollapseChange)="isSearchToggled = $event"
+      [ngbCollapse]="!isSearchToggled"
+      (ngbCollapseChange)="isSearchToggled = $event"
       [animation]="false"
       closable
       (close)="isSearchToggled = false"
-      >
+    >
       <search
         #search
         [list]="flattenInitiative"
@@ -266,11 +267,12 @@
     <div
       id="collapseFilter"
       class="collapse rounded mb-3 col-12 bg-light p-3"
-      [ngbCollapse]="!isFiltersToggled" (ngbCollapseChange)="isFiltersToggled = $event"
+      [ngbCollapse]="!isFiltersToggled"
+      (ngbCollapseChange)="isFiltersToggled = $event"
       [animation]="false"
       closable
       (close)="isFiltersToggled = false"
-      >
+    >
       <filter-tags
         [isFilterDisabled]="this.isFilterDisabled"
         [expandedMapLink]="'/map/' + datasetId + '/' + slug + '/expanded'"
@@ -283,22 +285,24 @@
     <div
       id="collapseShare"
       class="collapse rounded mb-3 col-12 bg-light p-3"
-      [ngbCollapse]="!isSharingToggled" (ngbCollapseChange)="isSharingToggled = $event"
+      [ngbCollapse]="!isSharingToggled"
+      (ngbCollapseChange)="isSharingToggled = $event"
       [animation]="false"
       closable
       (close)="isSharingToggled = false"
-      >
+    >
       <maptio-sharing [dataset]="dataset"></maptio-sharing>
     </div>
 
     <div
       class="collapse rounded col-auto bg-light p-4"
       id="collapseSettings"
-      [ngbCollapse]="!isSettingToggled" (ngbCollapseChange)="isSettingToggled = $event"
+      [ngbCollapse]="!isSettingToggled"
+      (ngbCollapseChange)="isSettingToggled = $event"
       [animation]="false"
       closable
       (close)="isSettingToggled = false"
-      >
+    >
       <div class="card bg-transparent border-0">
         <div class="card-body">
           <common-color-picker
@@ -317,19 +321,19 @@
 @if (isEmptyMap) {
   <div class="instructions h2 d-none d-md-block">
     <ng-container i18n>
-    Click
+      Click
 
-    <!-- Plus button -->
-    <ng-container
-      *permissionsOnly="
-        Permissions.canCreateRootInitiative;
-        else plusButtonDisabled;
-        then: plusButton
-      "
-    ></ng-container>
+      <!-- Plus button -->
+      <ng-container
+        *permissionsOnly="
+          Permissions.canCreateRootInitiative;
+          else plusButtonDisabled;
+          then: plusButton
+        "
+      ></ng-container>
 
-    to create your first circle
-  </ng-container>
+      to create your first circle
+    </ng-container>
     <ng-template #plusButton>
       <button type="button" class="btn btn-success" (click)="addFirstNode()">
         <i class="fa fa-plus"></i>
@@ -340,7 +344,7 @@
         type="button"
         class="btn btn-success disabled cursor-not-allowed"
         [stickyPopover]="editTipContent"
-        >
+      >
         <i class="fa fa-plus"></i>
       </button>
     </ng-template>
@@ -353,7 +357,7 @@
 @if (isEmptyMap) {
   <div
     class="px-4 d-flex flex-column position-absolute center-center d-md-none w-100 text-center"
-    >
+  >
     <b>Map editing is disable on mobile.</b>
     <span class="text-muted">
       Open Maptio on a desktop to start adding circles
