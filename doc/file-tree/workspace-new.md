@@ -17,8 +17,8 @@ workspace-full.md file.
 │   │   │   ├── map-container
 │   │   │   │   ├── map-container.component.*
 │   │   │   │   └── map-container.interface.ts
-│   │   │   ├── circles-covered
-│   │   │   │   └── circles-covered.component.*
+│   │   │   ├── circles-focused
+│   │   │   │   └── circles-focused.component.*
 │   │   │   ├── circles-expanded
 │   │   │   │   └── circles-expanded.component.*
 │   │   │   ├── network
