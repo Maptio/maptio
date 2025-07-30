@@ -1,20 +1,27 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 
 import { environment } from '@maptio-environment';
 import { Team } from '@maptio-shared/model/team.data';
 import { User } from '@maptio-shared/model/user.data';
 import { RouterLink } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { OnboardingService } from 'app/onboarding/onboarding.service';
 
 @Component({
-    selector: 'maptio-onboarding-banner',
-    templateUrl: './onboarding-banner.component.html',
-    styleUrls: ['./onboarding-banner.component.scss'],
-    imports: [NgbTooltipModule, RouterLink]
+  selector: 'maptio-onboarding-banner',
+  templateUrl: './onboarding-banner.component.html',
+  styleUrls: ['./onboarding-banner.component.scss'],
+  imports: [NgbTooltipModule, RouterLink],
 })
 export class OnboardingBannerComponent {
+  onboardingService = inject(OnboardingService);
+  isOnboardingVideoVisible = this.onboardingService.isOnboardingVideoVisible;
+
   @Input() set user(user: User) {
+    if (!user) {
+      return;
+    }
+
     if (user?.teams?.length > 1) {
       this.showTeamName = true;
     } else {
@@ -23,6 +30,10 @@ export class OnboardingBannerComponent {
   }
 
   @Input() set team(team: Team) {
+    if (!team) {
+      return;
+    }
+
     this.teamName = team.name;
     this.remainingTrialTimeMessage = team.getFreeTrialTimeLeftMessage();
     const freeTrialCutoffDate = team.getFreeTrialCutoffDate();
@@ -40,4 +51,8 @@ export class OnboardingBannerComponent {
   teamName: string;
   freeTrialCutoffDateMessage: string;
   remainingTrialTimeMessage: string;
+
+  async toggleOnboardingVideo() {
+    await this.onboardingService.toggleOnboardingVideo();
+  }
 }

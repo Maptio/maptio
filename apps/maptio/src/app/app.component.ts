@@ -5,6 +5,7 @@ import {
   OnInit,
   OnDestroy,
   Renderer2,
+  inject,
 } from '@angular/core';
 import {
   Router,
@@ -25,7 +26,9 @@ import { LoaderService } from './shared/components/loading/loader.service';
 import { FooterComponent } from './core/footer/footer.component';
 import { LoaderComponent } from './shared/components/loading/loader.component';
 import { HeaderComponent } from './core/header/header.component';
+import { OnboardingVideoComponent } from './onboarding/onboarding-video/onboarding-video.component';
 import { AsyncPipe } from '@angular/common';
+import { OnboardingService } from './onboarding/onboarding.service';
 
 @Component({
   selector: 'maptio-app',
@@ -37,11 +40,14 @@ import { AsyncPipe } from '@angular/common';
     LoaderComponent,
     RouterOutlet,
     FooterComponent,
+    OnboardingVideoComponent,
     AsyncPipe,
   ],
 })
 export class AppComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
+
+  private onboardingService = inject(OnboardingService);
 
   public isHome: boolean;
   public isMap: boolean;
@@ -60,7 +66,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public intercom: Intercom,
     private deviceService: DeviceDetectorService,
     private cd: ChangeDetectorRef,
-    public loader: LoaderService
+    public loader: LoaderService,
   ) {
     iconRegistry.setDefaultFontSetClass('material-symbols-outlined');
   }

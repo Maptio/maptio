@@ -1,22 +1,27 @@
-import { Component, HostListener, inject } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  inject,
+  ViewChild,
+  ElementRef,
+  signal,
+} from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
 
-import { User } from '@maptio-shared/model/user.data';
-import { UserService } from '@maptio-shared/services/user/user.service';
-import { PermissionsService } from '@maptio-shared/services/permissions/permissions.service';
+import { OnboardingService } from 'app/onboarding/onboarding.service';
 
 @Component({
-    selector: 'maptio-onboarding-video',
-    templateUrl: './onboarding-video.component.html',
-    styleUrls: ['./onboarding-video.component.scss'],
-    imports: [DragDropModule, AsyncPipe]
+  selector: 'maptio-onboarding-video',
+  templateUrl: './onboarding-video.component.html',
+  styleUrls: ['./onboarding-video.component.scss'],
+  imports: [DragDropModule, AsyncPipe],
 })
 export class OnboardingVideoComponent {
-  userService = inject(UserService);
-  permissionsService = inject(PermissionsService);
+  onboardingService = inject(OnboardingService);
+
+  @ViewChild('onboardingVideo', { static: false })
+  videoRef?: ElementRef<HTMLVideoElement>;
 
   isDragging = false;
   isResizing = false;
@@ -24,7 +29,8 @@ export class OnboardingVideoComponent {
   resizeStart = { x: 0, y: 0 };
 
   // Initial size based on the video dimensions
-  initialSize = { width: 533, height: 270 };
+  // initialSize = { width: 533, height: 270 }; // 2134 x 1080 / 4 = 533 x 270
+  initialSize = { width: 537, height: 270 }; // 2148 x 1080 / 4 = 537 x 270
   aspectRatio = this.initialSize.width / this.initialSize.height;
   minWidth = 300;
   minHeight = this.minWidth / this.aspectRatio;
@@ -33,38 +39,10 @@ export class OnboardingVideoComponent {
   // of the screen
   position = { left: '20px', bottom: '20px' };
 
-  private hideMessageManually$ = new BehaviorSubject<boolean>(false);
+  showCover = signal(true);
 
-  // Show message only if user has not already dismissed it and only if they
-  // are an admin
-  messageKey = 'showOnboardingVideo';
-  helpPageUrl = '';
-  user?: User;
-  showMessage$ = combineLatest([
-    this.hideMessageManually$,
-    this.permissionsService.canSeeOnboardingMessages$,
-    this.userService.user$,
-  ]).pipe(
-    map(([hideMessageManually, canSeeOnboardingMessages, user]) => {
-      this.user = user;
-
-      console.log(this.user.onboardingProgress);
-
-      if (
-        !hideMessageManually &&
-        canSeeOnboardingMessages &&
-        user &&
-        Object.prototype.hasOwnProperty.call(
-          user.onboardingProgress,
-          this.messageKey
-        )
-      ) {
-        return user.onboardingProgress[this.messageKey] === true;
-      } else {
-        return false;
-      }
-    })
-  );
+  // Use the signal from workspace service
+  isOnboardingVideoVisible = this.onboardingService.isOnboardingVideoVisible;
 
   // This is used to prevent the video from being clicked when dragging
   onDragStarted() {
@@ -179,15 +157,11 @@ export class OnboardingVideoComponent {
   }
 
   dismissVideo() {
-    if (this.user && this.messageKey) {
-      const onboardingProgress = this.user.onboardingProgress;
-      onboardingProgress[this.messageKey] = false;
+    this.onboardingService.toggleOnboardingVideo();
+  }
 
-      this.userService.updateUserOnboardingProgress(
-        this.user,
-        onboardingProgress
-      );
-      this.hideMessageManually$.next(true);
-    }
+  hideCoverAndPlayVideo() {
+    this.showCover.set(false);
+    this.videoRef?.nativeElement.play();
   }
 }

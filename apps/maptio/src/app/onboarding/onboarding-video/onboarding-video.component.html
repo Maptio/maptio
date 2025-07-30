@@ -1,0 +1,81 @@
+@if (isOnboardingVideoVisible()) {
+  <div
+    class="onboarding-video"
+    [style.width.px]="size.width"
+    [style.height.px]="size.height"
+    [style.left]="position.left"
+    [style.bottom]="position.bottom"
+    cdkDrag
+    (cdkDragStarted)="onDragStarted()"
+  >
+    <div class="draggable-area" cdkDragHandle>
+      <div class="onboarding-video__window-content">
+        <div class="onboarding-video__video-container">
+          <div
+            class="onboarding-video__cover"
+            [class.onboarding-video__cover--hidden]="!showCover()"
+          >
+            <div class="onboarding-video__cover-content">
+              <h2 class="onboarding-video__cover-heading" i18n>
+                Quick tutorial
+              </h2>
+
+              <p class="onboarding-video__cover-description" i18n>
+                Learn the basics in one minute.
+              </p>
+
+              <button
+                class="btn btn-info text-white onboarding-video__cover-button"
+                (click)="hideCoverAndPlayVideo()"
+              >
+                <span class="onboarding-video__cover-emoji">▶️</span>
+                <ng-container>&nbsp;</ng-container>
+                <ng-container i18n>Play quick tutorial</ng-container>
+              </button>
+            </div>
+
+            <img
+              src="assets/images/tom.png"
+              alt="Tom Nixon"
+              class="onboarding-video__cover-tom"
+            />
+          </div>
+
+          <button
+            class="onboarding-video__close-button"
+            (click)="dismissVideo()"
+          >
+            ×
+          </button>
+          <video
+            #onboardingVideo
+            class="onboarding-video__video"
+            controls
+            preload="metadata"
+            (click)="onVideoClick($event)"
+          >
+            <source
+              src="https://res.cloudinary.com/hgkbm0qes/video/upload/v1753802635/2025-07-29-maptio-onboarding-video.mp4"
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+    </div>
+
+    @for (
+      handle of ['n', 's', 'e', 'w', 'nw', 'ne', 'sw', 'se'];
+      track handle
+    ) {
+      <div
+        class="
+          onboarding-video__resize-handle
+          onboarding-video__resize-handle--{{ handle }}
+        "
+        [class.onboarding-video__resize-handle--disabled]="isResizing"
+        (mousedown)="onResizeStart($event, handle)"
+      ></div>
+    }
+  </div>
+}

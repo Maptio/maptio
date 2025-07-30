@@ -1,4 +1,5 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject, signal, computed } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { SidePanelLayoutService } from '@notebits/toolkit';
 
@@ -40,8 +41,6 @@ export class WorkspaceService {
   team = this.datasetService.team;
   tags = this.datasetService.tags;
   isEmptyMap = this.datasetService.isEmptyMap;
-
-  constructor() {}
 
   loadData(data: DataLoadStructure) {
     this.datasetService.loadData(data);

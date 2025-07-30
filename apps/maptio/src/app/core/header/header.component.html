@@ -1,8 +1,4 @@
-@if (
-  (userService.isAuthenticated$ | async) &&
-  (isMap() || isHome() || isTeam()) &&
-  team?.isPaying === false
-  ) {
+@if (onboardingService.showOnboardingFeatures()) {
   <maptio-onboarding-banner
     [user]="user"
     [team]="team"
@@ -12,7 +8,7 @@
 <nav
   class="d-flex header navbar navbar-expand-md navbar-light bg-transparent justify-content-between align-items-baseline px-3"
   [class.grayscale]="loaderService.isLoading"
-  >
+>
   <a routerLink="home" class="no-underline navbar-brand">
     <img
       width="32"
@@ -21,7 +17,7 @@
       src="assets/images/logo.png"
       alt="Home"
       i18n-alt
-      />
+    />
   </a>
 
   <button
@@ -33,7 +29,7 @@
     aria-label="Toggle navigation"
     i18n-aria-label
     (click)="isMenuOpened = !isMenuOpened"
-    >
+  >
     <i
       class="fas"
       [class.fa-bars]="!isMenuOpened"
@@ -47,26 +43,24 @@
     class="navbar-collapse"
     [ngClass]="{ ' p-2 vh-100 vw-100': isMenuOpened }"
     id="navbarSupportedContent"
-    >
+  >
     <ul
       class="navbar-nav d-flex justify-content-end w-100"
       (click)="onMenuClick()"
-      >
+    >
       <li class="nav-item d-none d-md-flex align-items-center">
         <a
           class="nav-link"
           target="blank"
           href="{{ KB_URL_HOME }}"
           i18n="@@help"
-          >
+        >
           Help
         </a>
       </li>
 
       @if (team?.isPaying === false) {
-        <li
-          class="nav-item d-none d-md-flex align-items-center"
-          >
+        <li class="nav-item d-none d-md-flex align-items-center">
           <a class="nav-link" target="blank" routerLink="/pricing">
             <ng-container i18n="@@pricing">Pricing</ng-container>
           </a>
@@ -79,9 +73,9 @@
             class="nav-link"
             routerLink="/teams/{{ team?.team_id }}/{{ team?.getSlug() }}"
             i18n
-            >
-          Settings
-        </a>
+          >
+            Settings
+          </a>
         </li>
       }
 
@@ -89,31 +83,31 @@
         (userService.isAuthenticated$ | async) &&
         datasets &&
         datasets?.length !== 0
-        ) {
+      ) {
         <li
           ngbDropdown
           class="nav-item dropdown d-none d-md-flex align-items-center"
-          >
+        >
           <a
             class="nav-link dropdown-toggle"
             id="mapsListDropdownLink"
             ngbDropdownToggle
-            >
+          >
             <ng-conatiner i18n>Maps</ng-conatiner>
           </a>
           <div
             class="dropdown-menu dropdown-menu-end overflow"
             ngbDropdownMenu
             aria-labelledby="mapsListDropdownLink"
-            >
+          >
             @for (dataset of datasets; track dataset) {
               @if (dataset.initiative) {
                 <a
                   ngbDropdownItem
-                routerLink="/map/{{ dataset.datasetId }}/{{
-                  dataset.initiative.getSlug()
-                }}"
-                  >
+                  routerLink="/map/{{ dataset.datasetId }}/{{
+                    dataset.initiative.getSlug()
+                  }}"
+                >
                   {{ dataset?.initiative.name }}
                 </a>
               }
@@ -125,36 +119,32 @@
       <maptio-language-picker class="d-none d-md-flex"></maptio-language-picker>
 
       @if (userService.isAuthenticated$ | async) {
-        <li
-          ngbDropdown
-          class="nav-item dropdown ms-3"
-          id="profileInformation"
-          >
+        <li ngbDropdown class="nav-item dropdown ms-3" id="profileInformation">
           <a
             class="nav-link dropdown-toggle without-caret px-0 d-none d-md-block"
             id="profileDropdownLink"
             ngbDropdownToggle
-            >
+          >
             <div>
               <img
                 src="{{ user?.picture }}"
                 class="avatar my-1"
                 alt="{{ user?.name }}"
-                />
+              />
             </div>
           </a>
           <div
             ngbDropdownMenu
             class="dropdown-menu dropdown-menu-end"
             aria-labelledby="profileDropdownLink"
-            >
+          >
             <a
               ngbDropdownItem
               class="dropdown-item py-2"
-            routerLink="profile/{{ user?.shortid }}/{{
-              user?.getSlug() || 'profile'
-            }}"
-              >
+              routerLink="profile/{{ user?.shortid }}/{{
+                user?.getSlug() || 'profile'
+              }}"
+            >
               <ng-container i18n>Profile</ng-container>
             </a>
             @if (teams?.length > 0) {
@@ -162,31 +152,33 @@
             }
             @if (teams?.length > 0) {
               <h6 class="dropdown-header ps-3">
-                <ng-container i18n="@@organisations">Organisations</ng-container>
+                <ng-container i18n="@@organisations">
+                  Organisations
+                </ng-container>
               </h6>
             }
             @if (teams?.length > 1) {
-              @for (team of teams | slice : 1 : 5; track team) {
+              @for (team of teams | slice: 1 : 5; track team) {
                 <a
                   ngbDropdownItem
                   class="dropdown-item"
                   routerLink="/teams/{{ team.team_id }}/{{ team?.getSlug() }}"
-                  >
+                >
                   {{ team?.name }}
                 </a>
               }
               <a ngbDropdownItem class="dropdown-item" routerLink="/teams" i18n>
-              More ...
-            </a>
+                More ...
+              </a>
             }
             @if (teams?.length === 1) {
               <a
                 ngbDropdownItem
                 class="dropdown-item"
-            routerLink="/teams/{{ teams[0]?.team_id }}/{{
-              teams[0]?.getSlug()
-            }}"
-                >
+                routerLink="/teams/{{ teams[0]?.team_id }}/{{
+                  teams[0]?.getSlug()
+                }}"
+              >
                 {{ teams[0]?.name }}
               </a>
             }
@@ -197,17 +189,15 @@
               id="logoutButton"
               routerLink="/logout"
               i18n
-              >
-            Log out
-          </a>
+            >
+              Log out
+            </a>
           </div>
         </li>
       }
 
       @if ((userService.isAuthenticated$ | async) === false && !isSignUp()) {
-        <li
-          class="nav-item d-flex align-items-center ps-2"
-          >
+        <li class="nav-item d-flex align-items-center ps-2">
           <a maptioLoginRedirect class="btn btn-link px-0" i18n>Log in</a>
         </li>
       }
@@ -220,7 +210,7 @@
           routerLink="profile/{{ user?.shortid }}/{{
             user?.getSlug() || 'profile'
           }}"
-          >
+        >
           <ng-container i18n>Profile</ng-container>
         </a>
       </li>
@@ -228,23 +218,23 @@
       @if (datasets?.length > 0) {
         <li class="d-md-none dropdown-divider"></li>
         <li class="d-md-none dropdown-header px-0 text-uppercase" i18n>Maps</li>
-        @for (dataset of datasets | slice : 0 : 2; track dataset) {
-          <li
-            class="nav-item d-md-none"
-            >
+        @for (dataset of datasets | slice: 0 : 2; track dataset) {
+          <li class="nav-item d-md-none">
             <a
               class="btn btn-link px-0"
-            routerLink="/map/{{ dataset.datasetId }}/{{
-              dataset.initiative.getSlug()
-            }}"
-              >
+              routerLink="/map/{{ dataset.datasetId }}/{{
+                dataset.initiative.getSlug()
+              }}"
+            >
               {{ dataset?.initiative.name }}
             </a>
           </li>
         }
         @if (datasets?.length > 3) {
           <li class="nav-item d-md-none">
-            <a class="btn btn-link px-0" routerLink="/home" i18n>All maps ...</a>
+            <a class="btn btn-link px-0" routerLink="/home" i18n>
+              All maps ...
+            </a>
           </li>
         }
       }
@@ -254,14 +244,12 @@
         <li class="d-md-none dropdown-header px-0 text-uppercase" i18n>
           Organizations
         </li>
-        @for (team of teams | slice : 0 : 2; track team) {
-          <li
-            class="nav-item d-md-none"
-            >
+        @for (team of teams | slice: 0 : 2; track team) {
+          <li class="nav-item d-md-none">
             <a
               class="btn btn-link px-0"
               routerLink="/teams/{{ team.team_id }}/{{ team.getSlug() }}"
-              >
+            >
               {{ team.name }}
             </a>
           </li>
@@ -269,13 +257,9 @@
         @if (teams?.length > 3) {
           <li class="nav-item d-md-none">
             @if (teams?.length > 1) {
-              <a
-                class="btn btn-link px-0"
-                routerLink="/teams"
-                i18n
-                >
-            All organizations...
-          </a>
+              <a class="btn btn-link px-0" routerLink="/teams" i18n>
+                All organizations...
+              </a>
             }
           </li>
         }
@@ -303,7 +287,7 @@
           href="{{ KB_URL_HOME }}"
           target="blank"
           i18n="@@help"
-          >
+        >
           Help
         </a>
       </li>
@@ -325,7 +309,7 @@
             id="logoutButton"
             routerLink="/logout"
             i18n
-            >
+          >
             Log out
           </a>
         </li>
