@@ -3,7 +3,7 @@
     class="btn btn-light toolbar-button text-dark p-1 d-flex flex-column justify-content-between align-items-center"
     #rlaCircles="routerLinkActive"
     [routerLinkActive]="['active']"
-    routerLink="/map/{{ datasetId }}/{{ slug }}/expanded-circles"
+    routerLink="/map/{{ datasetId }}/{{ slug }}/expanded"
     ngbTooltip="Expanded Circles"
     i18n-ngbTooltip="@@expanded-circles"
     openDelay="500"
@@ -14,25 +14,23 @@
       class="toolbar-button__image"
       src="assets/images/circles-expanded.svg"
     />
-    <span class="icon-text-label" i18n="@@expanded-circles">
-      Expanded Circles
-    </span>
+    <span class="icon-text-label" i18n="@@expanded">Expanded</span>
   </button>
 
   <button
     class="btn btn-light toolbar-button text-dark p-1 d-flex flex-column justify-content-between align-items-center"
     #rlaCircles="routerLinkActive"
     [routerLinkActive]="['active']"
-    routerLink="/map/{{ datasetId }}/{{ slug }}/covered-circles"
-    ngbTooltip="Covered Circles"
-    i18n-ngbTooltip="@@covered-circles"
+    routerLink="/map/{{ datasetId }}/{{ slug }}/focused"
+    ngbTooltip="Focused Circles"
+    i18n-ngbTooltip="@@focused-circles"
     openDelay="500"
     tooltipClass="toolbar-button__tooltip"
     placement="left"
   >
     <img class="toolbar-button__image" src="assets/images/circles.svg" />
     <span class="icon-text-label">
-      <ng-container i18n="@@covered-circles">Covered Circles</ng-container>
+      <ng-container i18n="@@covered">Focused</ng-container>
     </span>
   </button>
 

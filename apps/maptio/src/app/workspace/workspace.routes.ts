@@ -42,28 +42,20 @@ export default [
     children: [
       {
         path: '',
-        redirectTo: 'expanded-circles',
+        redirectTo: 'expanded',
         pathMatch: 'full',
       },
       {
         path: 'circles',
-        redirectTo: 'expanded-circles',
-      },
-      {
-        path: 'expanded-circles',
-        component: MappingCirclesExpandedComponent,
+        redirectTo: 'expanded',
       },
       {
         path: 'expanded',
-        redirectTo: 'expanded-circles',
+        component: MappingCirclesExpandedComponent,
       },
       {
-        path: 'covered-circles',
+        path: 'focused',
         component: MappingCirclesGradualRevealComponent,
-      },
-      {
-        path: 'covered',
-        redirectTo: 'covered-circles',
       },
       {
         path: 'tree',
