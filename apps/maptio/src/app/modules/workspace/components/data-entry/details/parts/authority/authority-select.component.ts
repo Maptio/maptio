@@ -9,6 +9,8 @@ import {
   OnChanges,
 } from '@angular/core';
 
+import { cloneDeep } from 'lodash';
+
 import { User, MemberFormFields } from '@maptio-shared/model/user.data';
 import { Team } from '@maptio-shared/model/team.data';
 import { Helper } from '@maptio-shared/model/helper.data';
@@ -19,16 +21,15 @@ import { RouterLink } from '@angular/router';
 import { CommonAutocompleteComponent as CommonAutocompleteComponent_1 } from '../../../../../../../shared/components/autocomplete/autocomplete.component';
 import { StickyPopoverDirective } from '../../../../../../../shared/directives/sticky.directive';
 
-
 @Component({
-    selector: 'maptio-initiative-authority-select',
-    templateUrl: './authority-select.component.html',
-    imports: [
+  selector: 'maptio-initiative-authority-select',
+  templateUrl: './authority-select.component.html',
+  imports: [
     StickyPopoverDirective,
     CommonAutocompleteComponent_1,
     RouterLink,
-    MemberFormComponent
-]
+    MemberFormComponent,
+  ],
 })
 export class InitiativeAuthoritySelectComponent implements OnChanges {
   @Input() team: Team;
@@ -64,7 +65,12 @@ export class InitiativeAuthoritySelectComponent implements OnChanges {
 
     if (newAccountable) newAccountable.roles = [];
 
-    this.authority = newAccountable;
+    // Create a copy to avoid adding the same object to multiple initiatives
+    // and overwriting roles across initiatives
+    const newAccountableCopy = cloneDeep(newAccountable);
+
+    this.authority = newAccountableCopy;
+
     this.save.emit(this.authority);
   }
 
@@ -77,7 +83,7 @@ export class InitiativeAuthoritySelectComponent implements OnChanges {
     this.isCreateNewMemberMode = false;
 
     const teamMember = this.team.members.find(
-      (member) => member.user_id === user.user_id
+      (member) => member.user_id === user.user_id,
     );
 
     if (teamMember) {
@@ -100,18 +106,18 @@ export class InitiativeAuthoritySelectComponent implements OnChanges {
       term.length < 1
         ? this.authority
           ? this.team.members.filter(
-              (m) => m.user_id !== this.authority.user_id
+              (m) => m.user_id !== this.authority.user_id,
             )
           : this.team.members
         : (this.authority
             ? this.team.members.filter(
-                (m) => m.user_id !== this.authority.user_id
+                (m) => m.user_id !== this.authority.user_id,
               )
             : this.team.members
           ).filter(
             (v) =>
               new RegExp(term, 'gi').test(v.name) ||
-              new RegExp(term, 'gi').test(v.email)
+              new RegExp(term, 'gi').test(v.email),
           );
 
     this.newMemberData = {
