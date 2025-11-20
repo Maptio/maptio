@@ -84,7 +84,7 @@
     "@ngrx/router-store": "19.2.1",
     "@ngrx/store": "19.2.1",
     "@ngrx/store-devtools": "19.2.1",
-    "@notebits/outline": "^0.0.43",
+    "@notebits/outline": "^0.0.44",
     "@notebits/sdk": "^0.0.1",
     "@notebits/toolkit": "^0.0.13",
     "@nx/angular": "21.2.1",
