@@ -10,22 +10,17 @@ import { CircleMapData } from '@maptio-shared/model/circle-map-data.interface';
 import { EmbeddableDatasetService } from '../../embeddable-dataset.service';
 import { CircleMapComponent } from '../../../circle-map/circle-map.component';
 
-
 @Component({
-    selector: 'maptio-embed',
-    templateUrl: './embed.page.html',
-    styleUrls: ['./embed.page.scss'],
-    imports: [CircleMapComponent]
+  selector: 'maptio-embed',
+  templateUrl: './embed.page.html',
+  styleUrls: ['./embed.page.scss'],
+  imports: [CircleMapComponent],
 })
 export class EmbedComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
 
   datasetId: string | null = null;
   dataset: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-
-  // Hardcoding the color as the colour is only stored in localstorage, which
-  // means we can't use it for publicly shareable and embeddable apps
-  seedColor = '#3599af';
 
   circleMapData$ = new BehaviorSubject<CircleMapData>(undefined);
 
@@ -35,7 +30,7 @@ export class EmbedComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
     private metaTagService: Meta,
-    private datasetService: EmbeddableDatasetService
+    private datasetService: EmbeddableDatasetService,
   ) {}
 
   ngOnInit(): void {
@@ -58,7 +53,7 @@ export class EmbedComponent implements OnInit, OnDestroy {
           const circleMapData: CircleMapData = {
             dataset: this.dataset,
             rootInitiative: this.dataset.initiative,
-            seedColor: this.seedColor,
+            seedColor: this.getSeedColor(),
           };
 
           this.circleMapData$.next(circleMapData);
@@ -82,5 +77,19 @@ export class EmbedComponent implements OnInit, OnDestroy {
    */
   onCreditPinch($event: TouchInput) {
     $event.preventDefault();
+  }
+
+  /**
+   * Read seed colour from the dataset if it's set
+   */
+  getSeedColor(): string {
+    if (this.dataset?.seedColor) {
+      return this.dataset.seedColor;
+    } else {
+      // If the colour is not set in the database, we can't default to the
+      // local storage colour on the embeddable version of the map, so we just
+      // use the default Maptio colour
+      return '#3599af';
+    }
   }
 }
