@@ -336,12 +336,14 @@ export class MappingComponent {
           this.datasetId = params['mapid'];
           this.slug = params['mapslug'];
           this.settings = this.mapSettingsService.get(this.datasetId);
-          this.mapColor$.next(this.settings.mapColor);
 
           this.cd.markForCheck();
         }),
         combineLatest(this.dataService.get()),
         map((data) => data[1]),
+        tap((data) => {
+          this.mapColor$.next(this.getSeedColor(data));
+        }),
         combineLatest(
           this.route.fragment,
           this.route.queryParams.pipe(distinct()),
@@ -554,5 +556,20 @@ export class MappingComponent {
     this.router.navigateByUrl(
       `/map/${this.datasetId}/${this.slug}/directory?member=${selected.shortid}`,
     );
+  }
+
+  /**
+   *  Read the seed color from the dataset or local storage
+   */
+  getSeedColor(data: any): string {
+    if (data?.dataset?.seedColor) {
+      // We added an option to define the seed colour in the database
+      return data.dataset.seedColor;
+    } else {
+      // This contains the seed color from the browser's local storage if it
+      // was set there by the user. Note this will be overridden if we set the
+      // colour globally in the database!
+      return this.settings.mapColor;
+    }
   }
 }

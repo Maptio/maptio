@@ -28,6 +28,8 @@ export class DataSet implements Serializable<DataSet> {
   isEmbeddable = false;
   showDescriptions = false;
 
+  seedColor: string;
+
   lastEditedAt: number;
   lastEditedBy: User;
 
@@ -53,6 +55,7 @@ export class DataSet implements Serializable<DataSet> {
     deserialized.showDescriptions = input.showDescriptions
       ? input.showDescriptions
       : false;
+    deserialized.seedColor = input.seedColor;
 
     deserialized.lastEditedAt = input.lastEditedAt;
     deserialized.lastEditedBy = input.lastEditedBy
